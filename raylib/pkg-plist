@@ -1,0 +1,5 @@
+@comment $FreeBSD$
+include/raylib.h
+lib/libraylib.a
+lib/libraylib.so
+libdata/pkgconfig/raylib.pc

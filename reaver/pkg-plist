@@ -1,0 +1,5 @@
+@comment $FreeBSD$
+bin/reaver
+bin/wash
+@dir /var/lib/reaver
+@dir /var/l
