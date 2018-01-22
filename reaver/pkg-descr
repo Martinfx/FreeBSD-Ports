@@ -1,2 +1,4 @@
+Reaver implements a brute force attack against Wifi Protected Setup (WPS)
+registrar PINs in order to recover WPA/WPA2 passphrases.
 
-WWW: http://example.com
+WWW: https://github.com/t6x/reaver-wps-fork-t6x/blob/master/README.md
