@@ -2,4 +2,4 @@
 bin/reaver
 bin/wash
 @dir /var/lib/reaver
-@dir /var/l
+@dir /var/lib
