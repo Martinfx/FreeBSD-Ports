@@ -16,4 +16,13 @@ USES=		autoreconf gmake
 
 WRKSRC=		${WRKDIR}/reaver-wps-fork-t6x-${PORTVERSION}/src
 
+PLIST_FILES=	bin/reaver \
+		bin/wash \
+		man/man1/reaver.1.gz
+
+post-install:
+		@cd ${STAGEDIR}${PREFIX} && ${STRIP_CMD} bin/reaver bin/wash
+		@${RM} -r ${STAGEDIR}/var/lib
+		${INSTALL_MAN} ${WRKSRC}/../docs/reaver.1.gz ${STAGEDIR}${PREFIX}/man/man1
+
 .include <bsd.port.mk>
