@@ -28,4 +28,9 @@ PORTDOCS=	*
 
 WRKSRC=		${WRKDIR}/${PORTNAME}-${DISTNAME}
 
+PLIST_FILE=	include/raylib.h \
+		lib/libraylib.a \
+		lib/libraylib.so \
+		libdata/pkgconfig/raylib.pc
+
 .include <bsd.port.mk>
