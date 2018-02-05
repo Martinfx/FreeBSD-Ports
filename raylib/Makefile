@@ -5,7 +5,7 @@ DISTVERSION=		1.9.4
 DISTVERSIONSUFFIX=	-dev
 CATEGORIES=		devel
 
-MAINTAINER=	martinfilla@post.cz
+MAINTAINER=	maintainer@email.com
 COMMENT=	Simple library to learn videogames programming
 
 LICENSE=	ZLIB
