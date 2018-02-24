@@ -7,7 +7,6 @@ CATEGORIES=	devel
 
 MAINTAINER=	maintainer@email.com
 COMMENT=	Library to learn videogames programming
-
 LICENSE=	ZLIB
 LICENSE_FILE=	${WRKSRC}/LICENSE.md
 
