@@ -17,15 +17,13 @@ LICENSE_PERMS=	auto-accept
 ONLY_FOR_ARCHS=	amd64	i386
 ARCH_SUFFIX=	${ARCH:S/amd64/x86_64/:S/i386/i386/}
 
+LIB_DEPENDS=	libgtkglext-x11-1.0.so:x11-toolkits/gtkglext
+
 NO_BUILD=	YES
 
 WRKSRC=		${WRKDIR}/${PORTNAME}-${PORTVERSION}
 
-#ANYDESKDIR=	anydesk
-#PORTDOCS=	${WRKSRC}/README
-#DOCSDIR=	${WRKSRC}/
-#PLIST_SUB=	ANYDESKDIR=${ANYDESKDIR}
-#SUB_LIST=	ANYDESKDIR=${ANYDESKDIR}
+#ANYDESKDIR=	/share/anydesk
 USE_GL=		gl
 USE_GNOME=	gtk20 glib20 gdkpixbuf2 cairo
 USE_XORG=	x11 xi xcb xrandr xtst xext xfixes xdamage
@@ -33,16 +31,9 @@ PLIST_FILES=	anydesk
 
 do-install:
 	@${INSTALL} -d ${STAGEDIR}${PREFIX}/share/applications
-	#@${INSTALL_DATA} ${WRKSRC}/icons/48x48/anydesk.png
-	@cd ${WRKSRC} && ${MKDIR} ${STAGEDIR}${PREFIX}/
-#${ANYDESKDIR}/
+	@cd ${WRKSRC} && ${MKDIR} ${STAGEDIR}${PREFIX}
 
 # The binary main program
-	${INSTALL_PROGRAM} ${WRKSRC}/${PORTNAME} ${STAGEDIR}${PREFIX}/
-#${ANYDESKDIR}/
-
-# The documentation
-#	@${INSTALL} -d ${STAGEDIR}${DOCSDIR}
-#	@cd ${WRKSRC} && ${INSTALL_DATA} ${PORTDOCS} ${STAGEDIR}${DOCSDIR}
+	${INSTALL_PROGRAM} ${WRKSRC}/${PORTNAME} ${STAGEDIR}${PREFIX}
 
 .include <bsd.port.mk>
