@@ -2,11 +2,11 @@
 
 PORTNAME=	anydesk
 PORTVERSION=	2.9.1
-CATEGORIES=	devel
+CATEGORIES=	net
 MASTER_SITES=	https://download.anydesk.com/freebsd/
 DISTNAME=	${PORTNAME}-freebsd-${PORTVERSION}-${ARCH_SUFFIX}
 
-MAINTAINER=	email@email.com
+MAINTAINER=	maintainer@email.com
 COMMENT=	Fast remote desktop
 
 LICENSE=	commercial
