@@ -1,28 +1,31 @@
 # $FreeBSD$
 
-PORTNAME=	reaver
-PORTVERSION=	1.6.4
-CATEGORIES=	net
-MASTER_SITES=	https://github.com/t6x/reaver-wps-fork-t6x/archive/
-DISTNAME=	v${PORTVERSION}
+PORTNAME=       reaver
+DISTVERSIONPREFIX=      v
+DISTVERSION=    1.6.5
+CATEGORIES=     net
 
-MAINTAINER=	email@email
-COMMENT=	Reaver brute force attack against Wifi Protected Setup WPS
+MAINTAINER=     maintainer@email.com
+COMMENT=        Reaver brute force attack against WPS (Wi-Fi Protected Setup)
 
-LICENSE=	GPLv2
+LICENSE=        GPLv2
+LICENSE_FILE=   ${WRKSRC}/../docs/LICENSE
 
-GNU_CONFIGURE=	yes
-USES=		autoreconf gmake
+USES=           gmake
+GNU_CONFIGURE=  yes
+USE_GITHUB=     yes
+GH_ACCOUNT=     t6x
+GH_PROJECT=     ${PORTNAME}-wps-fork-t6x
 
-WRKSRC=		${WRKDIR}/reaver-wps-fork-t6x-${PORTVERSION}/src
+WRKSRC_SUBDIR=  src
 
-PLIST_FILES=	bin/reaver \
-		bin/wash \
-		man/man1/reaver.1.gz
+PLIST_FILES=    bin/reaver \
+                bin/wash \
+                man/man1/reaver.1.gz
 
 post-install:
-		@cd ${STAGEDIR}${PREFIX} && ${STRIP_CMD} bin/reaver bin/wash
-		@${RM} -r ${STAGEDIR}/var/lib
-		${INSTALL_MAN} ${WRKSRC}/../docs/reaver.1.gz ${STAGEDIR}${PREFIX}/man/man1
+                @cd ${STAGEDIR}${PREFIX} && ${STRIP_CMD} bin/reaver bin/wash
+                @${RM} -r ${STAGEDIR}/var/lib
+                ${INSTALL_MAN} ${WRKSRC}/../docs/reaver.1 ${STAGEDIR}${PREFIX}/man/man1
 
-.include <bsd.port.mk>
+include <bsd.port.mk>
