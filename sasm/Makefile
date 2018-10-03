@@ -1,8 +1,8 @@
-#$FreeBSD$
+# $FreeBSD$
 
 PORTNAME=	SASM
 DISTVERSIONPREFIX=	v
-DISTVERSION=	3.9.0
+DISTVERSION=	3.10.0
 CATEGORIES=	devel
 
 MAINTAINER=	maintainer@email.com
@@ -18,8 +18,5 @@ USE_QT=		core gui network widgets buildtools_build
 USE_GL=		gl
 
 DATADIR=	${PREFIX}/share/sasm
-
-post-patch:
-	@${REINPLACE_CMD} -e 's|/usr/share|${PREFIX}/share|' ${WRKSRC}/Linux/share/applications/sasm.desktop
 
 .include <bsd.port.mk>
