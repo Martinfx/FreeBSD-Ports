@@ -2,6 +2,8 @@ bin/fasm
 bin/listing
 bin/sasm
 share/applications/sasm.desktop
+share/doc/sasm/changelog.gz
+share/doc/sasm/copyright
 %%DATADIR%%/NASM/macro.c
 %%DATADIR%%/Projects/FASMHello.asm
 %%DATADIR%%/Projects/FASMHellox64.asm
