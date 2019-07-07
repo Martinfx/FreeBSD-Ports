@@ -1,4 +1,4 @@
-# $FreeBSD: head/deskutils/anydesk/Makefile 484672 2018-11-11 09:32:19Z sunpoet $
+# $FreeBSD: head/deskutils/anydesk/Makefile 506012 2019-07-06 17:55:11Z swills $
 
 PORTNAME=	anydesk
 DISTVERSION=	5.1.0
@@ -6,7 +6,7 @@ CATEGORIES=	deskutils
 MASTER_SITES=	https://download.anydesk.com/freebsd/
 DISTNAME=	${PORTNAME}-freebsd-${PORTVERSION}-${ARCH:S/amd64/x86_64/:S/i386/i386/}
 
-MAINTAINER=	maintainer@email.cz
+MAINTAINER=	maintainer@email.com
 COMMENT=	Fast remote desktop
 
 LICENSE=	commercial
@@ -16,15 +16,17 @@ LICENSE_PERMS=	auto-accept
 
 ONLY_FOR_ARCHS=	amd64 i386
 
-LIB_DEPENDS=	libgtkglext-x11-1.0.so:x11-toolkits/gtkglext \
-		libfontconfig.so:x11-fonts/fontconfig \
+LIB_DEPENDS=	libfontconfig.so:x11-fonts/fontconfig \
 		libfreetype.so:print/freetype2 \
-		libpolkit-gobject-1.so:sysutils/polkit \
-		libinotify.so:devel/libinotify
+		libgtkglext-x11-1.0.so:x11-toolkits/gtkglext \
+		libinotify.so:devel/libinotify \
+		libpolkit-gobject-1.so:sysutils/polkit
+
+USES=		gl gnome
 
 USE_GL=		gl glu
-USE_GNOME=	gtk20 glib20 gdkpixbuf2 cairo pangox-compat
-USE_XORG=	x11 xi xcb xrandr xtst xext xfixes xdamage xrender
+USE_GNOME=	cairo gdkpixbuf2 glib20 gtk20 pangox-compat
+USE_XORG=	x11 xcb xdamage xext xfixes xi xrandr xrender xtst
 NO_BUILD=	YES
 
 WRKSRC=		${WRKDIR}/${PORTNAME}-${PORTVERSION}
