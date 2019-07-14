@@ -34,12 +34,12 @@ NO_BUILD=	yes
 USE_GITHUB=	yes
 GH_ACCOUNT=	brave
 GH_PROJECT=	brave-browser
-GH_TUPLE=	yzgyyang:depot-tools:605dd31:depot_tools/vendor/depot_tools \
-		pallets:jinja:209fd39:jinja2/vendor/jinja2 \
-		brave:brave-core:57c6ce8:brave/src/brave
-#		brave:tracking-protection:6b6faf7:brave/src/brave/vendor/tracking-protection \
-#		brave:ad-block:dcfc584:brave/src/brave/vendor/ad-block \
-#		brave:brave-extension:038a43a:brave/src/brave/vendor/brave-extension
+GH_TUPLE +=	yzgyyang:depot-tools:605dd31:depot_tools/vendor/depot_tools
+GH_TUPLE +=	pallets:jinja:209fd39:jinja2/vendor/jinja2
+GH_TUPLE +=	brave:brave-core:57c6ce8:brave/src/brave
+GH_TUPLE +=	brave:tracking-protection:6b6faf7:brave/src/brave/vendor/tracking-protection
+GH_TUPLE +=	brave:ad-block:dcfc584:brave/src/brave/vendor/ad-block
+GH_TUPLE +=	brave:brave-extension:038a43a:brave/src/brave/vendor/brave-extension
 
 post-fetch:
 	${MKDIR} ${WRKDIR}/npm-precache
