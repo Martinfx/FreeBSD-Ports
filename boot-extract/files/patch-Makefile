@@ -11,8 +11,5 @@
  	rm -f $(PROGS)
  
 +install: boot-extract
-+##	install -D -m 755 boot-extract $(DESTDIR)$(exec_prefix)/boot-extract
-+##	install -d $(DESTDIR)$(CONFDIR)
-+
+
 +.PHONY: all clean install
-+
