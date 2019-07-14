@@ -1,0 +1,18 @@
+--- Makefile.orig	2017-11-25 09:25:52 UTC
++++ Makefile
+@@ -1,4 +1,5 @@
+ 
++
+ CFLAGS=-Wall
+ PROGS=boot-extract
+ 
+@@ -10,3 +11,9 @@ clean:
+ 	rm -f *.o
+ 	rm -f $(PROGS)
+ 
++install: boot-extract
++##	install -D -m 755 boot-extract $(DESTDIR)$(exec_prefix)/boot-extract
++##	install -d $(DESTDIR)$(CONFDIR)
++
++.PHONY: all clean install
++
