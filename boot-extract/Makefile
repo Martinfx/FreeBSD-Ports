@@ -16,9 +16,4 @@ GH_ACCOUNT=	csimmonds
 GH_PROJECT=	boot-extract
 GH_TAGNAME=	486995f
 
-PLIST_FILES=	bin/boot-extract
-
-do-install:
-	${INSTALL_PROGRAM} ${WRKSRC}/${PORTNAME} ${STAGEDIR}${PREFIX}/bin
-
 .include <bsd.port.mk>

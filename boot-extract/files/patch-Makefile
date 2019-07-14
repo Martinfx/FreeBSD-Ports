@@ -6,10 +6,11 @@
  CFLAGS=-Wall
  PROGS=boot-extract
  
-@@ -10,3 +11,9 @@ clean:
+@@ -10,3 +11,7 @@ clean:
  	rm -f *.o
  	rm -f $(PROGS)
  
 +install: boot-extract
-
++
 +.PHONY: all clean install
++
