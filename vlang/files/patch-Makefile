@@ -1,0 +1,17 @@
+--- Makefile.orig	2019-07-20 17:41:06 UTC
++++ Makefile
+@@ -2,7 +2,7 @@ all: clean v
+ 	$(info V has been successfully built)
+ 
+ v: v.c
+-	cc -std=gnu11 -w -o v v.c -lm 
++	cc -std=gnu11 -w -o v v.c -lm
+ 	./v -o v compiler
+ 	rm v.c
+ 
+@@ -18,3 +18,5 @@ test: v
+ 
+ clean:
+ 	-rm -f v.c v vprod
++
++install: v
