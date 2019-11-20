@@ -1,7 +1,7 @@
 # $FreeBSD: head/deskutils/anydesk/Makefile 506012 2019-07-06 17:55:11Z swills $
 
 PORTNAME=	anydesk
-DISTVERSION=	5.1.0
+DISTVERSION=	5.4.0
 CATEGORIES=	deskutils
 MASTER_SITES=	https://download.anydesk.com/freebsd/
 DISTNAME=	${PORTNAME}-freebsd-${PORTVERSION}-${ARCH:S/amd64/x86_64/:S/i386/i386/}
@@ -12,7 +12,7 @@ COMMENT=	Fast remote desktop
 LICENSE=	commercial
 LICENSE_NAME=	commercial
 LICENSE_TEXT=	Commercial software
-LICENSE_PERMS=	auto-accept
+LICENSE_PERMS=	no-dist-mirror no-dist-sell no-pkg-mirror no-pkg-sell
 
 ONLY_FOR_ARCHS=	amd64 i386
 
@@ -20,9 +20,10 @@ LIB_DEPENDS=	libfontconfig.so:x11-fonts/fontconfig \
 		libfreetype.so:print/freetype2 \
 		libgtkglext-x11-1.0.so:x11-toolkits/gtkglext \
 		libinotify.so:devel/libinotify \
-		libpolkit-gobject-1.so:sysutils/polkit
+		libpolkit-gobject-1.so:sysutils/polkit \
+		libxkbfile.so:x11/libxkbfile
 
-USES=		gl gnome
+USES=		gl gnome xorg
 
 USE_GL=		gl glu
 USE_GNOME=	cairo gdkpixbuf2 glib20 gtk20 pangox-compat
