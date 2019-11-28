@@ -3,14 +3,15 @@
 PORTNAME=	premake5
 DISTVERSIONPREFIX=	v
 DISTVERSION=	5.0.0
-DISTVERSIONSUFFIX=	-alpha14
 CATEGORIES=	devel
 
-MAINTAINER=	maintainer@email.cz
+MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Build script creation tool
 
 LICENSE=	BSD3CLAUSE
 LICENSE_FILE=	${WRKSRC}/LICENSE.txt
+
+ONLY_FOR_ARCHS=	aarch64 amd64 i386
 
 USES=		gmake
 MAKE_ARGS=	CC="${CC}" CXX="${CXX}"
@@ -18,7 +19,7 @@ MAKE_ARGS=	CC="${CC}" CXX="${CXX}"
 USE_GITHUB=	yes
 GH_ACCOUNT=	premake
 GH_PROJECT=	premake-core
-GH_TAGNAME=	00052e1
+GH_TAGNAME=	63a1e5f
 
 PLIST_FILES=	bin/premake5
 
