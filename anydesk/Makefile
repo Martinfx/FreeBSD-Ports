@@ -11,8 +11,8 @@ COMMENT=	Fast remote desktop
 
 LICENSE=	commercial
 LICENSE_NAME=	commercial
-LICENSE_TEXT=	Commercial software
-LICENSE_PERMS=	no-dist-mirror no-dist-sell no-pkg-mirror no-pkg-sell
+LICENSE_FILE=	${WRKSRC}/copyright
+LICENSE_PERMS=	no-auto-accept no-dist-mirror no-dist-sell no-pkg-mirror no-pkg-sell
 
 ONLY_FOR_ARCHS=	amd64 i386
 
