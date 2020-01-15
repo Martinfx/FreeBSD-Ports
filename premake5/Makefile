@@ -19,7 +19,7 @@ MAKE_ARGS=	CC="${CC}" CXX="${CXX}"
 USE_GITHUB=	yes
 GH_ACCOUNT=	premake
 GH_PROJECT=	premake-core
-GH_TAGNAME=	63a1e5f
+GH_TAGNAME=	09ee833
 
 PLIST_FILES=	bin/premake5
 
