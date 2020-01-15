@@ -3,10 +3,9 @@
 PORTNAME=	premake5
 DISTVERSIONPREFIX=	v
 DISTVERSION=	5.0.0
-DISTVERSIONSUFFIX=	-alpha14
 CATEGORIES=	devel
 
-MAINTAINER=	maintainer@email.cz
+MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Build script creation tool
 
 LICENSE=	BSD3CLAUSE
