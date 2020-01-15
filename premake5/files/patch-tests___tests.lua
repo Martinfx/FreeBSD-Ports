@@ -1,4 +1,4 @@
---- tests/_tests.lua.orig	2020-01-15 21:43:03 UTC
+--- tests/_tests.lua.orig	2019-11-16 06:02:45 UTC
 +++ tests/_tests.lua
 @@ -57,9 +57,4 @@ return {
  	-- Control system tests
