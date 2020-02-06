@@ -2,7 +2,7 @@
 
 PORTNAME=	SASM
 DISTVERSIONPREFIX=	v
-DISTVERSION=	3.10.1
+DISTVERSION=	3.11.1
 CATEGORIES=	devel
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -11,7 +11,7 @@ COMMENT=	Simple IDE for NASM, MASM, GAS and FASM assembly languages
 LICENSE=	GPLv3
 LICENSE_FILE=	${WRKSRC}/COPYING
 
-USES=		compiler:c++11-lang qmake qt:5
+USES=		compiler:c++11-lang gl qmake qt:5
 USE_GITHUB=	yes
 GH_ACCOUNT=	Dman95
 USE_QT=		core gui network widgets buildtools_build
