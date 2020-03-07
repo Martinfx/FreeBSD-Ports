@@ -95,15 +95,15 @@ post-patch:
 	# cd ${WRKSRC} && ${PYTHON_CMD} \
 	#./build/linux/unbundle/remove_bundled_libraries.py [list of preserved]
 	cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${MKDIR} build/download_cache \
-	&& ${PYTHON_CMD} utils/prune_binaries.py build/src pruning.list \
-	&& ${PYTHON_CMD} utils/patches.py apply build/src patches
-#	&& ${PYTHON_CMD} utils/domain_substitution.py apply -r domain_regex.list -f domain_substitution.list -c build/domsubcache.tar.gz build/src
+	&& ${PYTHON_CMD} utils/prune_binaries.py build/src pruning.list          \
+	&& ${PYTHON_CMD} utils/patches.py apply build/src patches                \
+	&& ${PYTHON_CMD} utils/domain_substitution.py apply -r domain_regex.list -f domain_substitution.list -c build/domsubcache.tar.gz build/src
 
 do-configure:
 	# GN generator bootstrapping and generating ninja files
 	cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} CC=${CC} CXX=${CXX} LD=${CXX} \
-	${MKDIR} build/src/out/Default && cd build/src \
-	${PYTHON_CMD} ./out/Default/gn gen out/Default --fail-on-unused-args
-	#${PYTHON_CMD} tools/gn/bootstrap/bootstrap.py --skip-generate-buildfiles -o out/Default/
+	${MKDIR} build/src/out/Default && cd build/src                           \
+	${PYTHON_CMD} ./out/Default/gn gen out/Default --fail-on-unused-args     \
+	${PYTHON_CMD} tools/gn/bootstrap/bootstrap.py --skip-generate-buildfiles -o out/Default/
 
 .include <bsd.port.mk>
