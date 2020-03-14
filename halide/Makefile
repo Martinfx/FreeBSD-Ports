@@ -17,7 +17,7 @@ USES=		cmake ninja compiler:c++17-lang
 USE_GITHUB=	yes
 GH_ACCOUNT=	halide
 GH_PROJECT=	Halide
-GH_TAGNAME=	de12425a
+GH_TAGNAME=	fefbad6
 
 BUILD_DEPENDS=  llvm${LLVM_DEFAULT}>0:devel/llvm${LLVM_DEFAULT}
 
