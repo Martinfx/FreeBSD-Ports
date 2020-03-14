@@ -6,7 +6,7 @@ DISTVERSION=	2019_08_27
 CATEGORIES=	lang
 DISTNAME=	2019_08_27
 
-MAINTAINER=	freebsd@sysctl.cz
+MAINTAINER=	maintainer@email.com
 COMMENT=	Halide a language for fast and portable data-parallel computation
 
 LICENSE=	MIT
