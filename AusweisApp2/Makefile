@@ -12,7 +12,8 @@ LICENSE_NAME=	European Union Public Licence V. 1.2
 LICENSE_FILE=	${WRKSRC}/LICENSE.txt
 LICENSE_PERMS=	dist-mirror dist-sell pkg-mirror pkg-sell auto-accept
 
-BUILD_DEPENDS=	pcsc-lite>0:devel/pcsc-lite
+BUILD_DEPENDS=	pcsc-lite>0:devel/pcsc-lite \
+		openssl>=1.1:security/openssl
 LIB_DEPENDS=	libpcsclite.so:devel/pcsc-lite
 
 USES=		cmake pkgconfig qmake qt:5 ssl
