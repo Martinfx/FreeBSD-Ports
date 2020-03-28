@@ -1,7 +1,8 @@
-# $FreeBSD$
+# $FreeBSD: head/deskutils/ausweisapp2/Makefile 528333 2020-03-13 06:45:23Z linimon $
 
 PORTNAME=	ausweisapp2
 DISTVERSION=	1.20.0
+PORTREVISION=	1
 CATEGORIES=	deskutils security
 
 MAINTAINER=	maintainer@email.com
@@ -12,8 +13,7 @@ LICENSE_NAME=	European Union Public Licence V. 1.2
 LICENSE_FILE=	${WRKSRC}/LICENSE.txt
 LICENSE_PERMS=	dist-mirror dist-sell pkg-mirror pkg-sell auto-accept
 
-BUILD_DEPENDS=	pcsc-lite>0:devel/pcsc-lite \
-		openssl>=1.1:security/openssl
+BUILD_DEPENDS=	pcsc-lite>0:devel/pcsc-lite
 LIB_DEPENDS=	libhttp_parser.so:www/http-parser \
 		libpcsclite.so:devel/pcsc-lite
 
@@ -26,6 +26,6 @@ USE_QT=		buildtools concurrent core declarative gui linguisttools \
 
 # The VENDOR variable controls the name of the directory in ${PREFIX}/share.
 CMAKE_ARGS=	-DVENDOR=${PORTNAME}
-MAKE_ENV=       DESTDIR=${STAGEDIR}
+MAKE_ENV=	DESTDIR=${STAGEDIR}
 
 .include <bsd.port.mk>
