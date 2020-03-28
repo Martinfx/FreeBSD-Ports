@@ -26,9 +26,6 @@ USE_QT=		buildtools concurrent core declarative gui linguisttools \
 
 # The VENDOR variable controls the name of the directory in ${PREFIX}/share.
 CMAKE_ARGS=	-DVENDOR=${PORTNAME}
-CMAKE_ARGS=     -DVENDOR=${PORTNAME}
-MAKE_ENV=       DESTDIR=${STAGEDIR} \
-                OPENSSL_ROOT_DIR=${OPENSSLDIR}
-
+MAKE_ENV=       DESTDIR=${STAGEDIR}
 
 .include <bsd.port.mk>
