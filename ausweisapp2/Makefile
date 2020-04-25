@@ -5,7 +5,7 @@ DISTVERSION=	1.20.0
 PORTREVISION=	2
 CATEGORIES=	deskutils security
 
-MAINTAINER=	maintainer@email.cz
+MAINTAINER=	maintainer@email.com
 COMMENT=	Official authentication app for German ID cards and residence permits
 
 LICENSE=	EUPLv1.2
@@ -21,6 +21,7 @@ USES=		cmake compiler:c++17-lang pkgconfig qmake qt:5 ssl
 USE_GITHUB=	yes
 GH_ACCOUNT=	Governikus
 GH_PROJECT=	AusweisApp2
+
 USE_QT=		concurrent core declarative gui network quickcontrols2 svg \
 		websockets widgets buildtools_build linguisttools_build
 
