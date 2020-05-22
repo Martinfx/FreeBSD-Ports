@@ -1,43 +1,46 @@
 # $FreeBSD$
 
 PORTNAME=	halide
-DISTVERSIONPREFIX=release_
-DISTVERSION=	2019_08_27
+DISTVERSIONPREFIX=	release_
+DISTVERSION=	2019_08_27-2023
+DISTVERSIONSUFFIX=	-g48f9a1c75
 CATEGORIES=	lang
-DISTNAME=	2019_08_27
 
-MAINTAINER=	freebsd@sysctl.cz
-COMMENT=	Halide a language for fast and portable data-parallel computation
+PATCH_SITES=	https://github.com/${GH_ACCOUNT}/${PORTNAME}/commit/
+PATCHFILES=	49c7ee068327af7e1dc71cdd37afb61f3132097f.patch:-p1 # FreeBSD compatibility patches
+
+MAINTAINER=	yuri@FreeBSD.org
+COMMENT=	Halide, a language for fast and portable data-parallel computation
 
 LICENSE=	MIT
 LICENSE_FILE=	${WRKSRC}/LICENSE.txt
 
-USES=		cmake ninja compiler:c++17-lang
+BUILD_DEPENDS=	llvm${LLVM_DEFAULT}>0:devel/llvm${LLVM_DEFAULT} # because halide expects LLVMConfig.cmake
+RUN_DEPENDS=	llvm${LLVM_DEFAULT}>0:devel/llvm${LLVM_DEFAULT}
 
+USES=		cmake
 USE_GITHUB=	yes
-GH_ACCOUNT=	halide
 GH_PROJECT=	Halide
-GH_TAGNAME=	de12425a
+USE_LDCONFIG=	yes
 
-BUILD_DEPENDS=  llvm${LLVM_DEFAULT}>0:devel/llvm${LLVM_DEFAULT}
+# use the same compiler that devel/llvmNN installs
+CC=		clang${LLVM_DEFAULT}
+CXX=		clang++${LLVM_DEFAULT}
+CPP=		clang-cpp${LLVM_DEFAULT}
 
-CMAKE_ARGS=     -DCMAKE_BUILD_TYPE=Release \
-		-DLLVM_DIR=${LOCALBASE}/llvm${LLVM_DEFAULT}/lib/cmake/llvm \
-		-DWITH_APPS=OFF      \
-		-DWITH_TUTORIALS=OFF \
-		-DWITH_DOCS=OFF      \
-		-DHALIDE_SHARED_LIBRARY=OFF
+CMAKE_ARGS=	-DLLVM_DIR=${LOCALBASE}/llvm${LLVM_DEFAULT}/lib/cmake/llvm
+CMAKE_ON=	LLVM_USE_SHARED_LLVM_LIBRARY HALIDE_SHARED_LIBRARY
+CMAKE_OFF=	WITH_PYTHON_BINDINGS WITH_APPS WITH_TUTORIALS WITH_DOCS # APPS are demos
 
-PLIST_FILES=	lib/libHalide.a				\
-		include/Halide.h			\
-		include/HalideBuffer.h			\
-		include/HalideRuntime.h			\
-		include/HalideRuntimeCuda.h		\
-		include/HalideRuntimeHexagonHost.h	\
-		include/HalideRuntimeMetal.h		\
-		include/HalideRuntimeOpenCL.h		\
-		include/HalideRuntimeOpenGL.h		\
-		include/HalideRuntimeOpenGLCompute.h	\
-		include/HalideRuntimeQurt.h
+post-install: # see https://github.com/halide/Halide/issues/4952
+.for f in tools tutorial CODE_OF_CONDUCT.md README.md README_cmake.md README_rungen.md README_webassembly.md
+	@${RM} -r ${STAGEDIR}${PREFIX}/${f}
+.endfor
+	@${MKDIR} ${STAGEDIR}${PREFIX}/lib/cmake
+	@${MV} ${STAGEDIR}${PREFIX}/*.cmake ${STAGEDIR}${PREFIX}/lib/cmake
+	@${MKDIR} ${STAGEDIR}${DATADIR}
+	@${MV} ${STAGEDIR}${PREFIX}/halide_config.make ${STAGEDIR}${DATADIR}
+	@${MV} ${STAGEDIR}${PREFIX}/bin/libHalide.so ${STAGEDIR}${PREFIX}/lib
+	@${RMDIR} ${STAGEDIR}${PREFIX}/bin
 
 .include <bsd.port.mk>
