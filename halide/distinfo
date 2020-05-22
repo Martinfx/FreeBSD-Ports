@@ -1,3 +1,5 @@
-TIMESTAMP = 1584201797
-SHA256 (halide-Halide-release_2019_08_27-fefbad6_GH0.tar.gz) = 2a463edb2b188c4cc48f8116fb5f2f9c3de56381f8a839ca3b4eea7a467b36c3
-SIZE (halide-Halide-release_2019_08_27-fefbad6_GH0.tar.gz) = 30667428
+TIMESTAMP = 1590178973
+SHA256 (halide-Halide-release_2019_08_27-2023-g48f9a1c75_GH0.tar.gz) = b5f81d384dc4b5492330c2d319869e7e996eeec4f9c7eae478716d6f0ec055ef
+SIZE (halide-Halide-release_2019_08_27-2023-g48f9a1c75_GH0.tar.gz) = 30713606
+SHA256 (49c7ee068327af7e1dc71cdd37afb61f3132097f.patch) = 7ea547f64f5aed0c039901968263b34067391ebe395fdf0f3026aab11efef897
+SIZE (49c7ee068327af7e1dc71cdd37afb61f3132097f.patch) = 7860
