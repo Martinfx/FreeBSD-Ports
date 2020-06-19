@@ -1,7 +1,7 @@
 # $FreeBSD$
 
 PORTNAME=	raylib
-DISTVERSION=	2.6.0
+DISTVERSION=	3.0.0
 CATEGORIES=	devel
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -28,7 +28,7 @@ PLIST_FILES=	include/raylib.h \
 		lib/cmake/raylib/raylib-config.cmake \
 		lib/libraylib.so \
 		lib/libraylib.so.${DISTVERSION} \
-		lib/libraylib.so.261 \
+		lib/libraylib.so.301 \
 		libdata/pkgconfig/raylib.pc
 
 .include <bsd.port.pre.mk>
@@ -36,9 +36,6 @@ PLIST_FILES=	include/raylib.h \
 .if ${ARCH} == powerpc64
 USE_GCC=	any
 .endif
-
-post-patch: # the equivalent of https://github.com/raysan5/raylib/pull/558 for the -dev branch
-	@${REINPLACE_CMD} -e 's|if(NOT glfw3_FOUND)|if(NOT glfw3_FOUND AND NOT USE_EXTERNAL_GLFW)|' ${WRKSRC}/src/CMakeLists.txt
 
 post-extract: # remove bundled files
 	@${RM} -r ${WRKSRC}/src/external/glfw ${WRKSRC}/src/external/include ${WRKSRC}/src/rglfw.c
