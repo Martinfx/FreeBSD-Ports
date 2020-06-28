@@ -1,0 +1,7 @@
+TIMESTAMP = 1592831276
+SHA256 (vcmi-vcmi-0.99_GH0.tar.gz) = b7f2459d7e054c8bdcf419cbb80040e751d3dbb06dc1113ac28f7365930f902e
+SIZE (vcmi-vcmi-0.99_GH0.tar.gz) = 7548936
+SHA256 (fuzzylite-fuzzylite-9751a75_GH0.tar.gz) = 1aa0f47c4ffa2c615062a1922396286c3d5e07cf64be54d38c3c903342202ba2
+SIZE (fuzzylite-fuzzylite-9751a75_GH0.tar.gz) = 2192154
+SHA256 (google-googletest-4bab34d_GH0.tar.gz) = 6858bd7eacf4c5b8a222b98d5781efb4f0dd1653d1a551b5daf254a93e952b81
+SIZE (google-googletest-4bab34d_GH0.tar.gz) = 1284609
