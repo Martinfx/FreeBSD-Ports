@@ -1,16 +1,26 @@
 # $FreeBSD$
 
 PORTNAME=	xqemu
-DISTVERSION=	0.1
+DISTVERSION=	1.0
 CATEGORIES=	emulators
 
 MAINTAINER=	maintainer@email.com
 COMMENT=	emulator for xbox
 
-LIB_DEPENDS=	libepoxy.so:graphics/libepoxy
-BUILD_DEPEDS=   libepoxy.so:graphics/libepoxy
+LIB_DEPENDS=	libepoxy.so:graphics/libepoxy    \
+		libnettle.so:security/nettle     \
+		libgnutls.so:security/gnutls     \
+		libcurl.so:ftp/curl		 \
+		libudev.so:devel/libudev-devd    \
+		libssh2.so:security/libssh2	 \
+		libxkbcommon.so:x11/libxkbcommon \
+		libbpcre2-8.so:devel/pcre2       \
+		libpng16.so:graphics/png	 \
+		libsasl2.so:security/cyrus-sasl2 \
+		liblzo2.so:archivers/lzo2	 \
+		libsnappy.so:archivers/snappy
 
-USES=           compiler:c11 gmake localbase:ldflags
+USES=           compiler:c11 gmake localbase:ldflags gettext-runtime jpeg iconv
 
 LICENSE=        GPLv2
 
@@ -24,27 +34,23 @@ GH_TUPLE+=	qemu:capstone:5f173b0:capstone				\
 		qemu:keycodemapdb:6b3d716:qemu/ui/keycodemapdb 		\
 
 HAS_CONFIGURE=  yes
-MAKE_ENV+=      BSD_MAKE="${MAKE}" V=1
+USE_GL+= 	gl
+USE_GNOME+=	atk cairo gtk30 glib20 pango gdkpixbuf2 libxml2 vte3
+USE_SDL+=	sdl2 image2
+USE_XORG+=	pixman x11
 
-#USE_GL+= 	gl
 
-WITHOUT_CPU_CFLAGS=yes	#to avoid problems with register allocation
-CFLAGS:=	${CFLAGS:C/-fno-tree-vrp//}
+#WITHOUT_CPU_CFLAGS=yes	#to avoid problems with register allocation
 
 CONFIGURE_ARGS+= \
-            	--extra-cflags="-DXBOX=1 -march=native ${CFLAGS}"  \
-            	--target-list="i386-softmmu" 			   \
-            	--enable-trace-backends="nop" 		           \
-#           	--localstatedir=/var		       		   \
-            	#--extra-ldflags=-L"/usr/local/lib"               \
-            	#--extra-ldflags=-L"${LOCALBASE}/lib" 	           \
-            	#--extra-cflags=-I"${LOCALBASE}/include"	   \
-            	--enable-debug    				   \
-#           	--prefix=${PREFIX} --cc=${CC} 			   \
-#           	--enable-netmap   	      \
-#           	--enable-docs                 \
+            	--extra-cflags="-DXBOX=1 -march=native"  \
+            	--target-list="i386-softmmu"             \
+            	--enable-trace-backends="nop" 		 \
+            	--enable-debug    	                 \
+#           	--prefix=${PREFIX} --cc=${CC}            \
             	--enable-sdl		      \
-#           	--enable-opengl		      \
+#            	--with-glx		      \
+           	--enable-opengl		      \
 		--enable-bsd-user	      \
             	--disable-kvm                 \
             	--disable-linux-user	      \
@@ -102,11 +108,9 @@ CONFIGURE_ARGS+= \
     		--disable-sheepdog \
     		--without-default-devices \
     		--disable-blobs \
-           	 --python=${PYTHON_CMD}
-    #	--extra-cflags=-I${WRKSRC}    \
-		#-I${LOCALBASE}/include -DPREFIX=\\\"\"${PREFIX}
+           	--python=${PYTHON_CMD}
 
-.include <bsd.port.mk>
+.include <bsd.port.options.mk>
 
 .if !defined(STRIP) || ${STRIP} == ""
 CONFIGURE_ARGS+=--disable-strip
@@ -132,3 +136,22 @@ PLIST_SUB+=	LINUXBOOT_DMA=""
 
 post-patch-CDROM_DMA-off:
 	@${REINPLACE_CMD} -e '/USE_DMA_CDROM/d' ${WRKSRC}/include/hw/ide/internal.h
+
+# XXX need to disable usb host code on head while it's not ported to the
+# new usb stack yet
+post-configure:
+	@${REINPLACE_CMD} -E \
+		-e "s|^(HOST_USB=)bsd|\1stub|" \
+		${WRKSRC}/config-host.mak
+
+.if !target(post-install)
+post-install:
+	${INSTALL_SCRIPT} ${FILESDIR}/qemu-ifup.sample ${STAGEDIR}${PREFIX}/etc
+	${INSTALL_SCRIPT} ${FILESDIR}/qemu-ifdown.sample ${STAGEDIR}${PREFIX}/etc
+	@${STRIP_CMD} ${STAGEDIR}${PREFIX}/bin/qemu-*
+
+post-install-DOCS-on:
+	@(cd ${WRKSRC} && ${COPYTREE_SHARE} docs ${STAGEDIR}${DOCSDIR}/)
+.endif
+
+.include <bsd.port.mk>

@@ -1,0 +1,7 @@
+--- hw/xbox/nv2a/gl/Makefile.objs.orig	2020-07-12 20:02:22 UTC
++++ hw/xbox/nv2a/gl/Makefile.objs
+@@ -2,3 +2,4 @@ obj-y += gloffscreen_common.o
+ obj-$(CONFIG_WIN32) += gloffscreen_wgl.o
+ obj-$(CONFIG_DARWIN) += gloffscreen_cgl.o
+ obj-$(CONFIG_LINUX) += gloffscreen_glx.o
++obj-${CONFIG_BSD} += gloffscreen_glx.o
