@@ -7,10 +7,10 @@ CATEGORIES=	emulators
 MAINTAINER=	maintainer@email.com
 COMMENT=	emulator for xbox
 
-
 LIB_DEPENDS=	libepoxy.so:graphics/libepoxy
+BUILD_DEPEDS=   libepoxy.so:graphics/libepoxy
 
-USES=           libtool pkgconfig compiler:c11 gettext-runtime gl gmake
+USES=           compiler:c11 gmake localbase:ldflags
 
 LICENSE=        GPLv2
 
@@ -19,35 +19,40 @@ GH_ACCOUNT=	xqemu
 GH_PROJECT=	xqemu
 GH_TAGNAME=	42579ba3
 
-GH_TUPLE+=	qemu:capstone:5f173b0:capstone	        \
-		qemu:dtc:e543880:dtc/dtc   			        \
-		qemu:keycodemapdb:6b3d716:qemu/ui/keycodemapdb \
+GH_TUPLE+=	qemu:capstone:5f173b0:capstone				\
+		qemu:dtc:e543880:dtc/dtc				\
+		qemu:keycodemapdb:6b3d716:qemu/ui/keycodemapdb 		\
 
 HAS_CONFIGURE=  yes
 MAKE_ENV+=      BSD_MAKE="${MAKE}" V=1
 
-USE_GL+= 	gl
+#USE_GL+= 	gl
+
+WITHOUT_CPU_CFLAGS=yes	#to avoid problems with register allocation
+CFLAGS:=	${CFLAGS:C/-fno-tree-vrp//}
 
 CONFIGURE_ARGS+= \
-		--extra-cflags="-DXBOX=1 -march=native ${CFLAGS}"  \
-		--target-list=i386-softmmu 			   \
-		--enable-trace-backends="nop" 		           \
-#		--localstatedir=/var		       		   \
-		--extra-ldflags=-L\"/usr/local/lib\"               \
-		--extra-ldflags=-L\"${LOCALBASE}/lib\" 	           \
-		--enable-debug    				   \
-#		--prefix=${PREFIX} --cc=${CC} 			   \
-#		--enable-netmap   	      \
-#		--enable-docs                 \
-		--enable-sdl		      \
-#		--enable-opengl		      \
-		--disable-kvm                 \
-		--disable-linux-user	      \
-		--disable-linux-aio           \
-		--disable-xen 		      \
-#		--enable-debug-info           \
-		--disable-curl \
-    		--disable-vnc \
+            	--extra-cflags="-DXBOX=1 -march=native ${CFLAGS}"  \
+            	--target-list="i386-softmmu" 			   \
+            	--enable-trace-backends="nop" 		           \
+#           	--localstatedir=/var		       		   \
+            	#--extra-ldflags=-L"/usr/local/lib"               \
+            	#--extra-ldflags=-L"${LOCALBASE}/lib" 	           \
+            	#--extra-cflags=-I"${LOCALBASE}/include"	   \
+            	--enable-debug    				   \
+#           	--prefix=${PREFIX} --cc=${CC} 			   \
+#           	--enable-netmap   	      \
+#           	--enable-docs                 \
+            	--enable-sdl		      \
+#           	--enable-opengl		      \
+		--enable-bsd-user	      \
+            	--disable-kvm                 \
+            	--disable-linux-user	      \
+            	--disable-linux-aio           \
+            	--disable-xen 		      \
+#           	--enable-debug-info           \
+            	--disable-curl \
+            	--disable-vnc \
     		--disable-vnc-sasl \
     		--disable-docs \
     		--disable-tools \
@@ -62,7 +67,7 @@ CONFIGURE_ARGS+= \
     		--disable-spice \
     		--disable-user \
     		--disable-stack-protector \
-   	 	--disable-glusterfs \
+           	--disable-glusterfs \
     		--disable-bluez \
     		--disable-gtk \
     		--disable-curses \
@@ -97,9 +102,9 @@ CONFIGURE_ARGS+= \
     		--disable-sheepdog \
     		--without-default-devices \
     		--disable-blobs \
-		--python=${PYTHON_CMD} 	      \
-		--extra-cflags=-I${WRKSRC}    \
-		-I${LOCALBASE}/include -DPREFIX=\\\"\"${PREFIX}
+           	 --python=${PYTHON_CMD}
+    #	--extra-cflags=-I${WRKSRC}    \
+		#-I${LOCALBASE}/include -DPREFIX=\\\"\"${PREFIX}
 
 .include <bsd.port.mk>
 
