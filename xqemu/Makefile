@@ -5,7 +5,9 @@ DISTVERSION=	1.0
 CATEGORIES=	emulators
 
 MAINTAINER=	maintainer@email.com
-COMMENT=	emulator for xbox
+COMMENT=	XQEMU is an open-source emulator to play original Xbox games
+
+LICENSE=	GPLv2
 
 LIB_DEPENDS=	libepoxy.so:graphics/libepoxy    \
 		libnettle.so:security/nettle     \
@@ -14,15 +16,13 @@ LIB_DEPENDS=	libepoxy.so:graphics/libepoxy    \
 		libudev.so:devel/libudev-devd    \
 		libssh2.so:security/libssh2	 \
 		libxkbcommon.so:x11/libxkbcommon \
-		libbpcre2-8.so:devel/pcre2       \
+		libpcre2-32.so:devel/pcre2       \
 		libpng16.so:graphics/png	 \
 		libsasl2.so:security/cyrus-sasl2 \
 		liblzo2.so:archivers/lzo2	 \
 		libsnappy.so:archivers/snappy
 
 USES=           compiler:c11 gmake localbase:ldflags gettext-runtime jpeg iconv
-
-LICENSE=        GPLv2
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	xqemu
@@ -33,12 +33,12 @@ GH_TUPLE+=	qemu:capstone:5f173b0:capstone				\
 		qemu:dtc:e543880:dtc/dtc				\
 		qemu:keycodemapdb:6b3d716:qemu/ui/keycodemapdb 		\
 
-HAS_CONFIGURE=  yes
-USE_GL+= 	gl
-USE_GNOME+=	atk cairo gtk30 glib20 pango gdkpixbuf2 libxml2 vte3
-USE_SDL+=	sdl2 image2
-USE_XORG+=	pixman x11
-
+USE_LDCONFIG=	yes
+HAS_CONFIGURE= 	yes
+USE_GL=		gl
+USE_GNOME=	atk cairo gtk30 glib20 pango gdkpixbuf2 libxml2 vte3
+USE_SDL=	sdl2 image2
+USE_XORG=	pixman x11
 
 #WITHOUT_CPU_CFLAGS=yes	#to avoid problems with register allocation
 
@@ -146,8 +146,8 @@ post-configure:
 
 .if !target(post-install)
 post-install:
-	${INSTALL_SCRIPT} ${FILESDIR}/qemu-ifup.sample ${STAGEDIR}${PREFIX}/etc
-	${INSTALL_SCRIPT} ${FILESDIR}/qemu-ifdown.sample ${STAGEDIR}${PREFIX}/etc
+#	${INSTALL_SCRIPT} ${FILESDIR}/qemu-ifup.sample ${STAGEDIR}${PREFIX}/etc
+#	${INSTALL_SCRIPT} ${FILESDIR}/qemu-ifdown.sample ${STAGEDIR}${PREFIX}/etc
 	@${STRIP_CMD} ${STAGEDIR}${PREFIX}/bin/qemu-*
 
 post-install-DOCS-on:
