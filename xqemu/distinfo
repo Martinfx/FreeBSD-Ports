@@ -1,4 +1,4 @@
-TIMESTAMP = 1594587218
+TIMESTAMP = 1594609743
 SHA256 (xqemu-xqemu-1.0-42579ba3_GH0.tar.gz) = 977e2fb9be07487850f8d70eae94f48ea312d4ec32b7dab243a1a9507defcefa
 SIZE (xqemu-xqemu-1.0-42579ba3_GH0.tar.gz) = 18014867
 SHA256 (qemu-capstone-5f173b0_GH0.tar.gz) = 0d5dbb4a3d41ecc0f77a6499ccab2e588742b1c8be2350d1e7e12308c18d5d47
@@ -7,3 +7,7 @@ SHA256 (qemu-dtc-e543880_GH0.tar.gz) = 84878bdcfca30db1ad32fd60ddfd01e08fc00ff0c
 SIZE (qemu-dtc-e543880_GH0.tar.gz) = 176916
 SHA256 (qemu-keycodemapdb-6b3d716_GH0.tar.gz) = c9d3412510aac999865d01aaa14b1fa8dc0385db55c5cf6c4d95d160bd0eaee9
 SIZE (qemu-keycodemapdb-6b3d716_GH0.tar.gz) = 47905
+SHA256 (qemu-u-boot-d368926_GH0.tar.gz) = f9a7d029578fd0457df91529f4b8f244002424e70b36a66c6c95c0645b29ced6
+SIZE (qemu-u-boot-d368926_GH0.tar.gz) = 17010639
+SHA256 (tianocore-edk2-8558838_GH0.tar.gz) = ff437efb0de26dbeb76873735c54eaf88bf2134fdbd104f5c76d8d84579d954c
+SIZE (tianocore-edk2-8558838_GH0.tar.gz) = 38654575
