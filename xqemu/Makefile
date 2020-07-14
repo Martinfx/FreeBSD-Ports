@@ -46,12 +46,11 @@ GH_TUPLE+=	qemu:capstone:5f173b0:capstone				\
 		hdeller:seabios-hppa:0f4fe84:roms/seabios-hppa		\
 		qemu:sgabios:cbaee52:roms/sgabios			\
 		qemu:skiboot:261ca8e:roms/skiboot			\
-		qemu:u-boot:d368926:roms/u-boot
-#		qemu:u-boot-sam460ex:60b3916:roms/u-boot-sam460ex	\
-#		cota:berkeley-softfloat-3:b64af41:test/fp/berkeley-softfloat-3 \
-#		cota:berkeley-testfloat-3:5a59dce:test/fp/berkeley-testfloat-3
+		qemu:u-boot:d368926:roms/u-boot				\
+		qemu:u-boot-sam460ex:60b3916:roms/u-boot-sam460ex	\
+		cota:berkeley-softfloat-3:b64af41:test/fp/berkeley-softfloat-3 \
+		cota:berkeley-testfloat-3:5a59dce:test/fp/berkeley-testfloat-3
 
-USE_LDCONFIG=	yes
 HAS_CONFIGURE= 	yes
 USE_GL=		gl
 USE_GNOME=	atk cairo gtk30 glib20 pango gdkpixbuf2 libxml2 vte3
