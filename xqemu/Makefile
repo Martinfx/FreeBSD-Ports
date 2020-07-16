@@ -30,12 +30,14 @@ USES=		compiler:c11 gmake localbase:ldflags gettext-runtime jpeg iconv:wchar_t
 USE_GITHUB=	yes
 GH_ACCOUNT=	xqemu
 GH_PROJECT=	xqemu
-GH_TAGNAME=	42579ba3
+GH_TAGNAME=	3165139
 
-GH_TUPLE+=	qemu:capstone:5f173b0:capstone				\
+
+GH_TUPLE+=\
+		qemu:capstone:5f173b0:xqemu/capstone			\
 		qemu:dtc:e543880:dtc/dtc				\
-		qemu:keycodemapdb:6b3d716:qemu/ui/keycodemapdb		\
-		qemu:QemuMacDrivers:90c488d:roms/QemuMacDrivers		\
+		qemu:keycodemapdb:6b3d716:xqemu/ui/keycodemapdb		\
+		qemu:QemuMacDrivers:90c488d:qemu/roms/QemuMacDrivers	\
 		qemu:SLOF:a5b428e:roms/SLOF				\
 		tianocore:edk2:8558838:tianocore/roms/edk2		\
 		qemu:ipxe:de4565c:roms/ipxe				\
@@ -147,8 +149,8 @@ CONFIGURE_ARGS+=	--sparc_cpu=v9
 
 PLIST_SUB+=	LINUXBOOT_DMA=""
 
-post-patch-CDROM_DMA-off:
-	@${REINPLACE_CMD} -e '/USE_DMA_CDROM/d' ${WRKSRC}/include/hw/ide/internal.h
+#post-patch-CDROM_DMA-off:
+#	@${REINPLACE_CMD} -e '/USE_DMA_CDROM/d' ${WRKSRC}/include/hw/ide/internal.h
 
 # XXX need to disable usb host code on head while it's not ported to the
 # new usb stack ye
