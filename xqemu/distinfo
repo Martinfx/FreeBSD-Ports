@@ -1,10 +1,12 @@
-TIMESTAMP = 1594925734
+TIMESTAMP = 1594936516
 SHA256 (xqemu-xqemu-1.0-3165139_GH0.tar.gz) = 573ee04242fd84cc2945e662a098106a57ff3f9646e590d923c4ec2b39e3ef4d
 SIZE (xqemu-xqemu-1.0-3165139_GH0.tar.gz) = 18013121
-SHA256 (qemu-keycodemapdb-6b3d716_GH0.tar.gz) = c9d3412510aac999865d01aaa14b1fa8dc0385db55c5cf6c4d95d160bd0eaee9
-SIZE (qemu-keycodemapdb-6b3d716_GH0.tar.gz) = 47905
+SHA256 (qemu-capstone-5f173b0_GH0.tar.gz) = 0d5dbb4a3d41ecc0f77a6499ccab2e588742b1c8be2350d1e7e12308c18d5d47
+SIZE (qemu-capstone-5f173b0_GH0.tar.gz) = 2885340
 SHA256 (qemu-dtc-e543880_GH0.tar.gz) = 84878bdcfca30db1ad32fd60ddfd01e08fc00ff0c042d2a758e7e90c08de0b5e
 SIZE (qemu-dtc-e543880_GH0.tar.gz) = 176916
+SHA256 (qemu-keycodemapdb-6b3d716_GH0.tar.gz) = c9d3412510aac999865d01aaa14b1fa8dc0385db55c5cf6c4d95d160bd0eaee9
+SIZE (qemu-keycodemapdb-6b3d716_GH0.tar.gz) = 47905
 SHA256 (qemu-QemuMacDrivers-90c488d_GH0.tar.gz) = 447fe690f428ae9f735992a6814a8989e3cdc394c31217a417b3887c6cc884ea
 SIZE (qemu-QemuMacDrivers-90c488d_GH0.tar.gz) = 53639
 SHA256 (qemu-u-boot-sam460ex-60b3916_GH0.tar.gz) = a6782bd5d443efabdcd494021691dbd94283b867858c061d130de0b403cf97a9

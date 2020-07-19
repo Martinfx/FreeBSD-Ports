@@ -33,8 +33,7 @@ GH_PROJECT=	xqemu
 GH_TAGNAME=	3165139
 
 
-GH_TUPLE+=\
-		qemu:capstone:5f173b0:xqemu/capstone			\
+GH_TUPLE+=	qemu:capstone:5f173b0:capstone				\
 		qemu:dtc:e543880:dtc/dtc				\
 		qemu:keycodemapdb:6b3d716:xqemu/ui/keycodemapdb		\
 		qemu:QemuMacDrivers:90c488d:qemu/roms/QemuMacDrivers	\
