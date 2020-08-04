@@ -1,4 +1,4 @@
---- config.pri.orig	2017-10-03 16:22:18 UTC
+--- config.pri.orig	2020-08-03 21:35:42 UTC
 +++ config.pri
 @@ -0,0 +1,20 @@
 +boost: LIBS += -lboost_serialization
@@ -9,15 +9,15 @@
 +        LIBS -=  $$system(pkg-config --variable=libdir cairo)/libcairo.a
 +}
 +pyside {
-+        PKGCONFIG -= pyside
-+        INCLUDEPATH += $$system(pkg-config --variable=includedir pyside)
-+        INCLUDEPATH += $$system(pkg-config --variable=includedir pyside)/QtCore
-+        INCLUDEPATH += $$system(pkg-config --variable=includedir pyside)/QtGui
++        PKGCONFIG -= pyside2
++        INCLUDEPATH += $$system(pkg-config --variable=includedir pyside2)
++        INCLUDEPATH += $$system(pkg-config --variable=includedir pyside2)/QtCore
++        INCLUDEPATH += $$system(pkg-config --variable=includedir pyside2)/QtGui
 +        INCLUDEPATH += $$system(pkg-config --variable=includedir QtGui)
-+        LIBS += -lpyside-python2.7
++        LIBS += -lpyside2.cpython-37m
 +}
 +shiboken {
-+        PKGCONFIG -= shiboken
-+        INCLUDEPATH += $$system(pkg-config --variable=includedir shiboken)
-+        LIBS += -lshiboken-python2.7
++        PKGCONFIG -= shiboken2
++        INCLUDEPATH += $$system(pkg-config --variable=includedir shiboken2)
++        LIBS += -lshiboken2.cpython-37m
 +}

@@ -20,11 +20,12 @@ RUN_DEPENDS=	${LOCALBASE}/OFX/Plugins/IO.ofx.bundle/Contents/Info.plist:graphics
 LIB_DEPENDS=	libcairo.so:graphics/cairo \
 		libexpat.so:textproc/expat2 \
 		libboost_system.so:devel/boost-libs \
-		libshiboken-${PYTHON_VERSION}.so:devel/shiboken \
+		libshiboken2.cpython-37m.so:devel/shiboken2 \
 		libfontconfig.so:x11-fonts/fontconfig \
 		libavformat.so:multimedia/ffmpeg \
-		libpyside-${PYTHON_VERSION}.so:devel/pyside \
-		libfreetype.so:print/freetype2
+		libpyside2.cpython-37m.so:devel/pyside2 \
+		libfreetype.so:print/freetype \
+		libclang.so.11git:devel/llvm-devel
 
 USES=		pkgconfig python:3.7+ qmake qt:5 compiler:c++17-lang shebangfix desktop-file-utils shared-mime-info \
 		gettext-runtime desktop-file-utils
