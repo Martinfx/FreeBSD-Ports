@@ -1,7 +1,7 @@
 # $FreeBSD: head/deskutils/anydesk/Makefile 506012 2019-07-06 17:55:11Z swills $
 
 PORTNAME=	anydesk
-DISTVERSION=	5.5.5
+DISTVERSION=	6.0.1
 CATEGORIES=	deskutils
 MASTER_SITES=	https://download.anydesk.com/freebsd/
 DISTNAME=	${PORTNAME}-freebsd-${PORTVERSION}-${ARCH:S/amd64/x86_64/:S/i386/i386/}
