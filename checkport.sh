@@ -1,5 +1,5 @@
 #!/bin/sh
 
-make makesum
-make makeplist
-make stage
+make -j4 makesum
+make -j4 makeplist
+make -j4 stage
