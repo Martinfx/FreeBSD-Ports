@@ -1,0 +1,7 @@
+TIMESTAMP = 1600719287
+SHA256 (centos/libcanberra-0.30-9.el7.i686.rpm) = f074dbf3c54533ac71be5b37dbe9e92d35a6747c46d04a5d508bce68cecbc397
+SIZE (centos/libcanberra-0.30-9.el7.i686.rpm) = 82108
+SHA256 (centos/libcanberra-0.30-9.el7.x86_64.rpm) = 9ded0df9a56876880151bf93bb81015edf5f463a3b595c89c316c792c31eb588
+SIZE (centos/libcanberra-0.30-9.el7.x86_64.rpm) = 84140
+SHA256 (centos/libcanberra-0.30-9.el7.src.rpm) = 4ed5d3fda7f661d966ac09fffe2bbfe0d6619a6d15d44eb062c4255adc6a956c
+SIZE (centos/libcanberra-0.30-9.el7.src.rpm) = 334810
