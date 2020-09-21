@@ -12,7 +12,7 @@ LICENSE_FILE=	${WRKSRC}/license.txt
 
 LIB_DEPENDS=	libiconv.so:converters/libiconv
 
-USES=		autoreconf:build iconv gmake
+USES=		autoreconf gmake pkgconfig
 
 GNU_CONFIGURE=	yes
 USE_GITHUB=	yes
