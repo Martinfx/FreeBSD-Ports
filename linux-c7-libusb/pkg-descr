@@ -1,0 +1,6 @@
+This package provides a way for applications to access USB devices.
+Legacy libusb-0.1 is no longer supported by upstream, therefore content of this
+package was replaced by libusb-compat. It provides compatibility layer allowing
+applications written for libusb-0.1 to work with libusb-1.0.
+
+WWW: http://sourceforge.net/projects/libusb/
