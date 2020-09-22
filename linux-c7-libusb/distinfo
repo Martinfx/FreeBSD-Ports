@@ -1,7 +1,3 @@
-TIMESTAMP = 1600720280
-SHA256 (centos/libusb-0.1.4-3.el7.i686.rpm) = ee1e6694b3cca8e2841cc85b76daeb5a98f3954a375ad2a1ef244e215a1638e3
-SIZE (centos/libusb-0.1.4-3.el7.i686.rpm) = 19388
-SHA256 (centos/libusb-0.1.4-3.el7.x86_64.rpm) = 916a01dcd8a53b88b912370e8929b03c5ef4d492d8451201b60c6f8a48510936
-SIZE (centos/libusb-0.1.4-3.el7.x86_64.rpm) = 19536
-SHA256 (centos/libusb-0.1.4-3.el7.src.rpm) = aba5e324f74a98703073378ec14239acd971e05316714c6f4ad38401336ffc36
-SIZE (centos/libusb-0.1.4-3.el7.src.rpm) = 257233
+TIMESTAMP = 1600784608
+SHA256 (linux_libusb-13.0r358841.tar.bz2) = 0114a83eb21889ff54e1f2f551296ef584e7fe1a8d468ade6ec1bc017937deb7
+SIZE (linux_libusb-13.0r358841.tar.bz2) = 69877
