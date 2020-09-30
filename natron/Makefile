@@ -46,8 +46,8 @@ USE_XORG=	x11 pixman
 USE_GL=		gl
 
 SHEBANG_FILES=	OpenColorIO-Configs/nuke-default/make.py
-BINARY_ALIAS=	python3=python${PYTHON_VER} python3-config=python${PYTHON_VER}-config
-PYTHON_MAKE_ARGS=	PYTHON=1
+BINARY_ALIAS=	python=python${PYTHON_VER} python-config=python${PYTHON_VER}-config
+PYTHON_MAKE_ARGS=	PYTHON=0
 
 post-patch:
 	@${REINPLACE_CMD} -e 's|/usr/OFX/Plugins|${PREFIX}/OFX/Plugins|g' \
