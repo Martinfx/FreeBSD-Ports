@@ -31,7 +31,7 @@ PLIST_FILES=    include/intel-ipsec-mb.h \
 
 do-install:
 	${INSTALL_DATA} ${WRKSRC}/lib/intel-ipsec-mb.h ${STAGEDIR}${PREFIX}/include/
-	${INSTALL_LIB} ${WRKSRC}/lib/libIPSec_MB.so.${DISTVERSION} ${STAGEDIR}${PREFIX}/lib/libIPSec_MB.so.${DISTVERSION}
+	${INSTALL_LIB} ${WRKSRC}/lib/libIPSec_MB.so.${DISTVERSION}${DISTVERSIONSUFFIX} ${STAGEDIR}${PREFIX}/lib/libIPSec_MB.so.${DISTVERSION}
 	${RLN} ${STAGEDIR}${PREFIX}/lib/libIPSec_MB.so.${DISTVERSION} ${STAGEDIR}${PREFIX}/lib/libIPSec_MB.so.0
 	${RLN} ${STAGEDIR}${PREFIX}/lib/libIPSec_MB.so.0 ${STAGEDIR}${PREFIX}/lib/libIPSec_MB.so
 	${INSTALL_MAN} ${WRKSRC}/lib/libipsec-mb.7 ${STAGEDIR}${PREFIX}/man/man7
