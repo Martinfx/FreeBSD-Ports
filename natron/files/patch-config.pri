@@ -6,8 +6,10 @@
      # "Since Python may define some pre-processor definitions which affect the standard headers on some systems, you must include Python.h before any standard headers are included."
 -    CONFIG += python
 +    CONFIG += python3
-     QMAKE_CFLAGS += -include Python.h
-     QMAKE_CXXFLAGS += -include Python.h
+-    QMAKE_CFLAGS += -include Python.h
++    #QMAKE_CFLAGS += -include Python.h
+-    QMAKE_CXXFLAGS += -include Python.h
++    #QMAKE_CXXFLAGS += -include Python.h
  }
 @@ -415,7 +415,7 @@
       # User may specify an alternate python2-config from the command-line,
