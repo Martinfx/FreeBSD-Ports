@@ -1,6 +1,6 @@
-TIMESTAMP = 1596476641
-SHA256 (NatronGitHub-Natron-v2.3.16-beta1_GH0.tar.gz) = 6a5bd81bb77f2bf392e808be0e41035121ab344f8bede3b0a1e90ea013f93e75
-SIZE (NatronGitHub-Natron-v2.3.16-beta1_GH0.tar.gz) = 22071952
+TIMESTAMP = 1605386075
+SHA256 (NatronGitHub-Natron-v2.3.16-beta1-e7604bb_GH0.tar.gz) = 26afea6c29eaa0ea6d46941420d3031560fcc16ef4d9994130540f469c6aca17
+SIZE (NatronGitHub-Natron-v2.3.16-beta1-e7604bb_GH0.tar.gz) = 26942214
 SHA256 (NatronGitHub-openfx-a85dc34_GH0.tar.gz) = c59082fcd9327e87ff544e93179ddc5b81d39442854283064480526ab153bfde
 SIZE (NatronGitHub-openfx-a85dc34_GH0.tar.gz) = 10651841
 SHA256 (NatronGitHub-google-test-50d6fc3_GH0.tar.gz) = e4604551d0179cb6c38815680c119c2cebde9bccb84cb86ec47259857135e0d8
