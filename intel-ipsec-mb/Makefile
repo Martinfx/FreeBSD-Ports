@@ -19,7 +19,7 @@ USES=           gmake compiler:c11 localbase:ldflags
 USE_GITHUB=     yes
 GH_ACCOUNT=     intel
 GH_PROJECT=     intel-ipsec-mb
-GH_TAGNAME=	55179f0
+GH_TAGNAME=	    55179f0
 
 USE_LDCONFIG=   yes
 PLIST_FILES=    include/intel-ipsec-mb.h \
