@@ -40,7 +40,7 @@
 -#endif
 +    nArgs = (int)utf8Args.size();
 +    for (std::size_t i = 0; i < utf8Args.size(); ++i) {
-+        commandLineArgsWideOriginal[i] = char2wchar(utf8Args[i].c_str());
++        commandLineArgsWideOriginal[i] = AppManager::char2wchar(utf8Args[i].c_str());
 +    }
 +
 +    commandLineArgsWide = commandLineArgsWideOriginal;
