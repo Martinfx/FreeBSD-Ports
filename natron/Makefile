@@ -20,7 +20,7 @@ RUN_DEPENDS=	${LOCALBASE}/OFX/Plugins/IO.ofx.bundle/Contents/Info.plist:graphics
 LIB_DEPENDS=	libcairo.so:graphics/cairo \
 		libexpat.so:textproc/expat2 \
 		libboost_system.so:devel/boost-libs \
-		libshiboken2.cpython-${PYTHON_SUFFIX}${PYTHON_ABIVER}.so:devel/shiboken2 \
+		libshiboken2.cpython-${PYTHON_SUFFIX}${PYTHON_ABIVER}.so:devel/shiboken2@${PY_FLAVOR} \
 		libfontconfig.so:x11-fonts/fontconfig \
 		libavformat.so:multimedia/ffmpeg \
 		libpyside2.cpython-${PYTHON_SUFFIX}${PYTHON_ABIVER}.so:devel/pyside2 \
@@ -47,7 +47,7 @@ USE_XORG=	x11 pixman
 USE_GL=		gl
 
 QMAKE_ARGS+=	PYTHON_LIBRARY="${PYTHONBASE}/lib/libpython${PYTHON_VER}${PYTHON_ABIVER}.so" \
-		PYTHON_INCLUDE_DIR="${PYTHON_INCLUDEDIR}"  \
+		PYTHON_INCLUDE_DIR="${PYTHONBASE}${PYTHON_INCLUDEDIR}" \
 		PYTHON_PACKAGES_PATH="${PYTHON_SITELIBDIR}"
 
 SHEBANG_FILES=	OpenColorIO-Configs/nuke-default/make.py

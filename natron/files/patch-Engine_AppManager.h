@@ -4,7 +4,7 @@
      void refreshDiskCacheLocation();
      const QString& getDiskCacheLocation() const;
  
-+    static wchar_t* char2wchar(char* arg);
++    static wchar_t* char2wchar(const char* arg);
 +
      void saveCaches() const;
  

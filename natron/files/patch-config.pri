@@ -16,7 +16,7 @@
       # as in "qmake PYTHON_CONFIG=python2.7-config"
       isEmpty(PYTHON_CONFIG) {
 -         PYTHON_CONFIG = python2-config
-+         PYTHON_CONFIG = python3-config
++         PYTHON_CONFIG = python3.7-config
       }
       python {
            #PKGCONFIG += python
@@ -27,7 +27,7 @@
 -         shiboken:  INCLUDEPATH += $$system(python2 -c \"from distutils.sysconfig import get_python_lib; print(get_python_lib())\")/PySide2/include/shiboken
 -    	 pyside:    INCLUDEPATH += $$system(python2 -c \"from distutils.sysconfig import get_python_lib; print(get_python_lib())\")/PySide2/include/PySide2
 -   	 pyside:    INCLUDEPATH += $$system(python2 -c \"from distutils.sysconfig import get_python_lib; print(get_python_lib())\")/PySide2/include/PySide2/QtCore
-+         shiboken:  INCLUDEPATH += $$system(python3 -c \"from distutils.sysconfig import get_python_lib; print(get_python_lib())\")/PySide2/include/shiboken
++         shiboken:  INCLUDEPATH += $$system(python3 -c \"from distutils.sysconfig import get_python_lib; print(get_python_lib())\")/shiboken2/include/shiboken2
 +    	 pyside:    INCLUDEPATH += $$system(python3 -c \"from distutils.sysconfig import get_python_lib; print(get_python_lib())\")/PySide2/include/PySide2
 +   	 pyside:    INCLUDEPATH += $$system(python3 -c \"from distutils.sysconfig import get_python_lib; print(get_python_lib())\")/PySide2/include/PySide2/QtCore
       }
