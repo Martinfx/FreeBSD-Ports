@@ -46,11 +46,10 @@ USE_QT=		core gui qmake_build buildtools_build network opengl
 USE_XORG=	x11 pixman
 USE_GL=		gl
 
-QMAKE_ARGS+=	PYTHON_LIBRARY="${PYTHONBASE}/lib/libpython${PYTHON_VER}${PYTHON_ABIVER}.so" \
-		PYTHON_INCLUDE_DIR="${PYTHONBASE}${PYTHON_INCLUDEDIR}" \
+QMAKE_ARGS+=    PYTHON_INCLUDEDIR=${PYTHON_INCLUDEDIR} PYTHON_LIB=${PYTHON_LIB} \
+		PYTHON_LIBDIR=${PYTHON_LIBDIR} PYTHON_VER=${PYTHON_VER} \
 		PYTHON_PACKAGES_PATH="${PYTHON_SITELIBDIR}" \
 		PYTHON_SHIBOKEN2_INCLUDE="${PYTHONBASE}/include/shiboken2"
-		
 
 SHEBANG_FILES=	OpenColorIO-Configs/nuke-default/make.py
 BINARY_ALIAS=	python=python${PYTHON_VER} python-config=python${PYTHON_VER}-config
