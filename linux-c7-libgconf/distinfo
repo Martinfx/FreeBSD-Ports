@@ -1,0 +1,7 @@
+TIMESTAMP = 1600718213
+SHA256 (centos/GConf2-3.2.6-8.el7.i686.rpm) = d0df638cf1bb17be8a1ef4105144a4dc67d462e7ba092314de0add664f3e1908
+SIZE (centos/GConf2-3.2.6-8.el7.i686.rpm) = 1046312
+SHA256 (centos/GConf2-3.2.6-8.el7.x86_64.rpm) = 3d4f93baccf4e3bf657e013b91d5695cb92ff661810cddb26e560f224531b5fd
+SIZE (centos/GConf2-3.2.6-8.el7.x86_64.rpm) = 1047864
+SHA256 (centos/GConf2-3.2.6-8.el7.src.rpm) = e00a6aa768aaa258103fcf127afc5b13d8c2cc9dd26737535703f4ed4fa8848b
+SIZE (centos/GConf2-3.2.6-8.el7.src.rpm) = 1599348
