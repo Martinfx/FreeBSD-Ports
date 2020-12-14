@@ -23,15 +23,16 @@ LIB_DEPENDS=	libepoxy.so:graphics/libepoxy    \
 		libpng16.so:graphics/png	 \
 		libsasl2.so:security/cyrus-sasl2 \
 		liblzo2.so:archivers/lzo2	 \
-		libsnappy.so:archivers/snappy
+		libsnappy.so:archivers/snappy    \
+		libvdeplug.so:net/vde2		 \
+		libfdt.so:sysutils/dtc
 
 USES=		compiler:c11 gmake localbase:ldflags gettext-runtime jpeg iconv:wchar_t
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	xqemu
 GH_PROJECT=	xqemu
-GH_TAGNAME=	3165139
-
+GH_TAGNAME=	e1236e1
 
 GH_TUPLE+=	qemu:capstone:5f173b0:capstone				\
 		qemu:dtc:e543880:dtc/dtc				\
@@ -60,7 +61,7 @@ USE_XORG=	pixman x11
 
 CONFIGURE_ARGS+= \
             	--extra-cflags="-DXBOX=1 -march=native" \
-            	--target-list="i386-softmmu" \
+            	--target-list="i386-softmmu"  \
             	--enable-trace-backends="nop" \
 #            	--enable-debug \
             	--enable-sdl		      \
@@ -70,7 +71,7 @@ CONFIGURE_ARGS+= \
             	--disable-linux-user	      \
             	--disable-linux-aio           \
             	--disable-xen 		      \
-#           	--enable-debug-info \
+           	--enable-debug-info \
             	--disable-curl \
             	--disable-vnc \
     		--disable-vnc-sasl \
