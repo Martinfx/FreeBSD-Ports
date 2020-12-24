@@ -2,9 +2,10 @@
 
 PORTNAME=	raylib
 DISTVERSION=	3.0.0
-CATEGORIES=	devel
+PORTREVISION=	1
+CATEGORIES=	devel education
 
-MAINTAINER=	maintainer@email.com
+MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Library to learn videogames programming
 
 LICENSE=	ZLIB
@@ -16,28 +17,37 @@ LIB_DEPENDS=	libglfw.so:graphics/glfw
 USES=		cmake gl localbase:ldflags xorg
 USE_GITHUB=	yes
 GH_ACCOUNT=	raysan5
-USE_LDCONFIG=	yes
 USE_GL=		gl glu
-USE_XORG=	ice sm x11 xcursor xext xrandr xi xinerama xxf86vm
+USE_LDCONFIG=	yes
+USE_XORG=	ice sm x11 xcursor xext xi xinerama xrandr xxf86vm
 
 CMAKE_ON=	SHARED USE_EXTERNAL_GLFW
-CMAKE_OFF=	STATIC BUILD_EXAMPLES BUILD_GAMES
+CMAKE_OFF=	BUILD_EXAMPLES BUILD_GAMES STATIC
 
-PLIST_FILES=	include/raylib.h \
-		lib/cmake/raylib/raylib-config-version.cmake \
-		lib/cmake/raylib/raylib-config.cmake \
-		lib/libraylib.so \
-		lib/libraylib.so.${DISTVERSION} \
-		lib/libraylib.so.301 \
-		libdata/pkgconfig/raylib.pc
+PLIST_FILES=    include/raylib.h \
+                include/rlgl.h \
+                include/raymath.h \
+                include/physac.h \
+                include/raudio.h \
+                lib/cmake/raylib/raylib-config-version.cmake \
+                lib/cmake/raylib/raylib-config.cmake \
+                lib/libraylib.so \
+                lib/libraylib.so.${DISTVERSION} \
+                lib/libraylib.so.301 \
+                libdata/pkgconfig/raylib.pc
 
-.include <bsd.port.pre.mk>
+post-extract:
+        # Remove bundled files.
+        @${RM} -r ${WRKSRC}/src/external/glfw ${WRKSRC}/src/external/include ${WRKSRC}/src/rglfw.c
 
-.if ${ARCH} == powerpc64
-USE_GCC=	any
-.endif
+pre-install:
+        # Install all parts for raylib
+        @${CP}  ${WRKSRC}/src/raylib.h  \
+                ${WRKSRC}/src/raudio.h  \
+                ${WRKSRC}/src/rlgl.h    \
+                ${WRKSRC}/src/raymath.h \
+                ${WRKSRC}/src/physac.h  \
+                ${STAGEDIR}${PREFIX}/include
 
-post-extract: # remove bundled files
-	@${RM} -r ${WRKSRC}/src/external/glfw ${WRKSRC}/src/external/include ${WRKSRC}/src/rglfw.c
 
-.include <bsd.port.post.mk>
+.include <bsd.port.mk>
