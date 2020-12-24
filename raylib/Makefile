@@ -5,7 +5,7 @@ DISTVERSION=	3.0.0
 PORTREVISION=	1
 CATEGORIES=	devel education
 
-MAINTAINER=	freebsd@sysctl.cz
+MAINTAINER=	maintainer@email.com
 COMMENT=	Library to learn videogames programming
 
 LICENSE=	ZLIB
