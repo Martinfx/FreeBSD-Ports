@@ -33,7 +33,7 @@ USES=		pkgconfig python:3.7+ qmake qt:5 compiler:c++17-lang shebangfix desktop-f
 USE_GITHUB=	yes
 GH_ACCOUNT=	NatronGitHub
 GH_PROJECT=	Natron
-GH_TAGNAME=	e7604bb
+GH_TAGNAME=	feb2eeb
 GH_TUPLE=	NatronGitHub:openfx:a85dc34:openfx/libs/OpenFX \
 		NatronGitHub:google-test:50d6fc3:google_test/Tests/google-test \
 		NatronGitHub:google-mock:17945db:google_mock/Tests/google-mock \
