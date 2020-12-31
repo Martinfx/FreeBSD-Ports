@@ -1,4 +1,4 @@
---- Engine/NatronEngine/natronengine_python.h.orig	2020-10-30 05:13:34 UTC
+--- Engine/NatronEngine/natronengine_python.h.orig	2020-12-09 21:16:43 UTC
 +++ Engine/NatronEngine/natronengine_python.h
 @@ -4,22 +4,12 @@
  #define SBK_NATRONENGINE_PYTHON_H
