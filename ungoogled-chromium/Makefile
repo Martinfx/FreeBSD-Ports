@@ -1,7 +1,7 @@
 # $FreeBSD$
 
 PORTNAME=	ungoogled-chromium
-DISTVERSION=	80.0.3987.87-2
+DISTVERSION=	87.0.4280.88-1
 CATEGORIES=	www
 
 MAINTAINER=	maintainer@email.com
@@ -14,24 +14,22 @@ USE_GITHUB=	yes
 GH_PROJECT=	${PORTNAME}
 GH_ACCOUNT=	Eloston
 
-
 #.if defined(GN_ONLY)
 #USES=		compiler:c++14-lang dos2unix localbase:ldflags ninja pkgconfig \
 #		python:3.7,build shebangfix tar:xz
 #.else
-USES=		bison cpe desktop-file-utils dos2unix gl gnome jpeg localbase:ldflags \
+USES=		bison cpe desktop-file-utils gl gnome jpeg localbase:ldflags \
 		ninja perl5 pkgconfig python:3.7,build shebangfix tar:xz xorg
 #.endif
 
-
-#USE_LDCONFIG=	${DATADIR}
 USE_XORG=	x11 xcb xcomposite xcursor xext xdamage xfixes xi \
 		xorgproto xrandr xrender xscrnsaver xtst
 USE_GL=		gl
 
-MAKE_ARGS=	-C out/Default
+#MAKE_ARGS=	-C out/Default
+MAKE_ARGS=	-C out/Release
 BINARY_ALIAS=	python=${PYTHON_CMD}
-
+SHEBANG_FILES=  ${WRKSRC}/build/src
 
 # OS "target_os == is_bsd"
 GN_ARGS+=	clang_use_chrome_plugins=false		\
@@ -79,6 +77,25 @@ GN_ARGS+=	clang_use_chrome_plugins=false		\
 
 GN_BOOTSTRAP_FLAGS=	--no-clean --no-rebuild --skip-generate-buildfiles
 
+.if defined(WITH_DEBUG)
+DEBUG_VARS=             BUILDTYPE=Debug \
+                        GN_ARGS+=is_debug=true \
+                        GN_ARGS+=is_component_build=false \
+                        GN_ARGS+=symbol_level=1 \
+                        GN_BOOTSTRAP_FLAGS+=--debug \
+                        WANTSPACE="lots of free disk space (~ 13GB)"
+.else
+DEBUG_VARS_OFF=         BUILDTYPE=Release \
+                        GN_ARGS+=blink_symbol_level=0 \
+                        GN_ARGS+=is_debug=false \
+                        GN_ARGS+=is_official_build=true \
+                        GN_ARGS+=symbol_level=0 \
+                        WANTSPACE="a fair amount of free disk space (~ 6.5GB)"
+.endif
+
+.include <bsd.port.options.mk>
+
+
 pre-everything::
 	@${ECHO_MSG}
 	@${ECHO_MSG} "To build Chromium, you should have around 2GB of memory"
@@ -89,21 +106,30 @@ pre-everything::
 post-extract:
 	cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${MKDIR} build/download_cache \
 	&& ${PYTHON_CMD} ./utils/downloads.py retrieve -c build/download_cache -i downloads.ini \
-	&& ./utils/downloads.py unpack -c build/download_cache -i downloads.ini -- build/src
+	&& ${PYTHON_CMD} ./utils/downloads.py unpack -c build/download_cache -i downloads.ini -- build/src
 
-post-patch:
-	# cd ${WRKSRC} && ${PYTHON_CMD} \
-	#./build/linux/unbundle/remove_bundled_libraries.py [list of preserved]
+pre-patch:
 	cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${MKDIR} build/download_cache \
-	&& ${PYTHON_CMD} utils/prune_binaries.py build/src pruning.list          \
-	&& ${PYTHON_CMD} utils/patches.py apply build/src patches                \
-	&& ${PYTHON_CMD} utils/domain_substitution.py apply -r domain_regex.list -f domain_substitution.list -c build/domsubcache.tar.gz build/src
+	&& ${PYTHON_CMD} ./utils/prune_binaries.py build/src pruning.list
 
-do-configure:
+#post-patch:
+#	&& ${PYTHON_CMD} ./utils/patches.py apply build/src patches \
+#	&& ${PYTHON_CMD} ./utils/domain_substitution.py apply -r domain_regex.list -f domain_substitution.list -c build/domsubcache.tar.gz build/src
+
+#do-configure:
+do-build:
 	# GN generator bootstrapping and generating ninja files
-	cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} CC=${CC} CXX=${CXX} LD=${CXX} \
-	${MKDIR} build/src/out/Default && cd build/src                           \
-	${PYTHON_CMD} ./out/Default/gn gen out/Default --fail-on-unused-args     \
-	${PYTHON_CMD} tools/gn/bootstrap/bootstrap.py --skip-generate-buildfiles -o out/Default/
+	cd ${WRKSRC}/build/src && ${SETENV} ${CONFIGURE_ENV} CC=${CC} CXX=${CXX} \
+	${PYTHON_CMD} ./tools/gn/bootstrap/bootstrap.py -o out/Release/gn gen out/Default
+
+#	cd ${WRKSRC}/build/src && ${SETENV} ${CONFIGURE_ENV} ./out/Release/gn \
+#	gen --args='${GN_ARGS}' out/Release
+
+#	cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} CC=${CC} CXX=${CXX} \
+#		&& ${MKDIR} build/src/out/Default \
+#		&& ${CD} build/src \
+#		&& ${PYTHON_CMD} ./tools/gn/bootstrap/bootstrap.py -o out/Default/
+#
+#		&& ${PYTHON_CMD} ./out/Default/gn gen out/Default
 
 .include <bsd.port.mk>
