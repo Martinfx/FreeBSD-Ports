@@ -205,18 +205,14 @@ pre-everything::
 	@${ECHO_MSG}
 
 post-extract:
-	cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${MKDIR} build/download_cache \
-	&& ${PYTHON_CMD} ./utils/downloads.py retrieve -c build/download_cache -i downloads.ini \
-	&& ${PYTHON_CMD} ./utils/downloads.py unpack -c build/download_cache -i downloads.ini -- build/src
+	cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${BASH} ${MKDIR}  build/download_cache \
+	&& ${PYTHON_CMD} ./ungoogled-chromium/utils/downloads.py retrieve -c build/download_cache -i ungoogled-chromium/downloads.ini \
+	&& ${PYTHON_CMD} ./ungoogled-chromium/utils/downloads.py unpack -c build/download_cache -i ungoogled-chromium/downloads.ini -- build/src \
+	&& ${PYTHON_CMD} ./ungoogled-chromium/utils/prune_binaries.py build/src ungoogled-chromium/pruning.list \
+	&& ${PYTHON_CMD} ./ungoogled-chromium/utils/patches.py apply build/src patches \
+	&& ${PYTHON_CMD} ./ungoogled-chromium/utils/domain_substitution.py apply -r ungoogled-chromium/domain_regex.list -f ungoogled-chromium/domain_substitution.list -c ungoogled-chromium/domsubcache.tar.gz build/src
 
-
-pre-patch:
-	cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${MKDIR} build/download_cache \
-	&& ${PYTHON_CMD} ./utils/prune_binaries.py build/src pruning.list \
-#	&& ${PYTHON_CMD} ./utils/patches.py apply build/src patches \
-	&& ${PYTHON_CMD} ./utils/domain_substitution.py apply -r domain_regex.list -f domain_substitution.list -c build/domsubcache.tar.gz build/src
-
-pre-configure:
+do-configure:
 	cd ${WRKSRC}/build/src && ${SETENV} ${CONFIGURE_ENV} CC=${CC} CXX=${CXX} ${PYTHON_CMD} \
 	./build/linux/unbundle/replace_gn_files.py --system-libraries \
 		ffmpeg flac fontconfig freetype harfbuzz-ng libdrm libpng libwebp libxml libxslt openh264 opus snappy || ${FALSE}
@@ -229,7 +225,6 @@ pre-configure:
 	${CP} ${PYTHONBASE}/lib/python${PYTHON_DEFAULT}/site-packages/xcbgen/*.py \
 		${WRKDIR}/site-packages/xcbgen
 
-do-configure:
 	# GN generator bootstrapping and generating ninja files
 	cd ${WRKSRC}/build/src && ${SETENV} ${CONFIGURE_ENV} CC=${CC} CXX=${CXX} LD=${CXX} \
 		READELF=${READELF} AR=${AR} NM=${NM} ${PYTHON_CMD} \
