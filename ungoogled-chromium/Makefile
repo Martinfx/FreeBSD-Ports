@@ -11,8 +11,18 @@ LICENSE=	BSD3CLAUSE
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
 USE_GITHUB=	yes
-GH_PROJECT=	${PORTNAME}
-GH_ACCOUNT=	Eloston
+GH_PROJECT=	${PORTNAME}-freebsd
+#GH_ACCOUNT=	Eloston
+GH_ACCOUNT=	MartinFx
+GH_TAGNAME=	3d03e6c
+
+.if defined(GN_ONLY)
+USES=		compiler:c++14-lang localbase:ldflags ninja pkgconfig \
+		python:3.7,build shebangfix tar:xz
+.else
+USES=		bison cpe desktop-file-utils gl gnome jpeg localbase:ldflags \
+		ninja perl5 pkgconfig python:3.7,build shebangfix tar:xz xorg
+.endif
 
 #BUILD_DEPENDS=	bash:shells/bash \
 #		${PYTHON_PKGNAMEPREFIX}Jinja2>0:devel/py-Jinja2@${PY_FLAVOR} \
@@ -65,18 +75,10 @@ LIB_DEPENDS=	libatk-bridge-2.0.so:accessibility/at-spi2-atk \
 RUN_DEPENDS=	xdg-open:devel/xdg-utils \
 		noto-basic>0:x11-fonts/noto-basic
 
-BROKEN_FreeBSD_11_aarch64=	components/safe_browsing_db/v4_rice.cc:120:18: use of overloaded operator '&' is ambiguous
+#BROKEN_FreeBSD_11_aarch64=	components/safe_browsing_db/v4_rice.cc:120:18: use of overloaded operator '&' is ambiguous
 ONLY_FOR_ARCHS=			aarch64 amd64 i386
-
 .endif
 
-.if defined(GN_ONLY)
-USES=		compiler:c++14-lang dos2unix localbase:ldflags ninja pkgconfig \
-		python:3.7,build shebangfix tar:xz
-.else
-USES=		bison cpe desktop-file-utils dos2unix gl gnome jpeg localbase:ldflags \
-		ninja perl5 pkgconfig python:3.7,build shebangfix tar:xz xorg
-.endif
 
 BINARY_ALIAS=	python=${PYTHON_CMD}
 #DOS2UNIX_FILES=	third_party/skia/third_party/vulkanmemoryallocator/include/vk_mem_alloc.h
@@ -96,39 +98,38 @@ INSTALLS_ICONS=	yes
 
 .endif
 
-GN_ARGS+=	enable_hangout_services_extension=false \
-		enable_mdns=false			\
-		enable_mse_mpeg2ts_stream_parser=true	\
-		enable_nacl=false					\
-		enable_nacl_nonsfi=false				\
-		enable_one_click_signin=false				\
-		enable_reading_list=false				\
-		enable_remoting=false					\
-		enable_reporting=false					\
-		enable_service_discovery=false				\
-		enable_widevine=true					\
-		exclude_unwind_tables=true				\
-		fieldtrial_testing_like_official_build=true \
-		google_api_key=""			\
-		google_default_client_id=""		\
-		google_default_client_secret=""		\
-		optimize_webui=false			\
-		safe_browsing_mode=0			\
-		treat_warnings_as_errors=false		\
-		use_official_google_api_keys=false	\
-		use_unofficial_version_number=false	\
-		fieldtrial_testing_like_official_build=true \
-		is_clang=true				\
-		jumbo_file_merge_limit=8 		\
-		toolkit_views=true 			\
-		treat_warnings_as_errors=false		\
-		use_allocator="none" 			\
-/		use_allocator_shim=false		\
-		use_lld=true 				\
-		use_sysroot=false
+#GN_ARGS+=	enable_hangout_services_extension=false \
+#		enable_mdns=false			\
+#		enable_mse_mpeg2ts_stream_parser=true	\
+#		enable_nacl=false					\
+#		enable_nacl_nonsfi=false				\
+#		enable_one_click_signin=false				\
+#		enable_reading_list=false				\
+#		enable_remoting=false					\
+#		enable_reporting=false					\
+#		enable_service_discovery=false				\
+#		enable_widevine=true					\
+#		exclude_unwind_tables=true				\
+#		fieldtrial_testing_like_official_build=true \
+#		google_api_key=""			\
+#		google_default_client_id=""		\
+#		google_default_client_secret=""		\
+#		optimize_webui=false			\
+#		safe_browsing_mode=0			\
+#		treat_warnings_as_errors=false		\
+#		use_official_google_api_keys=false	\
+#		use_unofficial_version_number=false	\
+#		fieldtrial_testing_like_official_build=true \
+#		is_clang=true				\
+#		jumbo_file_merge_limit=8 		\
+#		toolkit_views=true 			\
+#		treat_warnings_as_errors=false		\
+#		use_allocator="none" 			\
+#		use_allocator_shim=false		\
+#		use_lld=true 				\
+#		use_sysroot=false
 
-
-MAKE_ARGS=      -C out/${BUILDTYPE}
+MAKE_ARGS=	-C out/${BUILDTYPE}
 GN_BOOTSTRAP_FLAGS=	--no-clean --no-rebuild --skip-generate-buildfiles
 
 GN_ARGS+=	google_api_key="AIzaSyBsp9n41JLW8jCokwn7vhoaMejDFRd1mp8" \
@@ -163,14 +164,14 @@ CUPS_LIB_DEPENDS=	libcups.so:print/cups
 CUPS_VARS=		GN_ARGS+=use_cups=true
 CUPS_VARS_OFF=		GN_ARGS+=use_cups=false
 
-DEBUG_VARS=             BUILDTYPE=Debug \
-                        GN_ARGS+=is_debug=true \
-	                GN_ARGS+=is_component_build=false \
-                       GN_ARGS+=symbol_level=1 \
-                        GN_BOOTSTRAP_FLAGS+=--debug \
-                        WANTSPACE="lots of free disk space (~ 13GB)"
+DEBUG_VARS=		BUILDTYPE=Debug \
+			GN_ARGS+=is_debug=true \
+			GN_ARGS+=is_component_build=false \
+			GN_ARGS+=symbol_level=1 \
+			GN_BOOTSTRAP_FLAGS+=--debug \
+			WANTSPACE="lots of free disk space (~ 13GB)"
 
-DEBUG_VARS_OFF=         BUILDTYPE=Release \
+DEBUG_VARS_OFF=		BUILDTYPE=Release \
                         GN_ARGS+=blink_symbol_level=0 \
                         GN_ARGS+=is_debug=false \
                         GN_ARGS+=is_official_build=true \
@@ -198,11 +199,14 @@ SNDIO_VARS_OFF=		GN_ARGS+=use_sndio=false
 
 .include <bsd.port.options.mk>
 
-pre-everything::
-	@${ECHO_MSG}
-	@${ECHO_MSG} "To build Chromium, you should have around 2GB of memory"
-	@${ECHO_MSG} "and ${WANTSPACE}."
-	@${ECHO_MSG}
+#pre-extract:
+#	cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${BASH} ./build.sh
+
+#pre-everything::
+#	@${ECHO_MSG}
+#	@${ECHO_MSG} "To build Chromium, you should have around 2GB of memory"
+#	@${ECHO_MSG} "and ${WANTSPACE}."
+#	@${ECHO_MSG}
 
 post-extract:
 	cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${BASH} ${MKDIR}  build/download_cache \
@@ -213,26 +217,49 @@ post-extract:
 	&& ${PYTHON_CMD} ./ungoogled-chromium/utils/domain_substitution.py apply -r ungoogled-chromium/domain_regex.list -f ungoogled-chromium/domain_substitution.list -c ungoogled-chromium/domsubcache.tar.gz build/src
 
 do-configure:
-	cd ${WRKSRC}/build/src && ${SETENV} ${CONFIGURE_ENV} CC=${CC} CXX=${CXX} ${PYTHON_CMD} \
-	./build/linux/unbundle/replace_gn_files.py --system-libraries \
-		ffmpeg flac fontconfig freetype harfbuzz-ng libdrm libpng libwebp libxml libxslt openh264 opus snappy || ${FALSE}
+	cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} CC=${CC} CXX=${CXX} ${BASH} \
+	 ./build2.sh
 
-	# We need the site package from xcbgen, which installs as python3.x (really: default version), while the chromium
-	# build still needs to use python2.7. It works, because xcbgen can run with both versions, but we want to avoid
-	# having the pre-compiled pyc files from 2.7 in the 3.x site packages
-	# Remove this as soon as chromium uses python3.x as well
-	@${MKDIR} ${WRKDIR}/site-packages/xcbgen
-	${CP} ${PYTHONBASE}/lib/python${PYTHON_DEFAULT}/site-packages/xcbgen/*.py \
-		${WRKDIR}/site-packages/xcbgen
 
+##pre-configure:
+##	cd ${WRKSRC}/build/src && ${SETENV} ${CONFIGURE_ENV} CC=${CC} CXX=${CXX} ${PYTHON_CMD} \
+##		./build/linux/unbundle/replace_gn_files.py --system-libraries \
+##		ffmpeg flac fontconfig freetype harfbuzz-ng libdrm libpng libwebp libxml libxslt openh264 opus snappy || ${FALSE}
+
+
+
+	#@${MKDIR} ${WRKDIR}/site-packages/xcbgen
+	#${CP} ${PYTHONBASE}/lib/python${PYTHON_DEFAULT}/site-packages/xcbgen/*.py \
+	#	${WRKDIR}/site-packages/xcbgen
+
+#post-configure:
+##	cd ${WRKSRC}/build/src && ${SETENV} ${CONFIGURE_ENV} CC=${CC} CXX=${CXX} LD=${CXX} \
+##		READELF=${READELF} AR=${AR} NM=${NM} ${PYTHON_CMD} \
+##		./tools/gn/bootstrap/bootstrap.py ${GN_BOOTSTRAP_FLAGS} --skip-generate-buildfiles -o out/${BUILDTYPE}
+##
+#3	${CP} ${WRKSRC}/ungoogled-chromium/flags.gn ${WRKSRC}/build/src/out/${BUILDTYPE}/args.gn
+##
+##do-configure:
 	# GN generator bootstrapping and generating ninja files
-	cd ${WRKSRC}/build/src && ${SETENV} ${CONFIGURE_ENV} CC=${CC} CXX=${CXX} LD=${CXX} \
-		READELF=${READELF} AR=${AR} NM=${NM} ${PYTHON_CMD} \
-		./tools/gn/bootstrap/bootstrap.py
+#.if !defined(GN_ONLY)
+##	cd ${WRKSRC}/build/src && ${SETENV} ${CONFIGURE_ENV} ${PYTHON_CMD}  \
+##		./out/${BUILDTYPE}/gn gen out/${BUILDTYPE}
 
-	cd ${WRKSRC}/build/src && ${SETENV} ${CONFIGURE_ENV} \
-		./out/${BUILDTYPE}/gn gen .
+	# Setup nodejs dependency
+#	@${MKDIR} ${WRKSRC}/third_party/node/freebsd/node-freebsd-x64/bin
+#	${LN} -sf ${LOCALBASE}/bin/node ${WRKSRC}/third_party/node/freebsd/node-freebsd-x64/bin/node
 
+	# Setup java dependency on amd64 and i386
+#.if ${ARCH} == amd64 || ${ARCH} == i386
+#	@${MKDIR} ${WRKDIR}/bin
+#	${LN} -sf ${LOCALBASE}/openjdk8/bin/java ${WRKDIR}/bin/java
+#.endif
 
+#do-build:
+	# Setup buildtools/freebsd
+	#@${MKDIR} ${WRKSRC}/buildtools/freebsd
+	#${LN} -sf ${WRKSRC}/build/src/buildtools/linux64/clang-format ${WRKSRC}/build/src/buildtools/freebsd
+	#${LN} -sf ${WRKSRC}/build/src/out/${BUILDTYPE}/gn ${WRKSRC}/build/src/buildtools/freebsd
+#.endif
 
 .include <bsd.port.mk>
