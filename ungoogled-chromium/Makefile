@@ -230,12 +230,9 @@ do-configure:
 		READELF=${READELF} AR=${AR} NM=${NM} ${PYTHON_CMD} \
 		./tools/gn/bootstrap/bootstrap.py
 
-#if !defined(GN_ONLY)
-
 	cd ${WRKSRC}/build/src && ${SETENV} ${CONFIGURE_ENV} \
 		./out/${BUILDTYPE}/gn gen .
-#.endif
 
-#do-install:
+
 
 .include <bsd.port.mk>
