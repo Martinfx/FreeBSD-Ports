@@ -14,7 +14,7 @@ USE_GITHUB=	yes
 GH_PROJECT=	${PORTNAME}-freebsd
 #GH_ACCOUNT=	Eloston
 GH_ACCOUNT=	MartinFx
-GH_TAGNAME=	3d03e6c
+GH_TAGNAME=	8e380a7
 
 .if defined(GN_ONLY)
 USES=		compiler:c++14-lang localbase:ldflags ninja pkgconfig \
@@ -41,7 +41,8 @@ BUILD_DEPENDS+=	gperf:devel/gperf \
 .endif
 
 .if !defined(GN_ONLY)
-LIB_DEPENDS=	libatk-bridge-2.0.so:accessibility/at-spi2-atk \
+LIB_DEPENDS=	libatk-1.0.so.0:accessibility/atk \
+		libatk-bridge-2.0.so:accessibility/at-spi2-atk \
 		libatspi.so:accessibility/at-spi2-core \
 		libspeechd.so:accessibility/speech-dispatcher \
 		libsnappy.so:archivers/snappy \
@@ -75,6 +76,11 @@ LIB_DEPENDS=	libatk-bridge-2.0.so:accessibility/at-spi2-atk \
 RUN_DEPENDS=	xdg-open:devel/xdg-utils \
 		noto-basic>0:x11-fonts/noto-basic
 
+WAYLAND_BUILD_DEPENDS=	wayland-protocols>0:graphics/wayland-protocols
+WAYLAND_LIB_DEPENDS=	libepoll-shim.so:devel/libepoll-shim \
+			libwayland-client.so:graphics/wayland \
+			libxkbcommon.so:x11/libxkbcommon
+
 #BROKEN_FreeBSD_11_aarch64=	components/safe_browsing_db/v4_rice.cc:120:18: use of overloaded operator '&' is ambiguous
 ONLY_FOR_ARCHS=			aarch64 amd64 i386
 .endif
@@ -95,49 +101,57 @@ USE_GNOME=	atk dconf glib20 gtk30 libxml2 libxslt
 #SHEBANG_FILES=	chrome/tools/build/linux/chrome-wrapper buildtools/linux64/clang-format
 ALL_TARGET=	chrome
 INSTALLS_ICONS=	yes
-
 .endif
 
-#GN_ARGS+=	enable_hangout_services_extension=false \
-#		enable_mdns=false			\
-#		enable_mse_mpeg2ts_stream_parser=true	\
-#		enable_nacl=false					\
-#		enable_nacl_nonsfi=false				\
-#		enable_one_click_signin=false				\
-#		enable_reading_list=false				\
-#		enable_remoting=false					\
-#		enable_reporting=false					\
-#		enable_service_discovery=false				\
-#		enable_widevine=true					\
-#		exclude_unwind_tables=true				\
-#		fieldtrial_testing_like_official_build=true \
-#		google_api_key=""			\
-#		google_default_client_id=""		\
-#		google_default_client_secret=""		\
-#		optimize_webui=false			\
-#		safe_browsing_mode=0			\
-#		treat_warnings_as_errors=false		\
-#		use_official_google_api_keys=false	\
-#		use_unofficial_version_number=false	\
-#		fieldtrial_testing_like_official_build=true \
-#		is_clang=true				\
-#		jumbo_file_merge_limit=8 		\
-#		toolkit_views=true 			\
-#		treat_warnings_as_errors=false		\
-#		use_allocator="none" 			\
-#		use_allocator_shim=false		\
-#		use_lld=true 				\
-#		use_sysroot=false
+GN_ARGS+=	enable_hangout_services_extension=false \
+		enable_mdns=false			\
+		enable_mse_mpeg2ts_stream_parser=true	\
+		enable_nacl=false					\
+		enable_nacl_nonsfi=false				\
+		enable_one_click_signin=false				\
+		enable_reading_list=false				\
+		enable_remoting=false					\
+		enable_reporting=false					\
+		enable_service_discovery=false				\
+		enable_widevine=true					\
+		exclude_unwind_tables=true				\
+		fieldtrial_testing_like_official_build=true \
+		google_api_key=""			\
+		google_default_client_id=""		\
+		google_default_client_secret=""		\
+		optimize_webui=false			\
+		safe_browsing_mode=0			\
+		treat_warnings_as_errors=false		\
+		use_official_google_api_keys=false	\
+		use_unofficial_version_number=false	\
+		fieldtrial_testing_like_official_build=true \
+		is_clang=true				\
+		jumbo_file_merge_limit=8 		\
+		toolkit_views=true 			\
+		treat_warnings_as_errors=false		\
+		use_allocator="none" 			\
+		use_allocator_shim=false		\
+		use_lld=true 				\
+		use_sysroot=false
 
 MAKE_ARGS=	-C out/${BUILDTYPE}
+MAKE_ENV+=	C_INCLUDE_PATH=${LOCALBASE}/include \
+		CPLUS_INCLUDE_PATH=${LOCALBASE}/include
+
 GN_BOOTSTRAP_FLAGS=	--no-clean --no-rebuild --skip-generate-buildfiles
 
 GN_ARGS+=	google_api_key="AIzaSyBsp9n41JLW8jCokwn7vhoaMejDFRd1mp8" \
 		google_default_client_id="996322985003.apps.googleusercontent.com" \
 				google_default_client_secret="IR1za9-1VK0zZ0f_O8MVFicn"
 
-#if !defined(GN_ONLY)
-#SUB_FILES=	chromium-browser.desktop chrome
+# Make better javascript with java
+JAVA_BUILD=	yes
+JAVA_VERSION=	1.8
+USE_JAVA=	yes
+
+
+.if !defined(GN_ONLY)
+SUB_FILES=	chrome
 SUB_LIST+=	COMMENT="${COMMENT}"
 
 OPTIONS_DEFINE=	CODECS CUPS DEBUG DRIVER KERBEROS TEST
@@ -168,14 +182,26 @@ DEBUG_VARS=		BUILDTYPE=Debug \
 			GN_ARGS+=is_debug=true \
 			GN_ARGS+=is_component_build=false \
 			GN_ARGS+=symbol_level=1 \
+			GN_ARGS+=closure_compile=false \
 			GN_BOOTSTRAP_FLAGS+=--debug \
 			WANTSPACE="lots of free disk space (~ 13GB)"
 
 DEBUG_VARS_OFF=		BUILDTYPE=Release \
                         GN_ARGS+=blink_symbol_level=0 \
+                        GN_ARGS+=closure_compile=false \
+#                        GN_ARGS+=use_custom_libcxx=false \
+#                        GN_ARGS+=use_gnome_keyring=false \
+#                        GN_ARGS+=use_lld=true \
                         GN_ARGS+=is_debug=false \
-                        GN_ARGS+=is_official_build=true \
+                        GN_ARGS+=is_official_build=false \
                         GN_ARGS+=symbol_level=0 \
+#                        GN_ARGS+=is_clang=true \
+#                        GN_ARGS+=use_sysroot=false \
+#                        GN_ARGS+=use_system_freetype=true \
+#						GN_ARGS+=use_system_harfbuzz=true \
+#						GN_ARGS+=use_system_libjpeg=true \
+#						GN_ARGS+=extra_cxxflags="${CXXFLAGS}" \
+#						GN_ARGS+=extra_ldflags="${LDFLAGS}" \
                         WANTSPACE="a fair amount of free disk space (~ 6.5GB)"
 
 DRIVER_MAKE_ARGS=	chromedriver
@@ -194,13 +220,9 @@ SNDIO_PREVENTS=		ALSA PULSEAUDIO
 SNDIO_LIB_DEPENDS=	libsndio.so:audio/sndio
 SNDIO_VARS=		GN_ARGS+=use_sndio=true
 SNDIO_VARS_OFF=		GN_ARGS+=use_sndio=false
-
-#.endif
+.endif
 
 .include <bsd.port.options.mk>
-
-#pre-extract:
-#	cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${BASH} ./build.sh
 
 #pre-everything::
 #	@${ECHO_MSG}
@@ -209,41 +231,51 @@ SNDIO_VARS_OFF=		GN_ARGS+=use_sndio=false
 #	@${ECHO_MSG}
 
 post-extract:
-	cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${BASH} ${MKDIR}  build/download_cache \
+	cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${BASH} ${MKDIR} build/download_cache \
 	&& ${PYTHON_CMD} ./ungoogled-chromium/utils/downloads.py retrieve -c build/download_cache -i ungoogled-chromium/downloads.ini \
 	&& ${PYTHON_CMD} ./ungoogled-chromium/utils/downloads.py unpack -c build/download_cache -i ungoogled-chromium/downloads.ini -- build/src \
 	&& ${PYTHON_CMD} ./ungoogled-chromium/utils/prune_binaries.py build/src ungoogled-chromium/pruning.list \
 	&& ${PYTHON_CMD} ./ungoogled-chromium/utils/patches.py apply build/src patches \
-	&& ${PYTHON_CMD} ./ungoogled-chromium/utils/domain_substitution.py apply -r ungoogled-chromium/domain_regex.list -f ungoogled-chromium/domain_substitution.list -c ungoogled-chromium/domsubcache.tar.gz build/src
+	&& ${PYTHON_CMD} ./ungoogled-chromium/utils/domain_substitution.py apply -r ungoogled-chromium/domain_regex.list -f ungoogled-chromium/domain_substitution.list -c domsubcache.tar.gz build/src
 
-do-configure:
+pre-configure:
+	${CP} ${WRKSRC}/ungoogled-chromium/flags.gn ${WRKSRC}/build/src/out/${BUILDTYPE}/args.gn
+
+	# Setup nodejs dependency
+	@${MKDIR} ${WRKSRC}/third_party/node/freebsd/node-freebsd-x64/bin
+	${LN} -sf ${LOCALBASE}/bin/node ${WRKSRC}/third_party/node/freebsd/node-freebsd-x64/bin/node
+
+	# Setup java dependency on amd64 and i386
+.if ${ARCH} == amd64 || ${ARCH} == i386
+	@${MKDIR} ${WRKDIR}/bin
+	${LN} -sf ${LOCALBASE}/openjdk8/bin/java ${WRKDIR}/bin/java
+.endif
+
 	cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} CC=${CC} CXX=${CXX} ${BASH} \
 	 ./build2.sh
 
 
-##pre-configure:
-##	cd ${WRKSRC}/build/src && ${SETENV} ${CONFIGURE_ENV} CC=${CC} CXX=${CXX} ${PYTHON_CMD} \
-##		./build/linux/unbundle/replace_gn_files.py --system-libraries \
-##		ffmpeg flac fontconfig freetype harfbuzz-ng libdrm libpng libwebp libxml libxslt openh264 opus snappy || ${FALSE}
-
-
+#pre-configure:
+#	cd ${WRKSRC}/build/src && ${SETENV} ${CONFIGURE_ENV} CC=${CC} CXX=${CXX} ${PYTHON_CMD} \
+#		./build/linux/unbundle/replace_gn_files.py --system-libraries \
+#		ffmpeg flac fontconfig freetype harfbuzz-ng libdrm libpng libwebp libxml libxslt openh264 opus snappy || ${FALSE}
 
 	#@${MKDIR} ${WRKDIR}/site-packages/xcbgen
 	#${CP} ${PYTHONBASE}/lib/python${PYTHON_DEFAULT}/site-packages/xcbgen/*.py \
 	#	${WRKDIR}/site-packages/xcbgen
 
 #post-configure:
-##	cd ${WRKSRC}/build/src && ${SETENV} ${CONFIGURE_ENV} CC=${CC} CXX=${CXX} LD=${CXX} \
-##		READELF=${READELF} AR=${AR} NM=${NM} ${PYTHON_CMD} \
-##		./tools/gn/bootstrap/bootstrap.py ${GN_BOOTSTRAP_FLAGS} --skip-generate-buildfiles -o out/${BUILDTYPE}
-##
-#3	${CP} ${WRKSRC}/ungoogled-chromium/flags.gn ${WRKSRC}/build/src/out/${BUILDTYPE}/args.gn
-##
-##do-configure:
+#	cd ${WRKSRC}/build/src && ${SETENV} ${CONFIGURE_ENV} CC=${CC} CXX=${CXX} LD=${CXX} \
+#		READELF=${READELF} AR=${AR} NM=${NM} ${PYTHON_CMD} \
+#		./tools/gn/bootstrap/bootstrap.py ${GN_BOOTSTRAP_FLAGS} --skip-generate-buildfiles -o out/${BUILDTYPE}
+#
+#	${CP} ${WRKSRC}/flags.gn ${WRKSRC}/build/src/out/${BUILDTYPE}/args.gn
+
+#do-configure:
 	# GN generator bootstrapping and generating ninja files
 #.if !defined(GN_ONLY)
-##	cd ${WRKSRC}/build/src && ${SETENV} ${CONFIGURE_ENV} ${PYTHON_CMD}  \
-##		./out/${BUILDTYPE}/gn gen out/${BUILDTYPE}
+#	cd ${WRKSRC}/build/src && ${SETENV} ${CONFIGURE_ENV} ${PYTHON_CMD}  \
+#		./out/${BUILDTYPE}/gn gen out/${BUILDTYPE}
 
 	# Setup nodejs dependency
 #	@${MKDIR} ${WRKSRC}/third_party/node/freebsd/node-freebsd-x64/bin
@@ -255,11 +287,11 @@ do-configure:
 #	${LN} -sf ${LOCALBASE}/openjdk8/bin/java ${WRKDIR}/bin/java
 #.endif
 
-#do-build:
+do-build:
 	# Setup buildtools/freebsd
-	#@${MKDIR} ${WRKSRC}/buildtools/freebsd
-	#${LN} -sf ${WRKSRC}/build/src/buildtools/linux64/clang-format ${WRKSRC}/build/src/buildtools/freebsd
-	#${LN} -sf ${WRKSRC}/build/src/out/${BUILDTYPE}/gn ${WRKSRC}/build/src/buildtools/freebsd
+#	@${MKDIR} ${WRKSRC}/buildtools/freebsd
+#	${LN} -sf ${WRKSRC}/build/src/buildtools/linux64/clang-format ${WRKSRC}/build/src/buildtools/freebsd
+#	${LN} -sf ${WRKSRC}/build/src/out/${BUILDTYPE}/gn ${WRKSRC}/build/src/buildtools/freebsd
 #.endif
 
 .include <bsd.port.mk>
