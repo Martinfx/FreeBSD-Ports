@@ -35,16 +35,17 @@
      "tar": "4.4.8",
      "testcheck": "1.0.0-rc.2",
      "tmp": "0.0.33",
-@@ -217,8 +215,6 @@
+@@ -217,8 +215,7 @@
      "core-js": "2.4.1",
      "cross-env": "5.2.0",
      "css-loader": "3.2.0",
 -    "electron": "8.5.2",
 -    "electron-builder": "22.3.6",
++    "electron-builder": "22.10.4",
      "electron-mocha": "8.1.1",
      "electron-notarize": "0.1.1",
      "eslint": "7.7.0",
-@@ -241,7 +237,7 @@
+@@ -241,7 +238,7 @@
      "jsdoc": "3.6.2",
      "mocha": "4.1.0",
      "mocha-testcheck": "1.0.0-rc.0",
@@ -53,7 +54,7 @@
      "node-sass-import-once": "1.2.0",
      "npm-run-all": "4.1.5",
      "nyc": "11.4.1",
-@@ -265,7 +261,7 @@
+@@ -265,7 +262,7 @@
      "@storybook/react/@storybook/core/node-fetch": "2.6.1"
    },
    "engines": {

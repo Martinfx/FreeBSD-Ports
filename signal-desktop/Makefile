@@ -43,9 +43,9 @@ pre-build:
 #	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} npm install -g node-gyp
 
 do-build:
-#	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} yarn add grunt icon-gen build:webpack
+#	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} yarn --verbose add grunt icon-gen build:webpack
 	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} yarn --verbose install
-#	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} yarn --verbose grunt
+	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} yarn --verbose grunt
 #	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} build:webpack
 
 do-test:
