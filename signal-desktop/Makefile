@@ -24,7 +24,7 @@ GH_ACCOUNT=	signalapp
 
 BUILD_DEPENDS=	zip:archivers/zip \
 		yarn:www/yarn \
-		vips:graphics/vips \
+		vips>=8.10.5:graphics/vips \
 #		electron${ELECTRON_VER_MAJOR}:devel/electron${ELECTRON_VER_MAJOR} \
 		${PYTHON_PKGNAMEPREFIX}xattr>0:devel/py-xattr@${PY_FLAVOR}
 
