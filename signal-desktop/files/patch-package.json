@@ -1,11 +1,64 @@
---- package.json.orig	2020-03-07 17:40:10 UTC
+--- package.json.orig	2021-01-13 18:54:01 UTC
 +++ package.json
-@@ -253,7 +253,7 @@
-     "webpack-dev-server": "3.8.0"
+@@ -1,4 +1,4 @@
+-{
++ {
+   "name": "signal-desktop",
+   "productName": "Signal",
+   "description": "Private messaging from your desktop",
+@@ -58,9 +58,7 @@
+     "verify": "run-p --print-label verify:*",
+     "verify:ts": "tsc --noEmit"
+   },
+-  "optionalDependencies": {
+-    "fs-xattr": "0.3.0"
+-  },
++  
+   "dependencies": {
+     "@journeyapps/sqlcipher": "https://github.com/scottnonnenberg-signal/node-sqlcipher.git#b10f232fac62ba7f8775c9e086bb5558fe7d948b",
+     "@sindresorhus/is": "0.8.0",
+@@ -102,7 +100,7 @@
+     "mustache": "2.3.0",
+     "node-fetch": "2.6.1",
+     "node-forge": "0.10.0",
+-    "node-gyp": "5.0.3",
++    "node-gyp": "7.1.2",
+     "normalize-path": "3.0.0",
+     "os-locale": "3.0.1",
+     "p-map": "2.1.0",
+@@ -140,7 +138,7 @@
+     "sanitize-filename": "1.6.3",
+     "sanitize.css": "11.0.0",
+     "semver": "5.4.1",
+-    "sharp": "0.23.0",
++    "sharp": "0.27.0",
+     "tar": "4.4.8",
+     "testcheck": "1.0.0-rc.2",
+     "tmp": "0.0.33",
+@@ -217,8 +215,6 @@
+     "core-js": "2.4.1",
+     "cross-env": "5.2.0",
+     "css-loader": "3.2.0",
+-    "electron": "8.5.2",
+-    "electron-builder": "22.3.6",
+     "electron-mocha": "8.1.1",
+     "electron-notarize": "0.1.1",
+     "eslint": "7.7.0",
+@@ -241,7 +237,7 @@
+     "jsdoc": "3.6.2",
+     "mocha": "4.1.0",
+     "mocha-testcheck": "1.0.0-rc.0",
+-    "node-sass": "4.14.1",
++    "node-sass": "5.0.0",
+     "node-sass-import-once": "1.2.0",
+     "npm-run-all": "4.1.5",
+     "nyc": "11.4.1",
+@@ -265,7 +261,7 @@
+     "@storybook/react/@storybook/core/node-fetch": "2.6.1"
    },
    "engines": {
 -    "node": "12.13.0"
-+    "node": "13.3.0"
++    "node": "15.5.1"
    },
    "build": {
      "appId": "org.whispersystems.signal-desktop",
