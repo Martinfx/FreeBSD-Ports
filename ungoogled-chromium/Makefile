@@ -1,5 +1,4 @@
-# Created by: Florent Thoumie <flz@FreeBSD.org>
-# $FreeBSD: head/www/chromium/Makefile 564211 2021-02-06 09:43:09Z rene $
+# $FreeBSD:$
 
 PORTNAME=	chromium
 PORTVERSION=	88.0.4324.96
@@ -8,14 +7,14 @@ MASTER_SITES=	https://commondatastorage.googleapis.com/chromium-browser-official
 		LOCAL/rene/chromium/:fonts
 DISTFILES=	${DISTNAME}${EXTRACT_SUFX}
 
-MAINTAINER=	chromium@FreeBSD.org
-COMMENT=	Google web browser based on WebKit
+MAINTAINER=	freebsd@sysctl.cz
+COMMENT=	Ungoogle web browser based on WebKit
 
 LICENSE=	BSD3CLAUSE LGPL21 MPL11
 LICENSE_COMB=	multi
 
-BROKEN_FreeBSD_11_aarch64=	components/safe_browsing_db/v4_rice.cc:120:18: use of overloaded operator '&' is ambiguous
-ONLY_FOR_ARCHS=			aarch64 amd64 i386
+#BROKEN_FreeBSD_11_aarch64=	components/safe_browsing_db/v4_rice.cc:120:18: use of overloaded operator '&' is ambiguous
+#ONLY_FOR_ARCHS=			aarch64 amd64 i386
 
 BUILD_DEPENDS=	bash:shells/bash \
 		${PYTHON_PKGNAMEPREFIX}Jinja2>0:devel/py-Jinja2@${PY_FLAVOR} \
@@ -65,8 +64,8 @@ LIB_DEPENDS=	libatk-bridge-2.0.so:accessibility/at-spi2-atk \
 RUN_DEPENDS=	xdg-open:devel/xdg-utils \
 		noto-basic>0:x11-fonts/noto-basic
 
-USES=		bison cpe compiler:c++17-lang desktop-file-utils dos2unix gl gnome jpeg localbase:ldflags \
-		ninja perl5 pkgconfig python:3.7,build shebangfix tar:xz xorg
+USES=		bison cpe desktop-file-utils dos2unix gl gnome jpeg localbase:ldflags \
+		ninja perl5 pkgconfig python:2.7,build shebangfix tar:xz xorg
 
 MAKE_ARGS=	-C out/${BUILDTYPE}
 BINARY_ALIAS=	python=${PYTHON_CMD}
@@ -97,18 +96,18 @@ GN_ARGS+=	clang_use_chrome_plugins=false \
 		enable_mdns=false \
 		enable_nacl=false \
 		enable_nacl_nonsfi=false \
-		enable_one_click_signin=false \
+		enable_one_click_signin=true \
 		enable_reading_list=false \
 		enable_remoting=false \
 		enable_reporting=false \
 		enable_js_type_check=false \
 		enable_mse_mpeg2ts_stream_parser=true \
 		enable_service_discovery=false \
-		enable_widevine=true \
+		enable_widevine=false \
 		exclude_unwind_tables=true \
-		safe_browsing_mode=0 \
+		safe_browsing_mode=1 \
 		treat_warnings_as_errors=false \
-		fieldtrial_testing_like_official_build=true \
+		fieldtrial_testing_like_official_build=false \
 		is_clang=true \
 		toolkit_views=true \
 		treat_warnings_as_errors=false \
