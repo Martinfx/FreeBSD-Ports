@@ -59,7 +59,7 @@ MOZ_OPTIONS=		--enable-application=browser \
 #			MOZ_SERVICES_HEALTHREPORT=0 \
 			MOZ_TELEMETRY_REPORTING=0
 
-.include "${.CURDIR}/../../www/firefox/Makefile.options"
+#.include "${.CURDIR}/../../www/firefox/Makefile.options"
 
 post-patch:
 	@${REINPLACE_CMD} -e 's/%u/%U/' -e '/X-MultipleArgs/d' \
@@ -67,6 +67,15 @@ post-patch:
 		${FIREFOX_DESKTOP}
 	@${REINPLACE_CMD} -e 's|%%LOCALBASE%%|${LOCALBASE}|g' \
 		${WRKSRC}/browser/app/nsBrowserApp.cpp
+
+	# Disable pocket
+	${SED} -e "s/'pocket'/#'pocket'/g" ${WRKSRC}/browser/components/moz.build
+	#
+	${SED} -e 's#SaveToPocket.init();#// SaveToPocket.init();#g' \
+			 ${WRKSRC}/browser/components/BrowserGlue.jsm
+	# allow SearchEngines option in non-ESR builds
+	${SED} -e 's#"enterprise_only": true,#"enterprise_only": false,#g' \
+			${WRKSRC}browser/components/enterprisepolicies/schemas/policies-schema.json
 
 pre-configure:
 	(cd ${WRKSRC} && ${LOCALBASE}/bin/autoconf-2.13)
