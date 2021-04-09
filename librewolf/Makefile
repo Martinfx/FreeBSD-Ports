@@ -75,7 +75,7 @@ post-patch:
 			 ${WRKSRC}/browser/components/BrowserGlue.jsm
 	# allow SearchEngines option in non-ESR builds
 	${SED} -e 's#"enterprise_only": true,#"enterprise_only": false,#g' \
-			${WRKSRC}browser/components/enterprisepolicies/schemas/policies-schema.json
+			${WRKSRC}/browser/components/enterprisepolicies/schemas/policies-schema.json
 
 pre-configure:
 	(cd ${WRKSRC} && ${LOCALBASE}/bin/autoconf-2.13)
