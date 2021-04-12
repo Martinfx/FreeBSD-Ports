@@ -2,15 +2,12 @@
 
 PORTNAME=	Signal-desktop
 DISTVERSIONPREFIX=	v
-DISTVERSION=	1.40.0
+DISTVERSION=	5.0.0
 DISTVERSIONSUFFIX=-beta.4
 CATEGORIES=	www
 
-#DISTFILES=	electron-yarn-cache-${ELECTRON_VER}${EXTRACT_SUFX}:prefetch
-
 MAINTAINER=	maintainer@email.com
 COMMENT=	Signal desktop application
-
 LICENSE=	GPLv3
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
@@ -23,15 +20,16 @@ USES=		desktop-file-utils gmake python:3.7 shebangfix
 BUILD_DEPENDS=	zip:archivers/zip \
 		yarn:www/yarn \
 		vips>=8.10.5:graphics/vips \
-#		npm-node${NODE_VER_MAJOR}>0:www/npm-node${NODE_VER_MAJOR} \
-		yarn-node${NODE_VER_MAJOR}>0:www/yarn-node${NODE_VER_MAJOR} \
-		electron${ELECTRON_VER_MAJOR}:devel/electron${ELECTRON_VER_MAJOR} \
+		npm:www/npm \
+#		npm-node:www/npm-node \
+#		yarn-node${NODE_VER_MAJOR}>0:www/yarn-node${NODE_VER_MAJOR} \
+#		electron${ELECTRON_VER_MAJOR}:devel/electron${ELECTRON_VER_MAJOR} \
 		${PYTHON_PKGNAMEPREFIX}xattr>0:devel/py-xattr@${PY_FLAVOR}
 
 RUN_DEPENDS=	npm:www/npm \
 		node:www/node \
 		yarn:www/yarn \
-		yarn-node14>0:www/yarn-node14 \
+#		yarn-node14>0:www/yarn-node14 \
 		electron${ELECTRON_VER_MAJOR}:devel/electron${ELECTRON_VER_MAJOR}
 
 TEST_DEPENDS=	electron${ELECTRON_VER_MAJOR}:devel/electron${ELECTRON_VER_MAJOR} \
