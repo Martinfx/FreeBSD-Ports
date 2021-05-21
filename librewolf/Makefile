@@ -1,8 +1,7 @@
 # $FreeBSD: $
 
 PORTNAME=	firefox
-DISTVERSION=	86.0.1
-PORTEPOCH=	2
+DISTVERSION=	88.0.1
 CATEGORIES=	www
 MASTER_SITES=	MOZILLA/firefox/releases/${DISTVERSION}/source \
 		MOZILLA/firefox/candidates/${DISTVERSION}-candidates/build3/source
@@ -39,7 +38,6 @@ FIREFOX_DESKTOP=	${MOZSRC}/taskcluster/docker/${MOZILLA}-snap/${MOZILLA}.desktop
 MOZ_OPTIONS=		--enable-application=browser \
 			--enable-release \
 			--enable-rust-simd \
-#			--enable-optimize \
 			--with-app-name=librewolf \
 			--with-app-basename=LibreWolf \
 			--with-branding=browser/branding/librewolf \
@@ -53,10 +51,8 @@ MOZ_OPTIONS=		--enable-application=browser \
                         --disable-crashreporter \
                         --disable-updater \
                         --disable-webrtc \
-#                        --disable-elf-hack \
 			MOZ_CRASHREPORTER=0 \
 			MOZ_DATA_REPORTING=0 \
-#			MOZ_SERVICES_HEALTHREPORT=0 \
 			MOZ_TELEMETRY_REPORTING=0
 
 #.include "${.CURDIR}/../../www/firefox/Makefile.options"
@@ -73,9 +69,6 @@ post-patch:
 	#
 	${SED} -e 's#SaveToPocket.init();#// SaveToPocket.init();#g' \
 			 ${WRKSRC}/browser/components/BrowserGlue.jsm
-	# allow SearchEngines option in non-ESR builds
-	${SED} -e 's#"enterprise_only": true,#"enterprise_only": false,#g' \
-			${WRKSRC}browser/components/enterprisepolicies/schemas/policies-schema.json
 
 pre-configure:
 	(cd ${WRKSRC} && ${LOCALBASE}/bin/autoconf-2.13)
