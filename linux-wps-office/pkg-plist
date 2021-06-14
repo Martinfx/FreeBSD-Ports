@@ -2,6 +2,7 @@
 %%LINUXBASE%%/opt/kingsoft/wps-office/INSTALL/prerm
 %%LINUXBASE%%/opt/kingsoft/wps-office/desktops/wps-office-et.desktop
 %%LINUXBASE%%/opt/kingsoft/wps-office/desktops/wps-office-pdf.desktop
+%%LINUXBASE%%/opt/kingsoft/wps-office/desktops/wps-office-prometheus.desktop
 %%LINUXBASE%%/opt/kingsoft/wps-office/desktops/wps-office-wpp.desktop
 %%LINUXBASE%%/opt/kingsoft/wps-office/desktops/wps-office-wps.desktop
 %%LINUXBASE%%/opt/kingsoft/wps-office/office6/addons/cef/cef.pak
@@ -3778,6 +3779,24 @@ share/icons/hicolor/48x48/apps/wps-office2019-kprometheus.png
 share/icons/hicolor/48x48/apps/wps-office2019-pdfmain.png
 share/icons/hicolor/48x48/apps/wps-office2019-wppmain.png
 share/icons/hicolor/48x48/apps/wps-office2019-wpsmain.png
+share/icons/hicolor/512x512/apps/wps-office-doc.png
+share/icons/hicolor/512x512/apps/wps-office-dot.png
+share/icons/hicolor/512x512/apps/wps-office-dps.png
+share/icons/hicolor/512x512/apps/wps-office-dpt.png
+share/icons/hicolor/512x512/apps/wps-office-et.png
+share/icons/hicolor/512x512/apps/wps-office-ett.png
+share/icons/hicolor/512x512/apps/wps-office-pdf.png
+share/icons/hicolor/512x512/apps/wps-office-pot.png
+share/icons/hicolor/512x512/apps/wps-office-ppt.png
+share/icons/hicolor/512x512/apps/wps-office-wps.png
+share/icons/hicolor/512x512/apps/wps-office-wpt.png
+share/icons/hicolor/512x512/apps/wps-office-xls.png
+share/icons/hicolor/512x512/apps/wps-office-xlt.png
+share/icons/hicolor/512x512/apps/wps-office2019-etmain.png
+share/icons/hicolor/512x512/apps/wps-office2019-kprometheus.png
+share/icons/hicolor/512x512/apps/wps-office2019-pdfmain.png
+share/icons/hicolor/512x512/apps/wps-office2019-wppmain.png
+share/icons/hicolor/512x512/apps/wps-office2019-wpsmain.png
 share/icons/hicolor/60x60/apps/wps-office2019-etmain.png
 share/icons/hicolor/60x60/apps/wps-office2019-kprometheus.png
 share/icons/hicolor/60x60/apps/wps-office2019-pdfmain.png
@@ -4254,3 +4273,4 @@ share/icons/hicolor/96x96/apps/wps-office2019-wpsmain.png
 @dir %%LINUXBASE%%/opt
 @dir %%LINUXBASE%%
 @dir /compat
+
