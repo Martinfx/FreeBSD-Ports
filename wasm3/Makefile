@@ -1,0 +1,17 @@
+PORTNAME=	wasm3
+DISTVERSIONPREFIX=	v
+DISTVERSION=	0.5.0
+CATEGORIES=	devel
+
+MAINTAINER=	freebsd@sysctl.cz
+COMMENT=	
+
+LICENSE=	MIT
+LICENSE_FILE=	${WRKSRC}/LICENSE
+
+USES=		cmake
+USE_GITHUB=	yes
+GH_ACCOUNT=	wasm3
+GH_PROJECT=	wasm3
+
+.include <bsd.port.mk>
