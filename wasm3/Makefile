@@ -4,7 +4,7 @@ DISTVERSION=	0.5.0
 CATEGORIES=	devel
 
 MAINTAINER=	freebsd@sysctl.cz
-COMMENT=
+COMMENT=	The fastest WebAssembly interpreter, and the most universal runtime.
 
 LICENSE=	MIT
 LICENSE_FILE=	${WRKSRC}/LICENSE
