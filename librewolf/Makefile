@@ -47,15 +47,13 @@ MOZ_OPTIONS=		--enable-application=browser \
 			--with-system-nspr \
 			--with-system-nss \
 			--disable-tests \
-                        --disable-debug \
-                        --disable-crashreporter \
-                        --disable-updater \
-                        --disable-webrtc \
+            		--disable-debug \
+            		--disable-crashreporter \
+           	 	--disable-updater \
+           		--disable-webrtc \
 			MOZ_CRASHREPORTER=0 \
 			MOZ_DATA_REPORTING=0
 #			MOZ_TELEMETRY_REPORTING=1
-
-#.include "${.CURDIR}/../../www/firefox/Makefile.options"
 
 post-patch:
 	@${REINPLACE_CMD} -e 's/%u/%U/' -e '/X-MultipleArgs/d' \
@@ -65,10 +63,10 @@ post-patch:
 		${WRKSRC}/browser/app/nsBrowserApp.cpp
 
 	# Disable pocket
-#	${SED} -e "s/'pocket'/#'pocket'/g" ${WRKSRC}/browser/components/moz.build
-#	#
-#	${SED} -e 's#SaveToPocket.init();#// SaveToPocket.init();#g' \
-#			 ${WRKSRC}/browser/components/BrowserGlue.jsm
+	${SED} -e "s/'pocket'/#'pocket'/g" ${WRKSRC}/browser/components/moz.build
+	
+	${SED} -e 's#SaveToPocket.init();#// SaveToPocket.init();#g' \
+		 ${WRKSRC}/browser/components/BrowserGlue.jsm
 
 pre-configure:
 	(cd ${WRKSRC} && ${LOCALBASE}/bin/autoconf-2.13)
