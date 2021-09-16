@@ -1,7 +1,7 @@
 # $FreeBSD: head/deskutils/anydesk/Makefile 506012 2019-07-06 17:55:11Z swills $
 
 PORTNAME=	anydesk
-DISTVERSION=	6.0.1
+DISTVERSION=	6.1.1
 CATEGORIES=	deskutils
 MASTER_SITES=	https://download.anydesk.com/freebsd/
 DISTNAME=	${PORTNAME}-freebsd-${PORTVERSION}-${ARCH:S/amd64/x86_64/:S/i386/i386/}
@@ -18,10 +18,10 @@ ONLY_FOR_ARCHS=	amd64 i386
 
 LIB_DEPENDS=	libfontconfig.so:x11-fonts/fontconfig \
 		libfreetype.so:print/freetype2 \
-		libgtkglext-x11-1.0.so:x11-toolkits/gtkglext \
 		libinotify.so:devel/libinotify \
 		libpolkit-gobject-1.so:sysutils/polkit \
-		libxkbfile.so:x11/libxkbfile
+		libxkbfile.so:x11/libxkbfile \
+		libminizip.so:archivers/minizip \
 
 USES=		gl gnome xorg
 
