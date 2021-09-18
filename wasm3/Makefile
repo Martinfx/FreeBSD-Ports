@@ -9,12 +9,19 @@ COMMENT=	The fastest WebAssembly interpreter, and the most universal runtime.
 LICENSE=	MIT
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
+LIB_DEPENDS=	libuv.so:devel/libuv
+
 USES=		cmake:insource localbase:ldflags
 USE_GITHUB=	yes
 GH_ACCOUNT=	wasm3
 GH_PROJECT=	wasm3
+GH_TUPLE+= 	vshymanskyy:uvwasi:b063d686848:uvwasi/_deps/uvwasi-src
 
-PLIST_FILES=	wasm3
+PLIST_FILES=	bin/wasm3
+
+post-patch:
+	${MKDIR} ${WRKSRC}/_deps/uvwasi-build
+	${MKDIR} ${WRKSRC}/_deps/uvwasi-subbuild
 
 do-install:
 	${INSTALL_PROGRAM} ${WRKSRC}/${PORTNAME} ${STAGEDIR}${PREFIX}/bin
