@@ -55,7 +55,9 @@ MOZ_OPTIONS=		--enable-application=browser \
 			MOZ_DATA_REPORTING=0
 #			MOZ_TELEMETRY_REPORTING=1
 
-EXTRA_PATCHES+=	${FILESDIR}/extra-patch-browser_base_content_aboutDialog.xhtml
+EXTRA_PATCHES+=	${FILESDIR}/extra-patch-browser_base_content_aboutDialog.xhtml \
+		${FILESDIR)/extra-patch-modules_libpref_init_StaticPrefList.yaml \
+		${FILESDIR)/extra-patch-browser_confvars.sh
 
 post-patch:
 	@${REINPLACE_CMD} -e 's/%u/%U/' -e '/X-MultipleArgs/d' \
