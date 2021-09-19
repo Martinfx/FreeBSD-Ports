@@ -1,0 +1,15 @@
+--- modules/libpref/init/StaticPrefList.yaml.orig	2021-09-19 19:57:35 UTC
++++ modules/libpref/init/StaticPrefList.yaml
+@@ -9862,6 +9862,12 @@
+   value: false
+   mirror: always
+ 
++# Allows overriding RFP for only the dark/light pref
++- name: privacy.override_rfp_for_color_scheme
++  type: bool
++  value: false
++  mirror: always
++
+ # Pref for mixed display content upgrading (images, audio, video).
+ - name: security.mixed_content.upgrade_display_content
+   type: bool
