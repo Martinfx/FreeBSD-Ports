@@ -61,7 +61,8 @@ EXTRA_PATCHES+=	${FILESDIR}/extra-patch-browser_base_content_aboutDialog.xhtml \
 		${FILESDIR}/extra-patch-browser_base_content_browser-context.inc \
 		${FILESDIR}/extra-patch-browser_components_urlbar_UrlbarInput.jsm \
 		${FILESDIR}/extra-patch-browser_themes_shared_urlbar-searchbar.inc.css \
-		${FILESDIR}/extra-patch-browser_themes_shared_urlbarView.inc.css
+		${FILESDIR}/extra-patch-browser_themes_shared_urlbarView.inc.css \
+		${FILESDIR}/extra-patch-browser_components_privatebrowsing_content_aboutPrivateBrowsing.html
 post-patch:
 	@${REINPLACE_CMD} -e 's/%u/%U/' -e '/X-MultipleArgs/d' \
 		-e '/^Icon/s/=.*/=${FIREFOX_ICON:R}/' \
