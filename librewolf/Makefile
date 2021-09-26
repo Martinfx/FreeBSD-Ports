@@ -64,8 +64,9 @@ EXTRA_PATCHES+=	${FILESDIR}/extra-patch-browser_base_content_aboutDialog.xhtml \
 		${FILESDIR}/extra-patch-browser_themes_shared_urlbarView.inc.css \
 		${FILESDIR}/extra-patch-browser_components_privatebrowsing_content_aboutPrivateBrowsing.html \
 		${FILESDIR}/extra-patch-browser_extensions_moz.build \
-		${FILESDIR}extra-patch-browser_locales_Makefile.in \
-		${FILESDIR}/extra-patch-browser_locales_filter.py
+		${FILESDIR}/extra-patch-browser_locales_Makefile.in \
+		${FILESDIR}/extra-patch-browser_locales_filter.py \
+		${FILESDIR)/extra-patch-browser_locales_l10n.ini
 post-patch:
 	@${REINPLACE_CMD} -e 's/%u/%U/' -e '/X-MultipleArgs/d' \
 		-e '/^Icon/s/=.*/=${FIREFOX_ICON:R}/' \
