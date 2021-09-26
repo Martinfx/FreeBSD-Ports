@@ -64,6 +64,7 @@ EXTRA_PATCHES+=	${FILESDIR}/extra-patch-browser_base_content_aboutDialog.xhtml \
 		${FILESDIR}/extra-patch-browser_themes_shared_urlbarView.inc.css \
 		${FILESDIR}/extra-patch-browser_components_privatebrowsing_content_aboutPrivateBrowsing.html \
 		${FILESDIR}/extra-patch-browser_extensions_moz.build \
+		${FILESDIR}extra-patch-browser_locales_Makefile.in \
 		${FILESDIR}/extra-patch-browser_locales_filter.py
 post-patch:
 	@${REINPLACE_CMD} -e 's/%u/%U/' -e '/X-MultipleArgs/d' \
@@ -74,7 +75,7 @@ post-patch:
 
 	# Disable pocket
 	${SED} -e "s/'pocket'/#'pocket'/g" ${WRKSRC}/browser/components/moz.build
-	
+
 	${SED} -e 's#SaveToPocket.init();#// SaveToPocket.init();#g' \
 		 ${WRKSRC}/browser/components/BrowserGlue.jsm
 
