@@ -1,0 +1,13 @@
+--- browser/extensions/moz.build.orig	2021-09-26 12:02:42 UTC
++++ browser/extensions/moz.build
+@@ -5,10 +5,7 @@
+ # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ 
+ DIRS += [
+-    "doh-rollout",
+     "formautofill",
+     "screenshots",
+-    "webcompat",
+-    "report-site-issue",
+     "pictureinpicture",
+ ]
