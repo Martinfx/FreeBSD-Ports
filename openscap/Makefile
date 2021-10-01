@@ -17,10 +17,13 @@ LIB_DEPENDS=	libxmlsec1.so:security/xmlsec1 \
 				libpython3.8.so:lang/python38 \
 				libperl.so:lang/perl5.32
 
-USES=           cmake localbase:ldflags ssl shebangfix
-USE_GNOME=	    libxml2 libxslt
+USES=           cmake gnome localbase:ldflags ssl shebangfix python:3.8
+USE_GNOME+=		libxml2 libxslt
+CMAKE_ARGS+=    OSCAP_DOCKER_PYTHON=${PYTHON_CMD}
 SHEBANG_GLOB=	*.sh *.py *.pl
-#SHEBANG_FILES=	${WRKSRC}/util/scap-as-rpm ${WRKSRC}/util/autotailor #bin/autotailor bin/oscap-docker bin/scap-as-rpm
+SHEBANG_FILES=  utils/autotailor \
+				utils/scap-as-rpm \
+				bin/oscap-docker
 
 USE_GITHUB=     yes
 GH_ACCOUNT=     OpenSCAP
