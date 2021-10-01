@@ -3,10 +3,10 @@ DISTVERSION= 1.3.5
 CATEGORIES=	devel
 
 MAINTAINER=	freebsd@sysctl.cz
-COMMENT=	
+COMMENT=	NIST Certified SCAP 1.2 toolkit 	
 
 LICENSE= GPLv2
-LICENSE_FILE= ${WRKSRC}/COPYING
+LICENSE_FILE=	${WRKSRC}/COPYING
 
 LIB_DEPENDS=	libxmlsec1.so:security/xmlsec1 \
 				libxmlsec1-openssl.so:security/xmlsec1 \
@@ -19,10 +19,15 @@ LIB_DEPENDS=	libxmlsec1.so:security/xmlsec1 \
 
 USES=           cmake localbase:ldflags ssl shebangfix
 USE_GNOME=	    libxml2 libxslt
-SHEBANG_FILES=	bin/autotailor bin/oscap-docker bin/scap-as-rpm
+SHEBANG_GLOB=	*.sh *.py *.pl
+#SHEBANG_FILES=	${WRKSRC}/util/scap-as-rpm ${WRKSRC}/util/autotailor #bin/autotailor bin/oscap-docker bin/scap-as-rpm
 
 USE_GITHUB=     yes
 GH_ACCOUNT=     OpenSCAP
 GH_PROJECT=     openscap
 
+#do-install:
+	#@${STRIP_CMD} ${STAGEDIR}${PREFIX}/bin/*
+	#@${REINPLACE_CMD} -e 's|/usr/bin/env python3 python3|${PYTHON_CMD}|' ${WRKSRC}/util/scap-as-rpm
+	
 .include <bsd.port.mk>
