@@ -1,0 +1,12 @@
+--- Cargo.toml.orig	2022-03-27 11:43:21 UTC
++++ Cargo.toml
+@@ -29,6 +29,9 @@ doc = false
+ [badges]
+ travis-ci = { repository = "kpcyrd/sniffglue" }
+ 
++[features]
++capi =[]
++
+ [dependencies]
+ structopt = "0.3"
+ anyhow = "1"
