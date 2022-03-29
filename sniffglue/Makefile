@@ -1,6 +1,6 @@
 PORTNAME=       sniffglue
 DISTVERSIONPREFIX=      v
-DISTVERSION=    0.12.0
+DISTVERSION=    0.15.0
 CATEGORIES=     devel
 
 MAINTAINER=     freebsd@sysctl.cz
@@ -10,6 +10,7 @@ LICENSE=        GPLv2
 LICENSE_FILE=   ${WRKSRC}/LICENSE
 
 BUILD_DEPENDS=  cargo-cbuild:devel/cargo-c
+LIB_DEPENDS=	libpcap.so:net/libpcap
 
 USES=           cargo
 USE_GITHUB=     yes
@@ -26,6 +27,7 @@ CARGO_CRATES=   addr2line-0.14.1 \
                 arrayvec-0.5.2 \
                 atty-0.2.14 \
                 autocfg-1.0.1 \
+		bstr-0.2.16 \
                 backtrace-0.3.56 \
                 base64-0.10.1 \
                 base64-0.13.0 \
@@ -36,20 +38,24 @@ CARGO_CRATES=   addr2line-0.14.1 \
                 block-buffer-0.7.3 \
                 block-buffer-0.8.0 \
                 block-buffer-0.9.0 \
+                block-buffer-0.10.0 \
                 block-padding-0.1.5 \
                 boxxy-0.11.0 \
+                boxxy-0.12.0 \
                 bufstream-0.1.4 \
                 bumpalo-3.6.1 \
                 byte-tools-0.3.1 \
                 byteorder-1.4.3 \
                 bytes-0.4.12 \
                 caps-0.3.4 \
+                caps-0.5.0 \
                 cc-1.0.67 \
                 cc-1.0.73 \
                 cfg-if-0.1.10 \
                 cfg-if-1.0.0 \
                 clap-2.33.0 \
                 clap-2.33.3 \
+                clipboard-win-4.4.1 \
                 cloudabi-0.0.3 \
                 constant_time_eq-0.1.5 \
                 cpufeatures-0.2.2 \
@@ -60,6 +66,7 @@ CARGO_CRATES=   addr2line-0.14.1 \
                 crossbeam-utils-0.7.2 \
                 crossbeam-utils-0.8.3 \
                 ct-logs-0.6.0 \
+                crypto-common-0.1.3 \
                 dhcp4r-0.2.2 \
                 digest-0.10.3 \
                 digest-0.8.1 \
@@ -75,11 +82,15 @@ CARGO_CRATES=   addr2line-0.14.1 \
                 enum_primitive-0.1.1 \
                 env_logger-0.8.0 \
                 env_logger-0.8.3 \
+                env_logger-0.9.0 \
                 errno-0.2.7 \
                 errno-0.2.8 \
                 errno-dragonfly-0.1.1 \
                 error-chain-0.12.4 \
+                error-code-2.3.1 \
+                endian-type-0.1.2 \
                 fake-simd-0.1.2 \
+                fd-lock-3.0.5 \
                 fnv-1.0.7 \
                 form_urlencoded-1.0.1 \
                 fuchsia-zircon-0.3.3 \
@@ -109,12 +120,14 @@ CARGO_CRATES=   addr2line-0.14.1 \
                 iovec-0.1.4 \
                 itoa-0.4.7 \
                 itoa-1.0.1 \
+                io-lifetimes-0.6.1 \
                 js-sys-0.3.49 \
                 kernel32-sys-0.2.2 \
                 lazy_static-1.4.0 \
                 lexical-core-0.7.5 \
                 libc-0.2.121 \
                 libc-0.2.90 \
+                linux-raw-sys-0.0.42 \
                 lock_api-0.3.4 \
                 log-0.4.14 \
                 log-0.4.16 \
@@ -125,6 +138,7 @@ CARGO_CRATES=   addr2line-0.14.1 \
                 memoffset-0.5.6 \
                 memoffset-0.6.5 \
                 minimal-lexical-0.2.1 \
+                minimal-lexical-0.1.2 \
                 miniz_oxide-0.4.4 \
                 mio-0.6.23 \
                 mio-uds-0.6.8 \
@@ -133,8 +147,12 @@ CARGO_CRATES=   addr2line-0.14.1 \
                 nix-0.14.1 \
                 nix-0.15.0 \
                 nix-0.20.0 \
+                nix-0.22.0 \
+                nix-0.23.0 \
+                nibble_vec-0.1.0 \
                 nom-5.1.2 \
                 nom-6.1.2 \
+                nom-7.0.0 \
                 nom-derive-0.10.0 \
                 nom-derive-0.7.1 \
                 nom-derive-0.7.2 \
@@ -142,6 +160,7 @@ CARGO_CRATES=   addr2line-0.14.1 \
                 num-traits-0.2.14 \
                 num_cpus-1.13.0 \
                 num_cpus-1.13.1 \
+                nom-derive-impl-0.10.0 \
                 object-0.23.0 \
                 once_cell-1.7.2 \
                 opaque-debug-0.2.3 \
@@ -155,11 +174,15 @@ CARGO_CRATES=   addr2line-0.14.1 \
                 phf_codegen-0.10.0 \
                 phf_codegen-0.8.0 \
                 phf_generator-0.8.0 \
+                phf_generator-0.10.0 \
                 phf_shared-0.8.0 \
+                phf_shared-0.10.0 \
                 pkg-config-0.3.19 \
                 pkg-config-0.3.24 \
                 pktparse-0.5.0 \
+                pktparse-0.7.1 \
                 pledge-0.3.1 \
+                pledge-0.4.0 \
                 ppv-lite86-0.2.10 \
                 proc-macro-error-1.0.4 \
                 proc-macro-error-attr-1.0.4 \
@@ -171,10 +194,15 @@ CARGO_CRATES=   addr2line-0.14.1 \
                 quote-1.0.9 \
                 radium-0.5.3 \
                 rand-0.7.3 \
+                rand-0.8.0 \
                 rand_chacha-0.2.2 \
+                rand_chacha-0.3.0 \
                 rand_core-0.5.1 \
+                rand_core-0.6.1 \
                 rand_hc-0.2.0 \
+                rand_hc-0.3.0 \
                 rand_pcg-0.2.1 \
+                radix_trie-0.2.1 \
                 redox_syscall-0.1.57 \
                 redox_syscall-0.2.5 \
                 redox_users-0.3.5 \
@@ -188,10 +216,13 @@ CARGO_CRATES=   addr2line-0.14.1 \
                 rust-argon2-0.8.3 \
                 rustc-demangle-0.1.18 \
                 rustc_version-0.2.3 \
+                rustversion-1.0.6 \
                 rusticata-macros-3.0.1 \
                 rusticata-macros-4.1.0 \
                 rustls-0.16.0 \
                 rustyline-5.0.6 \
+                rustyline-9.0.0 \
+                rustix-0.34.1 \
                 ryu-1.0.5 \
                 ryu-1.0.9 \
                 scoped-tls-0.1.2 \
@@ -209,22 +240,28 @@ CARGO_CRATES=   addr2line-0.14.1 \
                 sha2-0.8.2 \
                 sha2-0.9.0 \
                 sha2-0.9.3 \
+                sha2-0.10.0 \
                 siphasher-0.3.5 \
                 slab-0.4.2 \
                 smallvec-0.6.14 \
+                smallvec-1.6.1 \
                 spin-0.5.2 \
                 static_assertions-1.1.0 \
                 string-0.2.1 \
                 strsim-0.8.0 \
+                str-buf-1.0.0 \
                 structopt-0.3.21 \
                 structopt-0.3.26 \
                 structopt-derive-0.4.14 \
                 structopt-derive-0.4.18 \
                 strum-0.19.5 \
+                strum-0.21.0 \
                 strum_macros-0.19.4 \
+                strum_macros-0.21.0 \
                 syn-1.0.64 \
                 syn-1.0.89 \
                 syscallz-0.15.0 \
+                syscallz-0.16.0 \
                 tap-1.0.1 \
                 termcolor-1.1.2 \
                 termcolor-1.1.3 \
@@ -233,6 +270,9 @@ CARGO_CRATES=   addr2line-0.14.1 \
                 tinyvec-1.1.1 \
                 tinyvec_macros-0.1.0 \
                 tls-parser-0.10.0 \
+                tls-parser-0.11.0 \
+                thiserror-1.0.30 \
+                thiserror-impl-1.0.30 \
                 tokio-0.1.22 \
                 tokio-buf-0.1.1 \
                 tokio-codec-0.1.2 \
@@ -253,6 +293,7 @@ CARGO_CRATES=   addr2line-0.14.1 \
                 toml-0.5.8 \
                 try-lock-0.2.3 \
                 typenum-1.13.0 \
+                typenum-1.14.0 \
                 unicode-bidi-0.3.4 \
                 unicode-normalization-0.1.17 \
                 unicode-segmentation-1.7.1 \
@@ -262,6 +303,7 @@ CARGO_CRATES=   addr2line-0.14.1 \
                 url-2.2.1 \
                 users-0.11.0 \
                 utf8parse-0.1.1 \
+                utf8parse-0.2.0 \
                 vec_map-0.8.2 \
                 version_check-0.9.3 \
                 void-1.0.2 \
@@ -282,20 +324,32 @@ CARGO_CRATES=   addr2line-0.14.1 \
                 winapi-i686-pc-windows-gnu-0.4.0 \
                 winapi-util-0.1.5 \
                 winapi-x86_64-pc-windows-gnu-0.4.0 \
+                windows-sys-0.30.0 \
+                windows_aarch64_msvc-0.30.0 \
+                windows_i686_gnu-0.30.0 \
+                windows_i686_msvc-0.30.0 \
+                windows_x86_64_gnu-0.30.0 \
+                windows_x86_64_msvc-0.30.0 \
                 ws2_32-sys-0.2.1 \
                 wyz-0.2.0
 
-do-build:
-	@${CARGO_CARGO_RUN} cbuild \
-		--verbose \
-		--workspace \
-		${CARGO_BUILD_ARGS}
+PLIST_FILES=	bin/sniffglue
 
 do-install:
-	@${CARGO_CARGO_RUN} cinstall \
-		--verbose \
-		--destdir "${STAGEDIR}" \
-		--prefix "${PREFIX}" \
-		${CARGO_INSTALL_ARGS}
+	@${STRIP_CMD} ${STAGEDIR}/${PREFIX}/bin/sniffglue
+
+#do-build:
+#	@${CARGO_CARGO_RUN} cbuild \
+#		--verbose \
+#		--bin ${PORTNAME}
+#		--workspace \
+#		${CARGO_BUILD_ARGS}
+
+#do-install:
+#	@${CARGO_CARGO_RUN} install \
+#		--verbose \
+#		--destdir "${STAGEDIR}" \
+#		--prefix "${PREFIX}" \
+#		${CARGO_INSTALL_ARGS}
 
 .include <bsd.port.mk>
