@@ -335,21 +335,4 @@ CARGO_CRATES=   addr2line-0.14.1 \
 
 PLIST_FILES=	bin/sniffglue
 
-do-install:
-	@${STRIP_CMD} ${STAGEDIR}/${PREFIX}/bin/sniffglue
-
-#do-build:
-#	@${CARGO_CARGO_RUN} cbuild \
-#		--verbose \
-#		--bin ${PORTNAME}
-#		--workspace \
-#		${CARGO_BUILD_ARGS}
-
-#do-install:
-#	@${CARGO_CARGO_RUN} install \
-#		--verbose \
-#		--destdir "${STAGEDIR}" \
-#		--prefix "${PREFIX}" \
-#		${CARGO_INSTALL_ARGS}
-
 .include <bsd.port.mk>
