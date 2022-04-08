@@ -3,50 +3,54 @@ using any cubeb backends other than pulse-rust to play media. The loss of
 such change will be that users will not be able to do profiling on threads
 created by libcubeb.
 
---- dom/media/AudioStream.cpp.orig	2021-03-20 22:57:21.194862000 +0100
-+++ dom/media/AudioStream.cpp	2021-03-20 23:00:50.527112000 +0100
-@@ -26,7 +26,6 @@
+--- dom/media/AudioStream.cpp.orig	2022-02-25 16:27:47.676236000 +0100
++++ dom/media/AudioStream.cpp	2022-02-25 16:54:21.223904000 +0100
+@@ -27,7 +27,6 @@
  #endif
  #include "Tracing.h"
  #include "webaudio/blink/DenormalDisabler.h"
 -#include "AudioThreadRegistry.h"
+ #include "mozilla/StaticPrefs_media.h"
  
  // Use abort() instead of exception in SoundTouch.
- #define ST_NO_EXCEPTION_HANDLING 1
-@@ -139,9 +138,7 @@
-       mTimeStretcher(nullptr),
+@@ -144,8 +143,6 @@
+       mAudioClock(aInRate),
        mState(INITIALIZED),
        mDataSource(aSource),
--      mPrefillQuirk(false),
--      mAudioThreadId(0),
--      mSandboxed(CubebUtils::SandboxEnabled()) {}
-+      mPrefillQuirk(false) {}
- 
- AudioStream::~AudioStream() {
-   LOG("deleted, state %d", mState);
-@@ -565,21 +562,7 @@
+-      mAudioThreadId(ProfilerThreadId{}),
+-      mSandboxed(CubebUtils::SandboxEnabled()),
+       mPlaybackComplete(false),
+       mPlaybackRate(1.0f),
+       mPreservesPitch(true) {}
+@@ -551,17 +548,6 @@
        aWriter.Available());
  }
  
 -bool AudioStream::CheckThreadIdChanged() {
--#ifdef MOZ_GECKO_PROFILER
--  auto id = profiler_current_thread_id();
+-  ProfilerThreadId id = profiler_current_thread_id();
 -  if (id != mAudioThreadId) {
 -    mAudioThreadId = id;
+-    mAudioThreadChanged = true;
 -    return true;
 -  }
--#endif
+-  mAudioThreadChanged = false;
 -  return false;
 -}
 -
+ void AudioStream::AssertIsOnAudioThread() const {
+   // This can be called right after CheckThreadIdChanged, because the audio
+   // thread can change when not sandboxed.
+@@ -590,9 +576,6 @@
+ }
+ 
  long AudioStream::DataCallback(void* aBuffer, long aFrames) {
--  if (!mSandboxed && CheckThreadIdChanged()) {
+-  if (CheckThreadIdChanged() && !mSandboxed) {
 -    CubebUtils::GetAudioThreadRegistry()->Register(mAudioThreadId);
 -  }
    WebCore::DenormalDisabler disabler;
  
    TRACE_AUDIO_CALLBACK_BUDGET(aFrames, mAudioClock.GetInputRate());
-@@ -635,9 +618,6 @@
+@@ -647,9 +630,6 @@
    mDumpFile.Write(static_cast<const AudioDataValue*>(aBuffer),
                    aFrames * mOutChannels);
  
@@ -56,23 +60,23 @@ created by libcubeb.
    return aFrames - writer.Available();
  }
  
---- dom/media/AudioStream.h.orig	2021-03-20 23:01:10.169773000 +0100
-+++ dom/media/AudioStream.h	2021-03-20 23:01:56.622691000 +0100
-@@ -294,7 +294,6 @@
+--- dom/media/AudioStream.h.orig	2022-02-25 16:27:53.316210000 +0100
++++ dom/media/AudioStream.h	2022-02-25 16:55:18.967535000 +0100
+@@ -323,7 +323,6 @@
  
    template <typename Function, typename... Args>
    int InvokeCubeb(Function aFunction, Args&&... aArgs);
 -  bool CheckThreadIdChanged();
+   void AssertIsOnAudioThread() const;
  
-   // The monitor is held to protect all access to member variables.
-   Monitor mMonitor;
-@@ -328,9 +327,6 @@
+   soundtouch::SoundTouch* mTimeStretcher;
+@@ -357,9 +356,6 @@
    // the default device is used. It is set
    // during the Init() in decoder thread.
    RefPtr<AudioDeviceInfo> mSinkInfo;
--  /* Contains the id of the audio thread, from profiler_get_thread_id. */
--  std::atomic<int> mAudioThreadId;
+-  // Contains the id of the audio thread, from profiler_get_thread_id.
+-  std::atomic<ProfilerThreadId> mAudioThreadId;
 -  const bool mSandboxed = false;
  
    MozPromiseHolder<MediaSink::EndedPromise> mEndedPromise;
-   Atomic<bool> mPlaybackComplete;
+   std::atomic<bool> mPlaybackComplete;

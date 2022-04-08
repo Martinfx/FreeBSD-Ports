@@ -1,7 +1,7 @@
 # $FreeBSD: $
 
 PORTNAME=	firefox
-DISTVERSION=	88.0.1
+DISTVERSION=	99.0
 CATEGORIES=	www
 MASTER_SITES=	MOZILLA/firefox/releases/${DISTVERSION}/source \
 		MOZILLA/firefox/candidates/${DISTVERSION}-candidates/build3/source
@@ -30,7 +30,8 @@ CONFLICTS_INSTALL=	firefox-esr firefox
 USE_MOZILLA=	-sqlite
 CFLAGS_powerpc64le=	-DSQLITE_BYTEORDER=1234
 
-USES=		tar:xz
+USES=		tar:xz gnome pkgconfig
+USE_GNOME=	gtk20
 
 FIREFOX_ICON=		${MOZILLA}.png
 FIREFOX_ICON_SRC=	${PREFIX}/lib/${MOZILLA}/browser/chrome/icons/default/default48.png
@@ -68,7 +69,18 @@ EXTRA_PATCHES+=	${FILESDIR}/extra-patch-browser_base_content_aboutDialog.xhtml \
 		${FILESDIR}/extra-patch-browser_locales_filter.py \
 		${FILESDIR)/extra-patch-browser_locales_l10n.ini \
 		${FILESDIR)/extra-patch-browser_locales_l10n.toml \
-		${FILESDIR}/extra-patch-browser_components_urlbar_UrlbarProviderInterventions.jsm 
+		${FILESDIR}/extra-patch-browser_components_urlbar_UrlbarProviderInterventions.jsm
+
+.if ${ARCH} == powerpc64
+MOZ_OPTIONS+=   --disable-webrtc --without-wasm-sandboxed-libraries
+.else
+BUILD_DEPENDS+= ${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc++abi.a:devel/wasi-libcxx \
+                ${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc.a:devel/wasi-libc \
+                ${LOCALBASE}/llvm${LLVM_DEFAULT}/lib/clang/${LLVM_VERSION}/lib/wasi/libclang_rt.builtins-wasm32.a:devel/wasi-compiler-rt${LLVM_DEFAULT}
+MOZ_OPTIONS+=   --with-wasi-sysroot=${LOCALBASE}/share/wasi-sysroot
+.endif
+
+
 post-patch:
 	@${REINPLACE_CMD} -e 's/%u/%U/' -e '/X-MultipleArgs/d' \
 		-e '/^Icon/s/=.*/=${FIREFOX_ICON:R}/' \
