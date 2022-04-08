@@ -37,8 +37,8 @@ FIREFOX_ICON=		${MOZILLA}.png
 FIREFOX_ICON_SRC=	${PREFIX}/lib/${MOZILLA}/browser/chrome/icons/default/default48.png
 FIREFOX_DESKTOP=	${MOZSRC}/taskcluster/docker/${MOZILLA}-snap/${MOZILLA}.desktop
 MOZ_OPTIONS=		--enable-application=browser \
-			--enable-release \
-			--enable-rust-simd \
+#			--enable-release \
+#			--enable-rust-simd \
 			--with-app-name=librewolf \
 			--with-app-basename=LibreWolf \
 			--with-branding=browser/branding/librewolf \
@@ -47,13 +47,13 @@ MOZ_OPTIONS=		--enable-application=browser \
 			--allow-addon-sideload \
 			--with-system-nspr \
 			--with-system-nss \
-			--disable-tests \
-            		--disable-debug \
-            		--disable-crashreporter \
+#			--disable-tests \
+#           		--disable-debug \
+#          		--disable-crashreporter \
            	 	--disable-updater \
-           		--disable-webrtc \
-			MOZ_CRASHREPORTER=0 \
-			MOZ_DATA_REPORTING=0
+           		--disable-webrtc
+#			MOZ_CRASHREPORTER=0 \
+#			MOZ_DATA_REPORTING=0
 #			MOZ_TELEMETRY_REPORTING=1
 
 EXTRA_PATCHES+=	${FILESDIR}/extra-patch-browser_base_content_aboutDialog.xhtml \
@@ -71,6 +71,8 @@ EXTRA_PATCHES+=	${FILESDIR}/extra-patch-browser_base_content_aboutDialog.xhtml \
 		${FILESDIR)/extra-patch-browser_locales_l10n.toml \
 		${FILESDIR}/extra-patch-browser_components_urlbar_UrlbarProviderInterventions.jsm
 
+.include <bsd.port.options.mk>
+
 .if ${ARCH} == powerpc64
 MOZ_OPTIONS+=   --disable-webrtc --without-wasm-sandboxed-libraries
 .else
@@ -79,7 +81,6 @@ BUILD_DEPENDS+= ${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc++abi.a:deve
                 ${LOCALBASE}/llvm${LLVM_DEFAULT}/lib/clang/${LLVM_VERSION}/lib/wasi/libclang_rt.builtins-wasm32.a:devel/wasi-compiler-rt${LLVM_DEFAULT}
 MOZ_OPTIONS+=   --with-wasi-sysroot=${LOCALBASE}/share/wasi-sysroot
 .endif
-
 
 post-patch:
 	@${REINPLACE_CMD} -e 's/%u/%U/' -e '/X-MultipleArgs/d' \
