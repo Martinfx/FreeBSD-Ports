@@ -1,7 +1,7 @@
 PORTNAME=       sniffglue
 DISTVERSIONPREFIX=      v
 DISTVERSION=    0.15.0
-CATEGORIES=     devel
+CATEGORIES=     security
 
 MAINTAINER=     freebsd@sysctl.cz
 COMMENT=        Secure multithreaded packet sniffer
