@@ -18,4 +18,6 @@ JAVA_RUN=	yes
 NO_BUILD=	yes
 WRKSRC=		${WRKDIR}/${PORTNAME}
 
+do-install:
+
 .include <bsd.port.mk>
