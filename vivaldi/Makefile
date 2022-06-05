@@ -74,8 +74,8 @@ USE_XORG=	x11 xcb xcomposite xcursor xext xdamage xfixes xi \
 SHEBANG_FILES=	chrome/tools/build/linux/chrome-wrapper buildtools/linux64/clang-format
 
 #BUILD_TYPE= Release
-MAKE_ARGSs=	-C out/Release
-#ALL_TARGET=	vivaldi
+MAKE_ARGSs=	-C -v out/Release
+ALL_TARGET=	vivaldi
 
 BINARY_ALIAS=	python3=${PYTHON_CMD}
 
@@ -164,6 +164,50 @@ do-configure:
 	cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${PYTHON_CMD} \
 	./scripts/rungn.py gen --args='${GN_ARGS}' out/Release
 
-#do-build:
+do-install:
+	@${MKDIR} ${STAGEDIR}${DATADIR}
+	${INSTALL_MAN} ${WRKSRC}/chrome/app/resources/manpage.1.in \
+		${STAGEDIR}${MANPREFIX}/man/man1/chrome.1
+	@${SED} -i "" -e 's,\@\@PACKAGE\@\@,chromium,g;s,\@\@MENUNAME\@\@,Chromium Web Browser,g' \
+		${STAGEDIR}${MANPREFIX}/man/man1/chrome.1	
+	${CP} ${WRKSRC}/chrome/app/theme/chromium/product_logo_22_mono.png ${WRKSRC}/chrome/app/theme/chromium/product_logo_22.png
+.for s in 22 24 48 64 128 256
+	 @${MKDIR} ${STAGEDIR}${PREFIX}/share/icons/hicolor/${s}x${s}/app
+	 ${INSTALL_DATA} ${WRKSRC}/chrome/app/theme/chromium/product_logo_${s}.png \	
+		${STAGEDIR}${PREFIX}/share/icons/hicolor/${s}x${s}/apps/chrome.png
+.endfor
+	${INSTALL_DATA} ${WRKSRC}/out/${BUILDTYPE}/*.png ${STAGEDIR}${DATADIR}
+	${INSTALL_DATA} ${WRKSRC}/out/${BUILDTYPE}/*.pak ${STAGEDIR}${DATADIR}
+.for d in protoc mksnapshot
+	${INSTALL_PROGRAM} ${WRKSRC}/out/${BUILDTYPE}/${d} ${STAGEDIR}${DATADIR}
+.endfor
+.for d in icudtl.dat snapshot_blob.bin v8_context_snapshot.bin
+	${INSTALL_DATA} ${WRKSRC}/out/${BUILDTYPE}/${d} ${STAGEDIR}${DATADIR}
+.endfor
+	${INSTALL_PROGRAM} ${WRKSRC}/out/${BUILDTYPE}/chrome \
+		${STAGEDIR}${DATADIR}
+        cd ${WRKSRC}/out/${BUILDTYPE} && \
+                ${COPYTREE_SHARE} "locales resources" ${STAGEDIR}${DATADIR}
+        @${MKDIR} ${STAGEDIR}${DESKTOPDIR}
+        ${INSTALL_DATA} ${WRKDIR}/chromium-browser.desktop \
+                ${STAGEDIR}${DESKTOPDIR}
+	${INSTALL_SCRIPT} ${WRKDIR}/chrome ${STAGEDIR}${PREFIX}/bin
+	${INSTALL_SCRIPT} ${WRKSRC}/chrome/tools/build/linux/chrome-wrapper \
+		${STAGEDIR}${DATADIR}
+
+        # ANGLE, EGL, Vk
+.for f in libEGL.so libGLESv2.so libVkICD_mock_icd.so
+        ${INSTALL_LIB} ${WRKSRC}/out/${BUILDTYPE}/${f} ${STAGEDIR}${DATADIR}
+.endfor
+	${INSTALL_LIB} ${WRKSRC}/out/${BUILDTYPE}/libvulkan.so.1 \
+	${STAGEDIR}${DATADIR}/libvulkan.so
+#.if ${BUILDTYPE} == Debug
+	${INSTALL_LIB} ${WRKSRC}/out/${BUILDTYPE}/libVkLayer_khronos_validation.so ${STAGEDIR}${DATADIR}
+#.endif
+
+        # SwiftShader
+#.if ${ARCH} != aarch64
+#	 ${INSTALL_LIB} ${WRKSRC}/out/${BUILDTYPE}/libvk_swiftshader.so ${STAGEDIR}${DATADIR}
+#.endif
 
 .include <bsd.port.mk>
