@@ -71,7 +71,7 @@ USE_LDCONFIG=	${DATADIR}
 USE_PERL5=	build
 USE_XORG=	x11 xcb xcomposite xcursor xext xdamage xfixes xi \
                 xorgproto xrandr xrender xscrnsaver xtst
-SHEBANG_FILES=	chrome/tools/build/linux/chrome-wrapper buildtools/linux64/clang-format
+#SHEBANG_FILES=	chromium/chrome/tools/build/linux/chrome-wrapper chromium/buildtools/linux64/clang-format
 
 #BUILD_TYPE= Release
 MAKE_ARGSs=	-C -v out/Release
@@ -151,63 +151,65 @@ pre-configure:
         # system libraries and not shipped ones.
         # cd ${WRKSRC} && ${PYTHON_CMD} \
         #./build/linux/unbundle/remove_bundled_libraries.py [list of preserved]
-        cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${PYTHON_CMD} \
+	cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${PYTHON_CMD} \
 	./chromium/build/linux/unbundle/replace_gn_files.py --system-libraries \
-	 flac fontconfig freetype harfbuzz-ng libusb libdrm libpng libwebp libxml libxslt openh264 opus snappy || ${FALSE}
+        flac fontconfig freetype harfbuzz-ng libdrm libpng libwebp libxml libxslt openh264 opus snappy || ${FALSE}
 
 do-configure:
-        # GN generator bootstrapping and generating ninja files
-	cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} CC=${CC} CXX=${CXX} LD=${CXX} \
-	READELF=${READELF} AR=${AR} NM=${NM} ${PYTHON_CMD} \
-	./chromium/tools/gn/bootstrap/bootstrap.py ${GN_BOOTSTRAP_FLAGS}
+	# GN generator bootstrapping and generating ninja files
+#	cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} CC=${CC} CXX=${CXX} LD=${CXX} \
+#	READELF=${READELF} AR=${AR} NM=${NM} ${PYTHON_CMD} \
+#	./chromium/tools/gn/bootstrap/bootstrap.py ${GN_BOOTSTRAP_FLAGS}
 
 	cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${PYTHON_CMD} \
 	./scripts/rungn.py gen --args='${GN_ARGS}' out/Release
 
 do-install:
-	@${MKDIR} ${STAGEDIR}${DATADIR}
-	${INSTALL_MAN} ${WRKSRC}/chrome/app/resources/manpage.1.in \
-		${STAGEDIR}${MANPREFIX}/man/man1/chrome.1
-	@${SED} -i "" -e 's,\@\@PACKAGE\@\@,chromium,g;s,\@\@MENUNAME\@\@,Chromium Web Browser,g' \
-		${STAGEDIR}${MANPREFIX}/man/man1/chrome.1	
-	${CP} ${WRKSRC}/chrome/app/theme/chromium/product_logo_22_mono.png ${WRKSRC}/chrome/app/theme/chromium/product_logo_22.png
-.for s in 22 24 48 64 128 256
-	 @${MKDIR} ${STAGEDIR}${PREFIX}/share/icons/hicolor/${s}x${s}/app
-	 ${INSTALL_DATA} ${WRKSRC}/chrome/app/theme/chromium/product_logo_${s}.png \	
-		${STAGEDIR}${PREFIX}/share/icons/hicolor/${s}x${s}/apps/chrome.png
-.endfor
-	${INSTALL_DATA} ${WRKSRC}/out/${BUILDTYPE}/*.png ${STAGEDIR}${DATADIR}
-	${INSTALL_DATA} ${WRKSRC}/out/${BUILDTYPE}/*.pak ${STAGEDIR}${DATADIR}
-.for d in protoc mksnapshot
-	${INSTALL_PROGRAM} ${WRKSRC}/out/${BUILDTYPE}/${d} ${STAGEDIR}${DATADIR}
-.endfor
-.for d in icudtl.dat snapshot_blob.bin v8_context_snapshot.bin
-	${INSTALL_DATA} ${WRKSRC}/out/${BUILDTYPE}/${d} ${STAGEDIR}${DATADIR}
-.endfor
-	${INSTALL_PROGRAM} ${WRKSRC}/out/${BUILDTYPE}/chrome \
-		${STAGEDIR}${DATADIR}
-        cd ${WRKSRC}/out/${BUILDTYPE} && \
-                ${COPYTREE_SHARE} "locales resources" ${STAGEDIR}${DATADIR}
-        @${MKDIR} ${STAGEDIR}${DESKTOPDIR}
-        ${INSTALL_DATA} ${WRKDIR}/chromium-browser.desktop \
-                ${STAGEDIR}${DESKTOPDIR}
-	${INSTALL_SCRIPT} ${WRKDIR}/chrome ${STAGEDIR}${PREFIX}/bin
-	${INSTALL_SCRIPT} ${WRKSRC}/chrome/tools/build/linux/chrome-wrapper \
-		${STAGEDIR}${DATADIR}
 
-        # ANGLE, EGL, Vk
-.for f in libEGL.so libGLESv2.so libVkICD_mock_icd.so
-        ${INSTALL_LIB} ${WRKSRC}/out/${BUILDTYPE}/${f} ${STAGEDIR}${DATADIR}
-.endfor
-	${INSTALL_LIB} ${WRKSRC}/out/${BUILDTYPE}/libvulkan.so.1 \
-	${STAGEDIR}${DATADIR}/libvulkan.so
-#.if ${BUILDTYPE} == Debug
-	${INSTALL_LIB} ${WRKSRC}/out/${BUILDTYPE}/libVkLayer_khronos_validation.so ${STAGEDIR}${DATADIR}
-#.endif
 
-        # SwiftShader
-#.if ${ARCH} != aarch64
-#	 ${INSTALL_LIB} ${WRKSRC}/out/${BUILDTYPE}/libvk_swiftshader.so ${STAGEDIR}${DATADIR}
-#.endif
+#@${MKDIR} ${STAGEDIR}${DATADIR}
+#${INSTALL_MAN} ${WRKSRC}/chrome/app/resources/manpage.1.in \
+#        ${STAGEDIR}${MANPREFIX}/man/man1/chrome.1
+#@${SED} -i "" -e 's,\@\@PACKAGE\@\@,chromium,g;s,\@\@MENUNAME\@\@,Chromium Web Browser,g' \
+#        ${STAGEDIR}${MANPREFIX}/man/man1/chrome.1	
+#${CP} ${WRKSRC}/chrome/app/theme/chromium/product_logo_22_mono.png ${WRKSRC}/chrome/app/theme/chromium/product_logo_22.png
+#.for s in 22 24 48 64 128 256
+# @${MKDIR} ${STAGEDIR}${PREFIX}/share/icons/hicolor/${s}x${s}/app
+# ${INSTALL_DATA} ${WRKSRC}/chrome/app/theme/chromium/product_logo_${s}.png \	
+#        ${STAGEDIR}${PREFIX}/share/icons/hicolor/${s}x${s}/apps/chrome.png
+#.endfor
+#${INSTALL_DATA} ${WRKSRC}/out/${BUILDTYPE}/*.png ${STAGEDIR}${DATADIR}
+#${INSTALL_DATA} ${WRKSRC}/out/${BUILDTYPE}/*.pak ${STAGEDIR}${DATADIR}
+#.for d in protoc mksnapshot
+#${INSTALL_PROGRAM} ${WRKSRC}/out/${BUILDTYPE}/${d} ${STAGEDIR}${DATADIR}
+#.endfor
+#.for d in icudtl.dat snapshot_blob.bin v8_context_snapshot.bin
+#${INSTALL_DATA} ${WRKSRC}/out/${BUILDTYPE}/${d} ${STAGEDIR}${DATADIR}
+#.endfor
+#${INSTALL_PROGRAM} ${WRKSRC}/out/${BUILDTYPE}/chrome \
+#        ${STAGEDIR}${DATADIR}
+#cd ${WRKSRC}/out/${BUILDTYPE} && \
+#        ${COPYTREE_SHARE} "locales resources" ${STAGEDIR}${DATADIR}
+#@${MKDIR} ${STAGEDIR}${DESKTOPDIR}
+#${INSTALL_DATA} ${WRKDIR}/chromium-browser.desktop \
+#        ${STAGEDIR}${DESKTOPDIR}
+#${INSTALL_SCRIPT} ${WRKDIR}/chrome ${STAGEDIR}${PREFIX}/bin
+#${INSTALL_SCRIPT} ${WRKSRC}/chrome/tools/build/linux/chrome-wrapper \
+#        ${STAGEDIR}${DATADIR}
+
+## ANGLE, EGL, Vk
+#.for f in libEGL.so libGLESv2.so libVkICD_mock_icd.so
+#${INSTALL_LIB} ${WRKSRC}/out/${BUILDTYPE}/${f} ${STAGEDIR}${DATADIR}
+#.endfor
+#${INSTALL_LIB} ${WRKSRC}/out/${BUILDTYPE}/libvulkan.so.1 \
+#${STAGEDIR}${DATADIR}/libvulkan.so
+##.if ${BUILDTYPE} == Debug
+#${INSTALL_LIB} ${WRKSRC}/out/${BUILDTYPE}/libVkLayer_khronos_validation.so ${STAGEDIR}${DATADIR}
+##.endif
+
+## SwiftShader
+##.if ${ARCH} != aarch64
+##	 ${INSTALL_LIB} ${WRKSRC}/out/${BUILDTYPE}/libvk_swiftshader.so ${STAGEDIR}${DATADIR}
+##.endif
 
 .include <bsd.port.mk>
