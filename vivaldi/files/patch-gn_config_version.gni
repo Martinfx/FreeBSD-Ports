@@ -1,6 +1,6 @@
---- gn/config/version.gni.orig	2022-06-05 20:54:10 UTC
+--- gn/config/version.gni.orig	2021-07-06 02:00:44 UTC
 +++ gn/config/version.gni
-@@ -10,20 +10,20 @@ lastchange_path = "//build/util/LASTCHANGE"
+@@ -10,38 +10,38 @@ lastchange_path = "//build/util/LASTCHANGE"
  
  vivaldi_global_build_number = "$GLOBAL_BUILDNUM"
  
@@ -33,8 +33,43 @@
 +#        [vivaldi_version_path, chrome_version_path]
 +#      )
  
- chrome_dylib_version =
-     exec_script(vivaldi_version_py_path,
+-chrome_dylib_version =
+-    exec_script(vivaldi_version_py_path,
+-                [
+-                  "-f",
+-                  rebase_path(vivaldi_version_path, root_build_dir),
+-                  "-f",
+-                  rebase_path(chrome_version_path, root_build_dir),
+-                  "-t",
+-                  "@BUILD@.@PATCH_HI@.@PATCH_LO@",
+-                  "-e",
+-                  "PATCH_HI=int($GLOBAL_BUILDNUM/256)",
+-                  "-e",
+-                  "PATCH_LO=int($GLOBAL_BUILDNUM)%256",
+-                ],
+-                "trim string",
+-                [vivaldi_version_path, chrome_version_path]
+-        )
++#chrome_dylib_version =
++#    exec_script(vivaldi_version_py_path,
++#                [
++#                  "-f",
++#                  rebase_path(vivaldi_version_path, root_build_dir),
++#                  "-f",
++#                  rebase_path(chrome_version_path, root_build_dir),
++#                  "-t",
++#                  "@BUILD@.@PATCH_HI@.@PATCH_LO@",
++#                  "-e",
++#                  "PATCH_HI=int($GLOBAL_BUILDNUM/256)",
++#                  "-e",
++#                  "PATCH_LO=int($GLOBAL_BUILDNUM)%256",
++#                ],
++#                "trim string",
++#                [vivaldi_version_path, chrome_version_path]
++#        )
+ 
+ if (is_android && defined(is_vivaldi) && is_vivaldi) {
+   if (current_cpu == "arm") {
 @@ -69,5 +69,5 @@ if (is_android && defined(is_vivaldi) && is_vivaldi) {
                    "trim string",
                    [vivaldi_version_path]
