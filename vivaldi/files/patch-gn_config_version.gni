@@ -1,0 +1,46 @@
+--- gn/config/version.gni.orig	2022-06-05 20:54:10 UTC
++++ gn/config/version.gni
+@@ -10,20 +10,20 @@ lastchange_path = "//build/util/LASTCHANGE"
+ 
+ vivaldi_global_build_number = "$GLOBAL_BUILDNUM"
+ 
+-vivaldi_version_full =
+-    exec_script(
+-        vivaldi_version_py_path,
+-        [
+-          "-f",
+-          rebase_path(vivaldi_version_path, root_build_dir),
+-          "-f",
+-          rebase_path(chrome_version_path, root_build_dir),
+-          "-t",
+-          "@VIVALDI_MAJOR@.@VIVALDI_MINOR@.@VIVALDI_NIGHTLY@.$GLOBAL_BUILDNUM",
+-        ],
+-        "trim string",
+-        [vivaldi_version_path, chrome_version_path]
+-      )
++#vivaldi_version_full =
++#   exec_script(
++#        vivaldi_version_py_path,
++#        [
++#          "-f",
++#          rebase_path(vivaldi_version_path, root_build_dir),
++#          "-f",
++#          rebase_path(chrome_version_path, root_build_dir),
++#          "-t",
++#          "@VIVALDI_MAJOR@.@VIVALDI_MINOR@.@VIVALDI_NIGHTLY@.$GLOBAL_BUILDNUM",
++#        ],
++#        "trim string",
++#        [vivaldi_version_path, chrome_version_path]
++#      )
+ 
+ chrome_dylib_version =
+     exec_script(vivaldi_version_py_path,
+@@ -69,5 +69,5 @@ if (is_android && defined(is_vivaldi) && is_vivaldi) {
+                   "trim string",
+                   [vivaldi_version_path]
+           )
+-  #print("Vivaldi version code: " + vivaldi_version_code)
+-}
+\ No newline at end of file
++  print("Vivaldi version code: " + vivaldi_version_code)
++}
