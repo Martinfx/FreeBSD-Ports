@@ -1,6 +1,6 @@
 --- chromium/build/util/version.gni.orig	2022-06-05 21:42:22 UTC
 +++ chromium/build/util/version.gni
-@@ -75,13 +75,14 @@ _script_arguments += [
+@@ -75,25 +75,26 @@ _script_arguments += [
    target_os,
  ]
  
@@ -11,7 +11,7 @@
 -                        chrome_version_file,
 -                        "android_chrome_version.py",
 -                      ])
-+_result = 0
++#_result = "0"
 +#exec_script("version.py",
 +#                      _script_arguments,
 +#                      "scope",
@@ -21,4 +21,33 @@
 +#                      ])
  
  # Full version. For example "45.0.12321.0"
- chrome_version_full = _result.full
+-chrome_version_full = _result.full
+-if (defined(is_vivaldi) && is_vivaldi) {
+-  chrome_version_full = vivaldi_version_full
+-}
++chrome_version_full = "100.0.4896.81"
++#if (defined(is_vivaldi) && is_vivaldi) {
++#  chrome_version_full = vivaldi_version_full
++#}
+ 
+ # The consituent parts of the full version.
+-chrome_version_major = _result.major
+-chrome_version_minor = _result.minor
+-chrome_version_build = _result.build
+-chrome_version_patch = _result.patch
++chrome_version_major = 0
++chrome_version_minor = 0
++chrome_version_build = 0
++chrome_version_patch = 0
+ 
+ if (is_mac) {
+   chrome_version_patch_hi = _result.patch_hi
+@@ -129,7 +130,7 @@ if (is_mac && !(defined(is_vivaldi) && is_vivaldi)) {
+                            "webview_64_stable_version_code",
+                          ])
+ 
+-  chrome_version_name = chrome_version_full
++ 
+ 
+   lines_to_write = [
+     "VersionName: $chrome_version_name",
