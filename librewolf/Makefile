@@ -1,6 +1,6 @@
 # $FreeBSD: $
 
-PORTNAME=	firefox
+PORTNAME=	librewolf
 DISTVERSION=	99.0
 CATEGORIES=	www
 MASTER_SITES=	MOZILLA/firefox/releases/${DISTVERSION}/source \
@@ -56,7 +56,7 @@ MOZ_OPTIONS=		--enable-application=browser \
 #			MOZ_DATA_REPORTING=0
 #			MOZ_TELEMETRY_REPORTING=1
 
-EXTRA_PATCHES+=	${FILESDIR}/extra-patch-browser_base_content_aboutDialog.xhtml \
+EXTRA_PATCHES+=	#${FILESDIR}/extra-patch-browser_base_content_aboutDialog.xhtml \
 		${FILESDIR)/extra-patch-modules_libpref_init_StaticPrefList.yaml \
 		${FILESDIR)/extra-patch-browser_confvars.sh \
 		${FILESDIR}/extra-patch-browser_base_content_browser-context.inc \
@@ -82,10 +82,13 @@ BUILD_DEPENDS+= ${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc++abi.a:deve
 MOZ_OPTIONS+=   --with-wasi-sysroot=${LOCALBASE}/share/wasi-sysroot
 .endif
 
+post-extract:
+	mv work/firefox-99.0 ${WRKSRC}
+
 post-patch:
-	@${REINPLACE_CMD} -e 's/%u/%U/' -e '/X-MultipleArgs/d' \
-		-e '/^Icon/s/=.*/=${FIREFOX_ICON:R}/' \
-		${FIREFOX_DESKTOP}
+#	@${REINPLACE_CMD} -e 's/%u/%U/' -e '/X-MultipleArgs/d' \
+#		-e '/^Icon/s/=.*/=${FIREFOX_ICON:R}/' \
+#		${FIREFOX_DESKTOP}
 	@${REINPLACE_CMD} -e 's|%%LOCALBASE%%|${LOCALBASE}|g' \
 		${WRKSRC}/browser/app/nsBrowserApp.cpp
 
