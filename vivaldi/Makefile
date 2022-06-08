@@ -155,14 +155,25 @@ pre-configure:
 	./chromium/build/linux/unbundle/replace_gn_files.py --system-libraries \
         flac fontconfig freetype harfbuzz-ng libdrm libpng libwebp libxml libxslt openh264 opus snappy || ${FALSE}
 
+#post-configure:#
+#	        cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${PYTHON_CMD} \
+#        ./chromium/third_party/ffmpeg/chromium/scripts/generate_gn.py
+
+
 do-configure:
 	# GN generator bootstrapping and generating ninja files
 #	cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} CC=${CC} CXX=${CXX} LD=${CXX} \
 #	READELF=${READELF} AR=${AR} NM=${NM} ${PYTHON_CMD} \
 #	./chromium/tools/gn/bootstrap/bootstrap.py ${GN_BOOTSTRAP_FLAGS}
 
+#	cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${PYTHON_CMD} \
+#        ./chromium/third_party/ffmpeg/chromium/scripts/generate_gn.py
+
 	cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${PYTHON_CMD} \
 	./scripts/rungn.py gen --args='${GN_ARGS}' out/Release
+
+#	cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${PYTHON_CMD} \
+#	./chromium/third_party/ffmpeg/chromium/scripts/generate_gn.py
 
 do-install:
 

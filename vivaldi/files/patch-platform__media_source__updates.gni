@@ -1,0 +1,20 @@
+--- platform_media/source_updates.gni.orig	2022-06-07 17:53:59 UTC
++++ platform_media/source_updates.gni
+@@ -233,7 +233,7 @@ update_template_instance("//base:base") {
+ # fmpeg changes
+ # --------------------
+ 
+-if (is_linux || is_mac || is_win) {
++if (is_bsd || is_linux || is_mac || is_win) {
+   if (is_win) {
+     update_target("//third_party/ffmpeg:ffmpeg_generate_def") {
+       patched_sigs =
+@@ -323,7 +323,7 @@ if (is_linux || is_mac || is_win) {
+   }
+ }
+ 
+-if (is_linux) {
++if (is_bsd || is_linux) {
+   declare_overrides() {
+     # Vivaldi Linux need component build of ffmpeg
+     is_component_ffmpeg = true
