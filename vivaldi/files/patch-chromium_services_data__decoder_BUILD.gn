@@ -1,0 +1,11 @@
+--- chromium/services/data_decoder/BUILD.gn.orig	2022-06-09 22:50:27 UTC
++++ chromium/services/data_decoder/BUILD.gn
+@@ -35,7 +35,7 @@ source_set("lib") {
+     "//mojo/public/cpp/bindings",
+     "//net",
+     "//skia",
+-    "//third_party/libxml:libxml_utils",
++#    "//third_party/libxml:libxml_utils",
+     "//third_party/libxml:xml_reader",
+     "//third_party/zlib/google:compression_utils",
+     "//ui/gfx",
