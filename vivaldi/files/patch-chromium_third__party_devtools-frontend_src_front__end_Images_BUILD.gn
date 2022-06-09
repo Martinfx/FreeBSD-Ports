@@ -1,0 +1,10 @@
+--- chromium/third_party/devtools-frontend/src/front_end/Images/BUILD.gn.orig	2022-06-09 16:25:33 UTC
++++ chromium/third_party/devtools-frontend/src/front_end/Images/BUILD.gn
+@@ -16,7 +16,6 @@ node_action("generate_css_vars") {
+   script = "front_end/Images/generate-css-vars.js"
+ 
+   args = [
+-           build_timestamp,
+            rebase_path(target_gen_dir, root_build_dir),
+            "optimize_images",
+          ] + devtools_image_files + devtools_src_svg_files

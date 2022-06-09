@@ -1,0 +1,10 @@
+--- chromium/third_party/devtools-frontend/src/scripts/build/ninja/generate_css.gni.orig	2022-06-09 16:06:31 UTC
++++ chromium/third_party/devtools-frontend/src/scripts/build/ninja/generate_css.gni
+@@ -19,7 +19,6 @@ template("generate_css") {
+         [ devtools_location_prepend + "node_modules/clean-css/package.json" ]
+ 
+     args = [
+-      build_timestamp,
+       "$is_debug",
+       "${invoker.legacy}",
+       target_name,
