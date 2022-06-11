@@ -3,7 +3,7 @@
 
 PORTNAME=	natron
 DISTVERSIONPREFIX=	v
-DISTVERSION=	2.3.16-beta1
+DISTVERSION=	2.5.0-alpha.2
 CATEGORIES=	graphics
 
 MAINTAINER=	maintainer@sysctl.cz
@@ -54,6 +54,9 @@ QMAKE_ARGS+=    PYTHON_INCLUDEDIR=${PYTHON_INCLUDEDIR} PYTHON_LIB=${PYTHON_LIB} 
 SHEBANG_FILES=	OpenColorIO-Configs/nuke-default/make.py
 BINARY_ALIAS=	python=python${PYTHON_VER} python-config=python${PYTHON_VER}-config
 PYTHON_MAKE_ARGS=	PYTHON=0
+
+MAKE_ENV+=	C_INCLUDE_PATH=${LOCALBASE}/include \
+		CPLUS_INCLUDE_PATH=${LOCALBASE}/include
 
 post-patch:
 	@${REINPLACE_CMD} -e 's|/usr/OFX/Plugins|${PREFIX}/OFX/Plugins|g' \
