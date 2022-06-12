@@ -1,24 +1,26 @@
---- global.pri.orig	2022-06-11 08:19:02 UTC
+--- global.pri.orig	2022-01-23 17:42:27 UTC
 +++ global.pri
-@@ -416,7 +416,7 @@ unix {
-      # User may specify an alternate python2-config from the command-line,
-      # as in "qmake PYTHON_CONFIG=python2.7-config"
-      isEmpty(PYTHON_CONFIG) {
--         PYTHON_CONFIG = python2-config
-+         PYTHON_CONFIG = python2.7-config
-      }
-      python {
-           #PKGCONFIG += python
-@@ -428,9 +428,9 @@ unix {
-      }
- 
-      equals(QT_MAJOR_VERSION, 5) {
--         shiboken:  INCLUDEPATH += $$system(python2 -c \"from distutils.sysconfig import get_python_lib; print(get_python_lib())\")/PySide2/include/shiboken
--    	 pyside:    INCLUDEPATH += $$system(python2 -c \"from distutils.sysconfig import get_python_lib; print(get_python_lib())\")/PySide2/include/PySide2
--   	 pyside:    INCLUDEPATH += $$system(python2 -c \"from distutils.sysconfig import get_python_lib; print(get_python_lib())\")/PySide2/include/PySide2/QtCore
-+         shiboken:  INCLUDEPATH += $$system(python2.7 -c \"from distutils.sysconfig import get_python_lib; print(get_python_lib())\")/PySide2/include/shiboken
-+         pyside:    INCLUDEPATH += $$system(python2.7 -c \"from distutils.sysconfig import get_python_lib; print(get_python_lib())\")/PySide2/include/PySide2
-+         pyside:    INCLUDEPATH += $$system(python2.7 -c \"from distutils.sysconfig import get_python_lib; print(get_python_lib())\")/PySide2/include/PySide2/QtCore
-      }
- 
-      equals(QT_MAJOR_VERSION, 4) {
+@@ -40,16 +40,16 @@ run-without-python {
+ } else {
+     # from <https://docs.python.org/3/c-api/intro.html#include-files>:
+     # "Since Python may define some pre-processor definitions which affect the standard headers on some systems, you must include Python.h before any standard headers are included."
+-    CONFIG += python
+-    python3 {
++    CONFIG += python3
++#    python3 {
+       PYV=3
+       PY_PKG_SUFFIX=-embed
+       PYTHON_CONFIG_FLAGS=--embed
+-    } else {
+-      PYV=2
+-      PY_PKG_SUFFIX=
+-      PYTHON_CONFIG_FLAGS=
+-    }
++#    } else {
++#      PYV=2.7
++#      PY_PKG_SUFFIX=
++#      PYTHON_CONFIG_FLAGS=
++#    }
+     # PYVER contains just major.minor
+     PYVER=$$system(python$$PYV -c \"import platform; print(\'.\'.join(platform.python_version_tuple()[:2]))\")
+     PYVERNODOT=$$replace(PYVER,\\.,)
