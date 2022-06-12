@@ -6,9 +6,10 @@
      # "Since Python may define some pre-processor definitions which affect the standard headers on some systems, you must include Python.h before any standard headers are included."
 -    CONFIG += python
 -    python3 {
-+    CONFIG += python3
+-      PYV=3
++    CONFIG += python3.8
 +#    python3 {
-       PYV=3
++      PYV=3.8
        PY_PKG_SUFFIX=-embed
        PYTHON_CONFIG_FLAGS=--embed
 -    } else {
