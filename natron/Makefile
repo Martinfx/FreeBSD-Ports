@@ -23,7 +23,7 @@ LIB_DEPENDS=	libcairo.so:graphics/cairo \
 		libpyside2.cpython-${PYTHON_SUFFIX}${PYTHON_ABIVER}.so:devel/pyside2 \
 		libshiboken2.cpython-${PYTHON_SUFFIX}${PYTHON_ABIVER}.so:devel/shiboken2@${PY_FLAVOR}  \
 		libfreetype.so:print/freetype2 \
-		libglog.so>=0.6.0:devel/glog
+		libglog.so:devel/glog
 
 USES=		pkgconfig python:3.8 qmake qt:5 compiler:c++17-lang shebangfix desktop-file-utils shared-mime-info \
 		gettext-runtime desktop-file-utils
