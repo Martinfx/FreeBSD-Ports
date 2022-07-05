@@ -1,7 +1,7 @@
 # $FreeBSD: $
 
 PORTNAME=	librewolf
-DISTVERSION=	99.0
+DISTVERSION=	101.0.1
 CATEGORIES=	www
 MASTER_SITES=	MOZILLA/firefox/releases/${DISTVERSION}/source \
 		MOZILLA/firefox/candidates/${DISTVERSION}-candidates/build3/source
