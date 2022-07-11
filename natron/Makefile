@@ -3,17 +3,16 @@ DISTVERSIONPREFIX=	v
 DISTVERSION=	2.5.0-alpha.2
 CATEGORIES=	graphics
 
-MAINTAINER=	maintainer@sysctl.cz
+MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	compositing software Video
 
 LICENSE=	GPLv2
 
-ONLY_FOR_ARCHS=	amd64
 BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}pyside2>5.14.0:devel/pyside2@${PY_FLAVOR}
 
-RUN_DEPENDS=	${LOCALBASE}/OFX/Plugins/IO.ofx.bundle/Contents/Info.plist:graphics/openfx-io \
-#		${LOCALBASE}/OFX/Plugins/Shadertoy.ofx.bundle/Contents/Info.plist:graphics/openfx-misc \
-#		${LOCALBASE}/OFX/Plugins/Arena.ofx.bundle/Contents/Info.plist:graphics/openfx-arena
+RUN_DEPENDS=	#${LOCALBASE}/OFX/Plugins/IO.ofx.bundle/Contents/Info.plist:graphics/openfx-io \
+		${LOCALBASE}/OFX/Plugins/Shadertoy.ofx.bundle/Contents/Info.plist:graphics/openfx-misc \
+		${LOCALBASE}/OFX/Plugins/Arena.ofx.bundle/Contents/Info.plist:graphics/openfx-arena
 
 LIB_DEPENDS=	libavformat.so:multimedia/ffmpeg \
 		libboost_system.so:devel/boost-libs \
