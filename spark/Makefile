@@ -1,34 +1,27 @@
 PORTNAME=	spark
 PORTVERSION=	3.3.0
 CATEGORIES=	devel java
-MASTER_SITES=	https://archive.apache.org/dist/${PORTNAME}/${PORTNAME}-${PORTVERSION}/ \
-#		LOCAL/demon/:maven \
-#		http://people.freebsd.org/~demon/:maven
-
+MASTER_SITES=	https://archive.apache.org/dist/${PORTNAME}/${PORTNAME}-${PORTVERSION}/
 PKGNAMEPREFIX=	apache-
-DISTFILES=	${PORTNAME}-${PORTVERSION}.tgz #FreeBSD-${PORTNAME}-${PORTVERSION}-maven-repository.tar.gz:maven
-#DIST_SUBDIR=	hadoop
+DISTFILES=	${PORTNAME}-${PORTVERSION}.tgz
 
-MAINTAINER=	ports@FreeBSD.org
+MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Fast big data processing engine
 
 LICENSE=	APACHE20
-#DEPRECATED=	Depends on expired devel/maven33  
-#3EXPIRATION_DATE=2022-03-31
 
 BUILD_DEPENDS=	mvn:devel/maven \
 		${LOCALBASE}/lib/libsnappyjava.so:archivers/snappy-java \
 		bash:shells/bash
 
-RUN_DEPENDS=	bash:shells/bash \
-#		yarn:devel/hadoop
+RUN_DEPENDS=	bash:shells/bash
 
 USES=		cpe python shebangfix
 CPE_VENDOR=	apache
 USE_JAVA=	yes
 MAKE_ENV+=	JAVA_HOME=${JAVA_HOME} MAVEN_OPTS="-Xmx2g -XX:MaxPermSize=512M -XX:ReservedCodeCacheSize=512m"
-#JAVA_VERSION=	11+
-SHEBANG_FILES=	bin/sparkR
+
+SHEBANG_FILES=  bin/sparkR
 
 USERS=		spark
 GROUPS=		spark
@@ -52,9 +45,9 @@ do-build:
 	${CP} ${LOCALBASE}/lib/libsnappyjava.so \
 		${WRKDIR}/snappy/org/xerial/snappy/native/${OPSYS}/${JAVA_ARCH}
 	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} \
-		${LOCALBASE}/bin/mvn  \
+		${LOCALBASE}/bin/mvn \
 		-Dmaven.repo.local=${WRKDIR}/m2 clean package \
-		-Dhadoop.version=3.3.4 -Pyarn -DskipTests \
+		-Dhadoop.version=3.3.1 -Pyarn -Phive -Phive-thriftserver -DskipTests \
 		-Duser.home=${WRKDIR}
 	${JAR} uvf ${WRKSRC}/assembly/target/scala*/jars/snappy-java-*.jar \
 		-C ${WRKDIR}/snappy org
@@ -64,7 +57,7 @@ post-build:
 
 do-install:
 	${MKDIR} ${STAGEDIR}${DATADIR}/lib ${STAGEDIR}${DATADIR}/examples/jars ${STAGEDIR}${DATADIR}/bin ${STAGEDIR}${DATADIR}/sbin ${STAGEDIR}${DATADIR}/conf
-	${ECHO_CMD} "Spark ${PORTVERSION} built for Hadoop 2.7.2" > ${STAGEDIR}${DATADIR}/RELEASE
+	${ECHO_CMD} "Spark ${PORTVERSION} built for Hadoop 3.3.1" > ${STAGEDIR}${DATADIR}/RELEASE
 	(cd  ${WRKSRC}/assembly/target/scala* && ${COPYTREE_SHARE} jars  ${STAGEDIR}${DATADIR})
 	${INSTALL_DATA} ${WRKSRC}/examples/target/spark-examples*.jar ${STAGEDIR}${DATADIR}/examples/jars
 	cd ${WRKSRC}/examples && ${COPYTREE_SHARE} src ${STAGEDIR}${DATADIR}/examples
