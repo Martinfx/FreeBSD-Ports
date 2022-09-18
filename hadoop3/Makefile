@@ -27,6 +27,8 @@ LIB_DEPENDS=	libzstd.so:archivers/zstd \
 RUN_DEPENDS=	bash:shells/bash \
 		setsid:sysutils/setsid
 
+CONFLICTS_INSTAL=  yarn
+
 USES=		cpe shebangfix compiler:c++11-lang pkgconfig ssl
 CPE_VENDOR=	apache
 USE_JAVA=	yes
