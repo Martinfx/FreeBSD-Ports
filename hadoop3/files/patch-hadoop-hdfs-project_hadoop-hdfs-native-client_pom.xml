@@ -1,0 +1,14 @@
+--- hadoop-hdfs-project/hadoop-hdfs-native-client/pom.xml.orig	2018-10-19 09:04:13 UTC
++++ hadoop-hdfs-project/hadoop-hdfs-native-client/pom.xml
+@@ -216,6 +216,11 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
+                     <REQUIRE_FUSE>${require.fuse}</REQUIRE_FUSE>
+                     <REQUIRE_VALGRIND>${require.valgrind}</REQUIRE_VALGRIND>
+                     <HADOOP_BUILD>1</HADOOP_BUILD>
++                    <Protobuf_USE_STATIC_LIBS>OFF</Protobuf_USE_STATIC_LIBS>
++                    <Protobuf_LIBRARY>protobuf</Protobuf_LIBRARY>
++                    <Protobuf_PROTOC_LIBRARY>protoc</Protobuf_PROTOC_LIBRARY>
++                    <Protobuf_INCLUDE_DIR>/usr/local/protobuf25/include</Protobuf_INCLUDE_DIR>
++                    <PROTOBUF_PROTOC_EXECUTABLE>/usr/local/protobuf25/bin/protoc</PROTOBUF_PROTOC_EXECUTABLE>
+                     <REQUIRE_LIBWEBHDFS>${require.libwebhdfs}</REQUIRE_LIBWEBHDFS>
+                     <REQUIRE_OPENSSL>${require.openssl}</REQUIRE_OPENSSL>
+                     <CUSTOM_OPENSSL_PREFIX>${openssl.prefix}</CUSTOM_OPENSSL_PREFIX>
