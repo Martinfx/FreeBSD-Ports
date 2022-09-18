@@ -1,0 +1,5 @@
+TIMESTAMP = 1663525778
+SHA256 (hadoop/hadoop-3.2.0-src.tar.gz) = c30d448d3712b518e892efdc189e7b3f81c4ce4b6532ebb981515f016f735568
+SIZE (hadoop/hadoop-3.2.0-src.tar.gz) = 30751465
+SHA256 (hadoop/apache-tomcat-10.1.0-M17.tar.gz) = 8d3ada5a826aa35074289469f4f1d4e02dfd8c344ee8e018d9bea5b262e2f785
+SIZE (hadoop/apache-tomcat-10.1.0-M17.tar.gz) = 11848876
