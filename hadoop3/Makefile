@@ -3,9 +3,7 @@ PORTVERSION=	3.2.0
 CATEGORIES=	devel java
 MASTER_SITES=	https://archive.apache.org/dist/${PORTNAME}/common/${PORTNAME}-${PORTVERSION}/ \
 		http://archive.apache.org/dist/tomcat/tomcat-10/v${TOMCAT_VERSION}/bin/:tomcat
-		# please mirror the binary hosted on xmj.me in the local-distfiles space
-		#LOCAL/demon/:maven \   # and change this site
-		#LOCAL/demon/:jetty
+
 PKGNAMESUFFIX=	3
 DISTNAME=	${PORTNAME}-${PORTVERSION}-src
 DISTFILES=	${DISTNAME}${EXTRACT_SUFX} apache-tomcat-${TOMCAT_VERSION}.tar.gz:tomcat
@@ -16,9 +14,6 @@ MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Apache Map/Reduce framework
 
 LICENSE=	APACHE20
-
-#BROKEN_SSL=	openssl-devel
-#BROKEN_SSL_REASON_openssl-devel=	incomplete definition of type 'struct evp_cipher_ctx_st'
 
 BUILD_DEPENDS=	mvn:devel/maven \
 		cmake:devel/cmake \
@@ -31,10 +26,6 @@ LIB_DEPENDS=	libzstd.so:archivers/zstd \
 		libprotobuf.so:devel/protobuf25
 RUN_DEPENDS=	bash:shells/bash \
 		setsid:sysutils/setsid
-
-IGNORE_FreeBSD_11=	getline definition of C++ incompatible with C code
-
-CONFLICTS_INSTALL=	hadoop-1*  yarn
 
 USES=		cpe shebangfix compiler:c++11-lang pkgconfig ssl
 CPE_VENDOR=	apache
@@ -90,18 +81,6 @@ do-build:
 post-build:
 	${RM} ${HADOOP_DIST}/etc/hadoop/*.cmd
 	${RM} ${HADOOP_DIST}/etc/hadoop/*.cmd
-# TODO xmj: reinvestigate this
-# # With jetty-6.1.26 tasktracker's threads hung with the following error:
-# # org.mortbay.io.nio.SelectorManager$SelectSet@abdcc1c JVM BUG(s) - injecting delay 59 times
-# # See https://issues.apache.org/jira/browse/MAPREDUCE-2386
-# .for dir in share/hadoop/common/lib share/hadoop/hdfs/lib share/hadoop/yarn/lib share/hadoop/tools/lib
-# 	${RM} ${HADOOP_DIST}/${dir}/jetty-util-6.1.26.jar ${HADOOP_DIST}/${dir}/jetty-6.1.26.jar
-# 	${CP} ${WRKDIR}/jetty-6.1.14/lib/jetty-6.1.14.jar ${WRKDIR}/jetty-6.1.14/lib/jetty-util-6.1.14.jar ${HADOOP_DIST}/${dir}/
-# .endfor
-# .for dir in share/hadoop/httpfs/tomcat/webapps/webhdfs/WEB-INF/lib share/hadoop/kms/tomcat/webapps/kms/WEB-INF/lib
-# 	${RM} ${HADOOP_DIST}/${dir}/jetty-util-6.1.26.jar
-# 	${CP} ${WRKDIR}/jetty-6.1.14/lib/jetty-util-6.1.14.jar ${HADOOP_DIST}/${dir}/
-# .endfor
 
 do-install:
 	cd ${HADOOP_DIST}/bin && ${INSTALL_SCRIPT} hadoop hdfs mapred yarn ${STAGEDIR}${PREFIX}/bin/
