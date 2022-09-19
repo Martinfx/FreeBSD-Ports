@@ -62,6 +62,7 @@ USERS=		${HDFS_USER} ${MAPRED_USER}
 GROUPS=		${HADOOP_GROUP}
 
 SUB_FILES=	hadoop-layout.sh httpfs-env.sh kms-env.sh
+
 USE_RC_SUBR=	historyserver nodemanager resourcemanager webappproxyserver \
 		datanode namenode secondarynamenode journalnode zkfc
 
