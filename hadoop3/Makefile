@@ -1,8 +1,8 @@
 PORTNAME=	hadoop
-PORTVERSION=	3.2.0
+PORTVERSION=	3.3.4
 CATEGORIES=	devel java
 MASTER_SITES=	https://archive.apache.org/dist/${PORTNAME}/common/${PORTNAME}-${PORTVERSION}/ \
-		http://archive.apache.org/dist/tomcat/tomcat-10/v${TOMCAT_VERSION}/bin/:tomcat
+		https://archive.apache.org/dist/tomcat/tomcat-10/v${TOMCAT_VERSION}/bin/:tomcat
 
 PKGNAMESUFFIX=	3
 DISTNAME=	${PORTNAME}-${PORTVERSION}-src
@@ -20,7 +20,8 @@ BUILD_DEPENDS=	ant:devel/apache-ant \
 		bash:shells/bash \
 		cmake:devel/cmake \
 		mvn:devel/maven \
-		protobuf25>0:devel/protobuf25
+#		protobuf25>0:devel/protobuf25 \
+		protobuf-java>0:devel/protobuf-java
 LIB_DEPENDS=	libprotobuf.so:devel/protobuf25 \
 		libsasl2.so:security/cyrus-sasl2 \
 		libsnappy.so:archivers/snappy \
@@ -45,6 +46,8 @@ CONFLICTS_INSTAL=	yarn
 
 MAKE_ENV+=	HADOOP_PROTOC_PATH=${LOCALBASE}/protobuf25/bin/protoc \
 		JAVA_HOME=${JAVA_HOME}
+#		PROTOBUF_VERSION="${PROTOBUF_VERSION}"
+
 MAKE_ARGS+=	CXXFLAGS="${CXXFLAGS} -fPIC"
 
 OPTIONS_DEFINE=	EXAMPLES
@@ -87,8 +90,10 @@ do-build:
 	${MKDIR} ${WRKSRC}/hadoop-hdfs-project/hadoop-hdfs-httpfs/downloads
 	${MKDIR} ${WRKSRC}/hadoop-common-project/hadoop-kms/downloads
 	${CP} ${DISTDIR}/${DIST_SUBDIR}/apache-tomcat-${TOMCAT_VERSION}.tar.gz ${WRKSRC}/hadoop-common-project/hadoop-kms/downloads/
-	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} ${LOCALBASE}/bin/mvn  -Dmaven.javadoc.skip=true -Dmaven.clean.skip=true -Dmaven.repo.local=${WRKDIR}/m2 package \
-	-Pdist,native -DskipTests -Drequire.snappy -Dsnappy.prefix=${LOCALBASE} -Drequire.openssl -Drequire.zstd -Dzstd.prefix=${LOCALBASE}
+	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} ${LOCALBASE}/bin/mvn -Dmaven.javadoc.skip=true -Dmaven.clean.skip=true -Dmaven.repo.local=${WRKDIR}/m2 package \
+	-Pdist,native -DskipTests -Drequire.snappy -Dsnappy.prefix=${LOCALBASE} -Drequire.openssl -Drequire.zstd -Dzstd.prefix=${LOCALBASE} \
+	 install:install-file -DgroupId=com.google.protobuf -DartifactId=protoc  -Dclassifier=freebsd-x86_64 -Dpackaging=jar  -Dfile=/usr/local/share/java/classes/protobuf-java.jar \
+#	 install:install-file -DgroupId=org.apache.ftpserve -DartifactId=ftplet-api  -Dclassifier=freebsd-x86_64 -Dpackaging=jar  -Dfile=/usr/local/share/java/classes/ftplet-api-1.0.0.jar
 
 post-build:
 	${RM} ${HADOOP_DIST}/etc/hadoop/*.cmd
