@@ -1,9 +1,10 @@
 PORTNAME=	raylib
-DISTVERSION=	3.7.0
+DISTVERSION=	4.2.0
 CATEGORIES=	devel education
 
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Library to learn videogames programming
+WWW=		https://www.raylib.com/
 
 LICENSE=	ZLIB
 LICENSE_FILE=	${WRKSRC}/LICENSE
@@ -27,9 +28,9 @@ post-extract:
 
 post-install:
 # Install all parts for raylib
-	${INSTALL_DATA}	${WRKSRC}/src/raylib.h \
+	${INSTALL_DATA} ${WRKSRC}/src/raylib.h \
 		${WRKSRC}/src/raymath.h \
-		${WRKSRC}/src/physac.h  \
+		${WRKSRC}/src/rlgl.h \
 		${STAGEDIR}${PREFIX}/include
 
 .include <bsd.port.mk>
