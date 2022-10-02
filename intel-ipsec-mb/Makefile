@@ -1,7 +1,8 @@
 # $FreeBSD: head/security/intel-ipsec-mb/Makefile 548475 2020-09-13 12:52:17Z vanilla $
 
 PORTNAME=       intel-ipsec-mb
-DISTVERSION=    0.55.0
+DISTVERSIONPREFIX=     v
+DISTVERSION=    1.3
 CATEGORIES=     security
 
 MAINTAINER=     maintainer@email.com
@@ -19,7 +20,6 @@ USES=           gmake compiler:c11 localbase:ldflags
 USE_GITHUB=     yes
 GH_ACCOUNT=     intel
 GH_PROJECT=     intel-ipsec-mb
-GH_TAGNAME=	55179f0
 
 USE_LDCONFIG=   yes
 PLIST_FILES=    include/intel-ipsec-mb.h \
