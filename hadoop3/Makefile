@@ -20,14 +20,15 @@ BUILD_DEPENDS=	ant:devel/apache-ant \
 		bash:shells/bash \
 		cmake:devel/cmake \
 		mvn:devel/maven \
-#		protobuf25>0:devel/protobuf25 \
+		protobuf25>0:devel/protobuf25 \
 		protobuf-java>0:devel/protobuf-java
 LIB_DEPENDS=	libprotobuf.so:devel/protobuf25 \
 		libsasl2.so:security/cyrus-sasl2 \
 		libsnappy.so:archivers/snappy \
 		libzstd.so:archivers/zstd
 RUN_DEPENDS=	bash:shells/bash \
-		setsid:sysutils/setsid
+		setsid:sysutils/setsid \
+		${JAVALIBDIR}/protobuf-java.jar:devel/protobuf-java
 
 USES=		compiler:c++11-lang cpe pkgconfig shebangfix ssl
 CPE_VENDOR=	apache
@@ -92,8 +93,8 @@ do-build:
 	${CP} ${DISTDIR}/${DIST_SUBDIR}/apache-tomcat-${TOMCAT_VERSION}.tar.gz ${WRKSRC}/hadoop-common-project/hadoop-kms/downloads/
 	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} ${LOCALBASE}/bin/mvn -Dmaven.javadoc.skip=true -Dmaven.clean.skip=true -Dmaven.repo.local=${WRKDIR}/m2 package \
 	-Pdist,native -DskipTests -Drequire.snappy -Dsnappy.prefix=${LOCALBASE} -Drequire.openssl -Drequire.zstd -Dzstd.prefix=${LOCALBASE} \
-	 install:install-file -DgroupId=com.google.protobuf -DartifactId=protoc  -Dclassifier=freebsd-x86_64 -Dpackaging=jar  -Dfile=/usr/local/share/java/classes/protobuf-java.jar \
-#	 install:install-file -DgroupId=org.apache.ftpserve -DartifactId=ftplet-api  -Dclassifier=freebsd-x86_64 -Dpackaging=jar  -Dfile=/usr/local/share/java/classes/ftplet-api-1.0.0.jar
+	install:install-file -DgroupId=com.google.protobuf -DartifactId=protoc -Dclassifier=freebsd-x86_64 -Dpackaging=jar -Dfile=${JAVALIBDIR}/protobuf-java.jar
+#	install:install-file -DgroupId=org.apache.ftpserver -DartifactId=ftplet-api -Dclassifier=freebsd-x86_64 -Dpackaging=jar -Dfile=/usr/local/share/java/classes/ftplet-api-1.0.0.jar
 
 post-build:
 	${RM} ${HADOOP_DIST}/etc/hadoop/*.cmd
