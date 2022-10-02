@@ -1,7 +1,8 @@
 # $FreeBSD$
 
 PORTNAME=	rkdeveloptool
-DISTVERSION=	1.3.20200831
+DISTVERSIONPREFIX=	v
+DISTVERSION=	1.32
 CATEGORIES=	sysutils
 
 MAINTAINER=	maintainer@email.com
@@ -16,7 +17,7 @@ GNU_CONFIGURE=	yes
 USE_GITHUB=	yes
 GH_ACCOUNT=	rockchip-linux
 GH_PROJECT=	rkdeveloptool
-GH_TAGNAME=	1e890c4
+GH_TAGNAME=	46bb4c0
 
 PLIST_FILES=	bin/rkdeveloptool
 
