@@ -1,8 +1,10 @@
 --- maxutils/maxbase/src/stacktrace.cc.orig	2022-09-12 06:23:56 UTC
 +++ maxutils/maxbase/src/stacktrace.cc
-@@ -19,7 +19,9 @@
+@@ -18,8 +18,11 @@
+ #include <functional>
  #include <cstdarg>
  #include <climits>
++#include <sys/wait.h>
  
 +#ifdef __linux__
  #include <sys/prctl.h>
@@ -10,7 +12,7 @@
  
  #ifdef HAVE_GLIBC
  #include <execinfo.h>
-@@ -236,6 +238,7 @@ void emergency_stacktrace(void (* handler)(const char*
+@@ -236,6 +239,7 @@ void emergency_stacktrace(void (* handler)(const char*
  
  #endif
  
@@ -18,7 +20,7 @@
  void dump_gdb_stacktrace(void (* handler)(const char*))
  {
      prctl(PR_SET_PTRACER, PR_SET_PTRACER_ANY);
-@@ -245,6 +248,12 @@ void dump_gdb_stacktrace(void (* handler)(const char*)
+@@ -245,6 +249,12 @@ void dump_gdb_stacktrace(void (* handler)(const char*)
          getpid());
      prctl(PR_SET_PTRACER, 0);
  }
