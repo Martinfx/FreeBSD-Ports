@@ -18,6 +18,7 @@ RUN_DEPENDS=	bash:shells/bash
 USES=		cpe shebangfix
 CPE_VENDOR=	apache
 USE_JAVA=	yes
+SHEBANG_FILES=	share/flume/bin/flume-ng
 
 WRKSRC=		${WRKDIR}/apache-${PORTNAME}-${PORTVERSION}-src
 
@@ -41,6 +42,10 @@ do-build:
 		-Dmaven.repo.local=${WRKDIR}/m2  \
 		 -DskipTests clean package
 do-install:
+	${MKDIR} ${STAGEDIR}${DATADIR}/bin ${STAGEDIR}${DATADIR}/lib ${STAGEDIR}${DATADIR}/conf  ${STAGEDIR}${DATADIR}/tools
+	cd ${WRKSRC}/flume-ng-dist/target/apache-flume-1.10.1-bin/apache-flume-1.10.1-bin/bin/ && ${INSTALL_SCRIPT} * ${STAGEDIR}${DATADIR}/bin
+	cd ${WRKSRC}/flume-ng-dist/target/apache-flume-1.10.1-bin/apache-flume-1.10.1-bin/lib/ && ${INSTALL_SCRIPT} * ${STAGEDIR}${DATADIR}/lib
+	cd ${WRKSRC}/flume-ng-dist/target/apache-flume-1.10.1-bin/apache-flume-1.10.1-bin/tools/ && ${INSTALL_SCRIPT} * ${STAGEDIR}${DATADIR}/tools
 	${INSTALL_DATA} ${WRKSRC}/conf/*.template ${STAGEDIR}${DATADIR}/conf/
 
 .include <bsd.port.post.mk>
