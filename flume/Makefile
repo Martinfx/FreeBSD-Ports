@@ -18,7 +18,7 @@ RUN_DEPENDS=	bash:shells/bash
 USES=		cpe shebangfix
 CPE_VENDOR=	apache
 USE_JAVA=	yes
-SHEBANG_FILES=	share/flume/bin/flume-ng
+SHEBANG_FILES=	bin/flume-ng
 
 WRKSRC=		${WRKDIR}/apache-${PORTNAME}-${PORTVERSION}-src
 
