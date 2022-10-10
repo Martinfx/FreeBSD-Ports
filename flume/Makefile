@@ -1,8 +1,7 @@
 PORTNAME=	flume
 PORTVERSION=	1.10.1
-MASTER_SITES=	https://archive.apache.org/dist/${PORTNAME}/${PORTVERSION}/
-DISTFILES=	apache-${PORTNAME}-${PORTVERSION}-src.tar.gz
-
+MASTER_SITES=	APACHE/flume
+DISTNAME= 	apache-flume-${PORTVERSION}-src
 CATEGORIES=	databases java
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -19,8 +18,6 @@ USES=		cpe shebangfix
 CPE_VENDOR=	apache
 USE_JAVA=	yes
 SHEBANG_FILES=	bin/flume-ng
-
-WRKSRC=		${WRKDIR}/apache-${PORTNAME}-${PORTVERSION}-src
 
 MAKE_ENV+=	JAVA_HOME=${JAVA_HOME} \
 		MAVEN_OPTS="-Xms512m -Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512m"
