@@ -1,4 +1,4 @@
-PORTNAME=	libredefender
+W]PORTNAME=	libredefender
 DISTVERSIONPREFIX=      v
 DISTVERSION=    0.6.0
 CATEGORIES=     security
@@ -18,10 +18,19 @@ GH_PROJECT=     libredefender
 
 CARGO_CRATES=	anyhow-1.0.40 \
 		atoi-1.0.0 \
+		ansi_term-0.12.1 \
 		atty-0.2.14 \
+		autocfg-1.1.0 \
+		arrayvec-0.4.12 \
 		async-trait-0.1.57 \
+		aho-corasick-0.7.19 \
 		battery-0.7.0 \
+		block-0.1.6 \
+		bitflags-0.9.0 \
 		bitflags-1.2.1 \
+		bindgen-0.56.0 \
+		byteorder-1.4.3 \
+		cc-1.0.73 \
 		chrono-0.4.19 \
 		chrono-humanize-0.2.1 \
 		clamav-rs-0.5.3 \
@@ -31,47 +40,144 @@ CARGO_CRATES=	anyhow-1.0.40 \
 		config-0.13.0 \
 		cfg-if-1.0.0 \
 		cfg-if-0.1.0 \
+		cfg-if-0.1.2 \
 		crossbeam-utils-0.8.11 \
 		crossbeam-channel-0.5.1 \
 		core-foundation-0.6.3 \
 		core-foundation-0.7.0 \
+		core-foundation-sys-0.6.1 \
+		core-foundation-sys-0.7.0 \
+		core-foundation-sys-0.8.3 \
+		clap-2.34.0 \
+		clang-sys-1.3.3 \
+		cexpr-0.4.0 \
+		dirs-1.0.0 \
 		dirs-4.0.0 \
 		dirs-sys-0.3.7 \
+		derivative-2.2.0 \
+		env_logger-0.8.0 \
 		env_logger-0.9.0 \
+		enumflags2-0.6.4 \
+		enumflags2-0.7.5 \
+		enumflags2_derive-0.6.4 \
+		enumflags2_derive-0.7.4 \
+		fastrand-1.8.0 \
         	glob-0.3.0 \
+        	getrandom-0.2.7 \
+        	hermit-abi-0.1.19 \
         	humantime-2.1.0 \
         	human-size-0.4.1 \
+        	heck-0.3.0 \
+        	heck-0.4.0 \
 		ioprio-0.2.0 \
+		itoa-1.0.3 \
+		itoa-0.4.8 \
 		libc-0.2.94 \
+		libc-0.2.99 \
+		libc-0.2.120  \
 		lazycell-1.3.0 \
 		lazy_static-1.4.0 \
 		log-0.4.14 \
+		libloading-0.7.3 \
+		mac-notification-sys-0.3.0 \
+		mac-notification-sys-0.5.6 \
 		memchr-2.4.0 \
 		mach-0.2.3 \
 		mach-0.3.2 \
+		malloc_buf-0.0.6 \
 		pathdiff-0.2.1 \
+		pkg-config-0.3.25 \
+		proc-macro2-1.0.43 \
+		ppv-lite86-0.2.16 \
+		proc-macro-error-1.0.4 \
+		proc-macro-crate-1.2.1 \
+		proc-macro-crate-0.1.4 \
+		proc-macro-error-attr-1.0.4 \
+		peeking_take_while-0.1.2 \
 		time-0.3.14 \
 		time-0.1.44 \
 		toml-0.5.9 \
+		thiserror-1.0.33 \
+		thiserror-impl-1.0.33 \
+		textwrap-0.11.0 \
 		tempfile-3.3.0 \
+		termcolor-1.1.3 \
+		typenum-1.15.0 \
 		notify-rust-4.5.2 \
+		minimal-lexical-0.2.1 \
+		memoffset-0.6.5 \
+		once_cell-1.14.0 \
+		objc-0.2.7 \
+		objc_id-0.1.1 \
+		objc-foundation-0.1.1 \
 		num-format-0.4.0 \
 		num_cpus-1.13.0 \
 		num-traits-0.2.15 \
 		num-integer-0.1.45 \
 		nix-0.13.0 \
+		nix-0.17.0 \
 		nix-0.19.1 \
                 nix-0.21.2 \
                 nix-0.23.1 \
                 nom-5.1.2 \
                 nom-7.1.1 \
+                nodrop-0.1.14 \
 		uom-0.21.1 \
+		unicode-ident-1.0.3 \
+		unicode-segmentation-1.9.0 \
+		instant-0.1.12 \
+		unicode-width-0.1.9 \
+		rand_chacha-0.3.1 \
+		rand_core-0.6.3 \
 		rand-0.8.3 \
+		rand_hc-0.3.1 \
+		redox_users-0.4.3 \
+		regex-1.6.0 \
+		regex-syntax-0.6.27 \
+		remove_dir_all-0.5.3 \
+		redox_syscall-0.2.16 \
+		ryu-1.0.11 \
+		rustc-hash-1.1.0 \
+		serde_derive-1.0.125 \
+		serde_derive-1.0.144 \
 		serde-1.0.125 \
-		serde_json-1.0.64\
-		structopt-0.3.21\
-		v_htmlescape-0.15.0\
+		serde_json-1.0.64 \
+		serde_repr-0.1.9 \
+		scoped-tls-1.0.0 \
+		structopt-0.3.21 \
+		structopt-derive-0.4.14 \
+		structopt-derive-0.4.18 \
+		same-file-1.0.6 \
+		strsim-0.8.0 \
+		syn-1.0.99 \
+		shlex-0.1.1 \
+		quote-1.0.21 \
+		zbus-1.0.0 \
+		zbus-2.3.2 \
+		zbus_macros-1.0.0 \
+		zbus_macros-2.3.2 \
+		zvariant-2.0.0 \
+		zvariant-3.6.0 \
+		zvariant_derive-2.0.0 \
+		zvariant_derive-3.6.0 \
+		v_htmlescape-0.15.0 \
+		vcpkg-0.2.15  \
+		void-1.0.2 \
+		version_check-0.9.4 \
+		vec_map-0.8.2 \
 		walkdir-2.3.2 \
-		winapi-0.3.9 
+		which-3.1.1 \
+		winapi-0.3.9 \
+		winrt-0.4.0 \
+		winrt-0.8.0 \
+		winrt-notification-0.2.0 \
+		winrt-notification-0.5.1 \
+		winapi-util-0.1.5 \
+		winapi-i686-pc-windows-gnu-0.4.0 \
+		winapi-x86_64-pc-windows-gnu-0.4.0 \
+		wasi-0.10.0+wasi-snapshot-preview1 \
+		wasi-0.11.0+wasi-snapshot-preview1 \
+		xml-rs-0.6.1 \
+		xml-rs-0.8.4
 
 .include <bsd.port.mk>
