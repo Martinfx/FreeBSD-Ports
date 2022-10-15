@@ -9,8 +9,10 @@ WWW=		https://seastar.io/
 LICENSE=	APACHE20
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
-LIB_DEPENDS=	libcryptopp.so:security/cryptopp
-
+#BUILD_DEPENDS=	dpdk-20.11:net/dpdk-20.11
+LIB_DEPENDS=	libcryptopp.so:security/cryptopp \
+		libfmt.so:devel/libfmt \
+		libhwloc.so.15:devel/hwloc2
 USES=		cmake
 USE_GITHUB=	yes
 GH_ACCOUNT=	scylladb
