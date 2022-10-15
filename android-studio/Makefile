@@ -4,7 +4,8 @@ CATEGORIES=	devel linux
 MASTER_SITES=	https://redirector.gvt1.com/edgedl/android/studio/ide-zips/${DISTVERSION}/
 DISTNAME=	${PORTNAME}-${DISTVERSION}-linux
 MAINTAINER=	freebsd@sysctl.cz
-COMMENT= 	android studio
+COMMENT= 	Android Studio provides the fastest tools for building apps on every type of Android device.
+WWW=		https://developer.android.com/studio/
 
 LICENSE= 	APACHE20
 LICENSE_FILE=	${WRKSRC}/LICENSE.txt
