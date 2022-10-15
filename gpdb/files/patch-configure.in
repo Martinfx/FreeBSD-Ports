@@ -1,0 +1,23 @@
+--- configure.in.orig	2022-10-05 17:37:13 UTC
++++ configure.in
+@@ -476,9 +476,9 @@ fi
+ #
+ if test "$GCC" = yes; then
+   if test "$ICC" = yes; then
+-    CFLAGS="$CFLAGS -c99 "
++    CFLAGS="$CFLAGS -c11 "
+   else
+-    CFLAGS="$CFLAGS -std=gnu99 "
++    CFLAGS="$CFLAGS -std=gnu11 "
+   fi
+ fi
+ 
+@@ -2660,7 +2660,7 @@ fi
+ # false side-effects happens.
+ if test "$GCC" = yes -a "$ICC" = no; then
+   PGAC_PROG_CC_CFLAGS_OPT([-Werror=uninitialized])
+-  PGAC_PROG_CC_CFLAGS_OPT([-Werror=implicit-function-declaration])
++#  PGAC_PROG_CC_CFLAGS_OPT([-Werror=implicit-function-declaration])
+ fi
+ 
+ # Begin output steps

@@ -1,0 +1,5 @@
+TIMESTAMP = 1665820070
+SHA256 (greenplum-db-gpdb-6.22.1_GH0.tar.gz) = 33e6e464748751976c2c66c8332bf0e0e7efe8a0c17d657fc5e4a67cff51ad71
+SIZE (greenplum-db-gpdb-6.22.1_GH0.tar.gz) = 62812689
+SHA256 (google-googletest-a09ea70_GH0.tar.gz) = 8188c5beadb2a601ba481c04198fc7a04e1cc13ef1822abba877df66c8b342fb
+SIZE (google-googletest-a09ea70_GH0.tar.gz) = 861623
