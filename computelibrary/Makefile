@@ -23,7 +23,7 @@ BUILD_DEPENDS=	lang/gcc10
 .if ${ARCH} == "amd64"
 SCONS_ARGS+=    os=freebsd Werror=0 neon=0 opencl=0 embed_kernels=0 examples=0 arch=x86_64 build=native
 .elif ${ARCH} == "aarch64"
-SCONS_ARGS+=    os=freebsd Werror=0 neon=1 opencl=0 embed_kernels=0 examples=0 arch=x86_64 build=native
+SCONS_ARGS+=    os=freebsd Werror=0 neon=1 opencl=0 embed_kernels=0 examples=0 arch=arm64-v8a build=native
 .endif
 
 #MAKE_ARGS+=	CC="${CC}"
