@@ -3309,6 +3309,7 @@
 %%LINUXBASE%%/android-studio/plugins/yaml/lib/resources_en.jar
 %%LINUXBASE%%/android-studio/plugins/yaml/lib/yaml.jar
 %%LINUXBASE%%/android-studio/product-info.json
+share/pixmaps/studio.png
 @dir %%LINUXBASE%%/android-studio/bin/helpers/jb_declarative_formatters/parsers/natvis
 @dir %%LINUXBASE%%/android-studio/bin/helpers/jb_declarative_formatters/parsers
 @dir %%LINUXBASE%%/android-studio/bin/helpers/jb_declarative_formatters
