@@ -15,6 +15,14 @@ USE_GITHUB=     yes
 GH_ACCOUNT=     ARM-software
 GH_PROJECT=     ComputeLibrary
 
-MAKE_ARGS+=	os=freebsd Werror=0 neon=0 opencl=0 embed_kernels=0 examples=0 arch=x86 build=native
+SCONS_ARGS+=	os="freebsd" Werror=0 neon=1 opencl=0 embed_kernels=0 examples=0 arch=armv-8a build=native
+MAKE_ARGS+=	CC="${CC}"
+MAKE_ARGS+=	CXX="${CXX}"
+MAKE_ARGS+=	CXXFLAGS="${CXXFLAGS} -fPIC"
 
-.include <bsd.port.mk>
+
+.include <bsd.port.pre.mk>
+
+MAKE_ARGS=	${SCONS_ARGS}
+
+.include <bsd.port.post.mk>
