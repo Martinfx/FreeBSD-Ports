@@ -17,17 +17,21 @@ BUILD_DEPENDS=	libepoll-shim>0:devel/libepoll-shim
 LIB_DEPENDS=	libepoll-shim.so:devel/libepoll-shim
 
 USES=           compiler:c++11-lang cmake:noninja gmake
+USE_GCC=	yes
 USE_GITHUB=     yes
 GH_ACCOUNT=     mariadb-corporation
 GH_PROJECT=     MaxScale
 
 MAKE_ENV+=	CPATH="${LOCALBASE}/include/libepoll-shim"
+CFLAGS+=	-I${LOCALBASE}/include/libepoll-shim
+LDFLAGS+=	-L${LOCALBASE}/lib -lepoll-shim
 
+CMAKE_ARGS+=	SS_DEBUG=0
 #REINPLACE_ARGS=	-i ''
 
 post-patch:
-	${REINPLACE_CMD} -e "s|program_invocation_short_name|getprogname()|g" ${WRKSRC}/maxutils/maxbase/src/log.cc
-	${REINPLACE_CMD} -e "s|program_invocation_short_name|getprogname()|g" ${WRKSRC}/maxutils/maxbase/src/logger.cc
+#	${REINPLACE_CMD} -e "s|program_invocation_short_name|getprogname()|g" ${WRKSRC}/maxutils/maxbase/src/log.cc
+#	${REINPLACE_CMD} -e "s|program_invocation_short_name|getprogname()|g" ${WRKSRC}/maxutils/maxbase/src/logger.cc
 
 .include <bsd.port.mk>
 
