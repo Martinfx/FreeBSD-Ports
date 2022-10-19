@@ -6,6 +6,7 @@ CATEGORIES=	sysutils
 
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	FUSE module for .dmg files (containing an HFS+ filesystem
+WWW= 		https://github.com/darlinghq/darling-dmg
 
 LICENSE=	GPLv3
 LICENSE_FILE=	${WRKSRC}/LICENSE
