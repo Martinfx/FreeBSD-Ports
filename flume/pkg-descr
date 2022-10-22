@@ -1,3 +1,4 @@
-Apache Flume is a distributed, reliable, and available service for efficiently collecting, 
-aggregating, and moving large amounts of log data. Its main goal is to deliver data 
+Apache Flume is a distributed, reliable, and available service
+for efficiently collecting, aggregating, and moving large
+amounts of log data. Its main goal is to deliver data
 xfrom applications to Apache Hadoop's HDFS.

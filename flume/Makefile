@@ -1,12 +1,12 @@
 PORTNAME=	flume
 PORTVERSION=	1.10.1
-MASTER_SITES=	APACHE/flume
-DISTNAME= 	apache-flume-${PORTVERSION}-src
 CATEGORIES=	databases java
+MASTER_SITES=	APACHE/flume
+DISTNAME=	apache-flume-${PORTVERSION}-src
 
 MAINTAINER=	freebsd@sysctl.cz
-COMMENT=	Flume is a distributed, reliable, and available service for efficiently collecting, \
-		aggregating, and moving large amounts of log data
+COMMENT=	Flume is a distributed, reliable, and available service for efficiently \
+		collecting, aggregating, and moving large amounts of log data
 WWW=		https://flume.apache.org/
 
 LICENSE=	APACHE20
