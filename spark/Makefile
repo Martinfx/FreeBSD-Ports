@@ -14,9 +14,12 @@ WWW=		http://spark.apache.org/
 
 LICENSE=	APACHE20
 
+BROKEN_armv6=	fails to build: maven-assembly-plugin: Failed to retrieve numeric file attributes
+BROKEN_armv7=	fails to build: maven-assembly-plugin: Failed to retrieve numeric file attributes
+
 BUILD_DEPENDS=	${LOCALBASE}/lib/libsnappyjava.so:archivers/snappy-java \
 		bash:shells/bash \
-		maven>0:devel/maven
+		mvn:devel/maven
 RUN_DEPENDS=	bash:shells/bash
 
 USES=		cpe python shebangfix
