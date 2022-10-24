@@ -1,24 +1,17 @@
 PORTNAME=	libdatovka
-DISTVERSIONSUFFIX=v
-DISTVERSION=	0.2.0
+#DISTVERSIONSUFFIX=v
+DISTVERSION=	0.2.1
 CATEGORIES=	devel
+MASTER_SITES=	https://secure.nic.cz/files/datove_schranky/libdatovka/
 
 MAINTAINER=	freebsd@sysctl.cz
-COMMENT=	test
+COMMENT=	library for program datovka
 
 LICENSE=	LGPL3
-LICENSE_FILE=	${WRKSRC}/GPL-3
+LICENSE_FILE=	${WRKSRC}/COPYING
 
-USES=           autoreconf gmake
+USES=           autoreconf gmake tar:xz
 GNU_CONFIGURE=  yes
 #CONFIGURE_ARGS+= 
 
-USE_GITLAB=	yes
-GL_SITE=	https://gitlab.nic.cz/datovka/libdatovka
-GL_ACCOUNT=	datovka
-GL_PROJECT=	libdatovka
-GL_COMMIT=	b2c5ddbf3843f961046e9708ee36c0169656e4cc
-
-TAR_CMD=	${PREFIX}/bin/gtar
-#EXTRACT_CMD=	${GZIP_CMD}
 .include <bsd.port.mk>
