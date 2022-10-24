@@ -24,7 +24,7 @@ CARGO_CRATES=	anyhow-1.0.40 \
 		arrayvec-0.4.12 \
 		async-trait-0.1.57 \
 		aho-corasick-0.7.19 \
-		battery-0.7.0 \
+		battery-0.7.8 \
 		block-0.1.6 \
 		bitflags-0.9.0 \
 		bitflags-1.2.1 \
@@ -122,14 +122,15 @@ CARGO_CRATES=	anyhow-1.0.40 \
                 nom-5.1.2 \
                 nom-7.1.1 \
                 nodrop-0.1.14 \
-		uom-0.21.1 \
+                uom-0.21.1 \
+		uom-0.30.0 \
 		unicode-ident-1.0.3 \
 		unicode-segmentation-1.9.0 \
 		instant-0.1.12 \
 		unicode-width-0.1.9 \
 		rand_chacha-0.3.1 \
 		rand_core-0.6.3 \
-		rand-0.8.3 \
+		rand-0.8.5 \
 		rand_hc-0.3.1 \
 		redox_users-0.4.3 \
 		regex-1.6.0 \
