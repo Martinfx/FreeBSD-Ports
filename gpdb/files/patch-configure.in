@@ -1,6 +1,16 @@
 --- configure.in.orig	2022-10-05 17:37:13 UTC
 +++ configure.in
-@@ -476,9 +476,9 @@ fi
+@@ -111,7 +111,8 @@ tas_file=dummy.s
+ ##
+ ## Command line options
+ ##
+-
++AC_ARG_ENABLE(fatalwarnings, [AS_HELP_STRING([--disable-fatalwarnings],
++                          [Do not consider compiler warnings as errors])])
+ #
+ # Add non-standard directories to the include path
+ #
+@@ -476,9 +477,9 @@ fi
  #
  if test "$GCC" = yes; then
    if test "$ICC" = yes; then
@@ -12,7 +22,7 @@
    fi
  fi
  
-@@ -2660,7 +2660,7 @@ fi
+@@ -2660,7 +2661,7 @@ fi
  # false side-effects happens.
  if test "$GCC" = yes -a "$ICC" = no; then
    PGAC_PROG_CC_CFLAGS_OPT([-Werror=uninitialized])

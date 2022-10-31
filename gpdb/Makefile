@@ -9,9 +9,11 @@ LICENSE=	APACHE20
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
 USES=		autoreconf gmake libtool
+USE_GCC=	yes
 
 GNU_CONFIGURE=	yes
-CONFIGURE_ARGS+= --with-perl --with-python --with-libxml --with-gssapi
+CONFIGURE_ARGS+= --with-perl --with-python --with-libxml --with-gssapi  --disable-fatalwarnings
+LDFLAGS+= 	-lexecinfo
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	greenplum-db
