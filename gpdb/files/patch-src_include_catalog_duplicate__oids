@@ -1,0 +1,8 @@
+--- src/include/catalog/duplicate_oids.orig	2022-10-31 17:01:53 UTC
++++ src/include/catalog/duplicate_oids
+@@ -1,4 +1,4 @@
+-#!/usr/bin/perl
++#!/usr/local/bin/perl
+ 
+ use strict;
+ use warnings;
