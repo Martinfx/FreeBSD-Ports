@@ -22,6 +22,21 @@
    fi
  fi
  
+@@ -929,10 +930,10 @@ AC_SUBST(with_perl)
+ #
+ # Optionally build Python modules (PL/Python)
+ #
+-AC_MSG_CHECKING([whether to build Python modules])
+-PGAC_ARG_BOOL(with, python, no, [build Python modules (PL/Python)])
+-AC_MSG_RESULT([$with_python])
+-AC_SUBST(with_python)
++#AC_MSG_CHECKING([whether to build Python modules])
++#PGAC_ARG_BOOL(with, python, no, [build Python modules (PL/Python)])
++#AC_MSG_RESULT([$with_python])
++#AC_SUBST(with_python)
+ 
+ #
+ # GSSAPI
 @@ -2660,7 +2661,7 @@ fi
  # false side-effects happens.
  if test "$GCC" = yes -a "$ICC" = no; then

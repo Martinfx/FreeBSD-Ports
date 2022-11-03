@@ -8,11 +8,12 @@ COMMENT=	Massively Parallel PostgreSQL for Analytics. An open-source massively p
 LICENSE=	APACHE20
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
-USES=		autoreconf gmake libtool
+USES=		autoreconf bison gmake perl5 libtool
 USE_GCC=	yes
-
+# bison
+# perl
 GNU_CONFIGURE=	yes
-CONFIGURE_ARGS+= --with-perl --with-python --with-libxml --with-gssapi  --disable-fatalwarnings
+CONFIGURE_ARGS+= --with-perl --with-libxml --with-gssapi  --disable-fatalwarnings --disable-python #--with-python
 LDFLAGS+= 	-lexecinfo
 
 USE_GITHUB=	yes
