@@ -10,9 +10,9 @@ WWW=            https://gitlab.nic.cz/datovka/
 LICENSE=        LGPL3
 LICENSE_FILE=   ${WRKSRC}/COPYING
 
-USES=		qmake qt:5 tar:xz
-QT+=		printsupport svg widgets gui websockets network sql core	
+LIB_DEPENDS+=   libdatovka.so:devel/libdatovka
 
-LIB_DEPENDS+=	libdatovka.so:devel/libdatovka
+USES=		qmake qt:5 tar:xz
+QT+=		printsupport svg widgets gui websockets network sql core
 
 .include <bsd.port.mk>
