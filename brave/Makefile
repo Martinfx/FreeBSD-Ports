@@ -16,9 +16,10 @@ FETCH_DEPENDS=	npm:www/npm
 BUILD_DEPENDS=	libnotify>0:devel/libnotify \
 		pkg-config:devel/pkgconf \
 		python:lang/python \
-		node:www/node \
 		npm:www/npm \
-		ninja:devel/ninja
+		ninja:devel/ninja \
+		electron19:devel/electron19 \
+		npm:www/npm-node16
 
 RUN_DEPENDS=	bash:shells/bash \
 		node:www/node
@@ -34,14 +35,14 @@ NO_BUILD=	yes
 USE_GITHUB=	yes
 GH_ACCOUNT=	brave
 GH_PROJECT=	brave-browser
-#GH_TUPLE +=	yzgyyang:depot-tools:605dd31:depot_tools/vendor/depot_tools
-#GH_TUPLE +=	pallets:jinja:209fd39:jinja2/vendor/jinja2
+GH_TUPLE +=	yzgyyang:depot-tools:605dd31:depot_tools/vendor/depot_tools
+GH_TUPLE +=	pallets:jinja:209fd39:jinja2/vendor/jinja2
 GH_TUPLE +=	brave:brave-core:57c6ce8:brave/src/brave
-#GH_TUPLE +=	brave:tracking-protection:6b6faf7:brave/src/brave/vendor/tracking-protection
-#GH_TUPLE +=	brave:ad-block:dcfc584:brave/src/brave/vendor/ad-block
-#GH_TUPLE +=	brave:brave-extension:038a43a:brave/src/brave/vendor/brave-extension
+GH_TUPLE +=	brave:tracking-protection:6b6faf7:brave/src/brave/vendor/tracking-protection
+GH_TUPLE +=	brave:ad-block:dcfc584:brave/src/brave/vendor/ad-block
+GH_TUPLE +=	brave:brave-extension:038a43a:brave/src/brave/vendor/brave-extension
 
-MAKE_ENV+=	ELECTRON_SKIP_BINARY_DOWNLOAD=1
+MAKE_ENV+=	ELECTRON_SKIP_BINARY_DOWNLOAD=1 ELECTRON_OVERRIDE_DIST_PATH=${LOCALBASE}/share/electron${ELECTRON_VER_MAJOR} \
 
 #post-fetch:
 #	${MKDIR} ${WRKDIR}/npm-precache
@@ -58,6 +59,10 @@ MAKE_ENV+=	ELECTRON_SKIP_BINARY_DOWNLOAD=1
 #	(cd ${WRKSRC} && ${BASH} git init)
 #	(cd ${WRKSRC} && ${BASH} git submodule sync)
 #	(cd ${WRKSRC} && ${BASH} git submodule update --init --recursive)
+do-build:
+	@${RM} -r ${WRKDIR}/electron${ELECTRON_VER_MAJOR}
+	@${CP} -pR ${LOCALBASE}/share/electron${ELECTRON_VER_MAJOR} ${WRKDIR}/electron${ELECTRON_VER_MAJOR}
+	${CHMOD} -R a+w ${WRKDIR}/electron${ELECTRON_VER_MAJOR}
 
 do-install:
 	cd ${WRKSRC}/src/brave/ && npm cache clean --force && npm install --verbose
