@@ -1,9 +1,7 @@
-TIMESTAMP = 1667764831
-SHA256 (brave-brave-browser-v0.57.18_GH0.tar.gz) = 63468f4598725523ada662c37960db5883930de3a37edc5bbb472af409f9112d
-SIZE (brave-brave-browser-v0.57.18_GH0.tar.gz) = 55944
+TIMESTAMP = 1667841818
+SHA256 (brave-brave-browser-v1.47.52_GH0.tar.gz) = aacebe6a046aec5b3fba6586b254c645df5df41a9d37b6c7b866bfd5a44a4d8b
+SIZE (brave-brave-browser-v1.47.52_GH0.tar.gz) = 127923
 SHA256 (yzgyyang-depot-tools-605dd31_GH0.tar.gz) = 8bf565a0b0c710fa56f3eabb38ac012d479e5fc87da2333f92555869af48fcdc
 SIZE (yzgyyang-depot-tools-605dd31_GH0.tar.gz) = 2376523
-SHA256 (pallets-jinja-209fd39_GH0.tar.gz) = 8e0456b1f711046072a5d3240fcc99ba5191a348f95a81cf163e05e9569f637d
-SIZE (pallets-jinja-209fd39_GH0.tar.gz) = 397161
-SHA256 (brave-brave-extension-038a43a_GH0.tar.gz) = 5e484fd005f4d3c44dcf3bb8269e025902cb9ba434cbc017106f6263d2020b12
-SIZE (brave-brave-extension-038a43a_GH0.tar.gz) = 806998
+SHA256 (brave-brave-core-c7f821c_GH0.tar.gz) = fd37f03ba95b09050cd0635ee827058218e45681605198784a3c603ca76bceff
+SIZE (brave-brave-core-c7f821c_GH0.tar.gz) = 162603912

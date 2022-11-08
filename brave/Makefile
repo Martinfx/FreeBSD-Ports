@@ -1,7 +1,7 @@
 # $FreeBSD$
 
 PORTNAME=	brave
-PORTVERSION=	0.57.18
+PORTVERSION=	1.47.52
 DISTVERSIONPREFIX=v
 CATEGORIES=	www
 MASTER_SITES=	https://commondatastorage.googleapis.com/chromium-browser-official/
@@ -15,7 +15,7 @@ FETCH_DEPENDS=	npm:www/npm
 
 BUILD_DEPENDS=	libnotify>0:devel/libnotify \
 		pkg-config:devel/pkgconf \
-		python:lang/python \
+#		python:lang/python \
 		npm:www/npm \
 		ninja:devel/ninja \
 		electron19:devel/electron19 \
@@ -24,7 +24,7 @@ BUILD_DEPENDS=	libnotify>0:devel/libnotify \
 RUN_DEPENDS=	bash:shells/bash \
 		node:www/node
 
-USES=		compiler:c++14-lang ninja pkgconfig python:2.7 \
+USES=		compiler:c++14-lang ninja pkgconfig python:3.8 \
 		shebangfix tar:xz
 
 USE_XORG=	x11 xcb xcomposite xcursor xext xdamage xfixes xi \
@@ -35,12 +35,15 @@ NO_BUILD=	yes
 USE_GITHUB=	yes
 GH_ACCOUNT=	brave
 GH_PROJECT=	brave-browser
-GH_TUPLE +=	yzgyyang:depot-tools:605dd31:depot_tools/vendor/depot_tools
-GH_TUPLE +=	pallets:jinja:209fd39:jinja2/vendor/jinja2
-GH_TUPLE +=	brave:brave-core:57c6ce8:brave/src/brave
-GH_TUPLE +=	brave:tracking-protection:6b6faf7:brave/src/brave/vendor/tracking-protection
-GH_TUPLE +=	brave:ad-block:dcfc584:brave/src/brave/vendor/ad-block
-GH_TUPLE +=	brave:brave-extension:038a43a:brave/src/brave/vendor/brave-extension
+#GH_TUPLE +=	yzgyyang:depot-tools:605dd31:depot_tools/vendor/depot_tools
+#GH_TUPLE +=	pallets:jinja:209fd39:jinja2/vendor/jinja2
+#GH_TUPLE +=	brave:brave-core:c7f821c:brave/src/brave
+#GH_TUPLE +=	brave:tracking-protection:6b6faf7:brave/src/brave/vendor/tracking-protection
+#GH_TUPLE+=	brave:ad-block:dcfc584:brave/src/brave/vendor/ad-block
+#GH_TUPLE+=	brave:brave-extension:038a43a:brave/src/brave/vendor/brave-extension
+#GH_TUPLE+=      brave:brave-core:c7f821c:brave/src/brave
+
+ELECTRON_VER_MAJOR=19
 
 MAKE_ENV+=	ELECTRON_SKIP_BINARY_DOWNLOAD=1 ELECTRON_OVERRIDE_DIST_PATH=${LOCALBASE}/share/electron${ELECTRON_VER_MAJOR} \
 
@@ -59,13 +62,14 @@ MAKE_ENV+=	ELECTRON_SKIP_BINARY_DOWNLOAD=1 ELECTRON_OVERRIDE_DIST_PATH=${LOCALBA
 #	(cd ${WRKSRC} && ${BASH} git init)
 #	(cd ${WRKSRC} && ${BASH} git submodule sync)
 #	(cd ${WRKSRC} && ${BASH} git submodule update --init --recursive)
-do-build:
-	@${RM} -r ${WRKDIR}/electron${ELECTRON_VER_MAJOR}
-	@${CP} -pR ${LOCALBASE}/share/electron${ELECTRON_VER_MAJOR} ${WRKDIR}/electron${ELECTRON_VER_MAJOR}
-	${CHMOD} -R a+w ${WRKDIR}/electron${ELECTRON_VER_MAJOR}
+#do-build:
+#	@${RM} -r ${WRKDIR}/electron${ELECTRON_VER_MAJOR}
+#	@${CP} -pR ${LOCALBASE}/share/electron${ELECTRON_VER_MAJOR} ${WRKDIR}/electron${ELECTRON_VER_MAJOR}
+#	${CHMOD} -R a+w ${WRKDIR}/electron${ELECTRON_VER_MAJOR}
 
 do-install:
-	cd ${WRKSRC}/src/brave/ && npm cache clean --force && npm install --verbose
+	cd ${WRKSRC} && npm cache clean --force && npm install --verbose
+	cd ${WRKSRC} && npm run init
 
 #do-install:
 #	(cd ${WRKSRC} && ${BASH} git init)
