@@ -2,8 +2,8 @@ https://bugzilla.mozilla.org/show_bug.cgi?id=1612181
 https://bug1612181.bmoattachments.org/attachment.cgi?id=9123550
 
 
---- xpcom/reflect/xptcall/md/unix/xptcinvoke_asm_ppc64_linux.S.orig	2020-01-29 19:25:30.967574000 +0100
-+++ xpcom/reflect/xptcall/md/unix/xptcinvoke_asm_ppc64_linux.S	2020-01-29 19:26:50.465737000 +0100
+--- xpcom/reflect/xptcall/md/unix/xptcinvoke_asm_ppc64_linux.S.orig	2022-11-04 13:54:00 UTC
++++ xpcom/reflect/xptcall/md/unix/xptcinvoke_asm_ppc64_linux.S
 @@ -62,11 +62,11 @@ NS_InvokeByIndex:
  .NS_InvokeByIndex:
  #endif
@@ -118,8 +118,8 @@ https://bug1612181.bmoattachments.org/attachment.cgi?id=9123550
          blr
  
  #if _CALL_ELF == 2
---- xpcom/reflect/xptcall/md/unix/xptcstubs_asm_ppc64_linux.S.orig	2020-01-29 19:25:51.465953000 +0100
-+++ xpcom/reflect/xptcall/md/unix/xptcstubs_asm_ppc64_linux.S	2020-01-29 19:28:53.055137000 +0100
+--- xpcom/reflect/xptcall/md/unix/xptcstubs_asm_ppc64_linux.S.orig	2022-11-04 13:54:00 UTC
++++ xpcom/reflect/xptcall/md/unix/xptcstubs_asm_ppc64_linux.S
 @@ -58,35 +58,35 @@ SharedStub:
  #endif
          mflr    r0

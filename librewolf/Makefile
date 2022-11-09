@@ -1,7 +1,7 @@
 # $FreeBSD: $
 
 PORTNAME=	librewolf
-DISTVERSION=	101.0.1
+DISTVERSION=	106.0.5
 CATEGORIES=	www
 MASTER_SITES=	MOZILLA/firefox/releases/${DISTVERSION}/source \
 		MOZILLA/firefox/candidates/${DISTVERSION}-candidates/build3/source
@@ -83,7 +83,7 @@ MOZ_OPTIONS+=   --with-wasi-sysroot=${LOCALBASE}/share/wasi-sysroot
 .endif
 
 post-extract:
-	mv work/firefox-99.0 ${WRKSRC}
+	mv work/firefox-106.0.5 ${WRKSRC}
 
 post-patch:
 #	@${REINPLACE_CMD} -e 's/%u/%U/' -e '/X-MultipleArgs/d' \

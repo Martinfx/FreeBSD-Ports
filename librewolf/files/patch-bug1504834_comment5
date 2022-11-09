@@ -1,27 +1,6 @@
-https://bugzilla.mozilla.org/show_bug.cgi?id=1504834#c5
-https://bugzilla.mozilla.org/attachment.cgi?id=9028600
-Rough progress patch
-
-
-diff --git gfx/2d/DrawTargetSkia.cpp gfx/2d/DrawTargetSkia.cpp
-index 6bbef8d..82b04ba 100644
---- gfx/2d/DrawTargetSkia.cpp
-+++ gfx/2d/DrawTargetSkia.cpp
-@@ -154,8 +154,7 @@ static IntRect CalculateSurfaceBounds(const IntSize& aSize, const Rect* aBounds,
-   return surfaceBounds.Intersect(bounds);
- }
- 
--static const int kARGBAlphaOffset =
--    SurfaceFormat::A8R8G8B8_UINT32 == SurfaceFormat::B8G8R8A8 ? 3 : 0;
-+static const int kARGBAlphaOffset = 0;
- 
- static bool VerifyRGBXFormat(uint8_t* aData, const IntSize& aSize,
-                              const int32_t aStride, SurfaceFormat aFormat) {
-diff --git gfx/2d/Types.h gfx/2d/Types.h
-index 6b3bdc7..7c6c342 100644
---- gfx/2d/Types.h
+--- gfx/2d/Types.h.orig	2022-11-04 13:52:23 UTC
 +++ gfx/2d/Types.h
-@@ -90,15 +90,8 @@ enum class SurfaceFormat : int8_t {
+@@ -92,15 +92,8 @@ enum class SurfaceFormat : int8_t {
  // The following values are endian-independent synonyms. The _UINT32 suffix
  // indicates that the name reflects the layout when viewed as a uint32_t
  // value.
@@ -37,9 +16,7 @@ index 6b3bdc7..7c6c342 100644
  
    // The following values are OS and endian-independent synonyms.
    //
-diff --git gfx/skia/skia/third_party/skcms/skcms.cc gfx/skia/skia/third_party/skcms/skcms.cc
-index 6b4d87b..7c0559d 100644
---- gfx/skia/skia/third_party/skcms/skcms.cc
+--- gfx/skia/skia/third_party/skcms/skcms.cc.orig	2022-11-04 13:52:23 UTC
 +++ gfx/skia/skia/third_party/skcms/skcms.cc
 @@ -30,6 +30,8 @@
          #include <avx512fintrin.h>
