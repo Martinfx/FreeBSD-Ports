@@ -9,17 +9,23 @@ COMMENT=	Tor Browser for FreeBSD
 
 LICENSE=	BSD3CLAUSE
 
-BUILD_DEPENDS=	autoconf2.13:devel/autoconf2.13  \
+
+BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
+		nss>=3.79.1:security/nss \
+		icu>=71.1,1:devel/icu \
+		libevent>=2.1.8:devel/libevent \
+		harfbuzz>=4.1.0:print/harfbuzz \
+		graphite2>=1.3.14:graphics/graphite2 \
+		png>=1.6.37:graphics/png \
+		dav1d>=1.0.0:multimedia/dav1d \
+		libvpx>=1.11.0:multimedia/libvpx \
+		${PYTHON_PKGNAMEPREFIX}sqlite3>0:databases/py-sqlite3@${PY_FLAVOR} \
+		v4l_compat>0:multimedia/v4l_compat \
+		autoconf2.13:devel/autoconf2.13 \
+		nasm:devel/nasm \
 		yasm:devel/yasm \
-		zip:archivers/zip \
-		wx31-gtk3>=0:x11-toolkits/wxgtk31 \
-		freetype2>=0:print/freetype2 \
-		dbus-glib>=0:devel/dbus-glib \
-		fontconfig>=0:x11-fonts/fontconfig \
-		rustc:lang/rust \
-		rust-cbindgen>=0:devel/rust-cbindgen \
-		node>=0:www/node \
-		nasm:devel/nasm
+		zip:archivers/zip
+
 LIB_DEPENDS=	libgconf-2.so:devel/gconf2 \
 		libgtk-x11-2.0.so:x11-toolkits/gtk20 \
 		libpangocairo-1.0.so:x11-toolkits/pango \
