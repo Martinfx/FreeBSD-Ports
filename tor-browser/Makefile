@@ -56,8 +56,10 @@ MOZ_OPTIONS+= --with-tor-browser-version=12.0-2 \
 	         --enable-release \
 	         --enable-sandbox \
 	         --enable-forkserver \
-	         --enable-lto=thin \
-	         --with-libclang-path=${LOCALBASE}/lib
+#	         --enable-lto=thin \
+	         --with-libclang-path=${LOCALBASE}/lib \
+	         --with-system-nspr \
+		 --with-system-nss
 
 DEBUG_CONFIGURE_ARGS+= --enable-debug-symbols \
                        --disable-install-strip
