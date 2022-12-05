@@ -33,8 +33,8 @@ LIB_DEPENDS=	libgconf-2.so:devel/gconf2 \
 		libXt.so:x11-toolkits/libXt \
 		libIDL-2.so:devel/libIDL \
 		libnspr4.so:devel/nspr
-RUN_DEPENDS=	tor:security/tor \
-		obfs4proxy:security/obfs4proxy-tor
+#RUN_DEPENDS=	tor:security/tor \
+#		obfs4proxy:security/obfs4proxy-tor
 
 USES=		compiler:c++11-lib libtool gmake \
 		perl5 pkgconfig python:3.4+ shebangfix localbase:ldflags
