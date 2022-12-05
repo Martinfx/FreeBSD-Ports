@@ -1,7 +1,7 @@
 PORTNAME=	tor-browser
-DISTVERSION=	src-firefox-tor-browser-102.4.0esr-12.0-2-build1
+DISTVERSION=	src-firefox-tor-browser-102.5.0esr-12.0-1-build4
 CATEGORIES=	www net security
-MASTER_SITES=	https://dist.torproject.org/torbrowser/12.0a4/
+MASTER_SITES=	https://dist.torproject.org/torbrowser/12.0a5/
 DISTFILES=	${DISTVERSION}.tar.xz
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -41,6 +41,7 @@ USES=		compiler:c++11-lib libtool gmake \
 
 USE_GECKO=	gecko
 CONFLICTS_INSTALL= firefox firefox-esr
+SSP_UNSAFE=	yes
 
 BUNDLE_LIBS=	yes
 MAKEFILE=	${WRKSRC}/client.mk
@@ -56,16 +57,24 @@ MOZ_OPTIONS+= --with-tor-browser-version=12.0-2 \
 	         --enable-release \
 	         --enable-sandbox \
 	         --enable-forkserver \
-#	         --enable-lto=thin \
+	        # --enable-lto=thin \
 	         --with-libclang-path=${LOCALBASE}/lib \
 	         --with-system-nspr \
-		 --with-system-nss
+		 --with-system-nss  \
+		 --enable-optimize \
+		 --enable-proxy-bypass-protection \
+		 --enable-verify-mar \
+		 --enable-js-shell \
+		 --enable-rust-simd \
+		 --disable-tests \
+		 --disable-debug \
+		 --disable-crashreporter \
+		 --disable-webrtc
 
 DEBUG_CONFIGURE_ARGS+= --enable-debug-symbols \
                        --disable-install-strip
-MOZ_MAKE_FLAGS=-j6
 
-WRKSRC=		${WRKDIR}/firefox-tor-browser-102.4.0esr-12.0-2-build1
+WRKSRC=		${WRKDIR}/firefox-tor-browser-102.5.0esr-12.0-1-build4
 
 .include <bsd.port.options.mk>
 
@@ -79,6 +88,7 @@ MOZ_OPTIONS+=   --with-wasi-sysroot=${LOCALBASE}/share/wasi-sysroot
 .endif
 
 pre-configure:
+	${CP} ${FILESDIR}/mozconfig ${WRKSRC}/.mozconfig
 	(cd ${WRKSRC} && ${LOCALBASE}/bin/autoconf2.13)
 	(cd ${WRKSRC}/js/src/ && ${LOCALBASE}/bin/autoconf2.13)
 
@@ -88,7 +98,7 @@ do-configure:
 		${SETENV} ${CONFIGURE_ENV} ${MAKE_ENV} ${PYTHON_CMD} mach configure ${MOZ_OPTIONS})
 
 do-build:
-	(cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${MAKE_ENV} ${PYTHON_CMD} mach build ${MOZ_MAKE_FLAGS} )
+	(cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${MAKE_ENV} ${PYTHON_CMD} mach build )
 
 do-install:
 	(cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${MAKE_ENV} ${PYTHON_CMD} mach install)
