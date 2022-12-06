@@ -1,0 +1,60 @@
+[
+{ type: install
+  message: <<EOM
+## Missing features
+
+Some features found on Windows, macOS and Linux are not implemented:
+
+- Encrypted Media Extensions (requires Widevine CDM binary)
+- Process sandboxing (requires Capsicum backend)
+- Reduced memory usage (requires mozjemalloc)
+- Crash Reporter (requires Google Breakpad and reproducible builds)
+- WebVR (requires open source runtime)
+- TCP fast open
+- WebRTC (Disabled)
+- Crash Reporter (Disabled)
+- Parental controls (Disabled)
+- Eme (Disabled)
+- System politices (Disabled)
+- Backgroundtasks (Disabled)
+- Telemetry reporting (Disabled)
+
+- `about:networking` (requires link state notification)
+
+## Audio backend
+
+Currently used audio backend can be inspected on `about:support` page.
+Supported backends and default probing order is as follows:
+- `oss` (always available)
+To force a specific backend open `about:config` page and create
+`media.cubeb.backend` preference.
+
+Microphone selection only works in `oss` backends.
+Other backends are limited to `default` which is usually `/dev/dsp`,
+so use virtual_oss to reroute microphones from non-default devices.
+
+## Gamepad API
+
+Requires evdev(4) joystick support. On FreeBSD 13 and later enable hgame(4)
+while older versions can use sysutils/iichid or multimedia/webcamd.
+
+## smb:// issues
+Network group, machine, and share browsing does not work correctly.
+
+## sftp://
+Only sftp access using public key authentication works. To easily
+setup public key authentication to `remote_host`:
+
+    $ ssh-keygen
+    $ cat ~/.ssh/id_rsa.pub | ssh remote_host "cat >> .ssh/authorized_keys"
+
+The SSH server on `remote_host` must allow pub key authentication.
+
+## Setup TOR
+In about:config set
+extensions.torlauncher.start_tor false
+network.proxy.socks_port <SocksPort> e.g (9050)
+
+EOM
+}
+]

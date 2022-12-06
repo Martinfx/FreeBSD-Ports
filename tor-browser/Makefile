@@ -9,8 +9,6 @@ COMMENT=	Tor Browser for FreeBSD
 
 LICENSE=	BSD3CLAUSE
 
-CONFLICTS_INSTALL= firefox firefox-esr
-
 BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
 		nss>=3.79.1:security/nss \
 		icu>=71.1,1:devel/icu \
@@ -34,22 +32,19 @@ LIB_DEPENDS=	libgconf-2.so:devel/gconf2 \
 		libXt.so:x11-toolkits/libXt \
 		libIDL-2.so:devel/libIDL \
 		libnspr4.so:devel/nspr
-#RUN_DEPENDS=	tor:security/tor \
-#		obfs4proxy:security/obfs4proxy-tor
 
 USES=		compiler:c++11-lib libtool \
 		perl5 pkgconfig python:3.4+ shebangfix localbase:ldflags
 
 USE_GECKO=	gecko
-
+USE_MOZILLA=    -sqlite
 SSP_UNSAFE=	yes
 
 BUNDLE_LIBS=	yes
-#MAKEFILE=	${WRKSRC}/client.mk
-#PLIST_DIRS=	bin lib \
-#		share/applications share/pixmaps
 
-USE_MOZILLA=	-sqlite
+CONFLICTS_INSTALL= firefox firefox-esr
+
+
 CFLAGS_powerpc64le=	-DSQLITE_BYTEORDER=1234
 CONFIGURE_ENV+=	BINDGEN_CFLAGS="-I${LOCALBASE}/include" MOZILLA_OFFICIAL=1
 #https://gitlab.torproject.org/tpo/applications/tor-browser/-/merge_requests/299/
