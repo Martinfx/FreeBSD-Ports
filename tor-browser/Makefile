@@ -51,34 +51,39 @@ BUNDLE_LIBS=	yes
 
 USE_MOZILLA=	-sqlite
 CFLAGS_powerpc64le=	-DSQLITE_BYTEORDER=1234
-CONFIGURE_ENV+=	BINDGEN_CFLAGS="-I${LOCALBASE}/include"
-
+CONFIGURE_ENV+=	BINDGEN_CFLAGS="-I${LOCALBASE}/include" MOZILLA_OFFICIAL=1
+#https://gitlab.torproject.org/tpo/applications/tor-browser/-/merge_requests/299/
 MOZ_OPTIONS= --with-tor-browser-version=12.0-2 \
-#		 --enable-tor-browser-data-outside-app-dir \
-	         --enable-release \
-	         --enable-sandbox \
-	         --enable-forkserver \
-	        # --enable-lto=thin \
-	         --with-libclang-path=${LOCALBASE}/lib \
-	         --with-system-nspr \
-		 --with-system-nss  \
-		 --enable-optimize \
-		 --enable-proxy-bypass-protection \
-		 --enable-verify-mar \
-		 --enable-js-shell \
-		 --enable-rust-simd \
-		 --disable-tests \
-		 --disable-debug \
-		 --disable-crashreporter \
-		 --disable-webrtc \
-		--disable-crashreporter \
-		--disable-tests \
-		--disable-debug \
-		--disable-crashreporter \
-		--disable-webrtc \
+# options from browser/config/mozconfigs/base_browser \
+	--enable-official-branding \
+	--enable-optimize \
+	--enable-rust-simd \
+	--enable-bundled-fonts \
+	--disable-tests \
+	--disable-debug \
+	--disable-crashreporter \
+#Before removing, please notice that WebRTC does not work on mingw (Bug 1393901) \
+	--disable-webrtc \
+	--disable-parental-controls \
+# Let's make sure no preference is enabling either Adobe's or Google's CDM. \
+	--disable-eme \
+	--enable-proxy-bypass-protection \
+# See bugs #30575 and #32418: system policies are harmful either because they \
+# could allow proxy bypass, and override a number of other preferences we set \
+	--disable-system-policies \
 
-#DEBUG_CONFIGURE_ARGS+= --enable-debug-symbols \
-#                       --disable-install-strip
+# See bug #41131 \
+	--disable-backgroundtasks \
+	--enable-base-browser \
+# Disable telemetry \
+	MOZ_TELEMETRY_REPORTING= \
+
+# from from browser/config/mozconfigs/tor_browser \
+	MOZ_APP_DISPLAYNAME="Tor Browser" \
+	--with-relative-profile=TorBrowser/Data/Browser \
+	--enable-tor-browser-update \
+	--enable-verify-mar \
+	--with-distribution-id=org.torproject
 
 WRKSRC=		${WRKDIR}/firefox-tor-browser-102.5.0esr-12.0-1-build4
 
@@ -94,24 +99,10 @@ BUILD_DEPENDS+= ${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc++abi.a:deve
 MOZ_OPTIONS+=   --with-wasi-sysroot=${LOCALBASE}/share/wasi-sysroot
 .endif
 
-#post-patch:
-	#@rm ${WRKSRC}/.mozconfig
 
 pre-configure:
-	#${CP} ${FILESDIR}/mozconfig ${WRKSRC}/.mozconfig
 	(cd ${WRKSRC} && ${LOCALBASE}/bin/autoconf2.13)
 	(cd ${WRKSRC}/js/src/ && ${LOCALBASE}/bin/autoconf2.13)
-
-
-#do-configure:
-#(cd ${WRKSRC} && \
-#		${SETENV} ${CONFIGURE_ENV} ${MAKE_ENV} ${PYTHON_CMD} mach configure ${MOZ_OPTIONS})
-
-#do-build:
-#(cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${MAKE_ENV} ${PYTHON_CMD} mach build )
-
-#do-install:
-#(cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${MAKE_ENV} ${PYTHON_CMD} mach install)
 
 
 .include <bsd.port.mk>
