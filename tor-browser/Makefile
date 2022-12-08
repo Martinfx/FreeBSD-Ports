@@ -6,6 +6,7 @@ DISTFILES=	${DISTVERSION}.tar.xz
 
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Tor Browser for FreeBSD
+WWW=		https://www.torproject.org/
 
 LICENSE=	BSD3CLAUSE
 
@@ -37,18 +38,17 @@ USES=		compiler:c++11-lib libtool \
 		perl5 pkgconfig python:3.4+ shebangfix localbase:ldflags
 
 USE_GECKO=	gecko
-USE_MOZILLA=    -sqlite
+USE_MOZILLA=	-sqlite
+CONFIGURE_ENV+=		BINDGEN_CFLAGS="-I${LOCALBASE}/include"	MOZILLA_OFFICIAL=1
+CFLAGS_powerpc64le=	-DSQLITE_BYTEORDER=1234
 SSP_UNSAFE=	yes
-
+CONFLICTS_INSTALL=	firefox firefox-esr
 BUNDLE_LIBS=	yes
 
-CONFLICTS_INSTALL= firefox firefox-esr
+WRKSRC=		${WRKDIR}/firefox-tor-browser-102.5.0esr-12.0-1-build4
 
-
-CFLAGS_powerpc64le=	-DSQLITE_BYTEORDER=1234
-CONFIGURE_ENV+=	BINDGEN_CFLAGS="-I${LOCALBASE}/include" MOZILLA_OFFICIAL=1
 #https://gitlab.torproject.org/tpo/applications/tor-browser/-/merge_requests/299/
-MOZ_OPTIONS= --with-tor-browser-version=12.0-2 \
+MOZ_OPTIONS=	--with-tor-browser-version=12.0-2 \
 # options from browser/config/mozconfigs/base_browser \
 	--enable-official-branding \
 	--enable-optimize \
@@ -80,24 +80,20 @@ MOZ_OPTIONS= --with-tor-browser-version=12.0-2 \
 	--enable-verify-mar \
 	--with-distribution-id=org.torproject
 
-WRKSRC=		${WRKDIR}/firefox-tor-browser-102.5.0esr-12.0-1-build4
-
 .include <bsd.port.options.mk>
 
 .if ${ARCH} == powerpc64
-MOZ_OPTIONS+=   --disable-webrtc --without-wasm-sandboxed-libraries
+MOZ_OPTIONS+=	--disable-webrtc --without-wasm-sandboxed-libraries
 .else
-BUILD_DEPENDS+= ${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc++abi.a:devel/wasi-libcxx \
-                ${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc.a:devel/wasi-libc \
-                ${LOCALBASE}/llvm${LLVM_DEFAULT}/lib/clang/${LLVM_VERSION}/lib/wasi/libclang_rt.builtins-wasm32.a:devel/wasi-compiler-rt${LLVM_DEFAULT}
+BUILD_DEPENDS+=	${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc++abi.a:devel/wasi-libcxx \
+		${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc.a:devel/wasi-libc \
+		${LOCALBASE}/llvm${LLVM_DEFAULT}/lib/clang/${LLVM_VERSION}/lib/wasi/libclang_rt.builtins-wasm32.a:devel/wasi-compiler-rt${LLVM_DEFAULT}
 
-MOZ_OPTIONS+=   --with-wasi-sysroot=${LOCALBASE}/share/wasi-sysroot
+MOZ_OPTIONS+=	--with-wasi-sysroot=${LOCALBASE}/share/wasi-sysroot
 .endif
-
 
 pre-configure:
 	(cd ${WRKSRC} && ${LOCALBASE}/bin/autoconf2.13)
 	(cd ${WRKSRC}/js/src/ && ${LOCALBASE}/bin/autoconf2.13)
-
 
 .include <bsd.port.mk>
