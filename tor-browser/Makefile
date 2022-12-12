@@ -1,8 +1,7 @@
 PORTNAME=	tor-browser
 DISTVERSION=	12.0-2
 CATEGORIES=	www net security
-MASTER_SITES=	https://dist.torproject.org/
-MASTER_SITE_SUBDIR=	torbrowser/12.0
+MASTER_SITES=	https://dist.torproject.org/torbrowser/12.0/
 DISTNAME=	src-firefox-tor-browser-102.5.0esr-${DISTVERSION}-build1
 
 MAINTAINER=	freebsd@sysctl.cz
