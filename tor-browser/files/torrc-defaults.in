@@ -1,0 +1,5 @@
+AvoidDiskWrites 1
+Log info stdout
+CookieAuthentication 1
+DormantCanceledByStartup 1
+ClientTransportPlugin meek_lite,obfs2,obfs3,obfs4,scramblesuit exec %%LOCALBASE%%/bin/obfs4proxy
