@@ -40,7 +40,6 @@ USE_GECKO=	gecko
 
 SSP_UNSAFE=	yes
 
-CONFLICTS_INSTALL=	firefox firefox-esr
 SUB_FILES=	torrc-defaults
 BUNDLE_LIBS=	yes
 
