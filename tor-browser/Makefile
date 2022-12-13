@@ -53,6 +53,7 @@ MOZ_EXPORT+=	MOZ_TELEMETRY_REPORTING="1" \
 		MOZILLA_OFFICIAL="1" \
 		MOZ_OFFICIAL_BRANDING="1" \
 		MOZ_APP_DISPLAYNAME="Tor Browser" \
+		MOZ_APP_NAME="tor-browser"
 
 MOZ_OPTIONS=	--with-tor-browser-version=12.0-2 \
 	--enable-official-branding \
