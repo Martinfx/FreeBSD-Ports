@@ -40,7 +40,7 @@ USE_GECKO=	gecko
 
 SSP_UNSAFE=	yes
 
-SUB_FILES=	torrc-defaults
+SUB_FILES=	torrc-defaults tor-browser.desktop
 BUNDLE_LIBS=	yes
 
 USE_MOZILLA=	-sqlite
@@ -48,7 +48,7 @@ CFLAGS_powerpc64le=	-DSQLITE_BYTEORDER=1234
 CONFIGURE_ENV+=	BINDGEN_CFLAGS="-I${LOCALBASE}/include" \
 		MOZ_BRANDING_DIRECTORY="browser/branding/official"
 
-MOZ_EXPORT+=	MOZ_TELEMETRY_REPORTING="0" \
+MOZ_EXPORT+=	MOZ_TELEMETRY_REPORTING="" \
 		MOZILLA_OFFICIAL="1" \
 		MOZ_OFFICIAL_BRANDING="1" \
 		MOZ_APP_DISPLAYNAME="Tor Browser" \
@@ -68,7 +68,6 @@ MOZ_OPTIONS=	--with-tor-browser-version=12.0-2 \
 	--disable-system-policies \
 	--disable-backgroundtasks \
 	--enable-base-browser \
-	--enable-tor-browser-update \
 	--enable-verify-mar \
 	--with-distribution-id=org.torproject
 
@@ -90,7 +89,10 @@ post-patch:
 pre-configure:
 	(cd ${WRKSRC} && ${LOCALBASE}/bin/autoconf2.13)
 	(cd ${WRKSRC}/js/src/ && ${LOCALBASE}/bin/autoconf2.13)
+	@${REINPLACE_CMD} 's|export MOZ_GOOGLE_.*||g' ${WRKSRC}/.mozconfig
+	@${REINPLACE_CMD} 's|ac_add_options --enable-update-channel=release||g' ${WRKSRC}/.mozconfig
 post-install:
 	@${MKDIR} ${STAGEDIR}${DATADIR}
 	${CP} ${WRKDIR}/torrc-defaults ${STAGEDIR}${DATADIR}/torrc-defaults
+	${INSTALL_DATA} ${FILESDIR}/tor-browser.desktop ${STAGEDIR}${PREFIX}/share/applications/
 .include <bsd.port.mk>
