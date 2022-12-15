@@ -94,5 +94,5 @@ pre-configure:
 post-install:
 	@${MKDIR} ${STAGEDIR}${DATADIR}
 	${CP} ${WRKDIR}/torrc-defaults ${STAGEDIR}${DATADIR}/torrc-defaults
-	${INSTALL_DATA} ${FILESDIR}/tor-browser.desktop ${STAGEDIR}${PREFIX}/share/applications/
+	${INSTALL_DATA} ${FILESDIR}/tor-browser.desktop.in ${STAGEDIR}${PREFIX}/share/applications/
 .include <bsd.port.mk>
