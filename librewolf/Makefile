@@ -44,6 +44,12 @@ CFLAGS_powerpc64le=	-DSQLITE_BYTEORDER=1234
 # dist/include/mozilla/intl/ICU4CGlue.h:8:10: fatal error: 'unicode/uenum.h' file not found, err: true
 CONFIGURE_ENV+=	BINDGEN_CFLAGS="-I${LOCALBASE}/include"
 CONFIGURE_ENV+=	MOZ_REQUIRE_SIGNING=""
+MOZ_EXPORT+=	MOZ_TELEMETRY_REPORTING="" \
+		MOZILLA_OFFICIAL="1" \
+		MOZ_OFFICIAL_BRANDING="1" \
+		MOZ_APP_DISPLAYNAME="Librewolf" \
+		MOZ_APP_NAME="librewolf"
+
 MOZ_OPTIONs=	--enable-application=browser \
 		--allow-addon-sideload \
 		--disable-crashreporter \
@@ -62,10 +68,7 @@ MOZ_OPTIONs=	--enable-application=browser \
 		--enable-bootstrap \
 		MOZ_CRASHREPORTER=0 \
 		MOZ_DATA_REPORTING=0 \
-		MOZ_SERVICES_HEALTHREPORT=0 \
-		MOZ_TELEMETRY_REPORTING="" \
-		MOZ_APP_DISPLAYNAME="Librewolf" \
-		MOZ_APP_NAME="Librewolf"
+		MOZ_SERVICES_HEALTHREPORT=0
 
 # helpful when testing beta
 WRKSRC=		${WRKDIR}/${PORTNAME}-${DISTVERSION}
