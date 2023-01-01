@@ -13,7 +13,7 @@ LICENSE_FILE=	${WRKSRC}/LICENSE
 ONLY_FOR_ARCHS=	aarch64 amd64 armv7
 
 USES=		scons
-USE_GCC=	yes
+#USE_GCC=	yes
 USE_GITHUB=	yes
 GH_ACCOUNT=	ARM-software
 GH_PROJECT=	ComputeLibrary
@@ -21,7 +21,7 @@ GH_PROJECT=	ComputeLibrary
 .include <bsd.port.pre.mk>
 
 .if ${ARCH} == "amd64"
-SCONS_ARGS+=	os=freebsd Werror=0 neon=0 opencl=0 embed_kernels=0 examples=0 arch=x86_64 build=native
+SCONS_ARGS+=	os=freebsd Werror=0 neon=0 opencl=1 embed_kernels=0 examples=1 arch=x86_64 build=native
 .elif ${ARCH} == "aarch64"
 SCONS_ARGS+=	os=freebsd Werror=0 neon=1 opencl=0 embed_kernels=0 examples=0 arch=arm64-v8a build=native
 .elif ${ARCH} == "armv7"
