@@ -15,9 +15,11 @@ USES=           cargo
 USE_GITHUB=     yes
 GH_ACCOUNT=     kpcyrd
 GH_PROJECT=     libredefender
+GH_TAGNAME=	e9fac36c9d5b45de021f4b22c6d71c604bc44ae8
 
 CARGO_CRATES=	anyhow-1.0.40 \
 		atoi-1.0.0 \
+		ansi_term-0.7.0 \
 		ansi_term-0.12.1 \
 		atty-0.2.14 \
 		autocfg-1.1.0 \
@@ -27,6 +29,7 @@ CARGO_CRATES=	anyhow-1.0.40 \
 		battery-0.7.8 \
 		block-0.1.6 \
 		bitflags-0.9.0 \
+		bitflags-0.4.0 \
 		bitflags-1.2.1 \
 		bindgen-0.56.0 \
 		byteorder-1.4.3 \
@@ -48,7 +51,11 @@ CARGO_CRATES=	anyhow-1.0.40 \
 		core-foundation-sys-0.6.1 \
 		core-foundation-sys-0.7.0 \
 		core-foundation-sys-0.8.3 \
-		clap-2.34.0 \
+		clap-2.0.0 \
+		clap-4.0.32 \
+		clap_complete-4.0.7 \
+		clap_derive-4.0.21 \
+		clap_lex-0.3.0 \
 		clang-sys-1.3.3 \
 		cexpr-0.4.0 \
 		dirs-1.0.0 \
@@ -57,6 +64,8 @@ CARGO_CRATES=	anyhow-1.0.40 \
 		derivative-2.2.0 \
 		env_logger-0.8.0 \
 		env_logger-0.9.0 \
+		env_logger-0.9.3 \
+		env_logger-0.10.0 \
 		enumflags2-0.6.4 \
 		enumflags2-0.7.5 \
 		enumflags2_derive-0.6.4 \
@@ -65,20 +74,24 @@ CARGO_CRATES=	anyhow-1.0.40 \
         	glob-0.3.0 \
         	getrandom-0.2.7 \
         	hermit-abi-0.1.19 \
+        	hermit-abi-0.2.0 \
         	humantime-2.1.0 \
         	human-size-0.4.1 \
         	heck-0.3.0 \
         	heck-0.4.0 \
-		ioprio-0.2.0 \
+        	ioprio-0.2.0 \
 		itoa-1.0.3 \
 		itoa-0.4.8 \
+		io-lifetimes-1.0.3 \
 		libc-0.2.94 \
 		libc-0.2.99 \
-		libc-0.2.120  \
+		libc-0.2.120 \
+		libc-0.2.133 \
 		lazycell-1.3.0 \
 		lazy_static-1.4.0 \
 		log-0.4.14 \
 		libloading-0.7.3 \
+		linux-raw-sys-0.1.4 \
 		mac-notification-sys-0.3.0 \
 		mac-notification-sys-0.5.6 \
 		memchr-2.4.0 \
@@ -110,6 +123,7 @@ CARGO_CRATES=	anyhow-1.0.40 \
 		objc-0.2.7 \
 		objc_id-0.1.1 \
 		objc-foundation-0.1.1 \
+		os_str_bytes-6.4.1 \
 		num-format-0.4.0 \
 		num_cpus-1.13.0 \
 		num-traits-0.2.15 \
@@ -127,6 +141,7 @@ CARGO_CRATES=	anyhow-1.0.40 \
 		unicode-ident-1.0.3 \
 		unicode-segmentation-1.9.0 \
 		instant-0.1.12 \
+		is-terminal-0.4.2 \
 		unicode-width-0.1.9 \
 		rand_chacha-0.3.1 \
 		rand_core-0.6.3 \
@@ -139,6 +154,8 @@ CARGO_CRATES=	anyhow-1.0.40 \
 		redox_syscall-0.2.16 \
 		ryu-1.0.11 \
 		rustc-hash-1.1.0 \
+		rustix-0.36.6 \
+		starship-battery-0.7.9 \
 		serde_derive-1.0.125 \
 		serde_derive-1.0.144 \
 		serde-1.0.125 \
@@ -149,9 +166,13 @@ CARGO_CRATES=	anyhow-1.0.40 \
 		structopt-derive-0.4.14 \
 		structopt-derive-0.4.18 \
 		same-file-1.0.6 \
+		strsim-0.4.0 \
 		strsim-0.8.0 \
+		strsim-0.10.0 \
 		syn-1.0.99 \
 		shlex-0.1.1 \
+		errno-0.2.8 \
+		errno-dragonfly-0.1.2 \
 		quote-1.0.21 \
 		zbus-1.0.0 \
 		zbus-2.3.2 \
@@ -165,6 +186,7 @@ CARGO_CRATES=	anyhow-1.0.40 \
 		vcpkg-0.2.15  \
 		void-1.0.2 \
 		version_check-0.9.4 \
+		vec_map-0.4.0 \
 		vec_map-0.8.2 \
 		walkdir-2.3.2 \
 		which-3.1.1 \
@@ -173,7 +195,15 @@ CARGO_CRATES=	anyhow-1.0.40 \
 		winrt-0.8.0 \
 		winrt-notification-0.2.0 \
 		winrt-notification-0.5.1 \
+		windows-sys-0.42.0 \
 		winapi-util-0.1.5 \
+		windows_aarch64_gnullvm-0.42.0 \
+		windows_aarch64_msvc-0.42.0 \
+		windows_i686_gnu-0.42.0 \
+		windows_i686_msvc-0.42.0 \
+		windows_x86_64_gnu-0.42.0 \
+		windows_x86_64_gnullvm-0.42.0 \
+		windows_x86_64_msvc-0.42.0 \
 		winapi-i686-pc-windows-gnu-0.4.0 \
 		winapi-x86_64-pc-windows-gnu-0.4.0 \
 		wasi-0.10.0+wasi-snapshot-preview1 \
