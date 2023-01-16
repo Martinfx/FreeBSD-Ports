@@ -37,7 +37,6 @@ BUILD_DEPENDS+=	${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc++abi.a:deve
 
 USES=		tar:xz
 USE_GECKO=	gecko
-CONFLICTS_INSTALL=	firefox-esr firefox
 USE_MOZILLA=	-sqlite
 CFLAGS_powerpc64le=	-DSQLITE_BYTEORDER=1234
 # work around bindgen not finding ICU, e.g.
@@ -73,11 +72,13 @@ MOZ_OPTIONs=	--enable-application=browser \
 # helpful when testing beta
 WRKSRC=		${WRKDIR}/${PORTNAME}-${DISTVERSION}
 
-FIREFOX_ICON=		${MOZILLA}.png
 FIREFOX_ICON_SRC=	${PREFIX}/lib/${MOZILLA}/browser/chrome/icons/default/default48.png
 FIREFOX_DESKTOP=	${MOZSRC}/taskcluster/docker/firefox-snap/firefox.desktop
 
+.include "${.CURDIR}/../../www/firefox/Makefile.options"
+
 .include <bsd.port.options.mk>
+
 .if ${ARCH} == powerpc64
 MOZ_OPTIONS+=	--disable-webrtc --without-wasm-sandboxed-libraries
 .else
@@ -95,8 +96,10 @@ post-patch:
 		${WRKSRC}/widget/gtk/nsNativeMenuDocListener.cpp
 
 post-install:
-	${INSTALL_DATA} ${FIREFOX_DESKTOP} ${STAGEDIR}${PREFIX}/share/applications/
-	${MKDIR} ${STAGEDIR}${PREFIX}/share/pixmaps
-	${LN} -sf ${FIREFOX_ICON_SRC} ${STAGEDIR}${PREFIX}/share/pixmaps/${FIREFOX_ICON}
+	${CP} ${FIREFOX_DESKTOP} ${STAGEDIR}${PREFIX}/share/applications/librewolf.desktop
+	${REINPLACE_CMD} -e 's|Firefox|Librewolf|g' ${STAGEDIR}${PREFIX}/share/applications/librewolf.desktop
+	${REINPLACE_CMD} -e 's|firefox|librewolf|g' ${STAGEDIR}${PREFIX}/share/applications/librewolf.desktop
+	${REINPLACE_CMD} -e 's|Icon=.*|Icon=${FIREFOX_ICON_SRC}|g' ${STAGEDIR}${PREFIX}/share/applications/librewolf.desktop
+
 
 .include <bsd.port.mk>
