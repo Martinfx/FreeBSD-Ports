@@ -75,10 +75,6 @@ WRKSRC=		${WRKDIR}/${PORTNAME}-${DISTVERSION}
 FIREFOX_ICON_SRC=	${PREFIX}/lib/${MOZILLA}/browser/chrome/icons/default/default48.png
 FIREFOX_DESKTOP=	${MOZSRC}/taskcluster/docker/firefox-snap/firefox.desktop
 
-.include "${.CURDIR}/../../www/firefox/Makefile.options"
-
-.include <bsd.port.options.mk>
-
 .if ${ARCH} == powerpc64
 MOZ_OPTIONS+=	--disable-webrtc --without-wasm-sandboxed-libraries
 .else
