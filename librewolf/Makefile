@@ -1,5 +1,5 @@
 PORTNAME=	librewolf
-DISTVERSION=	108.0.1-1
+DISTVERSION=	109.0-1
 CATEGORIES=	www wayland
 MASTER_SITES=	https://gitlab.com/api/v4/projects/32320088/packages/generic/librewolf-source/${DISTVERSION}/
 DISTNAME=	${PORTNAME}-${DISTVERSION}.source.
@@ -28,6 +28,7 @@ BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
 		yasm:devel/yasm \
 		zip:archivers/zip
 
+.include "${.CURDIR}/../../www/firefox/Makefile.options"
 .include <bsd.port.options.mk>
 .if ${ARCH} != powerpc64
 BUILD_DEPENDS+=	${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc++abi.a:devel/wasi-libcxx \
@@ -75,9 +76,6 @@ WRKSRC=		${WRKDIR}/${PORTNAME}-${DISTVERSION}
 FIREFOX_ICON_SRC=	${PREFIX}/lib/${MOZILLA}/browser/chrome/icons/default/default48.png
 FIREFOX_DESKTOP=	${MOZSRC}/taskcluster/docker/firefox-snap/firefox.desktop
 
-.include "${.CURDIR}/../../www/firefox/Makefile.options"
-
-
 .if ${ARCH} == powerpc64
 MOZ_OPTIONS+=	--disable-webrtc --without-wasm-sandboxed-libraries
 .else
@@ -91,14 +89,11 @@ post-patch:
 	@${REINPLACE_CMD} -e 's|%%LOCALBASE%%|${LOCALBASE}|g' \
 		${WRKSRC}/browser/app/nsBrowserApp.cpp
 	@${RM} ${WRKSRC}/mozconfig
-	@${REINPLACE_CMD} -e 's|nsNativeMenuDocListener::NodeWillBeDestroyed(const nsINode \*aNode)|nsNativeMenuDocListener::NodeWillBeDestroyed(nsINode \*aNode)|g' \
-		${WRKSRC}/widget/gtk/nsNativeMenuDocListener.cpp
 
 post-install:
 	${CP} ${FIREFOX_DESKTOP} ${STAGEDIR}${PREFIX}/share/applications/librewolf.desktop
 	${REINPLACE_CMD} -e 's|Firefox|Librewolf|g' ${STAGEDIR}${PREFIX}/share/applications/librewolf.desktop
 	${REINPLACE_CMD} -e 's|firefox|librewolf|g' ${STAGEDIR}${PREFIX}/share/applications/librewolf.desktop
 	${REINPLACE_CMD} -e 's|Icon=.*|Icon=${FIREFOX_ICON_SRC}|g' ${STAGEDIR}${PREFIX}/share/applications/librewolf.desktop
-
 
 .include <bsd.port.mk>
