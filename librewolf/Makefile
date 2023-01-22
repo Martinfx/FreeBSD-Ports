@@ -5,9 +5,6 @@ MASTER_SITES=	https://gitlab.com/api/v4/projects/32320088/packages/generic/libre
 DISTNAME=	${PORTNAME}-${DISTVERSION}.source.
 EXTRACT_SUFX=	tar.gz
 
-PATCH_SITES=	https://gitlab.com/librewolf-community/browser/source/-/raw/${DISTVERSION}/
-PATCHFILES=	patches/unity-menubar.patch?inline=false:-p1
-
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Custom version of Firefox, focused on privacy, security and freedom
 WWW=		https://librewolf.net/
