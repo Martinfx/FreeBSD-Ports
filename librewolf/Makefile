@@ -86,6 +86,7 @@ post-patch:
 	@${REINPLACE_CMD} -e 's|%%LOCALBASE%%|${LOCALBASE}|g' \
 		${WRKSRC}/browser/app/nsBrowserApp.cpp
 	@${RM} ${WRKSRC}/mozconfig
+
 .if ${ARCH} == powerpc64
 	@${CP} ${PATCHDIR}/RustTabs.jsm ${WRKSRC}/toolkit/components/uniffi-bindgen-gecko-js/components/generated/RustTabs.jsm
 	@${CP} ${PATCHDIR}/UniFFIGeneratedScaffolding.cpp ${WRKSRC}/toolkit/components/uniffi-js/UniFFIGeneratedScaffolding.cpp
