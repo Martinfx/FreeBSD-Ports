@@ -10,16 +10,18 @@ WWW=		https://github.com/epasveer/seer
 
 LICENSE=	GPLv3
 
-USES=		compiler:c++17-lang cmake gl qt:5 qmake
+RUN_DEPENDS=	gdb:devel/gdb
+
+USES=		compiler:c++17-lang cmake gl qt:5
 USE_GITHUB=	yes
 GH_ACCOUNT=	epasveer
 GH_PROJECT=	seer
 USE_GL=		gl
 USE_QT=		core gui charts network printsupport widgets buildtools
-
 WRKSRC_SUBDIR=	src
-
-do-install:
+post-patch:
+	@${REINPLACE_CMD} 's|%%LOCALBASE%%|${LOCALBASE}|g' ${WRKSRC}/SeerGdbWidget.cpp ${WRKSRC}/SeerMainWindow.cpp
+pre-install:
 .for s in 32 64 128 256 512
 	${MKDIR} ${STAGEDIR}${PREFIX}/share/icons/hicolor/${s}x${s}/apps
 	${INSTALL_DATA} ${WRKSRC}/resources/seergdb_${s}x${s}.png \
