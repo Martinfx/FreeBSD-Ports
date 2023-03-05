@@ -1,15 +1,15 @@
---- SConstruct.orig	2022-10-16 19:03:18 UTC
+--- SConstruct.orig	2023-02-16 15:41:23 UTC
 +++ SConstruct
 @@ -93,7 +93,7 @@ vars.AddVariables(
                    allowed_values=("armv7a", "armv7a-hf", "arm64-v8a", "arm64-v8.2-a", "arm64-v8.2-a-sve", "arm64-v8.2-a-sve2", "x86_32", "x86_64",
-                                   "armv8a", "armv8.2-a", "armv8.2-a-sve", "armv8.6-a", "armv8.6-a-sve", "armv8.6-a-sve2", "armv8r64", "x86")),
+                                   "armv8a", "armv8.2-a", "armv8.2-a-sve", "armv8.6-a", "armv8.6-a-sve", "armv8.6-a-sve2", "armv8.6-a-sve2-sme2", "armv8r64", "x86")),
      EnumVariable("estate", "Execution State", "auto", allowed_values=("auto", "32", "64")),
 -    EnumVariable("os", "Target OS. With bare metal selected, only Arm® Neon™ (not OpenCL) can be used, static libraries get built and Neon™'s multi-threading support is disabled.", "linux", allowed_values=("linux", "android", "tizen", "macos", "bare_metal", "openbsd","windows")),
 +    EnumVariable("os", "Target OS. With bare metal selected, only Arm® Neon™ (not OpenCL) can be used, static libraries get built and Neon™'s multi-threading support is disabled.", "linux", allowed_values=("linux", "android", "tizen", "macos", "bare_metal", "openbsd", "freebsd", "windows")),
      EnumVariable("build", "Either build directly on your device (native) or cross compile from your desktop machine (cross-compile). In both cases make sure the compiler is available in your path.", "cross_compile", allowed_values=("native", "cross_compile", "embed_only")),
      BoolVariable("examples", "Build example programs", True),
      BoolVariable("gemm_tuner", "Build gemm_tuner programs", True),
-@@ -230,11 +230,11 @@ env.Append(CPPDEFINES = ['_GLIBCXX_USE_NANOSLEEP'])
+@@ -231,11 +231,11 @@ env.Append(CPPDEFINES = ['_GLIBCXX_USE_NANOSLEEP'])
  
  cpp_tool = {'linux': 'g++', 'android' : 'clang++',
               'tizen': 'g++', 'macos':'clang++',
@@ -23,7 +23,7 @@
  
  default_cpp_compiler = cpp_tool[env['os']]
  default_c_compiler = c_tool[env['os']]
-@@ -509,7 +509,7 @@ if env['opencl']:
+@@ -517,7 +517,7 @@ if env['opencl']:
  if env["os"] not in ["windows","android", "bare_metal"] and (env['opencl'] or env['cppthreads']):
      env.Append(LIBS = ['pthread'])
  

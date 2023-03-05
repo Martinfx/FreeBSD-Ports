@@ -1,4 +1,4 @@
---- src/common/cpuinfo/CpuInfo.cpp.orig	2022-10-17 11:34:12 UTC
+--- src/common/cpuinfo/CpuInfo.cpp.orig	2023-02-16 15:41:23 UTC
 +++ src/common/cpuinfo/CpuInfo.cpp
 @@ -44,14 +44,14 @@
  #endif /* !defined(BARE_METAL) */
@@ -52,8 +52,8 @@
 +#elif(BARE_METAL) && defined(__aarch64__)        /* !defined(BARE_METAL) && !defined(__APPLE__) && !defined(__OpenBSD__) && !defined(__FreeBSD__) && (defined(__arm__) || defined(__aarch64__)) */
  
      // Assume single CPU in bare metal mode.  Just read the ID register and feature bits directly.
-     uint64_t isar0 = 0, isar1 = 0, pfr0 = 0, svefr0 = 0, midr = 0;
-@@ -362,7 +362,7 @@ CpuInfo CpuInfo::build()
+     uint64_t isar0 = 0, isar1 = 0, pfr0 = 0, pfr1 = 0, svefr0 = 0, midr = 0;
+@@ -363,7 +363,7 @@ CpuInfo CpuInfo::build()
  #else                                            /* #elif defined(__aarch64__) && defined(__APPLE__) */
      CpuInfo info(CpuIsaInfo(), { CpuModel::GENERIC });
      return info;
@@ -62,7 +62,7 @@
  }
  
  CpuModel CpuInfo::cpu_model(uint32_t cpuid) const
-@@ -376,11 +376,11 @@ CpuModel CpuInfo::cpu_model(uint32_t cpuid) const
+@@ -377,11 +377,11 @@ CpuModel CpuInfo::cpu_model(uint32_t cpuid) const
  
  CpuModel CpuInfo::cpu_model() const
  {
