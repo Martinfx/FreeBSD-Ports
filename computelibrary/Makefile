@@ -10,7 +10,7 @@ WWW=		https://github.com/ARM-software/ComputeLibrary
 LICENSE=	MIT
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
-ONLY_FOR_ARCHS=	aarch64 amd64 armv7
+ONLY_FOR_ARCHS=	aarch64 i386 amd64 armv7
 
 USES=		scons
 USE_GCC=	yes
