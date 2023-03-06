@@ -17,7 +17,7 @@ USE_GITHUB=	yes
 GH_ACCOUNT=	epasveer
 GH_PROJECT=	seer
 USE_GL=		gl
-USE_QT=		core gui charts network printsupport widgets buildtools
+USE_QT=		core gui charts network printsupport widgets buildtools qmake
 WRKSRC_SUBDIR=	src
 post-patch:
 	@${REINPLACE_CMD} 's|%%LOCALBASE%%|${LOCALBASE}|g' ${WRKSRC}/SeerGdbWidget.cpp ${WRKSRC}/SeerMainWindow.cpp
