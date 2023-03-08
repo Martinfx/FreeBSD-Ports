@@ -10,7 +10,7 @@ WWW=		https://github.com/ARM-software/ComputeLibrary
 LICENSE=	MIT
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
-ONLY_FOR_ARCHS=	aarch64 i386 amd64 armv7
+ONLY_FOR_ARCHS=	aarch64 amd64 armv7
 
 USES=		scons
 USE_GCC=	yes
@@ -20,7 +20,6 @@ GH_PROJECT=	ComputeLibrary
 
 .include <bsd.port.pre.mk>
 
-SCONS_ARGS_i386=	neon=0 opencl=1 examples=0 arch=x86
 SCONS_ARGS_amd64=	neon=0 opencl=1 examples=1 arch=x86_64
 SCONS_ARGS_aarch64=	neon=1 opencl=0 examples=0 arch=arm64-v8a
 SCONS_ARGS_armv7=	neon=1 opencl=0 examples=0 arch=armv7a
@@ -28,8 +27,8 @@ SCONS_ARGS+= 		os=freebsd Werror=0 embed_kernels=0 build=native ${SCONS_ARGS_${A
 MAKE_ARGS=	${SCONS_ARGS}
 
 do-install:
-	${INSTALL_LIB} ${WRKSRC}/build/*.so ${STAGEDIR}${PREFIX}/lib/
-	${INSTALL_LIB} ${WRKSRC}/build/*.a ${STAGEDIR}${PREFIX}/lib/
-	${CP} -R ${WRKSRC}/include/* ${STAGEDIR}${PREFIX}/include/
+	${INSTALL_DATA} ${WRKSRC}/build/*.so ${STAGEDIR}${PREFIX}/lib/
+	${INSTALL_DATA} ${WRKSRC}/build/*.a ${STAGEDIR}${PREFIX}/lib/
+	cd ${WRKSRC}/include/ && ${COPYTREE_SHARE} . ${STAGEDIR}${PREFIX}/include/
 
 .include <bsd.port.post.mk>

@@ -1,3 +1,4 @@
+include/BUILD.bazel
 include/CL/cl.h
 include/CL/cl_d3d10.h
 include/CL/cl_d3d11.h
@@ -24,3 +25,4 @@ lib/libarm_compute_core-static.a
 lib/libarm_compute_core.so
 lib/libarm_compute_graph-static.a
 lib/libarm_compute_graph.so
+
