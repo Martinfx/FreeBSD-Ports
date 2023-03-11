@@ -27,7 +27,7 @@ SCONS_ARGS+= 		os=freebsd Werror=0 embed_kernels=0 build=native ${SCONS_ARGS_${A
 MAKE_ARGS=	${SCONS_ARGS}
 
 do-install:
-	${INSTALL_DATA} ${WRKSRC}/build/*.so ${STAGEDIR}${PREFIX}/lib/
+	${INSTALL_LIB} ${WRKSRC}/build/*.so ${STAGEDIR}${PREFIX}/lib/
 	${INSTALL_DATA} ${WRKSRC}/build/*.a ${STAGEDIR}${PREFIX}/lib/
 	cd ${WRKSRC}/include/ && ${COPYTREE_SHARE} . ${STAGEDIR}${PREFIX}/include/
 
