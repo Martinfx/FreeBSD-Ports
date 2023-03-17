@@ -1,10 +1,11 @@
 PORTNAME=	android-studio
-DISTVERSION=	2020.3.1.24
+DISTVERSION=	2022.1.1.21
 CATEGORIES=	devel linux
 MASTER_SITES=	https://redirector.gvt1.com/edgedl/android/studio/ide-zips/${DISTVERSION}/
 PKGNAMEPREFIX=	linux-
 DISTNAME=	${PORTNAME}-${DISTVERSION}-linux
 MAINTAINER=	freebsd@sysctl.cz
+
 COMMENT=	Official IDE for Android
 WWW=		https://developer.android.com/studio/
 
