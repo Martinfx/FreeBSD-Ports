@@ -1,8 +1,10 @@
 PORTNAME=	tor-browser
-DISTVERSION=	12.0-2
-CATEGORIES=	www net security
-MASTER_SITES=	https://dist.torproject.org/torbrowser/12.0/
-DISTNAME=	src-firefox-tor-browser-102.5.0esr-${DISTVERSION}-build1
+DISTVERSION=	12.0.2
+PORTREVISION=	4 # previous DISTVERSION was 12.0-2 which becomes 12.0.2 too in 1
+CATEGORIES=	www net security wayland
+MASTER_SITES=	TOR
+MASTER_SITE_SUBDIR=torbrowser/${DISTVERSION}
+DISTNAME=	src-firefox-tor-browser-102.7.0esr-${DISTVERSION:R}-1-build1
 
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Tor Browser for FreeBSD
@@ -23,19 +25,11 @@ BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
 		nasm:devel/nasm \
 		yasm:devel/yasm \
 		zip:archivers/zip
-LIB_DEPENDS=	libgconf-2.so:devel/gconf2 \
-		libgtk-x11-2.0.so:x11-toolkits/gtk20 \
-		libpangocairo-1.0.so:x11-toolkits/pango \
-		libpulse.so:audio/pulseaudio \
-		libXt.so:x11-toolkits/libXt \
-		libIDL-2.so:devel/libIDL \
-		libnspr4.so:devel/nspr
 RUN_DEPENDS=	tor:security/tor \
 		obfs4proxy:security/obfs4proxy-tor
 
 USES=		compiler:c++11-lib libtool \
 		perl5 pkgconfig python:3.4+ shebangfix localbase:ldflags tar:xz
-
 USE_GECKO=	gecko
 
 SSP_UNSAFE=	yes
@@ -54,7 +48,7 @@ MOZ_EXPORT+=	MOZ_TELEMETRY_REPORTING="" \
 		MOZ_APP_DISPLAYNAME="Tor Browser" \
 		MOZ_APP_NAME="tor-browser"
 
-MOZ_OPTIONS=	--with-tor-browser-version=12.0-2 \
+MOZ_OPTIONS=	--with-tor-browser-version=${DISTVERSION}-1 \
 	--enable-official-branding \
 	--enable-optimize \
 	--enable-rust-simd \
@@ -71,8 +65,9 @@ MOZ_OPTIONS=	--with-tor-browser-version=12.0-2 \
 	--enable-verify-mar \
 	--with-distribution-id=org.torproject
 
-WRKSRC=		${WRKDIR}/firefox-tor-browser-102.5.0esr-12.0-2-build1
+WRKSRC=		${WRKDIR}/${DISTNAME:S/src-//}
 
+#.include	"${.CURDIR}/../../www/firefox/Makefile.options"
 .include <bsd.port.options.mk>
 
 .if ${ARCH} == powerpc64
@@ -93,6 +88,6 @@ pre-configure:
 	@${REINPLACE_CMD} 's|ac_add_options --enable-update-channel=release||g' ${WRKSRC}/.mozconfig
 post-install:
 	@${MKDIR} ${STAGEDIR}${DATADIR}
-	${CP} ${WRKDIR}/torrc-defaults ${STAGEDIR}${DATADIR}/torrc-defaults
-	${INSTALL_DATA} ${FILESDIR}/tor-browser.desktop.in ${STAGEDIR}${PREFIX}/share/applications/
+	${INSTALL_DATA} ${WRKDIR}/torrc-defaults ${STAGEDIR}${DATADIR}/torrc-defaults
+	${INSTALL_DATA} ${WRKDIR}/tor-browser.desktop ${STAGEDIR}${PREFIX}/share/applications/tor-browser.desktop
 .include <bsd.port.mk>
