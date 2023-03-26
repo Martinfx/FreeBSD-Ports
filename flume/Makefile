@@ -1,7 +1,7 @@
 PORTNAME=	flume
 PORTVERSION=	1.11.0
 CATEGORIES=	databases java
-MASTER_SITES=	https://www.apache.org/dyn/closer.lua/flume/${PORTVERSION}/
+MASTER_SITES=	https://dlcdn.apache.org/flume/${PORTVERSION}/
 DISTNAME=	apache-flume-${PORTVERSION}-src
 
 MAINTAINER=	freebsd@sysctl.cz
