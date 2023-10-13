@@ -1,6 +1,6 @@
---- maxutils/maxbase/src/logger.cc.orig	2022-09-12 06:23:56 UTC
+--- maxutils/maxbase/src/logger.cc.orig	2023-09-22 06:15:26 UTC
 +++ maxutils/maxbase/src/logger.cc
-@@ -17,6 +17,7 @@
+@@ -18,6 +18,7 @@
  #include <syslog.h>
  #include <fcntl.h>
  #include <unistd.h>
@@ -8,7 +8,7 @@
  
  #include <cassert>
  #include <chrono>
-@@ -83,7 +84,7 @@ std::string get_ident()
+@@ -84,7 +85,7 @@ std::string get_ident()
      if (!this_unit.ident[0])
      {
  #ifdef __GNUC__

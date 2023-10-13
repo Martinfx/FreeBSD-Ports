@@ -1,6 +1,6 @@
---- maxutils/maxbase/src/log.cc.orig	2022-10-18 19:57:28 UTC
+--- maxutils/maxbase/src/log.cc.orig	2023-09-22 06:15:26 UTC
 +++ maxutils/maxbase/src/log.cc
-@@ -487,7 +487,7 @@ bool mxb_log_init(const char* ident,
+@@ -497,7 +497,7 @@ bool mxb_log_init(const char* ident,
          if (!filename)
          {
  #ifdef __GNUC__

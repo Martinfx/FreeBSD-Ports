@@ -1,5 +1,5 @@
 PORTNAME=       MaxScale
-DISTVERSION=    22.08.1
+DISTVERSION=    23.08.1
 
 CATEGORIES=     databases
 
@@ -16,7 +16,7 @@ LICENSE_PERMS_BUSINESS=dist-mirror dist-sell pkg-mirror pkg-sell auto-accept
 BUILD_DEPENDS=	libepoll-shim>0:devel/libepoll-shim
 LIB_DEPENDS=	libepoll-shim.so:devel/libepoll-shim
 
-USES=           compiler:c++11-lang cmake:noninja gmake
+USES=           compiler:c++17-lang cmake:noninja gmake
 USE_GCC=	yes
 USE_GITHUB=     yes
 GH_ACCOUNT=     mariadb-corporation
@@ -26,7 +26,7 @@ MAKE_ENV+=	CPATH="${LOCALBASE}/include/libepoll-shim"
 CFLAGS+=	-I${LOCALBASE}/include/libepoll-shim
 LDFLAGS+=	-L${LOCALBASE}/lib -lepoll-shim
 
-CMAKE_ARGS+=	SS_DEBUG=0
+CMAKE_ARGS+=	SS_DEBUG=0 MAXSCALE_DEVELOP=1
 #REINPLACE_ARGS=	-i ''
 
 post-patch:

@@ -1,6 +1,6 @@
---- maxutils/maxbase/include/maxbase/string.hh.orig	2022-09-12 06:23:56 UTC
+--- maxutils/maxbase/include/maxbase/string.hh.orig	2023-09-22 06:15:26 UTC
 +++ maxutils/maxbase/include/maxbase/string.hh
-@@ -123,7 +123,7 @@ inline void ltrim(std::string& s)
+@@ -169,7 +169,7 @@ inline void ltrim(std::string& s)
      s.erase(s.begin(),
              std::find_if(s.begin(),
                           s.end(),
@@ -9,7 +9,7 @@
  }
  
  /**
-@@ -135,7 +135,8 @@ inline void rtrim(std::string& s)
+@@ -181,7 +181,8 @@ inline void rtrim(std::string& s)
  {
      s.erase(std::find_if(s.rbegin(),
                           s.rend(),
