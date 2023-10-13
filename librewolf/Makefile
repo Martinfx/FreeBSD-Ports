@@ -1,13 +1,19 @@
 PORTNAME=	librewolf
-DISTVERSION=	109.0-1
+DISTVERSION=	117.0.1-1
 CATEGORIES=	www wayland
-MASTER_SITES=	https://gitlab.com/api/v4/projects/32320088/packages/generic/librewolf-source/${DISTVERSION}/
-DISTNAME=	${PORTNAME}-${DISTVERSION}.source.
+MASTER_SITES=	https://gitlab.com/api/v4/projects/32320088/packages/generic/librewolf-source/${DISTVERSION:R}-1/
+DISTNAME=	${PORTNAME}-${DISTVERSION:R}-1.source.
 EXTRACT_SUFX=	tar.gz
+
+PATCH_SITES=	https://gitlab.com/librewolf-community/browser/source/-/raw/d114d4f8e8271adcb854082060c387b16ac56352/
+PATCHFILES=	patches/unity_kde/unity-menubar.patch?inline=false:-p1
 
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Custom version of Firefox, focused on privacy, security and freedom
 WWW=		https://librewolf.net/
+
+LICENSE=	MPL20
+LICENSE_FILE=	${WRKSRC}/LICENSE
 
 BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
 		nss>=3.84:security/nss \
@@ -26,16 +32,18 @@ BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
 		zip:archivers/zip
 
 .include "${.CURDIR}/../../www/firefox/Makefile.options"
+
 .include <bsd.port.options.mk>
+
 .if ${ARCH} != powerpc64
 BUILD_DEPENDS+=	${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc++abi.a:devel/wasi-libcxx \
 		${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc.a:devel/wasi-libc \
 		${LOCALBASE}/llvm${LLVM_DEFAULT}/lib/clang/${LLVM_VERSION}/lib/wasi/libclang_rt.builtins-wasm32.a:devel/wasi-compiler-rt${LLVM_DEFAULT}
 .endif
 
-USES=		tar:xz
 USE_GECKO=	gecko
 USE_MOZILLA=	-sqlite
+
 CFLAGS_powerpc64le=	-DSQLITE_BYTEORDER=1234
 # work around bindgen not finding ICU, e.g.
 # dist/include/mozilla/intl/ICU4CGlue.h:8:10: fatal error: 'unicode/uenum.h' file not found, err: true
@@ -68,7 +76,7 @@ MOZ_OPTIONs=	--enable-application=browser \
 		MOZ_SERVICES_HEALTHREPORT=0
 
 # helpful when testing beta
-WRKSRC=		${WRKDIR}/${PORTNAME}-${DISTVERSION}
+WRKSRC=		${WRKDIR}/${PORTNAME}-${DISTVERSION:R}-1
 
 FIREFOX_ICON_SRC=	${PREFIX}/lib/${MOZILLA}/browser/chrome/icons/default/default48.png
 FIREFOX_DESKTOP=	${MOZSRC}/taskcluster/docker/firefox-snap/firefox.desktop
@@ -86,11 +94,6 @@ post-patch:
 	@${REINPLACE_CMD} -e 's|%%LOCALBASE%%|${LOCALBASE}|g' \
 		${WRKSRC}/browser/app/nsBrowserApp.cpp
 	@${RM} ${WRKSRC}/mozconfig
-
-.if ${ARCH} == powerpc64
-	@${CP} ${PATCHDIR}/RustTabs.jsm ${WRKSRC}/toolkit/components/uniffi-bindgen-gecko-js/components/generated/RustTabs.jsm
-	@${CP} ${PATCHDIR}/UniFFIGeneratedScaffolding.cpp ${WRKSRC}/toolkit/components/uniffi-js/UniFFIGeneratedScaffolding.cpp
-.endif
 
 post-install:
 	${CP} ${FIREFOX_DESKTOP} ${STAGEDIR}${PREFIX}/share/applications/librewolf.desktop
