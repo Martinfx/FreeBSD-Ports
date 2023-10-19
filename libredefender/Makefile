@@ -1,6 +1,6 @@
 W]PORTNAME=	libredefender
 DISTVERSIONPREFIX=      v
-DISTVERSION=    0.6.0
+DISTVERSION=    0.7.0
 CATEGORIES=     security
 
 MAINTAINER=     freebsd@sysctl.cz

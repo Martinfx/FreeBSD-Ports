@@ -1,4 +1,4 @@
-TIMESTAMP = 1672933609
+TIMESTAMP = 1697708182
 SHA256 (rust/crates/anyhow-1.0.40.crate) = 28b2cd92db5cbd74e8e5028f7e27dd7aa3090e89e4f2a197cc7c8dfb69c7063b
 SIZE (rust/crates/anyhow-1.0.40.crate) = 34534
 SHA256 (rust/crates/atoi-1.0.0.crate) = d7c57d12312ff59c811c0643f4d80830505833c9ffaebd193d819392b265be8e
@@ -385,5 +385,5 @@ SHA256 (rust/crates/xml-rs-0.6.1.crate) = e1945e12e16b951721d7976520b0832496ef79
 SIZE (rust/crates/xml-rs-0.6.1.crate) = 50922
 SHA256 (rust/crates/xml-rs-0.8.4.crate) = d2d7d3948613f75c98fd9328cfdcc45acc4d360655289d0a7d4ec931392200a3
 SIZE (rust/crates/xml-rs-0.8.4.crate) = 52690
-SHA256 (kpcyrd-libredefender-v0.6.0-e9fac36c9d5b45de021f4b22c6d71c604bc44ae8_GH0.tar.gz) = 63476a713eb3a4d77bc7c3e159139d0454e620e27a8040485328d5d7971ecedb
-SIZE (kpcyrd-libredefender-v0.6.0-e9fac36c9d5b45de021f4b22c6d71c604bc44ae8_GH0.tar.gz) = 73618
+SHA256 (kpcyrd-libredefender-v0.7.0-e9fac36c9d5b45de021f4b22c6d71c604bc44ae8_GH0.tar.gz) = 63476a713eb3a4d77bc7c3e159139d0454e620e27a8040485328d5d7971ecedb
+SIZE (kpcyrd-libredefender-v0.7.0-e9fac36c9d5b45de021f4b22c6d71c604bc44ae8_GH0.tar.gz) = 73618
