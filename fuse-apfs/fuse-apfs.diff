@@ -1,0 +1,714 @@
+diff --git a/fuse-apfs/Makefile b/fuse-apfs/Makefile
+new file mode 100644
+index 0000000..ea9c742
+--- /dev/null
++++ b/fuse-apfs/Makefile
+@@ -0,0 +1,30 @@
++PORTNAME=	apfs-fuse
++DISTVERSION=	g20231029
++CATEGORIES=	sysutils
++PKGNAMEPREFIX=	fusefs-
++
++MAINTAINER=	freebsd@sysctl.cz
++COMMENT=	APFS FUSE Driver for Linux
++WWW=		https://github.com/sgan81/apfs-fuse
++
++LICENSE=	GPLv2
++LICENSE_FILE=	${WRKSRC}/LICENSE
++
++LIB_DEPENDS=	libfuse.so:sysutils/fusefs-libs
++
++USES=		cmake fuse
++
++USE_GITHUB=	yes
++GH_ACCOUNT=	sgan81
++GH_PROJECT=	apfs-fuse
++GH_TAGNAME=	b595551132779711ea9538a2e6364796b7ebe317
++GH_TUPLE+=	lzfse:lzfse:e634ca58b4821d9f3d560cdc6df5dec02ffc93fd:lzfs/3rdparty/lzfse
++
++PLIST_FILES+=	bin/apfs-fuse \
++		bin/apfsutil
++
++post-install:
++	@${STRIP_CMD} ${STAGEDIR}/${PREFIX}/bin/apfs-fuse
++	@${STRIP_CMD} ${STAGEDIR}/${PREFIX}/bin/apfsutil
++
++.include <bsd.port.mk>
+diff --git a/fuse-apfs/distinfo b/fuse-apfs/distinfo
+new file mode 100644
+index 0000000..df14af4
+--- /dev/null
++++ b/fuse-apfs/distinfo
+@@ -0,0 +1,5 @@
++TIMESTAMP = 1698575921
++SHA256 (sgan81-apfs-fuse-g20231029-b595551132779711ea9538a2e6364796b7ebe317_GH0.tar.gz) = 1e11c851f71c6c58d8ef7a8e257b942309680b43a18cfb0befdbd8237400460e
++SIZE (sgan81-apfs-fuse-g20231029-b595551132779711ea9538a2e6364796b7ebe317_GH0.tar.gz) = 143529
++SHA256 (lzfse-lzfse-e634ca58b4821d9f3d560cdc6df5dec02ffc93fd_GH0.tar.gz) = ca98aa6644d44500e3315858daa747ce15bd06d49e3edb12a5458e5525e8ebdb
++SIZE (lzfse-lzfse-e634ca58b4821d9f3d560cdc6df5dec02ffc93fd_GH0.tar.gz) = 50694
+diff --git a/fuse-apfs/files/patch-ApfsLib_Device.cpp b/fuse-apfs/files/patch-ApfsLib_Device.cpp
+new file mode 100644
+index 0000000..22c28c5
+--- /dev/null
++++ b/fuse-apfs/files/patch-ApfsLib_Device.cpp
+@@ -0,0 +1,20 @@
++--- ApfsLib/Device.cpp.orig	2023-11-01 20:28:01 UTC
+++++ ApfsLib/Device.cpp
++@@ -25,6 +25,7 @@
++ #include "DeviceWinPhys.h"
++ #include "DeviceLinux.h"
++ #include "DeviceMac.h"
+++#include "DeviceBSD.h"
++ #include "DeviceDMG.h"
++ #include "DeviceSparseImage.h"
++ #include "DeviceVDI.h"
++@@ -96,6 +97,9 @@ Device * Device::OpenDevice(const char * name)
++ #endif
++ #ifdef __APPLE__
++ 		dev = new DeviceMac();
+++#endif
+++#ifdef __FreeBSD__
+++		dev = new DeviceBSD();
++ #endif
++ 		rc = dev->Open(name);
++ 
+diff --git a/fuse-apfs/files/patch-ApfsLib_DeviceBSD.cpp b/fuse-apfs/files/patch-ApfsLib_DeviceBSD.cpp
+new file mode 100644
+index 0000000..c3b504d
+--- /dev/null
++++ b/fuse-apfs/files/patch-ApfsLib_DeviceBSD.cpp
+@@ -0,0 +1,127 @@
++--- ApfsLib/DeviceBSD.cpp.orig	2023-11-01 20:32:06 UTC
+++++ ApfsLib/DeviceBSD.cpp
++@@ -0,0 +1,124 @@
+++/*
+++This file is part of apfs-fuse, a read-only implementation of APFS
+++(Apple File System) for FUSE.
+++Copyright (C) 2017 Simon Gander
+++Copyright (C) 2021 John Othwolo
+++
+++Apfs-fuse is free software: you can redistribute it and/or modify
+++it under the terms of the GNU General Public License as published by
+++the Free Software Foundation, either version 2 of the License, or
+++(at your option) any later version.
+++
+++Apfs-fuse is distributed in the hope that it will be useful,
+++but WITHOUT ANY WARRANTY; without even the implied warranty of
+++MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+++GNU General Public License for more details.
+++
+++You should have received a copy of the GNU General Public License
+++along with apfs-fuse.  If not, see <http://www.gnu.org/licenses/>.
+++*/
+++
+++#if defined (__FreeBSD__) // check other BSDs
+++
+++#include <unistd.h>
+++#include <sys/disk.h>
+++#include <sys/ioctl.h>
+++#include <sys/stat.h>
+++#include <sys/fcntl.h>
+++#include <errno.h>
+++#include <stdio.h>
+++#include <string.h>
+++
+++#include <iostream>
+++
+++#include "DeviceBSD.h"
+++#include "Global.h"
+++
+++DeviceBSD::DeviceBSD()
+++{
+++	m_device = -1;
+++	m_size = 0;
+++}
+++
+++DeviceBSD::~DeviceBSD()
+++{
+++	Close();
+++}
+++
+++bool DeviceBSD::Open(const char* name)
+++{
+++	m_device = open(name, O_RDONLY);
+++
+++	if (m_device == -1)
+++	{
+++		std::cout << "Opening device " << name << " failed with error " << strerror(errno) << std::endl;
+++		return false;
+++	}
+++
+++	struct stat st;
+++
+++	fstat(m_device, &st);
+++
+++	std::cout << "st_mode = " << st.st_mode << std::endl;
+++
+++	if (S_ISREG(st.st_mode))
+++	{
+++		m_size = st.st_size;
+++	}
+++	else if (S_ISCHR(st.st_mode) || S_ISBLK(st.st_mode))
+++	{
+++		// uint64_t sector_count = 0;
+++		uint32_t sector_size = 0;
+++        	uint32_t media_size = 0;
+++
+++        	ioctl(m_device, DIOCGMEDIASIZE, &media_size);
+++		// ioctl(m_device, DKIOCGETBLOCKCOUNT, &sector_count);
+++		ioctl(m_device, DIOCGSECTORSIZE, &sector_size);
+++
+++		// m_size = sector_size * sector_count;
+++        	m_size = media_size;
+++
+++	        if ((media_size%sector_size) != 0)
+++        	{
+++	            std::cerr << "Something is really wrong!!";
+++	        }
+++		// std::cout << "Sector count = " << sector_count << std::endl;
+++		std::cout << "Sector size  = " << sector_size << std::endl;
+++	        std::cout << "Media size  = " << media_size << std::endl;
+++	}
+++	else
+++	{
+++		std::cout << "File mode unknown!" << std::endl;
+++	}
+++
+++	if (g_debug & Dbg_Info)
+++		std::cout << "Device " << name << " opened. Size is " << m_size << std::endl;
+++
+++	return m_device != -1;
+++}
+++
+++void DeviceBSD::Close()
+++{
+++	if (m_device != -1)
+++		close(m_device);
+++	m_device = -1;
+++	m_size = 0;
+++}
+++
+++bool DeviceBSD::Read(void* data, uint64_t offs, uint64_t len)
+++{
+++    size_t nread;
+++
+++    nread = pread(m_device, data, len, offs);
+++
+++    // TODO: Better error handling ...
+++    return nread == len;
+++}
+++
+++bool DeviceBSD::Write(void* data, uint64_t offs, uint64_t len)
+++{
+++    // TODO: Better error handling ...
+++    return len == static_cast<uint64_t >(pwrite(m_device, data, len, offs));
+++}
+++
+++#endif
+diff --git a/fuse-apfs/files/patch-ApfsLib_DeviceBSD.h b/fuse-apfs/files/patch-ApfsLib_DeviceBSD.h
+new file mode 100644
+index 0000000..7822edd
+--- /dev/null
++++ b/fuse-apfs/files/patch-ApfsLib_DeviceBSD.h
+@@ -0,0 +1,49 @@
++--- ApfsLib/DeviceBSD.h.orig	2023-11-01 20:25:16 UTC
+++++ ApfsLib/DeviceBSD.h
++@@ -0,0 +1,46 @@
+++/*
+++This file is part of apfs-fuse, a read-only implementation of APFS
+++(Apple File System) for FUSE.
+++Copyright (C) 2017 Simon Gander
+++Copyright (C) 2021 John Othwolo
+++
+++Apfs-fuse is free software: you can redistribute it and/or modify
+++it under the terms of the GNU General Public License as published by
+++the Free Software Foundation, either version 2 of the License, or
+++(at your option) any later version.
+++
+++Apfs-fuse is distributed in the hope that it will be useful,
+++but WITHOUT ANY WARRANTY; without even the implied warranty of
+++MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+++GNU General Public License for more details.
+++
+++You should have received a copy of the GNU General Public License
+++along with apfs-fuse.  If not, see <http://www.gnu.org/licenses/>.
+++*/
+++
+++#pragma once
+++
+++#if defined (__FreeBSD__)
+++
+++#include "Device.h"
+++
+++class DeviceBSD : public Device
+++{
+++public:
+++    DeviceBSD();
+++    ~DeviceBSD();
+++
+++    bool Open(const char *name) override;
+++    void Close() override;
+++
+++    bool Read(void *data, uint64_t offs, uint64_t len) override;
+++    bool Write(void *data, uint64_t offs, uint64_t len);
+++
+++    uint64_t GetSize() const override { return m_size; }
+++
+++private:
+++	int m_device;
+++	uint64_t m_size;
+++};
+++
+++#endif
+diff --git a/fuse-apfs/files/patch-ApfsLib_Endian.h b/fuse-apfs/files/patch-ApfsLib_Endian.h
+new file mode 100644
+index 0000000..0b5bcb0
+--- /dev/null
++++ b/fuse-apfs/files/patch-ApfsLib_Endian.h
+@@ -0,0 +1,15 @@
++--- ApfsLib/Endian.h.orig	2023-10-29 13:17:41 UTC
+++++ ApfsLib/Endian.h
++@@ -58,6 +58,12 @@ Also helps making the driver run on big-endian archite
++ #include <byteswap.h>
++ #include <endian.h>
++ #endif
+++#ifdef __FreeBSD__
+++#include <sys/endian.h>
+++#define bswap_16(x) bswap16(x)
+++#define bswap_32(x) bswap32(x)
+++#define bswap_64(x) bswap64(x)
+++#endif
++ #ifdef __APPLE__
++ // Definitions for macOS
++ #include <libkern/OSByteOrder.h>
+diff --git a/fuse-apfs/files/patch-CMakeLists.txt b/fuse-apfs/files/patch-CMakeLists.txt
+new file mode 100644
+index 0000000..daf299a
+--- /dev/null
++++ b/fuse-apfs/files/patch-CMakeLists.txt
+@@ -0,0 +1,37 @@
++--- CMakeLists.txt.orig	2023-03-11 23:26:37 UTC
+++++ CMakeLists.txt
++@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.0)
++ 
++ project(Apfs)
++ 
++-option(USE_FUSE3 "Use the FUSE 3 library (required on 32-bit systems)" ON)
+++option(USE_FUSE3 "Use the FUSE 3 library (required on 32-bit systems)" OFF)
++ 
++ set(CMAKE_C_STANDARD 99)
++ set(CMAKE_CXX_STANDARD 11)
++@@ -84,6 +84,8 @@ add_library(apfs
++ 	ApfsLib/DeviceLinux.h
++ 	ApfsLib/DeviceMac.cpp
++ 	ApfsLib/DeviceMac.h
+++	ApfsLib/DeviceBSD.h
+++	ApfsLib/DeviceBSD.cpp
++ 	ApfsLib/DeviceSparseImage.cpp
++ 	ApfsLib/DeviceSparseImage.h
++ 	ApfsLib/DeviceWinFile.cpp
++@@ -129,9 +131,15 @@ else()
++ if (USE_FUSE3)
++ target_link_libraries(apfs-fuse apfs fuse3)
++ else()
++-target_link_libraries(apfs-fuse apfs fuse)
+++target_link_libraries(apfs-fuse apfs pthread)
++ target_compile_definitions(apfs-fuse PRIVATE USE_FUSE2)
++ endif()
+++endif()
+++
+++if(CMAKE_SYSTEM_NAME MATCHES "FreeBSD")
+++target_include_directories(apfs-fuse PRIVATE /usr/local/include/)
+++target_link_libraries(apfs-fuse apfs /usr/local/lib/libfuse.a)
+++#target_compile_options(apfs-fuse PUBLIC "-pthread")
++ endif()
++ 
++ add_executable(apfsutil ApfsUtil/ApfsUtil.cpp)
+diff --git a/fuse-apfs/files/patch-apfsfuse_ApfsFuse.cpp b/fuse-apfs/files/patch-apfsfuse_ApfsFuse.cpp
+new file mode 100644
+index 0000000..9011852
+--- /dev/null
++++ b/fuse-apfs/files/patch-apfsfuse_ApfsFuse.cpp
+@@ -0,0 +1,14 @@
++--- apfsfuse/ApfsFuse.cpp.orig	2023-03-11 23:26:37 UTC
+++++ apfsfuse/ApfsFuse.cpp
++@@ -37,6 +37,11 @@
++ #include <fuse/fuse.h>
++ #include <fuse/fuse_lowlevel.h>
++ #endif
+++#ifdef __FreeBSD__
+++#include <fuse/fuse.h>
+++#include <fuse/fuse_lowlevel.h>
+++#include <unistd.h>
+++#endif
++ 
++ #include <getopt.h>
++ 
+diff --git a/fuse-apfs/fuse-apfs.diff b/fuse-apfs/fuse-apfs.diff
+new file mode 100644
+index 0000000..088aef7
+--- /dev/null
++++ b/fuse-apfs/fuse-apfs.diff
+@@ -0,0 +1,356 @@
++diff --git a/fuse-apfs/Makefile b/fuse-apfs/Makefile
++new file mode 100644
++index 0000000..f0e249a
++--- /dev/null
+++++ b/fuse-apfs/Makefile
++@@ -0,0 +1,34 @@
+++PORTNAME=	apfs-fuse
+++DISTVERSION=	g20231029
+++CATEGORIES=	sysutils
+++PKGNAMEPREFIX=	fusefs-
+++
+++MAINTAINER=	freebsd@sysctl.cz
+++COMMENT=	APFS FUSE Driver for Linux
+++WWW=		https://github.com/sgan81/apfs-fuse
+++
+++LICENSE=	GPLv2
+++LICENSE_FILE=	${WRKSRC}/LICENSE
+++
+++LIB_DEPENDS=	libfuse.so:sysutils/fusefs-libs
+++
+++USES=		cmake fuse
+++
+++USE_GITHUB=	yes
+++GH_ACCOUNT=	sgan81
+++GH_PROJECT=	apfs-fuse
+++GH_TAGNAME=	b595551132779711ea9538a2e6364796b7ebe317
+++GH_TUPLE+=	lzfse:lzfse:e634ca58b4821d9f3d560cdc6df5dec02ffc93fd:3rdparty/lzfse
+++
+++PLIST_FILES+=   bin/apfs-fuse \
+++		bin/apfsutil
+++
+++
+++post-patch:
+++	${MV} ${WRKSRC}/lzfse  ${WRKSRC}/3rdparty
+++
+++post-install:
+++	@${STRIP_CMD} ${STAGEDIR}/${PREFIX}/bin/apfs-fuse
+++	@${STRIP_CMD} ${STAGEDIR}/${PREFIX}/bin/apfsutil
+++
+++.include <bsd.port.mk>
++diff --git a/fuse-apfs/distinfo b/fuse-apfs/distinfo
++new file mode 100644
++index 0000000..df14af4
++--- /dev/null
+++++ b/fuse-apfs/distinfo
++@@ -0,0 +1,5 @@
+++TIMESTAMP = 1698575921
+++SHA256 (sgan81-apfs-fuse-g20231029-b595551132779711ea9538a2e6364796b7ebe317_GH0.tar.gz) = 1e11c851f71c6c58d8ef7a8e257b942309680b43a18cfb0befdbd8237400460e
+++SIZE (sgan81-apfs-fuse-g20231029-b595551132779711ea9538a2e6364796b7ebe317_GH0.tar.gz) = 143529
+++SHA256 (lzfse-lzfse-e634ca58b4821d9f3d560cdc6df5dec02ffc93fd_GH0.tar.gz) = ca98aa6644d44500e3315858daa747ce15bd06d49e3edb12a5458e5525e8ebdb
+++SIZE (lzfse-lzfse-e634ca58b4821d9f3d560cdc6df5dec02ffc93fd_GH0.tar.gz) = 50694
++diff --git a/fuse-apfs/files/patch-ApfsLib_Device.cpp b/fuse-apfs/files/patch-ApfsLib_Device.cpp
++new file mode 100644
++index 0000000..22c28c5
++--- /dev/null
+++++ b/fuse-apfs/files/patch-ApfsLib_Device.cpp
++@@ -0,0 +1,20 @@
+++--- ApfsLib/Device.cpp.orig	2023-11-01 20:28:01 UTC
++++++ ApfsLib/Device.cpp
+++@@ -25,6 +25,7 @@
+++ #include "DeviceWinPhys.h"
+++ #include "DeviceLinux.h"
+++ #include "DeviceMac.h"
++++#include "DeviceBSD.h"
+++ #include "DeviceDMG.h"
+++ #include "DeviceSparseImage.h"
+++ #include "DeviceVDI.h"
+++@@ -96,6 +97,9 @@ Device * Device::OpenDevice(const char * name)
+++ #endif
+++ #ifdef __APPLE__
+++ 		dev = new DeviceMac();
++++#endif
++++#ifdef __FreeBSD__
++++		dev = new DeviceBSD();
+++ #endif
+++ 		rc = dev->Open(name);
+++ 
++diff --git a/fuse-apfs/files/patch-ApfsLib_DeviceBSD.cpp b/fuse-apfs/files/patch-ApfsLib_DeviceBSD.cpp
++new file mode 100644
++index 0000000..c3b504d
++--- /dev/null
+++++ b/fuse-apfs/files/patch-ApfsLib_DeviceBSD.cpp
++@@ -0,0 +1,127 @@
+++--- ApfsLib/DeviceBSD.cpp.orig	2023-11-01 20:32:06 UTC
++++++ ApfsLib/DeviceBSD.cpp
+++@@ -0,0 +1,124 @@
++++/*
++++This file is part of apfs-fuse, a read-only implementation of APFS
++++(Apple File System) for FUSE.
++++Copyright (C) 2017 Simon Gander
++++Copyright (C) 2021 John Othwolo
++++
++++Apfs-fuse is free software: you can redistribute it and/or modify
++++it under the terms of the GNU General Public License as published by
++++the Free Software Foundation, either version 2 of the License, or
++++(at your option) any later version.
++++
++++Apfs-fuse is distributed in the hope that it will be useful,
++++but WITHOUT ANY WARRANTY; without even the implied warranty of
++++MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++++GNU General Public License for more details.
++++
++++You should have received a copy of the GNU General Public License
++++along with apfs-fuse.  If not, see <http://www.gnu.org/licenses/>.
++++*/
++++
++++#if defined (__FreeBSD__) // check other BSDs
++++
++++#include <unistd.h>
++++#include <sys/disk.h>
++++#include <sys/ioctl.h>
++++#include <sys/stat.h>
++++#include <sys/fcntl.h>
++++#include <errno.h>
++++#include <stdio.h>
++++#include <string.h>
++++
++++#include <iostream>
++++
++++#include "DeviceBSD.h"
++++#include "Global.h"
++++
++++DeviceBSD::DeviceBSD()
++++{
++++	m_device = -1;
++++	m_size = 0;
++++}
++++
++++DeviceBSD::~DeviceBSD()
++++{
++++	Close();
++++}
++++
++++bool DeviceBSD::Open(const char* name)
++++{
++++	m_device = open(name, O_RDONLY);
++++
++++	if (m_device == -1)
++++	{
++++		std::cout << "Opening device " << name << " failed with error " << strerror(errno) << std::endl;
++++		return false;
++++	}
++++
++++	struct stat st;
++++
++++	fstat(m_device, &st);
++++
++++	std::cout << "st_mode = " << st.st_mode << std::endl;
++++
++++	if (S_ISREG(st.st_mode))
++++	{
++++		m_size = st.st_size;
++++	}
++++	else if (S_ISCHR(st.st_mode) || S_ISBLK(st.st_mode))
++++	{
++++		// uint64_t sector_count = 0;
++++		uint32_t sector_size = 0;
++++        	uint32_t media_size = 0;
++++
++++        	ioctl(m_device, DIOCGMEDIASIZE, &media_size);
++++		// ioctl(m_device, DKIOCGETBLOCKCOUNT, &sector_count);
++++		ioctl(m_device, DIOCGSECTORSIZE, &sector_size);
++++
++++		// m_size = sector_size * sector_count;
++++        	m_size = media_size;
++++
++++	        if ((media_size%sector_size) != 0)
++++        	{
++++	            std::cerr << "Something is really wrong!!";
++++	        }
++++		// std::cout << "Sector count = " << sector_count << std::endl;
++++		std::cout << "Sector size  = " << sector_size << std::endl;
++++	        std::cout << "Media size  = " << media_size << std::endl;
++++	}
++++	else
++++	{
++++		std::cout << "File mode unknown!" << std::endl;
++++	}
++++
++++	if (g_debug & Dbg_Info)
++++		std::cout << "Device " << name << " opened. Size is " << m_size << std::endl;
++++
++++	return m_device != -1;
++++}
++++
++++void DeviceBSD::Close()
++++{
++++	if (m_device != -1)
++++		close(m_device);
++++	m_device = -1;
++++	m_size = 0;
++++}
++++
++++bool DeviceBSD::Read(void* data, uint64_t offs, uint64_t len)
++++{
++++    size_t nread;
++++
++++    nread = pread(m_device, data, len, offs);
++++
++++    // TODO: Better error handling ...
++++    return nread == len;
++++}
++++
++++bool DeviceBSD::Write(void* data, uint64_t offs, uint64_t len)
++++{
++++    // TODO: Better error handling ...
++++    return len == static_cast<uint64_t >(pwrite(m_device, data, len, offs));
++++}
++++
++++#endif
++diff --git a/fuse-apfs/files/patch-ApfsLib_DeviceBSD.h b/fuse-apfs/files/patch-ApfsLib_DeviceBSD.h
++new file mode 100644
++index 0000000..7822edd
++--- /dev/null
+++++ b/fuse-apfs/files/patch-ApfsLib_DeviceBSD.h
++@@ -0,0 +1,49 @@
+++--- ApfsLib/DeviceBSD.h.orig	2023-11-01 20:25:16 UTC
++++++ ApfsLib/DeviceBSD.h
+++@@ -0,0 +1,46 @@
++++/*
++++This file is part of apfs-fuse, a read-only implementation of APFS
++++(Apple File System) for FUSE.
++++Copyright (C) 2017 Simon Gander
++++Copyright (C) 2021 John Othwolo
++++
++++Apfs-fuse is free software: you can redistribute it and/or modify
++++it under the terms of the GNU General Public License as published by
++++the Free Software Foundation, either version 2 of the License, or
++++(at your option) any later version.
++++
++++Apfs-fuse is distributed in the hope that it will be useful,
++++but WITHOUT ANY WARRANTY; without even the implied warranty of
++++MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++++GNU General Public License for more details.
++++
++++You should have received a copy of the GNU General Public License
++++along with apfs-fuse.  If not, see <http://www.gnu.org/licenses/>.
++++*/
++++
++++#pragma once
++++
++++#if defined (__FreeBSD__)
++++
++++#include "Device.h"
++++
++++class DeviceBSD : public Device
++++{
++++public:
++++    DeviceBSD();
++++    ~DeviceBSD();
++++
++++    bool Open(const char *name) override;
++++    void Close() override;
++++
++++    bool Read(void *data, uint64_t offs, uint64_t len) override;
++++    bool Write(void *data, uint64_t offs, uint64_t len);
++++
++++    uint64_t GetSize() const override { return m_size; }
++++
++++private:
++++	int m_device;
++++	uint64_t m_size;
++++};
++++
++++#endif
++diff --git a/fuse-apfs/files/patch-ApfsLib_Endian.h b/fuse-apfs/files/patch-ApfsLib_Endian.h
++new file mode 100644
++index 0000000..0b5bcb0
++--- /dev/null
+++++ b/fuse-apfs/files/patch-ApfsLib_Endian.h
++@@ -0,0 +1,15 @@
+++--- ApfsLib/Endian.h.orig	2023-10-29 13:17:41 UTC
++++++ ApfsLib/Endian.h
+++@@ -58,6 +58,12 @@ Also helps making the driver run on big-endian archite
+++ #include <byteswap.h>
+++ #include <endian.h>
+++ #endif
++++#ifdef __FreeBSD__
++++#include <sys/endian.h>
++++#define bswap_16(x) bswap16(x)
++++#define bswap_32(x) bswap32(x)
++++#define bswap_64(x) bswap64(x)
++++#endif
+++ #ifdef __APPLE__
+++ // Definitions for macOS
+++ #include <libkern/OSByteOrder.h>
++diff --git a/fuse-apfs/files/patch-CMakeLists.txt b/fuse-apfs/files/patch-CMakeLists.txt
++new file mode 100644
++index 0000000..daf299a
++--- /dev/null
+++++ b/fuse-apfs/files/patch-CMakeLists.txt
++@@ -0,0 +1,37 @@
+++--- CMakeLists.txt.orig	2023-03-11 23:26:37 UTC
++++++ CMakeLists.txt
+++@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.0)
+++ 
+++ project(Apfs)
+++ 
+++-option(USE_FUSE3 "Use the FUSE 3 library (required on 32-bit systems)" ON)
++++option(USE_FUSE3 "Use the FUSE 3 library (required on 32-bit systems)" OFF)
+++ 
+++ set(CMAKE_C_STANDARD 99)
+++ set(CMAKE_CXX_STANDARD 11)
+++@@ -84,6 +84,8 @@ add_library(apfs
+++ 	ApfsLib/DeviceLinux.h
+++ 	ApfsLib/DeviceMac.cpp
+++ 	ApfsLib/DeviceMac.h
++++	ApfsLib/DeviceBSD.h
++++	ApfsLib/DeviceBSD.cpp
+++ 	ApfsLib/DeviceSparseImage.cpp
+++ 	ApfsLib/DeviceSparseImage.h
+++ 	ApfsLib/DeviceWinFile.cpp
+++@@ -129,9 +131,15 @@ else()
+++ if (USE_FUSE3)
+++ target_link_libraries(apfs-fuse apfs fuse3)
+++ else()
+++-target_link_libraries(apfs-fuse apfs fuse)
++++target_link_libraries(apfs-fuse apfs pthread)
+++ target_compile_definitions(apfs-fuse PRIVATE USE_FUSE2)
+++ endif()
++++endif()
++++
++++if(CMAKE_SYSTEM_NAME MATCHES "FreeBSD")
++++target_include_directories(apfs-fuse PRIVATE /usr/local/include/)
++++target_link_libraries(apfs-fuse apfs /usr/local/lib/libfuse.a)
++++#target_compile_options(apfs-fuse PUBLIC "-pthread")
+++ endif()
+++ 
+++ add_executable(apfsutil ApfsUtil/ApfsUtil.cpp)
++diff --git a/fuse-apfs/files/patch-apfsfuse_ApfsFuse.cpp b/fuse-apfs/files/patch-apfsfuse_ApfsFuse.cpp
++new file mode 100644
++index 0000000..9011852
++--- /dev/null
+++++ b/fuse-apfs/files/patch-apfsfuse_ApfsFuse.cpp
++@@ -0,0 +1,14 @@
+++--- apfsfuse/ApfsFuse.cpp.orig	2023-03-11 23:26:37 UTC
++++++ apfsfuse/ApfsFuse.cpp
+++@@ -37,6 +37,11 @@
+++ #include <fuse/fuse.h>
+++ #include <fuse/fuse_lowlevel.h>
+++ #endif
++++#ifdef __FreeBSD__
++++#include <fuse/fuse.h>
++++#include <fuse/fuse_lowlevel.h>
++++#include <unistd.h>
++++#endif
+++ 
+++ #include <getopt.h>
+++ 
++diff --git a/fuse-apfs/pkg-descr b/fuse-apfs/pkg-descr
++new file mode 100644
++index 0000000..f2b6ad6
++--- /dev/null
+++++ b/fuse-apfs/pkg-descr
++@@ -0,0 +1 @@
+++Read-only FUSE driver for the new Apple File System
+diff --git a/fuse-apfs/pkg-descr b/fuse-apfs/pkg-descr
+new file mode 100644
+index 0000000..f2b6ad6
+--- /dev/null
++++ b/fuse-apfs/pkg-descr
+@@ -0,0 +1 @@
++Read-only FUSE driver for the new Apple File System

@@ -1,0 +1,37 @@
+--- CMakeLists.txt.orig	2023-03-11 23:26:37 UTC
++++ CMakeLists.txt
+@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.0)
+ 
+ project(Apfs)
+ 
+-option(USE_FUSE3 "Use the FUSE 3 library (required on 32-bit systems)" ON)
++option(USE_FUSE3 "Use the FUSE 3 library (required on 32-bit systems)" OFF)
+ 
+ set(CMAKE_C_STANDARD 99)
+ set(CMAKE_CXX_STANDARD 11)
+@@ -84,6 +84,8 @@ add_library(apfs
+ 	ApfsLib/DeviceLinux.h
+ 	ApfsLib/DeviceMac.cpp
+ 	ApfsLib/DeviceMac.h
++	ApfsLib/DeviceBSD.h
++	ApfsLib/DeviceBSD.cpp
+ 	ApfsLib/DeviceSparseImage.cpp
+ 	ApfsLib/DeviceSparseImage.h
+ 	ApfsLib/DeviceWinFile.cpp
+@@ -129,9 +131,15 @@ else()
+ if (USE_FUSE3)
+ target_link_libraries(apfs-fuse apfs fuse3)
+ else()
+-target_link_libraries(apfs-fuse apfs fuse)
++target_link_libraries(apfs-fuse apfs pthread)
+ target_compile_definitions(apfs-fuse PRIVATE USE_FUSE2)
+ endif()
++endif()
++
++if(CMAKE_SYSTEM_NAME MATCHES "FreeBSD")
++target_include_directories(apfs-fuse PRIVATE /usr/local/include/)
++target_link_libraries(apfs-fuse apfs /usr/local/lib/libfuse.a)
++#target_compile_options(apfs-fuse PUBLIC "-pthread")
+ endif()
+ 
+ add_executable(apfsutil ApfsUtil/ApfsUtil.cpp)
