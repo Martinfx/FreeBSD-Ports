@@ -1,6 +1,6 @@
---- hadoop-common-project/hadoop-common/src/main/java/org/apache/hadoop/util/Shell.java.orig	2019-04-21 12:19:26 UTC
+--- hadoop-common-project/hadoop-common/src/main/java/org/apache/hadoop/util/Shell.java.orig	2023-06-14 01:21:13 UTC
 +++ hadoop-common-project/hadoop-common/src/main/java/org/apache/hadoop/util/Shell.java
-@@ -796,14 +796,14 @@ public abstract class Shell {
+@@ -848,14 +848,14 @@ public abstract class Shell {
      ShellCommandExecutor shexec = null;
      boolean setsidSupported = true;
      try {
@@ -18,7 +18,7 @@
            "security manager. So not using it.");
        setsidSupported = false;
      } catch (Error err) {
-@@ -818,7 +818,7 @@ public abstract class Shell {
+@@ -870,7 +870,7 @@ public abstract class Shell {
        }
      }  finally { // handle the exit code
        if (LOG.isDebugEnabled()) {

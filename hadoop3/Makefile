@@ -1,5 +1,5 @@
 PORTNAME=	hadoop
-PORTVERSION=	3.2.0
+PORTVERSION=	3.3.6
 CATEGORIES=	devel java
 MASTER_SITES=	https://archive.apache.org/dist/${PORTNAME}/common/${PORTNAME}-${PORTVERSION}/ \
 		http://archive.apache.org/dist/tomcat/tomcat-10/v${TOMCAT_VERSION}/bin/:tomcat
@@ -20,7 +20,7 @@ BUILD_DEPENDS=	ant:devel/apache-ant \
 		bash:shells/bash \
 		cmake:devel/cmake \
 		mvn:devel/maven \
-		protobuf25>0:devel/protobuf25
+		protobuf>0:devel/protobuf
 LIB_DEPENDS=	libprotobuf.so:devel/protobuf25 \
 		libsasl2.so:security/cyrus-sasl2 \
 		libsnappy.so:archivers/snappy \
@@ -31,7 +31,7 @@ RUN_DEPENDS=	bash:shells/bash \
 USES=		compiler:c++11-lang cpe pkgconfig shebangfix ssl
 CPE_VENDOR=	apache
 USE_JAVA=	yes
-JAVA_VERSION=	1.7+
+JAVA_VERSION=	17
 USE_LDCONFIG=	yes
 
 SHEBANG_FILES=	hadoop-common-project/hadoop-kms/src/main/conf/kms-env.sh \
@@ -43,7 +43,7 @@ SHEBANG_FILES=	hadoop-common-project/hadoop-kms/src/main/conf/kms-env.sh \
 
 CONFLICTS_INSTAL=	yarn
 
-MAKE_ENV+=	HADOOP_PROTOC_PATH=${LOCALBASE}/protobuf25/bin/protoc \
+MAKE_ENV+=	HADOOP_PROTOC_PATH=${LOCALBASE}/bin/protoc \
 		JAVA_HOME=${JAVA_HOME}
 MAKE_ARGS+=	CXXFLAGS="${CXXFLAGS} -fPIC"
 
