@@ -1,7 +1,3 @@
-TIMESTAMP = 1667841818
-SHA256 (brave-brave-browser-v1.47.52_GH0.tar.gz) = aacebe6a046aec5b3fba6586b254c645df5df41a9d37b6c7b866bfd5a44a4d8b
-SIZE (brave-brave-browser-v1.47.52_GH0.tar.gz) = 127923
-SHA256 (yzgyyang-depot-tools-605dd31_GH0.tar.gz) = 8bf565a0b0c710fa56f3eabb38ac012d479e5fc87da2333f92555869af48fcdc
-SIZE (yzgyyang-depot-tools-605dd31_GH0.tar.gz) = 2376523
-SHA256 (brave-brave-core-c7f821c_GH0.tar.gz) = fd37f03ba95b09050cd0635ee827058218e45681605198784a3c603ca76bceff
-SIZE (brave-brave-core-c7f821c_GH0.tar.gz) = 162603912
+TIMESTAMP = 1700998669
+SHA256 (brave-brave-browser-v1.62.82_GH0.tar.gz) = cb4ca24487d5623bfc6cf425b52b8b045505a3f87bf4231f257f75d30a8a6948
+SIZE (brave-brave-browser-v1.62.82_GH0.tar.gz) = 171397

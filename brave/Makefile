@@ -1,10 +1,8 @@
-# $FreeBSD$
-
 PORTNAME=	brave
-PORTVERSION=	1.47.52
+PORTVERSION=	1.62.82
 DISTVERSIONPREFIX=v
 CATEGORIES=	www
-MASTER_SITES=	https://commondatastorage.googleapis.com/chromium-browser-official/
+#MASTER_SITES=	https://commondatastorage.googleapis.com/chromium-browser-official/
 MAINTAINER=	maintainer@email.com
 COMMENT=	Safe browser
 
@@ -68,8 +66,8 @@ MAKE_ENV+=	ELECTRON_SKIP_BINARY_DOWNLOAD=1 ELECTRON_OVERRIDE_DIST_PATH=${LOCALBA
 #	${CHMOD} -R a+w ${WRKDIR}/electron${ELECTRON_VER_MAJOR}
 
 do-install:
-	cd ${WRKSRC} && npm cache clean --force && npm install --verbose
-	cd ${WRKSRC} && npm run init
+	cd ${WRKSRC} && npm cache clean --force && npm install --verbose --force
+	cd ${WRKSRC} && npm run init --force
 
 #do-install:
 #	(cd ${WRKSRC} && ${BASH} git init)
