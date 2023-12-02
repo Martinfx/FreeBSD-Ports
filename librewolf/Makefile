@@ -1,5 +1,5 @@
 PORTNAME=	librewolf
-DISTVERSION=	118.0.2-1
+DISTVERSION=	120.0.1
 CATEGORIES=	www wayland
 MASTER_SITES=	https://gitlab.com/api/v4/projects/32320088/packages/generic/librewolf-source/${DISTVERSION}/
 DISTNAME=	${PORTNAME}-${DISTVERSION}.source.
