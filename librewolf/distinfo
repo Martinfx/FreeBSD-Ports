@@ -1,5 +1,5 @@
-TIMESTAMP = 1701533441
-SHA256 (librewolf-120.0-1.source.tar.gz) = 9654cf9ee9083193b5e4311c136735c23a834cba740fc65dd7da72c790119283
-SIZE (librewolf-120.0-1.source.tar.gz) = 939472740
+TIMESTAMP = 1710878981
+SHA256 (librewolf-123.0-1.source.tar.gz) = e3209efbddd0c0a79bc62cb9c5cc57b816816bf32a24e8e476e07879c2791314
+SIZE (librewolf-123.0-1.source.tar.gz) = 965610712
 SHA256 (patches/unity_kde/unity-menubar.patch?inline=false) = ff6e224ed0eb3c9d4c3ae92acd9cd04d750e0bcc6be1fa64ccc1317abcc13711
 SIZE (patches/unity_kde/unity-menubar.patch?inline=false) = 163548
