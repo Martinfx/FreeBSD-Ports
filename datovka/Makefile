@@ -1,23 +1,22 @@
 PORTNAME=	datovka
-DISTVERSION=	4.21.0
+DISTVERSION=	4.9.3
 CATEGORIES=	mail
 MASTER_SITES=	https://secure.nic.cz/files/datove_schranky/${DISTVERSION}/
 
 MAINTAINER=	freebsd@sysctl.cz
-COMMENT=	Qt re-implementation of Datovka.
-WWW=		https://gitlab.nic.cz/datovka/
+COMMENT=	Qt re-implementation of Datovka
+WWW=		https://gitlab.nic.cz/datovka/datovka
 
 LICENSE=	LGPL3
 LICENSE_FILE=	${WRKSRC}/COPYING
 
-BUILD_DEPEND+=	libdatovka>=0.2.1:devel/libdatovka \
-		pkgconf:devel/pkgconf \
-		graphics/libglvnd
+BUILD_DEPENDS=	libglvnd>0:graphics/libglvnd \
+		pkgconf:devel/pkgconf
+LIB_DEPENDS=	libdatovka.so:devel/libdatovka
 
-LIB_DEPENDS+=	libdatovka.so:devel/libdatovka
-
-USES=		desktop-file-utils pkgconfig qmake qt:5 tar:xz
-USE_GL+=	gl
-USE_QT+=	printsupport svg widgets gui websockets network sql core buildtools
+USES=		desktop-file-utils gl pkgconfig qmake qt:5 ssl tar:xz
+USE_GL=		gl
+USE_QT=		buildtools core gui network printsupport sql svg websockets \
+		widgets
 
 .include <bsd.port.mk>
