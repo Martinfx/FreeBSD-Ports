@@ -1,5 +1,5 @@
 PORTNAME=	libdatovka
-DISTVERSION=	0.2.1
+DISTVERSION=	0.6.2
 CATEGORIES=	devel
 MASTER_SITES=	https://secure.nic.cz/files/datove_schranky/libdatovka/
 
@@ -17,7 +17,6 @@ BUILD_DEPENDS=	docbook-xsl>0:textproc/docbook-xsl \
 		libiconv>0:converters/libiconv \
 		pkgconf:devel/pkgconf \
 		xsltproc:textproc/libxslt
-
 LIB_DEPENDS+=	libassuan.so:security/libassuan \
 		libcurl.so:ftp/curl \
 		libexpat.so:textproc/expat2 \
@@ -26,14 +25,16 @@ LIB_DEPENDS+=	libassuan.so:security/libassuan \
 		libgpgme.so:security/gpgme \
 		libxml2.so:textproc/libxml2
 
-USES=		autoreconf localbase gettext gmake libtool ssl tar:xz
-
-USE_GNOME=	libxslt libxml2
+USES=		autoreconf gettext gmake gnome libtool localbase ssl tar:xz
+USE_GNOME=	libxml2 libxslt
+USE_LDCONFIG=	yes
 
 GNU_CONFIGURE=		yes
-CONFIGURE_ARGS+=	--with-docbook-xsl-stylesheets=${LOCALBASE}/share/xsl/docbook --disable-fatalwarnings --enable-openssl-backend
+GNU_CONFIGURE_MANPREFIX=${PREFIX}/share
+CONFIGURE_ARGS+=	--disable-fatalwarnings \
+			--enable-openssl-backend \
+			--with-docbook-xsl-stylesheets=${LOCALBASE}/share/xsl/docbook
 
 INSTALL_TARGET=	install-strip
 
 .include <bsd.port.mk>
-
