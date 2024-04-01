@@ -1,20 +1,20 @@
---- CMakeLists.txt.orig	2022-10-09 08:44:46 UTC
+--- CMakeLists.txt.orig	2023-03-27 10:51:49 UTC
 +++ CMakeLists.txt
-@@ -45,7 +45,7 @@ find_package(CURL)
+@@ -49,7 +49,7 @@ find_package(SQLite)
+ find_package(CURL)
  find_package(PAM)
- find_package(UBSAN)
  find_package(GnuTLS REQUIRED)
 -find_package(Libatomic REQUIRED)
 +#find_package(Libatomic REQUIRED)
  
  if (WITH_LTO)
    include(CheckIPOSupported)
-@@ -138,7 +138,7 @@ configure_file(${CMAKE_SOURCE_DIR}/etc/upstart/maxscal
+@@ -142,7 +142,7 @@ configure_file(${CMAKE_SOURCE_DIR}/etc/upstart/maxscal
  configure_file(${CMAKE_SOURCE_DIR}/test/maxscale_test.cnf ${CMAKE_BINARY_DIR}/maxscale.cnf @ONLY)
  configure_file(${CMAKE_SOURCE_DIR}/test/maxscale_test_secondary.cnf ${CMAKE_BINARY_DIR}/maxscale_secondary.cnf @ONLY)
  
--set(FLAGS "-rdynamic -fno-omit-frame-pointer -Wall -Wno-unused-variable -Wno-unused-function -Wno-unused-result -Werror -fPIC" CACHE STRING "Compilation flags")
-+set(FLAGS "-rdynamic -fno-omit-frame-pointer -Wall -Wno-unused-variable -Wno-unused-function -Wno-unused-result -fPIC" CACHE STRING "Compilation flags")
- set(DEBUG_FLAGS "-ggdb -pthread -pipe -Wformat -fstack-protector --param=ssp-buffer-size=4" CACHE STRING "Debug compilation flags")
+-set(FLAGS "-fno-omit-frame-pointer -Wall -Wno-unused-variable -Wno-unused-function -Wno-unused-result -Werror -fPIC" CACHE STRING "Compilation flags")
++set(FLAGS "-fno-omit-frame-pointer -Wall -Wno-unused-variable -Wno-unused-function -Wno-unused-result -fPIC" CACHE STRING "Compilation flags")
+ set(DEBUG_FLAGS "-ggdb -pthread -pipe -fstack-protector --param=ssp-buffer-size=4" CACHE STRING "Debug compilation flags")
  
- if(CMAKE_VERSION VERSION_GREATER 2.6)
+ # clang complains if a compile flag is not used

@@ -1,5 +1,5 @@
 PORTNAME=       MaxScale
-DISTVERSION=    22.08.1
+DISTVERSION=    22.08.5
 
 CATEGORIES=     databases
 
@@ -30,8 +30,8 @@ CMAKE_ARGS+=	SS_DEBUG=0
 #REINPLACE_ARGS=	-i ''
 
 post-patch:
-#	${REINPLACE_CMD} -e "s|program_invocation_short_name|getprogname()|g" ${WRKSRC}/maxutils/maxbase/src/log.cc
-#	${REINPLACE_CMD} -e "s|program_invocation_short_name|getprogname()|g" ${WRKSRC}/maxutils/maxbase/src/logger.cc
+	${REINPLACE_CMD} -e "s|program_invocation_short_name|getprogname()|g" ${WRKSRC}/maxutils/maxbase/src/log.cc
+	${REINPLACE_CMD} -e "s|program_invocation_short_name|getprogname()|g" ${WRKSRC}/maxutils/maxbase/src/logger.cc
 
 .include <bsd.port.mk>
 
