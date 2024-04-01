@@ -1,0 +1,9 @@
+TIMESTAMP = 1711889075
+SHA256 (centos/glibc-2.17-317.el7.aarch64.rpm) = ca1976545bcd4a6c099f1b3e2505469083b6bb4901d2517275a8da4138c0b21a
+SIZE (centos/glibc-2.17-317.el7.aarch64.rpm) = 3752536
+SHA256 (centos/glibc-2.17-317.el7.i686.rpm) = e4df5a58d0f90095d141e1835d93bb4822824a49e24db3d00d712c1bc6683686
+SIZE (centos/glibc-2.17-317.el7.i686.rpm) = 4464820
+SHA256 (centos/glibc-2.17-317.el7.x86_64.rpm) = 49eb081de1ddd13f5440abdbb3b42cdd01d11b74d624793ae1b80a1cf432551b
+SIZE (centos/glibc-2.17-317.el7.x86_64.rpm) = 3815880
+SHA256 (centos/glibc-2.17-317.el7.src.rpm) = 3e03c2bdc2574a01cf47221fad0e4553e449929c7b344afb4776c558f3201f88
+SIZE (centos/glibc-2.17-317.el7.src.rpm) = 26418062
