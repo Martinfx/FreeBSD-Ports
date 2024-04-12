@@ -1,6 +1,6 @@
 PORTNAME=	podman-desktop
 DISTVERSIONPREFIX=	v
-DISTVERSION=	0.0.202404051435-892b7e7
+DISTVERSION=	0.0.202404121223-5d0da93
 CATEGORIES=	sysutils
 
 MAINTAINER=	maxfx@hades
@@ -45,7 +45,15 @@ pre-build:
 	@${CP} -pR ${LOCALBASE}/share/electron${ELECTRON_VER_MAJOR} ${WRKDIR}/electron${ELECTRON_VER_MAJOR}
 	${CHMOD} -R a+w ${WRKDIR}/electron${ELECTRON_VER_MAJOR}
 
-do-build: patch-node-modules
+do-build: install-node-modules patch-node-modules
+
+install-node-modules:
+	# install node_modules without executing post-installation scripts
+	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} \
+		yarn --ignore-scripts #--offline
+	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} \
+		yarn postinstall  #--offline
+
 patch-node-modules:
 	# patch install node modules before building native node modules
 	for p in ${PATCHDIR}/node_modules/patch-*; do \
