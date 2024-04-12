@@ -1,0 +1,4 @@
+bin/iaito
+share/applications/org.radare.iaito.desktop
+share/icons/hicolor/scalable/apps/org.radare.iaito.svg
+share/metainfo/org.radare.iaito.appdata.xml
