@@ -1,0 +1,25 @@
+PORTNAME=	circt
+DISTVERSIONPREFIX=firtool-
+DISTVERSION=	1.72.0
+CATEGORIES=	devel
+
+MAINTAINER=	freebsd@sysctl.cz
+COMMENT=	Circuit IR Compilers and Tools
+WWW=		https://circt.org/
+
+LICENSE=	APACHE20
+LICENSE_FILE=	${WRKSRC}/LICENSE
+
+USES=		cmake ninja
+
+USE_GITHUB=	yes
+GH_ACCOUNT=	llvm
+GH_PROJECT=	circt
+GH_TUPLE=	llvm:llvm-project:20ed5b1:circt/llvm
+
+CMAKE_ON=	LLVM_ENABLE_PROJECTS="mlir" LLVM_TARGETS_TO_BUILD="host" LLVM_ENABLE_ASSERTIONS=ON CMAKE_EXPORT_COMPILE_COMMANDS=ON
+CMAKE_OFF=	CMAKE_BUILD_TYPE=DEBUG
+CMAKE_ARGS+=	-DLLVM_CONFIG_PATH="${LOCALBASE}/llvm17/bin/llvm-config"
+
+
+.include <bsd.port.mk>
