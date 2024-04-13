@@ -35,10 +35,11 @@ LIB_DEPENDS=	libr_core.so:devel/radare2 \
 		libr_esil.so:devel/radare2 \
 		libGL.so:graphics/libglvnd \
 
-USES=		desktop-file-utils gmake pkgconfig qmake qt:5 ssl
-USE_QT=		svg widgets gui network buildtools:build qmake:build core
+USES=		gmake ssl qt:5 pkgconfig qmake:no_configure
+USE_QT=		svg widgets gui network core linguisttools buildtools
 USE_GL=		gl
-
+MAKE_ENV=	QMAKE_FLAGS="PREFIX=${STAGEDIR}${PREFIX}"\
+		DESTDIR=${STAGEDIR}${PREFIX}
 GNU_CONFIGURE=	yes
 
 USE_GITHUB=	yes
@@ -48,7 +49,7 @@ GH_PROJECT=	iaito
 do-install:
 	${INSTALL_PROGRAM} ${WRKSRC}/build/${PORTNAME} ${STAGEDIR}${PREFIX}/bin
 	${INSTALL_DATA} ${WRKSRC}/src/org.radare.${PORTNAME}.desktop \
-		${STAGEDIR}${DESKTOPDIR}
+			${STAGEDIR}${DESKTOPDIR}
 	${MKDIR} ${STAGEDIR}${PREFIX}/share/icons/hicolor/scalable/apps
 	${INSTALL_DATA} ${WRKSRC}/src/img/org.radare.iaito.svg \
 		${STAGEDIR}${PREFIX}/share/icons/hicolor/scalable/apps
