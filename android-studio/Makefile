@@ -26,7 +26,7 @@ do-install:
 
 	${MKDIR} ${STAGEDIR}${LINUXBASE}/android-studio
 	cd ${WRKSRC} && ${COPYTREE_SHARE} . ${STAGEDIR}${LINUXBASE}/android-studio
-	${CHMOD} -R +x ${STAGEDIR}${LINUXBASE}/android-studio/
+	${CHMOD} +x ${STAGEDIR}${LINUXBASE}/android-studio/bin/studio.sh
 	${INSTALL_DATA} ${WRKSRC}/bin/studio.png ${STAGEDIR}${PREFIX}/share/pixmaps/studio.png
 
 .include <bsd.port.mk>
