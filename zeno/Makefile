@@ -20,6 +20,7 @@ USES=		cmake compiler:c++17-lang localbase:ldflags eigen:3 qt:5
 USE_QT=		buildtools core widgets gui linguisttools network opengl svg qmake
 USE_GCC=	yes
 USE_GITHUB=	yes
+USE_LDCONFIG=   yes
 GH_ACCOUNT=	zenustech
 
 CXXFLAGS+=	-I${WRKSRC}/ui/zenoui/style -I${WRKSRC}/ui/zenoedit/launch
@@ -38,5 +39,8 @@ PLIST_FILES=	bin/zenoedit \
 		bin/autotest \
 		lib/libzeno.so
 do-install:
+	${INSTALL_PROGRAM} ${WRKDIR}/.build/bin/zenoedit ${STAGEDIR}${PREFIX}/bin
+	${INSTALL_PROGRAM} ${WRKDIR}/.build/bin/autotest ${STAGEDIR}${PREFIX}/bin
+	${INSTALL_DATA} ${WRKDIR}/.build/bin/libzeno.so ${STAGEDIR}${PREFIX}/lib
 
 .include <bsd.port.mk>
