@@ -23,7 +23,7 @@ USE_GITHUB=	yes
 USE_LDCONFIG=   yes
 GH_ACCOUNT=	zenustech
 
-CXXFLAGS+=	-I${WRKSRC}/ui/zenoui/style -I${WRKSRC}/ui/zenoedit/launch
+CXXFLAGS+=	-I${WRKSRC}/ui/zenoui/style -I${WRKSRC}/ui/zenoedit/launch -stdlib=libc++
 
 CMAKE_ON=	ZENO_BUILD_EDITOR ZENO_MULTIPROCESS \
 		ZENO_BUILD_SHARED ZENO_USE_CCACHE ZENO_NO_WARNING \
