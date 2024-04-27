@@ -1,9 +1,16 @@
---- ui/zenoedit/zenoapplication.h.orig	2024-04-23 10:57:01 UTC
+--- ui/zenoedit/zenoapplication.h.orig	2023-11-22 19:17:26 UTC
 +++ ui/zenoedit/zenoapplication.h
-@@ -9,9 +9,9 @@
+@@ -3,15 +3,15 @@
+ 
+ #include <QtWidgets>
+ #include "zwidgetostream.h"
++#include "zenomainwindow.h"
+ #include "cache/zcachemgr.h"
+ #include "uilogic/procclipboard.h"
+ #include <zeno/utils/scope_exit.h>
  
  class GraphsManagment;
- class ZenoMainWindow;
+-class ZenoMainWindow;
 -#if defined(ZENO_MULTIPROCESS) && defined(ZENO_IPC_USE_TCP)
 +//#if defined(ZENO_MULTIPROCESS) && defined(ZENO_IPC_USE_TCP)
  class ZTcpServer;
