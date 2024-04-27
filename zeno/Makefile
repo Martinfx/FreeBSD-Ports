@@ -18,7 +18,7 @@ BUILD_DEPENDS=	openmpi>0:net/openmpi \
 
 USES=		cmake compiler:c++17-lang localbase:ldflags eigen:3 qt:5
 USE_QT=		buildtools core widgets gui linguisttools network opengl svg qmake
-USE_GCC=	yes
+USE_GCC=	12
 USE_GITHUB=	yes
 USE_LDCONFIG=   yes
 GH_ACCOUNT=	zenustech
