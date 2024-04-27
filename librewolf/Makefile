@@ -1,8 +1,9 @@
 PORTNAME=	librewolf
-DISTVERSION=	124.0.1-1
-CATEGORIES=	www wayland
-MASTER_SITES=	https://gitlab.com/api/v4/projects/32320088/packages/generic/librewolf-source/${DISTVERSION:R}-1/
-DISTNAME=	${PORTNAME}-${DISTVERSION:R}-1.source.
+DISTVERSION=    125.0.2.-1
+CATEGORIES=     www wayland
+MASTER_SITES=   https://gitlab.com/api/v4/projects/32320088/packages/generic/librewolf-source/125.0.2-1/
+DISTNAME=       ${PORTNAME}-125.0.2-1.source.
+
 EXTRACT_SUFX=	tar.gz
 
 MAINTAINER=	freebsd@sysctl.cz
