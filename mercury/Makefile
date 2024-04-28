@@ -1,17 +1,13 @@
 PORTNAME=	Mercury
 DISTVERSION=	v.123.0.1
 CATEGORIES=	www wayland
-MASTER_SITES=   MOZILLA/firefox/releases/124.0.1${DISTVERSIONSUFFIX}/source \
-                MOZILLA/firefox/candidates/124.0.1${DISTVERSIONSUFFIX}-candidates/build1/source
-DISTFILES=      ${DISTNAME}.source${EXTRACT_SUFX}
+MASTER_SITES=	https://archive.mozilla.org/pub/firefox/releases/124.0/source/
+DISTFILES=      firefox-124.0.1.source${EXTRACT_SUFX}
 
-#MASTER_SITES=	https://gitlab.com/api/v4/projects/32320088/packages/generic/librewolf-source/${DISTVERSION:R}-1/
-#DISTNAME=	${PORTNAME}-${DISTVERSION:R}-1.source.
-#EXTRACT_SUFX=	tar.gz
 
 MAINTAINER=	freebsd@sysctl.cz
-COMMENT=	Custom version of Firefox, focused on privacy, security and freedom
-WWW=		https://librewolf.net/
+COMMENT=	Custom version of firefox mercury
+#WWW=		https://librewolf.net/
 
 LICENSE=	MPL20
 LICENSE_FILE=	${WRKSRC}/LICENSE.md
@@ -35,7 +31,7 @@ BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
 
 
 
-.include "${.CURDIR}/../../www/firefox/Makefile.options"
+#.include "${.CURDIR}/../../www/firefox/Makefile.options"
 
 .include <bsd.port.options.mk>
 
