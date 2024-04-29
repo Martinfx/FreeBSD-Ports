@@ -48,4 +48,3 @@ The SSH server on `remote_host` must allow pub key authentication.
 EOM
 }
 ]
-

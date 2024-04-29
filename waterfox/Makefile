@@ -1,4 +1,4 @@
-\PORTNAME=	waterfox
+PORTNAME=	waterfox
 DISTVERSION=	G6.0.13
 CATEGORIES=	www
 
@@ -23,7 +23,6 @@ BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
 		nasm:devel/nasm \
 		yasm:devel/yasm \
 		zip:archivers/zip
-EXTRA_PATCHES=  ${FILESDIR}/patch-icu.patch:-p1
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	MrAlex94
@@ -75,6 +74,7 @@ MOZ_OPTION+=    --enable-application=browser \
 BINARY_ALIAS+=	python3=${PYTHON_CMD}
 
 MOZILLA_NAME=	Waterfox
+USE_GECKO=	gecko
 
 WATERFOX_ICON=		${MOZILLA}.png
 WATERFOX_ICON_SRC=	${PREFIX}/lib/${MOZILLA}/browser/chrome/icons/default/default256.png
@@ -91,6 +91,11 @@ MOZ_OPTIONS+=	--with-wasi-sysroot=${LOCALBASE}/share/wasi-sysroot
 .endif
 
 #.include "${.CURDIR}/../../www/firefox/Makefile.options"
+
+MOZ_OPTIONS=	--enable-application=browser \
+		--with-app-name=${MOZILLA} \
+		--with-app-basename=${MOZILLA_NAME} \
+		--with-distribution-id=org.${MOZILLA}project
 
 post-patch:
 	@${REINPLACE_CMD} -e 's/%u/%U/' -e '/X-MultipleArgs/d' \
