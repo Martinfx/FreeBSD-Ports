@@ -71,7 +71,6 @@ MOZ_OPTION+=    --enable-application=browser \
                 --with-unsigned-addon-scopes=app,system \
                 --with-l10n-base=$PWD/browser/locales/l10n \
                 --enable-bootstrap \
-                --without-system-icu \
                 MOZ_CRASHREPORTER=0 \
                 MOZ_DATA_REPORTING=0 \
                 MOZ_SERVICES_HEALTHREPORT=0
@@ -104,7 +103,6 @@ post-patch:
 		${WATERFOX_DESKTOP}
 	@${REINPLACE_CMD} -e 's|%%LOCALBASE%%|${LOCALBASE}|g' \
 		${WRKSRC}/browser/app/nsBrowserApp.cpp
-	@${RM} ${WRKSRC}/.mozconfig
 
 post-install:
 	${INSTALL_DATA} ${WATERFOX_DESKTOP} \
