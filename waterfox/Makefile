@@ -4,6 +4,7 @@ CATEGORIES=	www
 
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Distilled fork of Firefox
+WWW=		https://www.waterfox.net/
 
 LICENSE=	MPL20
 LICENSE_FILE=	${WRKSRC}/LICENSE
@@ -23,6 +24,10 @@ BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
 		nasm:devel/nasm \
 		yasm:devel/yasm \
 		zip:archivers/zip
+
+LIB_DEPENDS=	libdav1d.so:multimedia/dav1d \
+		libaom.so:multimedia/aom \
+		libharfbuzz.so:print/harfbuzz
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	MrAlex94
@@ -91,11 +96,6 @@ MOZ_OPTIONS+=	--with-wasi-sysroot=${LOCALBASE}/share/wasi-sysroot
 .endif
 
 #.include "${.CURDIR}/../../www/firefox/Makefile.options"
-
-MOZ_OPTIONS=	--enable-application=browser \
-		--with-app-name=${MOZILLA} \
-		--with-app-basename=${MOZILLA_NAME} \
-		--with-distribution-id=org.${MOZILLA}project
 
 post-patch:
 	@${REINPLACE_CMD} -e 's/%u/%U/' -e '/X-MultipleArgs/d' \
