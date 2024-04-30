@@ -77,7 +77,6 @@ MOZ_OPTION+=    --enable-application=browser \
 
 BINARY_ALIAS+=	python3=${PYTHON_CMD}
 
-MOZILLA_NAME=	Waterfox
 USE_GECKO=	gecko
 
 WATERFOX_ICON=		${MOZILLA}.png
