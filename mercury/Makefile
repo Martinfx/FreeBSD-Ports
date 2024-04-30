@@ -1,9 +1,10 @@
 PORTNAME=	Mercury
 DISTVERSION=	v.123.0.1
 CATEGORIES=	www wayland
-MASTER_SITES=	https://archive.mozilla.org/pub/firefox/releases/124.0/source/
-DISTFILES=      firefox-124.0.1.source${EXTRACT_SUFX}
-
+MASTER_SITES=	https://download.cdn.mozilla.net/pub/firefox/releases/125.0.1/source/:source1
+DISTFILES=      firefox-125.0.1.source${EXTRACT_SUFX}:source1
+DIST_SUBDIR=	${PORTNAME}
+EXTRACT_SUFX=	.tar.xz
 
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Custom version of firefox mercury
@@ -27,14 +28,10 @@ BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
 		nasm:devel/nasm \
 		yasm:devel/yasm \
 		zip:archivers/zip
-#EXTRA_PATCHES=	${FILESDIR}/unity-menubar.patch:-p1
-
-
 
 #.include "${.CURDIR}/../../www/firefox/Makefile.options"
 
 .include <bsd.port.options.mk>
-
 #.if ${ARCH} != powerpc64
 #BUILD_DEPENDS+=	${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc++abi.a:devel/wasi-libcxx${LLVM_VERSION} \
 #		${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc.a:devel/wasi-libc \
@@ -42,7 +39,7 @@ BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
 #.endif
 
 #USE_GECKO=	gecko
-USE_MOZILLA=	-sqlite
+#USE_MOZILLA=	-sqlite
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	Alex313031
@@ -88,10 +85,11 @@ FIREFOX_DESKTOP=	${MOZSRC}/taskcluster/docker/firefox-snap/firefox.desktop
 CFLAGS+=	-DHWY_COMPILE_ONLY_SCALAR
 MOZ_OPTIONS+=	--without-wasm-sandboxed-libraries
 .else
-#BUILD_DEPENDS+=	${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc++abi.a:devel/wasi-libcxx${LLVM_VERSION} \
-#		${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc.a:devel/wasi-libc \
-#		wasi-compiler-rt${LLVM_VERSION}>0:devel/wasi-compiler-rt${LLVM_VERSION}
-#MOZ_OPTIONS+=	--with-wasi-sysroot=${LOCALBASE}/share/wasi-sysroot
+
+BUILD_DEPENDS+=	${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc++abi.a:devel/wasi-libcxx${LLVM_VERSION} \
+		${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc.a:devel/wasi-libc \
+		wasi-compiler-rt${LLVM_VERSION}>0:devel/wasi-compiler-rt${LLVM_VERSION}
+MOZ_OPTIONS+=	--with-wasi-sysroot=${LOCALBASE}/share/wasi-sysroot
 .endif
 
 
