@@ -27,7 +27,10 @@ BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
 		autoconf2.13:devel/autoconf2.13 \
 		nasm:devel/nasm \
 		yasm:devel/yasm \
-		zip:archivers/zip
+		zip:archivers/zip \
+		rust-cbindgen>=0.26.0:devel/rust-cbindgen \
+		${RUST_DEFAULT}>=1.77.0:lang/${RUST_DEFAULT} \
+		node:www/node
 
 #.include "${.CURDIR}/../../www/firefox/Makefile.options"
 
@@ -39,7 +42,8 @@ BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
 #.endif
 
 #USE_GECKO=	gecko
-#USE_MOZILLA=	-sqlite
+USE_MOZILLA=	-sqlite
+MOZSRC=		work/firefox-125.0.1
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	Alex313031
@@ -75,8 +79,8 @@ MOZ_OPTIONs=	--enable-application=browser \
 		MOZ_DATA_REPORTING=0 \
 		MOZ_SERVICES_HEALTHREPORT=0
 
-# helpful when testing beta
-#WRKSRC=		${WRKDIR}/${PORTNAME}-${DISTVERSION:R}-1
+MOZ_OPTIONS+=   --with-libclang-path="${LLVM_PREFIX:S/${PREFIX}/${LOCALBASE}/}/lib"
+
 
 FIREFOX_ICON_SRC=	${PREFIX}/lib/${MOZILLA}/browser/chrome/icons/default/default48.png
 FIREFOX_DESKTOP=	${MOZSRC}/taskcluster/docker/firefox-snap/firefox.desktop
@@ -86,10 +90,10 @@ CFLAGS+=	-DHWY_COMPILE_ONLY_SCALAR
 MOZ_OPTIONS+=	--without-wasm-sandboxed-libraries
 .else
 
-BUILD_DEPENDS+=	${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc++abi.a:devel/wasi-libcxx${LLVM_VERSION} \
-		${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc.a:devel/wasi-libc \
-		wasi-compiler-rt${LLVM_VERSION}>0:devel/wasi-compiler-rt${LLVM_VERSION}
-MOZ_OPTIONS+=	--with-wasi-sysroot=${LOCALBASE}/share/wasi-sysroot
+#BUILD_DEPENDS+=	${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc++abi.a:devel/wasi-libcxx${LLVM_VERSION} \
+#		${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc.a:devel/wasi-libc \
+#		wasi-compiler-rt${LLVM_VERSION}>0:devel/wasi-compiler-rt${LLVM_VERSION}
+#MOZ_OPTIONS+=	--with-wasi-sysroot=${LOCALBASE}/share/wasi-sysroot
 .endif
 
 

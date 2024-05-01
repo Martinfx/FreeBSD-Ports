@@ -11,7 +11,7 @@
  # mozilla source dir env variable
  if [ -z "${HG_SRC_DIR}" ]; then 
 -    HG_SRC_DIR="$HOME/mozilla-unified"
-+    HG_SRC_DIR="${WRKSRC}/mozilla-unified"
++    HG_SRC_DIR="../firefox-125.0.1"
      export HG_SRC_DIR
  else 
      HG_SRC_DIR="${HG_SRC_DIR}"
