@@ -5,7 +5,6 @@ CATEGORIES=	www
 MASTER_SITES=	https://commondatastorage.googleapis.com/chromium-browser-official/:source1
 DISTFILES=	chromium-124.0.6367.78.tar.xz:source1
 DIST_SUBDIR=	${PORTNAME}
-DISTNAME=	${DISTVERSIONPREFIX}${DISTVERSION}
 
 MAINTAINER=	freebsd@freebsd.cz
 COMMENT=	browser
@@ -150,6 +149,78 @@ GN_ARGS+=	build_with_tflite_lib=false \
 # use_system_minigbm
 GN_BOOTSTRAP_FLAGS=	--no-clean --no-rebuild --skip-generate-buildfiles
 
+
+OPTIONS_DEFINE=		CODECS CUPS DEBUG KERBEROS LTO PIPEWIRE
+OPTIONS_DEFAULT=	CODECS CUPS KERBEROS PIPEWIRE SNDIO
+OPTIONS_EXCLUDE_aarch64=LTO
+OPTIONS_GROUP=		AUDIO
+OPTIONS_GROUP_AUDIO=	ALSA PULSEAUDIO SNDIO
+OPTIONS_RADIO=		KERBEROS
+OPTIONS_RADIO_KERBEROS=	HEIMDAL HEIMDAL_BASE MIT
+OPTIONS_SUB=		yes
+CODECS_DESC=		Compile and enable patented codecs like H.264
+HEIMDAL_BASE_DESC=	Heimdal Kerberos (base)
+HEIMDAL_DESC=		Heimdal Kerberos (security/heimdal)
+MIT_DESC=		MIT Kerberos (security/krb5)
+
+ALSA_LIB_DEPENDS=	libasound.so:audio/alsa-lib
+ALSA_RUN_DEPENDS=	${LOCALBASE}/lib/alsa-lib/libasound_module_pcm_oss.so:audio/alsa-plugins \
+			alsa-lib>=1.1.1_1:audio/alsa-lib
+ALSA_VARS=		GN_ARGS+=use_alsa=true
+ALSA_VARS_OFF=		GN_ARGS+=use_alsa=false
+
+CODECS_VARS=		GN_ARGS+=proprietary_codecs=true \
+			FFMPEG_BRAND="Chrome"
+CODECS_VARS_OFF=	GN_ARGS+=proprietary_codecs=false \
+			FFMPEG_BRAND="Chromium"
+
+CUPS_LIB_DEPENDS=	libcups.so:print/cups
+CUPS_VARS=		GN_ARGS+=use_cups=true
+CUPS_VARS_OFF=		GN_ARGS+=use_cups=false
+
+DEBUG_VARS=		BUILDTYPE=Debug \
+			GN_ARGS+=is_debug=true \
+			GN_ARGS+=is_component_build=false \
+			GN_ARGS+=symbol_level=1 \
+			GN_BOOTSTRAP_FLAGS+=--debug \
+			WANTSPACE="21 GB"
+DEBUG_VARS_OFF=		BUILDTYPE=Release \
+			GN_ARGS+=blink_symbol_level=0 \
+			GN_ARGS+=is_debug=false \
+			GN_ARGS+=is_official_build=true \
+			GN_ARGS+=symbol_level=0 \
+			WANTSPACE="14 GB"
+
+HEIMDAL_LIB_DEPENDS=	libkrb.so.26:security/heimdal
+KERBEROS_VARS=		GN_ARGS+=use_kerberos=true
+KERBEROS_VARS_OFF=	GN_ARGS+=use_kerberos=false
+
+LTO_VARS=		GN_ARGS+=use_thin_lto=true \
+			GN_ARGS+=thin_lto_enable_optimizations=true \
+			WANTSPACE="14 GB"
+LTO_VARS_OFF=		GN_ARGS+=use_thin_lto=false
+
+MIT_LIB_DEPENDS=	libkrb.so.3:security/krb5
+
+PIPEWIRE_DESC=		Screen capture via PipeWire
+PIPEWIRE_LIB_DEPENDS=	libpipewire-0.3.so:multimedia/pipewire
+PIPEWIRE_VARS=		GN_ARGS+=rtc_use_pipewire=true \
+			GN_ARGS+=rtc_link_pipewire=true
+PIPEWIRE_VARS_OFF=	GN_ARGS+=rtc_use_pipewire=false \
+			GN_ARGS+=rtc_link_pipewire=false
+
+PULSEAUDIO_LIB_DEPENDS=	libpulse.so:audio/pulseaudio
+PULSEAUDIO_VARS=	GN_ARGS+=use_pulseaudio=true
+PULSEAUDIO_VARS_OFF=	GN_ARGS+=use_pulseaudio=false
+
+# With SNDIO=on we exclude audio_manager_linux from the build (see
+# media/audio/BUILD.gn) and use audio_manager_openbsd which does not
+# support falling back to ALSA or PulseAudio.
+SNDIO_PREVENTS=		ALSA PULSEAUDIO
+SNDIO_LIB_DEPENDS=	libsndio.so:audio/sndio
+SNDIO_VARS=		GN_ARGS+=use_sndio=true
+SNDIO_VARS_OFF=		GN_ARGS+=use_sndio=false
+
 .include <bsd.port.options.mk>
 .include <bsd.port.pre.mk> # for COMPILER_VERSION
 
@@ -197,6 +268,13 @@ MAKE_ENV+=	C_INCLUDE_PATH=${LOCALBASE}/include \
 
 WRKSRC=		${WRKDIR}/chromium-124.0.6367.78
 
+RUSTC_VERSION!=	rustc -V 2>/dev/null || true
+MAKE_ENV+=	RUSTC_BOOTSTRAP=1
+GN_ARGS+=	enable_rust=true \
+		rust_sysroot_absolute="${LOCALBASE}" \
+		rustc_version="${RUSTC_VERSION}"
+
+
 pre-everything::
 	@${ECHO_MSG}
 	@${ECHO_MSG} "To build Thorium, you should have around 2GB of memory"
@@ -218,7 +296,7 @@ pre-everything::
 
 pre-configure:
 
-	${MKDIR} ${WRKSRC}/out
+	@${MKDIR} ${WRKSRC}/out
 	# We used to remove bundled libraries to be sure that chromium uses
 	# system libraries and not shipped ones.
 	# cd ${WRKSRC} && ${PYTHON_CMD} \
@@ -230,7 +308,7 @@ pre-configure:
 	# Chromium uses an unreleased version of FFmpeg, so configure it
 	cd ${WRKSRC}/third_party/ffmpeg && \
 		${PYTHON_CMD} chromium/scripts/build_ffmpeg.py freebsd ${FFMPEG_TARGET} \
-		--config-only --branding="chromium"
+		--config-only --branding=${FFMPEG_BRAND}
 	cd ${FFMPEG_BDIR} && ${GMAKE} ffversion.h
 	${MKDIR} ${FFMPEG_CDIR}
 .for _e in config.h config.asm config_components.h libavcodec libavformat libavutil
@@ -239,6 +317,7 @@ pre-configure:
 
 do-configure:
 	# GN generator bootstrapping and generating ninja files
+	@${MKDIR} ${WRKSRC}/out/
 	cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} CC=${CC} CXX=${CXX} LD=${CXX} \
 		READELF=${READELF} AR=${AR} NM=${NM} ${PYTHON_CMD} \
 		./tools/gn/bootstrap/bootstrap.py ${GN_BOOTSTRAP_FLAGS}
@@ -254,7 +333,5 @@ do-configure:
 	${LN} -sf ${WRKSRC}/buildtools/linux64/clang-format ${WRKSRC}/buildtools/freebsd
 	${LN} -sf ${WRKSRC}/out/${BUILDTYPE}/gn ${WRKSRC}/buildtools/freebsd
 	${LN} -sf /usr/bin/strip ${WRKSRC}/buildtools/freebsd/strip
-#do-build:
-#	(cd ${WRKSRC} && ${SH} ./build.sh)
 
-.include <bsd.port.mk>
+.include <bsd.port.post.mk>
