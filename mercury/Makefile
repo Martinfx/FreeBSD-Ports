@@ -1,8 +1,8 @@
 PORTNAME=	Mercury
 DISTVERSION=	v.123.0.1
 CATEGORIES=	www wayland
-MASTER_SITES=	https://download.cdn.mozilla.net/pub/firefox/releases/125.0.1/source/:source1
-DISTFILES=      firefox-125.0.1.source${EXTRACT_SUFX}:source1
+MASTER_SITES=	https://download.cdn.mozilla.net/pub/firefox/releases/122.0/source/:source1
+DISTFILES=      firefox-122.0.source${EXTRACT_SUFX}:source1
 DIST_SUBDIR=	${PORTNAME}
 EXTRACT_SUFX=	.tar.xz
 
@@ -43,7 +43,7 @@ BUILD_DEPENDS+=	${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc++abi.a:deve
 
 USE_GECKO=	gecko
 USE_MOZILLA=	-sqlite
-WRKSRC=		${WRKDIR}/firefox-125.0.1
+WRKSRC=		${WRKDIR}/firefox-122.0
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	Alex313031
@@ -78,7 +78,6 @@ MOZ_OPTIONs=	--enable-application=browser \
 		MOZ_CRASHREPORTER=0 \
 		MOZ_DATA_REPORTING=0 \
 		MOZ_SERVICES_HEALTHREPORT=0
-
 MOZ_OPTIONS+=   --with-libclang-path="${LLVM_PREFIX:S/${PREFIX}/${LOCALBASE}/}/lib"
 
 
@@ -101,23 +100,23 @@ pre-patch:
 	${CP} -R -v ${WRKDIR}/${PORTNAME}-${DISTVERSION}/browser/ ${WRKSRC}/browser
 	${CP} -R -v ${WRKDIR}/${PORTNAME}-${DISTVERSION}/devtools/ ${WRKSRC}/devtools
 	${CP} -R -v ${WRKDIR}/${PORTNAME}-${DISTVERSION}/ipc/ ${WRKSRC}/ipc
-	${CP} -R -v ${WRKDIR}/${PORTNAME}-${DISTVERSION}/moz.build ${WRKSRC}
+#	${CP} -R -v ${WRKDIR}/${PORTNAME}-${DISTVERSION}/moz.build ${WRKSRC}
 	${CP} -R -v ${WRKDIR}/${PORTNAME}-${DISTVERSION}/netwerk ${WRKSRC}/netwerk
 	${CP} -R -v ${WRKDIR}/${PORTNAME}-${DISTVERSION}/other-licenses ${WRKSRC}/other-licenses
 	${MKDIR} -p -v ${WRKSRC}/policies
 	${CP} -R -v ${WRKDIR}/${PORTNAME}-${DISTVERSION}/policies ${WRKSRC}/policies
 	${CP} -R -v ${WRKDIR}/${PORTNAME}-${DISTVERSION}/toolkit ${WRKSRC}/toolkit
 	${CP} -R -v ${WRKDIR}/${PORTNAME}-${DISTVERSION}/testing ${WRKSRC}/testing
-	${CP} -v ${WRKDIR}/${PORTNAME}-${DISTVERSION}/mozconfigs/mozconfig ${WRKSRC}
+#	${CP} -v ${WRKDIR}/${PORTNAME}-${DISTVERSION}/mozconfigs/mozconfig ${WRKSRC}
 
 post-patch:
 	@${REINPLACE_CMD} -e 's|%%LOCALBASE%%|${LOCALBASE}|g' \
 		${WRKSRC}/browser/app/nsBrowserApp.cpp
 
 post-install:
-	${CP} ${FIREFOX_DESKTOP} ${STAGEDIR}${PREFIX}/share/applications/librewolf.desktop
-	${REINPLACE_CMD} -e 's|Firefox|Librewolf|g' ${STAGEDIR}${PREFIX}/share/applications/librewolf.desktop
-	${REINPLACE_CMD} -e 's|firefox|librewolf|g' ${STAGEDIR}${PREFIX}/share/applications/librewolf.desktop
-	${REINPLACE_CMD} -e 's|Icon=.*|Icon=${FIREFOX_ICON_SRC}|g' ${STAGEDIR}${PREFIX}/share/applications/librewolf.desktop
+	${CP} ${FIREFOX_DESKTOP} ${STAGEDIR}${PREFIX}/share/applications/mercury.desktop
+	${REINPLACE_CMD} -e 's|Firefox|Mercury|g' ${STAGEDIR}${PREFIX}/share/applications/mercury.desktop
+	${REINPLACE_CMD} -e 's|firefox|mercury|g' ${STAGEDIR}${PREFIX}/share/applications/mercury.desktop
+	${REINPLACE_CMD} -e 's|Icon=.*|Icon=${FIREFOX_ICON_SRC}|g' ${STAGEDIR}${PREFIX}/share/applications/mercury.desktop
 
 .include <bsd.port.mk>

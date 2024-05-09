@@ -1,7 +1,7 @@
-commit 0c96c599752d8d8f68b5ed8a6344888d1b505773
+commit 8dfec3226ff4d7d7f852ea700a5052976eded46e
 Author: Christoph Moench-Tegeder <cmt@burggraben.net>
 
-    fixup gn_processor.py for FreeBSD
+    chase gn_processor.py changes
 
 diff --git python/mozbuild/mozbuild/gn_processor.py python/mozbuild/mozbuild/gn_processor.py
 index b6c51ee010a8..15b4bda9df6e 100644
