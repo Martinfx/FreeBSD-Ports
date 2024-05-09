@@ -8,10 +8,10 @@ EXTRACT_SUFX=	.tar.xz
 
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Custom version of firefox mercury
-#WWW=		https://librewolf.net/
+WWW=		https://thorium.rocks/mercury
 
 LICENSE=	MPL20
-LICENSE_FILE=	${WRKSRC}/LICENSE.md
+LICENSE_FILE=	${WRKSRC}/LICENSE
 
 BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
 		nss>=3.95:security/nss \
@@ -35,15 +35,15 @@ BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
 #.include "${.CURDIR}/../../www/firefox/Makefile.options"
 
 .include <bsd.port.options.mk>
-#.if ${ARCH} != powerpc64
-#BUILD_DEPENDS+=	${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc++abi.a:devel/wasi-libcxx${LLVM_VERSION} \
-#		${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc.a:devel/wasi-libc \
-#		wasi-compiler-rt${LLVM_VERSION}>0:devel/wasi-compiler-rt${LLVM_VERSION}
-#.endif
+.if ${ARCH} != powerpc64
+BUILD_DEPENDS+=	${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc++abi.a:devel/wasi-libcxx${LLVM_VERSION} \
+		${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc.a:devel/wasi-libc \
+		wasi-compiler-rt${LLVM_VERSION}>0:devel/wasi-compiler-rt${LLVM_VERSION}
+.endif
 
-#USE_GECKO=	gecko
+USE_GECKO=	gecko
 USE_MOZILLA=	-sqlite
-MOZSRC=		work/firefox-125.0.1
+WRKSRC=		${WRKDIR}/firefox-125.0.1
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	Alex313031
@@ -90,20 +90,29 @@ CFLAGS+=	-DHWY_COMPILE_ONLY_SCALAR
 MOZ_OPTIONS+=	--without-wasm-sandboxed-libraries
 .else
 
-#BUILD_DEPENDS+=	${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc++abi.a:devel/wasi-libcxx${LLVM_VERSION} \
-#		${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc.a:devel/wasi-libc \
-#		wasi-compiler-rt${LLVM_VERSION}>0:devel/wasi-compiler-rt${LLVM_VERSION}
-#MOZ_OPTIONS+=	--with-wasi-sysroot=${LOCALBASE}/share/wasi-sysroot
+BUILD_DEPENDS+=	${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc++abi.a:devel/wasi-libcxx${LLVM_VERSION} \
+		${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc.a:devel/wasi-libc \
+		wasi-compiler-rt${LLVM_VERSION}>0:devel/wasi-compiler-rt${LLVM_VERSION}
+MOZ_OPTIONS+=	--with-wasi-sysroot=${LOCALBASE}/share/wasi-sysroot
 .endif
 
+pre-patch:
+	${CP} -R -v ${WRKDIR}/${PORTNAME}-${DISTVERSION}/app/ ${WRKSRC}/browser/app
+	${CP} -R -v ${WRKDIR}/${PORTNAME}-${DISTVERSION}/browser/ ${WRKSRC}/browser
+	${CP} -R -v ${WRKDIR}/${PORTNAME}-${DISTVERSION}/devtools/ ${WRKSRC}/devtools
+	${CP} -R -v ${WRKDIR}/${PORTNAME}-${DISTVERSION}/ipc/ ${WRKSRC}/ipc
+	${CP} -R -v ${WRKDIR}/${PORTNAME}-${DISTVERSION}/moz.build ${WRKSRC}
+	${CP} -R -v ${WRKDIR}/${PORTNAME}-${DISTVERSION}/netwerk ${WRKSRC}/netwerk
+	${CP} -R -v ${WRKDIR}/${PORTNAME}-${DISTVERSION}/other-licenses ${WRKSRC}/other-licenses
+	${MKDIR} -p -v ${WRKSRC}/policies
+	${CP} -R -v ${WRKDIR}/${PORTNAME}-${DISTVERSION}/policies ${WRKSRC}/policies
+	${CP} -R -v ${WRKDIR}/${PORTNAME}-${DISTVERSION}/toolkit ${WRKSRC}/toolkit
+	${CP} -R -v ${WRKDIR}/${PORTNAME}-${DISTVERSION}/testing ${WRKSRC}/testing
+	${CP} -v ${WRKDIR}/${PORTNAME}-${DISTVERSION}/mozconfigs/mozconfig ${WRKSRC}
 
-#post-patch:
-#	@${REINPLACE_CMD} -e 's|%%LOCALBASE%%|${LOCALBASE}|g' \
-#		${WRKSRC}/browser/app/nsBrowserApp.cpp
-#	@${RM} ${WRKSRC}/mozconfig
-
-do-build:
-	(cd ${WRKSRC} && ${BASH} ./build.sh)
+post-patch:
+	@${REINPLACE_CMD} -e 's|%%LOCALBASE%%|${LOCALBASE}|g' \
+		${WRKSRC}/browser/app/nsBrowserApp.cpp
 
 post-install:
 	${CP} ${FIREFOX_DESKTOP} ${STAGEDIR}${PREFIX}/share/applications/librewolf.desktop
