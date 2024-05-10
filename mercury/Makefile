@@ -105,7 +105,7 @@ pre-patch:
 	${CP} -R -v ${WRKDIR}/${PORTNAME}-${DISTVERSION}/other-licenses ${WRKSRC}/other-licenses
 	${MKDIR} -p -v ${WRKSRC}/policies
 	${CP} -R -v ${WRKDIR}/${PORTNAME}-${DISTVERSION}/policies ${WRKSRC}/policies
-	${CP} -R -v ${WRKDIR}/${PORTNAME}-${DISTVERSION}/toolkit ${WRKSRC}/toolkit
+#	${CP} -R -v ${WRKDIR}/${PORTNAME}-${DISTVERSION}/toolkit ${WRKSRC}/toolkit
 	${CP} -R -v ${WRKDIR}/${PORTNAME}-${DISTVERSION}/testing ${WRKSRC}/testing
 #	${CP} -v ${WRKDIR}/${PORTNAME}-${DISTVERSION}/mozconfigs/mozconfig ${WRKSRC}
 
