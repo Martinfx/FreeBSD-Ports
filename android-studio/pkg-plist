@@ -42,7 +42,7 @@
 %%LINUXBASE%%/android-studio/bin/lldb/helpers/renderers/jb_lldb_utils_debugger_events_handler.py
 %%LINUXBASE%%/android-studio/bin/ltedit.sh
 %%LINUXBASE%%/android-studio/bin/profiler.sh
-%%LINUXBASE%%/android-studio/bin/restart.py
+%%LINUXBASE%%/android-studio/bin/restarter
 %%LINUXBASE%%/android-studio/bin/studio.png
 %%LINUXBASE%%/android-studio/bin/studio.sh
 %%LINUXBASE%%/android-studio/bin/studio.svg
@@ -441,7 +441,7 @@
 %%LINUXBASE%%/android-studio/lib/ant/src.zip
 %%LINUXBASE%%/android-studio/lib/app.jar
 %%LINUXBASE%%/android-studio/lib/bouncy-castle.jar
-%%LINUXBASE%%/android-studio/lib/build-marker-AI-232.10300.40.2321.__BUILD_NUMBER__
+%%LINUXBASE%%/android-studio/lib/build-marker-AI-233.14808.21.2331.__BUILD_NUMBER__
 %%LINUXBASE%%/android-studio/lib/byte-buddy-agent.jar
 %%LINUXBASE%%/android-studio/lib/cds/classesLogAgent.jar
 %%LINUXBASE%%/android-studio/lib/error-prone-annotations.jar
@@ -451,7 +451,7 @@
 %%LINUXBASE%%/android-studio/lib/groovy.jar
 %%LINUXBASE%%/android-studio/lib/grpc.jar
 %%LINUXBASE%%/android-studio/lib/idea_rt.jar
-%%LINUXBASE%%/android-studio/lib/intellij-coverage-agent-1.0.723.jar
+%%LINUXBASE%%/android-studio/lib/intellij-coverage-agent-1.0.738.jar
 %%LINUXBASE%%/android-studio/lib/intellij-test-discovery.jar
 %%LINUXBASE%%/android-studio/lib/jna/amd64/libjnidispatch.so
 %%LINUXBASE%%/android-studio/lib/jps-model.jar
@@ -483,6 +483,7 @@
 %%LINUXBASE%%/android-studio/license/gradle-appengine-builder-model-0.1.0.jar-NOTICE
 %%LINUXBASE%%/android-studio/license/gson-2.3-NOTICE
 %%LINUXBASE%%/android-studio/license/hdrhistogram_license.txt
+%%LINUXBASE%%/android-studio/license/icudt72l.dat.txt
 %%LINUXBASE%%/android-studio/license/instantapps-api-NOTICE
 %%LINUXBASE%%/android-studio/license/javacpp-NOTICE
 %%LINUXBASE%%/android-studio/license/javahelp_license.txt
@@ -491,37 +492,12 @@
 %%LINUXBASE%%/android-studio/license/jsr305-1.3.9-NOTICE
 %%LINUXBASE%%/android-studio/license/juniversalchardet-1.0.3.jar-NOTICE
 %%LINUXBASE%%/android-studio/license/kxml2-2.3.0-NOTICE
-%%LINUXBASE%%/android-studio/license/libandroid_runtime.txt
-%%LINUXBASE%%/android-studio/license/libandroidfw.txt
-%%LINUXBASE%%/android-studio/license/libarect.txt
-%%LINUXBASE%%/android-studio/license/libbinary_parse.txt
-%%LINUXBASE%%/android-studio/license/libc++.txt
-%%LINUXBASE%%/android-studio/license/libc++_static.txt
-%%LINUXBASE%%/android-studio/license/libc++abi.txt
-%%LINUXBASE%%/android-studio/license/libcompiler_rt-extras.txt
-%%LINUXBASE%%/android-studio/license/libcompiler_rt.txt
-%%LINUXBASE%%/android-studio/license/libcutils.txt
-%%LINUXBASE%%/android-studio/license/libdng_sdk.txt
-%%LINUXBASE%%/android-studio/license/libft2.txt
-%%LINUXBASE%%/android-studio/license/libgtest_prod.txt
-%%LINUXBASE%%/android-studio/license/libharfbuzz_ng.txt
-%%LINUXBASE%%/android-studio/license/libhwui.txt
-%%LINUXBASE%%/android-studio/license/libicui18n-host.txt
-%%LINUXBASE%%/android-studio/license/libicuuc-host.txt
-%%LINUXBASE%%/android-studio/license/libimage_type_recognition.txt
-%%LINUXBASE%%/android-studio/license/libjpeg.txt
-%%LINUXBASE%%/android-studio/license/liblog.txt
-%%LINUXBASE%%/android-studio/license/libnativehelper.txt
-%%LINUXBASE%%/android-studio/license/libpiex.txt
-%%LINUXBASE%%/android-studio/license/libsfntly.txt
-%%LINUXBASE%%/android-studio/license/libskia.txt
-%%LINUXBASE%%/android-studio/license/libtiff_directory.txt
-%%LINUXBASE%%/android-studio/license/libunwind_static.txt
-%%LINUXBASE%%/android-studio/license/libunwindbacktrace.txt
-%%LINUXBASE%%/android-studio/license/libutils.txt
-%%LINUXBASE%%/android-studio/license/libwebp-decode.txt
-%%LINUXBASE%%/android-studio/license/libwebp-encode.txt
-%%LINUXBASE%%/android-studio/license/libz.txt
+%%LINUXBASE%%/android-studio/license/layoutlib.jar.txt
+%%LINUXBASE%%/android-studio/license/libandroid_runtime.dll.txt
+%%LINUXBASE%%/android-studio/license/libandroid_runtime.dylib.txt
+%%LINUXBASE%%/android-studio/license/libandroid_runtime.so.txt
+%%LINUXBASE%%/android-studio/license/libicuuc-host.dll.txt
+%%LINUXBASE%%/android-studio/license/libicuuc_stubdata.dll.txt
 %%LINUXBASE%%/android-studio/license/mockito-all-1.9.5-NOTICE
 %%LINUXBASE%%/android-studio/license/r8_license.txt
 %%LINUXBASE%%/android-studio/license/samplesindex-v1-1.0-SNAPSHOT.jar-NOTICE
@@ -530,7 +506,6 @@
 %%LINUXBASE%%/android-studio/license/third-party-libraries.html
 %%LINUXBASE%%/android-studio/license/third-party-libraries.json
 %%LINUXBASE%%/android-studio/license/uiautomatorviewer.jar-NOTICE
-%%LINUXBASE%%/android-studio/license/webp-headers.txt
 %%LINUXBASE%%/android-studio/license/yourkit-license-redist.txt
 %%LINUXBASE%%/android-studio/plugins/Groovy/lib/Groovy.jar
 %%LINUXBASE%%/android-studio/plugins/Groovy/lib/agent/gragent.jar
@@ -567,6 +542,7 @@
 %%LINUXBASE%%/android-studio/plugins/Kotlin/kotlinc/lib/js.engines.jar
 %%LINUXBASE%%/android-studio/plugins/Kotlin/kotlinc/lib/jvm-abi-gen.jar
 %%LINUXBASE%%/android-studio/plugins/Kotlin/kotlinc/lib/kotlin-annotation-processing-cli.jar
+%%LINUXBASE%%/android-studio/plugins/Kotlin/kotlinc/lib/kotlin-annotation-processing-compiler.jar
 %%LINUXBASE%%/android-studio/plugins/Kotlin/kotlinc/lib/kotlin-annotation-processing-runtime.jar
 %%LINUXBASE%%/android-studio/plugins/Kotlin/kotlinc/lib/kotlin-annotation-processing.jar
 %%LINUXBASE%%/android-studio/plugins/Kotlin/kotlinc/lib/kotlin-annotations-jvm-sources.jar
@@ -594,6 +570,7 @@
 %%LINUXBASE%%/android-studio/plugins/Kotlin/kotlinc/lib/kotlin-stdlib-jdk8.jar
 %%LINUXBASE%%/android-studio/plugins/Kotlin/kotlinc/lib/kotlin-stdlib-js-sources.jar
 %%LINUXBASE%%/android-studio/plugins/Kotlin/kotlinc/lib/kotlin-stdlib-js.jar
+%%LINUXBASE%%/android-studio/plugins/Kotlin/kotlinc/lib/kotlin-stdlib-js.klib
 %%LINUXBASE%%/android-studio/plugins/Kotlin/kotlinc/lib/kotlin-stdlib-sources.jar
 %%LINUXBASE%%/android-studio/plugins/Kotlin/kotlinc/lib/kotlin-stdlib.jar
 %%LINUXBASE%%/android-studio/plugins/Kotlin/kotlinc/lib/kotlin-test-js-sources.jar
@@ -614,6 +591,7 @@
 %%LINUXBASE%%/android-studio/plugins/Kotlin/kotlinc/lib/parcelize-compiler.jar
 %%LINUXBASE%%/android-studio/plugins/Kotlin/kotlinc/lib/parcelize-runtime.jar
 %%LINUXBASE%%/android-studio/plugins/Kotlin/kotlinc/lib/sam-with-receiver-compiler-plugin.jar
+%%LINUXBASE%%/android-studio/plugins/Kotlin/kotlinc/lib/scripting-compiler.jar
 %%LINUXBASE%%/android-studio/plugins/Kotlin/kotlinc/lib/trove4j.jar
 %%LINUXBASE%%/android-studio/plugins/Kotlin/kotlinc/license/COPYRIGHT.txt
 %%LINUXBASE%%/android-studio/plugins/Kotlin/kotlinc/license/COPYRIGHT_HEADER.txt
@@ -670,7 +648,6 @@
 %%LINUXBASE%%/android-studio/plugins/Kotlin/lib/kotlin-base-jps.jar
 %%LINUXBASE%%/android-studio/plugins/Kotlin/lib/kotlin-gradle-tooling.jar
 %%LINUXBASE%%/android-studio/plugins/Kotlin/lib/kotlin-plugin.jar
-%%LINUXBASE%%/android-studio/plugins/Kotlin/lib/kotlinc-lib.jar
 %%LINUXBASE%%/android-studio/plugins/Kotlin/lib/kotlinc.allopen-compiler-plugin.jar
 %%LINUXBASE%%/android-studio/plugins/Kotlin/lib/kotlinc.android-extensions-compiler-plugin.jar
 %%LINUXBASE%%/android-studio/plugins/Kotlin/lib/kotlinc.assignment-compiler-plugin.jar
@@ -687,7 +664,7 @@
 %%LINUXBASE%%/android-studio/plugins/Kotlin/lib/kotlinx-collections-immutable.jar
 %%LINUXBASE%%/android-studio/plugins/android-apk/lib/android-apk.jar
 %%LINUXBASE%%/android-studio/plugins/android-compose-ide-plugin/lib/android-compose-ide-plugin.jar
-%%LINUXBASE%%/android-studio/plugins/android-compose-ide-plugin/lib/compiler-hosted.jar
+%%LINUXBASE%%/android-studio/plugins/android-compose-ide-plugin/lib/compose-compiler.jar
 %%LINUXBASE%%/android-studio/plugins/android-ndk/lib/android-ndk.jar
 %%LINUXBASE%%/android-studio/plugins/android-ndk/lib/org.eclipse.cdt.core_6.8.1.201907021957.jar
 %%LINUXBASE%%/android-studio/plugins/android-ndk/lib/org.eclipse.equinox.common_3.10.500.v20190815-1535.jar
@@ -1986,14 +1963,14 @@
 %%LINUXBASE%%/android-studio/plugins/android/lib/android-project-system-gradle-models.jar
 %%LINUXBASE%%/android-studio/plugins/android/lib/android-rt.jar
 %%LINUXBASE%%/android-studio/plugins/android/lib/android.jar
-%%LINUXBASE%%/android-studio/plugins/android/lib/animation-core-desktop-1.5.11.jar
-%%LINUXBASE%%/android-studio/plugins/android/lib/animation-desktop-1.5.11.jar
+%%LINUXBASE%%/android-studio/plugins/android/lib/animation-core-desktop-1.6.0-dev1369.jar
+%%LINUXBASE%%/android-studio/plugins/android/lib/animation-desktop-1.6.0-dev1369.jar
 %%LINUXBASE%%/android-studio/plugins/android/lib/artwork.jar
-%%LINUXBASE%%/android-studio/plugins/android/lib/asm-9.3.jar
-%%LINUXBASE%%/android-studio/plugins/android/lib/asm-analysis-9.3.jar
-%%LINUXBASE%%/android-studio/plugins/android/lib/asm-commons-9.3.jar
-%%LINUXBASE%%/android-studio/plugins/android/lib/asm-tree-9.3.jar
-%%LINUXBASE%%/android-studio/plugins/android/lib/asm-util-9.3.jar
+%%LINUXBASE%%/android-studio/plugins/android/lib/asm-9.6.jar
+%%LINUXBASE%%/android-studio/plugins/android/lib/asm-analysis-9.6.jar
+%%LINUXBASE%%/android-studio/plugins/android/lib/asm-commons-9.6.jar
+%%LINUXBASE%%/android-studio/plugins/android/lib/asm-tree-9.6.jar
+%%LINUXBASE%%/android-studio/plugins/android/lib/asm-util-9.6.jar
 %%LINUXBASE%%/android-studio/plugins/android/lib/auto-common-0.10.jar
 %%LINUXBASE%%/android-studio/plugins/android/lib/backgroundtask_inspector_java_proto.jar
 %%LINUXBASE%%/android-studio/plugins/android/lib/build-analysis-results-proto.jar
@@ -2011,8 +1988,8 @@
 %%LINUXBASE%%/android-studio/plugins/android/lib/ffmpeg-6.0-1.5.9.jar
 %%LINUXBASE%%/android-studio/plugins/android/lib/ffmpeg-platform-6.0-1.5.9.jar
 %%LINUXBASE%%/android-studio/plugins/android/lib/flatbuffers-java-1.12.0.jar
-%%LINUXBASE%%/android-studio/plugins/android/lib/foundation-desktop-1.5.11.jar
-%%LINUXBASE%%/android-studio/plugins/android/lib/foundation-layout-desktop-1.5.11.jar
+%%LINUXBASE%%/android-studio/plugins/android/lib/foundation-desktop-1.6.0-dev1369.jar
+%%LINUXBASE%%/android-studio/plugins/android/lib/foundation-layout-desktop-1.6.0-dev1369.jar
 %%LINUXBASE%%/android-studio/plugins/android/lib/game-tools-protos.jar
 %%LINUXBASE%%/android-studio/plugins/android/lib/game-tools.jar
 %%LINUXBASE%%/android-studio/plugins/android/lib/generator.jar
@@ -2036,10 +2013,10 @@
 %%LINUXBASE%%/android-studio/plugins/android/lib/jetifier-core-1.0.0-beta10.jar
 %%LINUXBASE%%/android-studio/plugins/android/lib/jetty-6.1.26.jar
 %%LINUXBASE%%/android-studio/plugins/android/lib/jetty-util-6.1.26.jar
-%%LINUXBASE%%/android-studio/plugins/android/lib/jewel-foundation-0.11.0.jar
-%%LINUXBASE%%/android-studio/plugins/android/lib/jewel-ide-laf-bridge-0.11.0-ij-232.jar
-%%LINUXBASE%%/android-studio/plugins/android/lib/jewel-ide-laf-bridge-platform-specific-0.11.0-ij-232.jar
-%%LINUXBASE%%/android-studio/plugins/android/lib/jewel-ui-0.11.0.jar
+%%LINUXBASE%%/android-studio/plugins/android/lib/jewel-foundation-0.13.2.jar
+%%LINUXBASE%%/android-studio/plugins/android/lib/jewel-ide-laf-bridge-0.13.2-ij-233.jar
+%%LINUXBASE%%/android-studio/plugins/android/lib/jewel-ide-laf-bridge-platform-specific-0.13.2-ij-233.jar
+%%LINUXBASE%%/android-studio/plugins/android/lib/jewel-ui-0.13.2.jar
 %%LINUXBASE%%/android-studio/plugins/android/lib/jsr305-2.0.1.jar
 %%LINUXBASE%%/android-studio/plugins/android/lib/juniversalchardet-1.0.3.jar
 %%LINUXBASE%%/android-studio/plugins/android/lib/kotlin_multiplatform_android_models_proto.jar
@@ -2051,9 +2028,9 @@
 %%LINUXBASE%%/android-studio/plugins/android/lib/layout_inspector_view_java_proto.jar
 %%LINUXBASE%%/android-studio/plugins/android/lib/layoutlib-api.jar
 %%LINUXBASE%%/android-studio/plugins/android/lib/layoutlib-loader.jar
+%%LINUXBASE%%/android-studio/plugins/android/lib/libadb-server-proto.jar
 %%LINUXBASE%%/android-studio/plugins/android/lib/libam-instrumentation-data-proto.jar
 %%LINUXBASE%%/android-studio/plugins/android/lib/libandroid-core-proto.jar
-%%LINUXBASE%%/android-studio/plugins/android/lib/libapp-processes-proto.jar
 %%LINUXBASE%%/android-studio/plugins/android/lib/libjava_sites.jar
 %%LINUXBASE%%/android-studio/plugins/android/lib/libjava_version.jar
 %%LINUXBASE%%/android-studio/plugins/android/lib/liblint-checks-proto.lib.jar
@@ -2080,8 +2057,8 @@
 %%LINUXBASE%%/android-studio/plugins/android/lib/proto.jar
 %%LINUXBASE%%/android-studio/plugins/android/lib/r8.jar
 %%LINUXBASE%%/android-studio/plugins/android/lib/repository.jar
-%%LINUXBASE%%/android-studio/plugins/android/lib/runtime-desktop-1.5.11.jar
-%%LINUXBASE%%/android-studio/plugins/android/lib/runtime-saveable-desktop-1.5.11.jar
+%%LINUXBASE%%/android-studio/plugins/android/lib/runtime-desktop-1.6.0-dev1369.jar
+%%LINUXBASE%%/android-studio/plugins/android/lib/runtime-saveable-desktop-1.6.0-dev1369.jar
 %%LINUXBASE%%/android-studio/plugins/android/lib/sdk-common.jar
 %%LINUXBASE%%/android-studio/plugins/android/lib/sdk-tools.jar
 %%LINUXBASE%%/android-studio/plugins/android/lib/sdklib.jar
@@ -2103,12 +2080,12 @@
 %%LINUXBASE%%/android-studio/plugins/android/lib/tracing-perfetto-handshake-1.0.0-beta02.jar
 %%LINUXBASE%%/android-studio/plugins/android/lib/transport_java_proto.jar
 %%LINUXBASE%%/android-studio/plugins/android/lib/ui-animation-tooling-internal.jar
-%%LINUXBASE%%/android-studio/plugins/android/lib/ui-desktop-1.5.11.jar
-%%LINUXBASE%%/android-studio/plugins/android/lib/ui-geometry-desktop-1.5.11.jar
-%%LINUXBASE%%/android-studio/plugins/android/lib/ui-graphics-desktop-1.5.11.jar
-%%LINUXBASE%%/android-studio/plugins/android/lib/ui-text-desktop-1.5.11.jar
-%%LINUXBASE%%/android-studio/plugins/android/lib/ui-unit-desktop-1.5.11.jar
-%%LINUXBASE%%/android-studio/plugins/android/lib/ui-util-desktop-1.5.11.jar
+%%LINUXBASE%%/android-studio/plugins/android/lib/ui-desktop-1.6.0-dev1369.jar
+%%LINUXBASE%%/android-studio/plugins/android/lib/ui-geometry-desktop-1.6.0-dev1369.jar
+%%LINUXBASE%%/android-studio/plugins/android/lib/ui-graphics-desktop-1.6.0-dev1369.jar
+%%LINUXBASE%%/android-studio/plugins/android/lib/ui-text-desktop-1.6.0-dev1369.jar
+%%LINUXBASE%%/android-studio/plugins/android/lib/ui-unit-desktop-1.6.0-dev1369.jar
+%%LINUXBASE%%/android-studio/plugins/android/lib/ui-util-desktop-1.6.0-dev1369.jar
 %%LINUXBASE%%/android-studio/plugins/android/lib/utp-core-proto-jarjar.jar
 %%LINUXBASE%%/android-studio/plugins/android/lib/utp.jar
 %%LINUXBASE%%/android-studio/plugins/android/lib/wizard-template.jar
@@ -2122,6 +2099,12 @@
 %%LINUXBASE%%/android-studio/plugins/android/resources/device-art-resources/automotive_1024/back.png
 %%LINUXBASE%%/android-studio/plugins/android/resources/device-art-resources/automotive_1024/fore.png
 %%LINUXBASE%%/android-studio/plugins/android/resources/device-art-resources/automotive_1024/layout
+%%LINUXBASE%%/android-studio/plugins/android/resources/device-art-resources/automotive_landscape/back.png
+%%LINUXBASE%%/android-studio/plugins/android/resources/device-art-resources/automotive_landscape/layout
+%%LINUXBASE%%/android-studio/plugins/android/resources/device-art-resources/automotive_large_portrait/back.png
+%%LINUXBASE%%/android-studio/plugins/android/resources/device-art-resources/automotive_large_portrait/layout
+%%LINUXBASE%%/android-studio/plugins/android/resources/device-art-resources/automotive_ultrawide_cutout/back.png
+%%LINUXBASE%%/android-studio/plugins/android/resources/device-art-resources/automotive_ultrawide_cutout/layout
 %%LINUXBASE%%/android-studio/plugins/android/resources/device-art-resources/device-art.xml
 %%LINUXBASE%%/android-studio/plugins/android/resources/device-art-resources/galaxy_nexus/land_back.webp
 %%LINUXBASE%%/android-studio/plugins/android/resources/device-art-resources/galaxy_nexus/land_fore.webp
@@ -2726,15 +2709,21 @@
 %%LINUXBASE%%/android-studio/plugins/emojipicker/lib/emojipicker.jar
 %%LINUXBASE%%/android-studio/plugins/firebase-testing/lib/firebase-testing.jar
 %%LINUXBASE%%/android-studio/plugins/firebase-testing/lib/gmd-code-completion.jar
-%%LINUXBASE%%/android-studio/plugins/firebase-testing/lib/google-api-services-cloudresourcemanager-v3-rev20230416-2.0.0.jar
+%%LINUXBASE%%/android-studio/plugins/firebase-testing/lib/google-api-services-cloudbilling-v1-rev20240119-2.0.0.jar
 %%LINUXBASE%%/android-studio/plugins/firebase-testing/lib/google-api-services-monitoring-v3-rev20230806-2.0.0.jar
 %%LINUXBASE%%/android-studio/plugins/firebase-testing/lib/google-api-services-storage-v1-rev20230301-2.0.0.jar
-%%LINUXBASE%%/android-studio/plugins/firebase-testing/lib/google-api-services-testing-v1-revsnapshot-1.25.0.jar
+%%LINUXBASE%%/android-studio/plugins/firebase-testing/lib/google-api-services-testing-v1-rev20240213-2.0.0.jar
 %%LINUXBASE%%/android-studio/plugins/firebase-testing/lib/google-api-services-toolresults-v1beta3-rev20230410-2.0.0.jar
 %%LINUXBASE%%/android-studio/plugins/firebase-testing/lib/jsch-0.1.55.jar
 %%LINUXBASE%%/android-studio/plugins/firebase/lib/firebase.jar
 %%LINUXBASE%%/android-studio/plugins/firebase/lib/firebase_java_proto.jar
 %%LINUXBASE%%/android-studio/plugins/firebase/lib/google-api-services-cloudresourcemanager-v3-rev20230416-2.0.0.jar
+%%LINUXBASE%%/android-studio/plugins/gemini/lib/aida_grpc.jar
+%%LINUXBASE%%/android-studio/plugins/gemini/lib/aida_proto.jar
+%%LINUXBASE%%/android-studio/plugins/gemini/lib/aida_protobuf.jar
+%%LINUXBASE%%/android-studio/plugins/gemini/lib/commonmark-0.20.0.jar
+%%LINUXBASE%%/android-studio/plugins/gemini/lib/gemini_plugin_proto.jar
+%%LINUXBASE%%/android-studio/plugins/gemini/lib/sml.jar
 %%LINUXBASE%%/android-studio/plugins/git4insights/lib/git4insights.jar
 %%LINUXBASE%%/android-studio/plugins/google-cloud-tools-as/lib/google-api-services-appengine-v1-rev9-1.22.0.jar
 %%LINUXBASE%%/android-studio/plugins/google-cloud-tools-as/lib/google-api-services-cloudresourcemanager-v3-rev20230416-2.0.0.jar
@@ -2743,12 +2732,37 @@
 %%LINUXBASE%%/android-studio/plugins/google-cloud-tools-as/lib/gradle-appengine-builder-model-0.1.0.jar
 %%LINUXBASE%%/android-studio/plugins/gradle-java/lib/gradle-java.jar
 %%LINUXBASE%%/android-studio/plugins/gradle-java/lib/gradle-jps.jar
-%%LINUXBASE%%/android-studio/plugins/gradle/lib/gradle-api-8.2.jar
-%%LINUXBASE%%/android-studio/plugins/gradle/lib/gradle-api-impldep-8.2.jar
-%%LINUXBASE%%/android-studio/plugins/gradle/lib/gradle-launcher-8.2.jar
+%%LINUXBASE%%/android-studio/plugins/gradle/lib/ant/ant-antlr.jar
+%%LINUXBASE%%/android-studio/plugins/gradle/lib/ant/ant-apache-bcel.jar
+%%LINUXBASE%%/android-studio/plugins/gradle/lib/ant/ant-apache-bsf.jar
+%%LINUXBASE%%/android-studio/plugins/gradle/lib/ant/ant-apache-log4j.jar
+%%LINUXBASE%%/android-studio/plugins/gradle/lib/ant/ant-apache-oro.jar
+%%LINUXBASE%%/android-studio/plugins/gradle/lib/ant/ant-apache-regexp.jar
+%%LINUXBASE%%/android-studio/plugins/gradle/lib/ant/ant-apache-resolver.jar
+%%LINUXBASE%%/android-studio/plugins/gradle/lib/ant/ant-apache-xalan2.jar
+%%LINUXBASE%%/android-studio/plugins/gradle/lib/ant/ant-commons-logging.jar
+%%LINUXBASE%%/android-studio/plugins/gradle/lib/ant/ant-commons-net.jar
+%%LINUXBASE%%/android-studio/plugins/gradle/lib/ant/ant-imageio.jar
+%%LINUXBASE%%/android-studio/plugins/gradle/lib/ant/ant-jai.jar
+%%LINUXBASE%%/android-studio/plugins/gradle/lib/ant/ant-javamail.jar
+%%LINUXBASE%%/android-studio/plugins/gradle/lib/ant/ant-jdepend.jar
+%%LINUXBASE%%/android-studio/plugins/gradle/lib/ant/ant-jmf.jar
+%%LINUXBASE%%/android-studio/plugins/gradle/lib/ant/ant-jsch.jar
+%%LINUXBASE%%/android-studio/plugins/gradle/lib/ant/ant-junit.jar
+%%LINUXBASE%%/android-studio/plugins/gradle/lib/ant/ant-junit4.jar
+%%LINUXBASE%%/android-studio/plugins/gradle/lib/ant/ant-junitlauncher.jar
+%%LINUXBASE%%/android-studio/plugins/gradle/lib/ant/ant-launcher.jar
+%%LINUXBASE%%/android-studio/plugins/gradle/lib/ant/ant-netrexx.jar
+%%LINUXBASE%%/android-studio/plugins/gradle/lib/ant/ant-swing.jar
+%%LINUXBASE%%/android-studio/plugins/gradle/lib/ant/ant-testutil.jar
+%%LINUXBASE%%/android-studio/plugins/gradle/lib/ant/ant-xz.jar
+%%LINUXBASE%%/android-studio/plugins/gradle/lib/ant/ant.jar
+%%LINUXBASE%%/android-studio/plugins/gradle/lib/gradle-api-8.4.jar
+%%LINUXBASE%%/android-studio/plugins/gradle/lib/gradle-api-impldep-8.4.jar
+%%LINUXBASE%%/android-studio/plugins/gradle/lib/gradle-launcher-8.4.jar
 %%LINUXBASE%%/android-studio/plugins/gradle/lib/gradle-tooling-extension-api.jar
 %%LINUXBASE%%/android-studio/plugins/gradle/lib/gradle-tooling-extension-impl.jar
-%%LINUXBASE%%/android-studio/plugins/gradle/lib/gradle-wrapper-8.2.jar
+%%LINUXBASE%%/android-studio/plugins/gradle/lib/gradle-wrapper-8.4.jar
 %%LINUXBASE%%/android-studio/plugins/gradle/lib/gradle.jar
 %%LINUXBASE%%/android-studio/plugins/html-tools/lib/html-tools.jar
 %%LINUXBASE%%/android-studio/plugins/java-coverage/lib/jacoco.jar
@@ -2761,6 +2775,7 @@
 %%LINUXBASE%%/android-studio/plugins/java/lib/aether-dependency-resolver.jar
 %%LINUXBASE%%/android-studio/plugins/java/lib/debugger-memory-agent.jar
 %%LINUXBASE%%/android-studio/plugins/java/lib/ecj/eclipse.jar
+%%LINUXBASE%%/android-studio/plugins/java/lib/java-frontback.jar
 %%LINUXBASE%%/android-studio/plugins/java/lib/java-impl.jar
 %%LINUXBASE%%/android-studio/plugins/java/lib/javac2.jar
 %%LINUXBASE%%/android-studio/plugins/java/lib/jb-jdi.jar
@@ -2786,27 +2801,29 @@
 %%LINUXBASE%%/android-studio/plugins/markdown/lib/markdown.jar
 %%LINUXBASE%%/android-studio/plugins/maven-model/lib/maven-model.jar
 %%LINUXBASE%%/android-studio/plugins/maven-server/lib/maven-server.jar
-%%LINUXBASE%%/android-studio/plugins/performanceTesting/lib/performanceTesting.jar
 %%LINUXBASE%%/android-studio/plugins/platform-images/lib/platform-images.jar
 %%LINUXBASE%%/android-studio/plugins/platform-langInjection/lib/IntelliLang.jar
 %%LINUXBASE%%/android-studio/plugins/platform-langInjection/lib/java-langInjection-jps.jar
 %%LINUXBASE%%/android-studio/plugins/platform-langInjection/lib/platform-langInjection.jar
 %%LINUXBASE%%/android-studio/plugins/properties/lib/properties.jar
 %%LINUXBASE%%/android-studio/plugins/repository-search/lib/repository-search.jar
+%%LINUXBASE%%/android-studio/plugins/rml-dfa-ide/lib/rml-dfa-ide.jar
 %%LINUXBASE%%/android-studio/plugins/sh/lib/sh.jar
 %%LINUXBASE%%/android-studio/plugins/smali/lib/smali.jar
 %%LINUXBASE%%/android-studio/plugins/targetsdkversion-upgrade-assistant/lib/targetsdkversion-upgrade-assistant.jar
 %%LINUXBASE%%/android-studio/plugins/tasks/lib/tasks-core.jar
 %%LINUXBASE%%/android-studio/plugins/terminal/lib/terminal.jar
-%%LINUXBASE%%/android-studio/plugins/terminal/pwsh/pwsh.ps1
+%%LINUXBASE%%/android-studio/plugins/terminal/shell-integrations/bash/bash-fig.bash
 %%LINUXBASE%%/android-studio/plugins/terminal/shell-integrations/bash/bash-integration.bash
+%%LINUXBASE%%/android-studio/plugins/terminal/shell-integrations/bash/bash-preexec.bash
 %%LINUXBASE%%/android-studio/plugins/terminal/shell-integrations/bash/command-block-support.bash
 %%LINUXBASE%%/android-studio/plugins/terminal/shell-integrations/fish/command-block-support.fish
 %%LINUXBASE%%/android-studio/plugins/terminal/shell-integrations/fish/fish-integration.fish
 %%LINUXBASE%%/android-studio/plugins/terminal/shell-integrations/powershell/command-block-support.ps1
 %%LINUXBASE%%/android-studio/plugins/terminal/shell-integrations/powershell/powershell-integration.ps1
-%%LINUXBASE%%/android-studio/plugins/terminal/zsh/.zshenv
-%%LINUXBASE%%/android-studio/plugins/terminal/zsh/hooks.zsh
+%%LINUXBASE%%/android-studio/plugins/terminal/shell-integrations/zsh/.zshenv
+%%LINUXBASE%%/android-studio/plugins/terminal/shell-integrations/zsh/command-block-support.zsh
+%%LINUXBASE%%/android-studio/plugins/terminal/shell-integrations/zsh/zsh-integration.zsh
 %%LINUXBASE%%/android-studio/plugins/test-recorder/lib/swt.jar
 %%LINUXBASE%%/android-studio/plugins/test-recorder/lib/test-recorder.jar
 %%LINUXBASE%%/android-studio/plugins/test-recorder/lib/uiautomatorviewer.jar
@@ -2819,6 +2836,11 @@
 %%LINUXBASE%%/android-studio/plugins/textmate/lib/bundles/bat/package.nls.json
 %%LINUXBASE%%/android-studio/plugins/textmate/lib/bundles/bat/snippets/batchfile.code-snippets
 %%LINUXBASE%%/android-studio/plugins/textmate/lib/bundles/bat/syntaxes/batchfile.tmLanguage.json
+%%LINUXBASE%%/android-studio/plugins/textmate/lib/bundles/bicep/package.json
+%%LINUXBASE%%/android-studio/plugins/textmate/lib/bundles/bicep/syntaxes/bicep.codeblock.json
+%%LINUXBASE%%/android-studio/plugins/textmate/lib/bundles/bicep/syntaxes/bicep.tmlanguage
+%%LINUXBASE%%/android-studio/plugins/textmate/lib/bundles/bicep/syntaxes/language-configuration.json
+%%LINUXBASE%%/android-studio/plugins/textmate/lib/bundles/bicepparam/package.json
 %%LINUXBASE%%/android-studio/plugins/textmate/lib/bundles/clojure/.vscodeignore
 %%LINUXBASE%%/android-studio/plugins/textmate/lib/bundles/clojure/cgmanifest.json
 %%LINUXBASE%%/android-studio/plugins/textmate/lib/bundles/clojure/language-configuration.json
@@ -2968,6 +2990,8 @@
 %%LINUXBASE%%/android-studio/plugins/textmate/lib/bundles/json/package.nls.json
 %%LINUXBASE%%/android-studio/plugins/textmate/lib/bundles/json/syntaxes/JSON.tmLanguage.json
 %%LINUXBASE%%/android-studio/plugins/textmate/lib/bundles/json/syntaxes/JSONC.tmLanguage.json
+%%LINUXBASE%%/android-studio/plugins/textmate/lib/bundles/json/syntaxes/JSONL.tmLanguage.json
+%%LINUXBASE%%/android-studio/plugins/textmate/lib/bundles/json/syntaxes/snippets.tmLanguage.json
 %%LINUXBASE%%/android-studio/plugins/textmate/lib/bundles/jsp/LICENSE
 %%LINUXBASE%%/android-studio/plugins/textmate/lib/bundles/jsp/README.md
 %%LINUXBASE%%/android-studio/plugins/textmate/lib/bundles/jsp/jsp-configuration.json
@@ -3212,6 +3236,7 @@
 %%LINUXBASE%%/android-studio/plugins/textmate/lib/bundles/yaml/syntaxes/yaml.tmLanguage.json
 %%LINUXBASE%%/android-studio/plugins/textmate/lib/textmate.jar
 %%LINUXBASE%%/android-studio/plugins/toml/lib/toml.jar
+%%LINUXBASE%%/android-studio/plugins/turboComplete/lib/turboComplete.jar
 %%LINUXBASE%%/android-studio/plugins/url-assistant/lib/url-assistant.jar
 %%LINUXBASE%%/android-studio/plugins/url-assistant/lib/urlassistant_proto.jar
 %%LINUXBASE%%/android-studio/plugins/vcs-git/lib/git4idea-rt.jar
@@ -3339,6 +3364,9 @@ share/pixmaps/studio.png
 @dir %%LINUXBASE%%/android-studio/plugins/android/resources/apks
 @dir %%LINUXBASE%%/android-studio/plugins/android/resources/app-inspection
 @dir %%LINUXBASE%%/android-studio/plugins/android/resources/device-art-resources/automotive_1024
+@dir %%LINUXBASE%%/android-studio/plugins/android/resources/device-art-resources/automotive_landscape
+@dir %%LINUXBASE%%/android-studio/plugins/android/resources/device-art-resources/automotive_large_portrait
+@dir %%LINUXBASE%%/android-studio/plugins/android/resources/device-art-resources/automotive_ultrawide_cutout
 @dir %%LINUXBASE%%/android-studio/plugins/android/resources/device-art-resources/galaxy_nexus
 @dir %%LINUXBASE%%/android-studio/plugins/android/resources/device-art-resources/nexus_10
 @dir %%LINUXBASE%%/android-studio/plugins/android/resources/device-art-resources/nexus_4
@@ -3635,10 +3663,13 @@ share/pixmaps/studio.png
 @dir %%LINUXBASE%%/android-studio/plugins/firebase
 @dir %%LINUXBASE%%/android-studio/plugins/firebase-testing/lib
 @dir %%LINUXBASE%%/android-studio/plugins/firebase-testing
+@dir %%LINUXBASE%%/android-studio/plugins/gemini/lib
+@dir %%LINUXBASE%%/android-studio/plugins/gemini
 @dir %%LINUXBASE%%/android-studio/plugins/git4insights/lib
 @dir %%LINUXBASE%%/android-studio/plugins/git4insights
 @dir %%LINUXBASE%%/android-studio/plugins/google-cloud-tools-as/lib
 @dir %%LINUXBASE%%/android-studio/plugins/google-cloud-tools-as
+@dir %%LINUXBASE%%/android-studio/plugins/gradle/lib/ant
 @dir %%LINUXBASE%%/android-studio/plugins/gradle/lib
 @dir %%LINUXBASE%%/android-studio/plugins/gradle
 @dir %%LINUXBASE%%/android-studio/plugins/gradle-java/lib
@@ -3674,8 +3705,6 @@ share/pixmaps/studio.png
 @dir %%LINUXBASE%%/android-studio/plugins/maven-model
 @dir %%LINUXBASE%%/android-studio/plugins/maven-server/lib
 @dir %%LINUXBASE%%/android-studio/plugins/maven-server
-@dir %%LINUXBASE%%/android-studio/plugins/performanceTesting/lib
-@dir %%LINUXBASE%%/android-studio/plugins/performanceTesting
 @dir %%LINUXBASE%%/android-studio/plugins/platform-images/lib
 @dir %%LINUXBASE%%/android-studio/plugins/platform-images
 @dir %%LINUXBASE%%/android-studio/plugins/platform-langInjection/lib
@@ -3684,6 +3713,8 @@ share/pixmaps/studio.png
 @dir %%LINUXBASE%%/android-studio/plugins/properties
 @dir %%LINUXBASE%%/android-studio/plugins/repository-search/lib
 @dir %%LINUXBASE%%/android-studio/plugins/repository-search
+@dir %%LINUXBASE%%/android-studio/plugins/rml-dfa-ide/lib
+@dir %%LINUXBASE%%/android-studio/plugins/rml-dfa-ide
 @dir %%LINUXBASE%%/android-studio/plugins/sh/lib
 @dir %%LINUXBASE%%/android-studio/plugins/sh
 @dir %%LINUXBASE%%/android-studio/plugins/smali/lib
@@ -3693,12 +3724,11 @@ share/pixmaps/studio.png
 @dir %%LINUXBASE%%/android-studio/plugins/tasks/lib
 @dir %%LINUXBASE%%/android-studio/plugins/tasks
 @dir %%LINUXBASE%%/android-studio/plugins/terminal/lib
-@dir %%LINUXBASE%%/android-studio/plugins/terminal/pwsh
 @dir %%LINUXBASE%%/android-studio/plugins/terminal/shell-integrations/bash
 @dir %%LINUXBASE%%/android-studio/plugins/terminal/shell-integrations/fish
 @dir %%LINUXBASE%%/android-studio/plugins/terminal/shell-integrations/powershell
+@dir %%LINUXBASE%%/android-studio/plugins/terminal/shell-integrations/zsh
 @dir %%LINUXBASE%%/android-studio/plugins/terminal/shell-integrations
-@dir %%LINUXBASE%%/android-studio/plugins/terminal/zsh
 @dir %%LINUXBASE%%/android-studio/plugins/terminal
 @dir %%LINUXBASE%%/android-studio/plugins/test-recorder/lib
 @dir %%LINUXBASE%%/android-studio/plugins/test-recorder
@@ -3707,6 +3737,9 @@ share/pixmaps/studio.png
 @dir %%LINUXBASE%%/android-studio/plugins/textmate/lib/bundles/bat/snippets
 @dir %%LINUXBASE%%/android-studio/plugins/textmate/lib/bundles/bat/syntaxes
 @dir %%LINUXBASE%%/android-studio/plugins/textmate/lib/bundles/bat
+@dir %%LINUXBASE%%/android-studio/plugins/textmate/lib/bundles/bicep/syntaxes
+@dir %%LINUXBASE%%/android-studio/plugins/textmate/lib/bundles/bicep
+@dir %%LINUXBASE%%/android-studio/plugins/textmate/lib/bundles/bicepparam
 @dir %%LINUXBASE%%/android-studio/plugins/textmate/lib/bundles/clojure/syntaxes
 @dir %%LINUXBASE%%/android-studio/plugins/textmate/lib/bundles/clojure
 @dir %%LINUXBASE%%/android-studio/plugins/textmate/lib/bundles/cmake/syntaxes
@@ -3851,6 +3884,8 @@ share/pixmaps/studio.png
 @dir %%LINUXBASE%%/android-studio/plugins/textmate
 @dir %%LINUXBASE%%/android-studio/plugins/toml/lib
 @dir %%LINUXBASE%%/android-studio/plugins/toml
+@dir %%LINUXBASE%%/android-studio/plugins/turboComplete/lib
+@dir %%LINUXBASE%%/android-studio/plugins/turboComplete
 @dir %%LINUXBASE%%/android-studio/plugins/url-assistant/lib
 @dir %%LINUXBASE%%/android-studio/plugins/url-assistant
 @dir %%LINUXBASE%%/android-studio/plugins/vcs-git/lib
