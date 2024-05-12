@@ -1,5 +1,5 @@
 PORTNAME=	android-studio
-DISTVERSION=	2023.2.1.25
+DISTVERSION=	2023.3.1.18
 CATEGORIES=	devel linux
 MASTER_SITES=	https://redirector.gvt1.com/edgedl/android/studio/ide-zips/${DISTVERSION}/
 PKGNAMEPREFIX=	linux-
