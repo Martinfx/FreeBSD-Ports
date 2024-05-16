@@ -20,6 +20,8 @@ USES=		desktop-file-utils linux:rl9 shebangfix
 INSTALLS_ICONS=	yes
 USE_LINUX=	png pulseaudio-libs xorglibs libglvnd gtk3 cups-libs
 
+RUN_DEPENDS+=	linux-rl9-libxslt>0:textproc/linux-rl9-libxslt
+
 SHEBANG_FILES= 	usr/bin/et \
 		usr/bin/wpp \
 		usr/bin/wps \
