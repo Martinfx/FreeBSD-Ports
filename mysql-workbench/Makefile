@@ -12,7 +12,12 @@ COMMENT=	mysql editor
 
 LICENSE=	GPLv2
 
-USES=		cmake
+USES=		cmake gnome
+USES_GNOME=	gtk30 cairo
+
+CPPFLAGS+=	 -I${LOCALBASE}/include \
+		 -I${WRKSRC}/library/forms/gtk/src/
+LDFLAGS+=	 -L${LOCALBASE}/lib
 
 CMAKE_ARGS+=	-DODBC_INCLUDE_DIRS="/usr/local/include/" \
 		-DODBC_LIBRARIES="/usr/local/lib" \
