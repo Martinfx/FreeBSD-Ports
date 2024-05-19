@@ -22,6 +22,7 @@ LIB_DEPENDS=	libfontconfig.so:x11-fonts/fontconfig \
 		libpolkit-gobject-1.so:sysutils/polkit \
 		libxkbfile.so:x11/libxkbfile \
 		libminizip.so:archivers/minizip \
+		libgdkglext-x11-1.0.so:x11-toolkits/gtkglext
 
 USES=		gl gnome xorg
 
