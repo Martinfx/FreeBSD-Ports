@@ -1,4 +1,4 @@
---- build/cmake/Modules/FindMySQLCppConn.cmake.orig	2024-05-18 10:25:02 UTC
+--- build/cmake/Modules/FindMySQLCppConn.cmake.orig	2024-05-19 14:50:28 UTC
 +++ build/cmake/Modules/FindMySQLCppConn.cmake
 @@ -27,7 +27,7 @@ if (MySQLCppConn_INCLUDE_DIRS AND MySQLCppConn_LIBRARI
    set(MySQLCppConn_FIND_QUIETLY TRUE)
