@@ -12,17 +12,18 @@ COMMENT=	mysql editor
 
 LICENSE=	GPLv2
 
-USES=		cmake gnome pkgconfig mysql
+USES=		cmake gnome perl5 pkgconfig mysql:80 localbase:ldflags
 USES_GNOME=	gtk30 cairo
 USE_XORG=	x11
+USE_PERL5=	configure
 
 BUILD_DEPENDS+=	antlr4>0:devel/antlr4 \
 		libssh>0:security/libssh \
 		gtk3>0:x11-toolkits/gtk30 \
 		gtkmm30>0:x11-toolkits/gtkmm30 \
-		#pcre2>0:devel/pcre2 \
 		pcre>0:devel/pcre \
-		mysql-connector-c++:databases/mysql-connector-c++ \
+		p5-Data-UUID>0:devel/p5-Data-UUID \
+		mysql-connector-c++>0:databases/mysql-connector-c++ \
 		rapidjson>0:devel/rapidjson \
 		gdal>0:graphics/gdal \
 		vsqlite>0:databases/vsqlite \
