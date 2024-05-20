@@ -12,18 +12,21 @@ COMMENT=	mysql editor
 
 LICENSE=	GPLv2
 
-USES=		cmake gnome perl5 pkgconfig mysql:80 localbase:ldflags
+USES=		cmake gnome pkgconfig mysql:80 localbase:ldflags
 USES_GNOME=	gtk30 cairo
 USE_XORG=	x11
-USE_PERL5=	configure
 
 BUILD_DEPENDS+=	antlr4>0:devel/antlr4 \
+		boost-all>0:devel/boost-all \
+		libsecret>0:security/libsecret \
 		libssh>0:security/libssh \
+		libzip>0:archivers/libzip \
 		gtk3>0:x11-toolkits/gtk30 \
 		gtkmm30>0:x11-toolkits/gtkmm30 \
 		pcre>0:devel/pcre \
-		p5-Data-UUID>0:devel/p5-Data-UUID \
+		e2fsprogs-libuuid>0:misc/e2fsprogs-libuuid \
 		mysql-connector-c++>0:databases/mysql-connector-c++ \
+		unixODBC>0:databases/unixODBC \
 		rapidjson>0:devel/rapidjson \
 		gdal>0:graphics/gdal \
 		vsqlite>0:databases/vsqlite \
@@ -44,8 +47,13 @@ CMAKE_ARGS+=	-DODBC_INCLUDE_DIRS="/usr/local/include/" \
 		-DSWIG_DIR="${LOCALBASE}/share/swig/4.1.1" \
 		-DANTLR4_LIBRARY="${LOCALBASE}/lib" \
 		-DANTLR4_INCLUDE_DIR="${LOCALBASE}/include" \
-		-DMySQLCppConn_INCLUDE_DIR="${LOCALBASE}/include/jdbc/"
+		-DMySQLCppConn_INCLUDE_DIR="${LOCALBASE}/include/jdbc/" \
+		-DUNIXODBC_INCLUDE_DIRS="${LOCALBASE}/include"
 
 WRKSRC=		${WRKDIR}/${PORTNAME}-community-${DISTVERSION}-src
+
+post-patch:
+#	@${MKDIR} ${WRKSRC}
+	@${CP} ${DISTDIR}/mysql-workbench/antlr-4.11.1-complete.jar ${WRKDIR}
 
 .include <bsd.port.mk>
