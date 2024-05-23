@@ -1,0 +1,39 @@
+--- Cargo.toml.orig	2024-05-11 08:17:55 UTC
++++ Cargo.toml
+@@ -79,7 +79,7 @@ zip = "0.6"
+ shutdown_hooks = "0.1"
+ totp-rs = { version = "5.4", default-features = false, features = ["gen_secret", "otpauth"] }
+ 
+-[target.'cfg(not(any(target_os = "android", target_os = "linux")))'.dependencies]
++[target.'cfg(not(any(target_os = "android", target_os = "unix")))'.dependencies]
+ cpal = "0.15"
+ ringbuf = "0.3"
+ 
+@@ -127,15 +127,15 @@ include_dir = "0.7"
+ fruitbasket = "0.10"
+ objc_id = "0.1"
+ 
+-[target.'cfg(any(target_os = "macos", target_os = "linux", target_os = "windows"))'.dependencies]
++[target.'cfg(any(target_os = "macos", target_os = "unix", target_os = "windows"))'.dependencies]
+ tray-icon = { git = "https://github.com/tauri-apps/tray-icon" }
+ tao = { git = "https://github.com/rustdesk-org/tao", branch = "dev" }
+ image = "0.24"
+ 
+-[target.'cfg(any(target_os = "macos", target_os = "linux"))'.dependencies]
++[target.'cfg(any(target_os = "macos", target_os = "unix"))'.dependencies]
+ keepawake = { git = "https://github.com/rustdesk-org/keepawake-rs" }
+ 
+-[target.'cfg(any(target_os = "windows", target_os = "linux"))'.dependencies]
++[target.'cfg(any(target_os = "windows", target_os = "unix"))'.dependencies]
+ wallpaper = { git = "https://github.com/21pages/wallpaper.rs" }
+ 
+ [target.'cfg(any(target_os = "macos", target_os = "windows"))'.dependencies]
+@@ -145,7 +145,7 @@ reqwest = { git = "https://github.com/rustdesk-org/req
+ [target.'cfg(not(any(target_os = "macos", target_os = "windows")))'.dependencies]
+ reqwest = { git = "https://github.com/rustdesk-org/reqwest", features = ["blocking", "socks", "json", "rustls-tls", "rustls-tls-native-roots", "gzip"], default-features=false }
+ 
+-[target.'cfg(target_os = "linux")'.dependencies]
++[target.'cfg(target_os = "unix")'.dependencies]
+ psimple = { package = "libpulse-simple-binding", version = "2.27" }
+ pulse = { package = "libpulse-binding", version = "2.27" }
+ rust-pulsectl = { git = "https://github.com/open-trade/pulsectl" }
