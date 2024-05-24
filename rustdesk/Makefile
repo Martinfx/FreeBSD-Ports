@@ -15,8 +15,10 @@ USE_GITHUB=     yes
 GH_ACCOUNT=     rustdesk
 GH_PROJECT=     rustdesk
 
-CARGO_CRATES=	addr2line-0.21.0 \
+CARGO_CRATES=	alsa-0.9.0 \
+		addr2line-0.21.0 \
 		aho-corasick-1.1.3 \
+		async-compression-0.4.10 \
 		async-trait-0.1.0 \
 		async-process-2.2.2 \
 		async-process-1.7.0 \
@@ -47,6 +49,8 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		build-target-0.4.0 \
 		bzip2-0.4.4 \
 		cfg-if-1.0.0 \
+		coreaudio-rs-0.12.0 \
+		coreaudio-rs-0.11.0 \
 		core-graphics-0.23.0 \
 		core-graphics-0.22.3 \
 		core-graphics-types-0.1.3 \
@@ -70,6 +74,7 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		constant_time_eq-0.1.5 \
 		crc32fast-1.4.2 \
 		color_quant-1.1.0 \
+		clipboard-win-5.3.1 \
 		docopt-1.1.1 \
 		directories-next-2.0.0 \
 		dirs-next-2.0.0 \
@@ -87,6 +92,7 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		digest-0.10.7 \
 		debug-helper-0.3.13 \
 		ed25519-1.0.0 \
+		encoding_rs-0.8.34 \
 		jni-0.21.1 \
 		jni-0.19.0 \
 		jni-sys-0.4.0 \
@@ -111,14 +117,23 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		lazycell-1.3.0 \
 		lock_api-0.4.12 \
 		libm-0.2.8 \
+		tower-service-0.3.2 \
 		termios-0.3.3 \
 		termcolor-1.4.1 \
+		hyper-rustls-0.24.0 \
+		hyper-tls-0.5.0 \
+		hyper-1.3.1 \
+		hyper-0.14.21 \
+		h2-0.3.14 \
+		http-body-0.4.0 \
 		http-1.1.0 \
+		http-0.2.0 \
 		hound-3.5.1 \
 		hermit-abi-0.3.9 \
 		hermit-abi-0.2.6 \
 		humantime-2.1.0 \
 		hashbrown-0.14.5 \
+		html-escape-0.2.13 \
                 pkg-config-0.3.27 \
                 protobuf-3.4.0 \
 		protobuf-support-3.4.0 \
@@ -161,8 +176,10 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		netlink-packet-route-0.15.0 \
 		netlink-sys-0.8.6 \
 		native-tls-0.2.11 \
+		mach2-0.4.2 \
 		memchr-2.7.2 \
 		memalloc-0.1.0 \
+		mime-0.3.17 \
 		mio-0.8.11 \
 		nu-ansi-term-0.49.0 \
                 ndk-context-0.1.1 \
@@ -201,6 +218,7 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		time-0.1.36 \
 		tiff-0.9.1 \
 		threadpool-1.8.1 \
+		enquote-1.1.0 \
 		env_logger-0.10.2 \
 		either-1.12.0 \
 		enum-map-2.7.3 \
@@ -221,6 +239,9 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		foreign-types-0.5.0 \
 		foreign-types-0.4.0 \
 		foreign-types-0.3.0 \
+		rustls-pemfile-1.0.0 \
+		rust-ini-0.21.0 \
+		rust-ini-0.18.0 \
 		rand-0.8.5 \
 		rand_chacha-0.3.1 \
 		rand_core-0.6.4 \
@@ -234,7 +255,9 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		rustc-hash-1.1.0 \
 		rustls-0.20.3 \
 		rustls-0.23.0 \
+		rustls-0.21.6 \
 		rustls-native-certs-0.7.0 \
+		rustls-native-certs-0.6.0 \
 		rustls-webpki-0.102.4 \
 		rustls-platform-verifier-android-0.1.0 \
 		ryu-1.0.18 \
@@ -251,6 +274,7 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		tokio-native-tls-0.3.1 \
 		tokio-rustls-0.26.0 \
 		tokio-macros-2.2.0 \
+		tokio-rustls-0.26.0 \
 		toml-0.7.2 \
 		toml-0.5.0 \
 		toml_datetime-0.6.6 \
@@ -270,6 +294,8 @@ CARGO_CRATES=	addr2line-0.21.0 \
                 quest-0.3.0 \
 		qoi-0.4.1 \
 		whoami-1.5.0 \
+		sync_wrapper-1.0.1 \
+		sync_wrapper-0.1.2 \
 		slab-0.4.9 \
 		strsim-0.10.0 \
 		shlex-1.3.0 \
@@ -282,6 +308,7 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		socket2-0.5.5 \
 		sysinfo-0.30.12 \
 		signal-hook-registry-1.4.2 \
+		serde_urlencoded-0.7.1 \
 		serde_derive-1.0.1 \
 		serde_derive-1.0.202 \
 		serde-1.0.202 \
@@ -291,6 +318,7 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		serde_spanned-0.6.6 \
 		system_shutdown-4.0.1 \
 		system-configuration-0.5.0 \
+		system-configuration-0.5.1 \
 		security-framework-2.11.0 \
 		security-framework-sys-2.11.0 \
 		strum-0.26.2 \
@@ -357,10 +385,13 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		osascript-0.3.0 \
 		os_info-3.8.2 \
 		objc-0.2.7 \
+		objc-foundation-0.1.1 \
 		objc2-0.3.0-beta.2 \
 		objc_id-0.1.1 \
 		object-0.32.0 \
 		os-version-0.2.0 \
+		oboe-0.6.1 \
+		ipnet-2.9.0 \
 		itoa-1.0.11 \
 		idna-0.5.0 \
 		idna-0.2.0 \
@@ -372,6 +403,7 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		quote-1.0.36 \
 		quote-0.6.0 \
 		qrcode-generator-4.1.9 \
+		qrcodegen-1.8.0 \
 		image-0.25.1 \
 		image-0.24.9 \
 		instant-0.1.13 \
@@ -385,10 +417,12 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		wasite-0.1.0 \
 		wasm-bindgen-0.2.80 \
 		wasm-bindgen-0.2.81 \
+		wasm-bindgen-0.2.89 \
 		wasm-bindgen-backend-0.2.80 \
 		wasm-bindgen-macro-0.2.80 \
 		wasm-bindgen-macro-support-0.2.80 \
 		wasm-bindgen-shared-0.2.80 \
+		wasm-bindgen-futures-0.4.42 \
 		widestring-1.1.0 \
 		winapi-0.3.9 \
 		winapi-i686-pc-windows-gnu-0.4.0 \
@@ -396,6 +430,7 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		winapi-x86_64-pc-windows-gnu-0.4.0 \
 		winres-0.1.12 \
 		winreg-0.11.0 \
+		winreg-0.50.0 \
 		windows-service-0.7.0 \
 		windows-service-0.6.0 \
 		which-6.0.1 \
@@ -407,10 +442,14 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		windows-0.51.0 \
 		windows-0.48.0 \
 		windows-0.32.0 \
+		windows-0.44.0 \
+		windows-0.54.0 \
 		webpki-roots-0.26.1 \
 		winapi-wsapoll-0.1.2 \
 		windows-version-0.1.1 \
+		wl-clipboard-rs-0.8.1 \
 		x11rb-0.12.0 \
+		x11rb-0.13.0 \
 		x11rb-protocol-0.12.0 \
 		x11-2.21.0 \
 		x11-dl-2.21.0 \
