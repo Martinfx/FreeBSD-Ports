@@ -25,12 +25,17 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		anyhow-1.0.86 \
 		alloc-no-stdlib-2.0.4 \
 		alloc-stdlib-0.2.2 \
+		allo-isolate-0.1.24 \
+		aes-0.8.4 \
+		aes-0.7.5 \
 		bindgen-0.65.1 \
 		bindgen-0.59.0 \
 		block-0.1.6 \
 		block2-0.2.0-alpha.6 \
 		backtrace-0.3.71 \
 		base64-0.22.1 \
+		base64-0.21.0 \
+		base32-0.4.0 \
 		brotli-3.4.0 \
 		brotli-decompressor-2.5.0 \
 		bitflags-2.5.0 \
@@ -40,7 +45,9 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		byteorder-1.5.0 \
 		bytemuck-1.16.0 \
 		build-target-0.4.0 \
+		bzip2-0.4.4 \
 		cfg-if-1.0.0 \
+		core-graphics-0.23.0 \
 		core-graphics-0.22.3 \
 		core-graphics-types-0.1.3 \
 		cc-1.0.98 \
@@ -51,12 +58,18 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		cocoa-0.24.1 \
 		core-foundation-0.9.4 \
 		core-foundation-sys-0.8.6 \
+		console_error_panic_hook-0.1.7 \
 		cexpr-0.6.0 \
 		cesu8-1.1.0 \
 		combine-4.6.7 \
 		crossbeam-channel-0.5.13 \
 		crossbeam-utils-0.8.20 \
 		clap_builder-4.2.0 \
+		cpufeatures-0.2.12 \
+		constant_time_eq-0.2.0 \
+		constant_time_eq-0.1.5 \
+		crc32fast-1.4.2 \
+		color_quant-1.1.0 \
 		docopt-1.1.1 \
 		directories-next-2.0.0 \
 		dirs-next-2.0.0 \
@@ -69,19 +82,24 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		dlopen2-0.4.0 \
 		dlopen_derive-0.1.4 \
 		dashmap-5.5.3 \
+		dart-sys-4.1.5 \
 		dispatch-0.2.0 \
+		digest-0.10.7 \
 		debug-helper-0.3.13 \
 		ed25519-1.0.0 \
 		jni-0.21.1 \
 		jni-0.19.0 \
 		jni-sys-0.4.0 \
 		jni-sys-0.3.0 \
+		js-sys-0.3.69 \
+		jpeg-decoder-0.3.1  \
 		ndk-sys-0.6.0+11769913 \
 		ndk-sys-0.4.0 \
 		ntapi-0.4.1 \
 		nix-0.28.0 \
 		nix-0.26.0 \
 		log-0.4.21 \
+		libappindicator-0.9.0 \
 		libdbus-sys-0.2.5 \
 		libc-0.2.125 \
 		libc-0.2.146 \
@@ -89,10 +107,13 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		libpulse-simple-binding-2.28.1 \
 		libpulse-binding-2.28.1 \
 		libsodium-sys-0.2.7 \
+		libsamplerate-sys-0.1.12 \
 		lazycell-1.3.0 \
 		lock_api-0.4.12 \
+		libm-0.2.8 \
 		termios-0.3.3 \
 		termcolor-1.4.1 \
+		http-1.1.0 \
 		hound-3.5.1 \
 		hermit-abi-0.3.9 \
 		hermit-abi-0.2.6 \
@@ -122,6 +143,10 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		pretty-hex-0.2.0 \
 		page_size-0.6.0 \
 		page_size-0.5.0 \
+		pbkdf2-0.12.2 \
+		pbkdf2-0.10.1 \
+		plist-1.6.1 \
+		png-0.17.13 \
                 ndk-0.7.0 \
                 ndk-0.8.0 \
                 num_enum-0.7.2 \
@@ -130,6 +155,8 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		num-0.1.0 \
 		num-bigint-0.3.0 \
 		num-traits-0.2.19 \
+		num-complex-0.4.6 \
+		num-integer-0.1.46 \
 		netlink-packet-core-0.5.0 \
 		netlink-packet-route-0.15.0 \
 		netlink-sys-0.8.6 \
@@ -145,6 +172,11 @@ CARGO_CRATES=	addr2line-0.21.0 \
                 miniz_oxide-0.7.3 \
                 malloc_buf-1.0.0 \
 		malloc_buf-0.0.1 \
+		muda-0.13.4 \
+		gtk-0.18.1 \
+		gdkwayland-sys-0.18.0 \
+		gdkx11-sys-0.18.0 \
+		gif-0.13.1 \
                 glib-0.19.6 \
                 glib-0.10.0 \
                 glib-sys-0.10.0 \
@@ -162,10 +194,12 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		getrandom-0.2.15 \
 		gethostname-0.3.0 \
 		httparse-1.8.0 \
+		hmac-0.12.1 \
 		thiserror-1.0.61 \
 		thiserror-impl-1.0.61 \
 		time-0.3.36 \
 		time-0.1.36 \
+		tiff-0.9.1 \
 		threadpool-1.8.1 \
 		env_logger-0.10.2 \
 		either-1.12.0 \
@@ -206,6 +240,8 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		ryu-1.0.18 \
 		rustc-demangle-0.1.24 \
 		redox_syscall-0.4.1 \
+		rtoolbox-0.0.2 \
+		realfft-3.3.0 \
 		tracing-0.1.40 \
 		tracing-attributes-0.1.27 \
 		tracing-core-0.1.32 \
@@ -223,6 +259,7 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		tempfile-3.10.1 \
 		utf16string-0.2.0 \
 		users-0.11.0 \
+		uname-0.1.1 \
 		futures-0.3.30 \
 		futures-util-0.3.30 \
 		rustls-pki-types-1.7.0 \
@@ -231,6 +268,7 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		ringbuf-0.3.3 \
 		include_dir-0.7.3 \
                 quest-0.3.0 \
+		qoi-0.4.1 \
 		whoami-1.5.0 \
 		slab-0.4.9 \
 		strsim-0.10.0 \
@@ -259,11 +297,15 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		strum-0.24.1 \
 		strum_macros-0.24.0 \
 		smallvec-1.13.2 \
+		shadow-rs-0.21.0 \
 		zstd-0.13.1 \
+		zstd-0.10.0+zstd.1.5.2 \
 		zstd-safe-7.1.0 \
 		cfg-if-0.1.10 \
 		lazy_static-1.4.0 \
 		sha2-0.10.0 \
+		sha1-0.10.6 \
+		scopeguard-1.2.0 \
 		repng-0.2.0 \
 		parity-tokio-ipc-0.9.0 \
 		magnum-opus-0.3.2 \
@@ -293,8 +335,11 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		flutter_rust_bridge_macros-1.82.6 \
 		errno-0.3.0 \
 		errno-dragonfly-0.1.2  \
+		exr-1.72.0 \
 		rdev-0.5.3 \
 		url-2.3.0 \
+		url-2.4.0 \
+		urlencoding-2.1.3 \
 		crossbeam-queue-0.3.0 \
 		hex-0.4.0 \
 		chrono-0.4.0 \
@@ -329,12 +374,17 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		qrcode-generator-4.1.9 \
 		image-0.25.1 \
 		image-0.24.9 \
+		instant-0.1.13 \
 		tauri-winrt-notification-0.3.0 \
 		tauri-winrt-notification-0.1.2 \
+		windows-implement-0.56.0 \
+		windows-implement-0.52.0 \
 		windows-sys-0.52.0 \
 		windows-sys-0.45.0 \
 		windows-sys-0.48.0 \
+		wasite-0.1.0 \
 		wasm-bindgen-0.2.80 \
+		wasm-bindgen-0.2.81 \
 		wasm-bindgen-backend-0.2.80 \
 		wasm-bindgen-macro-0.2.80 \
 		wasm-bindgen-macro-support-0.2.80 \
@@ -352,14 +402,21 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		which-4.2.1 \
 		walkdir-2.5.0 \
 		webpki-0.22.4 \
+		web-sys-0.3.69 \
+		windows-0.52.0 \
 		windows-0.51.0 \
+		windows-0.48.0 \
 		windows-0.32.0 \
 		webpki-roots-0.26.1 \
 		winapi-wsapoll-0.1.2 \
+		windows-version-0.1.1 \
 		x11rb-0.12.0 \
 		x11rb-protocol-0.12.0 \
 		x11-2.21.0 \
+		x11-dl-2.21.0 \
 		zerocopy-0.6.0 \
+		zbus-4.2.2 \
+		zbus-3.12.0 \
 		hwcodec@git+https://github.com/21pages/hwcodec\#9cb895fdaea198dd72bd75980109dbd05a059a60 \
 		webm@git+https://github.com/21pages/rust-webm\#d2c4d3ac133c7b0e4c0f656da710b48391981e64 \
 		confy@git+https://github.com/open-trade/confy\#630cc28a396cb7d01eefdd9f3824486fe4d8554b \
