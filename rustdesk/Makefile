@@ -15,10 +15,17 @@ USE_GITHUB=     yes
 GH_ACCOUNT=     rustdesk
 GH_PROJECT=     rustdesk
 
-CARGO_CRATES=	alsa-0.9.0 \
+CARGO_CRATES=	ahash-0.8.11 \
+		adler-1.0.2 \
+		autocfg-1.3.0 \
+		alsa-0.9.0 \
 		addr2line-0.21.0 \
 		aho-corasick-1.1.3 \
 		async-compression-0.4.10 \
+		async-io-2.3.2 \
+		async-io-1.7.0  \
+		async-io-1.8.0 \
+		async-lock-2.6.0 \
 		async-trait-0.1.0 \
 		async-process-2.2.2 \
 		async-process-1.7.0 \
@@ -30,10 +37,12 @@ CARGO_CRATES=	alsa-0.9.0 \
 		allo-isolate-0.1.24 \
 		aes-0.8.4 \
 		aes-0.7.5 \
+		allocator-api2-0.2.18 \
 		bindgen-0.65.1 \
 		bindgen-0.59.0 \
 		block-0.1.6 \
 		block2-0.2.0-alpha.6 \
+		blocking-1.6.0 \
 		backtrace-0.3.71 \
 		base64-0.22.1 \
 		base64-0.21.0 \
@@ -43,7 +52,9 @@ CARGO_CRATES=	alsa-0.9.0 \
 		bitflags-2.5.0 \
 		bitflags-1.0.3 \
 		bitflags-1.2.1 \
+		bitflags-1.3.0 \
 		bitmask-enum-2.2.4 \
+		bitvec-1.0.1 \
 		byteorder-1.5.0 \
 		bytemuck-1.16.0 \
 		build-target-0.4.0 \
@@ -60,10 +71,12 @@ CARGO_CRATES=	alsa-0.9.0 \
 		clang-sys-1.7.0 \
 		cocoa-0.25.0 \
 		cocoa-0.24.1 \
+		cocoa-foundation-0.1.2 \
 		core-foundation-0.9.4 \
 		core-foundation-sys-0.8.6 \
 		console_error_panic_hook-0.1.7 \
 		cexpr-0.6.0 \
+		cexpr-0.5.0 \
 		cesu8-1.1.0 \
 		combine-4.6.7 \
 		crossbeam-channel-0.5.13 \
@@ -75,11 +88,16 @@ CARGO_CRATES=	alsa-0.9.0 \
 		crc32fast-1.4.2 \
 		color_quant-1.1.0 \
 		clipboard-win-5.3.1 \
+		cfg_aliases-0.2.1 \
+		cfg_aliases-0.1.1 \
+		dtoa-1.0.9 \
+		dtoa-0.4.0 \
 		docopt-1.1.1 \
 		directories-next-2.0.0 \
 		dirs-next-2.0.0 \
 		dirs-sys-next-0.1.2 \
 		dirs-5.0.1 \
+		dirs-2.0.0 \
 		dirs-sys-0.4.1 \
 		dbus-0.9.7 \
 		dbus-crossroads-0.5.2 \
@@ -91,8 +109,11 @@ CARGO_CRATES=	alsa-0.9.0 \
 		dispatch-0.2.0 \
 		digest-0.10.7 \
 		debug-helper-0.3.13 \
+		derivative-2.2.0 \
 		ed25519-1.0.0 \
 		encoding_rs-0.8.34 \
+		event-listener-5.3.0 \
+		event-listener-2.4.0 \
 		jni-0.21.1 \
 		jni-0.19.0 \
 		jni-sys-0.4.0 \
@@ -104,14 +125,20 @@ CARGO_CRATES=	alsa-0.9.0 \
 		ntapi-0.4.1 \
 		nix-0.28.0 \
 		nix-0.26.0 \
+		nix-0.23.0 \
 		log-0.4.21 \
 		libappindicator-0.9.0 \
 		libdbus-sys-0.2.5 \
 		libc-0.2.125 \
 		libc-0.2.146 \
 		libc-0.2.150 \
+		libc-0.2.154 \
+		libc-0.2.50 \
+#		libc-0.1.0 \
+		libpulse-sys-1.21.0 \
 		libpulse-simple-binding-2.28.1 \
 		libpulse-binding-2.28.1 \
+		libpulse-simple-sys-1.21.1 \
 		libsodium-sys-0.2.7 \
 		libsamplerate-sys-0.1.12 \
 		lazycell-1.3.0 \
@@ -120,6 +147,8 @@ CARGO_CRATES=	alsa-0.9.0 \
 		tower-service-0.3.2 \
 		termios-0.3.3 \
 		termcolor-1.4.1 \
+		heck-0.5.0 \
+		heck-0.4.0 \
 		hyper-rustls-0.24.0 \
 		hyper-tls-0.5.0 \
 		hyper-1.3.1 \
@@ -134,6 +163,7 @@ CARGO_CRATES=	alsa-0.9.0 \
 		humantime-2.1.0 \
 		hashbrown-0.14.5 \
 		html-escape-0.2.13 \
+		ppv-lite86-0.2.17 \
                 pkg-config-0.3.27 \
                 protobuf-3.4.0 \
 		protobuf-support-3.4.0 \
@@ -147,6 +177,7 @@ CARGO_CRATES=	alsa-0.9.0 \
 		prettyplease-0.2.20 \
 		proc-macro2-1.0.83 \
 		proc-macro2-0.4.0 \
+		pin-project-internal-1.1.5 \
 		pin-project-lite-0.2.14 \
 		pin-project-1.1.5 \
 		pin-utils-0.1.0 \
@@ -154,6 +185,8 @@ CARGO_CRATES=	alsa-0.9.0 \
 		phf-0.7.24 \
 		phf_codegen-0.11.2 \
 		phf_codegen-0.7.24 \
+		phf_generator-0.11.2 \
+		phf_generator-0.7.24 \
 		paste-1.0.15 \
 		pretty-hex-0.2.0 \
 		page_size-0.6.0 \
@@ -164,12 +197,19 @@ CARGO_CRATES=	alsa-0.9.0 \
 		png-0.17.13 \
                 ndk-0.7.0 \
                 ndk-0.8.0 \
+                nom-7.1.3 \
+		num_enum_derive-0.7.2 \
+		num_enum_derive-0.5.1 \
+		num-derive-0.3.0 \
                 num_enum-0.7.2 \
                 num_enum-0.5.1 \
                 num-rational-0.3.0 \
+		nom8-0.2.0 \
 		num-0.1.0 \
 		num-bigint-0.3.0 \
+		num-bigint-0.4.3 \
 		num-traits-0.2.19 \
+		num-traits-0.1.32 \
 		num-complex-0.4.6 \
 		num-integer-0.1.46 \
 		netlink-packet-core-0.5.0 \
@@ -181,6 +221,7 @@ CARGO_CRATES=	alsa-0.9.0 \
 		memalloc-0.1.0 \
 		mime-0.3.17 \
 		mio-0.8.11 \
+		memoffset-0.9.1 \
 		nu-ansi-term-0.49.0 \
                 ndk-context-0.1.1 \
                 mac_address-1.1.6 \
@@ -188,12 +229,14 @@ CARGO_CRATES=	alsa-0.9.0 \
                 muldiv-0.2.0 \
                 miniz_oxide-0.7.3 \
                 malloc_buf-1.0.0 \
-		malloc_buf-0.0.1 \
+#		malloc_buf-0.0.1 \
 		muda-0.13.4 \
 		gtk-0.18.1 \
 		gdkwayland-sys-0.18.0 \
 		gdkx11-sys-0.18.0 \
 		gif-0.13.1 \
+		glib-macros-0.19.7 \
+		glib-macros-0.10.0 \
                 glib-0.19.6 \
                 glib-0.10.0 \
                 glib-sys-0.10.0 \
@@ -210,8 +253,11 @@ CARGO_CRATES=	alsa-0.9.0 \
 		glob-0.3.1 \
 		getrandom-0.2.15 \
 		gethostname-0.3.0 \
+		gimli-0.29.0 \
+		gimli-0.28.0 \
 		httparse-1.8.0 \
 		hmac-0.12.1 \
+		tinyvec-1.6.0 \
 		thiserror-1.0.61 \
 		thiserror-impl-1.0.61 \
 		time-0.3.36 \
@@ -220,9 +266,13 @@ CARGO_CRATES=	alsa-0.9.0 \
 		threadpool-1.8.1 \
 		enquote-1.1.0 \
 		env_logger-0.10.2 \
+		env_logger-0.8.0 \
 		either-1.12.0 \
 		enum-map-2.7.3 \
+		enum-map-derive-0.17.0 \
 		epoll-4.3.3 \
+		kernel32-sys-0.2.2 \
+		fastrand-2.1.0 \
 		filetime-0.2.23 \
 		flexi_logger-0.27.4 \
 		fuser-0.13.0 \
@@ -235,11 +285,21 @@ CARGO_CRATES=	alsa-0.9.0 \
 		futures-io-0.3.30 \
 		futures-task-0.3.30 \
 		futures-macro-0.3.30 \
+		futures-lite-2.3.0 \
+		futures-lite-1.11.0 \
 		form_urlencoded-1.2.1 \
 		foreign-types-0.5.0 \
 		foreign-types-0.4.0 \
 		foreign-types-0.3.0 \
+		rustversion-1.0.17 \
+		rayon-core-1.12.1 \
+		ring-0.17.8 \
+		ring-0.16.7 \
+		rustix-0.38.34 \
+		rustix-0.37.0 \
 		rustls-pemfile-1.0.0 \
+		rustls-pemfile-2.0.0 \
+		rustls-0.20.4 \
 		rust-ini-0.21.0 \
 		rust-ini-0.18.0 \
 		rand-0.8.5 \
@@ -262,6 +322,7 @@ CARGO_CRATES=	alsa-0.9.0 \
 		rustls-platform-verifier-android-0.1.0 \
 		ryu-1.0.18 \
 		rustc-demangle-0.1.24 \
+		redox_users-0.4.5 \
 		redox_syscall-0.4.1 \
 		rtoolbox-0.0.2 \
 		realfft-3.3.0 \
@@ -274,7 +335,7 @@ CARGO_CRATES=	alsa-0.9.0 \
 		tokio-native-tls-0.3.1 \
 		tokio-rustls-0.26.0 \
 		tokio-macros-2.2.0 \
-		tokio-rustls-0.26.0 \
+		tokio-rustls-0.24.0 \
 		toml-0.7.2 \
 		toml-0.5.0 \
 		toml_datetime-0.6.6 \
@@ -283,7 +344,10 @@ CARGO_CRATES=	alsa-0.9.0 \
 		tempfile-3.10.1 \
 		utf16string-0.2.0 \
 		users-0.11.0 \
+		users-0.10.0 \
 		uname-0.1.1 \
+		phf_shared-0.11.2 \
+		phf_shared-0.7.24 \
 		futures-0.3.30 \
 		futures-util-0.3.30 \
 		rustls-pki-types-1.7.0 \
@@ -294,6 +358,12 @@ CARGO_CRATES=	alsa-0.9.0 \
                 quest-0.3.0 \
 		qoi-0.4.1 \
 		whoami-1.5.0 \
+		subtle-2.5.0 \
+		signature-2.2.0 \
+		signature-1.0.0 \
+		system-deps-6.2.2 \
+		system-deps-1.3.0 \
+		same-file-1.0.6 \
 		sync_wrapper-1.0.1 \
 		sync_wrapper-0.1.2 \
 		slab-0.4.9 \
@@ -302,16 +372,20 @@ CARGO_CRATES=	alsa-0.9.0 \
 		sys-locale-0.3.1 \
 		syn-2.0.65 \
 		syn-0.15.41 \
+		syn-1.0.0 \
 		shared_memory-0.12.4 \
 		sodiumoxide-0.2.7 \
 		socket2-0.3.19 \
 		socket2-0.5.5 \
+		socket2-0.4.0 \
 		sysinfo-0.30.12 \
+		signal-hook-0.3.17 \
 		signal-hook-registry-1.4.2 \
 		serde_urlencoded-0.7.1 \
 		serde_derive-1.0.1 \
 		serde_derive-1.0.202 \
 		serde-1.0.202 \
+		serde-0.9.11 \
 		serde_json-1.0.117 \
 		serde_json-0.9.10 \
 		serde_repr-0.1.19 \
@@ -326,8 +400,10 @@ CARGO_CRATES=	alsa-0.9.0 \
 		strum_macros-0.24.0 \
 		smallvec-1.13.2 \
 		shadow-rs-0.21.0 \
+		schannel-0.1.23 \
 		zstd-0.13.1 \
 		zstd-0.10.0+zstd.1.5.2 \
+		zstd-sys-2.0.10+zstd.1.5.6 \
 		zstd-safe-7.1.0 \
 		cfg-if-0.1.10 \
 		lazy_static-1.4.0 \
@@ -336,6 +412,9 @@ CARGO_CRATES=	alsa-0.9.0 \
 		scopeguard-1.2.0 \
 		repng-0.2.0 \
 		parity-tokio-ipc-0.9.0 \
+		pam-macros-0.0.3 \
+		pam-sys-0.5.6 \
+		pam-sys-1.0.0-alpha4 \
 		magnum-opus-0.3.2 \
 		dasp-0.11.0 \
 		dasp_envelope-0.11.0 \
@@ -352,6 +431,7 @@ CARGO_CRATES=	alsa-0.9.0 \
 		samplerate-0.2.0 \
 		uuid-1.3.0 \
 		clap-4.2.0 \
+		clap-2.0.0 \
 		rpassword-7.2.0 \
 		rpassword-2.1.0 \
 		num_cpus-1.15.0 \
@@ -365,6 +445,7 @@ CARGO_CRATES=	alsa-0.9.0 \
 		errno-dragonfly-0.1.2  \
 		exr-1.72.0 \
 		rdev-0.5.3 \
+		untrusted-0.9.0 \
 		url-2.3.0 \
 		url-2.4.0 \
 		urlencoding-2.1.3 \
@@ -380,7 +461,9 @@ CARGO_CRATES=	alsa-0.9.0 \
 		shutdown_hooks-0.1.0 \
 		totp-rs-5.4.0 \
 		target_build_utils-0.3.1 \
+		unicode-ident-1.0.2 \
 		unicode-segmentation-1.11.0 \
+		include_dir_macros-0.7.3 \
 		once_cell-1.19.0 \
 		osascript-0.3.0 \
 		os_info-3.8.2 \
@@ -391,8 +474,15 @@ CARGO_CRATES=	alsa-0.9.0 \
 		object-0.32.0 \
 		os-version-0.2.0 \
 		oboe-0.6.1 \
+		openssl-0.10.64 \
+		openssl-probe-0.1.5 \
+		openssl-sys-0.9.102 \
+		inotify-sys-0.1.5 \
+		indexmap-2.2.6 \
+		indexmap-1.9.1 \
 		ipnet-2.9.0 \
 		itoa-1.0.11 \
+		itoa-0.3.0 \
 		idna-0.5.0 \
 		idna-0.2.0 \
 		is-terminal-0.4.12 \
@@ -402,18 +492,28 @@ CARGO_CRATES=	alsa-0.9.0 \
 		quinn-udp-0.3.0 \
 		quote-1.0.36 \
 		quote-0.6.0 \
+		quote-0.6.12 \
 		qrcode-generator-4.1.9 \
 		qrcodegen-1.8.0 \
+		quick-xml-0.23.0 \
 		image-0.25.1 \
 		image-0.24.9 \
 		instant-0.1.13 \
 		tauri-winrt-notification-0.3.0 \
 		tauri-winrt-notification-0.1.2 \
+		windows-core-0.56.0 \
+		windows-core-0.51.0 \
+		windows-targets-0.52.5 \
+		windows-targets-0.42.1 \
+		windows-targets-0.48.2 \
 		windows-implement-0.56.0 \
 		windows-implement-0.52.0 \
 		windows-sys-0.52.0 \
 		windows-sys-0.45.0 \
 		windows-sys-0.48.0 \
+		windows-sys-0.42.0 \
+		wasi-0.13.1+wasi-0.2.0 \
+		wasi-0.11.0+wasi-snapshot-preview1 \
 		wasite-0.1.0 \
 		wasm-bindgen-0.2.80 \
 		wasm-bindgen-0.2.81 \
@@ -423,8 +523,10 @@ CARGO_CRATES=	alsa-0.9.0 \
 		wasm-bindgen-macro-support-0.2.80 \
 		wasm-bindgen-shared-0.2.80 \
 		wasm-bindgen-futures-0.4.42 \
+		win-sys-0.3.1 \
 		widestring-1.1.0 \
 		winapi-0.3.9 \
+		winapi-0.2.0 \
 		winapi-i686-pc-windows-gnu-0.4.0 \
 		winapi-util-0.1.5 \
 		winapi-x86_64-pc-windows-gnu-0.4.0 \
@@ -435,8 +537,11 @@ CARGO_CRATES=	alsa-0.9.0 \
 		windows-service-0.6.0 \
 		which-6.0.1 \
 		which-4.2.1 \
+		which-4.3.0 \
+		which-3.0.0 \
 		walkdir-2.5.0 \
 		webpki-0.22.4 \
+		webpki-roots-0.25.0 \
 		web-sys-0.3.69 \
 		windows-0.52.0 \
 		windows-0.51.0 \
@@ -444,6 +549,7 @@ CARGO_CRATES=	alsa-0.9.0 \
 		windows-0.32.0 \
 		windows-0.44.0 \
 		windows-0.54.0 \
+		windows-0.39.0 \
 		webpki-roots-0.26.1 \
 		winapi-wsapoll-0.1.2 \
 		windows-version-0.1.1 \
@@ -456,7 +562,9 @@ CARGO_CRATES=	alsa-0.9.0 \
 		zerocopy-0.6.0 \
 		zbus-4.2.2 \
 		zbus-3.12.0 \
+		zeroize-1.7.0 \
 		hwcodec@git+https://github.com/21pages/hwcodec\#9cb895fdaea198dd72bd75980109dbd05a059a60 \
+		hwcodec@git+https://github.com/21pages/hwcodec\#7a52282267cb6aadbcd74c132bd4ecd43ab6f505 \
 		webm@git+https://github.com/21pages/rust-webm\#d2c4d3ac133c7b0e4c0f656da710b48391981e64 \
 		confy@git+https://github.com/open-trade/confy\#630cc28a396cb7d01eefdd9f3824486fe4d8554b \
 		sysinfo@git+https://github.com/rustdesk-org/sysinfo\#f45dcc6510d48c3a1401c5a33eedccc8899f67b2 \
