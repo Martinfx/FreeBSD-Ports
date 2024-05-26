@@ -101,6 +101,8 @@ CARGO_CRATES=	atomic-0.5.0 \
 		cfg_aliases-0.1.1 \
 		clap_lex-0.7.0 \
 		clap_lex-0.4.0 \
+		cipher-0.3.0 \
+		cipher-0.4.4 \
 		dtoa-1.0.9 \
 		dtoa-0.4.0 \
 		docopt-1.1.1 \
@@ -485,6 +487,7 @@ CARGO_CRATES=	atomic-0.5.0 \
 		unicode-xid-0.2.4 \
 		unicode-segmentation-1.11.0 \
 		include_dir_macros-0.7.3 \
+		opaque-debug-0.3.1 \
 		option-ext-0.2.0 \
 		once_cell-1.19.0 \
 		osascript-0.3.0 \
@@ -510,6 +513,7 @@ CARGO_CRATES=	atomic-0.5.0 \
 		itoa-1.0.11 \
 		itoa-0.3.0 \
 		idna-0.5.0 \
+		idna-0.4.0 \
 		idna-0.2.0 \
 		is-terminal-0.4.12 \
 		inotify-0.10.2 \
