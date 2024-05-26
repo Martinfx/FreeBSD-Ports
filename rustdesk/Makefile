@@ -66,6 +66,7 @@ CARGO_CRATES=	atomic-0.5.0 \
 		bytemuck-1.16.0 \
 		build-target-0.4.0 \
 		bzip2-0.4.4 \
+		bzip2-sys-0.1.11+1.0.8 \
 		cmake-0.1.50 \
 		cfg-if-1.0.0 \
 		crypto-common-0.1.6 \
@@ -103,6 +104,7 @@ CARGO_CRATES=	atomic-0.5.0 \
 		clap_lex-0.4.0 \
 		cipher-0.3.0 \
 		cipher-0.4.4 \
+		deranged-0.3.11  \
 		dtoa-1.0.9 \
 		dtoa-0.4.0 \
 		docopt-1.1.1 \
@@ -176,6 +178,7 @@ CARGO_CRATES=	atomic-0.5.0 \
 		humantime-2.1.0 \
 		hashbrown-0.14.5 \
 		html-escape-0.2.13 \
+		password-hash-0.3.0 \
 		ppv-lite86-0.2.17 \
                 pkg-config-0.3.27 \
                 protobuf-3.4.0 \
