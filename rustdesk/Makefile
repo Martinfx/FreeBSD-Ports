@@ -15,7 +15,11 @@ USE_GITHUB=     yes
 GH_ACCOUNT=     rustdesk
 GH_PROJECT=     rustdesk
 
-CARGO_CRATES=	ahash-0.8.11 \
+CARGO_CRATES=	atomic-0.5.0 \
+		anstyle-0.3.5 \
+		anstream-0.6.14 \
+		anstream-0.2.5 \
+		ahash-0.8.11 \
 		adler-1.0.2 \
 		autocfg-1.3.0 \
 		alsa-0.9.0 \
@@ -41,7 +45,10 @@ CARGO_CRATES=	ahash-0.8.11 \
 		bindgen-0.65.1 \
 		bindgen-0.59.0 \
 		block-0.1.6 \
+		block-buffer-0.10.4 \
 		block2-0.2.0-alpha.6 \
+		block-sys-0.2.1 \
+		block-sys-0.1.0-beta.1 \
 		blocking-1.6.0 \
 		backtrace-0.3.71 \
 		base64-0.22.1 \
@@ -59,7 +66,9 @@ CARGO_CRATES=	ahash-0.8.11 \
 		bytemuck-1.16.0 \
 		build-target-0.4.0 \
 		bzip2-0.4.4 \
+		cmake-0.1.50 \
 		cfg-if-1.0.0 \
+		crypto-common-0.1.6 \
 		coreaudio-rs-0.12.0 \
 		coreaudio-rs-0.11.0 \
 		core-graphics-0.23.0 \
@@ -90,6 +99,8 @@ CARGO_CRATES=	ahash-0.8.11 \
 		clipboard-win-5.3.1 \
 		cfg_aliases-0.2.1 \
 		cfg_aliases-0.1.1 \
+		clap_lex-0.7.0 \
+		clap_lex-0.4.0 \
 		dtoa-1.0.9 \
 		dtoa-0.4.0 \
 		docopt-1.1.1 \
@@ -104,6 +115,7 @@ CARGO_CRATES=	ahash-0.8.11 \
 		dlopen-0.1.8 \
 		dlopen2-0.4.0 \
 		dlopen_derive-0.1.4 \
+		dlopen2_derive-0.2.0 \
 		dashmap-5.5.3 \
 		dart-sys-4.1.5 \
 		dispatch-0.2.0 \
@@ -134,7 +146,6 @@ CARGO_CRATES=	ahash-0.8.11 \
 		libc-0.2.150 \
 		libc-0.2.154 \
 		libc-0.2.50 \
-#		libc-0.1.0 \
 		libpulse-sys-1.21.0 \
 		libpulse-simple-binding-2.28.1 \
 		libpulse-binding-2.28.1 \
@@ -177,6 +188,7 @@ CARGO_CRATES=	ahash-0.8.11 \
 		prettyplease-0.2.20 \
 		proc-macro2-1.0.83 \
 		proc-macro2-0.4.0 \
+		proc-macro2-0.4.4 \
 		pin-project-internal-1.1.5 \
 		pin-project-lite-0.2.14 \
 		pin-project-1.1.5 \
@@ -212,16 +224,19 @@ CARGO_CRATES=	ahash-0.8.11 \
 		num-traits-0.1.32 \
 		num-complex-0.4.6 \
 		num-integer-0.1.46 \
+		netlink-packet-utils-0.5.2 \
 		netlink-packet-core-0.5.0 \
 		netlink-packet-route-0.15.0 \
 		netlink-sys-0.8.6 \
 		native-tls-0.2.11 \
+		malloc_buf-0.0.6 \
 		mach2-0.4.2 \
 		memchr-2.7.2 \
 		memalloc-0.1.0 \
 		mime-0.3.17 \
 		mio-0.8.11 \
 		memoffset-0.9.1 \
+		memoffset-0.7.0 \
 		nu-ansi-term-0.49.0 \
                 ndk-context-0.1.1 \
                 mac_address-1.1.6 \
@@ -229,7 +244,6 @@ CARGO_CRATES=	ahash-0.8.11 \
                 muldiv-0.2.0 \
                 miniz_oxide-0.7.3 \
                 malloc_buf-1.0.0 \
-#		malloc_buf-0.0.1 \
 		muda-0.13.4 \
 		gtk-0.18.1 \
 		gdkwayland-sys-0.18.0 \
@@ -262,6 +276,7 @@ CARGO_CRATES=	ahash-0.8.11 \
 		thiserror-impl-1.0.61 \
 		time-0.3.36 \
 		time-0.1.36 \
+		time-0.1.43 \
 		tiff-0.9.1 \
 		threadpool-1.8.1 \
 		enquote-1.1.0 \
@@ -291,6 +306,7 @@ CARGO_CRATES=	ahash-0.8.11 \
 		foreign-types-0.5.0 \
 		foreign-types-0.4.0 \
 		foreign-types-0.3.0 \
+		rustfft-6.2.0 \
 		rustversion-1.0.17 \
 		rayon-core-1.12.1 \
 		ring-0.17.8 \
@@ -324,6 +340,7 @@ CARGO_CRATES=	ahash-0.8.11 \
 		rustc-demangle-0.1.24 \
 		redox_users-0.4.5 \
 		redox_syscall-0.4.1 \
+		redox_syscall-0.5.0 \
 		rtoolbox-0.0.2 \
 		realfft-3.3.0 \
 		tracing-0.1.40 \
@@ -358,6 +375,7 @@ CARGO_CRATES=	ahash-0.8.11 \
                 quest-0.3.0 \
 		qoi-0.4.1 \
 		whoami-1.5.0 \
+		static_assertions-1.1.0 \
 		subtle-2.5.0 \
 		signature-2.2.0 \
 		signature-1.0.0 \
@@ -444,6 +462,7 @@ CARGO_CRATES=	ahash-0.8.11 \
 		errno-0.3.0 \
 		errno-dragonfly-0.1.2  \
 		exr-1.72.0 \
+		iana-time-zone-0.1.60 \
 		rdev-0.5.3 \
 		untrusted-0.9.0 \
 		url-2.3.0 \
@@ -462,12 +481,19 @@ CARGO_CRATES=	ahash-0.8.11 \
 		totp-rs-5.4.0 \
 		target_build_utils-0.3.1 \
 		unicode-ident-1.0.2 \
+		unicode-xid-0.1.0 \
+		unicode-xid-0.2.4 \
 		unicode-segmentation-1.11.0 \
 		include_dir_macros-0.7.3 \
+		option-ext-0.2.0 \
 		once_cell-1.19.0 \
 		osascript-0.3.0 \
 		os_info-3.8.2 \
+		objc2-encode-4.0.3 \
+		objc2-encode-2.0.0-pre.2 \
 		objc-0.2.7 \
+		objc-sys-0.3.5 \
+		objc-sys-0.2.0-beta.2 \
 		objc-foundation-0.1.1 \
 		objc2-0.3.0-beta.2 \
 		objc_id-0.1.1 \
@@ -512,12 +538,18 @@ CARGO_CRATES=	ahash-0.8.11 \
 		windows-sys-0.45.0 \
 		windows-sys-0.48.0 \
 		windows-sys-0.42.0 \
+		windows_aarch64_msvc-0.32.0 \
+		windows_i686_gnu-0.32.0 \
+		windows_i686_msvc-0.32.0 \
+		windows_x86_64_gnu-0.32.0 \
+		windows_x86_64_msvc-0.32.0 \
 		wasi-0.13.1+wasi-0.2.0 \
 		wasi-0.11.0+wasi-snapshot-preview1 \
 		wasite-0.1.0 \
 		wasm-bindgen-0.2.80 \
 		wasm-bindgen-0.2.81 \
 		wasm-bindgen-0.2.89 \
+		wasm-bindgen-0.2.92 \
 		wasm-bindgen-backend-0.2.80 \
 		wasm-bindgen-macro-0.2.80 \
 		wasm-bindgen-macro-support-0.2.80 \
@@ -563,8 +595,9 @@ CARGO_CRATES=	ahash-0.8.11 \
 		zbus-4.2.2 \
 		zbus-3.12.0 \
 		zeroize-1.7.0 \
-		hwcodec@git+https://github.com/21pages/hwcodec\#9cb895fdaea198dd72bd75980109dbd05a059a60 \
-		hwcodec@git+https://github.com/21pages/hwcodec\#7a52282267cb6aadbcd74c132bd4ecd43ab6f505 \
+		zerocopy-derive-0.7.34 \
+		zerocopy-derive-0.3.0 \
+		hwcodec@git+https://github.com/21pages/hwcodec\#6cc37ceaa82593f14914e358164a1acb78c5a9f1 \
 		webm@git+https://github.com/21pages/rust-webm\#d2c4d3ac133c7b0e4c0f656da710b48391981e64 \
 		confy@git+https://github.com/open-trade/confy\#630cc28a396cb7d01eefdd9f3824486fe4d8554b \
 		sysinfo@git+https://github.com/rustdesk-org/sysinfo\#f45dcc6510d48c3a1401c5a33eedccc8899f67b2 \
