@@ -15,7 +15,9 @@ LICENSE=	GPLv3
 NO_BUILD=	yes
 ONLY_FOR_ARCH=	amd64 arm64
 
-PLIST_FILES=	bin/rymdport
+PLIST_FILES=	bin/rymdport \
+		share/applications/Rymdport.desktop \
+		share/pixmaps/Rymdport.png
 
 do-install:
 	${INSTALL_PROGRAM} ${WRKDIR}/usr/local/bin/${PORTNAME} ${STAGEDIR}${PREFIX}/bin
