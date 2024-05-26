@@ -10,8 +10,10 @@ CATEGORIES=	net-im
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Cross-platform application for easy encrypted file, \
 		folder, and text sharing between devices.
+WWW=		https://rymdport.github.io/
 
 LICENSE=	GPLv3
+USES=		desktop-file-utils
 NO_BUILD=	yes
 ONLY_FOR_ARCH=	amd64 arm64
 
