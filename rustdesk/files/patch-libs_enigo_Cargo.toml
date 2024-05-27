@@ -1,0 +1,11 @@
+--- libs/enigo/Cargo.toml.orig	2024-05-29 10:29:13 UTC
++++ libs/enigo/Cargo.toml
+@@ -22,7 +22,7 @@ appveyor = { repository = "pythoneer/enigo-85xiy" }
+ serde = { version = "1.0", optional = true }
+ serde_derive = { version = "1.0", optional = true }
+ log = "0.4"
+-rdev = { git = "https://github.com/fufesou/rdev" }
++rdev = { git = "https://github.com/MartinFx/rdev" }
+ tfc = { git = "https://github.com/fufesou/The-Fat-Controller" }
+ hbb_common = { path = "../hbb_common" }
+ 
