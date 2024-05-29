@@ -3,6 +3,8 @@ DISTVERSIONPREFIX=v
 DISTVERSION=	3.6.0
 CATEGORIES=	net-im
 
+MASTER_SITES=	https://salsa.debian.org/vasudev/gospake2/-/archive/d9162995/
+DISTFILES=	gospake2-d9162995.tar.gz
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Cross-platform application for easy encrypted file, \
 		folder, and text sharing between devices.
@@ -10,11 +12,11 @@ WWW=		https://rymdport.github.io/
 
 LICENSE=	GPLv3
 
-USES=		go:1.22 desktop-file-utils
+USES=		go:1.22 go:modules xorg gl
 USE_XORG=	x11 xau xcb xdmcp
 USE_GL=		gl
-USE_GITHUB=	yes
-GH_ACCOUNT=	jacalz
+USE_GITHUB=    yes
+GH_ACCOUNT=    jacalz
 
 GH_TUPLE=	\
 		davecgh:go-spew:v1.1.1:davecgh_go_spew/vendor/github.com/davecgh/go-spew \
@@ -34,7 +36,7 @@ GH_TUPLE=	\
 		go-text:typesetting:v0.1.0:go_text_typesetting/vendor/github.com/go-text/typesetting \
 		go-yaml:yaml:v3.0.1:go_yaml_yaml/vendor/gopkg.in/yaml.v3 \
 		godbus:dbus:v5.1.0:godbus_dbus_v5/vendor/github.com/godbus/dbus/v5 \
-		golang:crypto:v0.18.0:golang_crypto/vendor/golang.org/x/crypto \
+		golang:crypto:v0.18.0:golang_crypto/../src/golang.org/x/crypto \
 		golang:image:v0.11.0:golang_image/vendor/golang.org/x/image \
 		golang:mobile:3c911d8e3eda:golang_mobile/vendor/golang.org/x/mobile \
 		golang:net:v0.17.0:golang_net/vendor/golang.org/x/net \
@@ -51,34 +53,21 @@ GH_TUPLE=	\
 		srwiley:rasterx:2ab79fcdd4ef:srwiley_rasterx/vendor/github.com/srwiley/rasterx \
 		stretchr:testify:v1.9.0:stretchr_testify/vendor/github.com/stretchr/testify \
 		tevino:abool:v1.2.0:tevino_abool/vendor/github.com/tevino/abool \
-		yuin:goldmark:v1.5.5:yuin_goldmark/vendor/github.com/yuin/goldmark
+		yuin:goldmark:v1.5.5:yuin_goldmark/vendor/github.com/yuin/goldmark 
 
-
-PLIST_FILES=	bin/rymdport \
-		share/applications/io.github.jacalz.rymdport.desktop \
-		share/icons/hicolor/icon-128.png \
-		share/icons/hicolor/icon-16.png \
-		share/icons/hicolor/icon-24.png \
-		share/icons/hicolor/icon-256.png \
-		share/icons/hicolor/icon-32.png \
-		share/icons/hicolor/icon-48.png \
-		share/icons/hicolor/icon-512.png \
-		share/icons/hicolor/icon-64.png
-
-MAKE_ENV=	${GO_ENV}
-
-post-extract:
-	${MKDIR} ${WRKDIR}/src/github.com/Jacalz/rymdport/v3/internal/assets
-	${LN} -s ${WRKSRC}/src/rymdport/internal/assets ${WRKDIR}/src/github.com/Jacalz/rymdport/v3/internal/assets
-
-do-install:
-	${INSTALL_PROGRAM} ${WRKDIR}/bin/${PORTNAME} ${STAGEDIR}${PREFIX}/bin
+pre-build:
+	${MKDIR} ${WRKDIR}/src/salsa.debian.org/vasudev/gospake2;
+	${TAR} -C ${WRKDIR}/src/salsa.debian.org/vasudev/gospake2 --strip-components=1 -xvf ${DISTDIR}/gospake2-d9162995.tar.gz;
+	${REINPLACE_CMD} 's|github.com/Jacalz/rymdport/v3|rymdport|g' ${WRKSRC}/main.go ${WRKSRC}/internal/ui/about.go \
+	${WRKSRC}/internal/ui/settings.go  ${WRKSRC}/internal/ui/send.go  ${WRKSRC}/internal/ui/recv.go ${WRKSRC}/internal/ui/tabs.go \
+	${WRKSRC}/internal/transport/bridge/recv.go  ${WRKSRC}/internal/transport/bridge/send.go ${WRKSRC}/internal/transport/sender.go \
+	${WRKSRC}/internal/transport/receiver.go
+post-stage:
 	${INSTALL_DATA} ${WRKSRC}/internal/assets/unix/io.github.jacalz.${PORTNAME}.desktop \
-		${STAGEDIR}${DESKTOPDIR}
+	       ${STAGEDIR}${DESKTOPDIR}
 .for s in 16 24 32 48 64 128 256 512
 	${MKDIR} ${STAGEDIR}${PREFIX}/share/icons/hicolor/
 	${INSTALL_DATA} ${WRKSRC}/internal/assets/icons/icon-${s}.png \
-                ${STAGEDIR}${PREFIX}/share/icons/hicolor/
+        ${STAGEDIR}${PREFIX}/share/icons/hicolor/
 .endfor
-
 .include <bsd.port.mk>
