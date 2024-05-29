@@ -12,8 +12,8 @@ WWW=		https://rymdport.github.io/
 
 LICENSE=	GPLv3
 
-USES=		go:1.22 go:modules xorg gl
-USE_XORG=	x11 xau xcb xdmcp
+USES=		go:1.22 go:modules pkgconfig xorg gl
+USE_XORG=	x11 xau xi xcb xcursor xdmcp xrandr xinerama
 USE_GL=		gl
 USE_GITHUB=    yes
 GH_ACCOUNT=    jacalz
