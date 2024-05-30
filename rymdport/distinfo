@@ -1,4 +1,6 @@
-TIMESTAMP = 1716731019
+TIMESTAMP = 1717016688
+SHA256 (gospake2-d9162995.tar.gz) = bd1ae996faf7126b2d8466747deaf97c5faf2b7d1ebc54ac92751f2b17a63236
+SIZE (gospake2-d9162995.tar.gz) = 44284
 SHA256 (jacalz-rymdport-v3.6.0_GH0.tar.gz) = 7e29a7ae26a22925efe777278165ff555b2dd5e0d2557f4fff1b56ae725ec8ae
 SIZE (jacalz-rymdport-v3.6.0_GH0.tar.gz) = 181169
 SHA256 (davecgh-go-spew-v1.1.1_GH0.tar.gz) = 7d82b9bb7291adbe7498fe946920ab3e7fc9e6cbfc3b2294693fad00bf0dd17e
