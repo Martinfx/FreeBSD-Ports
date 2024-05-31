@@ -784,6 +784,6 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		parity-tokio-ipc@git+https://github.com/rustdesk-org/parity-tokio-ipc\#e8448ade10d6d972d0b2307646424b36ab202ff5
 
 CARGO_FEATURES+=linux-pkg-config
- 
+MAKE_ENV+=	RUSTFLAGS="-I/usr/local/include/"
 
 .include <bsd.port.mk>
