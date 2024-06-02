@@ -15,7 +15,7 @@ USES=		pkgconfig
 LICENSE=	APACHE20
 LICENSE_FILE=	${WRKSRC}/LICENSE.md
 
-BUILD_DEPENDS=	maven>=3.9.0:devel/maven
+BUILD_DEPENDS=	maven39>0:devel/maven39
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	dbeaver
@@ -28,7 +28,7 @@ MAVEN_ENV=	MAVEN_OPTS=-Xmx1024m CC=${CC} CFLAGS="${CFLAGS}" JAVA_HOME=${JAVA_HOM
 pre-configure:
 	@mv ${WRKDIR}/dbeaver-common-23.2.5 ${WRKDIR}/dbeaver-common
 do-configure:
-	@cd ${WRKSRC}/product/aggregate && ${SETENV} ${MAVEN_ENV} mvn clean install -Pall-platforms -T 1C -DskipTests verify
+	@cd ${WRKSRC}/product/aggregate && ${SETENV} ${MAVEN_ENV} mvn clean install -Pall-platforms -T 1C -DskipTests verify -X
 
 #do-install:
 
