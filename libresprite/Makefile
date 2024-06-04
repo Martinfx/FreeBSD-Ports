@@ -14,7 +14,11 @@ USE_SDL=	sdl2 image
 LICENSE=        GPLv2
 LICENSE_FILE=   ${WRKSRC}/LICENSE.txt
 
-BUILD_DEPENDS=	sdl2_image>0:graphics/sdl2_image
+BUILD_DEPENDS=	curl>0:ftp/curl \
+		sdl2_image>0:graphics/sdl2_image \
+		freetype2>0:print/freetype2 \
+		pixman>0:x11/pixman \
+		tinyxml2>0:textproc/tinyxml2
 
 USE_GITHUB=     yes
 GH_ACCOUNT=     LibreSprite
