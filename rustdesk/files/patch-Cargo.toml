@@ -18,3 +18,12 @@
  url = { version = "2.3", features = ["serde"] }
  crossbeam-queue = "0.3"
  hex = "0.4"
+@@ -84,7 +84,7 @@ ringbuf = "0.3"
+ 
+ [target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
+ mac_address = "1.1"
+-sciter-rs = { git = "https://github.com/open-trade/rust-sciter", branch = "dyn" }
++sciter-rs = { git = "https://github.com/Martinfx/rust-sciter", branch = "master" }
+ sys-locale = "0.3"
+ enigo = { path = "libs/enigo", features = [ "with_serde" ] }
+ clipboard = { path = "libs/clipboard" }

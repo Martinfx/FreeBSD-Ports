@@ -1,5 +1,5 @@
 PORTNAME=	rustdesk
-DISTVERSION=	1.2.4
+DISTVERSION=	1.2.5
 CATEGORIES=	deskutils
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -17,8 +17,10 @@ GH_PROJECT=     rustdesk
 GH_TAGNAME=	d2f119b
 
 
-BUILD_DEPENDS+=	=libwebm>0:multimedia/libwebm \
-		opus>0:audio/opus
+BUILD_DEPENDS+=	libwebm>0:multimedia/libwebm \
+		opus>0:audio/opus \
+		libyuv>0:graphics/libyuv \
+		libvpx>0:multimedia/libvpx
 
 CARGO_CRATES=	addr2line-0.21.0 \
 		adler-1.0.2 \
@@ -755,7 +757,7 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		zvariant-3.15.0 \
 		zvariant_derive-3.15.0 \
 		zvariant_utils-1.0.1 \
-		sciter-rs@git+https://github.com/open-trade/rust-sciter?branch=dyn\#fab913b7c2e779b05c249b0c5de5a08759b2c15d \
+		sciter-rs@git+https://github.com/Martinfx/rust-sciter?branch=master\#c27203843d9ef4fbe6e21608ad5f0b479425ec01 \
 		confy@git+https://github.com/rustdesk-org/confy\#83db9ec19a2f97e9718aef69e4fc5611bb382479 \
 		tray-icon@git+https://github.com/tauri-apps/tray-icon\#b8dbd42c6f94a29f34b0a0daa619486277185512 \
 		mouce@git+https://github.com/fufesou/mouce.git\#ed83800d532b95d70e39915314f6052aa433e9b9 \
@@ -777,13 +779,13 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		sysinfo@git+https://github.com/rustdesk-org/sysinfo\#f45dcc6510d48c3a1401c5a33eedccc8899f67b2 \
 		arboard@git+https://github.com/fufesou/arboard?branch=feat/x11_set_conn_timeout\#956b5f8693b4fc7fddd7b8cafbe1111a892b34b1 \
 		wallpaper@git+https://github.com/21pages/wallpaper.rs\#ce4a0cd3f58327c7cc44d15a63706fb0c022bacf \
-		tfc@git+https://github.com/fufesou/The-Fat-Controller\#9dd86151525fd010dc93f6bc9b6aedd1a75cc342 \
+		tfc@git+https://github.com/Martinfx/The-Fat-Controller\#8078f423e13ca75b5dc953e0bcd0f6104243a311 \
 		pam@git+https://github.com/fufesou/pam\#10da2cbbabe32cbc9de22a66abe44738e7ec0ea0 \
-		magnum-opus@git+https://github.com/Martinfx/magnum-opus\#f99a13f1d772b9a36e9087b28b7138a41c9a6e08 \
+		magnum-opus@git+https://github.com/Martinfx/magnum-opus\#0e9de9212c92c8d2c6bb1a249b7faedee4f285e8 \
 		core-foundation,core-foundation-sys,core-graphics,core-graphics-types@git+https://github.com/madsmtm/core-foundation-rs.git?rev=7d593d016175755e492a92ef89edca68ac3bd5cd\#7d593d016175755e492a92ef89edca68ac3bd5cd \
 		parity-tokio-ipc@git+https://github.com/rustdesk-org/parity-tokio-ipc\#e8448ade10d6d972d0b2307646424b36ab202ff5
 
 CARGO_FEATURES+=linux-pkg-config
-MAKE_ENV+=	RUSTFLAGS="-I/usr/local/include/"
+#MAKE_ENV+=	RUSTFLAGS="-I/usr/local/include/"
 
 .include <bsd.port.mk>
