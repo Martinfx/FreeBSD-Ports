@@ -1,5 +1,5 @@
-TIMESTAMP = 1717241387
-SHA256 (dbeaver/23.2.5.tar.gz) = fd6755d66a302b7a85db29a1730abb98e684d2c667bb283c6d932839f7e08406
-SIZE (dbeaver/23.2.5.tar.gz) = 61557
-SHA256 (dbeaver/dbeaver-dbeaver-24.0.5_GH0.tar.gz) = c30be0ff8e6770a0dcdd704a5c0a00dcd028850f4dd7f84f56e92ea6462b4e12
-SIZE (dbeaver/dbeaver-dbeaver-24.0.5_GH0.tar.gz) = 10389622
+TIMESTAMP = 1717609005
+SHA256 (dbeaver-dbeaver-24.0.5_GH0.tar.gz) = c30be0ff8e6770a0dcdd704a5c0a00dcd028850f4dd7f84f56e92ea6462b4e12
+SIZE (dbeaver-dbeaver-24.0.5_GH0.tar.gz) = 10389622
+SHA256 (dbeaver-dbeaver-common-fd76bbe199dd81d6538c188b1c5854094f7bdd0b_GH0.tar.gz) = bf157f24580d1db54df39373751a0271583fe4e3f8829b2a892af71ee51b755f
+SIZE (dbeaver-dbeaver-common-fd76bbe199dd81d6538c188b1c5854094f7bdd0b_GH0.tar.gz) = 62100
