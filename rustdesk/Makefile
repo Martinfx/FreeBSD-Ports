@@ -573,7 +573,6 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		system-configuration-sys-0.5.0 \
 		system-deps-1.3.2 \
 		system-deps-6.1.2 \
-		system_shutdown-4.0.1 \
 		tap-1.0.1 \
 		target-lexicon-0.12.12 \
 		target_build_utils-0.3.1 \
@@ -761,7 +760,7 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		confy@git+https://github.com/rustdesk-org/confy\#83db9ec19a2f97e9718aef69e4fc5611bb382479 \
 		tray-icon@git+https://github.com/tauri-apps/tray-icon\#b8dbd42c6f94a29f34b0a0daa619486277185512 \
 		mouce@git+https://github.com/fufesou/mouce.git\#ed83800d532b95d70e39915314f6052aa433e9b9 \
-		webm,webm-sys@git+https://github.com/21pages/rust-webm\#d2c4d3ac133c7b0e4c0f656da710b48391981e64 \
+		webm,webm-sys@git+https://github.com/Martinfx/rust-webm\#40e75a231305e87d75f16a99149197206fcf345c \
 		tao,tao-macros@git+https://github.com/rustdesk-org/tao?branch=dev\#1cad16b200485bbccc67dcee2d339eac6e1c16ad \
 		rdev@git+https://github.com/Martinfx/rdev\#ed8d82a0068ec41b8982d6f308d9f92fbf2fb91a \
 		android-wakelock@git+https://github.com/21pages/android-wakelock\#d0292e5a367e627c4fa6f1ca6bdfad005dca7d90 \
@@ -783,7 +782,8 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		pam@git+https://github.com/fufesou/pam\#10da2cbbabe32cbc9de22a66abe44738e7ec0ea0 \
 		magnum-opus@git+https://github.com/Martinfx/magnum-opus\#0e9de9212c92c8d2c6bb1a249b7faedee4f285e8 \
 		core-foundation,core-foundation-sys,core-graphics,core-graphics-types@git+https://github.com/madsmtm/core-foundation-rs.git?rev=7d593d016175755e492a92ef89edca68ac3bd5cd\#7d593d016175755e492a92ef89edca68ac3bd5cd \
-		parity-tokio-ipc@git+https://github.com/rustdesk-org/parity-tokio-ipc\#e8448ade10d6d972d0b2307646424b36ab202ff5
+		parity-tokio-ipc@git+https://github.com/rustdesk-org/parity-tokio-ipc\#e8448ade10d6d972d0b2307646424b36ab202ff5 \
+		system_shutdown@git+https://github.com/Martinfx/system_shutdown\#ad64ce5a25e1419af16c07f6f3fc7ed2ef96a3e6
 
 CARGO_FEATURES+=linux-pkg-config
 #MAKE_ENV+=	RUSTFLAGS="-I/usr/local/include/"

@@ -1,4 +1,4 @@
-TIMESTAMP = 1717574802
+TIMESTAMP = 1717743168
 SHA256 (rust/crates/addr2line-0.21.0.crate) = 8a30b2e23b9e17a9f90641c7ab1549cd9b44f296d3ccbf309d2863cfe398a0cb
 SIZE (rust/crates/addr2line-0.21.0.crate) = 40807
 SHA256 (rust/crates/adler-1.0.2.crate) = f26201604c87b1e01bd3d98f8d5d9a8fcbb815e8cedb41ffccbeb4bf593a35fe
@@ -1101,8 +1101,6 @@ SHA256 (rust/crates/system-deps-1.3.2.crate) = 0f3ecc17269a19353b3558b313bba738b
 SIZE (rust/crates/system-deps-1.3.2.crate) = 15866
 SHA256 (rust/crates/system-deps-6.1.2.crate) = 94af52f9402f94aac4948a2518b43359be8d9ce6cd9efc1c4de3b2f7b7e897d6
 SIZE (rust/crates/system-deps-6.1.2.crate) = 24167
-SHA256 (rust/crates/system_shutdown-4.0.1.crate) = 7567f71160af5e9abfb4f5a21532cf2174cefe91ac5c336419295685a695cc66
-SIZE (rust/crates/system_shutdown-4.0.1.crate) = 17899
 SHA256 (rust/crates/tap-1.0.1.crate) = 55937e1799185b12863d447f42597ed69d9928686b8d88a1df17376a097d8369
 SIZE (rust/crates/tap-1.0.1.crate) = 11316
 SHA256 (rust/crates/target-lexicon-0.12.12.crate) = 14c39fd04924ca3a864207c66fc2cd7d22d7c016007f9ce846cbb9326331930a
@@ -1477,8 +1475,8 @@ SHA256 (tauri-apps-tray-icon-b8dbd42c6f94a29f34b0a0daa619486277185512_GH0.tar.gz
 SIZE (tauri-apps-tray-icon-b8dbd42c6f94a29f34b0a0daa619486277185512_GH0.tar.gz) = 30733
 SHA256 (fufesou-mouce-ed83800d532b95d70e39915314f6052aa433e9b9_GH0.tar.gz) = 842a729a626fb9475eb759e2b5f55d76a19d38d31998232bc1a5a93ea1a03755
 SIZE (fufesou-mouce-ed83800d532b95d70e39915314f6052aa433e9b9_GH0.tar.gz) = 15413
-SHA256 (21pages-rust-webm-d2c4d3ac133c7b0e4c0f656da710b48391981e64_GH0.tar.gz) = fa7c7bc5adec58dc61ec372e00131b28a6f7cf48cc5e36f4830b15296803cf14
-SIZE (21pages-rust-webm-d2c4d3ac133c7b0e4c0f656da710b48391981e64_GH0.tar.gz) = 5852
+SHA256 (Martinfx-rust-webm-40e75a231305e87d75f16a99149197206fcf345c_GH0.tar.gz) = 823cc6a9fb89f9ecfa0b7046a2c803d7b46862bf897eace24f9b6ae6ebbc4da6
+SIZE (Martinfx-rust-webm-40e75a231305e87d75f16a99149197206fcf345c_GH0.tar.gz) = 477331
 SHA256 (rustdesk-org-tao-1cad16b200485bbccc67dcee2d339eac6e1c16ad_GH0.tar.gz) = 39206109d33cb88e6aef32a141cd9dc6cff8ee3f31d5836910d54f6dd3ec95a8
 SIZE (rustdesk-org-tao-1cad16b200485bbccc67dcee2d339eac6e1c16ad_GH0.tar.gz) = 2326437
 SHA256 (Martinfx-rdev-ed8d82a0068ec41b8982d6f308d9f92fbf2fb91a_GH0.tar.gz) = a544af5be1f1e92625541ca1971cf18c6abfbe4bc8864b4d310a25bd9ffb0773
@@ -1523,5 +1521,7 @@ SHA256 (madsmtm-core-foundation-rs-7d593d016175755e492a92ef89edca68ac3bd5cd_GH0.
 SIZE (madsmtm-core-foundation-rs-7d593d016175755e492a92ef89edca68ac3bd5cd_GH0.tar.gz) = 171553
 SHA256 (rustdesk-org-parity-tokio-ipc-e8448ade10d6d972d0b2307646424b36ab202ff5_GH0.tar.gz) = 2dfcb6993fa2b8f33c534cf81ecb73b326bd69dfb8492896b8c5a4eed6502faa
 SIZE (rustdesk-org-parity-tokio-ipc-e8448ade10d6d972d0b2307646424b36ab202ff5_GH0.tar.gz) = 12433
+SHA256 (Martinfx-system_shutdown-ad64ce5a25e1419af16c07f6f3fc7ed2ef96a3e6_GH0.tar.gz) = fa40aa17f46e8bb5edb5944f3d219aedec4e0ac6662fe09b9724f667713f806c
+SIZE (Martinfx-system_shutdown-ad64ce5a25e1419af16c07f6f3fc7ed2ef96a3e6_GH0.tar.gz) = 10749
 SHA256 (MartinFx-rustdesk-1.2.5-d2f119b_GH0.tar.gz) = 60bd0322639419b45bcc74443e2ff29faff5771621730e53ac8487b28a6e90a7
 SIZE (MartinFx-rustdesk-1.2.5-d2f119b_GH0.tar.gz) = 4903901
