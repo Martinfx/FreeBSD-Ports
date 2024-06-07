@@ -17,8 +17,7 @@ GH_PROJECT=     rustdesk
 GH_TAGNAME=	d2f119b
 
 
-BUILD_DEPENDS+=	libwebm>0:multimedia/libwebm \
-		opus>0:audio/opus \
+BUILD_DEPENDS+=	opus>0:audio/opus \
 		libyuv>0:graphics/libyuv \
 		libvpx>0:multimedia/libvpx
 
