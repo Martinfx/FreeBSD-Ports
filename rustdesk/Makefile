@@ -1,4 +1,4 @@
-PORTNAME=	rustdesk
+ORTNAME=	rustdesk
 DISTVERSION=	1.2.5
 CATEGORIES=	deskutils
 
@@ -190,6 +190,7 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		docopt-1.1.1 \
 		downcast-rs-1.2.0 \
 		dtoa-0.4.8 \
+		dpi-0.1.1 \
 		ed25519-1.5.3 \
 		either-1.9.0 \
 		encoding_rs-0.8.34 \
@@ -362,8 +363,8 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		minimal-lexical-0.2.1 \
 		miniz_oxide-0.7.1 \
 		mio-0.8.11 \
-		muda-0.11.4 \
 		muldiv-0.2.1 \
+		muda-0.11.4 \
 		native-tls-0.2.11 \
 		ndk-0.7.0 \
 		ndk-context-0.1.1 \
@@ -573,6 +574,7 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		system-deps-1.3.2 \
 		system-deps-6.1.2 \
 		tap-1.0.1 \
+		tao-0.28.0 \
 		target-lexicon-0.12.12 \
 		target_build_utils-0.3.1 \
 		tauri-winrt-notification-0.1.3 \
@@ -782,7 +784,8 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		magnum-opus@git+https://github.com/Martinfx/magnum-opus\#0e9de9212c92c8d2c6bb1a249b7faedee4f285e8 \
 		core-foundation,core-foundation-sys,core-graphics,core-graphics-types@git+https://github.com/madsmtm/core-foundation-rs.git?rev=7d593d016175755e492a92ef89edca68ac3bd5cd\#7d593d016175755e492a92ef89edca68ac3bd5cd \
 		parity-tokio-ipc@git+https://github.com/rustdesk-org/parity-tokio-ipc\#e8448ade10d6d972d0b2307646424b36ab202ff5 \
-		system_shutdown@git+https://github.com/Martinfx/system_shutdown\#ad64ce5a25e1419af16c07f6f3fc7ed2ef96a3e6
+		system_shutdown@git+https://github.com/Martinfx/system_shutdown\#ad64ce5a25e1419af16c07f6f3fc7ed2ef96a3e6 \
+		muda@git+https://github.com/Martinfx/muda\#9dcaa5b1d9541ad448c8f5f44ca69698e718df7c
 
 CARGO_FEATURES+=linux-pkg-config
 #MAKE_ENV+=	RUSTFLAGS="-I/usr/local/include/"

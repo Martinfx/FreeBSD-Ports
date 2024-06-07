@@ -216,7 +216,20 @@
  name = "coreaudio-rs"
  version = "0.11.3"
  source = "registry+https://github.com/rust-lang/crates.io-index"
-@@ -1865,26 +1912,6 @@ dependencies = [
+@@ -1797,6 +1844,12 @@ source = "registry+https://github.com/rust-lang/crates
+ checksum = "9ea835d29036a4087793836fa931b08837ad5e957da9e23886b29586fb9b6650"
+ 
+ [[package]]
++name = "dpi"
++version = "0.1.1"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "f25c0e292a7ca6d6498557ff1df68f32c99850012b6ea401cf8daf771f22ff53"
++
++[[package]]
+ name = "dtoa"
+ version = "0.4.8"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+@@ -1865,26 +1918,6 @@ dependencies = [
  ]
  
  [[package]]
@@ -243,7 +256,7 @@
  name = "enumflags2"
  version = "0.7.8"
  source = "registry+https://github.com/rust-lang/crates.io-index"
-@@ -1932,16 +1959,6 @@ dependencies = [
+@@ -1932,16 +1965,6 @@ dependencies = [
  ]
  
  [[package]]
@@ -260,7 +273,7 @@
  name = "equivalent"
  version = "1.0.1"
  source = "registry+https://github.com/rust-lang/crates.io-index"
-@@ -1966,7 +1983,6 @@ checksum = "281e452d3bad4005426416cdba5ccfd4f5c1280e10
+@@ -1966,7 +1989,6 @@ checksum = "281e452d3bad4005426416cdba5ccfd4f5c1280e10
  [[package]]
  name = "evdev"
  version = "0.11.5"
@@ -268,7 +281,7 @@
  dependencies = [
   "bitvec",
   "libc",
-@@ -3038,7 +3054,6 @@ checksum = "9a3a5bfb195931eeb336b2a7b4d761daec841b97f9
+@@ -3038,7 +3060,6 @@ checksum = "9a3a5bfb195931eeb336b2a7b4d761daec841b97f9
  [[package]]
  name = "hwcodec"
  version = "0.4.12"
@@ -276,7 +289,7 @@
  dependencies = [
   "bindgen 0.59.2",
   "cc",
-@@ -3154,7 +3169,6 @@ dependencies = [
+@@ -3154,7 +3175,6 @@ dependencies = [
  [[package]]
  name = "impersonate_system"
  version = "0.1.0"
@@ -284,7 +297,7 @@
  dependencies = [
   "cc",
  ]
-@@ -3199,26 +3213,6 @@ dependencies = [
+@@ -3199,26 +3219,6 @@ dependencies = [
  ]
  
  [[package]]
@@ -311,7 +324,7 @@
  name = "inout"
  version = "0.1.3"
  source = "registry+https://github.com/rust-lang/crates.io-index"
-@@ -3371,7 +3365,6 @@ dependencies = [
+@@ -3371,7 +3371,6 @@ dependencies = [
  [[package]]
  name = "keepawake"
  version = "0.4.3"
@@ -319,7 +332,7 @@
  dependencies = [
   "anyhow",
   "apple-sys",
-@@ -3658,7 +3651,6 @@ dependencies = [
+@@ -3658,7 +3657,6 @@ dependencies = [
  [[package]]
  name = "machine-uid"
  version = "0.3.0"
@@ -327,7 +340,7 @@
  dependencies = [
   "bindgen 0.59.2",
   "cc",
-@@ -3668,7 +3660,6 @@ dependencies = [
+@@ -3668,7 +3666,6 @@ dependencies = [
  [[package]]
  name = "magnum-opus"
  version = "0.4.0"
@@ -335,7 +348,7 @@
  dependencies = [
   "bindgen 0.59.2",
   "pkg-config",
-@@ -3758,7 +3749,6 @@ source = "registry+https://github.com/rust-lang/crates
+@@ -3758,7 +3755,6 @@ source = "registry+https://github.com/rust-lang/crates
  checksum = "a4a650543ca06a924e8b371db273b2756685faae30f8487da1b56505a8f78b0c"
  dependencies = [
   "libc",
@@ -343,7 +356,7 @@
   "wasi 0.11.0+wasi-snapshot-preview1",
   "windows-sys 0.48.0",
  ]
-@@ -3766,7 +3756,6 @@ dependencies = [
+@@ -3766,7 +3762,6 @@ dependencies = [
  [[package]]
  name = "mouce"
  version = "0.2.1"
@@ -351,7 +364,31 @@
  dependencies = [
   "glob",
  ]
-@@ -4327,7 +4316,6 @@ dependencies = [
+@@ -3790,6 +3785,23 @@ dependencies = [
+ ]
+ 
+ [[package]]
++name = "muda"
++version = "0.13.5"
++dependencies = [
++ "cocoa 0.25.0",
++ "crossbeam-channel",
++ "dpi",
++ "gtk",
++ "keyboard-types",
++ "libxdo",
++ "objc",
++ "once_cell",
++ "png",
++ "thiserror",
++ "windows-sys 0.52.0",
++]
++
++[[package]]
+ name = "muldiv"
+ version = "0.2.1"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+@@ -4327,7 +4339,6 @@ dependencies = [
  [[package]]
  name = "pam"
  version = "0.7.0"
@@ -359,7 +396,7 @@
  dependencies = [
   "libc",
   "pam-macros",
-@@ -4384,7 +4372,6 @@ dependencies = [
+@@ -4384,7 +4395,6 @@ dependencies = [
  [[package]]
  name = "parity-tokio-ipc"
  version = "0.7.3-3"
@@ -367,7 +404,7 @@
  dependencies = [
   "futures",
   "libc",
-@@ -5005,24 +4992,14 @@ dependencies = [
+@@ -5005,24 +5015,14 @@ dependencies = [
  
  [[package]]
  name = "rdev"
@@ -397,7 +434,7 @@
   "winapi 0.3.9",
   "x11 2.21.0",
  ]
-@@ -5125,7 +5102,6 @@ dependencies = [
+@@ -5125,7 +5125,6 @@ dependencies = [
  [[package]]
  name = "reqwest"
  version = "0.11.23"
@@ -405,7 +442,7 @@
  dependencies = [
   "async-compression",
   "base64 0.21.5",
-@@ -5261,7 +5237,6 @@ dependencies = [
+@@ -5261,7 +5260,6 @@ dependencies = [
  [[package]]
  name = "rust-pulsectl"
  version = "0.2.12"
@@ -413,7 +450,15 @@
  dependencies = [
   "libpulse-binding",
  ]
-@@ -5363,7 +5338,6 @@ dependencies = [
+@@ -5335,6 +5333,7 @@ dependencies = [
+  "mac_address",
+  "magnum-opus",
+  "mouce",
++ "muda 0.13.5",
+  "num_cpus",
+  "objc",
+  "objc_id",
+@@ -5363,7 +5362,6 @@ dependencies = [
   "shared_memory",
   "shutdown_hooks",
   "sys-locale",
@@ -421,7 +466,7 @@
   "tao",
   "tauri-winrt-notification",
   "totp-rs",
-@@ -5563,12 +5537,6 @@ dependencies = [
+@@ -5563,12 +5561,6 @@ dependencies = [
  ]
  
  [[package]]
@@ -434,7 +479,7 @@
  name = "ryu"
  version = "1.0.15"
  source = "registry+https://github.com/rust-lang/crates.io-index"
-@@ -5610,7 +5578,6 @@ dependencies = [
+@@ -5610,7 +5602,6 @@ dependencies = [
  [[package]]
  name = "sciter-rs"
  version = "0.5.57"
@@ -442,7 +487,7 @@
  dependencies = [
   "lazy_static",
   "libc",
-@@ -5968,12 +5935,6 @@ source = "registry+https://github.com/rust-lang/crates
+@@ -5968,12 +5959,6 @@ source = "registry+https://github.com/rust-lang/crates
  checksum = "57bd81eb48f4c437cadc685403cad539345bf703d78e63707418431cecd4522b"
  
  [[package]]
@@ -455,7 +500,7 @@
  name = "strum_macros"
  version = "0.18.0"
  source = "registry+https://github.com/rust-lang/crates.io-index"
-@@ -5986,19 +5947,6 @@ dependencies = [
+@@ -5986,19 +5971,6 @@ dependencies = [
  ]
  
  [[package]]
@@ -475,7 +520,7 @@
  name = "subtle"
  version = "2.5.0"
  source = "registry+https://github.com/rust-lang/crates.io-index"
-@@ -6055,7 +6003,6 @@ dependencies = [
+@@ -6055,7 +6027,6 @@ dependencies = [
  [[package]]
  name = "sysinfo"
  version = "0.29.10"
@@ -483,7 +528,7 @@
  dependencies = [
   "cfg-if 1.0.0",
   "core-foundation-sys 0.8.4",
-@@ -6095,8 +6042,8 @@ checksum = "0f3ecc17269a19353b3558b313bba738b25d82993e
+@@ -6095,8 +6066,8 @@ checksum = "0f3ecc17269a19353b3558b313bba738b25d82993e
  dependencies = [
   "heck 0.3.3",
   "pkg-config",
@@ -494,7 +539,7 @@
   "thiserror",
   "toml 0.5.11",
   "version-compare 0.0.10",
-@@ -6116,19 +6063,8 @@ dependencies = [
+@@ -6116,19 +6087,8 @@ dependencies = [
  ]
  
  [[package]]
@@ -514,7 +559,7 @@
  dependencies = [
   "bitflags 1.3.2",
   "cc",
-@@ -6168,7 +6104,6 @@ dependencies = [
+@@ -6168,7 +6128,6 @@ dependencies = [
  [[package]]
  name = "tao-macros"
  version = "0.1.2"
@@ -522,7 +567,7 @@
  dependencies = [
   "proc-macro2 1.0.79",
   "quote 1.0.35",
-@@ -6251,7 +6186,6 @@ dependencies = [
+@@ -6251,7 +6210,6 @@ dependencies = [
  [[package]]
  name = "tfc"
  version = "0.6.1"
@@ -530,7 +575,7 @@
  dependencies = [
   "anyhow",
   "core-graphics 0.22.3",
-@@ -6433,7 +6367,6 @@ dependencies = [
+@@ -6433,7 +6391,6 @@ dependencies = [
  [[package]]
  name = "tokio-socks"
  version = "0.5.2"
@@ -538,7 +583,7 @@
  dependencies = [
   "bytes",
   "either",
-@@ -6632,7 +6565,6 @@ dependencies = [
+@@ -6632,14 +6589,13 @@ dependencies = [
  [[package]]
  name = "tray-icon"
  version = "0.11.3"
@@ -546,7 +591,15 @@
  dependencies = [
   "cocoa 0.25.0",
   "core-graphics 0.23.1 (registry+https://github.com/rust-lang/crates.io-index)",
-@@ -6887,7 +6819,6 @@ dependencies = [
+  "crossbeam-channel",
+  "dirs-next",
+  "libappindicator",
+- "muda",
++ "muda 0.11.4",
+  "objc",
+  "once_cell",
+  "png",
+@@ -6887,7 +6843,6 @@ dependencies = [
  [[package]]
  name = "wallpaper"
  version = "3.2.0"
@@ -554,7 +607,7 @@
  dependencies = [
   "dirs 5.0.1",
   "enquote",
-@@ -7076,7 +7007,6 @@ dependencies = [
+@@ -7076,7 +7031,6 @@ dependencies = [
  [[package]]
  name = "webm"
  version = "1.1.0"
@@ -562,7 +615,7 @@
  dependencies = [
   "webm-sys",
  ]
-@@ -7084,7 +7014,6 @@ dependencies = [
+@@ -7084,7 +7038,6 @@ dependencies = [
  [[package]]
  name = "webm-sys"
  version = "1.0.4"
@@ -570,7 +623,7 @@
  dependencies = [
   "cc",
  ]
-@@ -7228,15 +7157,6 @@ dependencies = [
+@@ -7228,15 +7181,6 @@ dependencies = [
  
  [[package]]
  name = "windows"
@@ -586,7 +639,7 @@
  version = "0.46.0"
  source = "registry+https://github.com/rust-lang/crates.io-index"
  checksum = "cdacb41e6a96a052c6cb63a144f24900236121c6f63f4f8219fef5977ecb0c25"
-@@ -7669,7 +7589,6 @@ dependencies = [
+@@ -7669,7 +7613,6 @@ dependencies = [
  [[package]]
  name = "x11"
  version = "2.19.0"
@@ -594,7 +647,7 @@
  dependencies = [
   "libc",
   "pkg-config",
-@@ -7688,7 +7607,6 @@ dependencies = [
+@@ -7688,7 +7631,6 @@ dependencies = [
  [[package]]
  name = "x11-clipboard"
  version = "0.8.1"
@@ -602,7 +655,7 @@
  dependencies = [
   "x11rb 0.12.0",
  ]
-@@ -7979,3 +7897,7 @@ dependencies = [
+@@ -7979,3 +7921,7 @@ dependencies = [
   "quote 1.0.35",
   "syn 1.0.109",
  ]
