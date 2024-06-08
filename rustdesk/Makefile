@@ -780,7 +780,7 @@ CARGO_CRATES=	addr2line-0.21.0 \
 		arboard@git+https://github.com/fufesou/arboard?branch=feat/x11_set_conn_timeout\#956b5f8693b4fc7fddd7b8cafbe1111a892b34b1 \
 		wallpaper@git+https://github.com/21pages/wallpaper.rs\#ce4a0cd3f58327c7cc44d15a63706fb0c022bacf \
 		tfc@git+https://github.com/Martinfx/The-Fat-Controller\#8078f423e13ca75b5dc953e0bcd0f6104243a311 \
-		pam@git+https://github.com/fufesou/pam\#10da2cbbabe32cbc9de22a66abe44738e7ec0ea0 \
+		pam@git+https://github.com/Martinfx/pam\#869d016ba73cecc5fc250d959ff0850ead9d0ac8 \
 		magnum-opus@git+https://github.com/Martinfx/magnum-opus\#0e9de9212c92c8d2c6bb1a249b7faedee4f285e8 \
 		core-foundation,core-foundation-sys,core-graphics,core-graphics-types@git+https://github.com/madsmtm/core-foundation-rs.git?rev=7d593d016175755e492a92ef89edca68ac3bd5cd\#7d593d016175755e492a92ef89edca68ac3bd5cd \
 		parity-tokio-ipc@git+https://github.com/rustdesk-org/parity-tokio-ipc\#e8448ade10d6d972d0b2307646424b36ab202ff5 \
