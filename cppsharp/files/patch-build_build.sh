@@ -29,7 +29,7 @@
 -    rm $premake_archive
 -  fi
 +  echo $premake_path
-+  ln -s "/usr/local/bin/premake5" $premake_path
++#  ln -s "/usr/local/bin/premake5" $premake_path
 +#  if ! [ -f "$premake_path" ]; then
 +#    echo "Downloading and unpacking Premake..."
 +#    premake_version=5.0.0-beta2
@@ -47,13 +47,21 @@
  }
  
  download_llvm()
-@@ -155,6 +156,9 @@ detect_os()
-       ;;
+@@ -156,6 +157,9 @@ detect_os()
      Linux)
        oshost=linux
-+      ;;
-+    FreeBSD)
-+      oshost=freebsd
        ;;
++    FreeBSD)
++      oshost=bsd
++      ;;
      CYGWIN*|MINGW32*|MSYS*|MINGW*)
        oshost=windows
+       ;;
+@@ -248,6 +252,7 @@ case "$cmd" in
+     clone_llvm
+     ;;
+   build_llvm)
++    generate_config
+     build_llvm
+     ;;
+   package_llvm)
