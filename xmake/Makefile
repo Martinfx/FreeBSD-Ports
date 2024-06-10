@@ -10,7 +10,7 @@ WWW=		https://xmake.io/#/
 LICENSE=	APACHE20
 LICENSE_FILE=   ${WRKSRC}/LICENSE.md
 
-USES=		compiler:c++17-lang gmake
+USES=		compiler:c++17-lang gmake readline
 USE_GITHUB=     yes
 GH_ACCOUNT=     xmake-io
 GH_PROJECT=     xmake
@@ -22,13 +22,16 @@ GH_TUPLE+=	xmake-io:xmake-core-lua-cjson:ddcecf3b24b71421e7b4a2962f1fbcc0297e0c1
 		xmake-io:xmake-core-sv:b3363a3cb2f499a735eaebe87a8a3491593e3289:xmakecoresv/core/src/sv/sv \
 		tboox:tbox:36c7364:tbox/core/src/tbox/tbox
 
+CONFIGURE_ENV+=	XMAKE_PROGRAM_DIR=/usr/local/share/xmake
+
 do-build:
 	@cd ${WRKSRC} && ./configure --ninja=ninja --prefix=${PREFIX}
 	@cd ${WRKSRC} && gmake
 
 do-install:
-	${INSTALL_PROGRAM} ${WRKSRC}/build/${PORTNAME} ${STAGEDIR}${PREFIX}/bin
 	${MKDIR} ${STAGEDIR}${PREFIX}/share/xmake
 	@cd ${WRKSRC}/xmake/ && ${COPYTREE_SHARE} .  ${STAGEDIR}${PREFIX}/share/xmake
+	${INSTALL_PROGRAM} ${WRKSRC}/build/${PORTNAME} ${STAGEDIR}${PREFIX}/bin
+	@export XMAKE_PROGRAM_DIR=/usr/local/share/xmake
 
 .include <bsd.port.mk>
