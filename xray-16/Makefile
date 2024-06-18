@@ -10,9 +10,19 @@ LICENSE_NAME=   unknown
 LICENSE_FILE=   ${WRKSRC}/License.txt
 LICENSE_PERMS=  dist-mirror no-dist-sell pkg-mirror no-pkg-sell auto-accept
 
-USES=           cmake localbase lua:51
+BUILD_DEPENDS=	sdl2>0:devel/sdl20 \
+		glew>0:graphics/glew \
+		openal-soft>0:audio/openal-soft \
+		jpeg-turbo>0:graphics/jpeg-turbo \
+		libogg>0:audio/libogg \
+		libvorbis>0:audio/libvorbis \
+		libtheora>0:multimedia/libtheora \
+		lzo2>0:archivers/lzo2
 
+USES=           cmake localbase
+USE_SDL=	sdl2
 USE_GITHUB=     yes
+
 GH_ACCOUNT=     OpenXRay
 GH_PROJECT=     xray-16
 GH_TAG=         14c4692
