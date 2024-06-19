@@ -19,7 +19,10 @@ USE_GITHUB=     yes
 GH_ACCOUNT=     kubernetes
 GH_PROJECT=     kubernetes
 
-GO_CMD=		${LOCALBASE}/bin/go/go122
+MAKE_ENV=	PATH="${LOCALBASE}/bin/go/go122"
+
+pre-build:
+	@cd ${WRKSRC} && gmake
 
 do-install:
 	${INSTALL_PROGRAM} ${WRKSRC}/_output/local/go/bin ${STAGEDIR}${PREFIX}/bin
