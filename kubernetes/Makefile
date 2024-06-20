@@ -19,14 +19,14 @@ USE_GITHUB=     yes
 GH_ACCOUNT=     kubernetes
 GH_PROJECT=     kubernetes
 
-MAKE_ENV+=	PATH="${LOCALBASE}/bin/go/go122" \
+MAKE_ENV+=	GO_PATH="${LOCALBASE}/bin/go/go122" \
 		BASH_SHELL=${LOCALBASE}/bin/bash
 
 #post-patch:
 #	${REINPLACE_CMD} -e 's|/usr/bin/env/bash|/bin/sh|;
 
-do-build:
-	@cd ${WRKSRC} && ${SETENV} ${LOCALBASE}/bin/gmake
+#do-build:
+#	@cd ${WRKSRC} && ${SETENV} ${LOCALBASE}/bin/gmake
 
 do-install:
 	@cp -v ${WRKSRC}/_output/local/go/bin/* ${STAGEDIR}${PREFIX}/bin
