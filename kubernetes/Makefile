@@ -21,10 +21,10 @@ GH_PROJECT=     kubernetes
 
 MAKE_ENV=	PATH="${LOCALBASE}/bin/go/go122"
 
-pre-build:
+do-build:
 	@cd ${WRKSRC} && gmake
 
 do-install:
-	${INSTALL_PROGRAM} ${WRKSRC}/_output/local/go/bin ${STAGEDIR}${PREFIX}/bin
+	@cp -v ${WRKSRC}/_output/local/go/bin/* ${STAGEDIR}${PREFIX}/bin
 
 .include <bsd.port.mk>
