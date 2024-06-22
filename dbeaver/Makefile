@@ -1,11 +1,6 @@
 PORTNAME=	dbeaver
-DISTVERSION=	24.0.5
+DISTVERSION=	24.1.0
 CATEGORIES=	editors
-#MASTER_SITES=	https://codeload.github.com/dbeaver/dbeaver-common/tar.gz/fd76bbe199dd81d6538c188b1c5854094f7bdd0b?dummy=/:common
-#DISTFILES=      ${EXTRACT_SUFX}:common
-#DIST_SUBDIR=   ${PORTNAME}
-#EXTRACT_SUFX=  .tar.gz
-
 
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Free universal database tool and SQL client.
@@ -22,7 +17,7 @@ BUILD_DEPENDS=	maven39>0:devel/maven39 \
 USE_GITHUB=	yes
 GH_ACCOUNT=	dbeaver
 GH_PROJECT=	dbeaver
-GH_TUPLE+=	dbeaver:dbeaver-common:fd76bbe199dd81d6538c188b1c5854094f7bdd0b:dbeavercommon
+GH_TUPLE+=	dbeaver:dbeaver-common:ff8f3a6136667e35f00bc8840a078296eac3c7b2:dbeavercommon
 
 USE_JAVA=	17+
 JAVA_VENDOR=	openjdk
@@ -33,7 +28,7 @@ NO_BUILD=	yes
 MAVEN_ENV=	MAVEN_OPTS=-Xmx1024m CC=${CC} CFLAGS="${CFLAGS}" JAVA_HOME=${JAVA_HOME}
 
 pre-configure:
-	@mv ${WRKDIR}/dbeaver-common-fd76bbe199dd81d6538c188b1c5854094f7bdd0b ${WRKDIR}/dbeaver-common
+	@mv ${WRKDIR}/dbeaver-common-ff8f3a6136667e35f00bc8840a078296eac3c7b2 ${WRKDIR}/dbeaver-common
 do-configure:
 	@cd ${WRKSRC}/product/aggregate && ${SETENV} ${MAVEN_ENV} mvn clean install \
 					    -Pall-platforms -T 1C -DskipTests verify \
