@@ -1,6 +1,6 @@
 PORTNAME=	thorium
 DISTVERSIONPREFIX=M
-DISTVERSION=	123.0.6312.133
+DISTVERSION=	124.0.6367.218
 CATEGORIES=	www
 MASTER_SITES=	https://commondatastorage.googleapis.com/chromium-browser-official/:source1
 DISTFILES=	chromium-124.0.6367.78.tar.xz:source1
