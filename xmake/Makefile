@@ -10,6 +10,8 @@ WWW=		https://xmake.io/#/
 LICENSE=	APACHE20
 LICENSE_FILE=   ${WRKSRC}/LICENSE.md
 
+BUILD_DEPENDS=	bash:shells/bash
+
 USES=		compiler:c++17-lang gmake readline
 USE_GITHUB=     yes
 GH_ACCOUNT=     xmake-io
@@ -31,6 +33,7 @@ do-build:
 do-install:
 	${MKDIR} ${STAGEDIR}${PREFIX}/share/xmake
 	@cd ${WRKSRC}/xmake/ && ${COPYTREE_SHARE} .  ${STAGEDIR}${PREFIX}/share/xmake
+	${INSTALL_PROGRAM} ${WRKSRC}/scripts/xrepo.sh ${STAGEDIR}${PREFIX}/bin
 	${INSTALL_PROGRAM} ${WRKSRC}/build/${PORTNAME} ${STAGEDIR}${PREFIX}/bin
 	@export XMAKE_PROGRAM_DIR=/usr/local/share/xmake
 
