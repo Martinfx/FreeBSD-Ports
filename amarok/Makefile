@@ -11,7 +11,8 @@ LICENSE=	GPLv2
 LICENSE_FILE=	${WRKSRC}/COPYING
 
 BUILD_DEPENDS=	phonon-qt5>0:multimedia/phonon \
-		libunwind>0:devel/libunwind
+		libunwind>0:devel/libunwind \
+		taglib>2.0.0:audio/taglib
 
 LIB_DEPENDS=	libdbus-1.so:devel/dbus \
 		libfftw3.so:math/fftw3 \
