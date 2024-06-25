@@ -1,5 +1,5 @@
 ORTNAME=	rustdesk
-DISTVERSION=	1.2.5
+DISTVERSION=	1.2.6
 CATEGORIES=	deskutils
 
 MAINTAINER=	freebsd@sysctl.cz
