@@ -32,8 +32,8 @@ share/kpackage/amarok/org.kde.amarok.wikipedia/metadata.json
 share/metainfo/org.kde.amarok.wikipedia.appdata.xml
 %%QT_PLUGINDIR%%/amarok_collection-audiocdcollection.so
 %%QT_PLUGINDIR%%/amarok_collection-daapcollection.so
-%%QT_PLUGINDIR%%/amarok_collection-ipodcollection.so
 %%QT_PLUGINDIR%%/amarok_collection-mtpcollection.so
+%%IPOD%%%%QT_PLUGINDIR%%/amarok_collection-ipodcollection.so
 %%QT_PLUGINDIR%%/amarok_collection-mysqlcollection.so
 %%QT_PLUGINDIR%%/amarok_collection-playdarcollection.so
 %%QT_PLUGINDIR%%/amarok_collection-umscollection.so
