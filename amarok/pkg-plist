@@ -21,6 +21,15 @@ lib/libamarokshared.so
 lib/libamarokshared.so.1
 lib/libamarokshared.so.1.0.0
 lib/libampache_account_login.so
+%%QT_QMLDIR%%/org/kde/amarok/wikipedia/libamarok_context_applet_wikipedia.so
+%%QT_QMLDIR%%/org/kde/amarok/wikipedia/qmldir
+%%DATADIR%%/data/WikipediaCustomStyle.css
+%%DATADIR%%/data/bullet.gif
+share/kpackage/amarok/org.kde.amarok.wikipedia/contents/images/amarok-wikipediaheader.svg
+share/kpackage/amarok/org.kde.amarok.wikipedia/contents/images/icon.svg
+share/kpackage/amarok/org.kde.amarok.wikipedia/contents/ui/main.qml
+share/kpackage/amarok/org.kde.amarok.wikipedia/metadata.json
+share/metainfo/org.kde.amarok.wikipedia.appdata.xml
 %%QT_PLUGINDIR%%/amarok_collection-audiocdcollection.so
 %%QT_PLUGINDIR%%/amarok_collection-daapcollection.so
 %%QT_PLUGINDIR%%/amarok_collection-ipodcollection.so
