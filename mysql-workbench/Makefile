@@ -54,6 +54,6 @@ WRKSRC=		${WRKDIR}/${PORTNAME}-community-${DISTVERSION}-src
 
 post-patch:
 #	@${MKDIR} ${WRKSRC}
-	@${CP} ${DISTDIR}/mysql-workbench/antlr-4.11.1-complete.jar ${WRKDIR}
+	@${CP} ${DISTDIR}/antlr-4.11.1-complete.jar ${WRKDIR}
 
 .include <bsd.port.mk>
