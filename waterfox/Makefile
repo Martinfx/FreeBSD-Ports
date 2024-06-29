@@ -30,9 +30,10 @@ LIB_DEPENDS=	libdav1d.so:multimedia/dav1d \
 		libharfbuzz.so:print/harfbuzz
 
 USE_GITHUB=	yes
-GH_ACCOUNT=	MrAlex94
+GH_ACCOUNT=	BrowserWorks
 GH_PROJECT=	Waterfox
 
+.include "${.CURDIR}/../../www/firefox/Makefile.options"
 .include <bsd.port.options.mk>
 
 .if ${ARCH} != powerpc64
@@ -42,38 +43,34 @@ BUILD_DEPENDS+=	${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc++abi.a:deve
 .endif
 
 USE_GECKO=	gecko
-USE_MOZILLA=    -sqlite
+USE_MOZILLA=	-sqlite
 
-CFLAGS_powerpc64le=     -DSQLITE_BYTEORDER=1234
+CFLAGS_powerpc64le=	-DSQLITE_BYTEORDER=1234
 # work around bindgen not finding ICU, e.g.
 # dist/include/mozilla/intl/ICU4CGlue.h:8:10: fatal error: 'unicode/uenum.h' file not found, err: true
-CONFIGURE_ENV+= BINDGEN_CFLAGS="-I${LOCALBASE}/include"
-CONFIGURE_ENV+= MOZ_REQUIRE_SIGNING=""
-MOZ_EXPORT+=    MOZ_TELEMETRY_REPORTING="" \
-                MOZILLA_OFFICIAL="1" \
-                MOZ_OFFICIAL_BRANDING="1" \
-                MOZ_APP_DISPLAYNAME="Waterfox" \
-                MOZ_APP_NAME="waterfox"
+CONFIGURE_ENV+=	BINDGEN_CFLAGS="-I${LOCALBASE}/include"
+CONFIGURE_ENV+=	MOZ_REQUIRE_SIGNING=""
+MOZ_EXPORT+=	MOZ_TELEMETRY_REPORTING="" \
+		MOZILLA_OFFICIAL="1" \
+		MOZ_OFFICIAL_BRANDING="1" \
+		MOZ_APP_DISPLAYNAME="Waterfox" \
+		MOZ_APP_NAME="waterfox"
 
-MOZ_OPTION+=    --enable-application=browser \
-                --allow-addon-sideload \
-                --disable-crashreporter \
-                --disable-debug \
-                --disable-default-browser-agent \
-                --disable-tests \
-                --disable-updater \
-                --enable-hardening \
-                --enable-optimize \
-                --enable-release \
-                --enable-rust-simd \
-                --with-app-name=waterfox \
-                --with-branding=browser/branding/waterfox \
-                --with-unsigned-addon-scopes=app,system \
-                --with-l10n-base=$PWD/browser/locales/l10n \
-                --enable-bootstrap \
-                MOZ_CRASHREPORTER=0 \
-                MOZ_DATA_REPORTING=0 \
-                MOZ_SERVICES_HEALTHREPORT=0
+MOZ_OPTIONS+=	--enable-application=browser \
+		--allow-addon-sideload \
+		--disable-crashreporter \
+		--disable-debug \
+		--disable-default-browser-agent \
+		--disable-tests \
+		--disable-updater \
+		--enable-hardening \
+		--enable-optimize \
+		--enable-release \
+		--with-app-name=waterfox \
+		--with-unsigned-addon-scopes=app,system \
+		--enable-bootstrap \
+		MOZ_CRASHREPORTER=0 \
+		MOZ_DATA_REPORTING=0
 
 BINARY_ALIAS+=	python3=${PYTHON_CMD}
 
@@ -82,6 +79,10 @@ USE_GECKO=	gecko
 WATERFOX_ICON=		${MOZILLA}.png
 WATERFOX_ICON_SRC=	${PREFIX}/lib/${MOZILLA}/browser/chrome/icons/default/default256.png
 WATERFOX_DESKTOP=	${MOZSRC}/taskcluster/docker/firefox-snap/firefox.desktop
+
+.if ${ARCH} == amd64
+MOZ_OPTIONS+=	--enable-rust-simd
+.endif
 
 .if ${ARCH} == powerpc64
 CFLAGS+=	-DHWY_COMPILE_ONLY_SCALAR
@@ -92,8 +93,6 @@ BUILD_DEPENDS+=	${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc++abi.a:deve
 		wasi-compiler-rt${LLVM_VERSION}>0:devel/wasi-compiler-rt${LLVM_VERSION}
 MOZ_OPTIONS+=	--with-wasi-sysroot=${LOCALBASE}/share/wasi-sysroot
 .endif
-
-.include "${.CURDIR}/../../www/firefox/Makefile.options"
 
 post-patch:
 	@${REINPLACE_CMD} -e 's/%u/%U/' -e '/X-MultipleArgs/d' \
