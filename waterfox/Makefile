@@ -25,10 +25,6 @@ BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
 		yasm:devel/yasm \
 		zip:archivers/zip
 
-LIB_DEPENDS=	libdav1d.so:multimedia/dav1d \
-		libaom.so:multimedia/aom \
-		libharfbuzz.so:print/harfbuzz
-
 USE_GITHUB=	yes
 GH_ACCOUNT=	BrowserWorks
 GH_PROJECT=	Waterfox
@@ -48,8 +44,9 @@ USE_MOZILLA=	-sqlite
 CFLAGS_powerpc64le=	-DSQLITE_BYTEORDER=1234
 # work around bindgen not finding ICU, e.g.
 # dist/include/mozilla/intl/ICU4CGlue.h:8:10: fatal error: 'unicode/uenum.h' file not found, err: true
-CONFIGURE_ENV+=	BINDGEN_CFLAGS="-I${LOCALBASE}/include"
-CONFIGURE_ENV+=	MOZ_REQUIRE_SIGNING=""
+
+CONFIGURE_ENV+=	BINDGEN_CFLAGS="-I${LOCALBASE}/include" \
+		MOZ_REQUIRE_SIGNING=""
 MOZ_EXPORT+=	MOZ_TELEMETRY_REPORTING="" \
 		MOZILLA_OFFICIAL="1" \
 		MOZ_OFFICIAL_BRANDING="1" \
@@ -77,7 +74,7 @@ BINARY_ALIAS+=	python3=${PYTHON_CMD}
 USE_GECKO=	gecko
 
 WATERFOX_ICON=		${MOZILLA}.png
-WATERFOX_ICON_SRC=	${PREFIX}/lib/${MOZILLA}/browser/chrome/icons/default/default256.png
+WATERFOX_ICON_SRC=	${PREFIX}/lib/${MOZILLA}/browser/chrome/icons/default/default128.png
 WATERFOX_DESKTOP=	${MOZSRC}/taskcluster/docker/firefox-snap/firefox.desktop
 
 .if ${ARCH} == amd64
