@@ -1,3 +1,2 @@
-[description of the port]
-
-WWW: http://example.com
+SPIRV-Reflect is a lightweight library that provides a C/C++ 
+reflection API for SPIR-V shader bytecode in Vulkan applications. 
