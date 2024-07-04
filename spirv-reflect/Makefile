@@ -17,4 +17,15 @@ GH_ACCOUNT=	KhronosGroup
 GH_PROJECT=	SPIRV-Reflect
 GH_TUPLE=	google:googletest:e2239ee:googletest/third_party/googletest
 
+CMAKE_ON=	SPIRV_REFLECT_STATIC_LIB
+
+SPIRV_BINS=	spirv-reflect	spirv-reflect-pp
+
+do-install:
+	@cd ${WRKSRC} && cp -v spirv_reflect.h ${STAGEDIR}${PREFIX}/include
+	@cd ${WRKDIR}/.build && cp -v libspirv-reflect-static.a ${STAGEDIR}${PREFIX}/lib
+.for b in ${SPIRV_BINS}
+	${INSTALL_SCRIPT} ${WRKSRC}/bin/${b} ${STAGEDIR}${PREFIX}/bin
+.endfor
+
 .include <bsd.port.mk>
