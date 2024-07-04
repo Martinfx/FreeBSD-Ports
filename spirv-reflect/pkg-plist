@@ -1,2 +1,4 @@
 bin/spirv-reflect
 bin/spirv-reflect-pp
+include/spirv_reflect.h
+lib/libspirv-reflect-static.a
