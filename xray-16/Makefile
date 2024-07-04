@@ -3,7 +3,9 @@ DISTVERSION=    2188-november-2023-rc1
 CATEGORIES=     games
 
 MAINTAINER=     freebsd@sysctl.cz
-COMMENT=        game engine for stalker games
+COMMENT=        Improved version of the X-Ray Engine, \
+		the game engine used in the world-famous S.T.A.L.K.E.R. \
+		game series by GSC Game World.
 
 LICENSE=        UNKNOWN
 LICENSE_NAME=   unknown
@@ -19,15 +21,15 @@ BUILD_DEPENDS=	sdl2>0:devel/sdl20 \
 		libtheora>0:multimedia/libtheora \
 		lzo2>0:archivers/lzo2
 
-USES=           cmake localbase
+USES=		cmake localbase
 USE_SDL=	sdl2
-USE_GITHUB=     yes
+USE_GITHUB=	yes
 
-GH_ACCOUNT=     OpenXRay
-GH_PROJECT=     xray-16
-GH_TAG=         14c4692
-GH_TUPLE+=      GPUOpen-LibrariesAndSDKs:AGS_SDK:f686755b60a18521eb2fe7b40d7b3e35125cf151:AGSSDK/Externals/AGS_SDK \
-                OpenXRay:BugTrap:c619077b40ee6e7ad6ffc5a194a5d3583af8f78e:BugTrap/Externals/BugTrap \
+GH_ACCOUNT=	OpenXRay
+GH_PROJECT=	xray-16
+GH_TAG=		6f5590d
+GH_TUPLE+=	GPUOpen-LibrariesAndSDKs:AGS_SDK:f686755b60a18521eb2fe7b40d7b3e35125cf151:AGSSDK/Externals/AGS_SDK \
+		OpenXRay:BugTrap:c619077b40ee6e7ad6ffc5a194a5d3583af8f78e:BugTrap/Externals/BugTrap \
                 OpenXRay:GameSpy:61d061b4b3f860865f97e659e496e11704f61eb3:GameSpy/Externals/GameSpy \
                 OpenXRay:LuaJIT:0bc04c4768a71a6bf7f7d6a973b06a97e58dc722:LuaJIT/Externals/LuaJIT \
                 weidai11:cryptopp:78a64e37d3ec8aa1fd941a1309b1a2eef43b0bb0:cryptopp/Externals/cryptopp \
