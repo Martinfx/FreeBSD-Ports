@@ -25,6 +25,6 @@ do-build:
 do-install:
 	@cd ${WRKSRC}/physx/bin/freebsd.clang/release/ && ${INSTALL_LIB} *.so ${STAGEDIR}${PREFIX}/lib
 	@cd ${WRKSRC}/physx/bin/freebsd.clang/release/ && ${INSTALL_LIB} *.a ${STAGEDIR}${PREFIX}/lib
-	@cd ${WRKSRC}/physx/include/ &&  ${COPYTREE_SHARE} *.h ${STAGEDIR}${PREFIX}/include/${PORTNAME}
+	@cd ${WRKSRC}/physx/include && cp -Rv . ${STAGEDIR}${PREFIX}/include/${PORTNAME}
 
 .include <bsd.port.mk>
