@@ -1,0 +1,15 @@
+--- physx/buildtools/presets/public/freebsd.xml.orig	2024-07-05 10:21:03 UTC
++++ physx/buildtools/presets/public/freebsd.xml
+@@ -0,0 +1,12 @@
++<?xml version="1.0" encoding="utf-8"?>
++<preset name="freebsd" comment="FreeBSD clang PhysX SDK general settings">
++  <platform targetPlatform="freebsd" compiler="clang" />
++  <CMakeSwitches>
++    <cmakeSwitch name="PX_BUILDSNIPPETS" value="False" comment="Generate the snippets" />
++    <cmakeSwitch name="PX_BUILDPUBLICSAMPLES" value="False" comment="Generate the samples" />
++    <cmakeSwitch name="PX_GENERATE_STATIC_LIBRARIES" value="False" comment="Generate static libs" />    
++  </CMakeSwitches>
++  <CMakeParams>
++    <cmakeParam name="CMAKE_INSTALL_PREFIX" value="install/freebsd/PhysX" comment="Install path relative to PhysX SDK root" />
++  </CMakeParams>
++</preset>
