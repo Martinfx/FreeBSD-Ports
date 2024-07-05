@@ -11,6 +11,8 @@ LICENSE_NAME=	NVIDIA PhysX SDK 4.1
 LICENSE_FILE=	${WRKSRC}/LICENSE.md
 LICENSE_PERMS=  dist-mirror no-dist-sell pkg-mirror no-pkg-sell auto-accept
 
+BUILD_DEPENDS=	bash:shells/bash
+
 USE_GITHUB=	yes
 GH_ACCOUNT=	NVIDIAGameWorks
 GH_PROJECT=	PhysX
