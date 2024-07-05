@@ -4,6 +4,7 @@ CATEGORIES=	devel
 
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	NVIDIA PhysX SDK
+WWW=		https://developer.nvidia.com/physx-sdk
 
 LICENSE=	NVIDIA
 LICENSE_NAME=	NVIDIA PhysX SDK 4.1
@@ -21,7 +22,7 @@ do-build:
 
 do-install:
 	@cd ${WRKSRC}/physx/bin/freebsd.clang/release/ && ${INSTALL_LIB} *.so ${STAGEDIR}${PREFIX}/lib
-        @cd ${WRKSRC}/physx/bin/freebsd.clang/release/ && ${INSTALL_LIB} *.a ${STAGEDIR}${PREFIX}/lib
-
+	@cd ${WRKSRC}/physx/bin/freebsd.clang/release/ && ${INSTALL_LIB} *.a ${STAGEDIR}${PREFIX}/lib
+	@cd ${WRKSRC}/physx/include/ &&  ${COPYTREE_SHARE} *.h ${STAGEDIR}${PREFIX}/include/${PORTNAME}
 
 .include <bsd.port.mk>
