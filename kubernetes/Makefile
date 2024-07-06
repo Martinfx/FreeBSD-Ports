@@ -5,7 +5,7 @@ CATEGORIES=	devel
 
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Production-Grade Container Scheduling and Management.
-WWW=		kubernetes.io
+WWW=		https://kubernetes.io
 
 LICENSE=	APACHE20
 LICENSE_FILE=   ${WRKSRC}/LICENSE
