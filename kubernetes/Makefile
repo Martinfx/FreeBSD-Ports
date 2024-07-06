@@ -4,7 +4,7 @@ DISTVERSION=	1.30.2
 CATEGORIES=	devel
 
 MAINTAINER=	freebsd@sysctl.cz
-COMMENT=	Production-Grade Container Scheduling and Management.
+COMMENT=	Production-Grade Container Scheduling.
 WWW=		https://kubernetes.io
 
 LICENSE=	APACHE20
