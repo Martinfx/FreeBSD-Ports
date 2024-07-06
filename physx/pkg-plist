@@ -162,11 +162,11 @@ include/physx/vehicle/PxVehicleUtilSetup.h
 include/physx/vehicle/PxVehicleUtilTelemetry.h
 include/physx/vehicle/PxVehicleWheels.h
 lib/libPhysXCharacterKinematic_static_64.a
-lib/libPhysXCommon_64.so
-lib/libPhysXCooking_64.so
+lib/libPhysXCommon_static_64.a
+lib/libPhysXCooking_static_64.a
 lib/libPhysXExtensions_static_64.a
-lib/libPhysXFoundation_64.so
+lib/libPhysXFoundation_static_64.a
 lib/libPhysXPvdSDK_static_64.a
 lib/libPhysXVehicle_static_64.a
-lib/libPhysX_64.so
+lib/libPhysX_static_64.a
 
