@@ -1,4 +1,4 @@
---- physx/buildtools/cmake_generate_projects.py.orig	2024-07-05 08:57:34 UTC
+--- physx/buildtools/cmake_generate_projects.py.orig	2022-11-09 12:26:46 UTC
 +++ physx/buildtools/cmake_generate_projects.py
 @@ -118,6 +118,8 @@ class CMakePreset:
              return False
@@ -18,13 +18,14 @@
          elif self.targetPlatform == 'linuxAarch64':
              outString = outString + '-G \"Unix Makefiles\"'
  
-@@ -314,6 +318,19 @@ class CMakePreset:
+@@ -314,6 +318,20 @@ class CMakePreset:
                      os.environ['PM_CMakeModules_PATH'] + \
                      '/linux/LinuxAarch64.cmake\"'
              return outString
 +        elif self.targetPlatform == 'freebsd':
 +            outString = outString + ' -DTARGET_BUILD_PLATFORM=freebsd'
 +            outString = outString + ' -DPX_OUTPUT_ARCH=x86'
++            outString = outString + ' -DNDEBUG=0'
 +            if self.compiler == 'clang':
 +                if os.environ.get('PM_clang_PATH') is not None:
 +                    outString = outString + ' -DCMAKE_C_COMPILER=' + \
@@ -38,7 +39,7 @@
          elif self.targetPlatform == 'mac64':
              outString = outString + ' -DTARGET_BUILD_PLATFORM=mac'
              outString = outString + ' -DPX_OUTPUT_ARCH=x86'
-@@ -393,7 +410,7 @@ def presetProvided(pName):
+@@ -393,7 +411,7 @@ def presetProvided(pName):
              # run the cmake script
              #print('Cmake params:' + cmakeParams)
              os.chdir(os.path.join(os.environ['PHYSX_ROOT_DIR'], outputDir))
