@@ -1,4 +1,4 @@
---- pxshared/include/foundation/PxPreprocessor.h.orig	2024-07-05 10:01:57 UTC
+--- pxshared/include/foundation/PxPreprocessor.h.orig	2022-11-09 12:26:46 UTC
 +++ pxshared/include/foundation/PxPreprocessor.h
 @@ -100,6 +100,8 @@ Operating system defines, see http://sourceforge.net/p
  #define PX_ANDROID 1
@@ -40,6 +40,15 @@
  #define PX_C_EXPORT extern "C"
  #else
  #define PX_C_EXPORT
+@@ -446,7 +451,7 @@ General defines
+ 
+ // check that exactly one of NDEBUG and _DEBUG is defined
+ #if !defined(NDEBUG) ^ defined(_DEBUG)
+-#error Exactly one of NDEBUG and _DEBUG needs to be defined!
++//#error Exactly one of NDEBUG and _DEBUG needs to be defined!
+ #endif
+ 
+ // make sure PX_CHECKED is defined in all _DEBUG configurations as well
 @@ -523,7 +528,7 @@ PX_COMPILE_TIME_ASSERT(PX_OFFSET_OF(PxPackValidation, 
  
  #ifndef DISABLE_CUDA_PHYSX

@@ -13,17 +13,20 @@ LICENSE_PERMS=  dist-mirror no-dist-sell pkg-mirror no-pkg-sell auto-accept
 
 BUILD_DEPENDS=	bash:shells/bash
 
+USES=		python
 USE_GITHUB=	yes
 GH_ACCOUNT=	NVIDIAGameWorks
 GH_PROJECT=	PhysX
 GH_TAGNAME=	a2c0428
+
+BINARY_ALIAS+=	python3=${PYTHON_CMD}
 
 do-build:
 	@cd ${WRKSRC}/physx && ${BASH} ./generate_projects.sh
 	@cd ${WRKSRC}/physx/compiler/freebsd-release && gmake
 
 do-install:
-	@cd ${WRKSRC}/physx/bin/freebsd.clang/release/ && ${INSTALL_LIB} *.so ${STAGEDIR}${PREFIX}/lib
+#	@cd ${WRKSRC}/physx/bin/freebsd.clang/release/ && ${INSTALL_LIB} *.so ${STAGEDIR}${PREFIX}/lib
 	@cd ${WRKSRC}/physx/bin/freebsd.clang/release/ && ${INSTALL_LIB} *.a ${STAGEDIR}${PREFIX}/lib
 	@cd ${WRKSRC}/physx/include && cp -Rv . ${STAGEDIR}${PREFIX}/include/${PORTNAME}
 
