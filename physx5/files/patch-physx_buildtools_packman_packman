@@ -1,0 +1,40 @@
+--- physx/buildtools/packman/packman.orig	2024-05-31 15:16:16 UTC
++++ physx/buildtools/packman/packman
+@@ -66,11 +66,11 @@ fetch_file_from_s3()
+ 	SOURCE_URL=http://bootstrap.packman.nvidia.com/$SOURCE
+ 	TARGET=$2
+ 	echo "Fetching $SOURCE from bootstrap.packman.nvidia.com ..."
+-	if command -v wget >/dev/null 2>&1; then
+-		wget $PM_WGET_QUIET -O$TARGET $SOURCE_URL
+-	else
+-		curl -o $TARGET $SOURCE_URL $PM_CURL_SILENT
+-	fi
++	#if command -v wget >/dev/null 2>&1; then
++#		wget $PM_WGET_QUIET -O$TARGET $SOURCE_URL
++#	else
++#		curl -o $TARGET $SOURCE_URL $PM_CURL_SILENT
++#	fi
+ }
+ 
+ generate_temp_file_name()
+@@ -95,6 +95,8 @@ install_python()
+ 		PYTHON_PACKAGE=$PYTHON_VERSION-linux-x86_64
+ 	elif [ $PLATFORM == 'Linux' ] && [ $PROCESSOR == 'aarch64' ]; then
+ 		PYTHON_PACKAGE=$PYTHON_VERSION-linux-aarch64
++	elif [ $PLATFORM == 'FreeBSD' ] && [ $PROCESSOR == 'amd64' ]; then
++                PYTHON_PACKAGE=$
+ 	else
+ 		echo "Operating system not supported"
+ 		exit 1
+@@ -123,9 +125,8 @@ install_python()
+ 
+ # Ensure python is available:
+ if [ -z "${PM_PYTHON_EXT:-}" ]; then
+-	install_python
+-else
+-	PM_PYTHON="$PM_PYTHON_EXT"
++#	install_python
++	PM_PYTHON=python
+ fi
+ 
+ # The packman module may be externally configured
