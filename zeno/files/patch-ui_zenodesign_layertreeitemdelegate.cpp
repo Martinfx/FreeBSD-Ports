@@ -13,6 +13,5 @@
  void LayerTreeitemDelegate::initStyleOption(QStyleOptionViewItem* option, const QModelIndex& index) const
  {
      QStyledItemDelegate::initStyleOption(option, index);
--}
-\ No newline at end of file
+ }
 +}
