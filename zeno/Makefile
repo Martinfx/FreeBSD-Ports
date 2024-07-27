@@ -29,7 +29,7 @@ CMAKE_OFF=	ZENO_BUILD_DESIGNER ZENO_BUILD_PLAYER ZENO_INSTALL_TARGET \
 		# ZENO_BUILD_DESIGNER - bug https://github.com/zenustech/zeno/issues/1907
 
 		# fix on 13.3: "ld: error: undefined reference due to --no-allow-shlib-undefined:
-LDFLAGS+=	-Wl,--allow-shlib-undefined -L${LOCALBASE}/lib -lomp
+LDFLAGS+=	-Wl,--allow-shlib-undefined -lomp
 
 PLIST_FILES=	bin/zenoedit \
 		bin/autotest \

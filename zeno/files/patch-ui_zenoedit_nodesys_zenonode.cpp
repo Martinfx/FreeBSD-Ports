@@ -12,6 +12,5 @@
              m_pCategoryItem->setText(text);
          ZGraphicsLayout::updateHierarchy(m_pCategoryItem);
      }
--}
-\ No newline at end of file
+ }
 +}

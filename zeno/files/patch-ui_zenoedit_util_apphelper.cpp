@@ -1,4 +1,4 @@
---- ui/zenoedit/util/apphelper.cpp.orig	2024-04-26 16:44:07 UTC
+--- ui/zenoedit/util/apphelper.cpp.orig	2023-11-22 19:17:26 UTC
 +++ ui/zenoedit/util/apphelper.cpp
 @@ -11,7 +11,11 @@
  #include <zeno/core/Session.h>
@@ -12,10 +12,3 @@
  
  QModelIndexList AppHelper::getSubInOutNode(IGraphsModel* pModel, const QModelIndex& subgIdx, const QString& sockName, bool bInput)
  {
-@@ -494,4 +498,4 @@ void AppHelper::dumpTabsToZsg(QDockWidget* dockWidget,
-             }
-         }
-     }
--}
-\ No newline at end of file
-+}

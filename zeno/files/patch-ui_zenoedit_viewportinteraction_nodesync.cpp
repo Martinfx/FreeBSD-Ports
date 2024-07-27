@@ -9,6 +9,5 @@
      return getPrimSockName(node_type.toStdString());
  }
  
--}
-\ No newline at end of file
+ }
 +}

@@ -1,4 +1,4 @@
---- ui/zenodesign/zpropertiespanel.cpp.orig	2024-04-22 15:11:05 UTC
+--- ui/zenodesign/zpropertiespanel.cpp.orig	2023-11-22 19:17:26 UTC
 +++ ui/zenodesign/zpropertiespanel.cpp
 @@ -5,7 +5,7 @@
  #include "styletabwidget.h"
@@ -9,10 +9,3 @@
  
  DesignerMainWin* getMainWindow(QWidget* pWidget)
  {
-@@ -564,4 +564,4 @@ ZElementPropPanel::ZElementPropPanel(QWidget* parent)
-     pVBoxLayout->addStretch();
-     
-     setLayout(pVBoxLayout);
--}
-\ No newline at end of file
-+}
