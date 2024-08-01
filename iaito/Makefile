@@ -1,5 +1,5 @@
 PORTNAME=	iaito
-PORTVERSION=	5.9.0
+PORTVERSION=	5.9.2
 CATEGORIES=	x11
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -32,19 +32,19 @@ LIB_DEPENDS=	libr_core.so:devel/radare2 \
 		libr_magic.so:devel/radare2 \
 		libr_crypto.so:devel/radare2 \
 		libr_arch.so:devel/radare2 \
-		libr_esil.so:devel/radare2 \
-		libGL.so:graphics/libglvnd \
+		libr_esil.so:devel/radare2
 
-USES=		gmake ssl qt:5 pkgconfig qmake:no_configure
-USE_QT=		svg widgets gui network core linguisttools buildtools
+USES=		desktop-file-utils gmake ssl qt:5 pkgconfig qmake:no_configure
+
+USE_GITHUB=     yes
+GH_ACCOUNT=     radareorg
+GH_PROJECT=     ${PORTNAME}
+
+USE_QT=		buildtools core gui linguisttools network svg widgets
+GNU_CONFIGURE=	yes
 USE_GL=		gl
 MAKE_ENV=	QMAKE_FLAGS="PREFIX=${STAGEDIR}${PREFIX}"\
 		DESTDIR=${STAGEDIR}${PREFIX}
-GNU_CONFIGURE=	yes
-
-USE_GITHUB=	yes
-GH_ACCOUNT=	radareorg
-GH_PROJECT=	iaito
 
 do-install:
 	${INSTALL_PROGRAM} ${WRKSRC}/build/${PORTNAME} ${STAGEDIR}${PREFIX}/bin
