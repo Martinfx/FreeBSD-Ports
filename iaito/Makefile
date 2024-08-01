@@ -36,9 +36,9 @@ LIB_DEPENDS=	libr_core.so:devel/radare2 \
 
 USES=		desktop-file-utils gmake ssl qt:5 pkgconfig qmake:no_configure
 
-USE_GITHUB=     yes
-GH_ACCOUNT=     radareorg
-GH_PROJECT=     ${PORTNAME}
+USE_GITHUB=	yes
+GH_ACCOUNT=	radareorg
+GH_PROJECT=	${PORTNAME}
 
 USE_QT=		buildtools core gui linguisttools network svg widgets
 GNU_CONFIGURE=	yes
