@@ -11,28 +11,7 @@ LICENSE=	GPLv3
 BUILD_DEPENDS=	radare2>0:devel/radare2
 
 LIB_DEPENDS=	libr_core.so:devel/radare2 \
-		libcapstone.so:devel/capstone \
-		libr_config.so:devel/radare2 \
-		libr_debug.so:devel/radare2 \
-		libr_bin.so:devel/radare2 \
-		libr_lang.so:devel/radare2 \
-		libr_anal.so:devel/radare2 \
-		libr_bp.so:devel/radare2 \
-		libr_egg.so:devel/radare2 \
-		libr_asm.so:devel/radare2 \
-		libr_flag.so:devel/radare2 \
-		libr_cons.so:devel/radare2 \
-		libr_reg.so:devel/radare2 \
-		libr_search.so:devel/radare2 \
-		libr_syscall.so:devel/radare2 \
-		libr_socket.so:devel/radare2 \
-		libr_fs.so:devel/radare2 \
-		libr_util.so:devel/radare2 \
-		libr_io.so:devel/radare2 \
-		libr_magic.so:devel/radare2 \
-		libr_crypto.so:devel/radare2 \
-		libr_arch.so:devel/radare2 \
-		libr_esil.so:devel/radare2
+		libcapstone.so:devel/capstone
 
 USES=		desktop-file-utils gmake ssl qt:5 pkgconfig qmake:no_configure
 
