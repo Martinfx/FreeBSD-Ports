@@ -24,6 +24,10 @@ NO_BUILD=	yes
 do-install:
 	${MKDIR} ${STAGEDIR}${LINUXBASE}
 	(cd ${WRKSRC} && ${COPYTREE_SHARE} app ${STAGEDIR}${LINUXBASE})
+	(cd ${WRKSRC} && ${COPYTREE_SHARE} cli ${STAGEDIR}${LINUXBASE})
+	(cd ${WRKSRC} && ${COPYTREE_SHARE} licenses ${STAGEDIR}${LINUXBASE})
+	${CHMOD} -R 0755 ${STAGEDIR}${LINUXBASE}/app/lib/runtime/bin/
+	${CHMOD} +x ${STAGEDIR}${LINUXBASE}/cli/bin/xpipe
 	${CHMOD} +x ${STAGEDIR}${LINUXBASE}/app/bin/xpiped
 
 .include <bsd.port.mk>
