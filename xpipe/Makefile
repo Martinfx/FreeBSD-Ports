@@ -11,7 +11,7 @@ WWW=		https://xpipe.io/
 
 LICENSE=	APACHE20
 
-ONLY_FOR_ARCHS=	amd64 arm64
+ONLY_FOR_ARCHS=	amd64 aarch64
 
 USES=		linux:rl9
 
