@@ -1,4 +1,4 @@
-\PORTNAME=	xpipe
+PORTNAME=	xpipe
 DISTVERSION=	10.2.2
 CATEGORIES=	editors linux
 MASTER_SITES=	https://github.com/xpipe-io/${PORTNAME}/releases/download/${DISTVERSION}/
