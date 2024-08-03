@@ -2,7 +2,7 @@ PORTNAME=	xpipe
 DISTVERSION=	10.2.2
 CATEGORIES=	editors linux
 MASTER_SITES=	https://github.com/xpipe-io/${PORTNAME}/releases/download/${DISTVERSION}/
-DISTFILES=	${PORTNAME}-portable-linux-${ARCH:S/amd64/x86_64/:S/arm64/arm64/}.tar.gz
+DISTFILES=	${PORTNAME}-portable-linux-${ARCH:S/amd64/x86_64/:S/aarch64/arm64/}.tar.gz
 PKGNAMEPREFIX=	linux-
 
 MAINTAINER=	freebsd@sysctl.cz
