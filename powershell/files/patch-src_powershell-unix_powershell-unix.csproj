@@ -1,11 +1,18 @@
---- src/powershell-unix/powershell-unix.csproj.orig	2024-01-11 22:25:54 UTC
+--- src/powershell-unix/powershell-unix.csproj.orig	2024-04-11 18:38:22 UTC
 +++ src/powershell-unix/powershell-unix.csproj
-@@ -9,7 +9,7 @@
+@@ -1,4 +1,4 @@
+-<Project Sdk="Microsoft.NET.Sdk">
++<Project Sdk="Microsoft.NET.Sdk" TreatAsLocalProperty="SelfContained">
+ 
+   <Import Project="..\..\PowerShell.Common.props"/>
+ 
+@@ -9,7 +9,8 @@
      <TieredCompilation>true</TieredCompilation>
      <TieredCompilationQuickJit>true</TieredCompilationQuickJit>
      <TieredCompilationQuickJitForLoops>true</TieredCompilationQuickJitForLoops>
 -    <RuntimeIdentifiers>linux-x64;osx-x64;</RuntimeIdentifiers>
 +    <RuntimeIdentifiers>freebsd-x64</RuntimeIdentifiers>
++    <SelfContained>False</SelfContained>
    </PropertyGroup>
  
    <ItemGroup>

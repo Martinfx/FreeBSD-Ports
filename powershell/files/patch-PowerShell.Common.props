@@ -1,0 +1,28 @@
+--- PowerShell.Common.props.orig	2024-09-21 11:08:08 UTC
++++ PowerShell.Common.props
+@@ -15,12 +15,10 @@
+     BeforeTargets="_GenerateRestoreProjectSpec;GenerateNuspec;BeforeBuild"
+   >
+ 
+-    <Exec Command='git describe --abbrev=60 --long'
+-          WorkingDirectory="$(MSBuildProjectDirectory)"
+-          ConsoleToMSBuild="true"
+-          StandardOutputImportance="Low">
+-      <Output TaskParameter="ConsoleOutput" PropertyName="PowerShellVersion" />
+-    </Exec>
++    <PropertyGroup>
++      <PowerShellVersion>%%DISTVERSION%%</PowerShellVersion>
++      <ReleaseTag>%%DISTVERSION%%</ReleaseTag>
++    </PropertyGroup>
+ 
+     <PropertyGroup Condition = "'$(ReleaseTag)' != ''">
+       <!--
+@@ -141,7 +139,7 @@
+     <TargetFramework>net8.0</TargetFramework>
+     <LangVersion>11.0</LangVersion>
+ 
+-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
++    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+     <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>

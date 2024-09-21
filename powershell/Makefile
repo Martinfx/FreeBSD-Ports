@@ -11,7 +11,7 @@ LICENSE_FILE=	${WRKSRC}/LICENSE.txt
 
 ONLY_FOR_ARCHS=	aarch64 amd64
 
-BUILD_DEPENDS=	dotnet:lang/dotnet
+BUILD_DEPENDS=	dotnet:lang<=8.0.0/dotnet
 LIB_DEPENDS=	libinotify.so:devel/libinotify \
 		libunwind.so:devel/libunwind
 
@@ -141,9 +141,9 @@ PWSH_MOD_EXTRACT_ARGS=	-x "\[Content_Types\].xml" \
 post-extract:
 	${RM} -r ${WRKSRC}/src/libpsl-native
 	${MV} ${WRKSRC_native}/src/libpsl-native ${WRKSRC}/src/libpsl-native
-#	${MKDIR} ${WRKSRC}/src/Microsoft.PowerShell.SDK/obj
-#	${CP} ${FILESDIR}/Microsoft.PowerShell.SDK.csproj.TypeCatalog.targets \
-#		${WRKSRC}/src/Microsoft.PowerShell.SDK/obj
+	${MKDIR} ${WRKSRC}/src/Microsoft.PowerShell.SDK/obj
+	${CP} ${FILESDIR}/Microsoft.PowerShell.SDK.csproj.TypeCatalog.targets \
+		${WRKSRC}/src/Microsoft.PowerShell.SDK/obj
 
 post-patch:
 	${REINPLACE_CMD} -e 's|%%DISTDIR%%|${DISTDIR}|' \
@@ -164,7 +164,7 @@ post-build:
 		dotnet restore --packages ${WRKDIR}/packages
 	cd ${WRKSRC}/src && dotnet msbuild \
 		Microsoft.PowerShell.SDK/Microsoft.PowerShell.SDK.csproj \
-		#/t:_GetDependencies /p:DesignTimeBuild=true \
+		/t:_GetDependencies \
 		/p:DesignTimeBuild=true \
 		/p:_DependencyFile=${WRKSRC}/src/TypeCatalogGen/powershell.inc \
 		/nologo
