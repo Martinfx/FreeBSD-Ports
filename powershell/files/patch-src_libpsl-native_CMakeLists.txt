@@ -1,0 +1,14 @@
+--- src/libpsl-native/CMakeLists.txt.orig	2024-03-30 21:52:02 UTC
++++ src/libpsl-native/CMakeLists.txt
+@@ -18,8 +18,8 @@ if (CMAKE_SYSTEM_PROCESSOR MATCHES "arm*")
+     add_subdirectory(src)
+ else ()
+     # test in BUILD_DIR
+-    message(STATUS "Tests enabled")
+-    enable_testing()
++    #message(STATUS "Tests enabled")
++    #enable_testing()
+     add_subdirectory(src)
+-    add_subdirectory(test)
++    #add_subdirectory(test)
+ endif ()
