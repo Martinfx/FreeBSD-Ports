@@ -99,12 +99,19 @@ GH_ACCOUNT=	Alex313031
 # Some parts don't have use_system_* flag, and can be turned on/off by using
 # replace_gn_files.py script, some parts just turned on/off for target host
 # OS "target_os == is_bsd", like libusb, libpci.
-GN_ARGS+=	enable_widevine=true \
+GN_ARGS+=	clang_use_chrome_plugins=false \
+		enable_backup_ref_ptr_support=false \
+		enable_hangout_services_extension=true \
+		enable_log_error_not_reached=true \
+		enable_nacl=false \
+		enable_remoting=false \
+		enable_widevine=true \
 		fatal_linker_warnings=false \
 		icu_use_data_file=false \
 		is_clang=true \
 		optimize_webui=true \
 		toolkit_views=true \
+		treat_warnings_as_errors=false \
 		use_allocator_shim=false \
 		use_aura=true \
 		use_custom_libcxx=true \
@@ -118,32 +125,9 @@ GN_ARGS+=	enable_widevine=true \
 		use_system_libffi=true \
 		use_system_libjpeg=true \
 		use_udev=false \
-		extra_cxxflags="${CXXFLAGS}" \
+		extra_cxxflags="${CXXFLAGS} ${PINCLUDES}" \
 		extra_ldflags="${LDFLAGS}" \
 		ffmpeg_branding="${FFMPEG_BRAND}"
-
-# sync with flags.gni
-GN_ARGS+=	build_with_tflite_lib=false \
-		chrome_pgo_phase=0 \
-		clang_use_chrome_plugins=false \
-		disable_fieldtrial_testing_config=true \
-		enable_backup_ref_ptr_support=false \
-		enable_log_error_not_reached=true \
-		enable_hangout_services_extension=false \
-		enable_mdns=false \
-		enable_nacl=false \
-		enable_reading_list=false \
-		enable_remoting=false \
-		enable_reporting=false \
-		enable_service_discovery=false \
-		exclude_unwind_tables=true \
-		google_api_key="" \
-		google_default_client_id="" \
-		google_default_client_secret="" \
-		safe_browsing_mode=0 \
-		treat_warnings_as_errors=false \
-		use_official_google_api_keys=false \
-		use_unofficial_version_number=false
 
 # TODO: investigate building with these options:
 # use_system_minigbm
