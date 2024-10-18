@@ -1,8 +1,6 @@
 PORTNAME=	vcpkg
 DISTVERSION=	2024.09.30
 CATEGORIES=	ports-mgmt
-DISTFILES=	microsoft-vcpkg-2024.09.30_GH0${EXTRACT_SUFX}
-EXTRACT_SUFX=	.tar.gz
 
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Vcpkg helps you manage C and C++ libraries on Windows, Linux and MacOS.
