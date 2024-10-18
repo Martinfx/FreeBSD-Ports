@@ -1,0 +1,11 @@
+[
+{ type: install
+  message: <<EOM
+1. Install
+======================
+If you are trying to use a copy of vcpkg that you've built, 
+you must define the VCPKG_ROOT environment variable to point 
+to a cloned copy of https://github.com/Microsoft/vcpkg.
+EOM
+}
+]
