@@ -68,7 +68,7 @@ MOZ_EXPORT+=	MOZ_TELEMETRY_REPORTING="" \
 		MOZ_APP_NAME="tor-browser" \
 		MOZ_CHROME_MULTILOCALE="ar ca cs da de el es-ES fa fi fr ga-IE he hu id is it ja ka ko lt mk ms my nb-NO nl pl pt-BR ro ru sq sv-SE th tr uk vi zh-CN zh-TW"
 
-MOZ_OPTIONS=--with-base-browser-version=14a7 \
+MOZ_OPTIONS=--with-base-browser-version=14.0 \
 	--enable-official-branding \
 	--enable-optimize \
 	--enable-bundled-fonts \
@@ -81,7 +81,7 @@ MOZ_OPTIONS=--with-base-browser-version=14a7 \
 	--disable-system-policies \
 	--disable-backgroundtasks \
 	--with-distribution-id=org.torproject \
-	--with-branding=browser/branding/tb-alpha
+	--with-branding=browser/branding/tb-release
 
 WRKSRC=		${WRKDIR}/${DISTNAME:S/src-//}
 
