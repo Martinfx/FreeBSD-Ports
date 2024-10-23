@@ -1,7 +1,7 @@
-commit 39df5a98686dce37f31f3741ec4f7198be4251c9
+commit 9d36885c30adb54fc4e4a8b0112a6e7379706390
 Author: Christoph Moench-Tegeder <cmt@FreeBSD.org>
 
-    regenerate FreeBSD libwebrtc patch for Firefox 128
+    regenerate FreeBSD libwebrtc patch for Firefox 128esr
 
 diff --git third_party/libwebrtc/api/adaptation/resource_adaptation_api_gn/moz.build third_party/libwebrtc/api/adaptation/resource_adaptation_api_gn/moz.build
 index 2dbd5881583e..332ca04819ee 100644
