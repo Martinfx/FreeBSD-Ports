@@ -2,13 +2,12 @@ PORTNAME=	tor-browser
 DISTVERSION=	14.0
 CATEGORIES=	www net security wayland
 MASTER_SITES=	TOR \
-		LOCAL/jsm:source2 \
-		https://build-sources.tbb.torproject.org/:source1 
-
+		https://build-sources.tbb.torproject.org/:source1 \
+		LOCAL/jsm:source2
 MASTER_SITE_SUBDIR=	torbrowser/${DISTVERSION}
 DISTNAME=	src-firefox-tor-browser-128.3.0esr-14.0-1-build6
-
 DISTFILES=	${DISTNAME}.tar.xz \
+		firefox-tor-browser-13.0.1-build2-firefox-1l0n-out.tar:source2 \
 		manual_199081.zip:source1 \
 		fonts-3--4348e1.tar.zst:source2
 MAINTAINER=	freebsd@sysctl.cz
@@ -35,7 +34,7 @@ BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
 		zip:archivers/zip
 
 USE_GITHUB=nodefault
-GH_TUPLE=mozilla-l10n:firefox-l10n:eded3303744e8f5ca85f0d14710f198cd77fd23f:ffl10n
+GH_TUPLE=	mozilla-l10n:firefox-l10n:eded3303744e8f5ca85f0d14710f198cd77fd23f:ffl10n
 USE_GITLAB=nodefault
 GL_SITE=	https://gitlab.torproject.org/
 GL_ACCOUNT=	tpo

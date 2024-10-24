@@ -1,6 +1,8 @@
-TIMESTAMP = 1729677571
+TIMESTAMP = 1729757358
 SHA256 (src-firefox-tor-browser-128.3.0esr-14.0-1-build6.tar.xz) = 07494e6ae813454740549e763dd6139ffaeaaf9a3de869552d06b55e4cb38b44
 SIZE (src-firefox-tor-browser-128.3.0esr-14.0-1-build6.tar.xz) = 610828724
+SHA256 (firefox-tor-browser-13.0.1-build2-firefox-1l0n-out.tar) = bbd290cd134e3a114241077ba82582617ab6c5117ff2226381943c504bd09775
+SIZE (firefox-tor-browser-13.0.1-build2-firefox-1l0n-out.tar) = 18848768
 SHA256 (manual_199081.zip) = 12507ba43e5e4a4c4eb8e276f11c9d693d1e0fc4715753c87cd7166649c0da6b
 SIZE (manual_199081.zip) = 28605038
 SHA256 (fonts-3--4348e1.tar.zst) = 7fbbecece6de777f196982f6eb567970a6d8e7ac2bf5b1ad6b90e1ea36374032
