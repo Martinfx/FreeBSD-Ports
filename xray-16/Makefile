@@ -21,7 +21,7 @@ BUILD_DEPENDS=	sdl2>0:devel/sdl20 \
 		libtheora>0:multimedia/libtheora \
 		lzo2>0:archivers/lzo2
 
-USES=		cmake localbase
+USES=		cmake localbase lua:51 luajit
 USE_SDL=	sdl2
 USE_GITHUB=	yes
 
@@ -46,6 +46,6 @@ GH_TUPLE+=	GPUOpen-LibrariesAndSDKs:AGS_SDK:f686755b60a18521eb2fe7b40d7b3e35125c
 		OpenXRay:lua-marshal:983a3bfd646486292daa9f2ec9b72409f86dc931:marsal/Externals/xrLuaFix/lua-marshal \
 		OpenXRay:lua-pack:c1e5a149b571cc31069e7e3146e881c203bdd052:pack/Externals/xrLuaFix/lua-pack
 
-CMAkE_ON=	XRAY_USE_LUAJIT
+CMAKE_ON=	XRAY_USE_LUAJIT
 
 .include <bsd.port.mk>
