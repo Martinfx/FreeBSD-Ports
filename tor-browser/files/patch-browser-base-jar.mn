@@ -1,11 +1,11 @@
 --- browser/base/jar.mn.orig	2024-10-23 21:35:24 UTC
 +++ browser/base/jar.mn
-@@ -106,3 +106,118 @@ browser.jar:
+@@ -106,3 +106,117 @@ browser.jar:
  *       content/browser/default-bookmarks.html        (content/default-bookmarks.html)
  
          content/browser/languageNotification.js       (content/languageNotification.js)
 +
-+	
++
 +	content/browser/manual/pl.html        (content/manual/pl.html)
 +	content/browser/manual/my.html        (content/manual/my.html)
 +	content/browser/manual/fa.html        (content/manual/fa.html)
@@ -61,7 +61,6 @@
 +	content/browser/manual/static/images/security-settings-anim.gif        (content/manual/static/images/security-settings-anim.gif)
 +	content/browser/manual/static/images/connection-assist-offline.png        (content/manual/static/images/connection-assist-offline.png)
 +	content/browser/manual/static/images/configure.png        (content/manual/static/images/configure.png)
-+	content/browser/manual/static/images/linux-make-desktop-file-executable.png        (content/manual/static/images/linux-make-desktop-file-executable.png)
 +	content/browser/manual/static/images/https-only-mode.png        (content/manual/static/images/https-only-mode.png)
 +	content/browser/manual/static/images/android-security-settings.gif        (content/manual/static/images/android-security-settings.gif)
 +	content/browser/manual/static/images/gettor-bot-telegram.png        (content/manual/static/images/gettor-bot-telegram.png)
@@ -77,9 +76,9 @@
 +	content/browser/manual/static/images/circuit_full.png        (content/manual/static/images/circuit_full.png)
 +	content/browser/manual/static/images/connection-assist-test.png        (content/manual/static/images/connection-assist-test.png)
 +	content/browser/manual/static/images/android-configure.png        (content/manual/static/images/android-configure.png)
-+	content/browser/manual/static/images/android-new-identity.png        (content/manual/static/images/android-new-identity.png) 
++	content/browser/manual/static/images/android-new-identity.png        (content/manual/static/images/android-new-identity.png)
 +	content/browser/manual/static/images/connection-assist-auto.png        (content/manual/static/images/connection-assist-auto.png)
-+	content/browser/manual/static/images/bridgemoji.png        (content/manual/static/images/bridgemoji.png) 
++	content/browser/manual/static/images/bridgemoji.png        (content/manual/static/images/bridgemoji.png)
 +	content/browser/manual/static/images/android-connect.png        (content/manual/static/images/android-connect.png)
 +	content/browser/manual/static/images/provide-bridge.png        (content/manual/static/images/provide-bridge.png)
 +	content/browser/manual/static/images/android-update-google-play.png        (content/manual/static/images/android-update-google-play.png)
