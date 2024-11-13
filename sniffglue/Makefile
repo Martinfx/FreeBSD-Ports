@@ -1,6 +1,6 @@
-PORTNAME=       sniffglue
+\PORTNAME=       sniffglue
 DISTVERSIONPREFIX=      v
-DISTVERSION=    0.16.0
+DISTVERSION=    0.16.1
 CATEGORIES=     security
 
 MAINTAINER=     freebsd@sysctl.cz
@@ -59,6 +59,7 @@ CARGO_CRATES=   addr2line-0.14.1 \
                 cc-1.0.73 \
                 cfg-if-0.1.10 \
                 cfg-if-1.0.0 \
+		cfg_aliases-0.2.0 \
                 clap-4.5.4 \
                 clap-4.4.11 \
 		clap-3.2.25 \
@@ -100,7 +101,9 @@ CARGO_CRATES=   addr2line-0.14.1 \
                 enum-primitive-derive-0.2.1 \
                 enum-primitive-derive-0.2.2 \
                 enum_primitive-0.1.1 \
+		env_filter-0.1.2 \
                 env_logger-0.10.0 \
+		env_logger-0.11.0 \
                 errno-0.2.7 \
                 errno-0.2.8 \
                 errno-dragonfly-0.1.1 \
@@ -149,6 +152,7 @@ CARGO_CRATES=   addr2line-0.14.1 \
                 kernel32-sys-0.2.2 \
                 lazy_static-1.4.0 \
                 lexical-core-0.7.5 \
+		libc-0.2.155 \
                 libc-0.2.147 \
                 linux-raw-sys-0.0.42 \
                 lock_api-0.3.4 \
@@ -166,6 +170,7 @@ CARGO_CRATES=   addr2line-0.14.1 \
                 mio-uds-0.6.8 \
                 miow-0.2.2 \
                 net2-0.2.37 \
+		nix-0.29.0 \
                 nix-0.27.0 \
 		nix-0.24.0 \
 		nix-0.25.0 \
@@ -176,10 +181,12 @@ CARGO_CRATES=   addr2line-0.14.1 \
                 nom-derive-0.10.0 \
                 nom-derive-0.7.1 \
                 nom-derive-0.7.2 \
+                num_enum_derive-0.7.2 \
                 num-traits-0.1.43 \
                 num-traits-0.2.14 \
                 num_cpus-1.13.0 \
                 num_cpus-1.13.1 \
+                num_enum-0.7.2 \
                 nom-derive-impl-0.10.0 \
                 object-0.23.0 \
                 once_cell-1.7.2 \
@@ -192,12 +199,16 @@ CARGO_CRATES=   addr2line-0.14.1 \
                 parking_lot_core-0.6.2 \
                 pcap-sys-0.1.3 \
                 percent-encoding-2.1.0 \
+		phf-0.11.0 \
                 phf-0.10.1 \
                 phf-0.8.0 \
+		phf_codegen-0.11.0 \
                 phf_codegen-0.10.0 \
                 phf_codegen-0.8.0 \
                 phf_generator-0.8.0 \
                 phf_generator-0.10.0 \
+		phf_generator-0.11.0 \
+		phf_shared-0.11.0 \
                 phf_shared-0.8.0 \
                 phf_shared-0.10.0 \
                 pkg-config-0.3.19 \
@@ -207,8 +218,10 @@ CARGO_CRATES=   addr2line-0.14.1 \
                 pledge-0.3.1 \
                 pledge-0.4.0 \
                 ppv-lite86-0.2.10 \
+		proc-macro-crate-3.2.0 \
                 proc-macro-error-1.0.4 \
                 proc-macro-error-attr-1.0.4 \
+                proc-macro2-1.0.60 \
                 proc-macro2-1.0.24 \
                 proc-macro2-1.0.36 \
                 proc-macro2-1.0.52 \
@@ -304,6 +317,7 @@ CARGO_CRATES=   addr2line-0.14.1 \
                 tinyvec_macros-0.1.0 \
                 tls-parser-0.10.0 \
                 tls-parser-0.11.0 \
+		tls-parser-0.12.0 \
                 thiserror-1.0.30 \
                 thiserror-impl-1.0.30 \
                 tokio-0.1.22 \
@@ -324,7 +338,9 @@ CARGO_CRATES=   addr2line-0.14.1 \
                 tokio-udp-0.1.6 \
                 tokio-uds-0.2.7 \
                 toml-0.8.0 \
+		toml_datetime-0.6.8 \
                 toml_datetime-0.6.5 \
+                toml_edit-0.22.20 \
                 toml_edit-0.20.0 \
                 try-lock-0.2.3 \
                 typenum-1.13.0 \
@@ -341,6 +357,7 @@ CARGO_CRATES=   addr2line-0.14.1 \
                 utf8parse-0.1.1 \
                 utf8parse-0.2.0 \
 		utf8parse-0.2.1 \
+		uzers-0.12.0 \
                 uzers-0.11.3 \
                 vec_map-0.8.2 \
                 version_check-0.9.3 \
@@ -379,6 +396,7 @@ CARGO_CRATES=   addr2line-0.14.1 \
 		windows_x86_64_msvc-0.52.4 \
                 ws2_32-sys-0.2.1 \
                 wyz-0.2.0 \
+		winnow-0.6.18 \
                 winnow-0.6.5 \
                 winnow-0.5.0
 
