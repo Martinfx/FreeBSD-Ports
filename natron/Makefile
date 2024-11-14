@@ -5,13 +5,13 @@ CATEGORIES=	graphics
 
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	compositing software Video
+WWW=		http://www.natron.fr
 
 LICENSE=	GPLv2
 
 BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}pyside2>5.14.0:devel/pyside2@${PY_FLAVOR}
 
-RUN_DEPENDS=	#${LOCALBASE}/OFX/Plugins/IO.ofx.bundle/Contents/Info.plist:graphics/openfx-io \
-		${LOCALBASE}/OFX/Plugins/Shadertoy.ofx.bundle/Contents/Info.plist:graphics/openfx-misc \
+RUN_DEPENDS=	${LOCALBASE}/OFX/Plugins/Shadertoy.ofx.bundle/Contents/Info.plist:graphics/openfx-misc \
 		${LOCALBASE}/OFX/Plugins/Arena.ofx.bundle/Contents/Info.plist:graphics/openfx-arena
 
 LIB_DEPENDS=	libavformat.so:multimedia/ffmpeg \
@@ -28,6 +28,7 @@ BUILD_DEPENDS=	boost-libs>0:devel/boost-libs \
 
 USES=		cmake compiler:c++17-lang desktop-file-utils gettext-runtime \
 		pkgconfig python:3.11 qt:5 shared-mime-info shebangfix
+USE_XORG+=	sm ice x11 xext
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	NatronGitHub
@@ -55,9 +56,6 @@ BINARY_ALIAS=		python-config=python${PYTHON_VER}-config \
 			python=python${PYTHON_VER} \
 			sed=gsed
 PYTHON_MAKE_ARGS=	PYTHON=0
-
-#MAKE_ENV+=	C_INCLUDE_PATH=${LOCALBASE}/include \
-#		CPLUS_INCLUDE_PATH=${LOCALBASE}/include
 
 post-patch:
 	@${REINPLACE_CMD} -e 's|/usr/OFX/Plugins|${PREFIX}/OFX/Plugins|g' \
