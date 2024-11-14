@@ -1,5 +1,5 @@
 PORTNAME=	tor-browser
-DISTVERSION=	14.0.1
+DISTVERSION=	14.0.2
 CATEGORIES=	www net security wayland
 MASTER_SITES=	TOR \
 		https://build-sources.tbb.torproject.org/:source1 \
@@ -9,11 +9,11 @@ MASTER_SITES=	TOR \
 DISTFILES=	${DISTNAME}.tar.xz \
 		manual_215922.zip:source1 \
 		fonts-3--4348e1.tar.zst:source2 \
-		noscript-11.4.42.xpi:source3
+		noscript-11.5.2.xpi:source3
 MASTER_SITE_SUBDIR=	torbrowser/${DISTVERSION}/:DEFAULT \
 			download/releases/:source3
 
-DISTNAME=	src-firefox-tor-browser-128.4.0esr-14.0-1-build2
+DISTNAME=	src-firefox-tor-browser-128.4.0esr-14.0-1-build3
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Tor Browser for FreeBSD
 WWW=		https://www.torproject.org/
@@ -43,7 +43,7 @@ USE_GITLAB=nodefault
 GL_SITE=	https://gitlab.torproject.org/
 GL_ACCOUNT=	tpo
 GL_PROJECT=	translation:basebrowser translation:torbrowser
-GL_TAGNAME=	3b1be2065b54939ed019d94174f137847bcf3c66:basebrowser ba63bd165f3fd4bdd472815c9761413d4671cfb7:torbrowser
+GL_TAGNAME=	5a074e0814015db3c2edbf63ff8e9d1f552900aa:basebrowser 7276d3d2ad0319c3d3762047226da7ee104d1d42:torbrowser
 RUN_DEPENDS=	tor:security/tor \
 		obfs4proxy:security/obfs4proxy-tor \
 		snowflake-client:security/snowflake-tor
@@ -72,7 +72,7 @@ MOZ_EXPORT+=	MOZ_TELEMETRY_REPORTING="" \
 		MOZ_APP_NAME="tor-browser" \
 		MOZ_CHROME_MULTILOCALE="ar ca cs da de el es-ES fa fi fr ga-IE he hu id is it ja ka ko lt mk ms my nb-NO nl pl pt-BR ro ru sq sv-SE th tr uk vi zh-CN zh-TW"
 
-MOZ_OPTIONS=--with-base-browser-version=14.0.1 \
+MOZ_OPTIONS=--with-base-browser-version=14.0.2 \
 	--enable-official-branding \
 	--enable-optimize \
 	--enable-bundled-fonts \
@@ -117,16 +117,16 @@ post-configure:
 	${CP} -r ${WRKDIR}/firefox-l10n-878fe6f256d52c7e5b0205b07b061829ccde4f17/* ${WRKDIR}/.mozbuild/l10n-central
 
 .for i in ar ca cs da de el es-ES fa fi fr ga-IE he hu id is it ja ka ko lt mk ms my nb-NO nl pl pt-BR ro ru sq sv-SE th tr uk vi zh-CN zh-TW
-	${CP} ${WRKDIR}/translation-3b1be2065b54939ed019d94174f137847bcf3c66/${i}/base-browser.ftl ${WRKDIR}/.mozbuild/l10n-central/${i}/toolkit/toolkit/global/
-	${CP} ${WRKDIR}/translation-3b1be2065b54939ed019d94174f137847bcf3c66/${i}/newIdentity.properties ${WRKDIR}/.mozbuild/l10n-central/${i}/browser/chrome/browser/
-	${CP} ${WRKDIR}/translation-3b1be2065b54939ed019d94174f137847bcf3c66/${i}/securityLevel.properties ${WRKDIR}/.mozbuild/l10n-central/${i}/browser/chrome/browser/
-	${CP} ${WRKDIR}/translation-ba63bd165f3fd4bdd472815c9761413d4671cfb7/${i}/tor-browser.ftl ${WRKDIR}/.mozbuild/l10n-central/${i}/toolkit/toolkit/global/
+	${CP} ${WRKDIR}/translation-5a074e0814015db3c2edbf63ff8e9d1f552900aa/${i}/base-browser.ftl ${WRKDIR}/.mozbuild/l10n-central/${i}/toolkit/toolkit/global/
+	${CP} ${WRKDIR}/translation-5a074e0814015db3c2edbf63ff8e9d1f552900aa/${i}/newIdentity.properties ${WRKDIR}/.mozbuild/l10n-central/${i}/browser/chrome/browser/
+	${CP} ${WRKDIR}/translation-5a074e0814015db3c2edbf63ff8e9d1f552900aa/${i}/securityLevel.properties ${WRKDIR}/.mozbuild/l10n-central/${i}/browser/chrome/browser/
+	${CP} ${WRKDIR}/translation-7276d3d2ad0319c3d3762047226da7ee104d1d42/${i}/tor-browser.ftl ${WRKDIR}/.mozbuild/l10n-central/${i}/toolkit/toolkit/global/
 	${MKDIR} ${WRKSRC}/toolkit/torbutton/chrome/locale/${i}/
 .for j in aboutTBUpdate.dtd brand.properties onionLocation.properties torbutton.properties torlauncher.properties brand.dtd settings.properties	torbutton.dtd torConnect.properties
-	${CP} ${WRKDIR}/translation-ba63bd165f3fd4bdd472815c9761413d4671cfb7/${i}/${j} ${WRKSRC}/toolkit/torbutton/chrome/locale/${i}/
+	${CP} ${WRKDIR}/translation-7276d3d2ad0319c3d3762047226da7ee104d1d42/${i}/${j} ${WRKSRC}/toolkit/torbutton/chrome/locale/${i}/
 
 .endfor
-	${CP} -r ${WRKDIR}/translation-ba63bd165f3fd4bdd472815c9761413d4671cfb7/${i}/branding ${WRKSRC}/toolkit/torbutton/chrome/locale/${i}
+	${CP} -r ${WRKDIR}/translation-7276d3d2ad0319c3d3762047226da7ee104d1d42/${i}/branding ${WRKSRC}/toolkit/torbutton/chrome/locale/${i}
 .endfor
 
 post-build:
@@ -147,6 +147,6 @@ post-install:
 	${CHMOD} 0644 	${STAGEDIR}${PREFIX}/lib/tor-browser/fonts/*.ttf
 	${CHMOD} 0644 	${STAGEDIR}${PREFIX}/lib/tor-browser/fonts/*.otf
 	${MKDIR} ${STAGEDIR}${PREFIX}/lib/tor-browser/distribution/extensions
-	${CP} ${DISTDIR}/noscript-11.4.42.xpi "${STAGEDIR}${PREFIX}/lib/tor-browser/distribution/extensions/{73a6fe31-595d-460b-a920-fcc0f8843232}.xpi"
+	${CP} ${DISTDIR}/noscript-11.5.2.xpi "${STAGEDIR}${PREFIX}/lib/tor-browser/distribution/extensions/{73a6fe31-595d-460b-a920-fcc0f8843232}.xpi"
 
 .include <bsd.port.mk>
