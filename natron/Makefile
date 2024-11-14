@@ -9,7 +9,7 @@ WWW=		http://www.natron.fr
 
 LICENSE=	GPLv2
 
-BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}pyside2>5.14.0:devel/pyside2@${PY_FLAVOR}
+BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}pyside6>6.7.3:devel/pyside2@${PY_FLAVOR}
 
 RUN_DEPENDS=	${LOCALBASE}/OFX/Plugins/Shadertoy.ofx.bundle/Contents/Info.plist:graphics/openfx-misc \
 		${LOCALBASE}/OFX/Plugins/Arena.ofx.bundle/Contents/Info.plist:graphics/openfx-arena
@@ -41,7 +41,7 @@ GH_TUPLE=	NatronGitHub:google-breakpad:9474c3f7f9939391f281d46c42bfe20cc0f0abd9:
 		NatronGitHub:SequenceParsing:3c93fcc488632b0bdfeee3181586809932357598:SequenceParsing/libs/SequenceParsing \
 		NatronGitHub:tinydir:3aae922:tinydir/libs/SequenceParsing/tinydir
 
-#USE_QT=		gui
+USE_QT=		base
 USE_XORG=	pixman x11
 USE_GL=		gl
 
