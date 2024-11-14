@@ -1,6 +1,6 @@
 PORTNAME=	natron
 DISTVERSIONPREFIX=	v
-DISTVERSION=	2.5.0-alpha.2
+DISTVERSION=	2.5.1-pre2
 CATEGORIES=	graphics
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -23,22 +23,24 @@ LIB_DEPENDS=	libavformat.so:multimedia/ffmpeg \
 		libpyside2.cpython-${PYTHON_SUFFIX}${PYTHON_ABIVER}.so:devel/pyside2 \
 		libshiboken2.cpython-${PYTHON_SUFFIX}${PYTHON_ABIVER}.so:devel/shiboken2@${PY_FLAVOR}
 
-USES=		compiler:c++17-lang desktop-file-utils gettext-runtime \
-		pkgconfig python:3.8 qmake qt:5 shared-mime-info shebangfix
+BUILD_DEPENDS=	boost-libs>0:devel/boost-libs \
+		gsed:textproc/gsed
+
+USES=		cmake compiler:c++17-lang desktop-file-utils gettext-runtime \
+		pkgconfig python:3.11 qt:5 shared-mime-info shebangfix
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	NatronGitHub
 GH_PROJECT=	Natron
-GH_TUPLE=	NatronGitHub:google-breakpad:9474c3f:google_breakpad/libs/google-breakpad \
-		NatronGitHub:google-mock:17945db:google_mock/Tests/google-mock \
-		NatronGitHub:google-test:50d6fc3:google_test/Tests/google-test \
+GH_TUPLE=	NatronGitHub:google-breakpad:9474c3f7f9939391f281d46c42bfe20cc0f0abd9:google_breakpad/libs/google-breakpad \
+		NatronGitHub:google-mock:17945db42c0b42496b2f3c6530307979f2e2a5ce:google_mock/Tests/google-mock \
+		NatronGitHub:google-test:50d6fc317c843a2e40dbf08c2efd3f068801ae6d:google_test/Tests/google-test \
 		NatronGitHub:OpenColorIO-Configs:557b981:OpenColorIO_Configs/OpenColorIO-Configs \
-		NatronGitHub:openfx:a85dc34:openfx/libs/OpenFX \
-		NatronGitHub:SequenceParsing:9e8b77a:SequenceParsing/libs/SequenceParsing \
+		NatronGitHub:openfx:0759758d0fb57932b5c4698fff9ef6b4a3132309:openfx/libs/OpenFX \
+		NatronGitHub:SequenceParsing:3c93fcc488632b0bdfeee3181586809932357598:SequenceParsing/libs/SequenceParsing \
 		NatronGitHub:tinydir:3aae922:tinydir/libs/SequenceParsing/tinydir
 
-USE_QT=		concurrent core gui network opengl widgets buildtools_build \
-		qmake_build
+USE_QT=		concurrent core gui network opengl widgets
 USE_XORG=	pixman x11
 USE_GL=		gl
 
@@ -50,7 +52,8 @@ QMAKE_ARGS+=	PYTHON_INCLUDEDIR=${PYTHON_INCLUDEDIR} PYTHON_LIB=${PYTHON_LIB} \
 
 SHEBANG_FILES=		OpenColorIO-Configs/nuke-default/make.py
 BINARY_ALIAS=		python-config=python${PYTHON_VER}-config \
-			python=python${PYTHON_VER}
+			python=python${PYTHON_VER} \
+			sed=gsed
 PYTHON_MAKE_ARGS=	PYTHON=0
 
 #MAKE_ENV+=	C_INCLUDE_PATH=${LOCALBASE}/include \

@@ -1,0 +1,24 @@
+--- Engine/CMakeLists.txt.orig	2024-11-14 20:46:06 UTC
++++ Engine/CMakeLists.txt
+@@ -74,6 +74,9 @@ add_library(NatronEngine STATIC ${NatronEngine_HEADERS
+     ../libs/SequenceParsing/SequenceParsing.cpp
+ )
+ add_library(NatronEngine STATIC ${NatronEngine_HEADERS} ${NatronEngine_SOURCES})
++
++find_package(Boost REQUIRED serialization)
++
+ target_link_libraries(NatronEngine
+     PUBLIC
+         HostSupport
+@@ -96,6 +99,11 @@ if(WIN32)
+ if(WIN32)
+     #System library is required on windows to map network share names from drive letters
+     target_link_libraries(NatronEngine PRIVATE mpr)
++endif()
++
++if(Boost_FOUND)
++    include_directories(${Boost_INCLUDE_DIRS})
++    target_link_libraries(NatronEngine ${Boost_LIBRARIES})
+ endif()
+ 
+ target_include_directories(NatronEngine
