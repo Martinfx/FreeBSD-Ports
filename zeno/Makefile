@@ -3,7 +3,7 @@ DISTVERSION=	2024.10.1
 CATEGORIES=	graphics
 
 MAINTAINER=	freebsd@sysctl.cz
-COMMENT=	Zen node system - a simulation
+COMMENT=	ZEn NOde system - a simulation & rendering engine in nodes
 WWW=		https://zenustech.com/
 
 LICENSE=	MPL20
@@ -16,30 +16,28 @@ BUILD_DEPENDS=	openmpi>0:net/openmpi \
 
 LIB_DEPENDS=	libcryptopp.so:security/cryptopp
 
-USES=		cmake compiler:c++17-lang localbase:ldflags eigen:3 qt:5
-USE_QT=		buildtools core widgets gui linguisttools network opengl svg qmake
+USES=		cmake compiler:c++17-lang eigen:3 localbase:ldflags qt:5
 USE_GITHUB=	yes
-USE_LDCONFIG=   yes
-USE_GCC=	yes
 GH_ACCOUNT=	zenustech
+USE_LDCONFIG=	yes
+USE_QT=		core gui network opengl svg widgets buildtools:build qmake:build
 
-CMAKE_ON=	ZENO_BUILD_EDITOR ZENO_MULTIPROCESS \
-		ZENO_BUILD_SHARED ZENO_USE_CCACHE ZENO_NO_WARNING \
-		ZENO_IPC_USE_TCP
+CMAKE_ON=	ZENO_BUILD_EDITOR ZENO_BUILD_SHARED ZENO_IPC_USE_TCP \
+		ZENO_MULTIPROCESS ZENO_NO_WARNING ZENO_USE_CCACHE
 CMAKE_OFF=	ZENO_BUILD_DESIGNER ZENO_BUILD_PLAYER ZENO_INSTALL_TARGET \
-		ZENO_WITH_CUDA ZENO_MARCH_NATIVE ZENO_USE_FAST_MATH \
-		ZENO_OPTIX_PROC ZENO_WIN32_RC
-		# ZENO_BUILD_DESIGNER - bug https://github.com/zenustech/zeno/issues/1907
+		ZENO_MARCH_NATIVE ZENO_OPTIX_PROC ZENO_USE_FAST_MATH \
+		ZENO_WIN32_RC ZENO_WITH_CUDA
+# ZENO_BUILD_DESIGNER - bug https://github.com/zenustech/zeno/issues/1907
 
-		# fix on 13.3: "ld: error: undefined reference due to --no-allow-shlib-undefined:
+# fix on 13.3: "ld: error: undefined reference due to --no-allow-shlib-undefined:
 LDFLAGS+=	-Wl,--allow-shlib-undefined -lomp
 
-PLIST_FILES=	bin/zenoedit \
-		bin/autotest \
+PLIST_FILES=	bin/autotest \
+		bin/zenoedit \
 		lib/libzeno.so
 do-install:
-	${INSTALL_PROGRAM} ${WRKDIR}/.build/bin/zenoedit ${STAGEDIR}${PREFIX}/bin
 	${INSTALL_PROGRAM} ${WRKDIR}/.build/bin/autotest ${STAGEDIR}${PREFIX}/bin
-	${INSTALL_DATA} ${WRKDIR}/.build/bin/libzeno.so ${STAGEDIR}${PREFIX}/lib
+	${INSTALL_PROGRAM} ${WRKDIR}/.build/bin/zenoedit ${STAGEDIR}${PREFIX}/bin
+	${INSTALL_LIB} ${WRKDIR}/.build/bin/libzeno.so ${STAGEDIR}${PREFIX}/lib
 
 .include <bsd.port.mk>
