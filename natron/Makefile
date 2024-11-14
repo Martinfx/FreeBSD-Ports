@@ -28,7 +28,6 @@ BUILD_DEPENDS=	boost-libs>0:devel/boost-libs \
 
 USES=		cmake compiler:c++17-lang desktop-file-utils gettext-runtime \
 		pkgconfig python:3.11 qt:5 shared-mime-info shebangfix
-USE_XORG+=	sm ice x11 xext
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	NatronGitHub
@@ -42,7 +41,7 @@ GH_TUPLE=	NatronGitHub:google-breakpad:9474c3f7f9939391f281d46c42bfe20cc0f0abd9:
 		NatronGitHub:tinydir:3aae922:tinydir/libs/SequenceParsing/tinydir
 
 USE_QT=		concurrent core gui network opengl widgets
-USE_XORG=	pixman x11
+USE_XORG=	pixman sm ice xext x11
 USE_GL=		gl
 
 QMAKE_ARGS+=	PYTHON_INCLUDEDIR=${PYTHON_INCLUDEDIR} PYTHON_LIB=${PYTHON_LIB} \
