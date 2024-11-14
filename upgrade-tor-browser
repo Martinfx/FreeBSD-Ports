@@ -1,0 +1,36 @@
+the translations git hash is in browser/locales/l10n-changesets.json 
+if they are all the same for each language you can simply use that in git hash in firefox-l10n. The tor specific translation hashes  are in configs of tor-browser-build 
+
+
+this line ? GH_TUPLE=       mozilla-l10n:firefox-l10n:878fe6f256d52c7e5b0205b07b061829ccde4f17:ffl10
+
+so in 14.0.1 browser/locales/l10n-changesets.json  had revision 878fe6f256d52c7e5b0205b07b061829ccde4f17 fro all languages
+(grep revision browser/locales/l10n-changesets.json)
+also note Updated NoScript to 11.5.2
+
+
+and this two hashes ?
+
+GL_PROJECT=     translation:basebrowser translation:torbrowser
+GL_TAGNAME=     3b1be2065b54939ed019d94174f137847bcf3c66:basebrowser ba63bd165f3fd4bdd472815c9761413d4671cfb7:torbrowser
+
+
+comes from tor-browser-build translations project config
+from the correct branch
+
+  base-browser:
+    base-browser: '[% INCLUDE build %]'
+    git_hash: 5a074e0814015db3c2edbf63ff8e9d1f552900aa
+    targets:
+      nightly:
+        git_hash: 'base-browser'
+  tor-browser:
+    tor-browser: '[% INCLUDE build %]'
+    git_hash: 7276d3d2ad0319c3d3762047226da7ee104d1d42
+    targets:
+      nightly:
+        git_hash: 'tor-browser'
+
+
+git diff tbb-14.0.1-build1  projects/translation/config
+https://gitlab.torproject.org/tpo/applications/tor-browser-build.git
