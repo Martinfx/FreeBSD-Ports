@@ -34,7 +34,7 @@
 -        Qt5::Concurrent
 -        Qt5::Network
 +        Shiboken6::libshiboken
-+        PySide6::pyside
++        PySide6::pyside6
 +        Qt6::Core
 +        Qt6::Concurrent
 +        Qt6::Network
