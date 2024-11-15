@@ -1,0 +1,11 @@
+--- Tests/CMakeLists.txt.orig	2024-11-15 17:09:39 UTC
++++ Tests/CMakeLists.txt
+@@ -36,7 +36,7 @@ target_link_libraries(Tests
+ target_link_libraries(Tests
+     PRIVATE
+         NatronEngine
+-        Qt5::Core
++        Qt6::Core
+         Python3::Python
+         openMVG
+ )
