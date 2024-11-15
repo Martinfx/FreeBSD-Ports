@@ -1,5 +1,5 @@
 ORTNAME=	rustdesk
-DISTVERSION=	1.2.6
+DISTVERSION=	1.3.2
 CATEGORIES=	deskutils
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -14,8 +14,7 @@ USES=           cargo pkgconfig
 USE_GITHUB=     yes
 GH_ACCOUNT=     MartinFx
 GH_PROJECT=     rustdesk
-GH_TAGNAME=	d2f119b
-
+GH_TAGNAME=	06c7bc1
 
 BUILD_DEPENDS+=	opus>0:audio/opus \
 		libyuv>0:graphics/libyuv \

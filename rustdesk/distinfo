@@ -1,4 +1,4 @@
-TIMESTAMP = 1719343614
+TIMESTAMP = 1731700878
 SHA256 (rust/crates/addr2line-0.21.0.crate) = 8a30b2e23b9e17a9f90641c7ab1549cd9b44f296d3ccbf309d2863cfe398a0cb
 SIZE (rust/crates/addr2line-0.21.0.crate) = 40807
 SHA256 (rust/crates/adler-1.0.2.crate) = f26201604c87b1e01bd3d98f8d5d9a8fcbb815e8cedb41ffccbeb4bf593a35fe
@@ -1529,5 +1529,5 @@ SHA256 (Martinfx-system_shutdown-ad64ce5a25e1419af16c07f6f3fc7ed2ef96a3e6_GH0.ta
 SIZE (Martinfx-system_shutdown-ad64ce5a25e1419af16c07f6f3fc7ed2ef96a3e6_GH0.tar.gz) = 10749
 SHA256 (Martinfx-muda-9dcaa5b1d9541ad448c8f5f44ca69698e718df7c_GH0.tar.gz) = 1bea9a5f55a21afaf3beb26aa448c6a962b0b2a3de4d058863d71bd73ad581e3
 SIZE (Martinfx-muda-9dcaa5b1d9541ad448c8f5f44ca69698e718df7c_GH0.tar.gz) = 74600
-SHA256 (MartinFx-rustdesk-1.2.6-d2f119b_GH0.tar.gz) = 60bd0322639419b45bcc74443e2ff29faff5771621730e53ac8487b28a6e90a7
-SIZE (MartinFx-rustdesk-1.2.6-d2f119b_GH0.tar.gz) = 4903901
+SHA256 (MartinFx-rustdesk-1.3.2-06c7bc1_GH0.tar.gz) = 69fbb1101018e555fa9b0d7fa2ef847ae43caa4ad1ac48887d9bddfa7bec4e3d
+SIZE (MartinFx-rustdesk-1.3.2-06c7bc1_GH0.tar.gz) = 5946876
