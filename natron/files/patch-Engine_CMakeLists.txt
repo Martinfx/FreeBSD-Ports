@@ -1,6 +1,15 @@
 --- Engine/CMakeLists.txt.orig	2024-09-13 07:39:11 UTC
 +++ Engine/CMakeLists.txt
-@@ -74,11 +74,17 @@ add_library(NatronEngine STATIC ${NatronEngine_HEADERS
+@@ -46,7 +46,7 @@ add_custom_command(OUTPUT ${PyEngine_SOURCES}
+     OUTPUT_VARIABLE PyEngine_SOURCES)
+ set_property(SOURCE ${PyEngine_SOURCES} PROPERTY SKIP_AUTOGEN ON)
+ add_custom_command(OUTPUT ${PyEngine_SOURCES}
+-    COMMAND Shiboken2::shiboken2 ${shiboken_args}
++    COMMAND Shiboken6::shiboken ${shiboken_args}
+     COMMAND bash ${POST_SHIBOKEN} ${PYENGINE_OUT}/NatronEngine natronengine
+     DEPENDS ${PYENGINE_HEADER} ${NatronEngine_HEADERS} ${POST_SHIBOKEN} typesystem_engine.xml
+     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+@@ -74,18 +74,24 @@ add_library(NatronEngine STATIC ${NatronEngine_HEADERS
      ../libs/SequenceParsing/SequenceParsing.cpp
  )
  add_library(NatronEngine STATIC ${NatronEngine_HEADERS} ${NatronEngine_SOURCES})
@@ -19,7 +28,19 @@
 +        ${Boost_LIBRARIES}
          PkgConfig::Cairo
      PRIVATE
-         Shiboken2::libshiboken
+-        Shiboken2::libshiboken
+-        PySide2::pyside2
+-        Qt5::Core
+-        Qt5::Concurrent
+-        Qt5::Network
++        Shiboken6::libshiboken
++        PySide6::pyside
++        Qt6::Core
++        Qt6::Concurrent
++        Qt6::Network
+         Python3::Module
+         ${XDG_LIBS}
+         ceres
 @@ -99,6 +105,7 @@ endif()
      #System library is required on windows to map network share names from drive letters
      target_link_libraries(NatronEngine PRIVATE mpr)
