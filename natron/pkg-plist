@@ -6,3 +6,5 @@ share/metainfo/fr.natron.Natron.appdata.xml
 share/mime/x-natron.xml
 share/pixmaps/natronIcon256_linux.png
 share/pixmaps/natronProjectIcon_linux.png
+@owner natronProjectIcon_linux.png
+
