@@ -16,6 +16,7 @@ RUN_DEPENDS=	${LOCALBASE}/OFX/Plugins/Shadertoy.ofx.bundle/Contents/Info.plist:g
 
 LIB_DEPENDS=	libavformat.so:multimedia/ffmpeg \
 		libboost_system.so:devel/boost-libs \
+		libboost_serialization.so:devel/boost-libs \
 		libcairo.so:graphics/cairo \
 		libexpat.so:textproc/expat2 \
 		libfontconfig.so:x11-fonts/fontconfig \
@@ -24,10 +25,11 @@ LIB_DEPENDS=	libavformat.so:multimedia/ffmpeg \
 		libshiboken2.cpython-${PYTHON_SUFFIX}${PYTHON_ABIVER}.so:devel/shiboken2@${PY_FLAVOR}
 
 BUILD_DEPENDS=	boost-libs>0:devel/boost-libs \
+		bash:shells/bash \
 		gsed:textproc/gsed
 
 USES=		cmake compiler:c++17-lang desktop-file-utils gettext-runtime \
-		pkgconfig python:3.11 qt:5 shared-mime-info shebangfix
+		pkgconfig localbase python:3.11 qt:5 shared-mime-info shebangfix
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	NatronGitHub
@@ -40,7 +42,7 @@ GH_TUPLE=	NatronGitHub:google-breakpad:9474c3f7f9939391f281d46c42bfe20cc0f0abd9:
 		NatronGitHub:SequenceParsing:3c93fcc488632b0bdfeee3181586809932357598:SequenceParsing/libs/SequenceParsing \
 		NatronGitHub:tinydir:3aae922:tinydir/libs/SequenceParsing/tinydir
 
-USE_QT=		concurrent core gui network opengl widgets
+USE_QT=		concurrent core gui network opengl widgets qmake:build buildtools:build
 USE_XORG=	pixman sm ice xext x11
 USE_GL=		gl
 
