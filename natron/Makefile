@@ -41,8 +41,8 @@ GH_TUPLE=	NatronGitHub:google-breakpad:9474c3f7f9939391f281d46c42bfe20cc0f0abd9:
 		NatronGitHub:openfx:0759758d0fb57932b5c4698fff9ef6b4a3132309:openfx/libs/OpenFX \
 		NatronGitHub:SequenceParsing:3c93fcc488632b0bdfeee3181586809932357598:SequenceParsing/libs/SequenceParsing \
 		NatronGitHub:tinydir:3aae922:tinydir/libs/SequenceParsing/tinydir
-
-USE_QT=		concurrent core gui network opengl widgets qmake:build buildtools:build
+    
+USE_QT=		concurrent core gui network opengl widgets buildtools:build qmake:build
 USE_XORG=	pixman sm ice xext x11
 USE_GL=		gl
 
