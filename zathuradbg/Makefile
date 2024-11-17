@@ -11,6 +11,7 @@ LICENSE_FILE=	${WRKSRC}/LICENSE
 
 BUILD_DEPENDS=	${LOCALBASE}/include/boost/regex.hpp:devel/boost-libs \
 		capstone>0:devel/capstone \
+		keystone>0:devel/keystone \
 		nlohmann-json>0:devel/nlohmann-json
 
 LIB_DEPENDS=	libunicorn.so:emulators/unicorn \
