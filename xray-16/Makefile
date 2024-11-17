@@ -27,7 +27,7 @@ LIB_DEPENDS	libogg.so:audio/libogg \
 		libvorbis.so:audio/libvorbis \
 		libvorbisfile.so:audio/libvorbis
 
-USES=		cmake desktop-file-utils localbase jpeg openal sdl2
+USES=		cmake desktop-file-utils localbase jpeg openal
 USE_SDL=	sdl2
 USE_GITHUB=	yes
 
