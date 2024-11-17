@@ -1,6 +1,6 @@
-TIMESTAMP = 1731836308
-SHA256 (ZathuraDbg-ZathuraDbg-0.2.5-beta_GH0.tar.gz) = d09ed463eb98c1a9bf5858d6605aa688b0970bd554ae892f939c7bbbb34456d5
-SIZE (ZathuraDbg-ZathuraDbg-0.2.5-beta_GH0.tar.gz) = 5541779
+TIMESTAMP = 1731842449
+SHA256 (ZathuraDbg-ZathuraDbg-0.2.5-beta-b2de667_GH0.tar.gz) = 787e52c8b656b7617d4986e80583fd7b9cec2dd80b00210fff85ef2ab5cdb3de
+SIZE (ZathuraDbg-ZathuraDbg-0.2.5-beta-b2de667_GH0.tar.gz) = 1193771
 SHA256 (HACKE-RC-ImGuiColorTextEdit-17b5ae8_GH0.tar.gz) = 6fd658c97ee91b019293c8752ba50749e56e9fd6d6189575d6cd7303674c2fe7
 SIZE (HACKE-RC-ImGuiColorTextEdit-17b5ae8_GH0.tar.gz) = 43766
 SHA256 (capstone-engine-capstone-e3bc578_GH0.tar.gz) = 1ebd1d45b588feb8ee37457550e5df70acf5316b07d254bba7ec7e6d5712d3fa

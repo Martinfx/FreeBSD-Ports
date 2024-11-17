@@ -1,4 +1,4 @@
---- src/CMakeLists.txt.orig	2024-11-17 09:40:06 UTC
+--- src/CMakeLists.txt.orig	2024-11-16 12:27:30 UTC
 +++ src/CMakeLists.txt
 @@ -34,7 +34,7 @@ set(SOURCES
          ${CMAKE_SOURCE_DIR}/app/arch/x86.cpp
@@ -9,3 +9,12 @@
          app/tasks/fileTasks.cpp
          app/tasks/editorTasks.cpp
          utils/fonts.cpp
+@@ -89,7 +89,7 @@ if (UNIX AND NOT APPLE)
+     link_directories(/usr/lib /usr/local/lib)
+     add_compile_options(${GLFW_CFLAGS})
+     
+-  set(LIBS ${GLFW_LDFLAGS} -lGL -ldl -lstdc++ -lunicorn -lkeystone -lcapstone
++  set(LIBS ${GLFW_LDFLAGS} -lGL -ldl -lstdc++ -lkeystone -lunicorn 
+     #    -L${CMAKE_SOURCE_DIR}/../vendor/keystone -l:libkeystone.a  
+     # -L${CMAKE_SOURCE_DIR}/../vendor/capstone -l:libcapstone.a 
+     -pthread -std=c++23)
