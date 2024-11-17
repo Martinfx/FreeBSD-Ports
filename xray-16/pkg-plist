@@ -5,15 +5,11 @@ lib/xrCDB.so
 lib/xrCore.so
 lib/xrEngine.so
 lib/xrGame.so
-lib/xrGameSpy.so
 lib/xrLuaJIT.so
 lib/xrLuabind.a
 lib/xrMaterialSystem.so
 lib/xrNetServer.so
-lib/xrODE.so
-lib/xrOPCODE.so
 lib/xrParticles.so
-lib/xrPhysics.so
 lib/xrRender_GL.so
 lib/xrScriptEngine.so
 lib/xrSound.so
