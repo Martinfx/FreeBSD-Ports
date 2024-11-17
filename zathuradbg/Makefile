@@ -7,14 +7,16 @@ COMMENT=	An emulation based tool for learning and debugging assembly.
 WWw=		https://zathuradbg.github.io/
 
 LICENSE=	GPLv3
-LICENSE_FILE=	../LICENSE
+LICENSE_FILE=	${WRKSRC}/LICENSE
+
+LIB_DEPENDS=	libunicorn.so:emulators/unicorn
 
 USES=		cmake
-
+USE_GCC=	yes
 USE_GITHUB=	yes
 GH_ACCOUNT=	ZathuraDbg
 GH_PROJECT=	ZathuraDbg
-GH_TUPLE+=      HACKE-RC:ImGuiColorTextEdit:17b5ae8:imgui/vendor/ImGuiColorTextEdit \
+GH_TUPLE+=      HACKE-RC:ImGuiColorTextEdit:17b5ae8:imguicolortextedit/vendor/ImGuiColorTextEdit \
                 capstone-engine:capstone:e3bc578:capstone/vendor/capstone \
                 ocornut:imgui:c71e4e8:imgui/vendor/imgui \
                 keystone-engine:keystone:fb92f32:keystone/vendor/keystone \

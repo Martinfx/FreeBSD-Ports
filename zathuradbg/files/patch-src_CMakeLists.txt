@@ -1,0 +1,11 @@
+--- src/CMakeLists.txt.orig	2024-11-17 09:40:06 UTC
++++ src/CMakeLists.txt
+@@ -34,7 +34,7 @@ set(SOURCES
+         ${CMAKE_SOURCE_DIR}/app/arch/x86.cpp
+         ${CMAKE_SOURCE_DIR}/../vendor/whereami/src/whereami.c
+         app/app.cpp
+-        ../vendor/code/tinyfiledialogs.c
++        ../vendor/tinydialogue/tinyfiledialogs.c
+         app/tasks/fileTasks.cpp
+         app/tasks/editorTasks.cpp
+         utils/fonts.cpp
