@@ -18,6 +18,7 @@ LIB_DEPENDS=	libcryptopp.so:security/cryptopp
 
 USES=		cmake compiler:c++17-lang eigen:3 localbase:ldflags qt:5
 USE_GITHUB=	yes
+USE_GCC=	yes
 GH_ACCOUNT=	zenustech
 USE_LDCONFIG=	yes
 USE_QT=		core gui network opengl svg widgets buildtools:build qmake:build
