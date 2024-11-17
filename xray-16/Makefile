@@ -27,7 +27,7 @@ USE_GITHUB=	yes
 
 GH_ACCOUNT=	OpenXRay
 GH_PROJECT=	xray-16
-GH_TAG=		ec2263a
+GH_TAGNAME=	ec2263a26286bff5304cad74430bdbce98409e1c
 GH_TUPLE+=	GPUOpen-LibrariesAndSDKs:AGS_SDK:f686755b60a18521eb2fe7b40d7b3e35125cf151:AGSSDK/Externals/AGS_SDK \
 		OpenXRay:BugTrap:c619077b40ee6e7ad6ffc5a194a5d3583af8f78e:BugTrap/Externals/BugTrap \
                 OpenXRay:GameSpy:61d061b4b3f860865f97e659e496e11704f61eb3:GameSpy/Externals/GameSpy \
