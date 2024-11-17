@@ -6,6 +6,7 @@ MAINTAINER=     freebsd@sysctl.cz
 COMMENT=        Improved version of the X-Ray Engine, \
 		the game engine used in the world-famous S.T.A.L.K.E.R. \
 		game series by GSC Game World.
+WWW=		https://github.com/OpenXRay/xray-16
 
 LICENSE=        UNKNOWN
 LICENSE_NAME=   unknown
