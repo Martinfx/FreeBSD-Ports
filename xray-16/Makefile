@@ -22,7 +22,7 @@ BUILD_DEPENDS=	sdl2>0:devel/sdl20 \
 		libtheora>0:multimedia/libtheora \
 		lzo2>0:archivers/lzo2
 
-LIB_DEPENDS	libogg.so:audio/libogg \
+LIB_DEPENDS=	libogg.so:audio/libogg \
 		libtheora.so:multimedia/libtheora \
 		libvorbis.so:audio/libvorbis \
 		libvorbisfile.so:audio/libvorbis
