@@ -9,7 +9,7 @@ WWW=		https://www.keystone-engine.org/
 LICENSE=	GPLv2
 LICENSE_FILE=	${WRKSRC}/COPYING
 
-USES=		cmake
+USES=		cmake compiler:c++23-lang
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	keystone-engine
