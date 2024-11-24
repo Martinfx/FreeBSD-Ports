@@ -1,6 +1,6 @@
 PORTNAME=	polaris
 DISTVERSION=	0.14.3
-CATEGORIES=	audio
+CATEGORIES=	multimedia
 
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Polaris is a music streaming application.
