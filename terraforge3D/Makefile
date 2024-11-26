@@ -13,7 +13,7 @@ LICENSE_FILE=	${WRKSRC}/LICENSE.md
 
 BUILD_DEPENDS=	webp>0:graphics/webp
 
-USES=	 	cmake localbase
+USES=	 	cmake localbase pathfix pkgconfig
 USE_XORG=       x11
 USE_GITHUB=	yes
 GH_ACCOUNT=	Jaysmito101
