@@ -46,7 +46,7 @@ LIB_DEPENDS=	libicui18n.so:devel/icu \
 		libFLAC.so:audio/flac \
 		libatspi.so:accessibility/at-spi2-core
 
-USES=		desktop-file-utils jpeg electronfix:30 gettext-runtime shared-mime-info
+USES=		desktop-file-utils jpeg electronfix:31 gettext-runtime shared-mime-info
 USE_GNOME=	glib20 gdkpixbuf2 gtk30 pango cairo libxml2 libxslt
 USE_XORG=	x11 xcb xcomposite xdamage xext xfixes xrender xrand xtst xi
 USE_GL=		gl gbm egl
