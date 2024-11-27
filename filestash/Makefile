@@ -72,7 +72,7 @@ GH_TUPLE=	Azure:azure-sdk-for-go:76e5495a4d1c:azure_azure_sdk_for_go_azcore/vend
 		googleapis:google-cloud-go:iam/v1.1.8:googleapis_google_cloud_go_iam \
 		googleapis:google-cloud-go:storage/v1.41.0:googleapis_google_cloud_go_storage \
 		googleapis:google-cloud-go:v0.114.0:googleapis_google_cloud_go/vendor/cloud.google.com/go \
-		googleapis:google-cloud-go:v0.2.2:googleapis_google_cloud_go_1/vendor/cloud.google.com/go/auth/oauth2adapt \
+		googleapis:google-cloud-go:auth/oauth2adapt/v0.2.2:googleapis_google_cloud_go/vendor/cloud.google.com/go/auth/oauth2adapt \
 		googleapis:google-cloud-go:v0.3.0:googleapis_google_cloud_go_2/vendor/cloud.google.com/go/compute/metadata \
 		gorilla:mux:v1.8.1:gorilla_mux/vendor/github.com/gorilla/mux \
 		gorilla:websocket:v1.5.1:gorilla_websocket/vendor/github.com/gorilla/websocket \
