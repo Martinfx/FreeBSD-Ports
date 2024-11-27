@@ -1,0 +1,20 @@
+--- Makefile.orig	2024-11-27 16:31:21 UTC
++++ Makefile
+@@ -4,6 +4,7 @@ build_init:
+ 	make build_backend
+ 
+ build_init:
++	go mod vendor
+ 	go get ./...
+ 	go generate -x ./server/...
+ 
+@@ -12,7 +13,8 @@ build_frontend_old:
+ 	cd public && make compress
+ 
+ build_frontend_old:
+-	NODE_ENV=production npm run build
++	npm install -D webpack-cli --force
++	NODE_ENV=production npm run build --force
+ 	mkdir -p ./server/ctrl/static/www/canary/
+ 	cp -R ./public/assets ./server/ctrl/static/www/canary/
+ 	cp -R ./public/*.html ./server/ctrl/static/www/canary/

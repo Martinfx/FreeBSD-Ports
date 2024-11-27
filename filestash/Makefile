@@ -12,7 +12,9 @@ WWW=		https://www.filestash.app/
 LICENSE=	GPLv3
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
-USES=		go:1.22 go:modules
+BUILD_DEPENDS=	npm:www/npm
+
+USES=		go:1.22 go:module gmake
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	mickael-kerjean
@@ -103,8 +105,8 @@ GH_TUPLE=	Azure:azure-sdk-for-go:76e5495a4d1c:azure_azure_sdk_for_go_azcore/vend
 		mitchellh:hashstructure:v1.1.0:mitchellh_hashstructure/vendor/github.com/mitchellh/hashstructure \
 		ncruces:go-strftime:v0.1.9:ncruces_go_strftime/vendor/github.com/ncruces/go-strftime \
 		nfnt:resize:83c6a9932646:nfnt_resize/vendor/github.com/nfnt/resize \
-		open-telemetry:opentelemetry-go-contrib:v0.52.0:open_telemetry_opentelemetry_go_contrib/vendor/go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc \
-		open-telemetry:opentelemetry-go-contrib:v0.52.0:open_telemetry_opentelemetry_go_contrib_1/vendor/go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp \
+		open-telemetry:opentelemetry-go-contrib:v1.31.0:open_telemetry_opentelemetry_go_contrib/vendor/go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc \
+		open-telemetry:opentelemetry-go-contrib:v1.31.0:open_telemetry_opentelemetry_go_contrib/vendor/go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp \
 		open-telemetry:opentelemetry-go:v1.27.0:open_telemetry_opentelemetry_go/vendor/go.opentelemetry.io/otel \
 		patrickmn:go-cache:v2.1.0:patrickmn_go_cache/vendor/github.com/patrickmn/go-cache \
 		pkg:errors:v0.9.1:pkg_errors/vendor/github.com/pkg/errors \
@@ -151,6 +153,8 @@ GL_TUPLE=	\
 		cznic:strutil:f4c290107e9e43b1bb4a8bc7dcd154eb9b565cd8:cznic_strutil/vendor/modernc.org/strutil \
 		cznic:token:24e30cd78ee0f2d5d4516917d9cc1101e3ccc1ab:cznic_token/vendor/modernc.org/token
 
+BINARY_ALIAS+=	go=go${GO_SUFFIX} gofmt=gofmt${GO_SUFFIX}
+
 post-extract:
 	@${RM} -r ${WRKSRC}/vendor/cloud.google.com/go/auth
 	@${RLN} ${WRKSRC_googleapis_google_cloud_go_auth}/auth ${WRKSRC}/vendor/cloud.google.com/go/auth
@@ -162,5 +166,8 @@ post-extract:
 	@${RLN} ${WRKSRC_azure_azure_sdk_for_go_internal}/sdk/internal ${WRKSRC}/vendor/github.com/Azure/azure-sdk-for-go/sdk/internal
 	@${RM} -r ${WRKSRC}/vendor/github.com/Azure/azure-sdk-for-go/sdk/storage/azblob
 	@${RLN} ${WRKSRC_azure_azure_sdk_for_go_azblob}/sdk/storage/azblob ${WRKSRC}/vendor/github.com/Azure/azure-sdk-for-go/sdk/storage/azblob
+
+do-build:
+	@(cd ${WRKSRC} && gmake all)
 
 .include <bsd.port.mk>
