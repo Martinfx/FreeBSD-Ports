@@ -11,7 +11,8 @@ LICENSE=	APACHE20
 
 ONLY_FOR_ARCHS=	amd64
 
-LIB_DEPENDS=	libicui18n.so:devel/icu \
+LIB_DEPENDS=	libasound.so:audio/alsa-lib \
+		libicui18n.so:devel/icu \
 		libxshmfence.so:x11/libxshmfence \
 		libnss3.so:security/nss \
 		libsmime3.so:security/nss \
@@ -27,7 +28,7 @@ LIB_DEPENDS=	libicui18n.so:devel/icu \
 		libdrm.so:graphics/libdrm \
 		libwayland-client.so:graphics/wayland \
 		libharfbuzz.so:print/harfbuzz \
-		libevent-2.1.so:devel/libevent \
+		libevent-2.1.so.7:devel/libevent \
 		libopus.so:audio/opus \
 		libopenh264.so:multimedia/openh264 \
 		libdav1d.so:multimedia/dav1d \
@@ -46,7 +47,7 @@ LIB_DEPENDS=	libicui18n.so:devel/icu \
 		libFLAC.so:audio/flac \
 		libatspi.so:accessibility/at-spi2-core
 
-USES=		desktop-file-utils jpeg electronfix:31 gettext-runtime shared-mime-info
+USES=		desktop-file-utils jpeg electronfix:32 gettext-runtime shared-mime-info
 USE_GNOME=	glib20 gdkpixbuf2 gtk30 pango cairo libxml2 libxslt
 USE_XORG=	x11 xcb xcomposite xdamage xext xfixes xrender xrand xtst xi
 USE_GL=		gl gbm egl
