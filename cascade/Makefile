@@ -15,7 +15,7 @@ BUILD_DEPENDS=	openimageio>0:graphics/openimageio \
 
 USES=		qmake qt:5
 USE_QT=		core gui
-USE_GCC=	yes
+#USE_GCC=	yes
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	ttddee
