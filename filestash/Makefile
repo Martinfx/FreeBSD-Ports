@@ -14,7 +14,7 @@ LICENSE_FILE=	${WRKSRC}/LICENSE
 
 BUILD_DEPENDS=	npm:www/npm
 
-USES=		go:1.22 go:module gmake
+USES=		go:1.23 go:module gmake
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	mickael-kerjean
