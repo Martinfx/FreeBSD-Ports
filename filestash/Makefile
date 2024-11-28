@@ -12,7 +12,8 @@ WWW=		https://www.filestash.app/
 LICENSE=	GPLv3
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
-BUILD_DEPENDS=	npm:www/npm
+BUILD_DEPENDS=	npm:www/npm \
+		libraw>0:graphics/libraw
 
 USES=		go:1.23 go:module gmake
 
