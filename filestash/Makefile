@@ -13,7 +13,8 @@ LICENSE=	GPLv3
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
 BUILD_DEPENDS=	npm:www/npm \
-		libraw>0:graphics/libraw
+		libraw>0:graphics/libraw \
+		giflib>0:graphics/giflib
 
 USES=		go:1.23 go:module gmake
 
