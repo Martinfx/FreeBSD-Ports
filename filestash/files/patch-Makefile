@@ -1,14 +1,17 @@
---- Makefile.orig	2024-11-27 16:31:21 UTC
+--- Makefile.orig	2024-11-20 05:59:59 UTC
 +++ Makefile
-@@ -4,6 +4,7 @@ build_init:
+@@ -4,21 +4,23 @@ build_init:
  	make build_backend
  
  build_init:
-+	go mod vendor
- 	go get ./...
- 	go generate -x ./server/...
+-	go get ./...
+-	go generate -x ./server/...
++	go123 mod vendor
++	go123 get ./...
++	go123 generate -x ./server/...
  
-@@ -12,7 +13,8 @@ build_frontend_old:
+ build_frontend:
+ 	make build_frontend_old
  	cd public && make compress
  
  build_frontend_old:
@@ -18,3 +21,10 @@
  	mkdir -p ./server/ctrl/static/www/canary/
  	cp -R ./public/assets ./server/ctrl/static/www/canary/
  	cp -R ./public/*.html ./server/ctrl/static/www/canary/
+ 
+ build_backend:
+-	CGO_ENABLED=1 go build --tags "fts5" -o dist/filestash cmd/main.go
++	CGO_ENABLED=1 go123 build --tags "fts5" -o dist/filestash cmd/main.go
+ 
+ build_backend_arm64:
+ 	CGO_ENABLED=1 GOOS=linux GOARCH=arm GOARM=7 CC=arm-linux-gnueabihf-gcc go build -o dist/filestash cmd/main.go

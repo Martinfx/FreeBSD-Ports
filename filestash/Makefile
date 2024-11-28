@@ -170,4 +170,6 @@ post-extract:
 do-build:
 	@(cd ${WRKSRC} && gmake all)
 
+do-install:
+
 .include <bsd.port.mk>
