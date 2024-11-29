@@ -170,7 +170,7 @@ post-extract:
 	@${RLN} ${WRKSRC_azure_azure_sdk_for_go_azblob}/sdk/storage/azblob ${WRKSRC}/vendor/github.com/Azure/azure-sdk-for-go/sdk/storage/azblob
 
 do-build:
-	@(cd ${WRKSRC} && gmake all)
+	@(cd ${WRKSRC} && ${SETENV} XDG_CACHE_HOME=${WRKDIR}/.cache && ${GO_ENV} && ${GMAKE} all)
 
 do-install:
 
