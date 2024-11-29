@@ -11,15 +11,17 @@ LICENSE_FILE=	${WRKSRC}/LICENSE
 
 BUILD_DEPENDS=	alembic>0:graphics/alembic \
 		boost-libs>=1.85.0:devel/boost-libs \
+		${PYTHON_PKGNAMEPREFIX}boost-libs>=1.85.0:devel/boost-python-libs@${PY_FLAVOR} \
 		c-blosc>0:archivers/c-blosc \
 		tbb>0:devel/tbb \
 		freetype2>0:print/freetype2 \
-		openimageio>0:graphics/openimageio \
-		consolekit2:sysutils/consolekit2 \
-		wayland:graphics/wayland
-#		usd>0:misc/usd
+		openexr>0:graphics/openexr \
+		usd>0:misc/usd
+#               openvdb>0:misc/openvdb dependent on onetbb
+#		openimageio>0:graphics/openimageio dependent on onetbb
 
-USES=		python localbase scons
+USES=		python:3.11 localbase scons
+USE_GCC=	yes
 USE_GITHUB=	yes
 GH_ACCOUNT=	ImageEngine
 GH_PROJECT=	cortex
@@ -42,11 +44,13 @@ SCONS_ARGS+=	VDB_LIB_PATH=${LOCALBASE}/lib
 SCONS_ARGS+=	ALEMBIC_INCLUDE_PATH=${LOCALBASE}/include/Alembic
 SCONS_ARGS+=	ALEMBIC_LIB_PATH=${LOCALBASE}/lib
 SCONS_ARGS+=	WARNINGS_AS_ERRORS=0
-SCONS_ARGS+=	CXXFLAGS="XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR"
+SCONS_ARGS+=	PYTHON_CONFIG=${PYTHON_CMD}-config
+SCONS_ARGS+=	PYTHON=${PYTHON_CMD}
+SCONS_ARGS+=	CXX=${CXX}
+
+do-install:
+
 
 .include <bsd.port.pre.mk>
-
 MAKE_ARGS=	${SCONS_ARGS}
-
-
 .include <bsd.port.post.mk>
