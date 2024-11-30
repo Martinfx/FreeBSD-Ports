@@ -22,10 +22,3 @@
  
  class AppHelper
  {
-@@ -39,4 +38,4 @@ class AppHelper (public)
- };
- 
- 
--#endif
-\ No newline at end of file
-+#endif
