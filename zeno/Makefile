@@ -32,7 +32,7 @@ LIB_DEPENDS=	libcryptopp.so:security/cryptopp \
 		libopencv_flann.so:graphics/opencv \
 		libopencv_core.so:graphics/opencv
 
-USES=		cmake compiler:c++17-lang eigen:3 localbase:ldflags python:3.11 qt:5
+USES=		cmake compiler:c++17-lang eigen:3 localbase:ldflags qt:5
 USE_LDCONFIG=   yes
 USE_QT=         core gui network opengl svg widgets buildtools:build qmake:build
 USE_GCC=	yes
@@ -50,7 +50,6 @@ GH_TUPLE+=	zenustech:openvdb:74a95a74d91e0115be00d7b94391f5607e02d60f:openvdb/pr
 
 CMAKE_ON=	ZENO_BUILD_EDITOR ZENO_BUILD_SHARED ZENO_IPC_USE_TCP \
 		ZENO_MULTIPROCESS ZENO_NO_WARNING ZENO_USE_CCACHE \
-		ZENO_WITH_PYTHON3 \
 		ZENOFX_ENABLE_LBVH \
 		ZENO_WITH_Rigid \
 		ZENO_WITH_oldzenbase \
