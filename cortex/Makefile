@@ -13,8 +13,10 @@ BUILD_DEPENDS=	alembic>0:graphics/alembic \
 		boost-libs>=1.85.0:devel/boost-libs \
 		${PYTHON_PKGNAMEPREFIX}boost-libs>=1.85.0:devel/boost-python-libs@${PY_FLAVOR} \
 		c-blosc>0:archivers/c-blosc \
+		doxygen>0:devel/doxygen \
 		tbb>0:devel/tbb \
 		freetype2>0:print/freetype2 \
+		glew>0:graphics/glew \
 		openexr>0:graphics/openexr \
 		usd>0:misc/usd
 #               openvdb>0:misc/openvdb dependent on onetbb
@@ -43,14 +45,27 @@ SCONS_ARGS+=	VDB_INCLUDE_PATH=${LOCALBASE}/include/openvdb
 SCONS_ARGS+=	VDB_LIB_PATH=${LOCALBASE}/lib
 SCONS_ARGS+=	ALEMBIC_INCLUDE_PATH=${LOCALBASE}/include/Alembic
 SCONS_ARGS+=	ALEMBIC_LIB_PATH=${LOCALBASE}/lib
+SCONS_ARGS+=    USD_INCLUDE_PATH=${LOCALBASE}/include/pxr
+SCONS_ARGS+=    USD_LIB_PATH=${LOCALBASE}/lib/usd
+# is need openimageio for support GL
+#SCONS_ARGS+=	GLEW_INCLUDE_PATH=${LOCALBASE}/include/GL
+#SCONS_ARGS+=	GLEW_LIB_PATH=${LOCALBASE}/lib
+#SCONS_ARGS+=	WITH_GL=1
 SCONS_ARGS+=	WARNINGS_AS_ERRORS=0
 SCONS_ARGS+=	PYTHON_CONFIG=${PYTHON_CMD}-config
 SCONS_ARGS+=	PYTHON=${PYTHON_CMD}
 SCONS_ARGS+=	CXX=${CXX}
-
-do-install:
-
+SCONS_ARGS+=	DOXYGEN=${LOCALBASE}/bin/doxygen
 
 .include <bsd.port.pre.mk>
 MAKE_ARGS=	${SCONS_ARGS}
+
+post-install:
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/cortex/IECore
+	${INSTALL_DATA} ${WRKSRC}/IECore/*.h ${STAGEDIR}${PREFIX}/include/cortex/IECore
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/cortex/IECoreHoudiny
+	${INSTALL_DATA} ${WRKSRC}/IECoreHoudiny/*.h ${STAGEDIR}${PREFIX}/include/cortex/IECoreHoudiny
+	#  IECoreGL  IECoreHoudini  IECoreImage  IECoreImageBindings  IECoreMaya  IECoreNuke  IECorePython  IECoreScene  IECoreVDB
+
 .include <bsd.port.post.mk>
+
