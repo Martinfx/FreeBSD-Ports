@@ -21,13 +21,32 @@ BUILD_DEPENDS=	alembic>0:graphics/alembic \
 		usd>0:misc/usd
 #               openvdb>0:misc/openvdb dependent on onetbb
 #		openimageio>0:graphics/openimageio dependent on onetbb
+LIB_DEPENDS+=	libboost_filesystem.so:devel/boost-libs \
+		libboost_regex.so:devel/boost-libs \
+		libboost_iostreams.so:devel/boost-libs \
+		libboost_date_time.so:devel/boost-libs \
+		libboost_thread.so:devel/boost-libs \
+		libboost_timer.so:devel/boost-libs \
+		libboost_chrono.so:devel/boost-libs \
+		libboost_system.so:devel/boost-libs \
+		libOpenEXR-3_3.so:graphics/openexr \
+		libtbb.so:devel/tbb \
+		libblosc.so:archivers/c-blosc \
+		libIex-3_3.so:graphics/openexr \
+		libImath-3_1.so:math/Imath \
+		libIlmThread-3_3.so:graphics/openexr \
+		libhdf5.so:science/hdf5 \
+		libAlembic.so:graphics/alembic \
+		libfreetype.so:print/freetype2 \
+		${PY_BOOST}
 
-USES=		python:3.11 localbase scons
+USES=		python:3.11 localbase gettext-runtime scons
 USE_GCC=	yes
 USE_GITHUB=	yes
 GH_ACCOUNT=	ImageEngine
 GH_PROJECT=	cortex
 
+# setup variables for compilation
 SCONS_ARGS=	BOOST_INCLUDE_PATH=${LOCALBASE}/include
 SCONS_ARGS+=	BOOST_LIB_PATH=${LOCALBASE}/lib
 SCONS_ARGS+=	BOOST_LIB_SUFFIX=""
@@ -57,14 +76,19 @@ SCONS_ARGS+=	PYTHON=${PYTHON_CMD}
 SCONS_ARGS+=	CXX=${CXX}
 SCONS_ARGS+=	DOXYGEN=${LOCALBASE}/bin/doxygen
 
+SCONS_ARGS+=	INSTALL_PREFIX=${STAGEDIR}${PREFIX}
+#SCONS_ARGS+=	INSTALL_PKG_CONFIG_FILE="0"
+#SCONS_ARGS+=	INSTALL_HEADER_DIR=/include
+#SCONS_ARGS+=	INSTALL_LIB_NAME=/lib
+
 .include <bsd.port.pre.mk>
 MAKE_ARGS=	${SCONS_ARGS}
 
-post-install:
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/cortex/IECore
-	${INSTALL_DATA} ${WRKSRC}/IECore/*.h ${STAGEDIR}${PREFIX}/include/cortex/IECore
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/cortex/IECoreHoudiny
-	${INSTALL_DATA} ${WRKSRC}/IECoreHoudiny/*.h ${STAGEDIR}${PREFIX}/include/cortex/IECoreHoudiny
+#post-install:
+#	${MKDIR} ${STAGEDIR}${PREFIX}/include/cortex/IECore
+#	${INSTALL_DATA} ${WRKSRC}/IECore/*.h ${STAGEDIR}${PREFIX}/include/cortex/IECore
+#	${MKDIR} ${STAGEDIR}${PREFIX}/include/cortex/IECoreHoudiny
+#	${INSTALL_DATA} ${WRKSRC}/IECoreHoudiny/*.h ${STAGEDIR}${PREFIX}/include/cortex/IECoreHoudiny
 	#  IECoreGL  IECoreHoudini  IECoreImage  IECoreImageBindings  IECoreMaya  IECoreNuke  IECorePython  IECoreScene  IECoreVDB
 
 .include <bsd.port.post.mk>
