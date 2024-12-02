@@ -83,10 +83,10 @@ SCONS_ARGS+=	INSTALL_HEADER_DIR=${STAGEDIR}${PREFIX}/include
 .include <bsd.port.pre.mk>
 MAKE_ARGS=	${SCONS_ARGS}
 
-post-install:
-	@${REINPLACE_CMD} -e 's|prefix=|prefix=/usr/local|g' \
-		${STAGEDIR}${PREFIX}/libdata/pkgconfig/cortex.pc
-	@${REINPLACE_CMD} -e 's|includedir=|includedir=/usr/local/include|g' \
-                ${STAGEDIR}${PREFIX}/libdata/pkgconfig/cortex.pc
+#post-stage:
+#	@${REINPLACE_CMD} -e 's|prefix=|prefix=/usr/local|g' \
+#		${STAGEDIR}${PREFIX}/libdata/pkgconfig/cortex.pc
+#	@${REINPLACE_CMD} -e 's|includedir=|includedir=/usr/local/include|g' \
+ #               ${STAGEDIR}${PREFIX}/libdata/pkgconfig/cortex.pc
 
 .include <bsd.port.post.mk>
