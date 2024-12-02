@@ -75,21 +75,18 @@ SCONS_ARGS+=	PYTHON_CONFIG=${PYTHON_CMD}-config
 SCONS_ARGS+=	PYTHON=${PYTHON_CMD}
 SCONS_ARGS+=	CXX=${CXX}
 SCONS_ARGS+=	DOXYGEN=${LOCALBASE}/bin/doxygen
-
 SCONS_ARGS+=	INSTALL_PREFIX=${STAGEDIR}${PREFIX}
 #SCONS_ARGS+=	INSTALL_PKG_CONFIG_FILE="0"
-#SCONS_ARGS+=	INSTALL_HEADER_DIR=/include
+SCONS_ARGS+=	INSTALL_HEADER_DIR=${STAGEDIR}${PREFIX}/include
 #SCONS_ARGS+=	INSTALL_LIB_NAME=/lib
 
 .include <bsd.port.pre.mk>
 MAKE_ARGS=	${SCONS_ARGS}
 
-#post-install:
-#	${MKDIR} ${STAGEDIR}${PREFIX}/include/cortex/IECore
-#	${INSTALL_DATA} ${WRKSRC}/IECore/*.h ${STAGEDIR}${PREFIX}/include/cortex/IECore
-#	${MKDIR} ${STAGEDIR}${PREFIX}/include/cortex/IECoreHoudiny
-#	${INSTALL_DATA} ${WRKSRC}/IECoreHoudiny/*.h ${STAGEDIR}${PREFIX}/include/cortex/IECoreHoudiny
-	#  IECoreGL  IECoreHoudini  IECoreImage  IECoreImageBindings  IECoreMaya  IECoreNuke  IECorePython  IECoreScene  IECoreVDB
+post-install:
+	@${REINPLACE_CMD} -e 's|prefix=|prefix=/usr/local|g' \
+		${STAGEDIR}${PREFIX}/libdata/pkgconfig/cortex.pc
+	@${REINPLACE_CMD} -e 's|includedir=|includedir=/usr/local/include|g' \
+                ${STAGEDIR}${PREFIX}/libdata/pkgconfig/cortex.pc
 
 .include <bsd.port.post.mk>
-
