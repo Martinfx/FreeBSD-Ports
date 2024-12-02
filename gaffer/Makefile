@@ -16,14 +16,14 @@ BUILD_DEPENDS=	cortex:graphics/cortex \
 		openexr>0:graphics/openexr \
 		Imath>0:math/Imath
 
-USES=		python localbase scons qt:5
+USES=		python:3.11 localbase scons qt:5
 
 USE_QT=		core
-USE_GITHUB=     yes
-GH_ACCOUNT=     GafferHQ
-GH_PROJECT=     gaffer
+USE_GITHUB=	yes
+GH_ACCOUNT=	GafferHQ
+GH_PROJECT=	gaffer
 
-SCONS_ARGS=	LOCATE_DEPENDENCY_LIBPATH=${LOCALBASE}lib
+SCONS_ARGS=	LOCATE_DEPENDENCY_LIBPATH=${LOCALBASE}/lib
 SCONS_ARGS+=	LOCATE_DEPENDENCY_SYSTEMPATH=${LOCALBASE}/include
 SCONS_ARGS=	BOOST_INCLUDE_PATH=${LOCALBASE}/include
 SCONS_ARGS+=	BOOST_LIB_PATH=${LOCALBASE}/lib
@@ -32,4 +32,6 @@ SCONS_ARGS+=	WARNINGS_AS_ERRORS=0
 SCONS_ARGS+=	PYTHON=${PYTHON_CMD}
 SCONS_ARGS+=	CXX=${CXX}
 
-.include <bsd.port.mk>
+.include <bsd.port.pre.mk>
+MAKE_ARGS=	${SCONS_ARGS}
+.include <bsd.port.post.mk>
