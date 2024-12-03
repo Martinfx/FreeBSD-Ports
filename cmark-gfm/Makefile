@@ -1,6 +1,6 @@
 PORTNAME=	cmark-gfm
 DISTVERSION=	0.29.0.gfm.13
-CATEGORIES=	devel
+CATEGORIES=	textproc
 
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	CommonMark parsing and rendering \
