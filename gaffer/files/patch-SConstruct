@@ -1,4 +1,4 @@
---- SConstruct.orig	2024-12-03 11:57:24 UTC
+--- SConstruct.orig	2024-11-22 14:42:33 UTC
 +++ SConstruct
 @@ -47,6 +47,7 @@ import codecs
  import tempfile
@@ -8,16 +8,23 @@
  
  EnsureSConsVersion( 3, 0, 2 ) # Substfile is a default builder as of 3.0.2
  
-@@ -388,6 +389,8 @@ env = Environment(
+@@ -388,11 +389,15 @@ env = Environment(
  
  	CPPPATH = [
  		"include",
 +		"/usr/local/include",
 +		"/usr/local/include/qt5",
++		"/usr/local/include/python3.11/",
  		"$LOCATE_DEPENDENCY_CPPPATH",
  	],
  
-@@ -412,7 +415,7 @@ for path in [
+ 	LIBPATH = [
+ 		"./lib",
++		"/usr/local/lib",
+ 		"$BUILD_DIR/lib",
+ 		"$LOCATE_DEPENDENCY_LIBPATH",
+ 	],
+@@ -412,7 +417,7 @@ for path in [
  		"$BUILD_DIR/include",
  		"$BUILD_DIR/include/Imath",
  		"$BUILD_DIR/include/GL",
@@ -26,3 +33,23 @@
  
  	env.Append(
  		CXXFLAGS = [ systemIncludeArgument, path ]
+@@ -806,8 +811,8 @@ boostVersionHeader = baseLibEnv.FindFile(
+ boostVersionHeader = baseLibEnv.FindFile(
+ 	"boost/version.hpp",
+ 	[ "$BUILD_DIR/include" ] +
+-	baseLibEnv["LOCATE_DEPENDENCY_SYSTEMPATH"] +
+-	baseLibEnv["LOCATE_DEPENDENCY_CPPPATH"]
++	split(baseLibEnv["LOCATE_DEPENDENCY_SYSTEMPATH"]) +
++	split(baseLibEnv["LOCATE_DEPENDENCY_CPPPATH"])
+ )
+ 
+ if not boostVersionHeader :
+@@ -841,7 +846,7 @@ basePythonEnv = baseLibEnv.Clone()
+ 
+ basePythonEnv = baseLibEnv.Clone()
+ 
+-pythonExecutable = shutil.which( "python", path = commandEnv["ENV"]["PATH"] )
++pythonExecutable = shutil.which( "python3.11", path = "/usr/local/bin/python3.11" )
+ basePythonEnv["PYTHON_VERSION"] = subprocess.check_output(
+ 	[ pythonExecutable, "-c", "import sys; print( '{}.{}'.format( *sys.version_info[:2] ) )" ],
+ 	env=commandEnv["ENV"], universal_newlines=True
