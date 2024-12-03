@@ -16,6 +16,7 @@ BUILD_DEPENDS=	alembic>0:graphics/alembic \
 		cgal>=5.0.2:math/cgal \
 		onetbb>0:devel/onetbb \
 		opencv>0:graphics/opencv \
+		openvdb>0:misc/openvdb \
 		sdl2>0:devel/sdl20
 
 LIB_DEPENDS=	libAlembic.so:graphics/alembic \
