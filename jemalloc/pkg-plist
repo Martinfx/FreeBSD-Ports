@@ -1,0 +1,6 @@
+include/jemalloc/jemalloc.h
+lib/libjemalloc.a
+lib/libjemalloc.so
+lib/libjemalloc.so.1
+lib/libjemalloc_pic.a
+%%PORTDOCS%%@dir %%DOCSDIR%%
