@@ -15,6 +15,4 @@ USES=		cmake pathfix
 USE_GITHUB=	yes
 GH_ACCOUNT=	github
 
-
-
 .include <bsd.port.mk>
