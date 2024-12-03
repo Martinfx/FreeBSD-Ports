@@ -1,0 +1,28 @@
+--- SConstruct.orig	2024-12-03 11:57:24 UTC
++++ SConstruct
+@@ -47,6 +47,7 @@ import codecs
+ import tempfile
+ import distutils.dir_util
+ import codecs
++import string
+ 
+ EnsureSConsVersion( 3, 0, 2 ) # Substfile is a default builder as of 3.0.2
+ 
+@@ -388,6 +389,8 @@ env = Environment(
+ 
+ 	CPPPATH = [
+ 		"include",
++		"/usr/local/include",
++		"/usr/local/include/qt5",
+ 		"$LOCATE_DEPENDENCY_CPPPATH",
+ 	],
+ 
+@@ -412,7 +415,7 @@ for path in [
+ 		"$BUILD_DIR/include",
+ 		"$BUILD_DIR/include/Imath",
+ 		"$BUILD_DIR/include/GL",
+-	] + env["LOCATE_DEPENDENCY_SYSTEMPATH"] :
++	] + str.split(env["LOCATE_DEPENDENCY_SYSTEMPATH"]) :
+ 
+ 	env.Append(
+ 		CXXFLAGS = [ systemIncludeArgument, path ]
