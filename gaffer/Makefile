@@ -12,7 +12,6 @@ LICENSE_FILE=	${WRKSRC}/LICENSE
 
 BUILD_DEPENDS=  bitstream-vera>0:x11-fonts/bitstream-vera \
 		c-blosc2>0:archivers/c-blosc2 \
-		cortex>0:graphics/cortex \
 		cmark>0:textproc/cmark \
 		expat>0:textproc/expat2 \
 		freetype2>0:print/freetype2 \
@@ -24,14 +23,15 @@ BUILD_DEPENDS=  bitstream-vera>0:x11-fonts/bitstream-vera \
 		inkscape:graphics/inkscape \
 		Imath>0:math/Imath \
 		boost-libs>=1.85.0:devel/boost-libs \
-		openexr>0:graphics/openexr \
+		onetbb>0:devel/onetbb \
 		${PYTHON_PKGNAMEPREFIX}Jinja2>0:devel/py-Jinja2@${PY_FLAVOR}
 		# embree>0:graphics/embree \ # onetbb
 		# cycles>0:graphics/cycles \ #onettb
 		# openshadinglanguage>0:graphics/openshadinglanguage \ onetbb
+		# openexr>0:graphics/openexr \
+		# cortex>0:graphics \ tbb
 
 USES=		python:3.11,env llvm:min=15,build,run localbase scons qt:5
-
 USE_QT=		core
 USE_GITHUB=	yes
 GH_ACCOUNT=	GafferHQ
@@ -45,8 +45,9 @@ SCONS_ARGS+=	BOOST_LIB_SUFFIX=""
 SCONS_ARGS+= 	SPHINX=${LOCALBASE}/bin/sphinx-build
 SCONS_ARGS+=	INKSCAPE=${LOCALBASE}/bin/inkscape
 SCONS_ARGS+=	WARNINGS_AS_ERRORS=0
+SCONS_ARGS+=	CXXSTD=c++20
 #SCONS_ARGS+=	PYTHON=${PYTHON_CMD}
-SCONS_ARGS+=	CXX=${CXX}
+#SCONS_ARGS+=	CXX=${CXX}
 #SCONS_ARGS+=	PATH=${PYTHON_CMD}
 #SCONS_ARGS+=	CYCLES_ROOT=${LOCALBASE}/bin/cycles
 
