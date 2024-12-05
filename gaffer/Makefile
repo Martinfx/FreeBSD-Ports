@@ -20,16 +20,21 @@ BUILD_DEPENDS=  bitstream-vera>0:x11-fonts/bitstream-vera \
 		libfmt>0:devel/libfmt \
 		liblz4>0:archivers/liblz4 \
 		libffi>0:devel/libffi \
+		libraw>0:graphics/libraw \
+		libjpeg-turbo>0:graphics/libjpeg-turbo \
+		png>0:graphics/png \
+		webp>0:graphics/webp \
 		inkscape:graphics/inkscape \
 		Imath>0:math/Imath \
 		boost-libs>=1.85.0:devel/boost-libs \
 		onetbb>0:devel/onetbb \
-		${PYTHON_PKGNAMEPREFIX}Jinja2>0:devel/py-Jinja2@${PY_FLAVOR}
-		# embree>0:graphics/embree \ # onetbb
-		# cycles>0:graphics/cycles \ #onettb
-		# openshadinglanguage>0:graphics/openshadinglanguage \ onetbb
-		# openexr>0:graphics/openexr \
-		# cortex>0:graphics \ tbb
+		${PYTHON_PKGNAMEPREFIX}Jinja2>0:devel/py-Jinja2@${PY_FLAVOR} \
+		${PYTHON_PKGNAMEPREFIX}types-MarkupSafe>0:devel/py-types-MarkupSafe@${PY_FLAVOR} \
+		embree>0:graphics/embree \
+		cycles>0:graphics/cycles \
+		openshadinglanguage>0:graphics/openshadinglanguage \
+		openexr>0:graphics/openexr \
+		cortex>0:graphics
 
 USES=		python:3.11,env llvm:min=15,build,run localbase scons qt:5
 USE_QT=		core
@@ -39,13 +44,13 @@ GH_PROJECT=	gaffer
 
 SCONS_ARGS=	LOCATE_DEPENDENCY_LIBPATH=${LOCALBASE}/lib
 SCONS_ARGS+=	LOCATE_DEPENDENCY_SYSTEMPATH=${LOCALBASE}/include
-SCONS_ARGS+=	BOOST_INCLUDE_PATH=${LOCALBASE}/include
-SCONS_ARGS+=	BOOST_LIB_PATH=${LOCALBASE}/lib
+#SCONS_ARGS+=	BOOST_INCLUDE_PATH=${LOCALBASE}/include
+#SCONS_ARGS+=	BOOST_LIB_PATH=${LOCALBASE}/lib
 SCONS_ARGS+=	BOOST_LIB_SUFFIX=""
 SCONS_ARGS+= 	SPHINX=${LOCALBASE}/bin/sphinx-build
 SCONS_ARGS+=	INKSCAPE=${LOCALBASE}/bin/inkscape
 SCONS_ARGS+=	WARNINGS_AS_ERRORS=0
-SCONS_ARGS+=	CXXSTD=c++20
+SCONS_ARGS+=	CXXSTD=c++17
 #SCONS_ARGS+=	PYTHON=${PYTHON_CMD}
 #SCONS_ARGS+=	CXX=${CXX}
 #SCONS_ARGS+=	PATH=${PYTHON_CMD}
