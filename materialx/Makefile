@@ -20,7 +20,7 @@ LIB_DEPENDS=	libOpenImageIO.so:graphics/openimageio \
 		libOpenImageIO_Util.so:graphics/openimageio
 
 
-USES=		cmake localbase python:3.11 gl
+USES=		cmake localbase python:3.11 pathfix gl
 USE_GITHUB=	yes
 GH_ACCOUNT=	AcademySoftwareFoundation
 GH_PROJECT=	MaterialX
