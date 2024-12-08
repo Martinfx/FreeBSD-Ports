@@ -1,7 +1,6 @@
 PORTNAME=	materialx
 DISTVERSIONPREFIX=v
-DISTVERSION=	1.38.10
-DISTVERSIONSUFFIX=-OpenPBR
+DISTVERSION=	1.39.1
 CATEGORIES=	graphics
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -17,67 +16,59 @@ BUILD_DEPENDS=	openshadinglanguage>0:graphics/openshadinglanguage \
 		openimageio>0:graphics/openimageio \
 		libglvnd>0:graphics/libglvnd
 LIB_DEPENDS=	libOpenImageIO.so:graphics/openimageio \
-		libOpenImageIO_Util.so:graphics/openimageio
+		libOpenImageIO_Util.so:graphics/openimageio \
+		libImath-3_1.so:math/Imath
 
-
-USES=		cmake localbase python:3.11 pathfix gl
+USES=		cmake localbase python:3.11+ gl
+USE_GL=		gl opengl
+USE_XORG=	x11 xt ice sm
+USE_LDCONFIG=	yes
 USE_GITHUB=	yes
 GH_ACCOUNT=	AcademySoftwareFoundation
 GH_PROJECT=	MaterialX
-GH_TUPLE+=	mitsuba-renderer:nanogui:f5020e2:nanogui/source/MaterialXView/NanoGUI \
+GH_TUPLE=	mitsuba-renderer:nanogui:f5020e2:nanogui/source/MaterialXView/NanoGUI \
 		ocornut:imgui:9aae45e:imgui/source/MaterialXGraphEditor/External/ImGui \
 		thedmd:imgui-node-editor:2f99b2d:nodeeditor/source/MaterialXGraphEditor/External/ImGuiNodeEditor \
 		wjakob:glfw:e130e55:glfw/source/MaterialXView/NanoGUI/ext/glfw \
 		wjakob:nanobind:07b4e1f:nanobind/source/MaterialXView/NanoGUI/ext/nanobind \
 		wjakob:nanovg:bf2320d:nanovg/source/MaterialXView/NanoGUI/ext/nanovg \
 		wjakob:nanovg_metal:075b04f:nanovgmetal/source/MaterialXView/NanoGUI/ext/nanovg_metal
-USE_LDCONFIG=   yes
 
-CMAKE_ARGS+=	-DMATERIALX_BUILD_SHARED_LIBS=ON \
-		-DMATERIALX_BUILD_PYTHON=ON \
-		-DMATERIALX_BUILD_OIIO=ON \
-		-DMATERIALX_BUILD_TESTS=OFF \
-		-DMATERIALX_BUILD_VIEWER=ON \
-		-DMATERIALX_BUILD_GRAPH_EDITOR=ON \
-		-DMATERIALX_INSTALL_PYTHON=${STAGEDIR}${PREFIX} \
-		-DMATERIALX_INSTALL_INCLUDE_PATH=${STAGEDIR}${PREFIX}/include \
-		-DMATERIALX_INSTALL_LIB_PATH=${STAGEDIR}${PREFIX}/lib \
-		-DMATERIALX_INSTALL_STDLIB_PATH=${STAGEDIR}${DATADIR}/materialX/libraries
-
+CMAKE_ON+=	MATERIALX_BUILD_SHARED_LIBS \
+		MATERIALX_BUILD_PYTHON \
+		MATERIALX_BUILD_OIIO \
+		MATERIALX_BUILD_VIEWER \
+		MATERIALX_BUILD_GRAPH_EDITOR \
+		MATERIALX_INSTALL_PYTHON=${STAGEDIR}${PREFIX}
+CMAkE_OFF=	MATERIALX_BUILD_TESTS
 
 CMAKE_INSTALL_PREFIX=${STAGEDIR}${PREFIX}
-
-USE_GL=         gl opengl
-USE_XORG=       x11 xt ice sm
 
 do-install:
 	${INSTALL_PROGRAM} ${WRKDIR}/.build/bin/MaterialXGraphEditor ${STAGEDIR}${PREFIX}/bin
 	${INSTALL_PROGRAM} ${WRKDIR}/.build/bin/MaterialXView ${STAGEDIR}${PREFIX}/bin
 	${INSTALL_LIB} ${WRKDIR}/.build/lib/*.so* ${STAGEDIR}${PREFIX}/lib/
-#	${MKDIR} ${STAGEDIR}${PREFIX}/lib/cmake/${PORTNAME}
-#	${CP} -v ${WRKDIR}/.build/cmake/*.cmake ${STAGEDIR}${PREFIX}/lib/cmake/${PORTNAME}
-#	${MKDIR} ${STAGEDIR}${DATADIR}/${PORTNAME}
-#	${CP} -vR ${WRKSRC}/resources ${STAGEDIR}${DATADIR}/${PORTNAME}
-#	${MKDIR} ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXCore
-#	${CP} -vR ${WRKSRC}/source/MaterialXCore/*.h ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXCore
-#	${MKDIR} ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXFormat
-#	${CP} -vR ${WRKSRC}/source/MaterialXFormat/*.h ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXFormat
-#	${MKDIR} ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXGenGlsl
-#	${CP} -vR ${WRKSRC}/source/MaterialXGenGlsl/*.h ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXGenGlsl
-#	${MKDIR} ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXGenMdl
-#	${CP} -vR ${WRKSRC}/source/MaterialXGenMdl/*.h ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXGenMdl
-#	${MKDIR} ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXGenMsl
-#	${CP} -vR ${WRKSRC}/source/MaterialXGenMsl/*.h ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXGenMsl
-#	${MKDIR} ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXGenShader
-#	${CP} -vR ${WRKSRC}/source/MaterialXGenShader/*.h ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXGenShader
-#	${MKDIR} ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXRender
-#	${CP} -vR ${WRKSRC}/source/MaterialXRender/*.h ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXRender
-#	${MKDIR} ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXRenderGlsl
-#	${CP} -vR ${WRKSRC}/source/MaterialXRenderGlsl/*.h ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXRenderGlsl
-#	${MKDIR} ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXRenderHw
-#	${CP} -vR ${WRKSRC}/source/MaterialXRenderHw/*.h ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXRenderHw
-#	${MKDIR} ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXRenderOsl
-#	${CP} -vR ${WRKSRC}/source/MaterialXRenderOsl/*.h ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXRenderOsl
-
+	${MKDIR} ${STAGEDIR}${DATADIR}${PORTNAME}
+	${CP} -vR ${WRKSRC}/resources ${STAGEDIR}${DATADIR}${PORTNAME}
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXCore
+	(cd ${WRKSRC}/source/MaterialXCore && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXCore)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXFormat
+	(cd ${WRKSRC}/source/MaterialXFormat && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXFormat)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXGenGlsl
+	(cd ${WRKSRC}/source/MaterialXGenGlsl && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXGenGlsl)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXGenMdl
+	(cd ${WRKSRC}/source/MaterialXGenMdl && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXGenMdl)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXGenMsl
+	(cd ${WRKSRC}/source/MaterialXGenMsl && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXGenMsl)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXGenShader
+	(cd ${WRKSRC}/source/MaterialXGenShader && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXGenShader)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXRender
+	(cd ${WRKSRC}/source/MaterialXRender && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXRender)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXRenderGlsl
+	(cd ${WRKSRC}/source/MaterialXRenderGlsl && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXRenderGlsl)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXRenderHw
+	(cd ${WRKSRC}/source/MaterialXRenderHw && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXRenderHw)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXRenderOsl
+	(cd ${WRKSRC}/source/MaterialXRenderOsl && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXRenderOsl)
 
 .include <bsd.port.mk>
