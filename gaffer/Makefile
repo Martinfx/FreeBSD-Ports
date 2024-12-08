@@ -28,13 +28,32 @@ BUILD_DEPENDS=  bitstream-vera>0:x11-fonts/bitstream-vera \
 		Imath>0:math/Imath \
 		boost-libs>=1.85.0:devel/boost-libs \
 		onetbb>0:devel/onetbb \
+		minizip-ng>0:archivers/minizip-ng \
 		${PYTHON_PKGNAMEPREFIX}Jinja2>0:devel/py-Jinja2@${PY_FLAVOR} \
 		${PYTHON_PKGNAMEPREFIX}types-MarkupSafe>0:devel/py-types-MarkupSafe@${PY_FLAVOR} \
+		${PYTHON_PKGNAMEPREFIX}psutil>0:sysutils/py-psutil@${PY_FLAVOR} \
+		${PYTHON_PKGNAMEPREFIX}PyOpenGL>0:graphics/py-PyOpenGL@${PY_FLAVOR} \
+		${PYTHON_PKGNAMEPREFIX}pyside2>0:devel/pyside2@${PY_FLAVOR} \
+		${PYTHON_PKGNAMEPREFIX}QtPy>0:devel/py-QtPy@${PY_FLAVOR} \
 		embree>0:graphics/embree \
 		cycles>0:graphics/cycles \
 		openshadinglanguage>0:graphics/openshadinglanguage \
 		openexr>0:graphics/openexr \
+		openimageio>0:graphics/openimageio \
+		openjpeg>0:graphics/openjpeg \
+		openpgl>0:graphics/openpgl \
+		opensubdiv>0:graphics/opensubdiv \
+		openvdb>0:misc/openvdb \
+		pcg-cpp>0:devel/pcg-cpp\
+		partio>0:graphics/partio \
+		pugixml>0:textproc/pugixml \
+		pybind11>0:devel/pybind11 \
+		pystring>0:devel/pystring \
+		yaml-cpp>0:devel/yaml-cpp \
+		zlib-ng>0:archivers/zlib-ng \
+		zstd>0:archivers/zstd \
 		cortex>0:graphics
+		# usd>0:misc/usd dependent on old tbb
 
 USES=		python:3.11,env llvm:min=15,build,run localbase scons qt:5
 USE_QT=		core
