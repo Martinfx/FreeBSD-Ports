@@ -21,7 +21,6 @@ BUILD_DEPENDS=	alembic>0:graphics/alembic \
 		openpgl>0:graphics/openpgl \
 		openshadinglanguage>0:graphics/openshadinglanguage \
 		opensubdiv>0:graphics/opensubdiv \
-		opensycl>0:lang/opensycl \
 		openvdb>0:misc/openvdb \
 		webp>0:graphics/webp \
 		zstd>0:archivers/zstd
@@ -37,7 +36,6 @@ LIB_DEPENDS=	libAlembic.so:graphics/alembic \
 		libboost_system.so:devel/boost-libs \
 		libboost_thread.so:devel/boost-libs \
 		libboost_wave.so:devel/boost-libs \
-		libembree3.so:graphics/embree \
 		libexpat.so:textproc/expat2 \
 		libgflags.so:devel/gflags \
 		libglog.so:devel/glog \
@@ -72,21 +70,18 @@ USE_GITHUB=	yes
 GH_ACCOUNT=	blender
 GH_PROJECT=	cycles
 
-CMAKE_ARGS+=	-DOSL_SHADER_DIR:STRING="${LOCALBASE}/share/openshadinglanguage/shaders" \
-		-DSYCL_LIBRARY="${LOCALBASE}/lib"
+CMAKE_ARGS+=	-DOSL_SHADER_DIR:STRING="${LOCALBASE}/share/openshadinglanguage/shaders"
 CMAKE_ON=	CMAKE_POSITION_INDEPENDENT_CODE WITH_CYCLES_ALEMBIC \
-		WITH_CYCLES_DEVICE_ONEAPI \
-		WITH_CYCLES_LOGGING WITH_CYCLES_OPENCOLORIO \
-		WITH_CYCLES_OPENIMAGEDENOISE WITH_CYCLES_OPENSUBDIV \
-		WITH_CYCLES_OPENVDB WITH_CYCLES_OSL
-CMAKE_OFF=	WITH_CYCLES_DEVICE_OPTIX \
-		WITH_CYCLES_NANOVDB \
-		WITH_LIBS_PRECOMPILED \
-		WITH_CYCLES_USD # dependent tbb-2020.3_4
+		WITH_CYCLES_DEVICE_ONEAPI WITH_CYCLES_LOGGING \
+		WITH_CYCLES_OPENCOLORIO WITH_CYCLES_OPENIMAGEDENOISE \
+		WITH_CYCLES_OPENSUBDIV WITH_CYCLES_OPENVDB WITH_CYCLES_OSL
+CMAKE_OFF=	WITH_CYCLES_DEVICE_OPTIX WITH_CYCLES_NANOVDB WITH_CYCLES_USD \
+		WITH_LIBS_PRECOMPILED
 
-OPTIONS_DEFINE=	EMBREE
+OPTIONS_DEFINE=		EMBREE
 EMBREE_DESC=		Collection of high-performance ray tracing kernels.
 EMBREE_BUILD_DEPENDS=	embree>0:graphics/embree
+EMBREE_LIB_DEPENDS=	libembree3.so:graphics/embree
 EMBREE_CMAKE_BOOL=	WITH_CYCLES_EMBREE
 OPTIONS_EXCLUDE=	EMBREE
 OPTIONS_EXCLUDE_amd64=	EMBREE
@@ -99,3 +94,4 @@ do-install:
 	${INSTALL_PROGRAM} ${BUILD_WRKSRC}/bin/cycles ${STAGEDIR}${PREFIX}/bin
 
 .include <bsd.port.mk>
+
