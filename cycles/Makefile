@@ -1,10 +1,10 @@
 PORTNAME=	cycles
-DISTVERSIONPREFIX=v
+DISTVERSIONPREFIX=	v
 DISTVERSION=	4.2.0
 CATEGORIES=	graphics
 
 MAINTAINER=	freebsd@sysctl.cz
-COMMENT=	The Cycles Render Engine.
+COMMENT=	Cycles is a physically based production renderer.
 WWW=		https://github.com/blender/cycles
 
 LICENSE=	APACHE20
@@ -12,84 +12,90 @@ LICENSE_FILE=	${WRKSRC}/LICENSE
 
 BUILD_DEPENDS=	alembic>0:graphics/alembic \
 		boost-libs>=1.85.0:devel/boost-libs \
-		embree>0:graphics/embree \
 		libepoxy>0:graphics/libepoxy \
 		oidn>0:graphics/oidn \
-		openjpeg>0:graphics/openjpeg \
-		openimageio>0:graphics/openimageio \
-		openexr>0:graphics/openexr \
-		openshadinglanguage>0:graphics/openshadinglanguage \
 		onetbb>0:devel/onetbb \
-		opensubdiv>0:graphics/opensubdiv \
+		openexr>0:graphics/openexr \
+		openimageio>0:graphics/openimageio \
+		openjpeg>0:graphics/openjpeg \
 		openpgl>0:graphics/openpgl \
+		openshadinglanguage>0:graphics/openshadinglanguage \
+		opensubdiv>0:graphics/opensubdiv \
+		opensycl>0:lang/opensycl \
 		openvdb>0:misc/openvdb \
 		webp>0:graphics/webp \
 		zstd>0:archivers/zstd
 
 LIB_DEPENDS=	libAlembic.so:graphics/alembic \
-		libglog.so:devel/glog \
-		libgflags.so:devel/gflags\
-		liboslcomp.so:graphics/openshadinglanguage \
-		liboslexec.so:graphics/openshadinglanguage \
-		liboslquery.so:graphics/openshadinglanguage \
-		liboslnoise.so:graphics/openshadinglanguage \
+		libboost_atomic.so:devel/boost-libs \
+		libboost_chrono.so:devel/boost-libs \
+		libboost_date_time.so:devel/boost-libs \
+		libboost_filesystem.so:devel/boost-libs \
+		libboost_iostreams.so:devel/boost-libs \
+		libboost_regex.so:devel/boost-libs \
+		libboost_serialization.so:devel/boost-libs \
+		libboost_system.so:devel/boost-libs \
+		libboost_thread.so:devel/boost-libs \
+		libboost_wave.so:devel/boost-libs \
 		libembree3.so:graphics/embree \
-		libosdGPU.so:graphics/opensubdiv \
-		libosdCPU.so:graphics/opensubdiv \
-		libOpenColorIO.so:graphics/opencolorio \
-		libyaml-cpp.so:devel/yaml-cpp \
 		libexpat.so:textproc/expat2 \
-		libpystring.so:devel/pystring \
+		libgflags.so:devel/gflags \
+		libglog.so:devel/glog \
+		libIex-3_3.so:graphics/openexr \
+		libIlmThread-3_3.so:graphics/openexr \
+		libImath-3_1.so:math/Imath \
 		libminizip.so:archivers/minizip \
-		libopenvdb.so:misc/openvdb \
+		libOpenColorIO.so:graphics/opencolorio \
+		libOpenEXR-3_3.so:graphics/openexr \
+		libOpenEXRCore-3_3.so:graphics/openexr \
 		libOpenImageDenoise.so:graphics/oidn \
 		libOpenImageIO.so:graphics/openimageio \
 		libOpenImageIO_Util.so:graphics/openimageio \
-		libpng16.so:graphics/png \
 		libopenjp2.so:graphics/openjpeg \
-		libIex-3_3.so:graphics/openexr \
-		libOpenEXR-3_3.so:graphics/openexr \
-		libOpenEXRCore-3_3.so:graphics/openexr \
-		libIlmThread-3_3.so:graphics/openexr \
-		libImath-3_1.so:math/Imath \
+		libopenvdb.so:misc/openvdb \
+		libosdCPU.so:graphics/opensubdiv \
+		libosdGPU.so:graphics/opensubdiv \
+		liboslcomp.so:graphics/openshadinglanguage \
+		liboslexec.so:graphics/openshadinglanguage \
+		liboslnoise.so:graphics/openshadinglanguage \
+		liboslquery.so:graphics/openshadinglanguage \
+		libpng16.so:graphics/png \
 		libpugixml.so:textproc/pugixml \
-		libboost_iostreams.so:devel/boost-libs \
-		libboost_filesystem.so:devel/boost-libs \
-		libboost_regex.so:devel/boost-libs \
-		libboost_system.so:devel/boost-libs \
-		libboost_thread.so:devel/boost-libs \
-		libboost_date_time.so:devel/boost-libs \
-		libboost_wave.so:devel/boost-libs \
-		libboost_chrono.so:devel/boost-libs \
-		libboost_atomic.so:devel/boost-libs \
-		libboost_serialization.so:devel/boost-libs \
+		libpystring.so:devel/pystring \
 		libpython3.11.so:lang/python311 \
 		libtbb.so:devel/onetbb \
+		libyaml-cpp.so:devel/yaml-cpp \
 		libzstd.so:archivers/zstd
 
-USES=		cmake jpeg
+USES=		cmake:testing jpeg
 USE_GITHUB=	yes
 GH_ACCOUNT=	blender
 GH_PROJECT=	cycles
 
-CMAKE_ARGS+=	-DOSL_SHADER_DIR:STRING="${LOCALBASE}/share/openshadinglanguage/shaders"
-CMAKE_ON=	WITH_CYCLES_ALEMBIC \
-		WITH_CYCLES_EMBREE \
-		WITH_CYCLES_LOGGING  \
-		WITH_CYCLES_OPENCOLORIO \
-		WITH_CYCLES_OPENIMAGEDENOISE \
-		WITH_CYCLES_OPENSUBDIV \
-		WITH_CYCLES_OPENVDB \
-		WITH_CYCLES_OSL \
-		CMAKE_POSITION_INDEPENDENT_CODE \
-		WITH_CYCLES_DEVICE_ONEAPI
-CMAKE_OFF=	WITH_LIBS_PRECOMPILED \
+CMAKE_ARGS+=	-DOSL_SHADER_DIR:STRING="${LOCALBASE}/share/openshadinglanguage/shaders" \
+		-DSYCL_LIBRARY="${LOCALBASE}/lib"
+CMAKE_ON=	CMAKE_POSITION_INDEPENDENT_CODE WITH_CYCLES_ALEMBIC \
+		WITH_CYCLES_DEVICE_ONEAPI \
+		WITH_CYCLES_LOGGING WITH_CYCLES_OPENCOLORIO \
+		WITH_CYCLES_OPENIMAGEDENOISE WITH_CYCLES_OPENSUBDIV \
+		WITH_CYCLES_OPENVDB WITH_CYCLES_OSL
+CMAKE_OFF=	WITH_CYCLES_DEVICE_OPTIX \
 		WITH_CYCLES_NANOVDB \
+		WITH_LIBS_PRECOMPILED \
 		WITH_CYCLES_USD # dependent tbb-2020.3_4
+
+OPTIONS_DEFINE=	EMBREE
+EMBREE_DESC=		Collection of high-performance ray tracing kernels.
+EMBREE_BUILD_DEPENDS=	embree>0:graphics/embree
+EMBREE_CMAKE_BOOL=	WITH_CYCLES_EMBREE
+OPTIONS_EXCLUDE=	EMBREE
+OPTIONS_EXCLUDE_amd64=	EMBREE
+OPTIONS_DEFAULT=	EMBREE
+OPTIONS_SUB=		no
 
 PLIST_FILES=	bin/cycles
 
 do-install:
-	${INSTALL_PROGRAM} ${WRKDIR}/.build/bin/cycles ${STAGEDIR}${PREFIX}/bin
+	${INSTALL_PROGRAM} ${BUILD_WRKSRC}/bin/cycles ${STAGEDIR}${PREFIX}/bin
 
 .include <bsd.port.mk>
