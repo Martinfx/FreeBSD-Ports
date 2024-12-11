@@ -10,6 +10,8 @@ WWW=		https://github.com/Nelarius/imnodes
 LICENSE=	MIT
 LICENSE_FILE=	${WRKSRC}/LICENSE.md
 
+BUILD_DEPENDS=	imgui>0:x11-toolkits/imgui
+
 USES=		cmake
 USE_GITHUB=	yes
 GH_ACCOUNT=	Nelarius
