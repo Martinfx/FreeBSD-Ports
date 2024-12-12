@@ -16,8 +16,8 @@ BUILD_DEPENDS=	alembic>0:graphics/alembic \
 		cgal>=5.0.2:math/cgal \
 		onetbb>0:devel/onetbb \
 		opencv>0:graphics/opencv \
-		openvdb>0:misc/openvdb \
-		sdl2>0:devel/sdl20
+		sdl2>0:devel/sdl20 \
+		qwt6-qt5>0:x11-toolkits/qwt6
 
 LIB_DEPENDS=	libAlembic.so:graphics/alembic \
 		libcryptopp.so:security/cryptopp \
@@ -68,9 +68,6 @@ CMAKE_ON=	ZENO_BUILD_EDITOR ZENO_BUILD_SHARED ZENO_IPC_USE_TCP \
 		ZENO_WITH_PBD \
 		ZENO_WITH_GUI \
 		ZENO_WITH_ImgCV \
-		ZENO_WITH_FastFLIP \
-		ZENO_WITH_Euler \
-		ZENO_WITH_zenvdb \
 		ZENO_WITH_TOOL_FLIPtools \
 		ZENO_WITH_TOOL_cgmeshTools \
 		ZENO_WITH_TOOL_BulletTools \
@@ -97,8 +94,8 @@ PLIST_FILES=	bin/autotest \
 		bin/zenoedit \
 		lib/libzeno.so
 do-install:
-	${INSTALL_PROGRAM} ${WRKDIR}/.build/bin/autotest ${STAGEDIR}${PREFIX}/bin
-	${INSTALL_PROGRAM} ${WRKDIR}/.build/bin/zenoedit ${STAGEDIR}${PREFIX}/bin
-	${INSTALL_LIB} ${WRKDIR}/.build/bin/libzeno.so ${STAGEDIR}${PREFIX}/lib
+	${INSTALL_PROGRAM} ${BUILD_WRKSRC}/bin/autotest ${STAGEDIR}${PREFIX}/bin
+	${INSTALL_PROGRAM} ${BUILD_WRKSRC}/bin/zenoedit ${STAGEDIR}${PREFIX}/bin
+	${INSTALL_LIB} ${BUILD_WRKSRC}/bin/libzeno.so ${STAGEDIR}${PREFIX}/lib
 
 .include <bsd.port.mk>
