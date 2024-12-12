@@ -1,22 +1,26 @@
 --- ui/zenoui/CMakeLists.txt.orig	2024-09-30 13:46:54 UTC
 +++ ui/zenoui/CMakeLists.txt
-@@ -18,8 +18,10 @@ target_include_directories(zenoui PRIVATE ${Qt5Widgets
+@@ -18,8 +18,13 @@ target_include_directories(zenoui PRIVATE ${Qt5Widgets
  target_link_libraries(zenoui PUBLIC zeno)
  
  target_include_directories(zenoui PRIVATE ${Qt5Widgets_PRIVATE_INCLUDE_DIRS})
 -target_include_directories(zenoui PRIVATE . .. ../include ../qwt/include)
  
 +# hotfix for freebsd
-+target_include_directories(zenoui PRIVATE . .. ../include /usr/local/include/qt5/qwt6)
++find_package(PkgConfig REQUIRED)
++pkg_check_modules(QWT REQUIRED qwt)
++
++target_include_directories(zenoui PRIVATE . .. ../include ${QWT_INCLUDE_DIRS})
 +
  if (WIN32)
      if (CMAKE_BUILD_TYPE STREQUAL "Debug")
          target_link_libraries(zenoui PRIVATE  ${CMAKE_CURRENT_SOURCE_DIR}/../qwt/libs/win/qwtd.lib)
-@@ -27,5 +29,6 @@ else()
+@@ -27,5 +32,7 @@ else()
          target_link_libraries(zenoui PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../qwt/libs/win/qwt.lib)
      endif()
  else()
 -    target_link_libraries(zenoui PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../qwt/libs/linux/libqwt.a)
 +    # hotfix for freebsd
-+    target_link_libraries(zenoui PRIVATE /usr/local/lib/qt5/libqwt.so)
++    target_link_libraries(zenoui PRIVATE ${QWT_LIBRARIES})
  endif()
++
