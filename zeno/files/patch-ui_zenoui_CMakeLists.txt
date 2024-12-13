@@ -7,10 +7,10 @@
 -target_include_directories(zenoui PRIVATE . .. ../include ../qwt/include)
  
 +# hotfix for freebsd
-+find_package(PkgConfig REQUIRED)
-+pkg_check_modules(QWT REQUIRED qwt)
++set(QWT_INCLUDE_DIR "%%LOCALBASE%%/include/qt5/qwt6")
++set(Qt5Qwt6_LIBRARIES "%%LOCALBASE%%/lib/qt5/libqwt.so")
 +
-+target_include_directories(zenoui PRIVATE . .. ../include ${QWT_INCLUDE_DIRS})
++target_include_directories(zenoui PRIVATE . .. ../include ${QWT_INCLUDE_DIR})
 +
  if (WIN32)
      if (CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -21,6 +21,6 @@
  else()
 -    target_link_libraries(zenoui PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../qwt/libs/linux/libqwt.a)
 +    # hotfix for freebsd
-+    target_link_libraries(zenoui PRIVATE ${QWT_LIBRARIES})
++    target_link_libraries(zenoui PRIVATE ${Qt5Qwt6_LIBRARIES})
  endif()
 +
