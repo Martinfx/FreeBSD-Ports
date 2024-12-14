@@ -1,5 +1,5 @@
 PORTNAME=	librewolf
-DISTVERSION=	131.0.2
+DISTVERSION=	133.0.3
 DISTVERSIONSUFFIX=	-1.source
 CATEGORIES=	www wayland
 MASTER_SITES=	https://gitlab.com/api/v4/projects/32320088/packages/generic/${PORTNAME}-source/${DISTVERSION}-1/
@@ -11,13 +11,15 @@ WWW=		https://librewolf.net/
 LICENSE=	MPL20
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
+BROKEN_armv7=	error: could not compile `gkrust` (lib)
+
 BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
-		nss>=3.104:security/nss \
+		nss>=3.106:security/nss \
 		icu>=73.1:devel/icu \
 		libevent>=2.1.8:devel/libevent \
-		harfbuzz>=9.0.0:print/harfbuzz \
+		harfbuzz>=10.0.1:print/harfbuzz \
 		graphite2>=1.3.14:graphics/graphite2 \
-		png>=1.6.43:graphics/png \
+		png>=1.6.44:graphics/png \
 		dav1d>=1.0.0:multimedia/dav1d \
 		libvpx>=1.14.1:multimedia/libvpx \
 		${PYTHON_PKGNAMEPREFIX}sqlite3>0:databases/py-sqlite3@${PY_FLAVOR} \
@@ -79,26 +81,21 @@ CFLAGS+=	-DHWY_COMPILE_ONLY_SCALAR
 MOZ_OPTIONS+=	--without-wasm-sandboxed-libraries
 .else
 BUILD_DEPENDS+=	${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc++abi.a:devel/wasi-libcxx${LLVM_VERSION} \
-		${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc.a:devel/wasi-libc \
+		${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc.a:devel/wasi-libc@${LLVM_VERSION} \
 		wasi-compiler-rt${LLVM_VERSION}>0:devel/wasi-compiler-rt${LLVM_VERSION}
 MOZ_OPTIONS+=	--with-wasi-sysroot=${LOCALBASE}/share/wasi-sysroot
 .endif
-
- FIREFOX_ICON=          ${MOZILLA}.png
- FIREFOX_ICON_SRC=      ${PREFIX}/lib/${MOZILLA}/browser/chrome/icons/default/default48.png
 
 post-extract:
 	@${SED} -e 's|@FIREFOX_ICON@|${FIREFOX_ICON:R}|;s|@MOZILLA@|${MOZILLA}|' \
 		-e 's|firefox|${MOZILLA}|' \
 		-e 's|Firefox|${MOZILLA_CAP}|' \
-		${.CURDIR}/../firefox/files/firefox.desktop.in > ${WRKDIR}/${MOZILLA_EXEC_NAME}.desktop
+		<${.CURDIR}/../firefox/files/firefox.desktop.in >${WRKDIR}/${MOZILLA_EXEC_NAME}.desktop
 
 post-patch:
 	@${REINPLACE_CMD} -e 's|%%LOCALBASE%%|${LOCALBASE}|g' \
 		${WRKSRC}/browser/app/nsBrowserApp.cpp
 	@${RM} ${WRKSRC}/mozconfig
-	@${REINPLACE_CMD} -e 's|%%LOCALBASE%%|${LOCALBASE}|g' \
-		${WRKSRC}/browser/app/nsBrowserApp.cpp
 
 post-install:
 	${INSTALL_DATA} ${WRKDIR}/${MOZILLA_EXEC_NAME}.desktop ${STAGEDIR}${PREFIX}/share/applications
