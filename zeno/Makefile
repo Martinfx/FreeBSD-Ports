@@ -93,6 +93,9 @@ LDFLAGS+=	-Wl,--allow-shlib-undefined -lomp
 PLIST_FILES=	bin/autotest \
 		bin/zenoedit \
 		lib/libzeno.so
+pre-configure:
+	${REINPLACE_CMD} -e 's|%%LOCALBASE%%|${LOCALBASE}|g' ${WRKSRC}/ui/zenoui/CMakeLists.txt
+
 do-install:
 	${INSTALL_PROGRAM} ${BUILD_WRKSRC}/bin/autotest ${STAGEDIR}${PREFIX}/bin
 	${INSTALL_PROGRAM} ${BUILD_WRKSRC}/bin/zenoedit ${STAGEDIR}${PREFIX}/bin
