@@ -1,8 +1,8 @@
 PORTNAME=	powershell
-DISTVERSION=	7.4.2
+DISTVERSION=	7.5.0-rc.1
 CATEGORIES=	shells
 
-MAINTAINER=	zirias@FreeBSD.org
+MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Microsoft's shell with support for .NET objects
 WWW=		https://microsoft.com/PowerShell
 
@@ -11,7 +11,7 @@ LICENSE_FILE=	${WRKSRC}/LICENSE.txt
 
 ONLY_FOR_ARCHS=	aarch64 amd64
 
-BUILD_DEPENDS=	dotnet:lang/dotnet
+BUILD_DEPENDS=	dotnet>0:lang/dotnet
 LIB_DEPENDS=	libinotify.so:devel/libinotify \
 		libunwind.so:devel/libunwind
 

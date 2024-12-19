@@ -1,4 +1,4 @@
-TIMESTAMP = 1726917140
+TIMESTAMP = 1734602087
 SHA256 (nuget/dotnetanalyzers.documentationanalyzers.1.0.0-beta.59.nupkg) = 923a54cd5b0fdb74cc6cc49a01b9027785ef4fd142b9b0802a588ae242a6740e
 SIZE (nuget/dotnetanalyzers.documentationanalyzers.1.0.0-beta.59.nupkg) = 14410
 SHA256 (nuget/dotnetanalyzers.documentationanalyzers.unstable.1.0.0.59.nupkg) = ae589831a3338b8b7efc889cbfc65f64724460ca63e4af97a8da03bff2c02191
@@ -187,7 +187,7 @@ SHA256 (nuget/system.web.services.description.4.10.3.nupkg) = 8aa93f43a8d9fc3658
 SIZE (nuget/system.web.services.description.4.10.3.nupkg) = 285511
 SHA256 (nuget/system.windows.extensions.8.0.0.nupkg) = 687933ecbb665030d14bbb3040cd22e9d0d5532b5108c61e03609f69e540d98d
 SIZE (nuget/system.windows.extensions.8.0.0.nupkg) = 201765
-SHA256 (PowerShell-PowerShell-7.4.2-v7.4.2_GH0.tar.gz) = 151259502a3ad688a3125637e8c87d40483af79e0c5afb224bd7929af2ad3567
-SIZE (PowerShell-PowerShell-7.4.2-v7.4.2_GH0.tar.gz) = 10858155
+SHA256 (PowerShell-PowerShell-7.5.0-rc.1-v7.5.0-rc.1_GH0.tar.gz) = b9de0e56d78823d1ba73c7c019ffbd6f81c9eac7b23991ee19304cf091c03d4c
+SIZE (PowerShell-PowerShell-7.5.0-rc.1-v7.5.0-rc.1_GH0.tar.gz) = 10851124
 SHA256 (PowerShell-PowerShell-Native-v7.4.0_GH0.tar.gz) = 5220f99755442720486e20682269fecdabbbabff9e082c1a51250b66465f40cf
 SIZE (PowerShell-PowerShell-Native-v7.4.0_GH0.tar.gz) = 288919
