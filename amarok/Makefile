@@ -1,6 +1,6 @@
 PORTNAME=	amarok
 DISTVERSIONPREFIX=	v
-DISTVERSION=	3.1.1
+DISTVERSION=	3.2.0
 CATEGORIES=	audio kde
 
 MAINTAINER=	kde@FreeBSD.org
@@ -25,13 +25,8 @@ LIB_DEPENDS=	libdbus-1.so:devel/dbus \
 		libunwind.so:devel/libunwind
 
 USES=		cmake compiler:c++11-lang cpe desktop-file-utils \
-		kde:5 mysql:client pkgconfig qca qt:5 shebangfix ssl xorg
+		kde:6 mysql:client pkgconfig qca qt:6 shebangfix ssl xorg
 USE_GL=		gl
-
-USE_QT=		core concurrent declarative dbus gui location network  \
-		quickcontrols2 script scripttools sql svg webchannel \
-		widgets xml \
-		buildtools:build qmake:build testlib:build
 
 USE_KDE=	archive auth attica bookmarks codecs config configwidgets \
 		completion coreaddons crash dbusaddons dnssd globalaccel \
@@ -45,7 +40,7 @@ USE_LDCONFIG=	yes
 
 CPE_VENDOR=	kde
 
-KDE_INVENT=	978a4d3983aba4237a2d3e5cf4c4cd7fb7b87c88 multimedia
+KDE_INVENT=	393edd60494b09469ad3db2d2f24318d5dd2a659 multimedia
 
 CONFIGURE_ENV=	MYSQL_DIR=${LOCALBASE}
 
