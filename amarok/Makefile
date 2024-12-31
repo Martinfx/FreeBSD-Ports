@@ -10,8 +10,7 @@ WWW=		https://amarok.kde.org/
 LICENSE=	GPLv2
 LICENSE_FILE=	${WRKSRC}/COPYING
 
-BUILD_DEPENDS=	phonon-qt6>0:multimedia/phonon \
-		libunwind>0:devel/libunwind \
+BUILD_DEPENDS=	libunwind>0:devel/libunwind \
 		taglib>2.0.0:audio/taglib \
 		libglvnd>0:graphics/libglvnd
 
@@ -21,11 +20,11 @@ LIB_DEPENDS=	libdbus-1.so:devel/dbus \
 		libqjson-qt5.so:devel/qjson \
 		libtag.so:audio/taglib \
 		liblz4.so:archivers/liblz4 \
-		libphonon4qt6.so:multimedia/phonon \
 		libunwind.so:devel/libunwind
 
 USES=		cmake compiler:c++11-lang cpe desktop-file-utils \
-		kde:6 mysql:client pkgconfig qca qt:6 shebangfix ssl xorg
+		kde:6 mysql:client pkgconfig qca qt:6 shebangfix ssl xorg \
+		gettext
 USE_GL=		gl
 USE_QT=		base webengine
 USE_KDE=	archive auth attica bookmarks codecs config configwidgets \
@@ -34,7 +33,8 @@ USE_KDE=	archive auth attica bookmarks codecs config configwidgets \
 		kcmutils kio kirigami2 newstuff notifications notifyconfig \
 		package parts service solid sonnet texteditor textwidgets \
 		threadweaver wallet widgetsaddons windowsystem xmlgui \
-		doctools:build ecm:build syntaxhighlighting
+		doctools:build ecm:build syntaxhighlighting phonon \
+		statusnotifieritem
 USE_XORG=	ice sm x11 xext
 USE_LDCONFIG=	yes
 
@@ -87,4 +87,3 @@ post-install:
 	@${MKDIR} ${STAGEDIR}${PREFIX}/share/mime/packages
 
 .include <bsd.port.mk>
-
