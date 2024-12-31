@@ -10,7 +10,7 @@ WWW=		https://amarok.kde.org/
 LICENSE=	GPLv2
 LICENSE_FILE=	${WRKSRC}/COPYING
 
-BUILD_DEPENDS=	phonon-qt5>0:multimedia/phonon \
+BUILD_DEPENDS=	phonon-qt6>0:multimedia/phonon \
 		libunwind>0:devel/libunwind \
 		taglib>2.0.0:audio/taglib \
 		libglvnd>0:graphics/libglvnd
@@ -21,7 +21,7 @@ LIB_DEPENDS=	libdbus-1.so:devel/dbus \
 		libqjson-qt5.so:devel/qjson \
 		libtag.so:audio/taglib \
 		liblz4.so:archivers/liblz4 \
-		libphonon4qt5.so:multimedia/phonon \
+		libphonon4qt6.so:multimedia/phonon \
 		libunwind.so:devel/libunwind
 
 USES=		cmake compiler:c++11-lang cpe desktop-file-utils \
