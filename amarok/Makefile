@@ -27,7 +27,7 @@ LIB_DEPENDS=	libdbus-1.so:devel/dbus \
 USES=		cmake compiler:c++11-lang cpe desktop-file-utils \
 		kde:6 mysql:client pkgconfig qca qt:6 shebangfix ssl xorg
 USE_GL=		gl
-
+USE_QT=		base webengine
 USE_KDE=	archive auth attica bookmarks codecs config configwidgets \
 		completion coreaddons crash dbusaddons dnssd globalaccel \
 		guiaddons i18n iconthemes itemviews jobwidgets kdeclarative \
