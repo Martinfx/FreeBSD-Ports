@@ -1,0 +1,11 @@
+--- CMakeLists.txt.orig	2025-01-01 12:23:50 UTC
++++ CMakeLists.txt
+@@ -198,7 +198,7 @@ add_subdirectory(src/pyluxcoretools)
+ #
+ ################################################################################
+ 
+-if((${CMAKE_SYSTEM_NAME} MATCHES "Linux") OR OSX_BUILD_DEMOS OR WIN_BUILD_DEMOS)
++if((${CMAKE_SYSTEM_NAME} MATCHES "Linux") OR (${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD") OR OSX_BUILD_DEMOS OR WIN_BUILD_DEMOS)
+ 	add_subdirectory(samples/luxcoredemo)
+ 	add_subdirectory(samples/luxcorescenedemo)
+ 
