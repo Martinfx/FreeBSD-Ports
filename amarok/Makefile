@@ -20,13 +20,14 @@ LIB_DEPENDS=	libdbus-1.so:devel/dbus \
 		libqjson-qt5.so:devel/qjson \
 		libtag.so:audio/taglib \
 		liblz4.so:archivers/liblz4 \
-		libunwind.so:devel/libunwind
+		libunwind.so:devel/libunwind \
+		libKF6ColorScheme.so:x11-themes/kf6-kcolorscheme
 
 USES=		cmake compiler:c++11-lang cpe desktop-file-utils \
 		kde:6 mysql:client pkgconfig qca qt:6 shebangfix ssl xorg \
 		gettext
-USE_GL=		gl
-USE_QT=		base webengine
+USE_GL=		gl opengl
+USE_QT=		base declarative positioning tools svg webchannel webengine 5compat
 USE_KDE=	archive auth attica bookmarks codecs config configwidgets \
 		completion coreaddons crash dbusaddons dnssd globalaccel \
 		guiaddons i18n iconthemes itemviews jobwidgets kdeclarative \
