@@ -1,5 +1,5 @@
 PORTNAME=	xray-16
-DISTVERSION=	2188-november-2023-rc1
+DISTVERSION=	G20250102
 CATEGORIES=	games
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -35,7 +35,7 @@ USE_GITHUB=	yes
 
 GH_ACCOUNT=	OpenXRay
 GH_PROJECT=	xray-16
-GH_TAGNAME=	e01d122
+GH_TAGNAME=	34ef356f76cb0ed1814d8b3027f1ff91b7f2e30b
 GH_TUPLE+=	GPUOpen-LibrariesAndSDKs:AGS_SDK:f4e655ed363a91a7e0af35f5aecffa175c79a748:AGSSDK/Externals/AGS_SDK \
 		OpenXRay:BugTrap:c619077b40ee6e7ad6ffc5a194a5d3583af8f78e:BugTrap/Externals/BugTrap \
 		OpenXRay:GameSpy:61d061b4b3f860865f97e659e496e11704f61eb3:GameSpy/Externals/GameSpy \
@@ -55,5 +55,6 @@ GH_TUPLE+=	GPUOpen-LibrariesAndSDKs:AGS_SDK:f4e655ed363a91a7e0af35f5aecffa175c79
 		OpenXRay:lua-pack:c1e5a149b571cc31069e7e3146e881c203bdd052:pack/Externals/xrLuaFix/lua-pack
 
 CMAKE_ON=	XRAY_USE_LUAJIT
+CMAKE_BUILD_TYPE="Debug"
 
 .include <bsd.port.mk>
