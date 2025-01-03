@@ -14,6 +14,11 @@ lib/xrRender_GL.so
 lib/xrScriptEngine.so
 lib/xrSound.so
 lib/xrUICore.so
+lib/xrGameSpy.so
+lib/xrPhysics.so
+lib/xrODE.so
+lib/xrOPCODE.so
+lib/xrGame.so
 share/applications/openxray_cop.desktop
 share/applications/openxray_cs.desktop
 share/applications/openxray_soc.desktop
