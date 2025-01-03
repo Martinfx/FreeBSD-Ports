@@ -10,6 +10,9 @@ WWW=		https://amarok.kde.org/
 LICENSE=	GPLv2
 LICENSE_FILE=	${WRKSRC}/COPYING
 
+FLAVORS=	qt5 qt6
+FLAVOR?=	qt5
+
 BUILD_DEPENDS=	libunwind>0:devel/libunwind \
 		taglib>2.0.0:audio/taglib \
 		libglvnd>0:graphics/libglvnd
@@ -24,11 +27,23 @@ LIB_DEPENDS=	libdbus-1.so:devel/dbus \
 		libKF6ColorScheme.so:x11-themes/kf6-kcolorscheme
 
 USES=		cmake compiler:c++11-lang cpe desktop-file-utils \
-		kde:6 mysql:client pkgconfig qca qt:6 shebangfix ssl xorg \
+		kde:${FLAVOR:S/qt//} mysql:client pkgconfig qca qt:${FLAVOR:S/qt//} shebangfix ssl xorg \
 		gettext
 USE_GL=		gl opengl
-USE_QT=		base declarative positioning tools svg webchannel webengine 5compat
-USE_KDE=	archive auth attica bookmarks codecs config configwidgets \
+USE_QT=		${_USE_QT_${FLAVOR}}
+USE_KDE=	${_USE_KDE_${FLAVOR}}
+_USE_QT_qt5=	core concurrent declarative dbus gui location network \
+		quickcontrols2 script scripttools sql svg webchannel \
+		webengine widgets xml buildtools:build qmake:build testlib:build
+_USE_QT_qt6=	base declarative positioning tools svg webchannel webengine 5compat
+_USE_KDE_qt5=	archive auth attica bookmarks codecs config configwidgets \
+		completion coreaddons crash dbusaddons dnssd globalaccel \
+		guiaddons i18n iconthemes itemviews jobwidgets kdeclarative \
+		kcmutils kio kirigami2 newstuff notifications notifyconfig \
+		package parts service solid sonnet texteditor textwidgets \
+		threadweaver wallet widgetsaddons windowsystem xmlgui \
+		doctools:build ecm:build syntaxhighlighting
+_USE_KDE_qt6=	archive auth attica bookmarks codecs config configwidgets \
 		completion coreaddons crash dbusaddons dnssd globalaccel \
 		guiaddons i18n iconthemes itemviews jobwidgets kdeclarative \
 		kcmutils kio kirigami2 newstuff notifications notifyconfig \
@@ -46,7 +61,10 @@ KDE_INVENT=	a90438e9f1d7f0cc9d31ded9ad9d504d6cd50560 multimedia
 CONFIGURE_ENV=	MYSQL_DIR=${LOCALBASE}
 
 CMAKE_ARGS=	-DOPENSSL_ROOT_DIR=${OPENSSLBASE}
-CMAKE_ON=	WITH_DESKTOP_UI BUILD_WITH_QT6
+_CMAKE_ON_qt5=	BUILD_WITH_QT5 WITH_DESKTOP_UI
+_CMAKE_ON_qt6=	BUILD_WITH_QT6 WITH_DESKTOP_UI
+_CMAKE_OFF_qt5=	BUILD_WITH_QT6
+_CMAKE_OFF_qt6=	BUILD_WITH_QT5
 
 OPTIONS_DEFINE=		IPOD MP3TUNES GPODDER LASTFM UTILITES PLAYER
 OPTIONS_DEFAULT=	IPOD MP3TUNES GPODDER LASTFM UTILITES PLAYER
@@ -79,6 +97,11 @@ UTILITES_CMAKE_BOOL=	WITH_UTILITIES
 
 PLAYER_DESC=		Enable building of main Amarok player
 PLAYER_CMAKE_BOOL=	WITH_PLAYER
+
+PLIST=		${.CURDIR}/pkg-plist.${FLAVOR}
+PLIST_SUB=	QT5_ONLY=${_QT5_ONLY_${FLAVOR}} \
+		QT_VER=${FLAVOR:S/qt//} \
+		SHLIB_VER=${DISTVERSION}
 
 post-patch:
 	@${REINPLACE_CMD} -e 's|/usr/include|${LOCALBASE}/include|' \
