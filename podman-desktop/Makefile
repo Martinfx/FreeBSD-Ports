@@ -59,7 +59,7 @@ NO_BUILD=	yes
 do-install:
 	cd ${WRKSRC} && ${COPYTREE_SHARE} \* ${STAGEDIR}${DATADIR}
 	${INSTALL_SCRIPT} ${WRKDIR}/podman-desktop \
-		${STAGEDIR}${PREFIX}/bin
+		${STAGEDIR}${PREFIX}/bin/podman-desktop
 	${INSTALL_DATA} ${PATCHDIR}/podman-desktop.desktop \
 		${STAGEDIR}${DESKTOPDIR}/podman-desktop.desktop
 	${INSTALL_DATA} ${PATCHDIR}/podman-desktop.png \
