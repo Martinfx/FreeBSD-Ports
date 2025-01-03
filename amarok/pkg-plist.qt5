@@ -23,7 +23,6 @@ lib/libampache_account_login.so
 %%QT_PLUGINDIR%%/amarok_collection-audiocdcollection.so
 %%QT_PLUGINDIR%%/amarok_collection-daapcollection.so
 %%QT_PLUGINDIR%%/amarok_collection-ipodcollection.so
-%%QT_PLUGINDIR%%/amarok_collection-mtpcollection.so
 %%QT_PLUGINDIR%%/amarok_collection-mysqlcollection.so
 %%QT_PLUGINDIR%%/amarok_collection-playdarcollection.so
 %%QT_PLUGINDIR%%/amarok_collection-umscollection.so
