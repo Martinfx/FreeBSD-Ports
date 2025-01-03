@@ -23,8 +23,7 @@ LIB_DEPENDS=	libdbus-1.so:devel/dbus \
 		libqjson-qt5.so:devel/qjson \
 		libtag.so:audio/taglib \
 		liblz4.so:archivers/liblz4 \
-		libunwind.so:devel/libunwind \
-		libKF6ColorScheme.so:x11-themes/kf6-kcolorscheme
+		libunwind.so:devel/libunwind
 
 USES=		cmake compiler:c++11-lang cpe desktop-file-utils \
 		kde:${FLAVOR:S/qt//} mysql:client pkgconfig qca qt:${FLAVOR:S/qt//} shebangfix ssl xorg \
