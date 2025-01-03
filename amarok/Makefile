@@ -37,7 +37,7 @@ _USE_QT_qt5=	core concurrent declarative dbus gui location network \
 _USE_QT_qt6=	base declarative positioning tools svg webchannel webengine 5compat
 _USE_KDE_qt5=	archive auth attica bookmarks codecs config configwidgets \
 		completion coreaddons crash dbusaddons dnssd globalaccel \
-		guiaddons i18n iconthemes itemviews jobwidgets kdeclarative \
+		 i18n iconthemes itemviews jobwidgets kdeclarative phonon \
 		kcmutils kio kirigami2 newstuff notifications notifyconfig \
 		package parts service solid sonnet texteditor textwidgets \
 		threadweaver wallet widgetsaddons windowsystem xmlgui \
