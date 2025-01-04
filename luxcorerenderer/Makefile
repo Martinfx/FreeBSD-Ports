@@ -1,4 +1,4 @@
-PORTNAME=	luxcorerenderer
+PORTNAME=	luxcorerender
 DISTVERSIONPREFIX=luxcorerender-v
 DISTVERSION=	2.9alpha2
 CATEGORIES=	devel
@@ -24,7 +24,9 @@ LIB_DEPENDS=	libboost_python${PYTHON_SUFFIX}.so:devel/boost-python-libs
 USES=		bison cmake python localbase
 
 CMAKE_OFF=	LUXRAYS_DISABLE_OPENCL LUXCORE_DISABLE_OIDN
-CMAKE_ARGS=	-DOIDN_CORE_LIBRARY:STRING=${LOCALBASE}/lib
-PIE_UNSAFE=	yes
+CMAKE_ARGS=	-DOIDN_CORE_LIBRARY:STRING=${LOCALBASE}/lib \
+		-DBOOST_LIBRARYDIR:STRING=${LOCALBASE}/lib
+#PIE_UNSAFE=	yes
+WRKSRC=		${WRKDIR}/${PORTNAME}
 
 .include <bsd.port.mk>
