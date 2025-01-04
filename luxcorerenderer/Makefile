@@ -21,9 +21,6 @@ BUILD_DEPENDS=	boost-libs>=1.85.0:devel/boost-libs \
 LIB_DEPENDS=	libboost_python${PYTHON_SUFFIX}.so:devel/boost-python-libs
 
 USES=		bison cmake python localbase
-USE_GITHUB=	yes
-GH_ACCOUNT=	LuxCoreRender
-GH_PROJECT=	LuxCore
 
 CMAKE_OFF=	LUXRAYS_DISABLE_OPENCL LUXCORE_DISABLE_OIDN
 CMAKE_ARGS=	-DOIDN_CORE_LIBRARY:STRING=${LOCALBASE}/lib
