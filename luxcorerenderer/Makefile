@@ -1,14 +1,15 @@
 PORTNAME=	luxcorerenderer
-DISTVERSIONPREFIX=luxcorerender-v
 DISTVERSION=	2.9alpha1
 CATEGORIES=	devel
+MASTER_SITES=	https://codeberg.org/lastrodamo/LuxCoreRender/archive/
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	LuxCore renderer
+WWW=		https://luxcorerender.org/
 
 LICENSE=	APACHE20
 LICENSE_FILE=	${WRKSRC}/COPYING.txt
 
-BUILD_DEPENDS=	boost-libs>0:devel/boost-libs \
+BUILD_DEPENDS=	boost-libs>=1.85.0:devel/boost-libs \
 		${PYTHON_PKGNAMEPREFIX}boost-libs>0:devel/boost-python-libs@${PY_FLAVOR} \
 		c-blosc>0:archivers/c-blosc \
 		openimageio>0:graphics/openimageio \
