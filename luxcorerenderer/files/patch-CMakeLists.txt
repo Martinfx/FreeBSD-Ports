@@ -1,0 +1,13 @@
+--- CMakeLists.txt.orig	2025-01-04 13:00:43 UTC
++++ CMakeLists.txt
+@@ -186,10 +186,6 @@ endif()
+ #
+ ################################################################################
+ 
+-# CXX
+-set(CMAKE_CXX_COMPILER /usr/bin/g++-14)
+-set(CMAKE_C_COMPILER /usr/bin/gcc-14)
+-
+ # Specified th standard du C++ version
+ set(CMAKE_CXX_STANDARD 17) # 17 by default
+ set(CMAKE_CXX_STANDARD_REQUIRED ON)

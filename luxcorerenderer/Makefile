@@ -3,6 +3,7 @@ DISTVERSIONPREFIX=luxcorerender-v
 DISTVERSION=	2.9alpha2
 CATEGORIES=	devel
 MASTER_SITES=	https://codeberg.org/lastrodamo/LuxCoreRender/archive/${DISTVERSIONFULL}${EXTRACT_SUFX}?dummy=/
+
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	LuxCore renderer
 WWW=		https://luxcorerender.org/
@@ -21,11 +22,11 @@ BUILD_DEPENDS=	boost-libs>=1.85.0:devel/boost-libs \
 
 LIB_DEPENDS=	libboost_python${PYTHON_SUFFIX}.so:devel/boost-python-libs
 
-USES=		bison cmake python localbase
+USES=		bison cmake python:3.11+ localbase
 
-CMAKE_OFF=	LUXRAYS_DISABLE_OPENCL LUXCORE_DISABLE_OIDN
-CMAKE_ARGS=	-DOIDN_CORE_LIBRARY:STRING=${LOCALBASE}/lib \
-		-DBOOST_LIBRARYDIR:STRING=${LOCALBASE}/lib
+CMAKE_OFF=	LUXCORE_DISABLE_OIDN LUXRAYS_DISABLE_OPENCL
+CMAKE_ON=	LUXRAYS_DISABLE_CUDA
+CMAKE_ARGS=	-DOIDN_CORE_LIBRARY:STRING=${LOCALBASE}/lib
 #PIE_UNSAFE=	yes
 WRKSRC=		${WRKDIR}/${PORTNAME}
 
