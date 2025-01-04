@@ -1,7 +1,8 @@
 PORTNAME=	luxcorerenderer
-DISTVERSION=	2.9alpha1
+DISTVERSIONPREFIX=luxcorerender-v
+DISTVERSION=	2.9alpha2
 CATEGORIES=	devel
-MASTER_SITES=	https://codeberg.org/lastrodamo/LuxCoreRender/archive/
+MASTER_SITES=	https://codeberg.org/lastrodamo/LuxCoreRender/archive/${DISTVERSIONFULL}${EXTRACT_SUFX}?dummy=/
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	LuxCore renderer
 WWW=		https://luxcorerender.org/
