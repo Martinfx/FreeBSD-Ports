@@ -15,6 +15,7 @@ BUILD_DEPENDS=	boost-libs>=1.85.0:devel/boost-libs \
 		${PYTHON_PKGNAMEPREFIX}boost-libs>0:devel/boost-python-libs@${PY_FLAVOR} \
 		c-blosc>0:archivers/c-blosc \
 		openimageio>0:graphics/openimageio \
+		opensubdiv>0:graphics/opensubdiv \
 		oidn>0:graphics/oidn \
 		onetbb>0:devel/onetbb \
 		openexr>0:graphics/openexr \
