@@ -22,6 +22,7 @@ BUILD_DEPENDS=	boost-libs>=1.85.0:devel/boost-libs \
 		gtk3>0:x11-toolkits/gtk30 \
 		embree>0:graphics/embree \
 		eigen>0:math/eigen3 \
+		nlohmann-json>0:devel/nlohmann-json \
 		spdlog>0:devel/spdlog
 
 LIB_DEPENDS=	libboost_python${PYTHON_SUFFIX}.so:devel/boost-python-libs
@@ -29,7 +30,7 @@ LIB_DEPENDS=	libboost_python${PYTHON_SUFFIX}.so:devel/boost-python-libs
 USES=		bison cmake python:3.11+ localbase pkgconfig
 CMAKE_OFF=	LUXCORE_DISABLE_OIDN LUXRAYS_DISABLE_OPENCL
 CMAKE_ON=	LUXRAYS_DISABLE_CUDA
-CMAKE_ARGS=	-DOIDN_CORE_LIBRARY:STRING=${LOCALBASE}/lib
+CMAKE_ARGS=	-DOIDN_CORE_LIBRARY:STRING=${LOCALBASE}/lib -DSPDLOG_FMT_EXTERNAL=1
 #PIE_UNSAFE=	yes
 WRKSRC=		${WRKDIR}/${PORTNAME}
 
