@@ -1,6 +1,6 @@
 --- samples/luxcoreconsole/CMakeLists.txt.orig	2025-01-04 06:54:37 UTC
 +++ samples/luxcoreconsole/CMakeLists.txt
-@@ -28,6 +28,8 @@ add_executable(luxcoreconsole ${LUXCORECONSOLE_SRCS})
+@@ -28,8 +28,10 @@ add_executable(luxcoreconsole ${LUXCORECONSOLE_SRCS})
  
  add_executable(luxcoreconsole ${LUXCORECONSOLE_SRCS})
  
@@ -9,3 +9,6 @@
  if(APPLE)
  	target_link_libraries(luxcoreconsole expat "-framework Carbon" "-framework IOKit" ${LUXCORE_LIBRARY} ${Boost_LIBRARIES})
  else()
+-	target_link_libraries(luxcoreconsole slg-film ${OpenColorIO_LIBRARY} ${LUXCORE_LIBRARY} ${Boost_LIBRARIES})
++	target_link_libraries(luxcoreconsole slg-film ${OpenVDB_LIBRARY} ${OpenColorIO_LIBRARY} ${LUXCORE_LIBRARY} ${Boost_LIBRARIES})
+ endif()
