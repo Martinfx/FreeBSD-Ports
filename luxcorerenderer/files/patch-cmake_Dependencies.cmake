@@ -1,17 +1,19 @@
 --- cmake/Dependencies.cmake.orig	2025-01-04 06:54:37 UTC
 +++ cmake/Dependencies.cmake
-@@ -41,7 +41,10 @@ link_libraries(${JSONCPP_LIBRARIES})
+@@ -41,8 +41,11 @@ link_libraries(${JSONCPP_LIBRARIES})
  link_libraries(${JSONCPP_LIBRARIES})
  
  # spdlog and fmt
 -find_package(spdlog CONFIG REQUIRED)
+-find_package(fmt CONFIG REQUIRED)
 +# broken spflog in FreeBSD
 +#https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=258073
 +#find_package(spdlog CONFIG REQUIRED)
 +include_directories("${LuxRays_SOURCE_DIR}/deps/spdlog-1.13.0/include")
- find_package(fmt CONFIG REQUIRED)
++#find_package(fmt CONFIG REQUIRED)
  
  # imgui
+ # set(IMGUI_SOURCES
 @@ -96,8 +99,8 @@ set(Boost_USE_STATIC_RUNTIME    OFF)
  set(Boost_USE_RELEASE_LIBS      ON)   # only find release libs
  set(Boost_USE_MULTITHREADED     ON)
