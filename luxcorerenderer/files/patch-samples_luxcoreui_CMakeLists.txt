@@ -1,0 +1,10 @@
+--- samples/luxcoreui/CMakeLists.txt.orig	2025-01-05 11:17:49 UTC
++++ samples/luxcoreui/CMakeLists.txt
+@@ -143,5 +143,6 @@ else()
+ 		${LUXCORE_LIBRARY}
+ 		${OPENGL_LIBRARIES}
+ 		${GTK3_LIBRARIES}
+-		${Boost_LIBRARIES})
++		${Boost_LIBRARIES}
++		${OpenVDB_LIBRARY})
+ endif()
