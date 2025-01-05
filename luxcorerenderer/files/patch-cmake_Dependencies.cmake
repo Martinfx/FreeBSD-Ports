@@ -1,7 +1,17 @@
 --- cmake/Dependencies.cmake.orig	2025-01-04 06:54:37 UTC
 +++ cmake/Dependencies.cmake
-@@ -41,8 +41,11 @@ link_libraries(${JSONCPP_LIBRARIES})
- link_libraries(${JSONCPP_LIBRARIES})
+@@ -35,14 +35,17 @@ include_directories(BEFORE SYSTEM ${OpenEXR_INCLUDE_DI
+ include_directories(BEFORE SYSTEM ${OpenEXR_INCLUDE_DIRS})
+ 
+ # Json cpp
+-find_package(PkgConfig REQUIRED)
+-pkg_check_modules(JSONCPP jsoncpp)
+-include_directories(BEFORE SYSTEM ${JSONCPP_INCLUDE_DIRS})
+-link_libraries(${JSONCPP_LIBRARIES})
++#find_package(PkgConfig REQUIRED)
++#pkg_check_modules(JSONCPP jsoncpp)
++#include_directories(BEFORE SYSTEM ${JSONCPP_INCLUDE_DIRS})
++#link_libraries(${JSONCPP_LIBRARIES})
  
  # spdlog and fmt
 -find_package(spdlog CONFIG REQUIRED)
@@ -55,7 +65,7 @@
  
  # Brut force lopencolorio lopensubdiv (-libosdCPU -libosdGPU)
 -set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lOpenColorIO -lpython3.12")
-+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lOpenColorIO")
++set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}")
  
  # GLFW
  set(GLFW_DIR "${glfw3_SEARCH_PATH}")

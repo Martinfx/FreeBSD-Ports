@@ -14,6 +14,7 @@ LICENSE_FILE=	${WRKSRC}/COPYING.txt
 BUILD_DEPENDS=	boost-libs>=1.85.0:devel/boost-libs \
 		${PYTHON_PKGNAMEPREFIX}boost-libs>0:devel/boost-python-libs@${PY_FLAVOR} \
 		c-blosc>0:archivers/c-blosc \
+		doxygen>0:devel/doxygen \
 		openimageio>0:graphics/openimageio \
 		opensubdiv>0:graphics/opensubdiv \
 		oidn>0:graphics/oidn \
@@ -30,7 +31,7 @@ LIB_DEPENDS=	libboost_python${PYTHON_SUFFIX}.so:devel/boost-python-libs
 USES=		bison cmake python:3.11+ localbase pkgconfig
 CMAKE_OFF=	LUXCORE_DISABLE_OIDN LUXRAYS_DISABLE_OPENCL
 CMAKE_ON=	LUXRAYS_DISABLE_CUDA
-CMAKE_ARGS=	-DOIDN_CORE_LIBRARY:STRING=${LOCALBASE}/lib -DSPDLOG_FMT_EXTERNAL=1
+CMAKE_ARGS=	-DOIDN_CORE_LIBRARY:STRING=${LOCALBASE}/lib
 #PIE_UNSAFE=	yes
 WRKSRC=		${WRKDIR}/${PORTNAME}
 

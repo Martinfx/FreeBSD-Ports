@@ -18,14 +18,28 @@
  # Find dependencies
  include(Dependencies)
  
-@@ -185,10 +196,6 @@ endif()
- # LuxRays, SLG, LuxCore and PyLuxCoreTools libraries
+@@ -177,7 +188,7 @@ else()
+ 	set(LUXCORE_LIBRARY luxcore)
+ 	add_definitions("-DLUXCORE_DLL")
+ else()
+-	set(LUXCORE_LIBRARY luxcore slg-core slg-film slg-kernels luxrays bcd osdCPU osdGPU openvdb spdlog fmt ${OpenColorIO_LIBRARY} ${BLOSC_LIBRARY} ${EMBREE_LIBRARY} ${OIDN_LIBRARY} ${TBB_LIBRARY} ${TIFF_LIBRARIES} ${TIFF_LIBRARIES} ${OPENEXR_LIBRARIES} ${PNG_LIBRARIES} ${JPEG_LIBRARIES})
++	set(LUXCORE_LIBRARY luxcore slg-core slg-film slg-kernels luxrays bcd ${OpenVDB_LIBRARIES} ${PYTHON_LIBRARIES} ${BOOST_LIBRARIES} ${OpenColorIO_LIBRARY} ${BLOSC_LIBRARY} ${EMBREE_LIBRARY} ${OIDN_LIBRARY} ${TBB_LIBRARY} ${TIFF_LIBRARIES} ${TIFF_LIBRARIES} ${OPENEXR_LIBRARIES} ${PNG_LIBRARIES} ${JPEG_LIBRARIES})
+ endif()
+ 
+ ################################################################################
+@@ -186,10 +197,6 @@ endif()
  #
  ################################################################################
--
+ 
 -# CXX
 -set(CMAKE_CXX_COMPILER /usr/bin/g++-14)
 -set(CMAKE_C_COMPILER /usr/bin/gcc-14)
- 
+-
  # Specified th standard du C++ version
  set(CMAKE_CXX_STANDARD 17) # 17 by default
+ set(CMAKE_CXX_STANDARD_REQUIRED ON)
+@@ -272,3 +279,4 @@ include(AssembleBinDirs)
+ ################################################################################
+ 
+ include(AssembleBinDirs)
++

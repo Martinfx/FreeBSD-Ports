@@ -1,0 +1,27 @@
+--- src/luxcore/CMakeLists.txt.orig	2025-01-04 06:54:37 UTC
++++ src/luxcore/CMakeLists.txt
+@@ -175,7 +175,7 @@ add_library(pyluxcore MODULE ${PYLUXCORE_SRCS} ${LUXCO
+ 
+ add_library(pyluxcore MODULE ${PYLUXCORE_SRCS} ${LUXCORE_LIB_SRCS} ${LUX_PARSER_SRC})
+ 
+-# include_directories(${LuxRays_SOURCE_DIR}/deps/openvdb-11.0.0)
++include_directories(${LuxRays_SOURCE_DIR}/deps/openvdb-11.0.0)
+ # include_directories(${LuxRays_SOURCE_DIR}/deps/opencolorio-2.0.0/include)
+ include_directories(${OpenVDB_INCLUDE_DIRS})
+ include_directories(${OpenColorIO_INCLUDE_DIRS})
+@@ -185,7 +185,7 @@ else()
+ 	target_link_libraries(pyluxcore -Wl,-undefined -Wl,dynamic_lookup slg-core slg-film slg-kernels luxrays bcd fmt spdlog ${OpenSubdiv_LIBRARY} openvdb ${OpenColorIO_LIBRARY} expat ${BLOSC_LIBRARY} ${EMBREE_LIBRARY} ${OIDN_LIBRARY} ${TBB_LIBRARY} ${TIFF_LIBRARIES} ${TIFF_LIBRARIES} ${OPENEXR_LIBRARIES} ${PNG_LIBRARIES} ${JPEG_LIBRARIES})
+     set_target_properties(pyluxcore PROPERTIES XCODE_ATTRIBUTE_DEPLOYMENT_POSTPROCESSING NO) # exclude pylux from strip, not possible
+ else()
+-	target_link_libraries(pyluxcore PRIVATE slg-core slg-film slg-kernels luxrays bcd osdCPU osdGPU openvdb fmt spdlog ${OpenColorIO_LIBRARY} ${BLOSC_LIBRARY} ${EMBREE_LIBRARY} ${OIDN_LIBRARY} ${TBB_LIBRARY} ${TIFF_LIBRARIES} ${TIFF_LIBRARIES} ${OPENEXR_LIBRARIES} ${PNG_LIBRARIES} ${JPEG_LIBRARIES})
++	target_link_libraries(pyluxcore PRIVATE slg-core slg-film slg-kernels luxrays bcd ${OpenVDB_LIBRARIES}  ${OpenColorIO_LIBRARY} ${BLOSC_LIBRARY} ${EMBREE_LIBRARY} ${OIDN_LIBRARY} ${TBB_LIBRARY} ${TIFF_LIBRARIES} ${TIFF_LIBRARIES} ${OPENEXR_LIBRARIES} ${PNG_LIBRARIES} ${JPEG_LIBRARIES})
+ endif()
+ 
+ set_target_properties(pyluxcore PROPERTIES PREFIX "")
+@@ -199,4 +199,4 @@ endif(MSVC)
+ #
+ ################################################################################
+ 
+-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "../lib")
+\ No newline at end of file
++set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "../lib")
