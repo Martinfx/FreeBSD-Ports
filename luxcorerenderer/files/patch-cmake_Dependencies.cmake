@@ -55,7 +55,7 @@
  
  # Brut force lopencolorio lopensubdiv (-libosdCPU -libosdGPU)
 -set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lOpenColorIO -lpython3.12")
-+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lOpenColorIO")
++set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lOpenColorIO -lpython")
  
  # GLFW
  set(GLFW_DIR "${glfw3_SEARCH_PATH}")
