@@ -1,6 +1,18 @@
 --- samples/luxcoreui/CMakeLists.txt.orig	2025-01-05 11:17:49 UTC
 +++ samples/luxcoreui/CMakeLists.txt
-@@ -143,5 +143,6 @@ else()
+@@ -118,6 +118,11 @@ endif()
+ 	add_definitions(${GTK3_CFLAGS_OTHER})
+ endif()
+ 
++if(${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
++        set(LUXCOREUI_SRCS ${LUXCOREUI_SRCS} deps/nfd/nfd_gtk.c)
++        add_definitions(${GTK3_CFLAGS_OTHER})
++endif()
++
+ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+ 	set(LUXCOREUI_SRCS ${LUXCOREUI_SRCS} deps/nfd/nfd_cocoa.m)
+ endif()
+@@ -143,5 +148,6 @@ else()
  		${LUXCORE_LIBRARY}
  		${OPENGL_LIBRARIES}
  		${GTK3_LIBRARIES}
