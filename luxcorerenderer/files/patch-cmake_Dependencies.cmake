@@ -1,6 +1,18 @@
 --- cmake/Dependencies.cmake.orig	2025-01-04 06:54:37 UTC
 +++ cmake/Dependencies.cmake
-@@ -96,8 +96,8 @@ set(Boost_USE_STATIC_RUNTIME    OFF)
+@@ -41,7 +41,10 @@ link_libraries(${JSONCPP_LIBRARIES})
+ link_libraries(${JSONCPP_LIBRARIES})
+ 
+ # spdlog and fmt
+-find_package(spdlog CONFIG REQUIRED)
++# broken spflog in FreeBSD
++#https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=258073
++#find_package(spdlog CONFIG REQUIRED)
++include_directories("${LuxRays_SOURCE_DIR}/deps/spdlog-1.13.0/include")
+ find_package(fmt CONFIG REQUIRED)
+ 
+ # imgui
+@@ -96,8 +99,8 @@ set(Boost_USE_STATIC_RUNTIME    OFF)
  set(Boost_USE_RELEASE_LIBS      ON)   # only find release libs
  set(Boost_USE_MULTITHREADED     ON)
  set(Boost_USE_STATIC_RUNTIME    OFF)
@@ -11,7 +23,7 @@
  set(Boost_DEBUG					OFF)
  # set(Boost_NO_BOOST_CMAKE 		ON)
  set(Boost_MINIMUM_VERSION       "1.85.0") #1.56.0 1.85.0
-@@ -125,7 +125,7 @@ if(Boost_FOUND)
+@@ -125,7 +128,7 @@ if(Boost_FOUND)
  
  if(Boost_FOUND)
  	include_directories(BEFORE SYSTEM ${Boost_INCLUDE_DIRS})
@@ -20,7 +32,7 @@
  	# Don't use old boost versions interfaces
  	add_definitions(-DBOOST_FILESYSTEM_NO_DEPRECATED)
  	if(Boost_USE_STATIC_LIBS)
-@@ -134,6 +134,7 @@ endif()
+@@ -134,6 +137,7 @@ endif()
  	endif()
  endif()
  
@@ -28,7 +40,7 @@
  # Setup CUDA, necessary for optix
  # CudaToolkit
  set(CUDAToolkit_INCLUDE_DIRS ${CUDAToolkit_INCLUDE_DIRS})
-@@ -162,6 +163,7 @@ message(STATUS "Optix libraries directory: ${OptiX_INS
+@@ -162,6 +166,7 @@ message(STATUS "Optix libraries directory: ${OptiX_INS
  # Optix messages
  message(STATUS "Optix include directory: ${OptiX_INSTALL_DIR}/include")
  message(STATUS "Optix libraries directory: ${OptiX_INSTALL_DIR}/lib64")
@@ -36,7 +48,7 @@
  
  # OpenGL
  # Set GLVND preference as legacy
-@@ -261,20 +263,8 @@ endif()
+@@ -261,20 +266,8 @@ endif()
  	include_directories(BEFORE SYSTEM ${BLOSC_INCLUDE_PATH})
  endif()
  
