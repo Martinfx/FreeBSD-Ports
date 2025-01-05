@@ -43,6 +43,15 @@
  # Specified th standard du C++ version
  set(CMAKE_CXX_STANDARD 17) # 17 by default
  set(CMAKE_CXX_STANDARD_REQUIRED ON)
+@@ -253,7 +262,7 @@ if(OPENGL_FOUND)
+ endif()
+ 
+ if(OPENGL_FOUND)
+-	add_subdirectory(samples/luxcoreui)
++#	add_subdirectory(samples/luxcoreui)
+ endif(OPENGL_FOUND)
+ 
+ 
 @@ -272,3 +281,4 @@ include(AssembleBinDirs)
  ################################################################################
  
