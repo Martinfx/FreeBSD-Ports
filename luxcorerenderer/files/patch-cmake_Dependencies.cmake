@@ -50,6 +50,15 @@
  
  # OpenGL
  # Set GLVND preference as legacy
+@@ -239,7 +244,7 @@ endif()
+ # link_directories(${osdCPU_LIBRARY_DIRS})
+ 
+ # Brut force lopencolorio lopensubdiv (-libosdCPU -libosdGPU)
+-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lOpenColorIO -lpython3.12")
++set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lOpenColorIO")
+ 
+ # GLFW
+ set(GLFW_DIR "${glfw3_SEARCH_PATH}")
 @@ -261,20 +266,8 @@ endif()
  	include_directories(BEFORE SYSTEM ${BLOSC_INCLUDE_PATH})
  endif()
