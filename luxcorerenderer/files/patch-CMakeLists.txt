@@ -1,10 +1,9 @@
 --- CMakeLists.txt.orig	2025-01-04 06:54:37 UTC
 +++ CMakeLists.txt
-@@ -111,6 +111,17 @@ set(Boost_USE_STATIC_LIBS ON)
+@@ -111,9 +111,22 @@ set(Boost_USE_STATIC_LIBS ON)
  
  set(Boost_USE_STATIC_LIBS ON)
  
-+
 +find_package(OpenMP)
 +message(STATUS "OpenMP FLAGS: ${OpenMP_C_FLAGS}")
 +if(OPENMP_FOUND)
@@ -18,7 +17,13 @@
  # Find dependencies
  include(Dependencies)
  
-@@ -177,7 +188,7 @@ else()
++find_library(OpenVDB_LIBRARY openvdb HINTS /usr/local/lib)
++message(STATUS "OpenVDB: ${OpenVDB_LIBRARY}")
++
+ if(NOT Boost_FOUND)
+ 	message(FATAL_ERROR "--> Could not locate required Boost files - Please check ${BOOST_SEARCH_PATH}")
+ endif()
+@@ -177,7 +190,7 @@ else()
  	set(LUXCORE_LIBRARY luxcore)
  	add_definitions("-DLUXCORE_DLL")
  else()
@@ -27,7 +32,7 @@
  endif()
  
  ################################################################################
-@@ -186,10 +197,6 @@ endif()
+@@ -186,10 +199,6 @@ endif()
  #
  ################################################################################
  
@@ -38,7 +43,7 @@
  # Specified th standard du C++ version
  set(CMAKE_CXX_STANDARD 17) # 17 by default
  set(CMAKE_CXX_STANDARD_REQUIRED ON)
-@@ -272,3 +279,4 @@ include(AssembleBinDirs)
+@@ -272,3 +281,4 @@ include(AssembleBinDirs)
  ################################################################################
  
  include(AssembleBinDirs)
