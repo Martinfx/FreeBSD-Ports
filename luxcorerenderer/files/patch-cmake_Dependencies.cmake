@@ -36,3 +36,25 @@
  
  # OpenGL
  # Set GLVND preference as legacy
+@@ -261,20 +263,8 @@ endif()
+ 	include_directories(BEFORE SYSTEM ${BLOSC_INCLUDE_PATH})
+ endif()
+ 
+-# OpenMP
+-if(NOT APPLE)
+-	find_package(OpenMP)
+-	if(OPENMP_FOUND)
+-		message(STATUS "OpenMP found - compiling with")
+-   		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+-   		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+-	else()
+-		message(WARNING "OpenMP not found - compiling without")
+-	endif()
+-endif()
+-
+ # Find GTK 3.0 for Linux only (required by luxcoreui NFD)
+-if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
++if(${CMAKE_SYSTEM_NAME} MATCHES "Linux" OR ${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
+ 	find_package(PkgConfig REQUIRED)
+ 	pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
+ 	include_directories(${GTK3_INCLUDE_DIRS})

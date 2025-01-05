@@ -1,13 +1,31 @@
---- CMakeLists.txt.orig	2025-01-04 13:00:43 UTC
+--- CMakeLists.txt.orig	2025-01-04 06:54:37 UTC
 +++ CMakeLists.txt
-@@ -186,10 +186,6 @@ endif()
+@@ -111,6 +111,17 @@ set(Boost_USE_STATIC_LIBS ON)
+ 
+ set(Boost_USE_STATIC_LIBS ON)
+ 
++
++find_package(OpenMP)
++message(STATUS "OpenMP FLAGS: ${OpenMP_C_FLAGS}")
++if(OPENMP_FOUND)
++       message(STATUS "OpenMP found - compiling with")
++        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
++        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
++else()
++        message(WARNING "OpenMP not found - compiling without")
++endif()
++
+ # Find dependencies
+ include(Dependencies)
+ 
+@@ -185,10 +196,6 @@ endif()
+ # LuxRays, SLG, LuxCore and PyLuxCoreTools libraries
  #
  ################################################################################
- 
+-
 -# CXX
 -set(CMAKE_CXX_COMPILER /usr/bin/g++-14)
 -set(CMAKE_C_COMPILER /usr/bin/gcc-14)
--
+ 
  # Specified th standard du C++ version
  set(CMAKE_CXX_STANDARD 17) # 17 by default
- set(CMAKE_CXX_STANDARD_REQUIRED ON)
