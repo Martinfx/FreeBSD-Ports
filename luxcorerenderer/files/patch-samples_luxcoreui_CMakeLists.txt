@@ -1,6 +1,6 @@
---- samples/luxcoreui/CMakeLists.txt.orig	2025-01-05 11:17:49 UTC
+--- samples/luxcoreui/CMakeLists.txt.orig	2025-01-04 06:54:37 UTC
 +++ samples/luxcoreui/CMakeLists.txt
-@@ -118,6 +118,11 @@ endif()
+@@ -118,10 +118,19 @@ endif()
  	add_definitions(${GTK3_CFLAGS_OTHER})
  endif()
  
@@ -12,11 +12,22 @@
  if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
  	set(LUXCOREUI_SRCS ${LUXCOREUI_SRCS} deps/nfd/nfd_cocoa.m)
  endif()
-@@ -143,5 +148,6 @@ else()
+ 
++INCLUDE_DIRECTORIES(${GTK3_INCLUDE_DIRS})
++LINK_DIRECTORIES(${GTK3_LIBRARY_DIRS})
++
++
+ add_executable(luxcoreui ${LUXCOREUI_SRCS})
+ 
+ if(APPLE)
+@@ -143,5 +152,9 @@ else()
  		${LUXCORE_LIBRARY}
  		${OPENGL_LIBRARIES}
  		${GTK3_LIBRARIES}
 -		${Boost_LIBRARIES})
 +		${Boost_LIBRARIES}
-+		${OpenVDB_LIBRARY})
++		${OpenVDB_LIBRARY}
++		"/usr/local/lib/libOpenColorIO.so"
++		"/usr/local/lib/libOpenColorIO.so.2.3"
++		"/usr/local/lib/libOpenColorIO.so.2.3.2")
  endif()
