@@ -41,6 +41,6 @@ LDFLAGS+=	-fopenmp
 USES+=		compiler:gcc-c++11-lib
 .endif
 
-LDFLAGS+=	-lomp -lOpenColorIO
+LDFLAGS+=	-Wl,--allow-shlib-undefined -lomp
 
 .include <bsd.port.mk>
