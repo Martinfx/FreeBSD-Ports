@@ -23,7 +23,7 @@ BUILD_DEPENDS=	boost-libs>=1.85.0:devel/boost-libs \
 		embree>0:graphics/embree \
 		eigen>0:math/eigen3 \
 		nlohmann-json>0:devel/nlohmann-json \
-		spdlog>0:devel/spdlog
+		stb>0:devel/stb
 
 LIB_DEPENDS=	libboost_python${PYTHON_SUFFIX}.so:devel/boost-python-libs
 
