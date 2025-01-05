@@ -1,6 +1,6 @@
 --- samples/luxcoreui/CMakeLists.txt.orig	2025-01-04 06:54:37 UTC
 +++ samples/luxcoreui/CMakeLists.txt
-@@ -118,10 +118,19 @@ endif()
+@@ -118,10 +118,17 @@ endif()
  	add_definitions(${GTK3_CFLAGS_OTHER})
  endif()
  
@@ -14,13 +14,11 @@
  endif()
  
 +INCLUDE_DIRECTORIES(${GTK3_INCLUDE_DIRS})
-+LINK_DIRECTORIES(${GTK3_LIBRARY_DIRS} )
-+
-+
++LINK_DIRECTORIES(${GTK3_LIBRARY_DIRS})
  add_executable(luxcoreui ${LUXCOREUI_SRCS})
  
  if(APPLE)
-@@ -143,5 +152,7 @@ else()
+@@ -143,5 +150,7 @@ else()
  		${LUXCORE_LIBRARY}
  		${OPENGL_LIBRARIES}
  		${GTK3_LIBRARIES}
