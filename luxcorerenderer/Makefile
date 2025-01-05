@@ -29,7 +29,7 @@ BUILD_DEPENDS=	boost-libs>=1.85.0:devel/boost-libs \
 
 LIB_DEPENDS=	libboost_python${PYTHON_SUFFIX}.so:devel/boost-python-libs
 
-USES=		bison cmake python:3.11+ localbase
+USES=		bison cmake python:3.11+ pkgconfig localbase
 CMAKE_OFF=	LUXCORE_DISABLE_OIDN LUXRAYS_DISABLE_OPENCL WIN_BUILD_DEMOS
 CMAKE_ON=	LUXRAYS_DISABLE_CUDA
 CMAKE_ARGS=	-DOIDN_CORE_LIBRARY:STRING=${LOCALBASE}/lib
