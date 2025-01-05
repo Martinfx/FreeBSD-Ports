@@ -14,20 +14,18 @@
  endif()
  
 +INCLUDE_DIRECTORIES(${GTK3_INCLUDE_DIRS})
-+LINK_DIRECTORIES(${GTK3_LIBRARY_DIRS})
++LINK_DIRECTORIES(${GTK3_LIBRARY_DIRS} )
 +
 +
  add_executable(luxcoreui ${LUXCOREUI_SRCS})
  
  if(APPLE)
-@@ -143,5 +152,9 @@ else()
+@@ -143,5 +152,7 @@ else()
  		${LUXCORE_LIBRARY}
  		${OPENGL_LIBRARIES}
  		${GTK3_LIBRARIES}
 -		${Boost_LIBRARIES})
 +		${Boost_LIBRARIES}
 +		${OpenVDB_LIBRARY}
-+		"/usr/local/lib/libOpenColorIO.so"
-+		"/usr/local/lib/libOpenColorIO.so.2.3"
-+		"/usr/local/lib/libOpenColorIO.so.2.3.2")
++		${Python3_LIBRARIES})
  endif()
