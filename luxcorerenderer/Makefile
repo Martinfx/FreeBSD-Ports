@@ -17,6 +17,7 @@ BUILD_DEPENDS=	boost-libs>=1.85.0:devel/boost-libs \
 		doxygen>0:devel/doxygen \
 		openimageio>0:graphics/openimageio \
 		opensubdiv>0:graphics/opensubdiv \
+		opencolorio>0:graphics/opencolorio \
 		oidn>0:graphics/oidn \
 		onetbb>0:devel/onetbb \
 		openexr>0:graphics/openexr \
