@@ -31,7 +31,7 @@ USE_QT=		core concurrent declarative dbus gui location network \
 		webengine widgets xml buildtools:build qmake:build testlib:build
 USE_KDE=	archive auth attica bookmarks codecs config configwidgets \
 		completion coreaddons crash dbusaddons dnssd globalaccel \
-		i18n iconthemes itemviews jobwidgets kdeclarative phono4 \
+		i18n iconthemes itemviews jobwidgets kdeclarative phonon \
 		kcmutils kio kirigami2 newstuff notifications notifyconfig \
 		package parts service solid sonnet texteditor textwidgets \
 		threadweaver wallet widgetsaddons windowsystem xmlgui \
