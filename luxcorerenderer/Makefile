@@ -23,6 +23,7 @@ BUILD_DEPENDS=	boost-libs>=1.85.0:devel/boost-libs \
 		onetbb>0:devel/onetbb \
 		openexr>0:graphics/openexr \
 		openvdb>0:misc/openvdb \
+		opencl>0:devel/opencl \
 		gtk3>0:x11-toolkits/gtk30 \
 		embree>0:graphics/embree \
 		eigen>0:math/eigen3 \
