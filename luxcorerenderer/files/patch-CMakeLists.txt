@@ -15,17 +15,17 @@
 +endif()
 +
 +# OpencolorIO
-+set(OpenColorIO_INCLUDE_DIR "/usr/local/include/OpenColorIO")
-+set(OpenColorIO_LIBRARY "/usr/local/lib/libOpenColorIO.so"  "/usr/local/lib/libOpenColorIO.so.2.3"  "/usr/local/lib/libOpenColorIO.so.2.3.2")
-+find_package(OpenColorIO REQUIRED)
-+include_directories(${OpenColorIO_INCLUDE_DIRS})
++#set(OpenColorIO_INCLUDE_DIR "/usr/local/include/OpenColorIO")
++#set(OpenColorIO_LIBRARY "/usr/local/lib/libOpenColorIO.so"  "/usr/local/lib/libOpenColorIO.so.2.3"  "/usr/local/lib/libOpenColorIO.so.2.3.2")
++#find_package(OpenColorIO REQUIRED)
++#include_directories(${OpenColorIO_INCLUDE_DIRS})
 +
-+if(OpenColorIO_FOUND)
-+    message(STATUS "Found OpenColorIO: ${OpenColorIO_VERSION}")
-+    message(STATUS "Found OpenColorIO include: ${OpenColorIO_INCLUDE_DIR}")
-+else()
-+    message(FATAL_ERROR "OpenColorIO not found.")
-+endif()
++#if(OpenColorIO_FOUND)
++#    message(STATUS "Found OpenColorIO: ${OpenColorIO_VERSION}")
++#    message(STATUS "Found OpenColorIO include: ${OpenColorIO_INCLUDE_DIR}")
++#else()
++#    message(FATAL_ERROR "OpenColorIO not found.")
++#endif()
 +
  # Find dependencies
  include(Dependencies)

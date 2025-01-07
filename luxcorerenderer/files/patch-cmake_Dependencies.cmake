@@ -170,7 +170,7 @@
  # OpenGL
  # Set GLVND preference as legacy
  set(OpenGL_GL_PREFERENCE GLVND)
-@@ -202,16 +220,16 @@ endif()
+@@ -202,29 +220,29 @@ endif()
  endif()
  
  # OpencolorIO
@@ -193,6 +193,23 @@
  endif()
  
  # OpênSubdiv
+-set(osdCPU_PATH_DEFAULT "/usr/")
++set(osdCPU_PATH_DEFAULT "/usr/local")
+ set(osdCPU_PATH "${osdCPU_PATH_DEFAULT}" CACHE PATH "/usr/")
+ set(osdCPU_INCLUDE_DIRS ${osdCPU_PATH}/include)
+-set(osdCPU_LIBRARY_DIRS ${osdCPU_PATH}/lib64)
++set(osdCPU_LIBRARY_DIRS ${osdCPU_PATH}/lib)
+ set(osdCPU_LIBRARIES osdCPU)
+ 
+ find_package(OpenSubdiv REQUIRED)
+ # Rechercher les bibliothèques nécessaires
+-find_library(OSD_CPU_LIBRARY osdCPU HINTS /usr/lib64)
+-find_library(OSD_GPU_LIBRARY osdGPU HINTS /usr/lib64)
++find_library(OSD_CPU_LIBRARY osdCPU HINTS /usr/local/lib)
++find_library(OSD_GPU_LIBRARY osdGPU HINTS /usr/local/lib)
+ 
+ # Vérifier si elles ont été trouvées
+ if (NOT OSD_CPU_LIBRARY)
 @@ -239,7 +257,7 @@ endif()
  # link_directories(${osdCPU_LIBRARY_DIRS})
  
@@ -202,11 +219,10 @@
  
  # GLFW
  set(GLFW_DIR "${glfw3_SEARCH_PATH}")
-@@ -260,6 +278,15 @@ endif()
- if(BLOSC_FOUND)
+@@ -261,6 +279,15 @@ endif()
  	include_directories(BEFORE SYSTEM ${BLOSC_INCLUDE_PATH})
  endif()
-+
+ 
 +# Specified th standard du C++ version
 +set(CMAKE_CXX_STANDARD 17) # 17 by default
 +set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -215,6 +231,16 @@
 +set(GENERATED_INCLUDE_DIR "${GENERATED_DIR}/include")
 +# Show the version of C++
 +message(STATUS "Using C++ compiler: ${CMAKE_CXX_COMPILER}")
- 
++
  # OpenMP
  if(NOT APPLE)
+ 	find_package(OpenMP)
+@@ -274,7 +301,7 @@ endif()
+ endif()
+ 
+ # Find GTK 3.0 for Linux only (required by luxcoreui NFD)
+-if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
++if(${CMAKE_SYSTEM_NAME} MATCHES "Linux" OR ${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
+ 	find_package(PkgConfig REQUIRED)
+ 	pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
+ 	include_directories(${GTK3_INCLUDE_DIRS})
