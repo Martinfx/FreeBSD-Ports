@@ -33,7 +33,7 @@ USE_KDE=	archive auth attica bookmarks codecs config configwidgets \
 		kcmutils kio kirigami2 newstuff notifications notifyconfig \
 		package parts service solid sonnet texteditor textwidgets \
 		threadweaver wallet widgetsaddons windowsystem xmlgui \
-		doctools:build ecm:build syntaxhighlighting phonon
+		doctools:build ecm:build syntaxhighlighting phonon statusnotifieritem
 USE_XORG=	ice sm x11 xext
 USE_LDCONFIG=	yes
 
