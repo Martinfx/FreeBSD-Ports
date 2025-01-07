@@ -1,4 +1,4 @@
---- src/slg/CMakeLists.txt.orig	2025-01-05 17:49:29 UTC
+--- src/slg/CMakeLists.txt.orig	2025-01-04 06:54:37 UTC
 +++ src/slg/CMakeLists.txt
 @@ -99,14 +99,7 @@ include_directories(${LuxRays_SOURCE_DIR}/deps/bcd-1.1
  

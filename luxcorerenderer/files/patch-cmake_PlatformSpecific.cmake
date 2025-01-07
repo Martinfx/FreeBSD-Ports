@@ -1,4 +1,4 @@
---- cmake/PlatformSpecific.cmake.orig	2025-01-05 18:42:48 UTC
+--- cmake/PlatformSpecific.cmake.orig	2025-01-04 06:54:37 UTC
 +++ cmake/PlatformSpecific.cmake
 @@ -273,10 +273,10 @@ endif()
  	set(CMAKE_CXX_FLAGS_RELEASE "-DNDEBUG -O3 -ftree-vectorize -funroll-loops -fvariable-expansion-in-unroller")
