@@ -61,10 +61,13 @@ LIB_DEPENDS=	libboost_python${PYTHON_SUFFIX}.so:devel/boost-python-libs \
 		libboost_atomic.so:devel/boost-libs \
 		libOpenImageIO.so:graphics/openimageio \
 		libOpenImageIO_Util.so:graphics/openimageio \
-		libglfw.so:graphics/glfw
+		libglfw.so:graphics/glfw \
+		libharfbuzz.so:print/harfbuzz \
+		libatk-1.0.so:accessibility/at-spi2-core
 
 USES=		bison cmake python:3.11+ pkgconfig localbase jpeg gettext-runtime
 USE_GNOME=	cairo pango glib20 gtk30 gdkpixbuf2
+USE_GL=		gl glu opengl
 CMAKE_OFF=	LUXCORE_DISABLE_OIDN LUXRAYS_DISABLE_OPENCL ENABLE_CUDA
 CMAKE_ON=	LUXRAYS_DISABLE_CUDA WIN_BUILD_DEMOS
 WRKSRC=		${WRKDIR}/${PORTNAME}
