@@ -20,7 +20,7 @@ BUILD_DEPENDS=  libnotify>0:devel/libnotify \
                 ninja:devel/ninja
 
 USES=           compiler:c++14-lang pkgconfig \
-                nodejs:22 shebangfix tar:xz
+                nodejs:22 shebangfix
 
 USE_GITHUB=     yes
 GH_ACCOUNT=     brave
