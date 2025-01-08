@@ -5,7 +5,7 @@ CATEGORIES=	graphics
 MASTER_SITES=	https://codeberg.org/lastrodamo/LuxCoreRender/archive/${DISTVERSIONFULL}${EXTRACT_SUFX}?dummy=/
 
 MAINTAINER=	freebsd@sysctl.cz
-COMMENT=	LuxCore renderer
+COMMENT=	LuxCoreRender is a physically based and unbiased rendering engine.
 WWW=		https://luxcorerender.org/
 
 LICENSE=	APACHE20
