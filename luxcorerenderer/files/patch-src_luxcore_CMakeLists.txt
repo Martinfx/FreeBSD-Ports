@@ -1,0 +1,18 @@
+--- src/luxcore/CMakeLists.txt.orig	2025-01-08 07:43:39 UTC
++++ src/luxcore/CMakeLists.txt
+@@ -178,7 +178,7 @@ include_directories(${OpenVDB_INCLUDE_DIRS})
+ # include_directories(${LuxRays_SOURCE_DIR}/deps/openvdb-11.0.0)
+ # include_directories(${LuxRays_SOURCE_DIR}/deps/opencolorio-2.0.0/include)
+ include_directories(${OpenVDB_INCLUDE_DIRS})
+-include_directories(${OpenColorIO_INCLUDE_DIRS})
++include_directories(${OpenColorIO_INCLUDE_DIRS} ./../../deps/spdlog-1.13.0/include/)
+ 
+ add_definitions(-DOPENVDB_STATICLIB ${VISIBILITY_FLAGS})
+ if(APPLE)
+@@ -199,4 +199,4 @@ endif(MSVC)
+ #
+ ################################################################################
+ 
+-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "../lib")
+\ No newline at end of file
++set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "../lib")
