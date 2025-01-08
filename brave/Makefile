@@ -1,83 +1,38 @@
-PORTNAME=	brave
-PORTVERSION=	1.62.82
+PORTNAME=       brave
 DISTVERSIONPREFIX=v
-CATEGORIES=	www
-#MASTER_SITES=	https://commondatastorage.googleapis.com/chromium-browser-official/
-MAINTAINER=	maintainer@email.com
-COMMENT=	Safe browser
+DISTVERSION=    1.75.155
+CATEGORIES=     www
+MASTER_SITES=   https://github.com/chromium/chromium/archive/refs/tags/:chromium
+DISTFILES=      134.0.6945.2${EXTRACT_SUFX}:chromium
+EXTRACT_SUFX=   .tar.gz
 
-#LICENSE=	MPL20
-LICENSE_FILE=	${WRKSRC}/LICENSE.txt
+MAINTAINER=     freebsd@sysctl.cz
+COMMENT=        safe browser
 
-FETCH_DEPENDS=	npm:www/npm
+LICENSE=        MPL20
+LICENSE_FILE=   ${WRKSRC}/LICENSE
 
-BUILD_DEPENDS=	libnotify>0:devel/libnotify \
-		pkg-config:devel/pkgconf \
-#		python:lang/python \
-		npm:www/npm \
-		ninja:devel/ninja \
-		electron19:devel/electron19 \
-		npm:www/npm-node16
+BUILD_DEPENDS=  libnotify>0:devel/libnotify \
+                pkg-config:devel/pkgconf \
+                python:lang/python \
+                node:www/node \
+                npm:www/npm \
+                ninja:devel/ninja
 
-RUN_DEPENDS=	bash:shells/bash \
-		node:www/node
+USES=           compiler:c++14-lang pkgconfig \
+                nodejs:22 shebangfix tar:xz
 
-USES=		compiler:c++14-lang ninja pkgconfig python:3.8 \
-		shebangfix tar:xz
+USE_GITHUB=     yes
+GH_ACCOUNT=     brave
+GH_PROJECT=     brave-browser
+GH_TUPLE=       brave:brave-core:8d3cd1b:core/src/brave \
+                brave:adblock-rust:fd4b7b3:adblock/src/brave/components/adblock_rust_ffi
 
-USE_XORG=	x11 xcb xcomposite xcursor xext xdamage xfixes xi \
-		xrandr xrender xscrnsaver xtst
+NO_ARCH=        yes
+NO_BUILD=       yes
 
-NO_ARCH=	yes
-NO_BUILD=	yes
-USE_GITHUB=	yes
-GH_ACCOUNT=	brave
-GH_PROJECT=	brave-browser
-#GH_TUPLE +=	yzgyyang:depot-tools:605dd31:depot_tools/vendor/depot_tools
-#GH_TUPLE +=	pallets:jinja:209fd39:jinja2/vendor/jinja2
-#GH_TUPLE +=	brave:brave-core:c7f821c:brave/src/brave
-#GH_TUPLE +=	brave:tracking-protection:6b6faf7:brave/src/brave/vendor/tracking-protection
-#GH_TUPLE+=	brave:ad-block:dcfc584:brave/src/brave/vendor/ad-block
-#GH_TUPLE+=	brave:brave-extension:038a43a:brave/src/brave/vendor/brave-extension
-#GH_TUPLE+=      brave:brave-core:c7f821c:brave/src/brave
+do-build:
+	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} npm run build
 
-ELECTRON_VER_MAJOR=19
-
-MAKE_ENV+=	ELECTRON_SKIP_BINARY_DOWNLOAD=1 ELECTRON_OVERRIDE_DIST_PATH=${LOCALBASE}/share/electron${ELECTRON_VER_MAJOR} \
-
-#post-fetch:
-#	${MKDIR} ${WRKDIR}/npm-precache
-#	${CP} ${FILESDIR}/package.json ${WRKDIR}/npm-precache
-#	${CP} ${FILESDIR}/package-lock.json ${WRKDIR}/npm-precache
-#	( cd ${WRKDIR}/npm-precache && npm install --verbose || true )
-#	( cd ${WRKDIR}/npm-precache && npm install --verbose)
-
-#do-configure:
-#	(cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} NODE_DTRACE_PROVIDER_REQUIRE=hard)
-#	(cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} GIT_DISCOVERY_ACROSS_FILESYSTEM=yes)
-#	(cd ${WRKSRC} && npm install --verbose)
-#	(cd ${WRKSRC} && npm run init)
-#	(cd ${WRKSRC} && ${BASH} git init)
-#	(cd ${WRKSRC} && ${BASH} git submodule sync)
-#	(cd ${WRKSRC} && ${BASH} git submodule update --init --recursive)
-#do-build:
-#	@${RM} -r ${WRKDIR}/electron${ELECTRON_VER_MAJOR}
-#	@${CP} -pR ${LOCALBASE}/share/electron${ELECTRON_VER_MAJOR} ${WRKDIR}/electron${ELECTRON_VER_MAJOR}
-#	${CHMOD} -R a+w ${WRKDIR}/electron${ELECTRON_VER_MAJOR}
-
-do-install:
-	cd ${WRKSRC} && npm cache clean --force && npm install --verbose --force
-	cd ${WRKSRC} && npm run init --force
-
-#do-install:
-#	(cd ${WRKSRC} && ${BASH} git init)
-#	(cd ${WRKSRC} && ${BASH} npm install --verbose)
-#	(cd ${WRKSRC} && ${BASH} npm run init)
-#
-# GN generator bootstrapping and generating ninja files
-#do-configure:
-#	cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} CC=${CC} CXX=${CXX} LD=${CXX} \
-#			READELF=${READELF} AR=${AR} NM=${NM} ${PYTHON_CMD} \
-#			./tools/gn/bootstrap/bootstrap.py ${GN_BOOTSTRAP_FLAGS}
 
 .include <bsd.port.mk>
