@@ -1,7 +1,7 @@
 PORTNAME=	luxcorerender
 DISTVERSIONPREFIX=luxcorerender-
 DISTVERSION=	2.9alpha3
-CATEGORIES=	devel
+CATEGORIES=	graphics
 MASTER_SITES=	https://codeberg.org/lastrodamo/LuxCoreRender/archive/${DISTVERSIONFULL}${EXTRACT_SUFX}?dummy=/
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -11,7 +11,7 @@ WWW=		https://luxcorerender.org/
 LICENSE=	APACHE20
 LICENSE_FILE=	${WRKSRC}/COPYING.txt
 
-BUILD_DEPENDS=	boost-libs>=1.85.0:devel/boost-libs \
+BUILD_DEPENDS=	boost-libs>=1.86.0:devel/boost-libs \
 		${PYTHON_PKGNAMEPREFIX}boost-libs>0:devel/boost-python-libs@${PY_FLAVOR} \
 		c-blosc>0:archivers/c-blosc \
 		doxygen>0:devel/doxygen \
@@ -34,17 +34,10 @@ BUILD_DEPENDS=	boost-libs>=1.85.0:devel/boost-libs \
 LIB_DEPENDS=	libboost_python${PYTHON_SUFFIX}.so:devel/boost-python-libs
 
 USES=		bison cmake python:3.11+ pkgconfig localbase
-USE_GCC=	yes
 USE_GNOME=	cairo pango glib20 gtk30
-CMAKE_OFF=	LUXCORE_DISABLE_OIDN LUXRAYS_DISABLE_OPENCL WIN_BUILD_DEMOS
-CMAKE_ON=	LUXRAYS_DISABLE_CUDA
-CMAKE_ARGS=	-DOIDN_CORE_LIBRARY:STRING=${LOCALBASE}/lib
-#PIE_UNSAFE=	yes
+CMAKE_OFF=	LUXCORE_DISABLE_OIDN LUXRAYS_DISABLE_OPENCL ENABLE_CUDA
+CMAKE_ON=	LUXRAYS_DISABLE_CUDA WIN_BUILD_DEMOS
 WRKSRC=		${WRKDIR}/${PORTNAME}
 
-.if !exists(/usr/include/omp.h)
-LDFLAGS+=	-fopenmp
-USES+=		compiler:gcc-c++11-lib
-.endif
 
 .include <bsd.port.mk>
