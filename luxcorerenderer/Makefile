@@ -25,7 +25,6 @@ BUILD_DEPENDS=	boost-libs>=1.85.0:devel/boost-libs \
 		openvdb>0:misc/openvdb \
 		opencl>0:devel/opencl \
 		pocl>0:lang/pocl \
-		gtk3>0:x11-toolkits/gtk30 \
 		embree>0:graphics/embree \
 		eigen>0:math/eigen3 \
 		nlohmann-json>0:devel/nlohmann-json \
