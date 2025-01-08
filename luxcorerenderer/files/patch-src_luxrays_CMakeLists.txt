@@ -1,14 +1,14 @@
---- src/luxrays/CMakeLists.txt.orig	2025-01-04 06:54:37 UTC
+--- src/luxrays/CMakeLists.txt.orig	2025-01-08 07:43:39 UTC
 +++ src/luxrays/CMakeLists.txt
-@@ -278,7 +278,11 @@ add_definitions(-DCPP_API_EXPORTS ${VISIBILITY_FLAGS})
- add_library(luxrays STATIC ${LUXRAYS_LIB_SRCS})
- add_definitions(-DCPP_API_EXPORTS ${VISIBILITY_FLAGS}) # for controlling visibility
- 
-+if(LINUX)
- target_link_libraries(luxrays ${OPENIMAGEIO_LIBRARIES} ${CUDA_LIBRARIES} CUDA::cudart CUDA::cufft)
-+else()
-+target_link_libraries(luxrays ${OPENIMAGEIO_LIBRARIES})
-+endif()
- target_link_libraries(luxrays ${Boost_LIBRARIES})
+@@ -281,10 +281,8 @@ else()
+ if(CUDA_FOUND)
+ 	target_link_libraries(luxrays ${OPENIMAGEIO_LIBRARIES} ${CUDA_LIBRARIES}) # CUDA::cudart CUDA::cufft optix
+ else()
+-	target_link_libraries(luxrays ${OPENIMAGEIO_LIBRARIES})
++	target_link_libraries(luxrays ${OPENIMAGEIO_LIBRARIES} ${Boost_LIBRARIES})
+ endif()
+-
+-target_link_libraries(luxrays ${Boost_LIBRARIES})
  
  if (WIN32)
+ # This is needed by Boost 1.67 but is not found automatically

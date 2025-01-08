@@ -1,4 +1,4 @@
---- samples/luxcoreui/CMakeLists.txt.orig	2025-01-04 06:54:37 UTC
+--- samples/luxcoreui/CMakeLists.txt.orig	2025-01-08 07:43:39 UTC
 +++ samples/luxcoreui/CMakeLists.txt
 @@ -113,7 +113,7 @@ endif()
  	set(LUXCOREUI_SRCS ${LUXCOREUI_SRCS} deps/nfd/nfd_win.cpp)
@@ -9,21 +9,13 @@
  	set(LUXCOREUI_SRCS ${LUXCOREUI_SRCS} deps/nfd/nfd_gtk.c)
  	add_definitions(${GTK3_CFLAGS_OTHER})
  endif()
-@@ -122,6 +122,9 @@ endif()
+@@ -121,6 +121,9 @@ endif()
+ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
  	set(LUXCOREUI_SRCS ${LUXCOREUI_SRCS} deps/nfd/nfd_cocoa.m)
  endif()
- 
-+INCLUDE_DIRECTORIES(${GTK3_INCLUDE_DIRS} "/usr/local/include/gtk-3.0" "/usr/local/include/glib-2.0" "/usr/local/lib/glib-2.0/include/" "/usr/local/include/pango-1.0/")
-+LINK_DIRECTORIES(${GTK3_LIBRARY_DIRS})
 +
++INCLUDE_DIRECTORIES(${GTK3_INCLUDE_DIRS}")
++LINK_DIRECTORIES(${GTK3_LIBRARY_DIRS})
+ 
  add_executable(luxcoreui ${LUXCOREUI_SRCS})
  
- if(APPLE)
-@@ -138,6 +141,7 @@ else()
- 	target_link_libraries(luxcoreui
- 		glfw
- 		# imgui
-+		${Python3_LIBRARIES}
- 		${OpenColorIO_LIBRARY}
- 		${GLFW_LIBRARIES}
- 		${LUXCORE_LIBRARY}

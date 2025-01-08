@@ -1,8 +1,8 @@
---- CMakeLists.txt.orig	2025-01-04 06:54:37 UTC
+--- CMakeLists.txt.orig	2025-01-08 07:43:39 UTC
 +++ CMakeLists.txt
-@@ -111,9 +111,35 @@ set(Boost_USE_STATIC_LIBS ON)
- 
- set(Boost_USE_STATIC_LIBS ON)
+@@ -126,9 +126,35 @@ set(Boost_USE_STATIC_LIBS OFF)
+ # Boost
+ set(Boost_USE_STATIC_LIBS OFF)
  
 +find_package(OpenMP)
 +message(STATUS "OpenMP FLAGS: ${OpenMP_C_FLAGS}")
@@ -36,7 +36,7 @@
  if(NOT Boost_FOUND)
  	message(FATAL_ERROR "--> Could not locate required Boost files - Please check ${BOOST_SEARCH_PATH}")
  endif()
-@@ -177,7 +203,7 @@ else()
+@@ -199,7 +225,7 @@ else()
  	set(LUXCORE_LIBRARY luxcore)
  	add_definitions("-DLUXCORE_DLL")
  else()
@@ -45,18 +45,7 @@
  endif()
  
  ################################################################################
-@@ -186,10 +212,6 @@ endif()
- #
- ################################################################################
- 
--# CXX
--set(CMAKE_CXX_COMPILER /usr/bin/g++-14)
--set(CMAKE_C_COMPILER /usr/bin/gcc-14)
--
- # Specified th standard du C++ version
- set(CMAKE_CXX_STANDARD 17) # 17 by default
- set(CMAKE_CXX_STANDARD_REQUIRED ON)
-@@ -249,7 +271,7 @@ if(NOT WIN32 OR WIN_BUILD_DEMOS)
+@@ -258,7 +284,7 @@ if(NOT WIN32 OR WIN_BUILD_DEMOS)
  endif()
  
  if(NOT WIN32 OR WIN_BUILD_DEMOS)
@@ -65,7 +54,7 @@
  endif()
  
  if(OPENGL_FOUND)
-@@ -272,3 +294,4 @@ include(AssembleBinDirs)
+@@ -281,3 +307,4 @@ include(AssembleBinDirs)
  ################################################################################
  
  include(AssembleBinDirs)

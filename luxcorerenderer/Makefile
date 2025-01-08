@@ -1,6 +1,6 @@
 PORTNAME=	luxcorerender
-DISTVERSIONPREFIX=luxcorerender-v
-DISTVERSION=	2.9alpha2
+DISTVERSIONPREFIX=luxcorerender-
+DISTVERSION=	2.9alpha3
 CATEGORIES=	devel
 MASTER_SITES=	https://codeberg.org/lastrodamo/LuxCoreRender/archive/${DISTVERSIONFULL}${EXTRACT_SUFX}?dummy=/
 
