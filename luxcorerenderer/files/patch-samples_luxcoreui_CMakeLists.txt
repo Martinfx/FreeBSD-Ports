@@ -1,21 +1,23 @@
 --- samples/luxcoreui/CMakeLists.txt.orig	2025-01-08 07:43:39 UTC
 +++ samples/luxcoreui/CMakeLists.txt
-@@ -113,7 +113,7 @@ endif()
+@@ -20,7 +20,8 @@ include(GNUInstallDirs)
+ # install(TARGETS luxcoreui DESTINATION bin)
+ 
+ include(GNUInstallDirs)
+-
++find_package(PkgConfig REQUIRED)
++pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
+ # Ajouter les fichiers à installer
+ set(ICON_FILE ${PROJECT_SOURCE_DIR}/icons/luxcorerender.png)
+ set(DESKTOP_TEMPLATE ${PROJECT_SOURCE_DIR}/luxcoreui.desktop.in)
+@@ -113,8 +114,9 @@ endif()
  	set(LUXCOREUI_SRCS ${LUXCOREUI_SRCS} deps/nfd/nfd_win.cpp)
  endif()
  
 -if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 +if(${CMAKE_SYSTEM_NAME} MATCHES "Linux" OR ${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
  	set(LUXCOREUI_SRCS ${LUXCOREUI_SRCS} deps/nfd/nfd_gtk.c)
++	include_directories(${GTK3_INCLUDE_DIRS})
  	add_definitions(${GTK3_CFLAGS_OTHER})
  endif()
-@@ -121,6 +121,9 @@ endif()
- if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
- 	set(LUXCOREUI_SRCS ${LUXCOREUI_SRCS} deps/nfd/nfd_cocoa.m)
- endif()
-+
-+INCLUDE_DIRECTORIES(${GTK3_INCLUDE_DIRS})
-+LINK_DIRECTORIES(${GTK3_LIBRARY_DIRS})
- 
- add_executable(luxcoreui ${LUXCOREUI_SRCS})
  
