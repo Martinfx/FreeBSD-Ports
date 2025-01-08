@@ -78,7 +78,7 @@ do-install:
 	${INSTALL_DATA} ${BUILD_WRKSRC}/luxcoreui.desktop \
 			${STAGEDIR}${DESKTOPDIR}
 	${MKDIR} ${STAGEDIR}${PREFIX}/share/icons
-	${INSTALL_DATA} ${WRKSRC}/luxcorerender/icons/uxcorerender.png \
+	${INSTALL_DATA} ${WRKSRC}/icons/luxcorerender.png \
 		${STAGEDIR}${PREFIX}/share/icons
 
 .include <bsd.port.mk>
