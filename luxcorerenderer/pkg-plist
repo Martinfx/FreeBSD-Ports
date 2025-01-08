@@ -1,0 +1,7 @@
+bin/luxcoreconsole
+bin/luxcoredemo
+bin/luxcoreimplserializationdemo
+bin/luxcorescenedemo
+bin/luxcoreui
+share/applications/luxcoreui.desktop
+share/icons/luxcorerender.png
