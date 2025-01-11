@@ -1,9 +1,11 @@
-TIMESTAMP = 1736363785
-SHA256 (134.0.6945.2.tar.gz) = ec3a46d5e2f9cd232a69a411552d334b50b4d004b47be80251291b0c6e9d448e
-SIZE (134.0.6945.2.tar.gz) = 1468350578
+TIMESTAMP = 1736605159
 SHA256 (brave-brave-browser-v1.75.155_GH0.tar.gz) = 7c414cb1028b0be9cb174d588801e5b755b250c3eef46f15cb2d1f6578d9f740
 SIZE (brave-brave-browser-v1.75.155_GH0.tar.gz) = 207166
 SHA256 (brave-brave-core-8d3cd1b_GH0.tar.gz) = 2e2051703cffe78b0a1b00f6cb5f1d2b3a9bb210463779df9de43b0216e81e83
 SIZE (brave-brave-core-8d3cd1b_GH0.tar.gz) = 266257161
 SHA256 (brave-adblock-rust-fd4b7b3_GH0.tar.gz) = 60f245bd04f8c7a8db85889bac1c76653750d75efcd42027d8c8eb73b42eac6e
 SIZE (brave-adblock-rust-fd4b7b3_GH0.tar.gz) = 27703957
+SHA256 (brave-chromium-47e0e94_GH0.tar.gz) = 65609405822f6a692b6b1386e8efd0e34267bbe0815866a47ab81d195953991a
+SIZE (brave-chromium-47e0e94_GH0.tar.gz) = 1469028015
+SHA256 (Martinfx-depot_tools-24d9ad6_GH0.tar.gz) = 8687a8c0ea4ca5ed4b2d5d6a3b51e9479a6bf60c504303b1606fd93527700b8b
+SIZE (Martinfx-depot_tools-24d9ad6_GH0.tar.gz) = 1114841

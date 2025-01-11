@@ -1,0 +1,57 @@
+--- src/brave/vendor/depot_tools/cipd.orig	2025-01-10 20:57:14 UTC
++++ src/brave/vendor/depot_tools/cipd
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/local/bin/bash
+ 
+ # Copyright (c) 2016 The Chromium Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
+@@ -30,6 +30,9 @@ case "${UNAME}" in
+   linux)
+     OS="${UNAME}"
+     ;;
++  freebsd)
++    OS="linux"
++    ;;
+   cygwin*)
+     OS=windows
+     CYGWIN=true
+@@ -256,22 +259,22 @@ export CIPD_HTTP_USER_AGENT_PREFIX="${USER_AGENT}"
+ 
+ # If the client binary exists, ask it to self-update.
+ export CIPD_HTTP_USER_AGENT_PREFIX="${USER_AGENT}"
+-if ! self_update 2> /dev/null ; then
+-  >&2 echo -n "[31;1m"
+-  >&2 echo -n "CIPD selfupdate failed. "
+-  >&2 echo -n "Trying to bootstrap the CIPD client from scratch..."
+-  >&2 echo "[0m"
+-  clean_bootstrap
+-  if ! self_update ; then  # need to run it again to setup .cipd_version file
+-    >&2 echo -n "[31;1m"
+-    >&2 echo -n "Bootstrap from scratch for ${PLATFORM} failed! "
+-    >&2 echo "Run the following commands to diagnose if this is repeating:"
+-    >&2 echo "  export CIPD_HTTP_USER_AGENT_PREFIX=${USER_AGENT}/manual"
+-    >&2 echo -n "  ${CLIENT} selfupdate -version-file ${VERSION_FILE}"
+-    >&2 echo "[0m"
+-    exit 1
+-  fi
+-fi
++#if ! self_update 2> /dev/null ; then
++#  >&2 echo -n "[31;1m"
++#  >&2 echo -n "CIPD selfupdate failed. "
++#  >&2 echo -n "Trying to bootstrap the CIPD client from scratch..."
++#  >&2 echo "[0m"
++#  clean_bootstrap
++#  if ! self_update ; then  # need to run it again to setup .cipd_version file
++#    >&2 echo -n "[31;1m"
++#    >&2 echo -n "Bootstrap from scratch for ${PLATFORM} failed! "
++ #   >&2 echo "Run the following commands to diagnose if this is repeating:"
++  #  >&2 echo "  export CIPD_HTTP_USER_AGENT_PREFIX=${USER_AGENT}/manual"
++  #  >&2 echo -n "  ${CLIENT} selfupdate -version-file ${VERSION_FILE}"
++  #  >&2 echo "[0m"
++ #   exit 1
++#  fi
++#fi
+ 
+ # CygWin requires changing absolute paths to Windows form. Relative paths
+ # are typically okay as Windows generally accepts both forward and back

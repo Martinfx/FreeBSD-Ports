@@ -1,0 +1,8 @@
+--- src/brave/vendor/depot_tools/vpython3.orig	2025-01-11 12:22:39 UTC
++++ src/brave/vendor/depot_tools/vpython3
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/local/bin/bash
+ 
+ # Copyright 2019 The Chromium Authors. All rights reserved.
+ # Use of this source code is governed by a BSD-style license that can be
