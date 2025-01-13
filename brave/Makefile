@@ -19,7 +19,7 @@ BUILD_DEPENDS=  libnotify>0:devel/libnotify \
                 npm:www/npm \
                 ninja:devel/ninja
 
-USES=           compiler:c++14-lang python:3.11+ pkgconfig \
+USES=           compiler:c++14-lang linux:rl9 python:3.11+ pkgconfig \
                 nodejs:20 shebangfix
 
 USE_GITHUB=     yes
@@ -28,7 +28,7 @@ GH_PROJECT=     brave-browser
 GH_TUPLE=       brave:brave-core:8d3cd1b:core/src/brave \
                 brave:adblock-rust:fd4b7b3:adblock/src/brave/components/adblock_rust_ffi \
 		brave:chromium:47e0e94:chromium \
-		Martinfx:depot_tools:24d9ad6:depot/src/brave/vendor/depot_tools
+		Martinfx:depot_tools:497ed51:depot/src/brave/vendor/depot_tools
 
 #BINARY_ALIAS=	vpython3=${PYTHON_CMD}
 
@@ -38,12 +38,16 @@ GH_TUPLE=       brave:brave-core:8d3cd1b:core/src/brave \
 do-configure:
 #	cd ${WRKSRC}/src/brave && npm install --verbose
 #	${CP} -vpR ${WRKDIR}/chromium-47e0e94/* ${WRKSRC}/src
-	cd ${WRKSRC}/src/brave && npm run sync --  --target_os=linux --target_arch=x64 --gclient_verbose --force
+#	cd ${WRKSRC}/src/brave && npm run sync --  --target_os=linux --target_arch=x64 --gclient_verbose --force
+#	cd ${WRKSRC}/src/brave && npm run build -- Release --target_os=linux --target_arch=x64 \
+#	--gn enable_dsyms:false --gn enable_stripping:false
+
 
 #do-install:
 	#cd ${WRKSRC}/src/brave && npm install --verbose
 	#cd ${WRKSRC}/src/brave && npm run init -- --target_os=linux --target_arch=x64
-#	cd ${WRKSRC}/src/brave && npm run build -- Release --target_os=linux --target_arch=x64 \
-# 	--gn enable_dsyms:false --gn enable_stripping:false
+	cd ${WRKSRC}/src/brave && npm run build -- Release --target_os=linux --target_arch=x64 \
+	--gn enable_dsyms:false --gn enable_stripping:false
+#	cd ${WRKSRC}/src/brave && gn gen src/out/redirect_cc
 
 .include <bsd.port.mk>
