@@ -18,6 +18,7 @@ USE_GITHUB=	yes
 GH_ACCOUNT=	bkryza
 GH_PROJECT=	clang-uml
 
-CMAKE_ARGS=	-DLLVM_CONFIG_PATH="${LOCALBASE}/llvm${LLVM_VERSION}/bin/llvm-config"
+CMAKE_ARGS=	-DLLVM_CONFIG_PATH="${LOCALBASE}/llvm${LLVM_VERSION}/bin/llvm-config" \
+		-DCMAKE_INSTALL_DOCDIR=${DOCSDIR}
 
 .include <bsd.port.mk>
