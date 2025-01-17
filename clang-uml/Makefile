@@ -20,5 +20,8 @@ GH_PROJECT=	clang-uml
 
 CMAKE_ARGS=	-DLLVM_CONFIG_PATH="${LOCALBASE}/llvm${LLVM_VERSION}/bin/llvm-config" \
 		-DCMAKE_INSTALL_DOCDIR=${DOCSDIR}
+do-install-DOCS-on:
+	${MKDIR} ${STAGEDIR}${DOCSDIR}
+	(cd ${WRKSRC}/*.md && ${COPYTREE_SHARE} . ${STAGEDIR}${DOCSDIR})
 
 .include <bsd.port.mk>
