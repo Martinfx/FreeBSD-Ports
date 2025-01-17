@@ -1,0 +1,11 @@
+--- CMakeLists.txt.orig	2025-01-17 07:46:39 UTC
++++ CMakeLists.txt
+@@ -152,7 +152,7 @@ endif(MSVC)
+ if(MSVC)
+     add_definitions(-DYAML_CPP_STATIC_DEFINE)
+ endif(MSVC)
+-if(APPLE)
++if(APPLE OR UNIX)
+     set(YAML_CPP_LIBRARIES yaml-cpp::yaml-cpp)
+ endif(APPLE)
+ message(STATUS "Found yaml-cpp at: ${YAML_CPP_INCLUDE_DIR}, library: ${YAML_CPP_LIBRARIES}")
