@@ -1,7 +1,7 @@
 PORTNAME=	cppinsights
 DISTVERSIONPREFIX=	v_
 DISTVERSION=	19.1
-CATEGORIES=	sysutils
+CATEGORIES=	devel
 
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	C++ Insights - See your source code with the eyes of a compiler.
