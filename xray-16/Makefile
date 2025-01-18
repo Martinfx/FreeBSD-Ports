@@ -35,14 +35,14 @@ USE_GITHUB=	yes
 
 GH_ACCOUNT=	OpenXRay
 GH_PROJECT=	xray-16
-GH_TAGNAME=	34ef356f76cb0ed1814d8b3027f1ff91b7f2e30b
+GH_TAGNAME=	bb90dcb31052525903aa23d4a9affe1743c0eb55
 GH_TUPLE+=	GPUOpen-LibrariesAndSDKs:AGS_SDK:f4e655ed363a91a7e0af35f5aecffa175c79a748:AGSSDK/Externals/AGS_SDK \
 		OpenXRay:BugTrap:c619077b40ee6e7ad6ffc5a194a5d3583af8f78e:BugTrap/Externals/BugTrap \
 		OpenXRay:GameSpy:61d061b4b3f860865f97e659e496e11704f61eb3:GameSpy/Externals/GameSpy \
 		OpenXRay:LuaJIT:0bc04c4768a71a6bf7f7d6a973b06a97e58dc722:LuaJIT/Externals/LuaJIT \
 		weidai11:cryptopp:78a64e37d3ec8aa1fd941a1309b1a2eef43b0bb0:cryptopp/Externals/cryptopp \
  		g-truc:gli:779b99ac6656e4d30c3b24e96e0136a59649a869:gli/Externals/gli \
-		ocornut:imgui:c1743eef48432a08438de0926a6fc657e5ce2d11:ocornut/Externals/imgui \
+		ocornut:imgui:3cdf3f9411b20cc877bab399279c9bc450185efb:ocornut/Externals/imgui \
 		xiph:ogg:db5c7a49ce7ebda47b15b78471e78fb7f2483e22:ogg/Externals/ogg \
 		xiph:theora:7180717276af1ebc7da15c83162d6c5d6203aabf:theora/Externals/theora \
 		xiph:vorbis:84c023699cdf023a32fa4ded32019f194afcdad0:vorbis/Externals/vorbis \
@@ -54,6 +54,7 @@ GH_TUPLE+=	GPUOpen-LibrariesAndSDKs:AGS_SDK:f4e655ed363a91a7e0af35f5aecffa175c79
 		OpenXRay:lua-marshal:983a3bfd646486292daa9f2ec9b72409f86dc931:marsal/Externals/xrLuaFix/lua-marshal \
 		OpenXRay:lua-pack:c1e5a149b571cc31069e7e3146e881c203bdd052:pack/Externals/xrLuaFix/lua-pack
 
+CXXFLAGS+=	-march=x86-64 -fms-compatibility -fms-extensions -fdelayed-template-parsing -fmsc-version=1920
 CMAKE_ON=	XRAY_USE_LUAJIT
 CMAKE_BUILD_TYPE="Debug"
 
