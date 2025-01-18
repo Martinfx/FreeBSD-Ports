@@ -1,5 +1,7 @@
-TIMESTAMP = 1719130010
+TIMESTAMP = 1737197239
 SHA256 (thorium/chromium-124.0.6367.78.tar.xz) = 697ea9e8591e0a74deea260a50441711b1ea499ca19e91d6012c5b4d200d1acf
 SIZE (thorium/chromium-124.0.6367.78.tar.xz) = 3438644780
 SHA256 (thorium/Alex313031-thorium-M124.0.6367.218_GH0.tar.gz) = 69371faccf12ad0f3aae7ac23e9e7a56da5e3c8fba4172231c057416930de72b
 SIZE (thorium/Alex313031-thorium-M124.0.6367.218_GH0.tar.gz) = 152823993
+SHA256 (thorium/Alex313031-thorium-libjxl-d2ec989_GH0.tar.gz) = 1d5f026f714000dd73330f9a73db824581629c79c00b8bafb24da841d7e59879
+SIZE (thorium/Alex313031-thorium-libjxl-d2ec989_GH0.tar.gz) = 3610261

@@ -12,7 +12,7 @@ COMMENT=	browser
 LICENSE=	BSD3CLAUSE LGPL21 MPL11
 LICENSE_COMB=	multi
 
-#ONLY_FOR_ARCHS=	aarch64 amd64 i386
+ONLY_FOR_ARCHS=	aarch64 amd64 i386
 
 BUILD_DEPENDS=	bash:shells/bash \
 		${PYTHON_PKGNAMEPREFIX}Jinja2>0:devel/py-Jinja2@${PY_FLAVOR} \
@@ -91,7 +91,7 @@ BINARY_ALIAS=	python3=${PYTHON_CMD} \
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	Alex313031
-
+GH_TUPLE=	Alex313031:thorium-libjxl:d2ec989:libjxl
 
 # TODO bz@ : install libwidevinecdm.so (see third_party/widevine/cdm/BUILD.gn)
 #
@@ -269,7 +269,31 @@ pre-everything::
 #	@${MKDIR} ${WRKSRC}/third_party/test_fonts/test_fonts
 #	@${MV} ${WRKDIR}/test_fonts ${WRKSRC}/third_party/test_fonts/
 
-#pre-patch:
+pre-patch:
+	${MKDIR} ${WRKSRC}/out/${BUILDTYPE}
+	${CP} -R -v ${WRKDIR}/thorium-libjxl-d2ec989/src/* ${WRKSRC}
+	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/BUILD.gn ${WRKSRC}
+	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/ash ${WRKSRC}
+	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/build ${WRKSRC}
+	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/chrome ${WRKSRC}
+	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/chromeos ${WRKSRC}
+	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/components ${WRKSRC}
+	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/content ${WRKSRC}
+	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/extensions ${WRKSRC}
+	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/google_apis ${WRKSRC}
+	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/media ${WRKSRC}
+	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/net ${WRKSRC}
+	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/sandbox ${WRKSRC}
+	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/services ${WRKSRC}
+	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/third_party ${WRKSRC}
+	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/tools ${WRKSRC}
+	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/ui ${WRKSRC}
+	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/v8 ${WRKSRC}
+
+	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/thorium_shell/. ${WRKSRC}/out/${BUILDTYPE}
+	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/pak_src/binaries/pak ${WRKSRC}/out/${BUILDTYPE}
+	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/pak_src/binaries/pak-win/. ${WRKSRC}/out/${BUILDTYPE}
+
 #	cd ${WRKDIR}/ungoogled-chromium-${UGVERSION} && ${PYTHON_CMD} \
 #		utils/prune_binaries.py ${WRKSRC} pruning.list
 #	cd ${WRKDIR}/ungoogled-chromium-${UGVERSION} && PATCH_BIN=gpatch \
