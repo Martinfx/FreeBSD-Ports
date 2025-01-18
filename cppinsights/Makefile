@@ -1,7 +1,7 @@
 PORTNAME=	cppinsights
 DISTVERSIONPREFIX=	v_
-DISTVERSION=	17.0
-CATEGORIES=	sysutils
+DISTVERSION=	19.1
+CATEGORIES=	devel
 
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	C++ Insights - See your source code with the eyes of a compiler.
@@ -10,7 +10,7 @@ WWW=		https://github.com/andreasfertig/cppinsights
 LICENSE=	MIT
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
-USES=		cmake llvm:min=17,lib
+USES=		cmake llvm:min=19,lib
 USE_GITHUB=	yes
 GH_ACCOUNT=	andreasfertig
 GH_PROJECT=	cppinsights
