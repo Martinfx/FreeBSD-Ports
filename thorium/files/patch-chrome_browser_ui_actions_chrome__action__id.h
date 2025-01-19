@@ -1,4 +1,4 @@
---- chrome/browser/ui/actions/chrome_action_id.h.orig	2024-04-19 13:02:56 UTC
+--- chrome/browser/ui/actions/chrome_action_id.h.orig	2024-08-26 12:06:38 UTC
 +++ chrome/browser/ui/actions/chrome_action_id.h
 @@ -510,7 +510,7 @@
      IDC_CONTENT_CONTEXT_QUICK_ANSWERS_INLINE_ANSWER) \

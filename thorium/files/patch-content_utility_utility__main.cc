@@ -1,8 +1,8 @@
---- content/utility/utility_main.cc.orig	2024-04-19 13:02:56 UTC
+--- content/utility/utility_main.cc.orig	2024-08-26 12:06:38 UTC
 +++ content/utility/utility_main.cc
-@@ -37,17 +37,21 @@
- #include "third_party/icu/source/common/unicode/unistr.h"
- #include "third_party/icu/source/i18n/unicode/timezone.h"
+@@ -36,17 +36,21 @@
+ #include "services/screen_ai/buildflags/buildflags.h"
+ #include "services/tracing/public/cpp/trace_startup.h"
  
 -#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS)
 +#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_BSD)
@@ -23,7 +23,7 @@
  #include "services/audio/audio_sandbox_hook_linux.h"
  #include "services/network/network_sandbox_hook_linux.h"
  // gn check is not smart enough to realize that this include only applies to
-@@ -59,10 +63,15 @@
+@@ -58,10 +62,15 @@
  #endif
  #endif
  
@@ -40,7 +40,7 @@
  #if BUILDFLAG(IS_CHROMEOS_ASH)
  #include "chromeos/ash/components/assistant/buildflags.h"
  #include "chromeos/ash/services/ime/ime_sandbox_hook.h"
-@@ -74,7 +83,7 @@
+@@ -73,7 +82,7 @@
  #endif  // BUILDFLAG(IS_CHROMEOS_ASH)
  
  #if (BUILDFLAG(ENABLE_SCREEN_AI_SERVICE) && \
@@ -58,7 +58,7 @@
  std::vector<std::string> GetNetworkContextsParentDirectories() {
    base::MemoryMappedFile::Region region;
    base::ScopedFD read_pipe_fd = base::FileDescriptorStore::GetInstance().TakeFD(
-@@ -127,9 +136,10 @@ std::vector<std::string> GetNetworkContextsParentDirec
+@@ -128,9 +137,10 @@ std::vector<std::string> GetNetworkContextsParentDirec
    return dirs;
  }
  
@@ -70,7 +70,7 @@
        sandbox_type == sandbox::mojom::Sandbox::kHardwareVideoDecoding ||
  #endif  // BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS_ASH)
        sandbox_type == sandbox::mojom::Sandbox::kHardwareVideoEncoding;
-@@ -144,6 +154,7 @@ bool ShouldUseAmdGpuPolicy(sandbox::mojom::Sandbox san
+@@ -145,6 +155,7 @@ bool ShouldUseAmdGpuPolicy(sandbox::mojom::Sandbox san
  
    return false;
  }
@@ -78,17 +78,17 @@
  #endif  // BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS)
  
  #if BUILDFLAG(IS_WIN)
-@@ -252,7 +263,8 @@ int UtilityMain(MainFunctionParams parameters) {
-     }
+@@ -242,7 +253,8 @@ int UtilityMain(MainFunctionParams parameters) {
+     CHECK(on_device_model::OnDeviceModelService::PreSandboxInit());
    }
  
 -#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS)
 +// XXX BSD
 +#if (BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS)) && !BUILDFLAG(IS_BSD)
-   // Thread type delegate of the process should be registered before
-   // first thread type change in ChildProcess constructor.
-   // It also needs to be registered before the process has multiple threads,
-@@ -263,7 +275,7 @@ int UtilityMain(MainFunctionParams parameters) {
+   // Thread type delegate of the process should be registered before first
+   // thread type change in ChildProcess constructor. It also needs to be
+   // registered before the process has multiple threads, which may race with
+@@ -254,7 +266,7 @@ int UtilityMain(MainFunctionParams parameters) {
    }
  #endif  // BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS)
  
@@ -97,7 +97,7 @@
    // Initializes the sandbox before any threads are created.
    // TODO(jorgelo): move this after GTK initialization when we enable a strict
    // Seccomp-BPF policy.
-@@ -301,7 +313,7 @@ int UtilityMain(MainFunctionParams parameters) {
+@@ -292,7 +304,7 @@ int UtilityMain(MainFunctionParams parameters) {
                               screen_ai::GetBinaryPathSwitch()));
        break;
  #endif
@@ -106,7 +106,7 @@
      case sandbox::mojom::Sandbox::kHardwareVideoDecoding:
        pre_sandbox_hook =
            base::BindOnce(&media::HardwareVideoDecodingPreSandboxHook);
-@@ -328,6 +340,7 @@ int UtilityMain(MainFunctionParams parameters) {
+@@ -319,6 +331,7 @@ int UtilityMain(MainFunctionParams parameters) {
      default:
        break;
    }
@@ -114,7 +114,7 @@
    if (!sandbox::policy::IsUnsandboxedSandboxType(sandbox_type) &&
        (parameters.zygote_child || !pre_sandbox_hook.is_null())) {
      sandbox_options.use_amd_specific_policies =
-@@ -335,6 +348,11 @@ int UtilityMain(MainFunctionParams parameters) {
+@@ -326,6 +339,11 @@ int UtilityMain(MainFunctionParams parameters) {
      sandbox::policy::Sandbox::Initialize(
          sandbox_type, std::move(pre_sandbox_hook), sandbox_options);
    }

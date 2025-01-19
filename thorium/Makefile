@@ -1,9 +1,9 @@
 PORTNAME=	thorium
 DISTVERSIONPREFIX=M
-DISTVERSION=	124.0.6367.218
+DISTVERSION=	128.0.6613.189
 CATEGORIES=	www
 MASTER_SITES=	https://commondatastorage.googleapis.com/chromium-browser-official/:source1
-DISTFILES=	chromium-124.0.6367.78.tar.xz:source1
+DISTFILES=	chromium-128.0.6613.137.tar.xz:source1
 DIST_SUBDIR=	${PORTNAME}
 
 MAINTAINER=	freebsd@freebsd.cz
@@ -84,7 +84,7 @@ USE_QT=		buildtools:build
 #SHEBANG_FILES=	chrome/tools/build/linux/chrome-wrapper buildtools/linux64/clang-format
 
 MAKE_ARGS=	-C out/${BUILDTYPE}
-ALL_TARGET=	chrome
+ALL_TARGET=	thorium_all
 
 BINARY_ALIAS=	python3=${PYTHON_CMD} \
 		moc=${PREFIX}/bin/moc-qt5
@@ -250,7 +250,7 @@ LDFLAGS_i386=	-Wl,-znotext
 MAKE_ENV+=	C_INCLUDE_PATH=${LOCALBASE}/include \
 		CPLUS_INCLUDE_PATH=${LOCALBASE}/include
 
-WRKSRC=		${WRKDIR}/chromium-124.0.6367.78
+WRKSRC=		${WRKDIR}/chromium-128.0.6613.137
 
 RUSTC_VERSION!=	rustc -V 2>/dev/null || true
 MAKE_ENV+=	RUSTC_BOOTSTRAP=1
@@ -272,27 +272,26 @@ pre-everything::
 pre-patch:
 	${MKDIR} ${WRKSRC}/out/${BUILDTYPE}
 	${CP} -R -v ${WRKDIR}/thorium-libjxl-d2ec989/src/* ${WRKSRC}
-	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/BUILD.gn ${WRKSRC}
-	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/ash ${WRKSRC}
-	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/build ${WRKSRC}
-	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/chrome ${WRKSRC}
-	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/chromeos ${WRKSRC}
-	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/components ${WRKSRC}
-	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/content ${WRKSRC}
-	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/extensions ${WRKSRC}
-#	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/google_apis ${WRKSRC}
-	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/media ${WRKSRC}
-	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/net ${WRKSRC}
-	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/sandbox ${WRKSRC}
-	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/services ${WRKSRC}
-	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/third_party ${WRKSRC}
-	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/tools ${WRKSRC}
-	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/ui ${WRKSRC}
-	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/v8 ${WRKSRC}
+	${CP} -R -v ${WRKDIR}/thorium-M128.0.6613.189/src/BUILD.gn ${WRKSRC}
+	${CP} -R -v ${WRKDIR}/thorium-M128.0.6613.189/src/ash ${WRKSRC}
+	${CP} -R -v ${WRKDIR}/thorium-M128.0.6613.189/src/build ${WRKSRC}
+	${CP} -R -v ${WRKDIR}/thorium-M128.0.6613.189/src/chrome ${WRKSRC}
+	${CP} -R -v ${WRKDIR}/thorium-M128.0.6613.189/src/chromeos ${WRKSRC}
+	${CP} -R -v ${WRKDIR}/thorium-M128.0.6613.189/src/components ${WRKSRC}
+	${CP} -R -v ${WRKDIR}/thorium-M128.0.6613.189/src/content ${WRKSRC}
+	${CP} -R -v ${WRKDIR}/thorium-M128.0.6613.189/src/extensions ${WRKSRC}
+	${CP} -R -v ${WRKDIR}/thorium-M128.0.6613.189/src/google_apis ${WRKSRC}
+	${CP} -R -v ${WRKDIR}/thorium-M128.0.6613.189/src/media ${WRKSRC}
+	${CP} -R -v ${WRKDIR}/thorium-M128.0.6613.189/src/net ${WRKSRC}
+	${CP} -R -v ${WRKDIR}/thorium-M128.0.6613.189/src/sandbox ${WRKSRC}
+	${CP} -R -v ${WRKDIR}/thorium-M128.0.6613.189/src/services ${WRKSRC}
+	${CP} -R -v ${WRKDIR}/thorium-M128.0.6613.189/src/third_party ${WRKSRC}
+	${CP} -R -v ${WRKDIR}/thorium-M128.0.6613.189/src/tools ${WRKSRC}
+	${CP} -R -v ${WRKDIR}/thorium-M128.0.6613.189/src/ui ${WRKSRC}
+	${CP} -R -v ${WRKDIR}/thorium-M128.0.6613.189/src/v8 ${WRKSRC}
 
-	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/thorium_shell/. ${WRKSRC}/out/${BUILDTYPE}
-	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/pak_src/binaries/pak ${WRKSRC}/out/${BUILDTYPE}
-#	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/pak_src/binaries/pak-win/. ${WRKSRC}/out/${BUILDTYPE}
+	${CP} -R -v ${WRKDIR}/thorium-M128.0.6613.189/thorium_shell/. ${WRKSRC}/out/${BUILDTYPE}
+	${CP} -R -v ${WRKDIR}/thorium-M128.0.6613.189/pak_src/binaries/pak ${WRKSRC}/out/${BUILDTYPE}
 
 #	cd ${WRKDIR}/ungoogled-chromium-${UGVERSION} && ${PYTHON_CMD} \
 #		utils/prune_binaries.py ${WRKSRC} pruning.list

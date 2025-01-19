@@ -1,6 +1,6 @@
---- content/browser/gpu/gpu_data_manager_impl.cc.orig	2024-04-19 13:02:56 UTC
+--- content/browser/gpu/gpu_data_manager_impl.cc.orig	2024-08-26 12:06:38 UTC
 +++ content/browser/gpu/gpu_data_manager_impl.cc
-@@ -394,7 +394,7 @@ void GpuDataManagerImpl::OnDisplayMetricsChanged(
+@@ -402,7 +402,7 @@ void GpuDataManagerImpl::OnDisplayMetricsChanged(
    private_->OnDisplayMetricsChanged(display, changed_metrics);
  }
  

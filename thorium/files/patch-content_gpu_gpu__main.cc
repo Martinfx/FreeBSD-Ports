@@ -1,6 +1,6 @@
---- content/gpu/gpu_main.cc.orig	2024-04-19 13:02:56 UTC
+--- content/gpu/gpu_main.cc.orig	2024-08-26 12:06:38 UTC
 +++ content/gpu/gpu_main.cc
-@@ -91,10 +91,14 @@
+@@ -94,10 +94,14 @@
  #include "sandbox/win/src/sandbox.h"
  #endif
  
@@ -16,7 +16,7 @@
  #include "sandbox/policy/sandbox_type.h"
  #endif
  
-@@ -114,7 +118,7 @@ namespace content {
+@@ -116,7 +120,7 @@ namespace content {
  
  namespace {
  
@@ -25,7 +25,7 @@
  bool StartSandboxLinux(gpu::GpuWatchdogThread*,
                         const gpu::GPUInfo*,
                         const gpu::GpuPreferences&);
-@@ -179,7 +183,7 @@ class ContentSandboxHelper : public gpu::GpuSandboxHel
+@@ -174,7 +178,7 @@ class ContentSandboxHelper : public gpu::GpuSandboxHel
    bool EnsureSandboxInitialized(gpu::GpuWatchdogThread* watchdog_thread,
                                  const gpu::GPUInfo* gpu_info,
                                  const gpu::GpuPreferences& gpu_prefs) override {
@@ -34,7 +34,7 @@
      return StartSandboxLinux(watchdog_thread, gpu_info, gpu_prefs);
  #elif BUILDFLAG(IS_WIN)
      return StartSandboxWindows(sandbox_info_);
-@@ -291,7 +295,7 @@ int GpuMain(MainFunctionParams parameters) {
+@@ -284,7 +288,7 @@ int GpuMain(MainFunctionParams parameters) {
            std::make_unique<base::SingleThreadTaskExecutor>(
                gpu_preferences.message_pump_type);
      }
@@ -43,16 +43,16 @@
  #error "Unsupported Linux platform."
  #elif BUILDFLAG(IS_MAC)
      // Cross-process CoreAnimation requires a CFRunLoop to function at all, and
-@@ -328,7 +332,8 @@ int GpuMain(MainFunctionParams parameters) {
-   // before it.
-   InitializeSkia();
+@@ -306,7 +310,8 @@ int GpuMain(MainFunctionParams parameters) {
+ 
+   base::PlatformThread::SetName("CrGpuMain");
  
 -#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS)
 +// XXX BSD
 +#if (BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS)) && !BUILDFLAG(IS_BSD)
    // Thread type delegate of the process should be registered before
-   // first thread type change in ChildProcess constructor.
-   // It also needs to be registered before the process has multiple threads,
+   // thread type change below for the main thread and for thread pool in
+   // ChildProcess constructor.
 @@ -436,7 +441,7 @@ int GpuMain(MainFunctionParams parameters) {
  
  namespace {
