@@ -280,7 +280,7 @@ pre-patch:
 	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/components ${WRKSRC}
 	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/content ${WRKSRC}
 	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/extensions ${WRKSRC}
-	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/google_apis ${WRKSRC}
+#	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/google_apis ${WRKSRC}
 	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/media ${WRKSRC}
 	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/net ${WRKSRC}
 	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/src/sandbox ${WRKSRC}
@@ -292,7 +292,7 @@ pre-patch:
 
 	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/thorium_shell/. ${WRKSRC}/out/${BUILDTYPE}
 	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/pak_src/binaries/pak ${WRKSRC}/out/${BUILDTYPE}
-	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/pak_src/binaries/pak-win/. ${WRKSRC}/out/${BUILDTYPE}
+#	${CP} -R -v ${WRKDIR}/thorium-M124.0.6367.218/pak_src/binaries/pak-win/. ${WRKSRC}/out/${BUILDTYPE}
 
 #	cd ${WRKDIR}/ungoogled-chromium-${UGVERSION} && ${PYTHON_CMD} \
 #		utils/prune_binaries.py ${WRKSRC} pruning.list
