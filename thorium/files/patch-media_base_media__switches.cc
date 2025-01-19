@@ -1,4 +1,4 @@
---- media/base/media_switches.cc.orig	2024-04-19 13:02:56 UTC
+--- media/base/media_switches.cc.orig	2024-08-26 12:06:38 UTC
 +++ media/base/media_switches.cc
 @@ -21,7 +21,7 @@
  #include "ui/gl/gl_features.h"
@@ -9,7 +9,7 @@
  #include "base/cpu.h"
  #endif
  
-@@ -363,8 +363,8 @@ BASE_FEATURE(kMacLoopbackAudioForScreenShare,
+@@ -368,8 +368,8 @@ BASE_FEATURE(kMacLoopbackAudioForScreenShare,
               "MacLoopbackAudioForScreenShare",
               base::FEATURE_DISABLED_BY_DEFAULT);
  #endif  // BUILDFLAG(IS_MAC)
@@ -20,16 +20,36 @@
  // Enables system audio mirroring using pulseaudio.
  BASE_FEATURE(kPulseaudioLoopbackForCast,
               "PulseaudioLoopbackForCast",
-@@ -597,7 +597,7 @@ BASE_FEATURE(kUseWritePixelsYUV,
- BASE_FEATURE(kUseMultiPlaneFormatForHardwareVideo,
-              "UseMultiPlaneFormatForHardwareVideo",
- #if BUILDFLAG(IS_ANDROID) || BUILDFLAG(IS_APPLE) || BUILDFLAG(IS_FUCHSIA) || \
--    BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS)
-+    BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_BSD)
-              base::FEATURE_ENABLED_BY_DEFAULT
- #else
-              base::FEATURE_DISABLED_BY_DEFAULT
-@@ -713,7 +713,7 @@ BASE_FEATURE(kFallbackAfterDecodeError,
+@@ -379,6 +379,28 @@ BASE_FEATURE(kPulseaudioLoopbackForCast,
+ BASE_FEATURE(kPulseaudioLoopbackForScreenShare,
+              "PulseaudioLoopbackForScreenShare",
+              base::FEATURE_DISABLED_BY_DEFAULT);
++
++BASE_FEATURE(kAudioBackend,
++             "AudioBackend",
++             base::FEATURE_ENABLED_BY_DEFAULT);
++
++constexpr base::FeatureParam<AudioBackend>::Option
++    kAudioBackendOptions[] = {
++        {AudioBackend::kAuto,
++         "auto"},
++        {AudioBackend::kPulseAudio, "pulseaudio"},
++        {AudioBackend::kSndio, "sndio"},
++        {AudioBackend::kAlsa, "alsa"}};
++
++const base::FeatureParam<AudioBackend>
++    kAudioBackendParam{
++        &kAudioBackend, "audio-backend",
++#if BUILDFLAG(IS_OPENBSD)
++        AudioBackend::kSndio,
++#elif BUILDFLAG(IS_FREEBSD)
++        AudioBackend::kAuto,
++#endif
++        &kAudioBackendOptions};
+ #endif  // BUILDFLAG(IS_LINUX)
+ 
+ // When enabled, MediaCapabilities will check with GPU Video Accelerator
+@@ -676,7 +698,7 @@ BASE_FEATURE(kFeatureManagementLiveTranslateCrOS,
  // Show toolbar button that opens dialog for controlling media sessions.
  BASE_FEATURE(kGlobalMediaControls,
               "GlobalMediaControls",
@@ -38,7 +58,7 @@
               base::FEATURE_ENABLED_BY_DEFAULT
  #else
               base::FEATURE_DISABLED_BY_DEFAULT
-@@ -741,7 +741,7 @@ BASE_FEATURE(kGlobalMediaControlsUpdatedUI,
+@@ -704,7 +726,7 @@ BASE_FEATURE(kGlobalMediaControlsUpdatedUI,
  // If enabled, users can request Media Remoting without fullscreen-in-tab.
  BASE_FEATURE(kMediaRemotingWithoutFullscreen,
               "MediaRemotingWithoutFullscreen",
@@ -47,7 +67,7 @@
               base::FEATURE_ENABLED_BY_DEFAULT
  #else
               base::FEATURE_DISABLED_BY_DEFAULT
-@@ -753,7 +753,7 @@ BASE_FEATURE(kMediaRemotingWithoutFullscreen,
+@@ -716,7 +738,7 @@ BASE_FEATURE(kMediaRemotingWithoutFullscreen,
  BASE_FEATURE(kGlobalMediaControlsPictureInPicture,
               "GlobalMediaControlsPictureInPicture",
  #if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX) || \
@@ -56,7 +76,7 @@
               base::FEATURE_ENABLED_BY_DEFAULT
  #else
               base::FEATURE_DISABLED_BY_DEFAULT
-@@ -782,7 +782,7 @@ BASE_FEATURE(kUnifiedAutoplay,
+@@ -745,7 +767,7 @@ BASE_FEATURE(kUnifiedAutoplay,
               "UnifiedAutoplay",
               base::FEATURE_ENABLED_BY_DEFAULT);
  
@@ -65,16 +85,16 @@
  // Enable vaapi video decoding on linux. This is already enabled by default on
  // chromeos, but needs an experiment on linux.
  BASE_FEATURE(kVaapiVideoDecodeLinux,
-@@ -873,7 +873,7 @@ BASE_FEATURE(kVaapiVp9SModeHWEncoding,
+@@ -836,7 +858,7 @@ BASE_FEATURE(kVaapiVp9SModeHWEncoding,
               "VaapiVp9SModeHWEncoding",
-              base::FEATURE_DISABLED_BY_DEFAULT);
+              base::FEATURE_ENABLED_BY_DEFAULT);
  #endif  // defined(ARCH_CPU_X86_FAMILY) && BUILDFLAG(IS_CHROMEOS)
 -#if BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_LINUX)
 +#if BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_BSD)
- // Enables the new V4L2 flat video decoder clients instead of V4L2VideoDecoder.
+ // Enables the new V4L2StatefulVideoDecoder instead of V4L2VideoDecoder.
  // Owners: frkoenig@chromium.org, mcasas@chromium.org
- // Expiry: When flat decoders are supported on all platforms and the legacy
-@@ -998,7 +998,7 @@ BASE_FEATURE(kLiveCaptionUseWaitK,
+ // Expiry: When the |V4L2FlatVideoDecoder| flag handles stateful decoding on
+@@ -963,7 +985,7 @@ BASE_FEATURE(kLiveCaptionUseWaitK,
  // Live Caption can be used in multiple languages, as opposed to just English.
  BASE_FEATURE(kLiveCaptionMultiLanguage,
               "LiveCaptionMultiLanguage",
@@ -83,7 +103,7 @@
               base::FEATURE_ENABLED_BY_DEFAULT
  #else
               base::FEATURE_DISABLED_BY_DEFAULT
-@@ -1033,7 +1033,7 @@ BASE_FEATURE(kLiveCaptionSystemWideOnChromeOS,
+@@ -993,7 +1015,7 @@ BASE_FEATURE(kLiveCaptionWebAudio,
  // Live Translate translates captions generated by Live Caption.
  BASE_FEATURE(kLiveTranslate,
               "LiveTranslate",
@@ -92,7 +112,7 @@
               base::FEATURE_ENABLED_BY_DEFAULT
  #else
               base::FEATURE_DISABLED_BY_DEFAULT
-@@ -1500,7 +1500,7 @@ BASE_FEATURE(kUseGTFOOutOfProcessVideoDecoding,
+@@ -1468,7 +1490,7 @@ BASE_FEATURE(kUseGTFOOutOfProcessVideoDecoding,
               base::FEATURE_DISABLED_BY_DEFAULT);
  #endif  // BUILDFLAG(ALLOW_OOP_VIDEO_DECODER)
  
@@ -101,3 +121,12 @@
  // Spawn utility processes to perform hardware encode acceleration instead of
  // using the GPU process.
  BASE_FEATURE(kUseOutOfProcessVideoEncoding,
+@@ -1548,7 +1570,7 @@ BASE_FEATURE(kRecordWebAudioEngagement,
+              "RecordWebAudioEngagement",
+              base::FEATURE_ENABLED_BY_DEFAULT);
+ 
+-#if BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_LINUX)
++#if BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_BSD)
+ // Reduces the number of buffers needed in the output video frame pool to
+ // populate the Renderer pipeline for hardware accelerated VideoDecoder in
+ // non-low latency scenarios.
