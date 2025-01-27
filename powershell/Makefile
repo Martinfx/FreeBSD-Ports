@@ -1,8 +1,8 @@
 PORTNAME=	powershell
-DISTVERSION=	7.5.0-rc.1
+DISTVERSION=	7.4.2
 CATEGORIES=	shells
 
-MAINTAINER=	freebsd@sysctl.cz
+MAINTAINER=	zirias@FreeBSD.org
 COMMENT=	Microsoft's shell with support for .NET objects
 WWW=		https://microsoft.com/PowerShell
 
@@ -11,7 +11,7 @@ LICENSE_FILE=	${WRKSRC}/LICENSE.txt
 
 ONLY_FOR_ARCHS=	aarch64 amd64
 
-BUILD_DEPENDS=	dotnet>0:lang/dotnet
+BUILD_DEPENDS=	dotnet8>0:lang/dotnet8
 LIB_DEPENDS=	libinotify.so:devel/libinotify \
 		libunwind.so:devel/libunwind
 
@@ -20,6 +20,7 @@ USE_GITHUB=		yes
 GH_ACCOUNT=		PowerShell
 GH_PROJECT=		PowerShell PowerShell-Native:native
 GH_TAGNAME=		v${DISTVERSION} v${PSNATIVEVERS}:native
+#GH_TUPLE=		Martinfx:freebsd-nupkg-powershell:f08e551:runtime/packs
 CMAKE_SOURCE_PATH=	${WRKSRC}/src/libpsl-native
 
 OPTIONS_DEFINE=		MODULES
@@ -39,6 +40,7 @@ PSNATIVEVERS=	7.4.0
 NUGET_GROUPS=	NUGET
 NUPKG_NUGET=	DotNetAnalyzers.DocumentationAnalyzers:1.0.0-beta.59 \
 		DotNetAnalyzers.DocumentationAnalyzers.Unstable:1.0.0.59 \
+		Microsoft.CodeAnalysis.CSharp:4.8.0 \
 		JetBrains.Annotations:2021.2.0 \
 		Json.More.Net:1.9.3 \
 		JsonPointer.Net:3.0.3 \
@@ -47,7 +49,7 @@ NUPKG_NUGET=	DotNetAnalyzers.DocumentationAnalyzers:1.0.0-beta.59 \
 		Microsoft.ApplicationInsights:2.21.0 \
 		Microsoft.Bcl.AsyncInterfaces:8.0.0 \
 		Microsoft.CodeAnalysis.Analyzers:3.3.4 \
-		Microsoft.CodeAnalysis.Common:4.9.2 \
+		Microsoft.CodeAnalysis.Common:4.8.0 \
 		Microsoft.CodeAnalysis.CSharp:4.9.2 \
 		Microsoft.Extensions.ObjectPool:8.0.4 \
 		Microsoft.Management.Infrastructure:3.0.0 \
@@ -91,7 +93,7 @@ NUPKG_NUGET=	DotNetAnalyzers.DocumentationAnalyzers:1.0.0-beta.59 \
 		System.DirectoryServices.AccountManagement:8.0.0 \
 		System.DirectoryServices.Protocols:8.0.0 \
 		System.Drawing.Common:8.0.4 \
-		System.Formats.Asn1:6.0.0 \
+		System.Formats.Asn1:8.0.0 \
 		System.IO.Packaging:8.0.0 \
 		System.IO.Ports:8.0.0 \
 		System.Management:8.0.0 \
@@ -106,11 +108,11 @@ NUPKG_NUGET=	DotNetAnalyzers.DocumentationAnalyzers:1.0.0-beta.59 \
 		System.Runtime.Caching:8.0.0 \
 		System.Runtime.CompilerServices.Unsafe:6.0.0 \
 		System.Security.AccessControl:6.0.1 \
-		System.Security.Cryptography.Pkcs:6.0.1 \
+		System.Security.Cryptography.Pkcs:8.0.0 \
 		System.Security.Cryptography.ProtectedData:8.0.0 \
-		System.Security.Cryptography.Xml:6.0.1 \
+		System.Security.Cryptography.Xml:8.0.0 \
 		System.Security.Permissions:8.0.0 \
-		System.Security.Principal.Windows:4.7.0 \
+		System.Security.Principal.Windows:5.0.0 \
 		System.ServiceModel.Duplex:4.10.3 \
 		System.ServiceModel.Http:4.10.3 \
 		System.ServiceModel.NetTcp:4.10.3 \
@@ -124,7 +126,7 @@ NUPKG_NUGET=	DotNetAnalyzers.DocumentationAnalyzers:1.0.0-beta.59 \
 		System.Text.Encodings.Web:6.0.0 \
 		System.Text.Encodings.Web:8.0.0 \
 		System.Text.Json:6.0.9 \
-		System.Threading.AccessControl:4.7.0 \
+		System.Threading.AccessControl:8.0.0 \
 		System.Threading.Tasks.Extensions:4.5.4 \
 		System.Web.Services.Description:4.10.3 \
 		System.Windows.Extensions:8.0.0
@@ -137,6 +139,8 @@ PWSH_MOD_EXTRACT_ARGS=	-x "\[Content_Types\].xml" \
 			-x "package/*" \
 			-x "*.txt" \
 			-x "*.nuspec"
+
+DOTNET_ENV=	DOTNET_CLI_HOME=/tmp
 
 post-extract:
 	${RM} -r ${WRKSRC}/src/libpsl-native
@@ -154,14 +158,16 @@ post-patch:
 		${WRKSRC}/src/ResGen/ResGen.csproj \
 		${WRKSRC}/src/TypeCatalogGen/TypeCatalogGen.csproj \
 		${WRKSRC}/src/powershell-unix/powershell-unix.csproj
+	${REINPLACE_CMD} 's|%%WRKSRC%%|${WRKSRC}|g' \
+		${WRKSRC}/nuget.config
 
 post-build:
-	cd ${WRKSRC}/src/ResGen && \
+	cd ${WRKSRC}/src/ResGen && ${SETENV} ${DOTNET_ENV} \
 		dotnet restore --packages ${WRKDIR}/packages && \
-		dotnet build --no-restore && \
-		dotnet run --no-restore
+		${SETENV} ${DOTNET_ENV} dotnet build --no-restore && \
+		${SETENV} ${DOTNET_ENV} dotnet run --no-restore
 	cd ${WRKSRC}/src/powershell-unix && \
-		dotnet restore --packages ${WRKDIR}/packages
+		${SETENV} ${DOTNET_ENV} dotnet restore --packages ${WRKDIR}/packages
 	cd ${WRKSRC}/src && dotnet msbuild \
 		Microsoft.PowerShell.SDK/Microsoft.PowerShell.SDK.csproj \
 		/t:_GetDependencies \
@@ -169,13 +175,13 @@ post-build:
 		/p:_DependencyFile=${WRKSRC}/src/TypeCatalogGen/powershell.inc \
 		/nologo
 	cd ${WRKSRC}/src/TypeCatalogGen && \
-		dotnet restore --packages ${WRKDIR}/packages && \
-		dotnet build --no-restore && \
-		dotnet run --no-restore \
+		${SETENV} ${DOTNET_ENV} dotnet restore --packages ${WRKDIR}/packages && \
+		${SETENV} ${DOTNET_ENV} dotnet build --no-restore && \
+		${SETENV} ${DOTNET_ENV} dotnet run --no-restore \
 		../System.Management.Automation/CoreCLR/CorePsTypeCatalog.cs \
 		powershell.inc
 	cd ${WRKSRC}/src/powershell-unix && \
-		dotnet publish --packages ${WRKDIR}/packages -c Release \
+		${SETENV} ${DOTNET_ENV} dotnet publish --packages ${WRKDIR}/packages -c Release \
 		-r freebsd-${DOTNET_ARCH} -o bin/publish \
 		--sc -p:PublishReadyToRun=true
 	${INSTALL_LIB} ${WRKSRC}/src/powershell-unix/libpsl-native.so \
