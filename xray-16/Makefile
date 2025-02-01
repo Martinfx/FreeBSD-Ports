@@ -35,7 +35,7 @@ USE_GITHUB=	yes
 
 GH_ACCOUNT=	OpenXRay
 GH_PROJECT=	xray-16
-GH_TAGNAME=	3fb66c7c52ca331615080d17753072062ad955ef
+GH_TAGNAME=	2c1bb6886a6ad07f0b4d629292065de298ace9fc
 GH_TUPLE+=	GPUOpen-LibrariesAndSDKs:AGS_SDK:f4e655ed363a91a7e0af35f5aecffa175c79a748:AGSSDK/Externals/AGS_SDK \
 		OpenXRay:BugTrap:c619077b40ee6e7ad6ffc5a194a5d3583af8f78e:BugTrap/Externals/BugTrap \
 		OpenXRay:GameSpy:61d061b4b3f860865f97e659e496e11704f61eb3:GameSpy/Externals/GameSpy \
@@ -54,8 +54,8 @@ GH_TUPLE+=	GPUOpen-LibrariesAndSDKs:AGS_SDK:f4e655ed363a91a7e0af35f5aecffa175c79
 		OpenXRay:lua-marshal:983a3bfd646486292daa9f2ec9b72409f86dc931:marsal/Externals/xrLuaFix/lua-marshal \
 		OpenXRay:lua-pack:c1e5a149b571cc31069e7e3146e881c203bdd052:pack/Externals/xrLuaFix/lua-pack
 
-#CXXFLAGS+=	-march=x86-64 -fms-compatibility -fms-extensions -fdelayed-template-parsing -fmsc-version=1920
-CMAKE_ON=	XRAY_USE_LUAJIT
+CXXFLAGS+=	-march=x86-64 #-fmsc-version=1920  #-fms-compatibility #-fms-extensions -fdelayed-template-parsing -fmsc-version=1920
+CMAKE_ON=	XRAY_USE_LUAJIT #USE_ADDRESS_SANITIZER
 CMAKE_BUILD_TYPE="Debug"
 
 .include <bsd.port.mk>
