@@ -1,0 +1,66 @@
+--- SConstruct.orig	2024-11-22 14:42:33 UTC
++++ SConstruct
+@@ -47,6 +47,7 @@ import codecs
+ import tempfile
+ import distutils.dir_util
+ import codecs
++import string
+ 
+ EnsureSConsVersion( 3, 0, 2 ) # Substfile is a default builder as of 3.0.2
+ 
+@@ -388,11 +389,17 @@ env = Environment(
+ 
+ 	CPPPATH = [
+ 		"include",
++		"/usr/local/include",
++		"/usr/local/include/qt5",
++		"/usr/local/include/python3.11/",
++		"/usr/local/include/Imath/",
++		"/usr/local/include/oneapi/",
+ 		"$LOCATE_DEPENDENCY_CPPPATH",
+ 	],
+ 
+ 	LIBPATH = [
+ 		"./lib",
++		"/usr/local/lib",
+ 		"$BUILD_DIR/lib",
+ 		"$LOCATE_DEPENDENCY_LIBPATH",
+ 	],
+@@ -412,7 +419,7 @@ for path in [
+ 		"$BUILD_DIR/include",
+ 		"$BUILD_DIR/include/Imath",
+ 		"$BUILD_DIR/include/GL",
+-	] + env["LOCATE_DEPENDENCY_SYSTEMPATH"] :
++	] + str.split(env["LOCATE_DEPENDENCY_SYSTEMPATH"]) :
+ 
+ 	env.Append(
+ 		CXXFLAGS = [ systemIncludeArgument, path ]
+@@ -447,6 +454,8 @@ if env["PLATFORM"] != "win32" :
+ 		env.Append( CXXFLAGS = [ "-D__USE_ISOC99" ] )
+ 		env["GAFFER_PLATFORM"] = "macos"
+ 
++	if env["PLATFORM"] == "freebsd" :
++		env["GAFFER_PLATFORM"] = "freebsd"
+ 	else :
+ 
+ 		env["GAFFER_PLATFORM"] = "linux"
+@@ -806,8 +815,8 @@ boostVersionHeader = baseLibEnv.FindFile(
+ boostVersionHeader = baseLibEnv.FindFile(
+ 	"boost/version.hpp",
+ 	[ "$BUILD_DIR/include" ] +
+-	baseLibEnv["LOCATE_DEPENDENCY_SYSTEMPATH"] +
+-	baseLibEnv["LOCATE_DEPENDENCY_CPPPATH"]
++	split(baseLibEnv["LOCATE_DEPENDENCY_SYSTEMPATH"]) +
++	split(baseLibEnv["LOCATE_DEPENDENCY_CPPPATH"])
+ )
+ 
+ if not boostVersionHeader :
+@@ -841,7 +850,7 @@ basePythonEnv = baseLibEnv.Clone()
+ 
+ basePythonEnv = baseLibEnv.Clone()
+ 
+-pythonExecutable = shutil.which( "python", path = commandEnv["ENV"]["PATH"] )
++pythonExecutable = 'python3.11' #shutil.which( "python3.11", path = commandEnv["ENV"]["PATH"] )
+ basePythonEnv["PYTHON_VERSION"] = subprocess.check_output(
+ 	[ pythonExecutable, "-c", "import sys; print( '{}.{}'.format( *sys.version_info[:2] ) )" ],
+ 	env=commandEnv["ENV"], universal_newlines=True
