@@ -1,5 +1,5 @@
 PORTNAME=	podman-desktop
-PORTVERSION=	1.15.0
+PORTVERSION=	1.16.1
 CATEGORIES=	deskutils
 MASTER_SITES=	https://github.com/containers/podman-desktop/releases/download/v${PORTVERSION}/
 
@@ -47,7 +47,7 @@ LIB_DEPENDS=	libasound.so:audio/alsa-lib \
 		libFLAC.so:audio/flac \
 		libatspi.so:accessibility/at-spi2-core
 
-USES=		desktop-file-utils jpeg electronfix:33 gettext-runtime shared-mime-info
+USES=		desktop-file-utils jpeg electronfix:32 gettext-runtime shared-mime-info
 USE_GNOME=	glib20 gdkpixbuf2 gtk30 pango cairo libxml2 libxslt
 USE_XORG=	x11 xcb xcomposite xdamage xext xfixes xrender xrand xtst xi
 USE_GL=		gl gbm egl
