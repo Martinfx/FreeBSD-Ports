@@ -1,18 +1,5 @@
-commit 27caf07f31eaa5f69158e90ee17905f86ad492d5
-Author: Christoph Moench-Tegeder <cmt@FreeBSD.org>
-Date:   Sun Dec 8 18:40:28 2024 +0100
-
-    Bug 1935899 - Extend BSD about:processes for FreeBSD r=florian,gaston
-    
-    The sysctl interface on FreeBSD is ever so slightly different
-    from OpenBSD. Especially, we have a different number of elements
-    in the mib name, so namelen becomes a variable initialised inside
-    the #ifdef'ed code, and the calculation of the number of processes
-    in the result differs between OpenBSD and FreeBSD. Lastly, we need
-    to process the results differently on FreeBSD.
-
 diff --git toolkit/components/processtools/ProcInfo_bsd.cpp toolkit/components/processtools/ProcInfo_bsd.cpp
-index a6ff4881940c..87ccad7e9467 100644
+index a6ff4881940c..f041ed5e50ce 100644
 --- toolkit/components/processtools/ProcInfo_bsd.cpp
 +++ toolkit/components/processtools/ProcInfo_bsd.cpp
 @@ -18,6 +18,9 @@
@@ -29,17 +16,16 @@ index a6ff4881940c..87ccad7e9467 100644
    }
    for (const auto& request : aRequests) {
      size_t size;
--    int mib[6];
 +#ifdef __FreeBSD__
-+    constexpr int mibsize = 4;
-+    int mib[mibsize];
++    int mib[4];
++    int mibsize = 4;
 +    mib[0] = CTL_KERN;
 +    mib[1] = KERN_PROC;
 +    mib[2] = KERN_PROC_PID | KERN_PROC_INC_THREAD;
 +    mib[3] = request.pid;
 +#else
-+    constexprint mibsize = 6;
-+    int mib[mibsize];
+     int mib[6];
++    int mibsize = 6;
      mib[0] = CTL_KERN;
      mib[1] = KERN_PROC;
      mib[2] = KERN_PROC_PID | KERN_PROC_SHOW_THREADS;
@@ -104,15 +90,15 @@ index a6ff4881940c..87ccad7e9467 100644
        }
      }
 diff --git toolkit/components/processtools/moz.build toolkit/components/processtools/moz.build
-index ee9d07cd6dec..d5c0aca9de14 100644
+index b7c164c1b0ac..a41dad52c343 100644
 --- toolkit/components/processtools/moz.build
 +++ toolkit/components/processtools/moz.build
-@@ -39,7 +39,7 @@ BROWSER_CHROME_MANIFESTS += ["tests/browser/browser.toml"]
+@@ -39,7 +39,7 @@ BROWSER_CHROME_MANIFESTS += ["tests/browser/browser.ini"]
  # Platform-specific implementations of `ProcInfo`.
  toolkit = CONFIG["MOZ_WIDGET_TOOLKIT"]
  if toolkit == "gtk" or toolkit == "android":
 -    if CONFIG["OS_TARGET"] == "OpenBSD":
-+    if CONFIG["OS_TARGET"] in ("FreeBSD", "OpenBSD"):
++    if CONFIG["OS_TARGET"] == "FreeBSD" or CONFIG["OS_TARGET"] == "OpenBSD":
          UNIFIED_SOURCES += ["ProcInfo_bsd.cpp"]
-     elif CONFIG["OS_TARGET"] == "SunOS":
-         UNIFIED_SOURCES += ["ProcInfo_solaris.cpp"]
+     else:
+         UNIFIED_SOURCES += ["ProcInfo_linux.cpp"]
