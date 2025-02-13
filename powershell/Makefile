@@ -169,8 +169,6 @@ post-patch:
 		${WRKSRC}/src/ResGen/ResGen.csproj \
 		${WRKSRC}/src/TypeCatalogGen/TypeCatalogGen.csproj \
 		${WRKSRC}/src/powershell-unix/powershell-unix.csproj
-	${REINPLACE_CMD} 's|%%WRKSRC%%|${WRKSRC}|g' \
-		${WRKSRC}/nuget.config
 
 post-build:
 	cd ${WRKSRC}/src/ResGen && ${SETENV} ${DOTNET_ENV} \
@@ -179,7 +177,7 @@ post-build:
 		${SETENV} ${DOTNET_ENV} dotnet run --no-restore
 	cd ${WRKSRC}/src/powershell-unix && \
 		${SETENV} ${DOTNET_ENV} dotnet restore --packages ${WRKDIR}/packages
-	cd ${WRKSRC}/src && dotnet msbuild \
+	cd ${WRKSRC}/src && ${SETENV} ${DOTNET_ENV} dotnet msbuild \
 		Microsoft.PowerShell.SDK/Microsoft.PowerShell.SDK.csproj \
 		/t:_GetDependencies \
 		/p:DesignTimeBuild=true \
@@ -194,7 +192,7 @@ post-build:
 	cd ${WRKSRC}/src/powershell-unix && \
 		${SETENV} ${DOTNET_ENV} dotnet publish --packages ${WRKDIR}/packages -c Release \
 		-r freebsd.14-${DOTNET_ARCH} -o bin/publish \
-		--sc -p:PublishReadyToRun=true
+		--sc -p:PublishReadyToRun=false
 	${INSTALL_LIB} ${WRKSRC}/src/powershell-unix/libpsl-native.so \
 		${WRKSRC}/src/powershell-unix/bin/publish
 
