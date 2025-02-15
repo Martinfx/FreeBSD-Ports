@@ -35,7 +35,7 @@ USE_GITHUB=	yes
 
 GH_ACCOUNT=	OpenXRay
 GH_PROJECT=	xray-16
-GH_TAGNAME=	0257a163b2eab2d0d359b3f051629064b13ef97c
+GH_TAGNAME=	27cce24d5b5634b300df24d35e8cdf28bf1afbe6
 GH_TUPLE+=	GPUOpen-LibrariesAndSDKs:AGS_SDK:f4e655ed363a91a7e0af35f5aecffa175c79a748:AGSSDK/Externals/AGS_SDK \
 		OpenXRay:BugTrap:c619077b40ee6e7ad6ffc5a194a5d3583af8f78e:BugTrap/Externals/BugTrap \
 		OpenXRay:GameSpy:61d061b4b3f860865f97e659e496e11704f61eb3:GameSpy/Externals/GameSpy \
@@ -47,7 +47,7 @@ GH_TUPLE+=	GPUOpen-LibrariesAndSDKs:AGS_SDK:f4e655ed363a91a7e0af35f5aecffa175c79
 		xiph:theora:7180717276af1ebc7da15c83162d6c5d6203aabf:theora/Externals/theora \
 		xiph:vorbis:84c023699cdf023a32fa4ded32019f194afcdad0:vorbis/Externals/vorbis \
 		OpenXRay:luabind-deboostified:dd33679d7f3e427fa8a0046250ce8d738eb77413:luabind/Externals/luabind \
-		DLTcollab:sse2neon:b8d9c6d47b8f70303b7b9403310bd1b13fb47ca2:sse2neon/Externals/sse2neon \
+		DLTcollab:sse2neon:ebb8bb05e0f2d7dc28ad417def7f516cffcbf94f:sse2neon/Externals/sse2neon \
 		pattonkan:sse2rvv:f3a1d7d25081bc5be973576b8f12c83cd389e61f:sse2rvv/Externals/sse2rvv \
 		OpenXRay:xrLuaFix:67b77c92f49c766c7c180cc39ffdb12799f395d:xrLuaFix/Externals/xrLuaFix \
 		madler:zlib:545f1949635949159fa6282e81712aec32b5d4f1:zlib/Externals/zlib \
