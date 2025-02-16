@@ -1,6 +1,6 @@
---- src/System.Management.Automation/security/SecuritySupport.cs.orig	2024-09-21 21:01:33 UTC
+--- src/System.Management.Automation/security/SecuritySupport.cs.orig	2024-11-14 22:14:58 UTC
 +++ src/System.Management.Automation/security/SecuritySupport.cs
-@@ -1361,13 +1361,13 @@ namespace System.Management.Automation
+@@ -1366,13 +1366,13 @@ namespace System.Management.Automation
                  string appName;
                  try
                  {
