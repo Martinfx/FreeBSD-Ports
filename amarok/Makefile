@@ -16,11 +16,11 @@ BUILD_DEPENDS=	libunwind>0:devel/libunwind \
 
 LIB_DEPENDS=	libdbus-1.so:devel/dbus \
 		libfftw3.so:math/fftw3 \
-		liblastfm5.so:audio/liblastfm-qt5 \
-		libqjson-qt5.so:devel/qjson \
+		liblastfm6.so:audio/liblastfm \
 		libtag.so:audio/taglib \
 		liblz4.so:archivers/liblz4 \
-		libunwind.so:devel/libunwind
+		libunwind.so:devel/libunwind \
+		libKF6ColorScheme.so:x11-themes/kf6-kcolorscheme
 
 USES=		cmake compiler:c++11-lang cpe desktop-file-utils \
 		kde:6 mysql:client pkgconfig qca qt:6 shebangfix ssl xorg \
