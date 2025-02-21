@@ -8,6 +8,7 @@ lib/libamarok-sqlcollection.so.1.0.0
 lib/libamarok-transcoding.so
 lib/libamarok-transcoding.so.1
 lib/libamarok-transcoding.so.1.0.0
+lib/libamarok_service_lastfm_config.so
 lib/libamarokcore.so
 lib/libamarokcore.so.1
 lib/libamarokcore.so.1.0.0
@@ -22,6 +23,7 @@ lib/libampache_account_login.so
 %%QT_PLUGINDIR%%/amarok_collection-audiocdcollection.so
 %%QT_PLUGINDIR%%/amarok_collection-daapcollection.so
 %%QT_PLUGINDIR%%/amarok_collection-ipodcollection.so
+%%QT_PLUGINDIR%%/amarok_collection-mtpcollection.so
 %%QT_PLUGINDIR%%/amarok_collection-mysqlcollection.so
 %%QT_PLUGINDIR%%/amarok_collection-playdarcollection.so
 %%QT_PLUGINDIR%%/amarok_collection-umscollection.so
@@ -32,10 +34,12 @@ lib/libampache_account_login.so
 %%QT_PLUGINDIR%%/amarok_importer-itunes.so
 %%QT_PLUGINDIR%%/amarok_importer-rhythmbox.so
 %%QT_PLUGINDIR%%/amarok_service_ampache.so
+%%QT_PLUGINDIR%%/amarok_service_lastfm.so
 %%QT_PLUGINDIR%%/amarok_service_magnatunestore.so
 %%QT_PLUGINDIR%%/amarok_service_opmldirectory.so
 %%QT_PLUGINDIR%%/amarok_storage-mysqlserverstorage.so
 %%QT_PLUGINDIR%%/kcm_amarok_service_ampache.so
+%%QT_PLUGINDIR%%/kcm_amarok_service_lastfm.so
 %%QT_PLUGINDIR%%/kcm_amarok_service_magnatunestore.so
 %%QT_QMLDIR%%/org/kde/amarok/albums/libamarok_context_applet_albums.so
 %%QT_QMLDIR%%/org/kde/amarok/albums/qmldir
@@ -51,8 +55,14 @@ lib/libampache_account_login.so
 %%QT_QMLDIR%%/org/kde/amarok/qml/AppletHeader.qml
 %%QT_QMLDIR%%/org/kde/amarok/qml/libqml_plugin.so
 %%QT_QMLDIR%%/org/kde/amarok/qml/qmldir
+%%QT_QMLDIR%%/org/kde/amarok/similarartists/libamarok_context_applet_similarartists.so
+%%QT_QMLDIR%%/org/kde/amarok/similarartists/qmldir
+%%QT_QMLDIR%%/org/kde/amarok/wikipedia/libamarok_context_applet_wikipedia.so
+%%QT_QMLDIR%%/org/kde/amarok/wikipedia/qmldir
 %%DATADIR%%/data/DefaultPlaylistLayouts.xml
 %%DATADIR%%/data/InfoParserLoading.html
+%%DATADIR%%/data/WikipediaCustomStyle.css
+%%DATADIR%%/data/bullet.gif
 %%DATADIR%%/data/first_run_jingle.ogg
 %%DATADIR%%/data/hover_info_template.html
 %%DATADIR%%/data/podcast_directory.opml
@@ -358,6 +368,7 @@ lib/libampache_account_login.so
 %%DATADIR%%/images/hover_info_dynamic_playlists.png
 %%DATADIR%%/images/hover_info_files.png
 %%DATADIR%%/images/hover_info_internet.png
+%%DATADIR%%/images/hover_info_lastfm.png
 %%DATADIR%%/images/hover_info_magnatune.png
 %%DATADIR%%/images/hover_info_playlists.png
 %%DATADIR%%/images/hover_info_podcasts.png
@@ -1141,6 +1152,14 @@ share/kpackage/amarok/org.kde.amarok.lyrics/metadata.json
 share/kpackage/amarok/org.kde.amarok.photos/contents/images/icon.png
 share/kpackage/amarok/org.kde.amarok.photos/contents/ui/main.qml
 share/kpackage/amarok/org.kde.amarok.photos/metadata.json
+share/kpackage/amarok/org.kde.amarok.similarartists/contents/images/icon.png
+share/kpackage/amarok/org.kde.amarok.similarartists/contents/images/lastfm.png
+share/kpackage/amarok/org.kde.amarok.similarartists/contents/ui/main.qml
+share/kpackage/amarok/org.kde.amarok.similarartists/metadata.json
+share/kpackage/amarok/org.kde.amarok.wikipedia/contents/images/amarok-wikipediaheader.svg
+share/kpackage/amarok/org.kde.amarok.wikipedia/contents/images/icon.svg
+share/kpackage/amarok/org.kde.amarok.wikipedia/contents/ui/main.qml
+share/kpackage/amarok/org.kde.amarok.wikipedia/metadata.json
 share/kpackage/genericqml/org.kde.amarok.context/contents/ui/main.qml
 share/kpackage/genericqml/org.kde.amarok.context/contents/ui/toolbar/AppletToolbar.qml
 share/kpackage/genericqml/org.kde.amarok.context/contents/ui/toolbar/AppletToolbarAddItem.qml
@@ -1280,7 +1299,7 @@ share/metainfo/org.kde.amarok.context.appdata.xml
 share/metainfo/org.kde.amarok.currenttrack.appdata.xml
 share/metainfo/org.kde.amarok.lyrics.appdata.xml
 share/metainfo/org.kde.amarok.photos.appdata.xml
-@dir share/mime/packages
-@owner @dir share/mime/packages
+share/metainfo/org.kde.amarok.similarartists.appdata.xml
+share/metainfo/org.kde.amarok.wikipedia.appdata.xml
 share/solid/actions/amarok-play-audiocd.desktop
-@owner share/solid/actions/amarok-play-audiocd.desktop
+@dir share/mime/packages
