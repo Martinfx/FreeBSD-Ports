@@ -45,7 +45,7 @@ LIB_DEPENDS+=	libboost_filesystem.so:devel/boost-libs \
 		libopenvdb.so:misc/openvdb \
 		${PY_BOOST}
 
-USES=		python:3.11 localbase gettext-runtime scons
+USES=		python:3.11+ localbase gettext-runtime scons
 USE_GCC=	yes
 USE_GITHUB=	yes
 GH_ACCOUNT=	ImageEngine
