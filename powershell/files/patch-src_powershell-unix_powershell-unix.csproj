@@ -1,4 +1,4 @@
---- src/powershell-unix/powershell-unix.csproj.orig	2024-04-11 18:38:22 UTC
+--- src/powershell-unix/powershell-unix.csproj.orig	2024-11-14 22:14:58 UTC
 +++ src/powershell-unix/powershell-unix.csproj
 @@ -1,4 +1,4 @@
 -<Project Sdk="Microsoft.NET.Sdk">
@@ -11,7 +11,7 @@
      <TieredCompilationQuickJit>true</TieredCompilationQuickJit>
      <TieredCompilationQuickJitForLoops>true</TieredCompilationQuickJitForLoops>
 -    <RuntimeIdentifiers>linux-x64;osx-x64;</RuntimeIdentifiers>
-+    <RuntimeIdentifiers>freebsd-x64</RuntimeIdentifiers>
++    <RuntimeIdentifiers>freebsd.14-x64</RuntimeIdentifiers>
 +    <SelfContained>False</SelfContained>
    </PropertyGroup>
  

@@ -1,4 +1,4 @@
---- PowerShell.Common.props.orig	2024-04-11 18:38:22 UTC
+--- PowerShell.Common.props.orig	2024-11-14 22:14:58 UTC
 +++ PowerShell.Common.props
 @@ -15,12 +15,10 @@
      BeforeTargets="_GenerateRestoreProjectSpec;GenerateNuspec;BeforeBuild"
@@ -17,8 +17,8 @@
  
      <PropertyGroup Condition = "'$(ReleaseTag)' != ''">
        <!--
-@@ -141,7 +139,7 @@
-     <TargetFramework>net8.0</TargetFramework>
+@@ -142,7 +140,7 @@
+     <TargetFramework>net9.0</TargetFramework>
      <LangVersion>11.0</LangVersion>
  
 -    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>

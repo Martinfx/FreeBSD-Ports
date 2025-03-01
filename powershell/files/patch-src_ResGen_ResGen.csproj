@@ -1,11 +1,11 @@
---- src/ResGen/ResGen.csproj.orig	2024-01-11 22:25:54 UTC
+--- src/ResGen/ResGen.csproj.orig	2024-11-14 22:14:58 UTC
 +++ src/ResGen/ResGen.csproj
 @@ -7,7 +7,7 @@
      <OutputType>Exe</OutputType>
      <TieredCompilation>true</TieredCompilation>
      <TieredCompilationQuickJit>true</TieredCompilationQuickJit>
 -    <RuntimeIdentifiers>win-x86;win-x64;osx-x64;linux-x64</RuntimeIdentifiers>
-+    <RuntimeIdentifiers>freebsd-x64</RuntimeIdentifiers>
++    <RuntimeIdentifiers>freebsd.14-x64</RuntimeIdentifiers>
    </PropertyGroup>
  
  </Project>
