@@ -1,5 +1,5 @@
 PORTNAME=	gaffer
-DISTVERSION=	1.5.3.0
+DISTVERSION=	1.5.6.0
 CATEGORIES=	graphics
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -19,7 +19,7 @@ BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}Jinja2>0:devel/py-Jinja2@${PY_FLAVOR} \
 		boost-libs>=1.85.0:devel/boost-libs \
 		c-blosc2>0:archivers/c-blosc2 \
 		cmark>0:textproc/cmark \
-		cortex>0:graphics \
+		cortex>0:graphics/cortex \
 		cycles>0:graphics/cycles \
 		embree>0:graphics/embree \
 		expat>0:textproc/expat2 \
