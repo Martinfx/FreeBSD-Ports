@@ -1,4 +1,4 @@
---- SConstruct.orig	2024-11-22 14:42:33 UTC
+--- SConstruct.orig	2025-02-19 21:25:16 UTC
 +++ SConstruct
 @@ -47,6 +47,7 @@ import codecs
  import tempfile
@@ -8,12 +8,12 @@
  
  EnsureSConsVersion( 3, 0, 2 ) # Substfile is a default builder as of 3.0.2
  
-@@ -388,11 +389,17 @@ env = Environment(
+@@ -400,11 +401,17 @@ env = Environment(
  
  	CPPPATH = [
  		"include",
 +		"/usr/local/include",
-+		"/usr/local/include/qt5",
++		"/usr/local/include/qt6",
 +		"/usr/local/include/python3.11/",
 +		"/usr/local/include/Imath/",
 +		"/usr/local/include/oneapi/",
@@ -26,7 +26,7 @@
  		"$BUILD_DIR/lib",
  		"$LOCATE_DEPENDENCY_LIBPATH",
  	],
-@@ -412,7 +419,7 @@ for path in [
+@@ -424,7 +431,7 @@ for path in [
  		"$BUILD_DIR/include",
  		"$BUILD_DIR/include/Imath",
  		"$BUILD_DIR/include/GL",
@@ -35,7 +35,7 @@
  
  	env.Append(
  		CXXFLAGS = [ systemIncludeArgument, path ]
-@@ -447,6 +454,8 @@ if env["PLATFORM"] != "win32" :
+@@ -459,6 +466,8 @@ if env["PLATFORM"] != "win32" :
  		env.Append( CXXFLAGS = [ "-D__USE_ISOC99" ] )
  		env["GAFFER_PLATFORM"] = "macos"
  
@@ -44,7 +44,7 @@
  	else :
  
  		env["GAFFER_PLATFORM"] = "linux"
-@@ -806,8 +815,8 @@ boostVersionHeader = baseLibEnv.FindFile(
+@@ -822,8 +831,8 @@ boostVersionHeader = baseLibEnv.FindFile(
  boostVersionHeader = baseLibEnv.FindFile(
  	"boost/version.hpp",
  	[ "$BUILD_DIR/include" ] +
@@ -55,7 +55,7 @@
  )
  
  if not boostVersionHeader :
-@@ -841,7 +850,7 @@ basePythonEnv = baseLibEnv.Clone()
+@@ -857,7 +866,7 @@ basePythonEnv = baseLibEnv.Clone()
  
  basePythonEnv = baseLibEnv.Clone()
  

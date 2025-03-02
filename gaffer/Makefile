@@ -54,8 +54,7 @@ BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}Jinja2>0:devel/py-Jinja2@${PY_FLAVOR} \
 		zstd>0:archivers/zstd
 		# usd>0:misc/usd dependent on old tbb
 
-USES=		llvm:min=15,build,run localbase python:3.11+,env qt:5 scons
-USE_QT=		core
+USES=		llvm:min=15,build,run localbase compiler:c++20-lang python:3.11+,env qt:6 scons
 USE_GITHUB=	yes
 GH_ACCOUNT=	GafferHQ
 GH_PROJECT=	gaffer
@@ -66,7 +65,7 @@ SCONS_ARGS=	LOCATE_DEPENDENCY_LIBPATH=${LOCALBASE}/lib \
 #SCONS_ARGS+=	BOOST_LIB_PATH=${LOCALBASE}/lib
 SCONS_ARGS+=	BOOST_LIB_SUFFIX="" SPHINX=${LOCALBASE}/bin/sphinx-build \
 		INKSCAPE=${LOCALBASE}/bin/inkscape WARNINGS_AS_ERRORS=0 \
-		CXXSTD=c++17
+		CXXSTD=c++20
 #SCONS_ARGS+=	PYTHON=${PYTHON_CMD}
 #SCONS_ARGS+=	CXX=${CXX}
 #SCONS_ARGS+=	PATH=${PYTHON_CMD}
