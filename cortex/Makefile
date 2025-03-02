@@ -105,7 +105,6 @@ do-install:
 	(cd ${WRKSRC}/include/IECoreScene && ${INSTALL_DATA} *.inl ${STAGEDIR}${PREFIX}/include/IECoreScene)
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/IECoreVDB
 	(cd ${WRKSRC}/include/IECoreVDB && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/IECoreVDB)
-	(cd ${WRKSRC}/include/IECoreVDB && ${INSTALL_DATA} *.inl ${STAGEDIR}${PREFIX}/include/IECoreVDB)
 
 .include <bsd.port.pre.mk>
 MAKE_ARGS=	${SCONS_ARGS}
