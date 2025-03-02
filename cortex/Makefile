@@ -46,6 +46,7 @@ LIB_DEPENDS+=	libboost_filesystem.so:devel/boost-libs \
 		${PY_BOOST}
 
 USES=		python:3.11+ localbase gettext-runtime scons
+USE_GL=		glew glu gl
 USE_GCC=	yes
 USE_GITHUB=	yes
 GH_ACCOUNT=	ImageEngine
