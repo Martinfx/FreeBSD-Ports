@@ -97,7 +97,6 @@ do-install:
 	(cd ${WRKSRC}/include/IECoreImage && ${INSTALL_DATA} *.inl ${STAGEDIR}${PREFIX}/include/IECoreImage)
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/IECoreImageBindings
 	(cd ${WRKSRC}/include/IECoreImageBindings && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/IECoreImageBindings)
-	(cd ${WRKSRC}/include/IECoreImageBindings && ${INSTALL_DATA} *.inl ${STAGEDIR}${PREFIX}/include/IECoreImageBindings)
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/IECorePython
 	(cd ${WRKSRC}/include/IECorePython && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/IECorePython)
 	(cd ${WRKSRC}/include/IECorePython && ${INSTALL_DATA} *.inl ${STAGEDIR}${PREFIX}/include/IECorePython)
