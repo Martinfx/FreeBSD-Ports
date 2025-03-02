@@ -75,7 +75,7 @@ SCONS_ARGS+=	PYBIND11_INCLUDE_PATH=${LOCALBASE}/include
 # is need openimageio for support GL
 #SCONS_ARGS+=	GLEW_INCLUDE_PATH=${LOCALBASE}/include/GL
 #SCONS_ARGS+=	GLEW_LIB_PATH=${LOCALBASE}/lib
-#SCONS_ARGS+=	WITH_GL=1
+SCONS_ARGS+=	WITH_GL=1
 SCONS_ARGS+=	WARNINGS_AS_ERRORS=0
 SCONS_ARGS+=	PYTHON_CONFIG=${PYTHON_CMD}-config
 SCONS_ARGS+=	PYTHON=${PYTHON_CMD}
@@ -83,6 +83,22 @@ SCONS_ARGS+=	CXX=${CXX}
 SCONS_ARGS+=	DOXYGEN=${LOCALBASE}/bin/doxygen
 SCONS_ARGS+=	INSTALL_PREFIX=${STAGEDIR}${PREFIX}
 SCONS_ARGS+=	INSTALL_HEADER_DIR=${STAGEDIR}${PREFIX}/include
+
+do-install:
+	${INSTALL_LIB} ${WRKSRC}/lib/*.so* ${STAGEDIR}${PREFIX}/lib/
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/IECore
+	(cd ${WRKSRC}/include/IECore && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/IECore)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/IECoreGL
+	(cd ${WRKSRC}/include/IECoreGL && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/IECoreGL)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/IECoreImage
+	(cd ${WRKSRC}/include/IECoreImage && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/IECoreImage)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/IECorePython
+	(cd ${WRKSRC}/include/IECorePython && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/IECorePython)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/IECoreScene
+	(cd ${WRKSRC}/include/IECoreScene && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/IECoreScene)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/IECoreVDB
+	(cd ${WRKSRC}/include/IECoreVDB && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/IECoreVDB)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/IECoreVDB
 
 .include <bsd.port.pre.mk>
 MAKE_ARGS=	${SCONS_ARGS}
