@@ -8,7 +8,7 @@
  
  EnsureSConsVersion( 3, 0, 2 ) # Substfile is a default builder as of 3.0.2
  
-@@ -400,11 +401,17 @@ env = Environment(
+@@ -400,11 +401,18 @@ env = Environment(
  
  	CPPPATH = [
  		"include",
@@ -23,10 +23,11 @@
  	LIBPATH = [
  		"./lib",
 +		"/usr/local/lib",
++		"/usr/local/lib/qt6/",
  		"$BUILD_DIR/lib",
  		"$LOCATE_DEPENDENCY_LIBPATH",
  	],
-@@ -424,7 +431,7 @@ for path in [
+@@ -424,7 +432,7 @@ for path in [
  		"$BUILD_DIR/include",
  		"$BUILD_DIR/include/Imath",
  		"$BUILD_DIR/include/GL",
@@ -35,7 +36,7 @@
  
  	env.Append(
  		CXXFLAGS = [ systemIncludeArgument, path ]
-@@ -459,6 +466,8 @@ if env["PLATFORM"] != "win32" :
+@@ -459,6 +467,8 @@ if env["PLATFORM"] != "win32" :
  		env.Append( CXXFLAGS = [ "-D__USE_ISOC99" ] )
  		env["GAFFER_PLATFORM"] = "macos"
  
@@ -44,7 +45,7 @@
  	else :
  
  		env["GAFFER_PLATFORM"] = "linux"
-@@ -822,8 +831,8 @@ boostVersionHeader = baseLibEnv.FindFile(
+@@ -822,8 +832,8 @@ boostVersionHeader = baseLibEnv.FindFile(
  boostVersionHeader = baseLibEnv.FindFile(
  	"boost/version.hpp",
  	[ "$BUILD_DIR/include" ] +
@@ -55,7 +56,7 @@
  )
  
  if not boostVersionHeader :
-@@ -857,7 +866,7 @@ basePythonEnv = baseLibEnv.Clone()
+@@ -857,7 +867,7 @@ basePythonEnv = baseLibEnv.Clone()
  
  basePythonEnv = baseLibEnv.Clone()
  
