@@ -85,20 +85,28 @@ SCONS_ARGS+=	INSTALL_PREFIX=${STAGEDIR}${PREFIX}
 SCONS_ARGS+=	INSTALL_HEADER_DIR=${STAGEDIR}${PREFIX}/include
 
 do-install:
-	${INSTALL_LIB} ${WRKSRC}/lib/*.so* ${STAGEDIR}${PREFIX}/lib/
+	${INSTALL_LIB} ${WRKSRC}/lib/*.so ${STAGEDIR}${PREFIX}/lib/
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/IECore
 	(cd ${WRKSRC}/include/IECore && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/IECore)
+	(cd ${WRKSRC}/include/IECore && ${INSTALL_DATA} *.inl ${STAGEDIR}${PREFIX}/include/IECore)
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/IECoreGL
 	(cd ${WRKSRC}/include/IECoreGL && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/IECoreGL)
+	(cd ${WRKSRC}/include/IECoreGL && ${INSTALL_DATA} *.inl ${STAGEDIR}${PREFIX}/include/IECoreGL)
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/IECoreImage
 	(cd ${WRKSRC}/include/IECoreImage && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/IECoreImage)
+	(cd ${WRKSRC}/include/IECoreImage && ${INSTALL_DATA} *.inl ${STAGEDIR}${PREFIX}/include/IECoreImage)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/IECoreImageBindings
+	(cd ${WRKSRC}/include/IECoreImageBindings && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/IECoreImageBindings)
+	(cd ${WRKSRC}/include/IECoreImageBindings && ${INSTALL_DATA} *.inl ${STAGEDIR}${PREFIX}/include/IECoreImageBindings)
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/IECorePython
 	(cd ${WRKSRC}/include/IECorePython && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/IECorePython)
+	(cd ${WRKSRC}/include/IECorePython && ${INSTALL_DATA} *.inl ${STAGEDIR}${PREFIX}/include/IECorePython)
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/IECoreScene
 	(cd ${WRKSRC}/include/IECoreScene && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/IECoreScene)
+	(cd ${WRKSRC}/include/IECoreScene && ${INSTALL_DATA} *.inl ${STAGEDIR}${PREFIX}/include/IECoreScene)
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/IECoreVDB
 	(cd ${WRKSRC}/include/IECoreVDB && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/IECoreVDB)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/IECoreVDB
+	(cd ${WRKSRC}/include/IECoreVDB && ${INSTALL_DATA} *.inl ${STAGEDIR}${PREFIX}/include/IECoreVDB)
 
 .include <bsd.port.pre.mk>
 MAKE_ARGS=	${SCONS_ARGS}
