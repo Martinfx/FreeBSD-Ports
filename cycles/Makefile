@@ -88,10 +88,26 @@ OPTIONS_EXCLUDE_amd64=	EMBREE
 OPTIONS_DEFAULT=	EMBREE
 OPTIONS_SUB=		no
 
-PLIST_FILES=	bin/cycles
-
 do-install:
 	${INSTALL_PROGRAM} ${BUILD_WRKSRC}/bin/cycles ${STAGEDIR}${PREFIX}/bin
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/app/opengl
+	(cd ${WRKSRC}/src/app/opengl && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/app/opengl)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/bvh
+	(cd ${WRKSRC}/src/bvh && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/bvh)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/graph
+	(cd ${WRKSRC}/src/graph && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/graph)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/hydra
+	(cd ${WRKSRC}/src/hydra && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/hydra)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel
+	(cd ${WRKSRC}/src/kernel && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/scene
+	(cd ${WRKSRC}/src/scene && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/scene)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/session
+	(cd ${WRKSRC}/src/session && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/session)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/subd
+	(cd ${WRKSRC}/src/subd && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/subd)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/util
+	(cd ${WRKSRC}/src/util && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/util)
 
 .include <bsd.port.mk>
 
