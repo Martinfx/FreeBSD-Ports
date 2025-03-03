@@ -94,6 +94,26 @@ do-install:
 	(cd ${WRKSRC}/src/app/opengl && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/app/opengl)
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/bvh
 	(cd ${WRKSRC}/src/bvh && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/bvh)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/device
+	(cd ${WRKSRC}/src/device && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/device)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/device/cpu
+	(cd ${WRKSRC}/src/device/cpu && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/device/cpu)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/device/cuda
+	(cd ${WRKSRC}/src/device/cuda && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/device/cuda)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/device/dummy
+	(cd ${WRKSRC}/src/device/dummy && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/device/dummy)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/device/hip
+	(cd ${WRKSRC}/src/device/hip && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/device/hip)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/device/hiprt
+	(cd ${WRKSRC}/src/device/hiprt && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/device/hiprt)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/device/metal
+	(cd ${WRKSRC}/src/device/metal && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/device/metal)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/device/multi
+	(cd ${WRKSRC}/src/device/multi && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/device/multi)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/device/oneapi
+	(cd ${WRKSRC}/src/device/oneapi && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/device/oneapi)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/device/optix
+	(cd ${WRKSRC}/src/device/optix && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/device/optix)
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/graph
 	(cd ${WRKSRC}/src/graph && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/graph)
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/hydra
