@@ -120,6 +120,46 @@ do-install:
 	(cd ${WRKSRC}/src/hydra && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/hydra)
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel
 	(cd ${WRKSRC}/src/kernel && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/bake
+	(cd ${WRKSRC}/src/kernel/bake && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/bake)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/bvh
+	(cd ${WRKSRC}/src/kernel/bvh && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/bvh)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/camera
+	(cd ${WRKSRC}/src/kernel/camera && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/camera)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/closure
+	(cd ${WRKSRC}/src/kernel/closure && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/closure)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/device/cpu
+	(cd ${WRKSRC}/src/kernel/device/cpu && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/device/cpu)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/device/cuda
+	(cd ${WRKSRC}/src/kernel/device/cuda && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/device/cuda)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/device/gpu
+	(cd ${WRKSRC}/src/kernel/device/gpu && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/device/gpu)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/device/hip
+	(cd ${WRKSRC}/src/kernel/device/hip && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/device/hip)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/device/hiprt
+	(cd ${WRKSRC}/src/kernel/device/hiprt && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/device/hiprt)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/device/metal
+	(cd ${WRKSRC}/src/kernel/device/metal && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/device/metal)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/device/oneapi
+	(cd ${WRKSRC}/src/kernel/device/oneapi && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/device/oneapi)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/device/optix
+	(cd ${WRKSRC}/src/kernel/device/optix && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/device/optix)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/film
+	(cd ${WRKSRC}/src/kernel/film && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/film)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/geom
+	(cd ${WRKSRC}/src/kernel/geom && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/geom)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/integrator
+	(cd ${WRKSRC}/src/kernel/integrator && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/integrator)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/light
+	(cd ${WRKSRC}/src/kernel/light && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/light)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/osl
+	(cd ${WRKSRC}/src/kernel/osl && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/osl)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/sample
+	(cd ${WRKSRC}/src/kernel/sample && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/sample)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/svm
+	(cd ${WRKSRC}/src/kernel/svm && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/svm)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/util
+	(cd ${WRKSRC}/src/kernel/util && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/util)
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/scene
 	(cd ${WRKSRC}/src/scene && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/scene)
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/session
