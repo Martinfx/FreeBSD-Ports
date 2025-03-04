@@ -1,3 +1,4 @@
+
 PORTNAME=	cycles
 DISTVERSIONPREFIX=	v
 DISTVERSION=	4.3.0
@@ -118,6 +119,8 @@ do-install:
 	(cd ${WRKSRC}/src/graph && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/graph)
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/hydra
 	(cd ${WRKSRC}/src/hydra && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/hydra)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/integrator
+	(cd ${WRKSRC}/src/integrator && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/integrator)
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel
 	(cd ${WRKSRC}/src/kernel && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel)
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/bake
