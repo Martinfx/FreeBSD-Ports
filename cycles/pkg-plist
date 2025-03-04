@@ -357,6 +357,11 @@ include/subd/patch.h
 include/subd/patch_table.h
 include/subd/split.h
 include/subd/subpatch.h
+include/third_party/atomic/atomic_ops.h
+include/third_party/atomic/intern/atomic_ops_ext.h
+include/third_party/atomic/intern/atomic_ops_msvc.h
+include/third_party/atomic/intern/atomic_ops_unix.h
+include/third_party/atomic/intern/atomic_ops_utils.h
 include/util/algorithm.h
 include/util/aligned_malloc.h
 include/util/args.h
