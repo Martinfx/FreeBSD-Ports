@@ -168,6 +168,10 @@ do-install:
 	(cd ${WRKSRC}/src/subd && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/subd)
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/util
 	(cd ${WRKSRC}/src/util && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/util)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/third_party/atomic
+	(cd ${WRKSRC}/third_party/atomic/ && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/third_party/atomic/)
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/third_party/atomic/intern
+	(cd ${WRKSRC}/third_party/atomic/intern && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/third_party/atomic/intern)
 
 .include <bsd.port.mk>
 
