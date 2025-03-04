@@ -24,7 +24,7 @@
 +		"/usr/local/include/oneapi/",
 +		"/usr/local/include/freetype2",
 +		"/usr/local/include/utils",
-+		"/usr/local/include/third_party/atomic"
++		"/usr/local/include/third_party/atomic",
  		"$LOCATE_DEPENDENCY_CPPPATH",
  	],
  
