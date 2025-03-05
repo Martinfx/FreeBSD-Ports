@@ -12,3 +12,12 @@
  }
  #endif
  
+@@ -55,7 +55,7 @@ WorkDispatcher::Wait()
+     // The native task_group::wait() has a comment saying its call to the
+     // context reset method is not thread safe. So we do our own
+     // synchronization to ensure it is called once.
+-    tbb::detail::d1::wait(_taskGroup._GetInternalWaitContext(), _context);
++    tbb::detail::d1::wait(_taskGroup._GetInternalWaitContext().get_context(), _context);
+ #else
+     _rootTask->wait_for_all();
+ #endif

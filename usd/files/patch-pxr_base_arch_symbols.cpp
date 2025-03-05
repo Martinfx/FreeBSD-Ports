@@ -5,7 +5,7 @@
  #include "pxr/base/arch/defines.h"
  
 -#if defined(ARCH_OS_LINUX)
-+#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_FREEBSD) || defined(ARCH_OS_FREEBSD)
++#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_FREEBSD)
  #include <dlfcn.h>
  #elif defined(ARCH_OS_DARWIN)
  #include <dlfcn.h>

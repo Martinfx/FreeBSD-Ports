@@ -5,7 +5,7 @@
  #include <sys/stat.h>
  
 -#if defined(ARCH_OS_LINUX)
-+#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_FREEBSD) || defined(ARCH_OS_FREEBSD)
++#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_FREEBSD)
  #include <unistd.h>
 -#include <sys/statfs.h>
  #include <glob.h>

@@ -5,7 +5,7 @@
  ArchCloseAllFiles(int nExcept, const int* exceptFds)
  {
 -#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_DARWIN)
-+#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_FREEBSD) || defined(ARCH_OS_DARWIN) || defined(ARCH_OS_FREEBSD)
++#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_FREEBSD) || defined(ARCH_OS_DARWIN)
  
      int status, retStatus, retErrno;
      int i, j, maxfd, maxExcept = -1;

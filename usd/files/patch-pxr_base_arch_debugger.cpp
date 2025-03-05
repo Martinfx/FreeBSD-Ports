@@ -5,7 +5,7 @@
  #include "pxr/base/arch/stackTrace.h"
  #include "pxr/base/arch/systemInfo.h"
 -#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_DARWIN)
-+#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_FREEBSD) || defined(ARCH_OS_DARWIN) || defined(ARCH_OS_FREEBSD)
++#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_FREEBSD) || defined(ARCH_OS_DARWIN)
  #include "pxr/base/arch/inttypes.h"
  #include <sys/types.h>
  #if !defined(ARCH_OS_IPHONE)
@@ -14,7 +14,7 @@
  static char** _archDebuggerAttachArgs = 0;
  
 -#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_DARWIN)
-+#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_FREEBSD) || defined(ARCH_OS_DARWIN) || defined(ARCH_OS_FREEBSD)
++#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_FREEBSD) || defined(ARCH_OS_DARWIN)
  static
  void
  Arch_DebuggerTrapHandler(int)
@@ -23,7 +23,7 @@
  #endif
  
 -#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_DARWIN)
-+#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_FREEBSD) || defined(ARCH_OS_DARWIN) || defined(ARCH_OS_FREEBSD)
++#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_FREEBSD) || defined(ARCH_OS_DARWIN)
  static
  void
  Arch_DebuggerInitPosix()
@@ -32,7 +32,7 @@
  Arch_DebuggerInit()
  {
 -#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_DARWIN)
-+#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_FREEBSD) || defined(ARCH_OS_DARWIN) || defined(ARCH_OS_FREEBSD)
++#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_FREEBSD) || defined(ARCH_OS_DARWIN)
  #if defined(ARCH_CPU_INTEL) && defined(ARCH_BITS_64)
      // Save some registers that normally don't have to be preserved.  We
      // do this so the caller of ArchDebuggerTrap() can see its arguments
@@ -41,7 +41,7 @@
  
  
 -#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_DARWIN)
-+#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_FREEBSD) || defined(ARCH_OS_DARWIN) || defined(ARCH_OS_FREEBSD)
++#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_FREEBSD) || defined(ARCH_OS_DARWIN)
  // Use a 'non-locking' fork so that we won't get hung up if we've
  // had malloc corruption.  We can't prevent fork() from using the
  // heap, unfortunately, since fork handlers can do whatever they
@@ -59,7 +59,7 @@
      }
  
 -#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_DARWIN)
-+#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_FREEBSD) || defined(ARCH_OS_DARWIN) || defined(ARCH_OS_FREEBSD)
++#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_FREEBSD) || defined(ARCH_OS_DARWIN)
  
      // To attach to gdb under Unix/Linux and Gnome:
      //   ARCH_DEBUGGER="gnome-terminal -e 'gdb -p %p'"

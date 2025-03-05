@@ -19,7 +19,7 @@
  typedef int (*ForkFunc)(void);
  ForkFunc Arch_nonLockingFork =
 -#if defined(ARCH_OS_LINUX)
-+#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_FREEBSD) || defined(ARCH_OS_FREEBSD)
++#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_FREEBSD)
      (ForkFunc)dlsym(RTLD_DEFAULT, "_Fork");
  #elif defined(ARCH_OS_DARWIN)
      NULL;
@@ -28,7 +28,7 @@
  #endif
  
 -#if defined(ARCH_OS_LINUX)
-+#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_FREEBSD) || defined(ARCH_OS_FREEBSD)
++#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_FREEBSD)
  static int
  nonLockingLinux__execve (const char *file,
                           char *const argv[],
