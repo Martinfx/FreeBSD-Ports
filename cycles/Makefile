@@ -95,11 +95,11 @@ do-install:
 	(cd ${WRKSRC}/src/app/opengl && ${COPYTREE_SHARE} "*.h" ${STAGEDIR}${PREFIX}/include/app/opengl)
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/device
 .for dir in cpu cuda dummy hip hiprt metal multi oneapi optix
-	(cd ${WRKSRC}/src/device && ${COPYTREE_SHARE} "${dir} *.h" ${STAGEDIR}${PREFIX}/include/device)
+	(cd ${WRKSRC}/src/device && ${COPYTREE_SHARE} "${dir} *.h"  ${STAGEDIR}${PREFIX}/include/device)
 .endfor
 .for dir2 in bvh graph hydra integrator scene session subd util
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/${dir2}
-	(cd ${WRKSRC}/src/ && ${COPYTREE_SHARE} ${dir2} ${STAGEDIR}${PREFIX}/include/ "-name *.h")
+	(cd ${WRKSRC}/src/ && ${COPYTREE_SHARE} ${dir2} ${STAGEDIR}${PREFIX}/include/ "-iname *.h" )
 .endfor
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel
 .for dir3 in bake bvh camera closure film geom integrator light osl sample svm util
