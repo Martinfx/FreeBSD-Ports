@@ -1,4 +1,3 @@
-
 PORTNAME=	cycles
 DISTVERSIONPREFIX=	v
 DISTVERSION=	4.3.0
@@ -91,90 +90,30 @@ OPTIONS_SUB=		no
 
 do-install:
 	${INSTALL_PROGRAM} ${BUILD_WRKSRC}/bin/cycles ${STAGEDIR}${PREFIX}/bin
+	${INSTALL_LIB} ${BUILD_WRKSRC}/lib/*.a ${STAGEDIR}${PREFIX}/lib
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/app/opengl
-	(cd ${WRKSRC}/src/app/opengl && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/app/opengl)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/bvh
-	(cd ${WRKSRC}/src/bvh && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/bvh)
+	(cd ${WRKSRC}/src/app/opengl && ${COPYTREE_SHARE} "*.h" ${STAGEDIR}${PREFIX}/include/app/opengl)
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/device
-	(cd ${WRKSRC}/src/device && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/device)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/device/cpu
-	(cd ${WRKSRC}/src/device/cpu && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/device/cpu)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/device/cuda
-	(cd ${WRKSRC}/src/device/cuda && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/device/cuda)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/device/dummy
-	(cd ${WRKSRC}/src/device/dummy && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/device/dummy)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/device/hip
-	(cd ${WRKSRC}/src/device/hip && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/device/hip)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/device/hiprt
-	(cd ${WRKSRC}/src/device/hiprt && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/device/hiprt)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/device/metal
-	(cd ${WRKSRC}/src/device/metal && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/device/metal)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/device/multi
-	(cd ${WRKSRC}/src/device/multi && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/device/multi)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/device/oneapi
-	(cd ${WRKSRC}/src/device/oneapi && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/device/oneapi)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/device/optix
-	(cd ${WRKSRC}/src/device/optix && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/device/optix)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/graph
-	(cd ${WRKSRC}/src/graph && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/graph)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/hydra
-	(cd ${WRKSRC}/src/hydra && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/hydra)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/integrator
-	(cd ${WRKSRC}/src/integrator && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/integrator)
+.for dir in cpu cuda dummy hip hiprt metal multi oneapi optix
+	(cd ${WRKSRC}/src/device && ${COPYTREE_SHARE} "${dir} *.h" ${STAGEDIR}${PREFIX}/include/device)
+.endfor
+.for dir2 in bvh graph hydra integrator scene session subd util
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/${dir2}
+	(cd ${WRKSRC}/src/ && ${COPYTREE_SHARE} ${dir2} ${STAGEDIR}${PREFIX}/include/ "-name *.h")
+.endfor
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel
-	(cd ${WRKSRC}/src/kernel && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/bake
-	(cd ${WRKSRC}/src/kernel/bake && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/bake)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/bvh
-	(cd ${WRKSRC}/src/kernel/bvh && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/bvh)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/camera
-	(cd ${WRKSRC}/src/kernel/camera && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/camera)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/closure
-	(cd ${WRKSRC}/src/kernel/closure && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/closure)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/device/cpu
-	(cd ${WRKSRC}/src/kernel/device/cpu && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/device/cpu)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/device/cuda
-	(cd ${WRKSRC}/src/kernel/device/cuda && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/device/cuda)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/device/gpu
-	(cd ${WRKSRC}/src/kernel/device/gpu && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/device/gpu)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/device/hip
-	(cd ${WRKSRC}/src/kernel/device/hip && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/device/hip)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/device/hiprt
-	(cd ${WRKSRC}/src/kernel/device/hiprt && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/device/hiprt)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/device/metal
-	(cd ${WRKSRC}/src/kernel/device/metal && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/device/metal)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/device/oneapi
-	(cd ${WRKSRC}/src/kernel/device/oneapi && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/device/oneapi)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/device/optix
-	(cd ${WRKSRC}/src/kernel/device/optix && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/device/optix)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/film
-	(cd ${WRKSRC}/src/kernel/film && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/film)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/geom
-	(cd ${WRKSRC}/src/kernel/geom && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/geom)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/integrator
-	(cd ${WRKSRC}/src/kernel/integrator && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/integrator)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/light
-	(cd ${WRKSRC}/src/kernel/light && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/light)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/osl
-	(cd ${WRKSRC}/src/kernel/osl && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/osl)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/sample
-	(cd ${WRKSRC}/src/kernel/sample && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/sample)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/svm
-	(cd ${WRKSRC}/src/kernel/svm && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/svm)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/util
-	(cd ${WRKSRC}/src/kernel/util && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/kernel/util)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/scene
-	(cd ${WRKSRC}/src/scene && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/scene)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/session
-	(cd ${WRKSRC}/src/session && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/session)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/subd
-	(cd ${WRKSRC}/src/subd && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/subd)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/util
-	(cd ${WRKSRC}/src/util && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/util)
+.for dir3 in bake bvh camera closure film geom integrator light osl sample svm util
+	(cd ${WRKSRC}/src/kernel && ${COPYTREE_SHARE} "${dir3} *.h" ${STAGEDIR}${PREFIX}/include/kernel)
+.endfor
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/device
+.for dir4 in cpu cuda gpu hip hiprt metal oneapi optix
+	(cd ${WRKSRC}/src/kernel/device && ${COPYTREE_SHARE} ${dir4} ${STAGEDIR}${PREFIX}/include/kernel/device "-name *.h")
+.endfor
+
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/third_party/atomic
-	(cd ${WRKSRC}/third_party/atomic/ && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/third_party/atomic/)
+	(cd ${WRKSRC}/third_party/atomic/ && ${COPYTREE_SHARE} *.h ${STAGEDIR}${PREFIX}/include/third_party/atomic/)
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/third_party/atomic/intern
-	(cd ${WRKSRC}/third_party/atomic/intern && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/third_party/atomic/intern)
+	(cd ${WRKSRC}/third_party/atomic/intern && ${COPYTREE_SHARE} "*.h" ${STAGEDIR}${PREFIX}/include/third_party/atomic/intern)
 
 .include <bsd.port.mk>
 
