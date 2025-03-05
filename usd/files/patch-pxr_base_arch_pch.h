@@ -1,4 +1,4 @@
---- pxr/base/arch/pch.h.orig	2025-03-05 13:38:01 UTC
+--- pxr/base/arch/pch.h.orig	2025-02-04 21:22:17 UTC
 +++ pxr/base/arch/pch.h
 @@ -30,7 +30,7 @@
  #include <mach-o/swap.h>

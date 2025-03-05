@@ -1,4 +1,4 @@
---- pxr/imaging/hgi/hgi.cpp.orig	2025-03-05 12:46:03 UTC
+--- pxr/imaging/hgi/hgi.cpp.orig	2025-02-04 21:22:17 UTC
 +++ pxr/imaging/hgi/hgi.cpp
 @@ -54,7 +54,7 @@ _MakeNewPlatformDefaultHgi()
      PlugRegistry& plugReg = PlugRegistry::GetInstance();

@@ -1,4 +1,4 @@
---- pxr/usd/usdMedia/pch.h.orig	2025-03-05 13:54:53 UTC
+--- pxr/usd/usdMedia/pch.h.orig	2025-02-04 21:22:17 UTC
 +++ pxr/usd/usdMedia/pch.h
 @@ -13,7 +13,7 @@
  #if defined(ARCH_OS_DARWIN)

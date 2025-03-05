@@ -1,4 +1,4 @@
---- pxr/usd/ar/pch.h.orig	2025-03-05 13:50:35 UTC
+--- pxr/usd/ar/pch.h.orig	2025-02-04 21:22:17 UTC
 +++ pxr/usd/ar/pch.h
 @@ -18,11 +18,10 @@
  #include <unistd.h>

@@ -1,4 +1,4 @@
---- pxr/usdImaging/usdAppUtils/pch.h.orig	2025-03-05 13:47:37 UTC
+--- pxr/usdImaging/usdAppUtils/pch.h.orig	2025-02-04 21:22:17 UTC
 +++ pxr/usdImaging/usdAppUtils/pch.h
 @@ -18,11 +18,10 @@
  #include <unistd.h>

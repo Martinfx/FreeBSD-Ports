@@ -1,4 +1,4 @@
---- pxr/usdImaging/plugin/usdShaders/pch.h.orig	2025-03-05 13:46:55 UTC
+--- pxr/usdImaging/plugin/usdShaders/pch.h.orig	2025-02-04 21:22:17 UTC
 +++ pxr/usdImaging/plugin/usdShaders/pch.h
 @@ -13,7 +13,7 @@
  #if defined(ARCH_OS_DARWIN)

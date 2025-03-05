@@ -1,4 +1,4 @@
---- pxr/imaging/plugin/hioOiio/pch.h.orig	2025-03-05 13:45:44 UTC
+--- pxr/imaging/plugin/hioOiio/pch.h.orig	2025-02-04 21:22:17 UTC
 +++ pxr/imaging/plugin/hioOiio/pch.h
 @@ -10,7 +10,7 @@
  #define TF_MAX_ARITY 7

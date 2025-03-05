@@ -1,4 +1,4 @@
---- pxr/imaging/hdSt/pch.h.orig	2025-03-05 13:41:37 UTC
+--- pxr/imaging/hdSt/pch.h.orig	2025-02-04 21:22:17 UTC
 +++ pxr/imaging/hdSt/pch.h
 @@ -18,11 +18,10 @@
  #include <unistd.h>

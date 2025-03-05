@@ -1,4 +1,4 @@
---- pxr/imaging/plugin/hdPrmanLoader/rendererPlugin.cpp.orig	2025-03-05 12:49:42 UTC
+--- pxr/imaging/plugin/hdPrmanLoader/rendererPlugin.cpp.orig	2025-02-04 21:22:17 UTC
 +++ pxr/imaging/plugin/hdPrmanLoader/rendererPlugin.cpp
 @@ -31,7 +31,7 @@ static struct HdPrmanLoader
  {
