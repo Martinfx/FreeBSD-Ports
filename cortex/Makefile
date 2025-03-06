@@ -79,6 +79,7 @@ SCONS_ARGS+=	WARNINGS_AS_ERRORS=0
 SCONS_ARGS+=	PYTHON_CONFIG=${PYTHON_CMD}-config
 SCONS_ARGS+=	PYTHON=${PYTHON_CMD}
 SCONS_ARGS+=	CXX=${CXX}
+SCONS_ARGS+=	CXXFLAGS=
 SCONS_ARGS+=	DOXYGEN=${LOCALBASE}/bin/doxygen
 SCONS_ARGS+=	INSTALL_PREFIX=${STAGEDIR}${PREFIX}
 SCONS_ARGS+=	INSTALL_HEADER_DIR=${STAGEDIR}${PREFIX}/include
@@ -87,6 +88,7 @@ do-install:
 	${INSTALL_LIB} ${WRKSRC}/lib/*.so ${STAGEDIR}${PREFIX}/lib/
 	(cd ${WRKSRC}/include && ${COPYTREE_SHARE} . ${STAGEDIR}${PREFIX}/include/ "-name *.h")
 	(cd ${WRKSRC}/include && ${COPYTREE_SHARE} . ${STAGEDIR}${PREFIX}/include/ "-name *.inl")
+	(cd ${WRKSRC}/contrib/IECoreUSD/include && ${COPYTREE_SHARE} . ${STAGEDIR}${PREFIX}/include/ "-name *.h")
 
 .include <bsd.port.pre.mk>
 MAKE_ARGS=	${SCONS_ARGS}
