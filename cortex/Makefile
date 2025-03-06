@@ -43,6 +43,25 @@ LIB_DEPENDS+=	libboost_filesystem.so:devel/boost-libs \
 		libOpenImageIO.so:graphics/openimageio \
 		libOpenImageIO_Util.so:graphics/openimageio \
 		libopenvdb.so:misc/openvdb \
+		libusd_usd.so:misc/usd \
+		libusd_usdGeom.so:misc/usd \
+		libusd_usdLux.so:misc/usd \
+		libusd_usdSkel.so:misc/usd \
+		libusd_usdShade.so:misc/usd \
+		libusd_usdUtils.so:misc/usd \
+		libusd_sdf.so:misc/usd \
+		libusd_tf.so:misc/usd \
+		libusd_pcp.so:misc/usd \
+		libusd_arch.so:misc/usd \
+		libusd_gf.so:misc/usd \
+		libusd_js.so:misc/usd \
+		libusd_vt.so:misc/usd \
+		libusd_ar.so:misc/usd \
+		libusd_plug.so:misc/usd \
+		libusd_trace.so:misc/usd \
+		libusd_kind.so:misc/usd \
+		libusd_work.so:misc/usd \
+		libusd_usdVol.so:misc/usd \
 		${PY_BOOST}
 
 USES=		python:3.11+ localbase gettext-runtime scons
