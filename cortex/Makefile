@@ -20,8 +20,8 @@ BUILD_DEPENDS=	alembic>0:graphics/alembic \
 		glew>0:graphics/glew \
 		openexr>0:graphics/openexr \
 		openimageio>0:graphics/openimageio \
-		openvdb>0:misc/openvdb
-		# usd>0:misc/usd dependent on old tbb
+		openvdb>0:misc/openvdb \
+		usd>0:misc/usd
 
 LIB_DEPENDS+=	libboost_filesystem.so:devel/boost-libs \
 		libboost_regex.so:devel/boost-libs \
@@ -71,11 +71,9 @@ SCONS_ARGS+=	VDB_LIB_PATH=${LOCALBASE}/lib
 SCONS_ARGS+=	ALEMBIC_INCLUDE_PATH=${LOCALBASE}/include/Alembic
 SCONS_ARGS+=	ALEMBIC_LIB_PATH=${LOCALBASE}/lib
 SCONS_ARGS+=	PYBIND11_INCLUDE_PATH=${LOCALBASE}/include
-#SCONS_ARGS+=    USD_INCLUDE_PATH=${LOCALBASE}/include/pxr
-#SCONS_ARGS+=    USD_LIB_PATH=${LOCALBASE}/lib/usd
-# is need openimageio for support GL
-#SCONS_ARGS+=	GLEW_INCLUDE_PATH=${LOCALBASE}/include/GL
-#SCONS_ARGS+=	GLEW_LIB_PATH=${LOCALBASE}/lib
+SCONS_ARGS+=    USD_INCLUDE_PATH=${LOCALBASE}/include/pxr
+SCONS_ARGS+=    USD_LIB_PATH=${LOCALBASE}/lib
+SCONS_ARGS+=	USD_LIB_PREFIX="libusd_"
 SCONS_ARGS+=	WITH_GL=1
 SCONS_ARGS+=	WARNINGS_AS_ERRORS=0
 SCONS_ARGS+=	PYTHON_CONFIG=${PYTHON_CMD}-config
@@ -87,25 +85,8 @@ SCONS_ARGS+=	INSTALL_HEADER_DIR=${STAGEDIR}${PREFIX}/include
 
 do-install:
 	${INSTALL_LIB} ${WRKSRC}/lib/*.so ${STAGEDIR}${PREFIX}/lib/
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/IECore
-	(cd ${WRKSRC}/include/IECore && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/IECore)
-	(cd ${WRKSRC}/include/IECore && ${INSTALL_DATA} *.inl ${STAGEDIR}${PREFIX}/include/IECore)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/IECoreGL
-	(cd ${WRKSRC}/include/IECoreGL && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/IECoreGL)
-	(cd ${WRKSRC}/include/IECoreGL && ${INSTALL_DATA} *.inl ${STAGEDIR}${PREFIX}/include/IECoreGL)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/IECoreImage
-	(cd ${WRKSRC}/include/IECoreImage && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/IECoreImage)
-	(cd ${WRKSRC}/include/IECoreImage && ${INSTALL_DATA} *.inl ${STAGEDIR}${PREFIX}/include/IECoreImage)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/IECoreImageBindings
-	(cd ${WRKSRC}/include/IECoreImageBindings && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/IECoreImageBindings)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/IECorePython
-	(cd ${WRKSRC}/include/IECorePython && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/IECorePython)
-	(cd ${WRKSRC}/include/IECorePython && ${INSTALL_DATA} *.inl ${STAGEDIR}${PREFIX}/include/IECorePython)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/IECoreScene
-	(cd ${WRKSRC}/include/IECoreScene && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/IECoreScene)
-	(cd ${WRKSRC}/include/IECoreScene && ${INSTALL_DATA} *.inl ${STAGEDIR}${PREFIX}/include/IECoreScene)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/IECoreVDB
-	(cd ${WRKSRC}/include/IECoreVDB && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/IECoreVDB)
+	(cd ${WRKSRC}/include && ${COPYTREE_SHARE} . ${STAGEDIR}${PREFIX}/include/ "-name *.h")
+	(cd ${WRKSRC}/include && ${COPYTREE_SHARE} . ${STAGEDIR}${PREFIX}/include/ "-name *.inl")
 
 .include <bsd.port.pre.mk>
 MAKE_ARGS=	${SCONS_ARGS}
