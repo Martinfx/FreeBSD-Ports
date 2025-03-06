@@ -94,22 +94,12 @@ do-install:
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/app/opengl
 	(cd ${WRKSRC}/src/app/opengl && ${COPYTREE_SHARE} "*.h" ${STAGEDIR}${PREFIX}/include/app/opengl)
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/device
-.for dir in cpu cuda dummy hip hiprt metal multi oneapi optix
-	(cd ${WRKSRC}/src/device && ${COPYTREE_SHARE} "${dir} *.h"  ${STAGEDIR}${PREFIX}/include/device)
-.endfor
-.for dir2 in bvh graph hydra integrator scene session subd util
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/${dir2}
-	(cd ${WRKSRC}/src/ && ${COPYTREE_SHARE} ${dir2} ${STAGEDIR}${PREFIX}/include/ "-iname *.h" )
-.endfor
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel
-.for dir3 in bake bvh camera closure film geom integrator light osl sample svm util
-	(cd ${WRKSRC}/src/kernel && ${COPYTREE_SHARE} "${dir3} *.h" ${STAGEDIR}${PREFIX}/include/kernel)
-.endfor
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/device
-.for dir4 in cpu cuda gpu hip hiprt metal oneapi optix
-	(cd ${WRKSRC}/src/kernel/device && ${COPYTREE_SHARE} ${dir4} ${STAGEDIR}${PREFIX}/include/kernel/device "-name *.h")
-.endfor
-
+	(cd ${WRKSRC}/src/ && ${COPYTREE_SHARE} device ${STAGEDIR}${PREFIX}/include/ "-name *.h")
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/
+	(cd ${WRKSRC}/src/ && ${COPYTREE_SHARE} . ${STAGEDIR}${PREFIX}/include/ "-name *.h" )
+	#(cd ${WRKSRC}/src/ && ${COPYTREE_SHARE} kernel *.h" ${STAGEDIR}${PREFIX}/include/)
+	#${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/
+	#(cd ${WRKSRC}/src/kernel && ${COPYTREE_SHARE} device ${STAGEDIR}${PREFIX}/include/kernel/ "-name *.h")
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/third_party/atomic
 	(cd ${WRKSRC}/third_party/atomic/ && ${COPYTREE_SHARE} *.h ${STAGEDIR}${PREFIX}/include/third_party/atomic/)
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/third_party/atomic/intern
