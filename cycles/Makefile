@@ -97,9 +97,6 @@ do-install:
 	(cd ${WRKSRC}/src/ && ${COPYTREE_SHARE} device ${STAGEDIR}${PREFIX}/include/ "-name *.h")
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/
 	(cd ${WRKSRC}/src/ && ${COPYTREE_SHARE} . ${STAGEDIR}${PREFIX}/include/ "-name *.h" )
-	#(cd ${WRKSRC}/src/ && ${COPYTREE_SHARE} kernel *.h" ${STAGEDIR}${PREFIX}/include/)
-	#${MKDIR} ${STAGEDIR}${PREFIX}/include/kernel/
-	#(cd ${WRKSRC}/src/kernel && ${COPYTREE_SHARE} device ${STAGEDIR}${PREFIX}/include/kernel/ "-name *.h")
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/third_party/atomic
 	(cd ${WRKSRC}/third_party/atomic/ && ${COPYTREE_SHARE} *.h ${STAGEDIR}${PREFIX}/include/third_party/atomic/)
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/third_party/atomic/intern
