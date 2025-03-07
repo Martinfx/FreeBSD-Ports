@@ -51,8 +51,8 @@ BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}Jinja2>0:devel/py-Jinja2@${PY_FLAVOR} \
 		webp>0:graphics/webp \
 		yaml-cpp>0:devel/yaml-cpp \
 		zlib-ng>0:archivers/zlib-ng \
-		zstd>0:archivers/zstd
-		# usd>0:misc/usd dependent on old tbb
+		zstd>0:archivers/zstd \
+		usd>0:misc/usd
 
 USES=		llvm:min=15,build,run localbase compiler:c++20-lang python:3.11+,env qt:5 scons
 USE_QT=		core gui widgets opengl buildtools:build qmake:build
