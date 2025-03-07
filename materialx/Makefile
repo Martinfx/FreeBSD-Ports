@@ -48,27 +48,7 @@ do-install:
 	${INSTALL_PROGRAM} ${WRKDIR}/.build/bin/MaterialXGraphEditor ${STAGEDIR}${PREFIX}/bin
 	${INSTALL_PROGRAM} ${WRKDIR}/.build/bin/MaterialXView ${STAGEDIR}${PREFIX}/bin
 	${INSTALL_LIB} ${WRKDIR}/.build/lib/*.so* ${STAGEDIR}${PREFIX}/lib/
-	${MKDIR} ${STAGEDIR}${DATADIR}${PORTNAME}
-	${CP} -vR ${WRKSRC}/resources ${STAGEDIR}${DATADIR}${PORTNAME}
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXCore
-	(cd ${WRKSRC}/source/MaterialXCore && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXCore)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXFormat
-	(cd ${WRKSRC}/source/MaterialXFormat && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXFormat)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXGenGlsl
-	(cd ${WRKSRC}/source/MaterialXGenGlsl && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXGenGlsl)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXGenMdl
-	(cd ${WRKSRC}/source/MaterialXGenMdl && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXGenMdl)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXGenMsl
-	(cd ${WRKSRC}/source/MaterialXGenMsl && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXGenMsl)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXGenShader
-	(cd ${WRKSRC}/source/MaterialXGenShader && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXGenShader)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXRender
-	(cd ${WRKSRC}/source/MaterialXRender && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXRender)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXRenderGlsl
-	(cd ${WRKSRC}/source/MaterialXRenderGlsl && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXRenderGlsl)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXRenderHw
-	(cd ${WRKSRC}/source/MaterialXRenderHw && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXRenderHw)
-	${MKDIR} ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXRenderOsl
-	(cd ${WRKSRC}/source/MaterialXRenderOsl && ${INSTALL_DATA} *.h ${STAGEDIR}${PREFIX}/include/${PORTNAME}/MaterialXRenderOsl)
+	(cd ${WRKSRC}/resources  && ${COPYTREE_SHARE} . ${STAGEDIR}/${DATADIR}/${PORTNAME})
+	(cd ${WRKSRC}/source && ${COPYTREE_SHARE} .  ${STAGEDIR}${PREFIX}/include/${PORTNAME} "-name *.h")
 
 .include <bsd.port.mk>
