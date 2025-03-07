@@ -13,7 +13,8 @@ LICENSE_PERMS=	dist-mirror no-dist-sell pkg-mirror no-pkg-sell auto-accept
 
 BUILD_DEPENDS=	premake5>0:devel/premake5 \
 		gtk3>0:x11-toolkits/gtk30 \
-		sdl2>0:devel/sdl20
+		sdl2>0:devel/sdl20 \
+		valgrind>0:devel/valgrind
 
 USES=		gmake localbase pkgconfig
 USE_GNOME=	gtk30
