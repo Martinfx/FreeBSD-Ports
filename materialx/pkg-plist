@@ -750,4 +750,5 @@ python/setup.py
 %%DATADIR%%/materialx/Materials/TestSuite/stdlib/upgrade/syntax_1_38.mtlx
 %%DATADIR%%/materialx/Materials/TestSuite/stdlib/version/multiple_version_test.mtlx
 %%DATADIR%%/materialx/README.md
-@dir %%DATADIR%%materialx
+bin/MaterialXGraphEditor
+bin/MaterialXView

@@ -48,6 +48,7 @@ do-install:
 	${INSTALL_PROGRAM} ${WRKDIR}/.build/bin/MaterialXGraphEditor ${STAGEDIR}${PREFIX}/bin
 	${INSTALL_PROGRAM} ${WRKDIR}/.build/bin/MaterialXView ${STAGEDIR}${PREFIX}/bin
 	${INSTALL_LIB} ${WRKDIR}/.build/lib/*.so* ${STAGEDIR}${PREFIX}/lib/
+	${MKDIR} ${STAGEDIR}/${DATADIR}/${PORTNAME}
 	(cd ${WRKSRC}/resources  && ${COPYTREE_SHARE} . ${STAGEDIR}/${DATADIR}/${PORTNAME})
 	(cd ${WRKSRC}/source && ${COPYTREE_SHARE} .  ${STAGEDIR}${PREFIX}/include/${PORTNAME} "-name *.h")
 
