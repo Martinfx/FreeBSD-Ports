@@ -34,6 +34,7 @@ BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}Jinja2>0:devel/py-Jinja2@${PY_FLAVOR} \
 		liblz4>0:archivers/liblz4 \
 		libraw>0:graphics/libraw \
 		minizip-ng>0:archivers/minizip-ng \
+		materialx>0:graphics/materialx \
 		onetbb>0:devel/onetbb \
 		openexr>0:graphics/openexr \
 		openimageio>0:graphics/openimageio \
