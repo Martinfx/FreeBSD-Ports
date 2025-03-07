@@ -278,7 +278,6 @@ python/setup.py
 %%DATADIR%%materialx/resources/Materials/Examples/UsdPreviewSurface/usd_preview_surface_glass.mtlx
 %%DATADIR%%materialx/resources/Materials/Examples/UsdPreviewSurface/usd_preview_surface_gold.mtlx
 %%DATADIR%%materialx/resources/Materials/Examples/UsdPreviewSurface/usd_preview_surface_plastic.mtlx
-%%DATADIR%%materialx/resources/Materials/TestSuite/README.md
 %%DATADIR%%materialx/resources/Materials/TestSuite/_options.mtlx
 %%DATADIR%%materialx/resources/Materials/TestSuite/libraries/metal/brass_wire_mesh.mtlx
 %%DATADIR%%materialx/resources/Materials/TestSuite/libraries/metal/libraries/metal_definition.mtlx
