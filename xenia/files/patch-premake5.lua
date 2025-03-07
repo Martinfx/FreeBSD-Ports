@@ -31,29 +31,43 @@
  filter("configurations:Release")
    runtime("Release")
    defines({
-@@ -107,6 +111,21 @@ filter("platforms:Linux")
+@@ -107,6 +111,35 @@ filter("platforms:Linux")
      "rt",
    })
  
-+filter("platforms:FreeBSD")
-+  system("bsd")
-+  toolset("clang")
-+  buildoptions({
-+    -- "-mlzcnt",  -- (don't) Assume lzcnt is supported.
-+  })
-+  pkg_config.all("gtk+-x11-3.0")
-+  links({
-+    "stdc++fs",
-+    "lz4",
++filter { "configurations:Debug" }
++    defines { "DEBUG" }
++
++filter("system:bsd")
++  includedirs {
++    "/usr/local/include",
++    "/usr/local/include/gtk-3.0"
++  }
++  libdirs { "/usr/local/lib" }
++  links {
++    "gtk-3",
++    "gdk-3",
++    "pangocairo-1.0",
++    "pango-1.0",
++    "atk-1.0",
++    "cairo-gobject",
++    "cairo",
++    "gdk_pixbuf-2.0",
++    "gio-2.0",
++    "glib-2.0",
++    "gobject-2.0",
++    "gthread-2.0",
 +    "pthread",
-+  })
-+
-+
++    "SDL2"
++  }
++  buildoptions { "`pkg-config --cflags gtk+-3.0`" }
++  linkoptions { "`pkg-config --libs gtk+-3.0`" }
++  linkgroups("On")	
 +
  filter({"platforms:Linux", "kind:*App"})
    linkgroups("On")
  
-@@ -136,6 +155,16 @@ filter({"platforms:Linux", "language:C++", "toolset:cl
+@@ -136,6 +169,16 @@ filter({"platforms:Linux", "language:C++", "toolset:cl
      "-stdlib=libstdc++",
    })
  
@@ -70,23 +84,21 @@
  filter("platforms:Android-*")
    system("android")
    systemversion("24")
-@@ -222,6 +251,10 @@ workspace("xenia")
+@@ -222,6 +265,9 @@ workspace("xenia")
      architecture("x86_64")
      if os.istarget("linux") then
        platforms({"Linux"})
 +    elseif os.istarget("freebsd") then
 +      platforms({"FreeBSD"})
-+      ["ARCHS"] = "x86_64"
 +      systemversion(uname -r)
      elseif os.istarget("macosx") then
        platforms({"Mac"})
        xcodebuildsettings({           
-@@ -277,6 +310,9 @@ workspace("xenia")
+@@ -276,7 +322,7 @@ workspace("xenia")
+       "FatalWarnings",
      })
    end
- 
-+  includedirs { "/usr/local/include",
-+  		"/usr/local/include/gtk-3.0" }
+-
 +  
    include("src/xenia")
    include("src/xenia/app")
