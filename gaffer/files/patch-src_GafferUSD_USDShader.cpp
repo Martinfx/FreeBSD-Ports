@@ -5,7 +5,7 @@
  Plug *loadShaderProperty( const SdrShaderProperty &property, Plug *parent )
  {
 -	SdfValueTypeName sdfType = property.GetTypeAsSdfType().first;
-+	SdfValueTypeName sdfType = property.GetTypeAsSdfType();
++	SdfValueTypeName sdfType = property.GetTypeAsSdfType().GetSdfType();
  	if(
  		property.GetType() == SdrPropertyTypes->Terminal ||
  		property.GetType() == SdrPropertyTypes->Vstruct
