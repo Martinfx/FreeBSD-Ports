@@ -927,6 +927,7 @@ include/IECoreScene/private/PrimitiveVariableAlgos.h
 include/IECoreScene/private/TransformStack.h
 include/IECoreUSD/AttributeAlgo.h
 include/IECoreUSD/DataAlgo.h
+include/IECoreUSD/DataAlgo.inl
 include/IECoreUSD/Export.h
 include/IECoreUSD/ObjectAlgo.h
 include/IECoreUSD/PrimitiveAlgo.h
