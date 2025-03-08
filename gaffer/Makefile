@@ -16,7 +16,7 @@ BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}Jinja2>0:devel/py-Jinja2@${PY_FLAVOR} \
 		${PYTHON_PKGNAMEPREFIX}QtPy>0:devel/py-QtPy@${PY_FLAVOR} \
 		${PYTHON_PKGNAMEPREFIX}types-MarkupSafe>0:devel/py-types-MarkupSafe@${PY_FLAVOR} \
 		bitstream-vera>0:x11-fonts/bitstream-vera \
-		boost-libs>=1.85.0:devel/boost-libs \
+		boost-libs>=1.87.0:devel/boost-libs \
 		c-blosc2>0:archivers/c-blosc2 \
 		cmark>0:textproc/cmark \
 		cortex>0:graphics/cortex \
