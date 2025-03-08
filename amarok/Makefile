@@ -19,11 +19,10 @@ LIB_DEPENDS=	libdbus-1.so:devel/dbus \
 		liblastfm6.so:audio/liblastfm \
 		libmtp.so:multimedia/libmtp \
 		libtag.so:audio/taglib \
-		libunwind.so:devel/libunwind \
-		libKF6ColorScheme.so:x11-themes/kf6-kcolorscheme
+		libunwind.so:devel/libunwind
 
 USES=		cmake compiler:c++11-lang cpe desktop-file-utils gettext gl \
-		kde:6 mysql:client pkgconfig qt:6 shebangfix ssl xorg
+		kde:6 mysql:client pkgconfig qt:6 shared-mime-info ssl xorg
 
 CPE_VENDOR=	kde
 
@@ -31,13 +30,13 @@ USE_GITHUB=	yes
 GH_ACCOUNT=	KDE
 
 USE_GL+=	gl opengl
-USE_KDE=	archive bookmarks codecs config configwidgets completion \
-		coreaddons crash dbusaddons dnssd doctools:build ecm:build \
-		globalaccel guiaddons i18n iconthemes itemviews jobwidgets \
-		kdeclarative kcmutils kio kirigami2 notifications notifyconfig \
-		package parts phonon phonon-backend service solid sonnet \
-		statusnotifieritem syntaxhighlighting texteditor textwidgets \
-		threadweaver wallet widgetsaddons windowsystem xmlgui
+USE_KDE=	archive bookmarks codecs colorscheme config configwidgets \
+		completion coreaddons crash dbusaddons dnssd doctools:build \
+		ecm:build globalaccel guiaddons i18n iconthemes itemviews \
+		jobwidgets kdeclarative kcmutils kio kirigami2 notifications \
+		notifyconfig package parts phonon phonon-vlc service \
+		solid sonnet statusnotifieritem syntaxhighlighting texteditor \
+		textwidgets threadweaver wallet widgetsaddons windowsystem xmlgui
 USE_LDCONFIG=	yes
 USE_QT=		base declarative positioning tools svg webchannel webengine 5compat
 USE_XORG=	ice sm x11 xext
@@ -78,8 +77,5 @@ UTILITES_CMAKE_BOOL=	WITH_UTILITIES
 post-patch:
 	@${REINPLACE_CMD} -e 's|/usr/include|${LOCALBASE}/include|' \
 		${WRKSRC}/cmake/modules/FindLoudmouth.cmake
-
-post-install:
-	@${MKDIR} ${STAGEDIR}${PREFIX}/share/mime/packages
 
 .include <bsd.port.mk>
