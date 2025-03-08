@@ -68,7 +68,6 @@ SCONS_ARGS+=	BOOST_LIB_SUFFIX="" SPHINX=${LOCALBASE}/bin/sphinx-build \
 		CXXSTD=c++20
 SCONS_ARGS+=	CYCLES_ROOT=${LOCALBASE}/bin
 SCONS_ARGS+=	OSLHOME=${LOCALBASE}/share/openshadinglanguage/shaders
-SCONS_ARGS+= 	OSLHOME=${LOCALBASE}/bin
 
 .include <bsd.port.pre.mk>
 MAKE_ARGS+=	${SCONS_ARGS}

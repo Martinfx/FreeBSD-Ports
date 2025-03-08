@@ -1,4 +1,4 @@
---- SConstruct.orig	2025-02-19 21:25:16 UTC
+--- SConstruct.orig	2025-03-04 09:57:44 UTC
 +++ SConstruct
 @@ -47,6 +47,7 @@ import codecs
  import tempfile
@@ -8,12 +8,7 @@
  
  EnsureSConsVersion( 3, 0, 2 ) # Substfile is a default builder as of 3.0.2
  
-@@ -396,15 +397,27 @@ env = Environment(
- 	CPPDEFINES = [
- 		( "BOOST_FILESYSTEM_VERSION", "3" ),
- 		"BOOST_FILESYSTEM_NO_DEPRECATED",
-+#		"__KERNEL_GPU__",
- 	],
+@@ -400,11 +401,23 @@ env = Environment(
  
  	CPPPATH = [
  		"include",
@@ -25,6 +20,7 @@
 +		"/usr/local/include/freetype2",
 +		"/usr/local/include/utils",
 +		"/usr/local/include/third_party/atomic",
++		"/usr/local/share/openshadinglanguage/shaders",
  		"$LOCATE_DEPENDENCY_CPPPATH",
  	],
  
@@ -54,7 +50,7 @@
  	else :
  
  		env["GAFFER_PLATFORM"] = "linux"
-@@ -822,8 +837,8 @@ boostVersionHeader = baseLibEnv.FindFile(
+@@ -823,8 +838,8 @@ boostVersionHeader = baseLibEnv.FindFile(
  boostVersionHeader = baseLibEnv.FindFile(
  	"boost/version.hpp",
  	[ "$BUILD_DIR/include" ] +
@@ -65,7 +61,7 @@
  )
  
  if not boostVersionHeader :
-@@ -857,7 +872,7 @@ basePythonEnv = baseLibEnv.Clone()
+@@ -858,7 +873,7 @@ basePythonEnv = baseLibEnv.Clone()
  
  basePythonEnv = baseLibEnv.Clone()
  
@@ -74,7 +70,7 @@
  basePythonEnv["PYTHON_VERSION"] = subprocess.check_output(
  	[ pythonExecutable, "-c", "import sys; print( '{}.{}'.format( *sys.version_info[:2] ) )" ],
  	env=commandEnv["ENV"], universal_newlines=True
-@@ -1479,12 +1494,13 @@ for library in ( "GafferUI", ) :
+@@ -1531,12 +1546,13 @@ for library in ( "GafferUI", ) :
  			libraries[library]["envAppends"]["LIBS"].append( "Qt${QT_VERSION}" + qtLibrary )
  
  for library in ( "GafferUI", ) :
@@ -89,7 +85,7 @@
  # Add required platform-specific libraries
  
  if env["PLATFORM"] == "win32" :
-@@ -1716,7 +1732,7 @@ for libraryName, libraryDef in libraries.items() :
+@@ -1768,7 +1784,7 @@ for libraryName, libraryDef in libraries.items() :
  	# command ourselves.
  
  	for sourceFile in libraryDef.get( "mocSourceFiles", [] ) :
@@ -98,3 +94,12 @@
  		# Somehow the above leads to a circular dependency between `mocOutput` and itself.
  		# Tell SCons not to worry. The official SCons tool does the same.
  		env.Ignore( mocOutput, mocOutput )
+@@ -1827,7 +1843,7 @@ for libraryName, libraryDef in libraries.items() :
+ 	def buildOSL( target, source, env ) :
+ 		subprocess.check_call(
+ 			[
+-				shutil.which( "oslc", path = env["ENV"]["PATH"] ) if env["PLATFORM"] == "win32" else "oslc",
++				shutil.which( "/usr/local/bin/oslc", path = env["ENV"]["PATH"] ) if env["PLATFORM"] == "win32" else "oslc",
+ 				"-I./shaders",
+ 				"-o",
+ 				str( target[0] ), str( source[0] )
