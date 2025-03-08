@@ -109,7 +109,8 @@ do-install:
 	(cd ${WRKSRC}/include && ${COPYTREE_SHARE} . ${STAGEDIR}${PREFIX}/include/ "-name *.inl")
 	(cd ${WRKSRC}/contrib/IECoreUSD/include && ${COPYTREE_SHARE} . ${STAGEDIR}${PREFIX}/include/ "-name *.h")
 	(cd ${WRKSRC}/contrib/IECoreUSD/include && ${COPYTREE_SHARE} . ${STAGEDIR}${PREFIX}/include/ "-name *.inl")
-
+	${MKDIR} ${STAGEDIR}${PYTHON_SITELIBDIR}
+	(cd ${WRKSRC}/python && ${COPYTREE_SHARE} . ${STAGEDIR}${PYTHON_SITELIBDIR}/include/ ")
 .include <bsd.port.pre.mk>
 MAKE_ARGS=	${SCONS_ARGS}
 .include <bsd.port.post.mk>
