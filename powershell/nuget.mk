@@ -1,34 +1,16 @@
 NUGET_DISTSUBDIR?=	nuget
 EXTRACT_ONLY?=		${_DISTFILES:N${_NUPKG_PREFIX}*.nupkg}
-NUGET_GROUPS?=		NUGET
 
-NUGET_GROUP_NUGET=	NUGET
-NUGET_GROUP_PWSH=	PWSH
+NUGET_MASTER_SITES=	https://api.nuget.org/v3-flatcontainer/%LCNAME%/%VERSION%/%LCNAME%.%VERSION%.nupkg?dummy=/
+PWSH_MASTER_SITES=	https://www.powershellgallery.com/api/v2/package/%NAME%/%VERSION%/?dummy=/
 
-NUGET_NUGET_BASEURL=	https://api.nuget.org/v3-flatcontainer/
-NUGET_NUGET_PKGPATH=	%%LCNAME%%/%%LCVERSION%%/%%NUPKG%%
-
-NUGET_PWSH_BASEURL=	https://www.powershellgallery.com/api/v2/package/
-NUGET_PWSH_PKGPATH=	%%NAME%%/%%VERSION%%
-
-_NUPKG_PREFIX=	${NUGET_DISTSUBDIR:C/.+/&\//}
-_NUGET_MKDIR=	${NUGET_DISTSUBDIR:C/.+/${MKDIR} ${DISTDIR}\/& \&\&/}
-_NUGET_FULL=	${NUGET_GROUPS:@g@${NUGET_GROUP_${g}:@r@\
-		${NUPKG_${g}:@p@${r}:${p}@}@}@}
-
-_NUGET_FETCH=	${_NUGET_MKDIR}cd ${DISTDIR}/${NUGET_DISTSUBDIR} && \
-		${_NUGET_FULL:@s@${v::=${s:S/:/ /g}}\
-		${n::=${v:[2]:tl}.${v:[3]:tl}.nupkg}\
-		${p::=${NUGET_${v:[1]}_BASEURL}${NUGET_${v:[1]}_PKGPATH}}\
-		${p::=${p:S/%%LCNAME%%/${v:[2]:tl}/g}}\
-		${p::=${p:S/%%LCVERSION%%/${v:[3]:tl}/g}}\
-		${p::=${p:S/%%NAME%%/${v:[2]}/g}}\
-		${p::=${p:S/%%VERSION%%/${v:[3]}/g}}\
-		${p::=${p:S/%%NUPKG%%/${n}/g}}\
-		test -f ${n} || ${FETCH_CMD} -o ${n} "${p}";@}
-
-DISTFILES+=	${NUGET_GROUPS:@g@${NUPKG_${g}:tl:@p@\
-		${_NUPKG_PREFIX}${p:S/:/./}.nupkg@}@:O:u}
-
-pre-fetch:
-	@-${_NUGET_FETCH}
+.for nugrp in ${NUGET_GROUPS}
+.  for pkg in ${${nugrp}_NUPKGS:O}
+.    for name version in ${pkg:S/:/ /g}
+.      for group in nupkg_${name:S/./_/g:S/-/_/g}_${version:S/.//g:S/-//g}
+MASTER_SITES+=	${${nugrp}_MASTER_SITES:S/%NAME%/${name}/g:S/%LCNAME%/${name:tl}/g:S/%VERSION%/${version}/g}:${group}
+DISTFILES+=	${NUGET_DISTSUBDIR}/${name:tl}.${version:tl}.nupkg:${group}
+.      endfor
+.    endfor
+.  endfor
+.endfor
