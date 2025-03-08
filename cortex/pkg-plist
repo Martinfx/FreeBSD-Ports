@@ -1095,3 +1095,4 @@ lib/libIECoreVDB.so
 %%PYTHON_SITELIBDIR%%/IECoreScene/__init__.py
 %%PYTHON_SITELIBDIR%%/IECoreVDB/_IECoreVDB.so
 %%PYTHON_SITELIBDIR%%/IECoreVDB/__init__.py
+@owner %%PYTHON_SITELIBDIR%%/IECoreVDB/__init__.py
