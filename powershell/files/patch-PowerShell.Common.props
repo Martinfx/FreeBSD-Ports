@@ -1,4 +1,4 @@
---- PowerShell.Common.props.orig	2024-11-14 22:14:58 UTC
+--- PowerShell.Common.props.orig	2024-04-11 18:38:22 UTC
 +++ PowerShell.Common.props
 @@ -15,12 +15,10 @@
      BeforeTargets="_GenerateRestoreProjectSpec;GenerateNuspec;BeforeBuild"
@@ -11,18 +11,9 @@
 -      <Output TaskParameter="ConsoleOutput" PropertyName="PowerShellVersion" />
 -    </Exec>
 +    <PropertyGroup>
-+      <PowerShellVersion>7.4.2</PowerShellVersion>
-+      <ReleaseTag>7.4.2</ReleaseTag>
++      <PowerShellVersion>7.5.0</PowerShellVersion>
++      <ReleaseTag>7.5.0</ReleaseTag>
 +    </PropertyGroup>
  
      <PropertyGroup Condition = "'$(ReleaseTag)' != ''">
        <!--
-@@ -142,7 +140,7 @@
-     <TargetFramework>net9.0</TargetFramework>
-     <LangVersion>11.0</LangVersion>
- 
--    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-     <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
