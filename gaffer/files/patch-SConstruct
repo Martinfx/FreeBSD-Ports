@@ -94,12 +94,144 @@
  		# Somehow the above leads to a circular dependency between `mocOutput` and itself.
  		# Tell SCons not to worry. The official SCons tool does the same.
  		env.Ignore( mocOutput, mocOutput )
-@@ -1827,7 +1843,7 @@ for libraryName, libraryDef in libraries.items() :
- 	def buildOSL( target, source, env ) :
- 		subprocess.check_call(
- 			[
+@@ -1824,23 +1840,23 @@ for libraryName, libraryDef in libraries.items() :
+ 
+ 	# osl shaders
+ 
+-	def buildOSL( target, source, env ) :
+-		subprocess.check_call(
+-			[
 -				shutil.which( "oslc", path = env["ENV"]["PATH"] ) if env["PLATFORM"] == "win32" else "oslc",
-+				shutil.which( "/usr/local/bin/oslc", path = env["ENV"]["PATH"] ) if env["PLATFORM"] == "win32" else "oslc",
- 				"-I./shaders",
- 				"-o",
- 				str( target[0] ), str( source[0] )
+-				"-I./shaders",
+-				"-o",
+-				str( target[0] ), str( source[0] )
+-			],
+-			env = env["ENV"]
+-		)
++	#def buildOSL( target, source, env ) :
++	#	subprocess.check_call(
++	#		[
++	#			shutil.which( "/usr/local/bin/oslc", path = env["ENV"]["PATH"] ) if env["PLATFORM"] == "win32" else "oslc",
++	#			"-I./shaders",
++	#			"-o",
++	#			str( target[0] ), str( source[0] )
++	#		],
++	#		env = env["ENV"]
++	#	)
++	#
++	#for oslShader in libraryDef.get( "oslShaders", [] ) :
++	#	env.Alias( "buildCore", oslShader )
++	#	compiledFile = commandEnv.Command( os.path.join( installRoot, os.path.splitext( oslShader )[0] + ".oso" ), oslShader, buildOSL )
++	#		env.Depends( compiledFile, "oslHeaders" )
++	#	env.Alias( "buildCore", compiledFile )
+ 
+-	for oslShader in libraryDef.get( "oslShaders", [] ) :
+-		env.Alias( "buildCore", oslShader )
+-		compiledFile = commandEnv.Command( os.path.join( installRoot, os.path.splitext( oslShader )[0] + ".oso" ), oslShader, buildOSL )
+-		env.Depends( compiledFile, "oslHeaders" )
+-		env.Alias( "buildCore", compiledFile )
+-
+ 	# class stubs
+ 
+ 	def buildClassStub( target, source, env ) :
+@@ -1865,53 +1881,53 @@ for libraryName, libraryDef in libraries.items() :
+ 		stubEnv.Alias( "buildCore", stub )
+ 
+ 	# USD Schemas
+-
+-	def buildSchema( target, source, env ) :
+-
+-		# Write a basic `plugInfo.json` file.
+-
+-		targetDir = os.path.dirname( str( target[0] ) )
+-		libraryName = os.path.basename( targetDir )
+-		with open( os.path.join( targetDir, "plugInfo.json" ), "w" ) as plugInfo :
+-			plugInfo.write( inspect.cleandoc(
+-				"""
+-				{{
+-					"Plugins" : [
+-						{{
+-							"Name" : "{libraryName}",
+-							"Type" : "resource",
+-							"Root" : ".",
+-							"ResourcePath" : ".",
+-							"Info" : {{ }}
+-						}}
+-					]
+-				}}
+-				""".format( libraryName = libraryName )
+-			) )
+-
+-		# Then call `usdGenSchema` to write `generatedSchema.usda` and
+-		# update `plugInfo.json` in place.
+-
+-		subprocess.check_call(
+-			[
+-				shutil.which( "usdGenSchema.cmd" if sys.platform == "win32" else "usdGenSchema", path = commandEnv["ENV"]["PATH"] ),
+-				str( source[0] ), targetDir
+-			],
+-			env = commandEnv["ENV"]
+-		)
+-
+-	schemaSource = os.path.join( "usdSchemas", libraryName + ".usda" )
+-	if os.path.isfile( schemaSource ) :
+-		generatedSchema = commandEnv.Command(
+-			[
+-				os.path.join( installRoot, "plugin", libraryName, "generatedSchema.usda" ),
+-				os.path.join( installRoot, "plugin", libraryName, "plugInfo.json" )
+-			],
+-			schemaSource,
+-			buildSchema
+-		)
+-		commandEnv.Alias( "buildCore", generatedSchema )
+-
++	
++	#def buildSchema( target, source, env ) :
++#
++#		# Write a basic `plugInfo.json` file.
++#
++#		targetDir = os.path.dirname( str( target[0] ) )
++#		libraryName = os.path.basename( targetDir )
++#		with open( os.path.join( targetDir, "plugInfo.json" ), "w" ) as plugInfo :
++#			plugInfo.write( inspect.cleandoc(
++#				"""
++#				{{
++#					"Plugins" : [
++#						{{
++#							"Name" : "{libraryName}",
++#							"Type" : "resource",
++#							"Root" : ".",
++#							"ResourcePath" : ".",
++#							"Info" : {{ }}
++#						}}
++#					]
++#				}}
++#				""".format( libraryName = libraryName )
++#			) )
++#
++#		# Then call `usdGenSchema` to write `generatedSchema.usda` and
++#		# update `plugInfo.json` in place.
++#
++#		subprocess.check_call(
++#			[
++#				shutil.which( "usdGenSchema.cmd" if sys.platform == "win32" else "usdGenSchema", path = commandEnv["ENV"]["PATH"] ),
++#				str( source[0] ), targetDir
++#			],
++#			env = commandEnv["ENV"]
++#		)
++#
++#	schemaSource = os.path.join( "usdSchemas", libraryName + ".usda" )
++#	if os.path.isfile( schemaSource ) :
++#		generatedSchema = commandEnv.Command(
++#			[
++#				os.path.join( installRoot, "plugin", libraryName, "generatedSchema.usda" ),
++#				os.path.join( installRoot, "plugin", libraryName, "plugInfo.json" )
++#			],
++#			schemaSource,
++#			buildSchema
++#		)
++#		commandEnv.Alias( "buildCore", generatedSchema )
++#
+ env.Alias( "build", "buildCore" )
+ 
+ #########################################################################################################
