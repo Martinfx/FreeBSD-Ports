@@ -10,8 +10,8 @@ LICENSE=	BSD3CLAUSE
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
 BUILD_DEPENDS=	alembic>0:graphics/alembic \
-		boost-libs>=1.85.0:devel/boost-libs \
-		${PYTHON_PKGNAMEPREFIX}boost-libs>=1.85.0:devel/boost-python-libs@${PY_FLAVOR} \
+		boost-libs>=1.87.0:devel/boost-libs \
+		${PYTHON_PKGNAMEPREFIX}boost-libs>=1.87.0:devel/boost-python-libs@${PY_FLAVOR} \
 		pybind11>0:devel/pybind11 \
 		c-blosc>0:archivers/c-blosc \
 		doxygen>0:devel/doxygen \
