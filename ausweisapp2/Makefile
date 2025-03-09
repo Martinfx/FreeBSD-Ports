@@ -20,8 +20,7 @@ USE_GL=		opengl
 USE_GITHUB=	yes
 GH_ACCOUNT=	Governikus
 GH_PROJECT=	AusweisApp
-USE_QT=		base connectivity declarative scxml shadertools svg tools \
-		websockets
+USE_QT=		base connectivity declarative svg tools websockets
 
 # The VENDOR variable controls the name of the directory in ${PREFIX}/share.
 CMAKE_ARGS=	-DVENDOR=${PORTNAME}
