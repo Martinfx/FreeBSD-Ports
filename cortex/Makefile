@@ -31,6 +31,7 @@ LIB_DEPENDS+=	libboost_filesystem.so:devel/boost-libs \
 		libboost_timer.so:devel/boost-libs \
 		libboost_chrono.so:devel/boost-libs \
 		libboost_system.so:devel/boost-libs \
+		libboost_python${PYTHON_SUFFIX}.so:devel/boost-python-libs \
 		libOpenEXR-3_3.so:graphics/openexr \
 		libtbb.so:devel/onetbb \
 		libblosc.so:archivers/c-blosc \
@@ -61,8 +62,7 @@ LIB_DEPENDS+=	libboost_filesystem.so:devel/boost-libs \
 		libusd_trace.so:misc/usd \
 		libusd_kind.so:misc/usd \
 		libusd_work.so:misc/usd \
-		libusd_usdVol.so:misc/usd \
-		${PY_BOOST}
+		libusd_usdVol.so:misc/usd
 
 USES=		python:3.11+ localbase gettext-runtime scons
 USE_GL=		glew glu gl
