@@ -752,4 +752,3 @@ python/setup.py
 %%DATADIR%%/materialx/README.md
 bin/MaterialXGraphEditor
 bin/MaterialXView
-
