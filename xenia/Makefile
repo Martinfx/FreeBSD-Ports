@@ -54,6 +54,6 @@ GH_TUPLE+=	microsoft:DirectXShaderCompiler:6b6f40200bea5ed99367513f53f6a28e52fd3
 do-configure:
 	cd ${WRKSRC} && premake5 --os=bsd gmake2
 do-build:
-	cd ${WRKSRC}/build && ${MAKE_ENV} ${MAKE_CMD} config=debug
+	cd ${WRKSRC}/build && ${MAKE_ENV} ${MAKE_CMD} config=release
 
 .include <bsd.port.mk>
