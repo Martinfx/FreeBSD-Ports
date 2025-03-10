@@ -1,0 +1,17 @@
+TIMESTAMP = 1735136220
+SHA256 (apitrace-apitrace-12.0_GH0.tar.gz) = d6d3c8eb582f2953dd2ca780ce2750e44208d1b4e73d973e3f72c5326307faf3
+SIZE (apitrace-apitrace-12.0_GH0.tar.gz) = 2273615
+SHA256 (google-brotli-9801a2c_GH0.tar.gz) = 10617e6eadd7a205b61c07ace44c79439fe9069983fb3cef3c71c45de472bdf3
+SIZE (google-brotli-9801a2c_GH0.tar.gz) = 512031
+SHA256 (microsoft-DirectXMath-e95d848_GH0.tar.gz) = efc8fe6c7cebe8e90d5d29020e2f09e7af41570959ec7ab501b55a7d36aad318
+SIZE (microsoft-DirectXMath-e95d848_GH0.tar.gz) = 219785
+SHA256 (google-googletest-58d77fa_GH0.tar.gz) = a55ceaae12e0ea65fee295b8d807bab5c06a719e98d9ac15af7f7c42a8d5000e
+SIZE (google-googletest-58d77fa_GH0.tar.gz) = 854878
+SHA256 (ianlancetaylor-libbacktrace-8602fda_GH0.tar.gz) = 7ddfc9e62367b4b5f19821ec61e0b8d88ff1a1d6b6c19abe63a4c61d1ddb1bf2
+SIZE (ianlancetaylor-libbacktrace-8602fda_GH0.tar.gz) = 665760
+SHA256 (apitrace-libpng-0a158f3_GH0.tar.gz) = 476278dfc5db1c99780bb8d7be6753ce54d76620fb0f6f55751e1763d9e615cf
+SIZE (apitrace-libpng-0a158f3_GH0.tar.gz) = 1524001
+SHA256 (google-snappy-2b63814_GH0.tar.gz) = f0209dce648ae7dd84688e3c01ccc191e7ae410e9764084e839c0e8a07e384b9
+SIZE (google-snappy-2b63814_GH0.tar.gz) = 1102410
+SHA256 (madler-zlib-21767c6_GH0.tar.gz) = 41ba6bd05f94fc11123f41ad187a2b9656016612222cc800324e3b356a95959f
+SIZE (madler-zlib-21767c6_GH0.tar.gz) = 1547143
