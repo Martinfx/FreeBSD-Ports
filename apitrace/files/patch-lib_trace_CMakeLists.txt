@@ -1,0 +1,10 @@
+--- lib/trace/CMakeLists.txt.orig	2024-05-30 18:10:10 UTC
++++ lib/trace/CMakeLists.txt
+@@ -31,7 +31,6 @@ target_link_libraries (common
+     guids
+     highlight
+     os
+-    Snappy::snappy
+     ZLIB::ZLIB
+     PkgConfig::BROTLIDEC
+ )
