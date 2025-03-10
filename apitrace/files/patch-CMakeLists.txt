@@ -1,0 +1,13 @@
+--- CMakeLists.txt.orig	2024-05-30 18:10:10 UTC
++++ CMakeLists.txt
+@@ -411,6 +411,10 @@ endif ()
+ elseif (ENABLE_STATIC_EXE)
+     set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc -static-libstdc++")
+ endif ()
++# CMake 3.20 doesn't do the tests internally in TestBigEndian
++# that end up setting HAVE_STDINT_H and similar.
++include(CheckTypeSize)
++CHECK_TYPE_SIZE("unsigned short" CMAKE_SIZEOF_UNSIGNED_SHORT LANGUAGE C)
+ 
+ if (ENABLE_FRAME_POINTER)
+     # disable frame pointer omission
