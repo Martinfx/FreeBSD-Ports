@@ -20,7 +20,6 @@ BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}boost-libs>0:devel/boost-python-libs@${PY_
 		gtk3>0:x11-toolkits/gtk30 \
 		harfbuzz>0:print/harfbuzz \
 		nlohmann-json>0:devel/nlohmann-json \
-		oidn>0:graphics/oidn \
 		onetbb>0:devel/onetbb \
 		opencl>0:devel/opencl \
 		opencolorio>0:graphics/opencolorio \
@@ -76,10 +75,18 @@ RUN_DEPENDES=	boost-libs>=1.87.0:devel/boost-libs libfmt>0:devel/libfmt \
 USES=		bison cmake gettext-runtime jpeg localbase pkgconfig \
 		python:3.11+
 CMAKE_ON=	LUXRAYS_DISABLE_CUDA WIN_BUILD_DEMOS
-CMAKE_OFF=	ENABLE_CUDA LUXCORE_DISABLE_OIDN LUXRAYS_DISABLE_OPENCL
+CMAKE_OFF=	ENABLE_CUDA LUXRAYS_DISABLE_OPENCL
 WRKSRC=		${WRKDIR}/${PORTNAME}
 USE_GL=		gl glu opengl
-USE_GNOME=	cairo gdkpixbuf2 glib20 gtk30 pango
+USE_GNOME=	gnome cairo gdkpixbuf2 glib20 gtk30 pango
+
+OPTIONS_DEFINE= 	OIDN
+OPTIONS_DEFAULT=	OIDN
+OPTIONS_SUB=		no
+OIDN_DESC= 		Enable Intel Open Image Denoise support
+OIDN_BUILD_DEPENDS=	oidn>0:graphics/oidn
+OIDN_LIB_DEPENDS=	libOpenImageDenoise.so:graphics/oidn
+OIDN_CMAKE_BOOL_OFF=	LUXCORE_DISABLE_OIDN
 
 do-install:
 	${INSTALL_PROGRAM} ${BUILD_WRKSRC}/bin/luxcoreconsole ${STAGEDIR}${PREFIX}/bin
