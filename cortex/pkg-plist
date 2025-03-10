@@ -925,6 +925,9 @@ include/IECoreScene/WorldBlock.h
 include/IECoreScene/private/PrimitiveAlgoUtils.h
 include/IECoreScene/private/PrimitiveVariableAlgos.h
 include/IECoreScene/private/TransformStack.h
+include/IECoreVDB/Export.h
+include/IECoreVDB/TypeIds.h
+include/IECoreVDB/VDBObject.h
 lib/libIECore.so
 lib/libIECoreAlembic.so
 lib/libIECoreGL.so
