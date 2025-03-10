@@ -1,15 +1,15 @@
---- src/luxcore/CMakeLists.txt.orig	2025-01-08 07:43:39 UTC
+--- src/luxcore/CMakeLists.txt.orig	2025-01-10 06:16:26 UTC
 +++ src/luxcore/CMakeLists.txt
-@@ -178,7 +178,7 @@ include_directories(${OpenVDB_INCLUDE_DIRS})
- # include_directories(${LuxRays_SOURCE_DIR}/deps/openvdb-11.0.0)
+@@ -183,7 +183,7 @@ message(STATUS "OpenVDB lib: ${OpenVDB_INCLUDE_DIRS}")
+ 
+ # OpenColorIO
  # include_directories(${LuxRays_SOURCE_DIR}/deps/opencolorio-2.0.0/include)
- include_directories(${OpenVDB_INCLUDE_DIRS})
 -include_directories(${OpenColorIO_INCLUDE_DIRS})
 +include_directories(${OpenColorIO_INCLUDE_DIRS} ./../../deps/spdlog-1.13.0/include/)
  
  add_definitions(-DOPENVDB_STATICLIB ${VISIBILITY_FLAGS})
  if(APPLE)
-@@ -199,4 +199,4 @@ endif(MSVC)
+@@ -204,4 +204,4 @@ endif(MSVC)
  #
  ################################################################################
  
