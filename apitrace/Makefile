@@ -17,7 +17,9 @@ BUILD_DEPENDS=	brotli>0:archivers/brotli \
 		zlib-ng>0:archivers/zlib-ng
 
 LIB_DEPENDS=	libbrotlidec.so:archivers/brotli \
-		libpng.so:graphics/png
+		libbacktrace.so:devel/libbacktrace
+		libpng.so:graphics/png \
+		libsnappy.so:archivers/snappy
 
 USES=		cmake compiler:c++11-lang desktop-file-utils pkgconfig python shebangfix xorg
 USE_XORG=	x11

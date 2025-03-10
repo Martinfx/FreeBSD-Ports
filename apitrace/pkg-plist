@@ -19,8 +19,8 @@ lib/apitrace/scripts/unpickle.py
 lib/apitrace/wrappers/egltrace.so
 lib/apitrace/wrappers/glxtrace.so
 %%PORTDOCS%%%%DOCSDIR%%/BUGS.markdown
-%%PORTDOCS%%%%DOCSDIR%%/LICENSE-libbacktrace.txt
-%%PORTDOCS%%%%DOCSDIR%%/LICENSE-snappy.txt
+%%DOCSDIR%%/LICENSE-libbacktrace.txt
+%%%DOCSDIR%%/LICENSE-snappy.txt
 %%PORTDOCS%%%%DOCSDIR%%/NEWS.markdown
 %%PORTDOCS%%%%DOCSDIR%%/README.markdown
 %%PORTDOCS%%%%DOCSDIR%%/USAGE.markdown
