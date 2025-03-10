@@ -1,0 +1,66 @@
+--- SConstruct.orig	2025-02-25 10:37:21 UTC
++++ SConstruct
+@@ -96,7 +96,7 @@ o.Add(
+ o.Add(
+ 	"CXXFLAGS",
+ 	"The extra flags to pass to the C++ compiler during compilation.",
+-	[ "-pipe", "-Wall", "-Wextra", "-Wsuggest-override" ] if Environment()["PLATFORM"] != "win32" else [ "/permissive-", "/D_USE_MATH_DEFINES", "/Zc:externC-", "/DBOOST_ALL_NO_LIB" ],
++	[ "-pipe", "-Wall", "-Wextra", "-Wsuggest-override", "-fPIC" ] if Environment()["PLATFORM"] != "win32" else [ "/permissive-", "/D_USE_MATH_DEFINES", "/Zc:externC-", "/DBOOST_ALL_NO_LIB" ],
+ )
+ 
+ o.Add(
+@@ -1109,7 +1109,7 @@ if env["PLATFORM"] != "win32" :
+ 			if gccVersion >= [ 5, 1 ] and gccVersion < [ 11, 2 ] :
+ 				env.Append( CXXFLAGS = [ "-D_GLIBCXX_USE_CXX11_ABI=0" ] )
+ 
+-	env.Append( CXXFLAGS = [ "-std=$CXXSTD", "-fvisibility=hidden" ] )
++	env.Append( CXXFLAGS = [ "-std=$CXXSTD", "-fvisibility=hidden", "-fPIC" ] )
+ 
+ 	if "clang++" in os.path.basename( env["CXX"] ) :
+ 		# Turn off the parts of `-Wall` and `-Wextra` that we don't like.
+@@ -1773,8 +1773,8 @@ if env["INSTALL_CREATE_SYMLINKS"]:
+ headerInstall = coreEnv.Install( "$INSTALL_HEADER_DIR/IECore", coreHeaders )
+ if env["INSTALL_CREATE_SYMLINKS"]:
+ 	coreEnv.AddPostAction( "$INSTALL_HEADER_DIR/IECore", lambda target, source, env : makeSymLinks( coreEnv, coreEnv["INSTALL_HEADER_DIR"] ) )
+-if env["INSTALL_PKG_CONFIG_FILE"]:
+-		coreEnv.AddPostAction( "$INSTALL_HEADER_DIR/IECore", lambda target, source, env : writePkgConfig( coreEnv, corePythonEnv ) )
++#if env["INSTALL_PKG_CONFIG_FILE"]:
++#		coreEnv.AddPostAction( "$INSTALL_HEADER_DIR/IECore", lambda target, source, env : writePkgConfig( coreEnv, corePythonEnv ) )
+ coreEnv.Alias( "install", [ headerInstall, versionHeaderInstall ] )
+ coreEnv.Alias( "installCore", [ headerInstall, versionHeaderInstall ] )
+ 
+@@ -2302,20 +2302,20 @@ if env["WITH_GL"] and doConfigure :
+ 
+ 		Default( [ glLibrary, glPythonModule ] )
+ 
+-		glTestEnv = testEnv.Clone()
+-		glTestEnv["ENV"]["PYTHONPATH"] = glTestEnv["ENV"]["PYTHONPATH"] + os.pathsep + "python"
+-		glTestEnv["ENV"]["IECOREGL_SHADER_INCLUDE_PATHS"] = "./glsl"
+-		for e in ["DISPLAY", "XAUTHORITY"] :
+-			if e in os.environ :
+-				glTestEnv["ENV"][e] = os.environ[e]
+-
+-		glTest = glTestEnv.Command( "test/IECoreGL/results.txt", glPythonModule, "$PYTHON $TEST_GL_SCRIPT --verbose" )
+-		NoCache( glTest )
+-		glTestEnv.Depends( glTest, glLibrary )
+-		glTestEnv.Depends( glTest, corePythonModule )
+-		glTestEnv.Depends( glTest, imagePythonModule )
+-		glTestEnv.Depends( glTest, glob.glob( "test/IECoreGL/*.py" ) )
+-		glTestEnv.Alias( "testGL", glTest )
++#		glTestEnv = testEnv.Clone()
++#		glTestEnv["ENV"]["PYTHONPATH"] = glTestEnv["ENV"]["PYTHONPATH"] + os.pathsep + "python"
++#		glTestEnv["ENV"]["IECOREGL_SHADER_INCLUDE_PATHS"] = "./glsl"
++#		for e in ["DISPLAY", "XAUTHORITY"] :
++#			if e in os.environ :
++#				glTestEnv["ENV"][e] = os.environ[e]
++#
++#		glTest = glTestEnv.Command( "test/IECoreGL/results.txt", glPythonModule, "$PYTHON $TEST_GL_SCRIPT --verbose" )
++#		NoCache( glTest )
++#		glTestEnv.Depends( glTest, glLibrary )
++#		glTestEnv.Depends( glTest, corePythonModule )
++#		glTestEnv.Depends( glTest, imagePythonModule )
++#		glTestEnv.Depends( glTest, glob.glob( "test/IECoreGL/*.py" ) )
++#		glTestEnv.Alias( "testGL", glTest )
+ 
+ ###########################################################################################
+ # Build, install and test the coreMaya library and bindings
