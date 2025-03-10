@@ -17,7 +17,7 @@ BUILD_DEPENDS=	brotli>0:archivers/brotli \
 		zlib-ng>0:archivers/zlib-ng
 
 LIB_DEPENDS=	libbrotlidec.so:archivers/brotli \
-		libbacktrace.so:devel/libbacktrace
+		libbacktrace.so:devel/libbacktrace \
 		libpng.so:graphics/png \
 		libsnappy.so:archivers/snappy
 
