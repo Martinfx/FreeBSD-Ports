@@ -9,17 +9,16 @@ WWW=		https://www.ausweisapp.bund.de/ausweisapp2/
 LICENSE=	EUPL12
 LICENSE_FILE=	${WRKSRC}/LICENSE.txt
 
-BUILD_DEPENDS=	pcsc-lite>0:devel/pcsc-lite
-
+BUILD_DEPENDS=	vulkan-headers>0:graphics/vulkan-headers
 LIB_DEPENDS=	libhttp_parser.so:www/http-parser \
 		libpcsclite.so:devel/pcsc-lite \
 		libudev.so:devel/libudev-devd
 
-USES=		cmake compiler:c++17-lang pkgconfig qmake qt:6 ssl
-USE_GL=		opengl
+USES=		cmake compiler:c++17-lang gl pkgconfig qmake qt:6 ssl
 USE_GITHUB=	yes
 GH_ACCOUNT=	Governikus
 GH_PROJECT=	AusweisApp
+USE_GL=		opengl
 USE_QT=		base connectivity declarative svg tools websockets
 
 # The VENDOR variable controls the name of the directory in ${PREFIX}/share.
