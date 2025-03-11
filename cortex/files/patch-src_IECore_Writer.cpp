@@ -1,4 +1,4 @@
---- src/IECore/Writer.cpp.orig	2024-11-26 17:28:31 UTC
+--- src/IECore/Writer.cpp.orig	2025-02-25 10:37:21 UTC
 +++ src/IECore/Writer.cpp
 @@ -41,7 +41,7 @@
  

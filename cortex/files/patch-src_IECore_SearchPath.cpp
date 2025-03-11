@@ -1,4 +1,4 @@
---- src/IECore/SearchPath.cpp.orig	2024-11-26 17:25:35 UTC
+--- src/IECore/SearchPath.cpp.orig	2025-02-25 10:37:21 UTC
 +++ src/IECore/SearchPath.cpp
 @@ -106,7 +106,7 @@ boost::filesystem::path SearchPath::find( const boost:
  boost::filesystem::path SearchPath::find( const boost::filesystem::path &file ) const

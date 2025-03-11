@@ -1,4 +1,4 @@
---- src/IECore/FileSequenceVectorParameter.cpp.orig	2024-11-26 17:03:49 UTC
+--- src/IECore/FileSequenceVectorParameter.cpp.orig	2025-02-25 10:37:21 UTC
 +++ src/IECore/FileSequenceVectorParameter.cpp
 @@ -41,7 +41,8 @@
  

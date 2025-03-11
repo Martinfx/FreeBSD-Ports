@@ -1,4 +1,4 @@
---- src/IECore/PathParameter.cpp.orig	2024-11-26 17:10:29 UTC
+--- src/IECore/PathParameter.cpp.orig	2025-02-25 10:37:21 UTC
 +++ src/IECore/PathParameter.cpp
 @@ -38,7 +38,7 @@
  

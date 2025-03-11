@@ -1,4 +1,4 @@
---- src/IECoreGL/Selector.cpp.orig	2024-11-29 22:47:43 UTC
+--- src/IECoreGL/Selector.cpp.orig	2025-02-25 10:37:21 UTC
 +++ src/IECoreGL/Selector.cpp
 @@ -53,7 +53,7 @@
  #include "IECore/MessageHandler.h"
