@@ -126,7 +126,7 @@
 +    oneapi::tbb::task_group tg;
 +    tg.run([src, &fileCallback, &tg]()
 +    {
-+        processFiles<Reader, decltype(fileCallback)>(src, fileCallback, tg);
++    	FileTask<Reader, decltype(fileCallback)>(src, fileCallback);
 +    });
 +    tg.wait();
 +
