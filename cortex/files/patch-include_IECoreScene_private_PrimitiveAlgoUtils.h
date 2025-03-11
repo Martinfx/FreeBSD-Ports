@@ -12,17 +12,14 @@
  
  #include <unordered_set>
  #include <type_traits>
-@@ -174,121 +175,104 @@ template<typename T> struct IsDeletablePrimVar : boost
+@@ -174,121 +175,116 @@ template<typename T> struct IsDeletablePrimVar : boost
  /// Numeric & string like arrays, which contain elements which can be added to a std::set
  template<typename T> struct IsDeletablePrimVar : boost::mpl::or_< IECore::TypeTraits::IsStringVectorTypedData<T>, IECore::TypeTraits::IsNumericVectorTypedData<T> > {};
  
 -
  template<typename T, typename S, typename P>
 -class SplitTask : public tbb::task
-+void splitTask(const std::vector<T>& segments, typename P::Ptr primitive, const S& splitter,
-+               const std::string& primvarName, std::vector<typename P::Ptr>& outputPrimitives,
-+               size_t offset, size_t depth, const IECore::Canceller* canceller,
-+               oneapi::tbb::task_group& tg)
++class SplitTask
  {
 -	private:
 -		typedef typename P::Ptr Ptr;
@@ -31,17 +28,20 @@
 -			: m_segments(segments), m_primitive(primitive), m_splitter(splitter), m_primvarName(primvarName), m_outputPrimitives( outputPrimitives ), m_offset(offset), m_depth(depth), m_canceller( canceller )
 -		{
 -		}
-+    if (numPrimitives(primitive.get()) == 0 && !segments.empty())
-+    {
-+        outputPrimitives[offset] = primitive;
-+        return;
-+    }
++private:
++    typedef typename P::Ptr Ptr;
  
 -		task *execute() override
 -		{
-+    if (segments.empty())
++public: 
++	SplitTask(const std::vector<T>& segments, typename P::Ptr primitive, const S& splitter,
++               const std::string& primvarName, std::vector<typename P::Ptr>& outputPrimitives,
++               size_t offset, size_t depth, const IECore::Canceller* canceller,
++               oneapi::tbb::task_group& tg)
++		: m_segments(segments), m_primitive(primitive), m_splitter(splitter),
++          m_primvarName(primvarName), m_outputPrimitives(outputPrimitives),
++          m_offset(offset), m_depth(depth), m_canceller(canceller), m_tg(tg)
 +    {
-+        return;
 +    }
  
 -			if ( numPrimitives ( m_primitive.get() ) == 0 && !m_segments.empty() )
@@ -49,53 +49,51 @@
 -				m_outputPrimitives[m_offset] = m_primitive;
 -				return nullptr;
 -			}
-+    size_t midIndex = segments.size() / 2;
-+    auto midIter = segments.begin() + midIndex;
++    if (numPrimitives(primitive.get()) == 0 && !segments.empty())
++    {
++        outputPrimitives[offset] = primitive;
++        return;
++    }
  
 -			if ( m_segments.size () == 0 )
 -			{
 -				return nullptr;
 -			}
-+    IECoreScene::PrimitiveVariable segmentPrimVar = primitive->variables.find(primvarName)->second;
++    if (segments.empty())
++    {
++        return;
++    }
  
 -			size_t offset = m_segments.size() / 2;
 -			typename std::vector<T>::iterator mid = m_segments.begin() + offset;
-+    std::vector<T> lowerSegments(segments.begin(), midIter);
-+    std::vector<T> upperSegments(midIter, segments.end());
++    size_t midIndex = segments.size() / 2;
++    auto midIter = segments.begin() + midIndex;
  
 -			IECoreScene::PrimitiveVariable segmentPrimVar = m_primitive->variables.find( m_primvarName )->second;
-+    std::set<T> lowerSegmentsSet(segments.begin(), midIter);
-+    std::set<T> upperSegmentsSet(midIter, segments.end());
++    IECoreScene::PrimitiveVariable segmentPrimVar = primitive->variables.find(primvarName)->second;
  
 -			std::vector<T> lowerSegments (m_segments.begin(), mid);
 -			std::vector<T> upperSegments (mid, m_segments.end());
-+    const auto& readable = IECore::runTimeCast<IECore::TypedData<std::vector<T>>>(segmentPrimVar.data)->readable();
++    std::vector<T> lowerSegments(segments.begin(), midIter);
++    std::vector<T> upperSegments(midIter, segments.end());
  
 -			std::set<T> lowerSegmentsSet ( m_segments.begin(), mid );
 -			std::set<T> upperSegmentsSet (mid, m_segments.end());
-+    auto deletionArrayLower = std::make_shared<IECore::BoolVectorData>();
-+    auto& writableLower = deletionArrayLower->writable();
++    std::set<T> lowerSegmentsSet(segments.begin(), midIter);
++    std::set<T> upperSegmentsSet(midIter, segments.end());
  
 -			const auto &readable = IECore::runTimeCast<IECore::TypedData<std::vector<T> > >( segmentPrimVar.data )->readable();
-+    auto deletionArrayUpper = std::make_shared<IECore::BoolVectorData>();
-+    auto& writableUpper = deletionArrayUpper->writable();
++    const auto& readable = IECore::runTimeCast<IECore::TypedData<std::vector<T>>>(segmentPrimVar.data)->readable();
  
 -			IECore::BoolVectorDataPtr deletionArrayLower = new IECore::BoolVectorData();
 -			auto &writableLower = deletionArrayLower->writable();
-+    size_t deleteCount = 0;
-+    if (segmentPrimVar.indices)
-+    {
-+        const auto& readableIndices = segmentPrimVar.indices->readable();
-+        writableLower.resize(readableIndices.size());
-+        writableUpper.resize(readableIndices.size());
++    auto deletionArrayLower = std::make_shared<IECore::BoolVectorData>();
++    auto& writableLower = deletionArrayLower->writable();
  
 -			IECore::BoolVectorDataPtr deletionArrayUpper = new IECore::BoolVectorData();
 -			auto &writableUpper = deletionArrayUpper->writable();
-+        for (size_t i = 0; i < readableIndices.size(); ++i)
-+        {
-+            size_t index = readableIndices[i];
-+            writableLower[i] = lowerSegmentsSet.find(readable[index]) == lowerSegmentsSet.end();
-+            writableUpper[i] = upperSegmentsSet.find(readable[index]) == upperSegmentsSet.end();
++    auto deletionArrayUpper = std::make_shared<IECore::BoolVectorData>();
++    auto& writableUpper = deletionArrayUpper->writable();
  
 -			size_t deleteCount = 0;
 -			if( segmentPrimVar.indices )
@@ -103,26 +101,23 @@
 -				auto &readableIndices = segmentPrimVar.indices->readable();
 -				writableLower.resize( readableIndices.size() );
 -				writableUpper.resize( readableIndices.size() );
-+            deleteCount += (writableLower[i] && !lowerSegments.empty()) || (writableUpper[i] && !upperSegments.empty()) ? 1 : 0;
-+        }
-+    }
-+    else
++    size_t deleteCount = 0;
++    if (segmentPrimVar.indices)
 +    {
-+        writableLower.resize(readable.size());
-+        writableUpper.resize(readable.size());
++        const auto& readableIndices = segmentPrimVar.indices->readable();
++        writableLower.resize(readableIndices.size());
++        writableUpper.resize(readableIndices.size());
  
 -				for( size_t i = 0; i < readableIndices.size(); ++i )
 -				{
 -					size_t index = readableIndices[i];
 -					writableLower[i] = lowerSegmentsSet.find( readable[index] ) == lowerSegmentsSet.end();
 -					writableUpper[i] = upperSegmentsSet.find( readable[index] ) == upperSegmentsSet.end();
-+        for (size_t i = 0; i < readable.size(); ++i)
++        for (size_t i = 0; i < readableIndices.size(); ++i)
 +        {
-+            writableLower[i] = lowerSegmentsSet.find(readable[i]) == lowerSegmentsSet.end();
-+            writableUpper[i] = upperSegmentsSet.find(readable[i]) == upperSegmentsSet.end();
-+            deleteCount += (writableLower[i] && !lowerSegments.empty()) || (writableUpper[i] && !upperSegments.empty()) ? 1 : 0;
-+        }
-+    }
++            size_t index = readableIndices[i];
++            writableLower[i] = lowerSegmentsSet.find(readable[index]) == lowerSegmentsSet.end();
++            writableUpper[i] = upperSegmentsSet.find(readable[index]) == upperSegmentsSet.end();
  
 -					deleteCount += ( writableLower[i] && !lowerSegments.empty() ) || ( writableUpper[i] && !upperSegments.empty() ) ? 1 : 0;
 -				}
@@ -131,11 +126,13 @@
 -			{
 -				writableLower.resize( readable.size() );
 -				writableUpper.resize( readable.size() );
-+    if (segments.size() == 1 && deleteCount == 0)
-+    {
-+        outputPrimitives[offset] = primitive;
-+        return;
++            deleteCount += (writableLower[i] && !lowerSegments.empty()) || (writableUpper[i] && !upperSegments.empty()) ? 1 : 0;
++        }
 +    }
++    else
++    {
++        writableLower.resize(readable.size());
++        writableUpper.resize(readable.size());
  
 -				for( size_t i = 0; i < readable.size(); ++i )
 -				{
@@ -144,33 +141,50 @@
 -					deleteCount += ( writableLower[i] && !lowerSegments.empty() ) || ( writableUpper[i] && !upperSegments.empty() ) ? 1 : 0;
 -				}
 -			}
-+    IECoreScene::PrimitiveVariable::Interpolation interpolation = splitPrimvarInterpolation(primitive.get());
++        for (size_t i = 0; i < readable.size(); ++i)
++        {
++            writableLower[i] = lowerSegmentsSet.find(readable[i]) == lowerSegmentsSet.end();
++            writableUpper[i] = upperSegmentsSet.find(readable[i]) == upperSegmentsSet.end();
++            deleteCount += (writableLower[i] && !lowerSegments.empty()) || (writableUpper[i] && !upperSegments.empty()) ? 1 : 0;
++        }
++    }
  
 -			if ( m_segments.size() == 1 && deleteCount == 0)
 -			{
 -				m_outputPrimitives[m_offset] = m_primitive;
 -				return nullptr;
 -			}
-+    IECoreScene::PrimitiveVariable delPrimVarLower(interpolation, deletionArrayLower);
-+    auto a = splitter(primitive.get(), delPrimVarLower, false, canceller);
++    if (segments.size() == 1 && deleteCount == 0)
++    {
++        outputPrimitives[offset] = primitive;
++        return;
++    }
  
 -			IECoreScene::PrimitiveVariable::Interpolation i = splitPrimvarInterpolation( m_primitive.get() );
-+    IECoreScene::PrimitiveVariable delPrimVarUpper(interpolation, deletionArrayUpper);
-+    auto b = splitter(primitive.get(), delPrimVarUpper, false, canceller);
++    IECoreScene::PrimitiveVariable::Interpolation interpolation = splitPrimvarInterpolation(primitive.get());
  
 -			IECoreScene::PrimitiveVariable delPrimVarLower( i, deletionArrayLower );
 -			Ptr a = m_splitter( m_primitive.get(), delPrimVarLower, false, m_canceller ) ;
-+    tg.run([=, &tg]() {
-+        splitTask(lowerSegments, a, splitter, primvarName, outputPrimitives, offset, depth + 1, canceller, tg);
-+    });
++    IECoreScene::PrimitiveVariable delPrimVarLower(interpolation, deletionArrayLower);
++    auto a = splitter(primitive.get(), delPrimVarLower, false, canceller);
  
 -			IECoreScene::PrimitiveVariable delPrimVarUpper( i, deletionArrayUpper);
 -			Ptr b = m_splitter( m_primitive.get(), delPrimVarUpper, false, m_canceller ) ;
-+    tg.run([=, &tg]() {
-+        splitTask(upperSegments, b, splitter, primvarName, outputPrimitives, offset + midIndex, depth + 1, canceller, tg);
-+    });
++    IECoreScene::PrimitiveVariable delPrimVarUpper(interpolation, deletionArrayUpper);
++    auto b = splitter(primitive.get(), delPrimVarUpper, false, canceller);
  
 -			size_t numSplits = 2;
++    m_tg.run([=, &tg]() {
++        SplitTask(lowerSegments, a, splitter, primvarName, outputPrimitives, offset, depth + 1, canceller, tg);
++    });
+ 
+-			set_ref_count( 1 + numSplits);
++    m_tg.run([=, &tg]() {
++        SplitTask(upperSegments, b, splitter, primvarName, outputPrimitives, offset + midIndex, depth + 1, canceller, tg);
++    });
+ 
+-			SplitTask *tA = new( allocate_child() ) SplitTask( lowerSegments, a, m_splitter,  m_primvarName, m_outputPrimitives, m_offset, m_depth + 1, m_canceller);
+-			spawn( *tA );
 +private:
 +    std::vector<T> m_segments;
 +    typename P::Ptr m_primitive;
@@ -180,13 +194,9 @@
 +    size_t m_offset;
 +    size_t m_depth;
 +    const IECore::Canceller* m_canceller;
++	oneapi::tbb::task_group m_tg
 +}
  
--			set_ref_count( 1 + numSplits);
--
--			SplitTask *tA = new( allocate_child() ) SplitTask( lowerSegments, a, m_splitter,  m_primvarName, m_outputPrimitives, m_offset, m_depth + 1, m_canceller);
--			spawn( *tA );
--
 -			SplitTask *tB = new( allocate_child() ) SplitTask( upperSegments, b, m_splitter, m_primvarName, m_outputPrimitives, m_offset + offset, m_depth + 1, m_canceller );
 -			spawn( *tB );
 -
@@ -210,7 +220,7 @@
  template<typename P, typename S>
  class TaskSegmenter
  {
-@@ -322,18 +306,24 @@ class TaskSegmenter
+@@ -322,18 +318,24 @@ class TaskSegmenter
  
  			ReturnType results( segmentsReadable.size() );
  
