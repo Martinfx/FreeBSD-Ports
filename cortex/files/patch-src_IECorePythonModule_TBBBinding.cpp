@@ -25,7 +25,7 @@
  {
  
  	public :
-@@ -82,47 +82,47 @@ class TaskSchedulerInitWrapper : public tbb::task_sche
+@@ -82,21 +82,21 @@ class TaskSchedulerInitWrapper : public tbb::task_sche
  
  		int m_maxThreads;
  
@@ -34,55 +34,34 @@
  
  class GlobalControlWrapper : public boost::noncopyable
  {
-+public:
-+    GlobalControlWrapper(size_t max_threads)
-+        : m_maxThreads(max_threads)
-+    {
-+        if (max_threads == 0)
-+        {
-+            PyErr_SetString(PyExc_ValueError, "max_threads must be a positive integer");
-+            throw_error_already_set();
-+        }
-+    }
  
--	public :
-+    void enter()
-+    {
-+        m_globalControl.reset(new tbb::global_control(tbb::global_control::max_allowed_parallelism, m_maxThreads));
-+    }
+ 	public :
  
 -		GlobalControlWrapper( tbb::global_control::parameter parameter, size_t value )
--			:	m_parameter( parameter ), m_value( value )
--		{
--		}
-+    bool exit(boost::python::object excType, boost::python::object excValue, boost::python::object excTraceBack)
-+    {
-+        m_globalControl.reset();
-+        return false; // don't suppress exceptions
-+    }
++		GlobalControlWrapper( oneapi::tbb::global_control::parameter parameter, size_t value )
+ 			:	m_parameter( parameter ), m_value( value )
+ 		{
+ 		}
  
--		void enter()
--		{
+ 		void enter()
+ 		{
 -			m_globalControl.reset( new tbb::global_control( m_parameter, m_value ) );
--		}
--
--		bool exit( boost::python::object excType, boost::python::object excValue, boost::python::object excTraceBack )
--		{
--			m_globalControl.reset();
--			return false; // don't suppress exceptions
--		}
--
--	private :
--
++			m_globalControl.reset( new oneapi::tbb::global_control( m_parameter, m_value ) );
+ 		}
+ 
+ 		bool exit( boost::python::object excType, boost::python::object excValue, boost::python::object excTraceBack )
+@@ -107,36 +107,37 @@ class GlobalControlWrapper : public boost::noncopyable
+ 
+ 	private :
+ 
 -		const tbb::global_control::parameter m_parameter;
--		const size_t m_value;
--		std::unique_ptr<tbb::global_control> m_globalControl;
--
-+private:
-+    size_t m_maxThreads;
-+    std::unique_ptr<tbb::global_control> m_globalControl;
++		const oneapi::tbb::global_control::parameter m_parameter;
+ 		const size_t m_value;
+ 		std::unique_ptr<tbb::global_control> m_globalControl;
+ 
  };
  
++
  } // namespace
  
  void IECorePythonModule::bindTBB()
@@ -98,3 +77,21 @@
  
  	class_<GlobalControlWrapper, boost::noncopyable> globalControl( "tbb_global_control", no_init );
  	{
+ 		scope globalControlScope = globalControl;
+ 		enum_<tbb::global_control::parameter>( "parameter" )
+-			.value( "max_allowed_parallelism", tbb::global_control::max_allowed_parallelism )
+-			.value( "thread_stack_size", tbb::global_control::thread_stack_size )
++			.value( "max_allowed_parallelism", oneapi::tbb::global_control::max_allowed_parallelism )
++			.value( "thread_stack_size", oneapi::tbb::global_control::thread_stack_size )
+ 		;
+ 	}
+ 	globalControl
+-		.def( init<tbb::global_control::parameter, size_t>() )
++		.def( init<oneapi::tbb::global_control::parameter, size_t>() )
+ 		.def( "__enter__", &GlobalControlWrapper::enter, return_self<>() )
+ 		.def( "__exit__", &GlobalControlWrapper::exit )
+-		.def( "active_value", (size_t (*)(tbb::global_control::parameter))&tbb::global_control::active_value )
++		.def( "active_value", (size_t (*)(oneapi::tbb::global_control::parameter))&oneapi::tbb::global_control::active_value )
+ 		.staticmethod( "active_value" )
+ 	;
+ 
