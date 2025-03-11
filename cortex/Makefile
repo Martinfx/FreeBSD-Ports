@@ -14,7 +14,6 @@ BUILD_DEPENDS=	alembic>0:graphics/alembic \
 		${PYTHON_PKGNAMEPREFIX}boost-libs>=1.87.0:devel/boost-python-libs@${PY_FLAVOR} \
 		pybind11>0:devel/pybind11 \
 		c-blosc>0:archivers/c-blosc \
-		doxygen>0:devel/doxygen \
 		onetbb>0:devel/onetbb \
 		freetype2>0:print/freetype2 \
 		glew>0:graphics/glew \
@@ -43,6 +42,8 @@ LIB_DEPENDS+=	libboost_filesystem.so:devel/boost-libs \
 		libOpenImageIO.so:graphics/openimageio \
 		libOpenImageIO_Util.so:graphics/openimageio \
 		libopenvdb.so:misc/openvdb
+
+TEST_DEPENDS=	scons:devel/scons
 
 USES=		python:3.11+ localbase gettext-runtime scons
 USE_GL=		glew glu gl
@@ -84,6 +85,10 @@ do-install:
 	${MKDIR} ${STAGEDIR}${PYTHON_SITELIBDIR}
 	(cd ${WRKSRC}/python && ${COPYTREE_SHARE} . ${STAGEDIR}${PYTHON_SITELIBDIR})
 
+do-test:
+	cd ${WRKSRC} && ${SETENV} ${TEST_ENV} scons test ${SCONS_ARGS}
+
 .include <bsd.port.pre.mk>
 MAKE_ARGS=	${SCONS_ARGS}
 .include <bsd.port.post.mk>
+
