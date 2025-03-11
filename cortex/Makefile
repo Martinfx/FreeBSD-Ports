@@ -46,7 +46,6 @@ LIB_DEPENDS+=	libboost_filesystem.so:devel/boost-libs \
 
 USES=		python:3.11+ localbase gettext-runtime scons
 USE_GL=		glew glu gl
-USE_GCC=	yes
 USE_GITHUB=	yes
 GH_ACCOUNT=	ImageEngine
 GH_PROJECT=	cortex
@@ -75,7 +74,6 @@ SCONS_ARGS+=	WARNINGS_AS_ERRORS=0
 SCONS_ARGS+=	PYTHON_CONFIG=${PYTHON_CMD}-config
 SCONS_ARGS+=	PYTHON=${PYTHON_CMD}
 SCONS_ARGS+=	CXX=${CXX}
-SCONS_ARGS+=	DOXYGEN=${LOCALBASE}/bin/doxygen
 SCONS_ARGS+=	INSTALL_PREFIX=${STAGEDIR}${PREFIX}
 SCONS_ARGS+=	INSTALL_HEADER_DIR=${STAGEDIR}${PREFIX}/include
 
