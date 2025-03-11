@@ -1,0 +1,56 @@
+--- bin/gaffer.orig	2025-03-08 17:58:07 UTC
++++ bin/gaffer
+@@ -187,6 +187,8 @@ if [[ `uname` = "Linux" ]] ; then
+ 
+ if [[ `uname` = "Linux" ]] ; then
+ 	prependToPath "$GAFFER_ROOT/lib" LD_LIBRARY_PATH
++elif [[ `uname` = "FreeBSD" ]] ; then
++	prependToPath "$GAFFER_ROOT/lib" LD_LIBRARY_PATH
+ else
+ 	prependToPath "$GAFFER_ROOT/lib" DYLD_FRAMEWORK_PATH
+ 	prependToPath "$GAFFER_ROOT/lib" DYLD_LIBRARY_PATH
+@@ -235,6 +237,8 @@ if [[ $ARNOLD_ROOT ]] ; then
+ 
+ 	if [[ `uname` = "Linux" ]] ; then
+ 		appendToPath "$ARNOLD_ROOT/bin" LD_LIBRARY_PATH
++	elif [[ `uname` = "FreeBSD" ]] ; then
++		appendToPath "$ARNOLD_ROOT/bin" LD_LIBRARY_PATH
+ 	else
+ 		appendToPath "$ARNOLD_ROOT/bin" DYLD_LIBRARY_PATH
+ 	fi
+@@ -292,6 +296,8 @@ if [[ -n $DELIGHT ]] ; then
+ 
+ 	if [[ `uname` = "Linux" ]] ; then
+ 		appendToPath "$DELIGHT/lib" LD_LIBRARY_PATH
++	elif [[ `uname` = "FreeBSD" ]] ; then
++		appendToPath "$DELIGHT/lib" LD_LIBRARY_PATH
+ 	else
+ 		appendToPath "$DELIGHT/lib" DYLD_LIBRARY_PATH
+ 	fi
+@@ -312,6 +318,8 @@ if [[ -n $ONNX_ROOT ]] ; then
+ 
+ 	if [[ `uname` = "Linux" ]] ; then
+ 		appendToPath "$ONNX_ROOT/lib" LD_LIBRARY_PATH
++	elif [[ `uname` = "FreeBSD" ]] ; then
++		appendToPath "$ONNX_ROOT/lib" LD_LIBRARY_PATH
+ 	else
+ 		appendToPath "$ONNX_ROOT/lib" DYLD_LIBRARY_PATH
+ 	fi
+@@ -325,6 +333,8 @@ if [[ -n $RMANTREE ]] ; then
+ 
+ 	if [[ `uname` = "Linux" ]] ; then
+ 		appendToPath "$RMANTREE/lib" LD_LIBRARY_PATH
++	elif [[ `uname` = "FreeBSD" ]] ; then
++		appendToPath "$RMANTREE/lib" LD_LIBRARY_PATH
+ 	else
+ 		appendToPath "$RMANTREE/lib" DYLD_LIBRARY_PATH
+ 	fi
+@@ -344,6 +354,8 @@ for extension in $GAFFER_EXTENSION_PATHS; do
+ for extension in $GAFFER_EXTENSION_PATHS; do
+ 
+ 	if [[ `uname` = "Linux" ]] ; then
++		appendToPath "$extension/lib" LD_LIBRARY_PATH
++	elif [[ `uname` = "FreeBSD" ]] ; then
+ 		appendToPath "$extension/lib" LD_LIBRARY_PATH
+ 	else
+ 		appendToPath "$extension/lib" DYLD_LIBRARY_PATH
