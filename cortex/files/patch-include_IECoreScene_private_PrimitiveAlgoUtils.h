@@ -240,7 +240,7 @@
 +			tbb::task_group tg;
 +
 +			tg.run([&] {
-+    			SplitTask<T, S, P> task(
++    			typename SplitTask<T, S, P>::SplitTask task(
 +        		segmentsReadable,
 +        		const_cast<P*>(m_primitive),
 +        		m_splitter,
@@ -253,7 +253,7 @@
 +    		task.execute();
 +			});
 +
-+			tg.wait();
++tg.wait();
  
  			return results;
  
