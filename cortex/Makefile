@@ -37,7 +37,7 @@ USES=		compiler gettext-runtime gl python:3.11+ scons
 USE_GITHUB=	yes
 GH_ACCOUNT=	ImageEngine
 USE_GL=		gl glew glu
-USE_LDCONFIG=   yes
+USE_LDCONFIG=	yes
 
 # setup variables for compilation
 SCONS_ARGS=	BOOST_INCLUDE_PATH=${LOCALBASE}/include \
