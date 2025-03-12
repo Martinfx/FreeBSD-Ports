@@ -1,5 +1,20 @@
---- bin/gaffer.orig	2025-03-08 17:58:07 UTC
+--- bin/gaffer.orig	2025-03-04 09:57:44 UTC
 +++ bin/gaffer
+@@ -1,4 +1,4 @@
+-#! /bin/bash
++#! /usr/local/bin/bash
+ ##########################################################################
+ #
+ #  Copyright (c) 2011-2012, John Haddon. All rights reserved.
+@@ -41,7 +41,7 @@
+ # correct python interpreter.
+ ##########################################################################
+ 
+-set -e
++set -x
+ 
+ # Remove -psn_0 argument that the OS X launcher adds on annoyingly.
+ ##########################################################################
 @@ -187,6 +187,8 @@ if [[ `uname` = "Linux" ]] ; then
  
  if [[ `uname` = "Linux" ]] ; then
@@ -45,12 +60,19 @@
  	else
  		appendToPath "$RMANTREE/lib" DYLD_LIBRARY_PATH
  	fi
-@@ -344,6 +354,8 @@ for extension in $GAFFER_EXTENSION_PATHS; do
- for extension in $GAFFER_EXTENSION_PATHS; do
+@@ -345,6 +355,8 @@ for extension in $GAFFER_EXTENSION_PATHS; do
  
  	if [[ `uname` = "Linux" ]] ; then
-+		appendToPath "$extension/lib" LD_LIBRARY_PATH
-+	elif [[ `uname` = "FreeBSD" ]] ; then
  		appendToPath "$extension/lib" LD_LIBRARY_PATH
++	elif [[ `uname` = "FreeBSD" ]] ; then
++		appendToPath "$extension/lib" LD_LIBRARY_PATH
  	else
  		appendToPath "$extension/lib" DYLD_LIBRARY_PATH
+ 	fi
+@@ -391,5 +403,5 @@ else
+ 	# Using `which` because lldb doesn't seem to respect $PATH
+ 	exec $GAFFER_DEBUGGER `which python` "$GAFFER_ROOT/bin/__gaffer.py" "$@"
+ else
+-	exec python "$GAFFER_ROOT/bin/__gaffer.py" "$@"
++	exec python3.11 "$GAFFER_ROOT/bin/__gaffer.py" "$@"
+ fi

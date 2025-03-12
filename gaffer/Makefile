@@ -55,6 +55,9 @@ BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}Jinja2>0:devel/py-Jinja2@${PY_FLAVOR} \
 		zstd>0:archivers/zstd \
 		usd>0:misc/usd
 
+RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}qt5-pyqt>0:devel/py-qt5-pyqt@${PY_FLAVOR} \
+		${PYTHON_PKGNAMEPREFIX}pyside2>0:devel/pyside2@${PY_FLAVOR}
+
 USES=		llvm:min=15,build,run localbase compiler:c++20-lang python:3.11+,env qt:5 scons
 USE_QT=		core gui widgets opengl buildtools:build qmake:build
 USE_GITHUB=	yes
@@ -68,6 +71,9 @@ SCONS_ARGS+=	BOOST_LIB_SUFFIX="" SPHINX=${LOCALBASE}/bin/sphinx-build \
 		CXXSTD=c++20
 SCONS_ARGS+=	CYCLES_ROOT=${LOCALBASE}/bin
 SCONS_ARGS+=	OSLHOME=${LOCALBASE}/share/openshadinglanguage/shaders
+
+do-install:
+	${INSTALL_LIB} ${WRKSRC}/lib/*.so ${STAGEDIR}${PREFIX}/lib/
 
 .include <bsd.port.pre.mk>
 MAKE_ARGS+=	${SCONS_ARGS}
