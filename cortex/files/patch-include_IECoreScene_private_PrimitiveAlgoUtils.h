@@ -1,4 +1,4 @@
---- include/IECoreScene/private/PrimitiveAlgoUtils.h.orig	2025-03-12 06:42:11 UTC
+--- include/IECoreScene/private/PrimitiveAlgoUtils.h.orig	2025-02-25 10:37:21 UTC
 +++ include/IECoreScene/private/PrimitiveAlgoUtils.h
 @@ -48,8 +48,9 @@
  
@@ -21,7 +21,7 @@
  {
  	private:
  		typedef typename P::Ptr Ptr;
-@@ -186,7 +187,7 @@ class SplitTask : public tbb::task
+@@ -186,18 +187,17 @@ class SplitTask : public tbb::task
  		{
  		}
  
@@ -30,7 +30,27 @@
  		{
  
  			if ( numPrimitives ( m_primitive.get() ) == 0 && !m_segments.empty() )
-@@ -264,17 +265,16 @@ class SplitTask : public tbb::task
+ 			{
+ 				m_outputPrimitives[m_offset] = m_primitive;
+-				return nullptr;
+ 			}
+ 
+ 			if ( m_segments.size () == 0 )
+ 			{
+-				return nullptr;
++				return;
+ 			}
+ 
+ 			size_t offset = m_segments.size() / 2;
+@@ -251,7 +251,6 @@ class SplitTask : public tbb::task
+ 			if ( m_segments.size() == 1 && deleteCount == 0)
+ 			{
+ 				m_outputPrimitives[m_offset] = m_primitive;
+-				return nullptr;
+ 			}
+ 
+ 			IECoreScene::PrimitiveVariable::Interpolation i = splitPrimvarInterpolation( m_primitive.get() );
+@@ -264,17 +263,16 @@ class SplitTask : public tbb::task
  
  			size_t numSplits = 2;
  
@@ -48,17 +68,17 @@
 +			oneapi::tbb::task_group tg;
 +			tg.run([=] {
 +	           	SplitTask lowerTask(lowerSegments, a, m_splitter, m_primvarName, m_outputPrimitives, m_offset, m_depth + 1, m_canceller);
-+            	lowerTask.execute();
-+        	});
++            			lowerTask.execute();
++        		});
 +			tg.run([=] {
-+            	SplitTask upperTask(upperSegments, b, m_splitter, m_primvarName, m_outputPrimitives, m_offset + offset, m_depth + 1, m_canceller);
-+           	 	upperTask.execute();
-+	        });
-+			tg.wait();	
++            		SplitTask upperTask(upperSegments, b, m_splitter, m_primvarName, m_outputPrimitives, m_offset + offset, m_depth + 1, m_canceller);
++           	 		upperTask.execute();
++	        	});
++			tg.wait();
  		}
  
  	private:
-@@ -322,8 +322,10 @@ class TaskSegmenter
+@@ -322,8 +320,10 @@ class TaskSegmenter
  
  			ReturnType results( segmentsReadable.size() );
  
@@ -71,7 +91,7 @@
  				segmentsReadable,
  				const_cast<P *>(m_primitive),
  				m_splitter,
-@@ -332,8 +334,10 @@ class TaskSegmenter
+@@ -332,8 +332,10 @@ class TaskSegmenter
  				0,
  				0,
  				m_canceller
