@@ -3,27 +3,15 @@ DISTVERSION=	10.5.13.0
 CATEGORIES=	graphics
 
 MAINTAINER=	freebsd@sysctl.cz
-COMMENT=	Libraries for visual effects software development.
-WWW=		https://github.com/ImageEngine/cortex
+COMMENT=	Libraries for visual effects software development
+WWW=		https://github.com/ImageEngine/cortex/
 
 LICENSE=	BSD3CLAUSE
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
-BUILD_DEPENDS=	alembic>0:graphics/alembic \
-		boost-libs>=1.87.0:devel/boost-libs \
-		${PYTHON_PKGNAMEPREFIX}boost-libs>=1.87.0:devel/boost-python-libs@${PY_FLAVOR} \
-		pybind11>0:devel/pybind11 \
-		c-blosc>0:archivers/c-blosc \
-		doxygen>0:devel/doxygen \
-		onetbb>0:devel/onetbb \
-		freetype2>0:print/freetype2 \
-		glew>0:graphics/glew \
-		openexr>0:graphics/openexr \
-		openimageio>0:graphics/openimageio \
-		openvdb>0:misc/openvdb \
-		usd>0:misc/usd
+BUILD_DEPENDS=	pybind11>0:devel/pybind11
 
-LIB_DEPENDS+=	libboost_filesystem.so:devel/boost-libs \
+LIB_DEPENDS=	libboost_filesystem.so:devel/boost-libs \
 		libboost_regex.so:devel/boost-libs \
 		libboost_iostreams.so:devel/boost-libs \
 		libboost_date_time.so:devel/boost-libs \
@@ -43,64 +31,43 @@ LIB_DEPENDS+=	libboost_filesystem.so:devel/boost-libs \
 		libfreetype.so:print/freetype2 \
 		libOpenImageIO.so:graphics/openimageio \
 		libOpenImageIO_Util.so:graphics/openimageio \
-		libopenvdb.so:misc/openvdb \
-		libusd_usd.so:misc/usd \
-		libusd_usdGeom.so:misc/usd \
-		libusd_usdLux.so:misc/usd \
-		libusd_usdSkel.so:misc/usd \
-		libusd_usdShade.so:misc/usd \
-		libusd_usdUtils.so:misc/usd \
-		libusd_sdf.so:misc/usd \
-		libusd_tf.so:misc/usd \
-		libusd_pcp.so:misc/usd \
-		libusd_arch.so:misc/usd \
-		libusd_gf.so:misc/usd \
-		libusd_js.so:misc/usd \
-		libusd_vt.so:misc/usd \
-		libusd_ar.so:misc/usd \
-		libusd_plug.so:misc/usd \
-		libusd_trace.so:misc/usd \
-		libusd_kind.so:misc/usd \
-		libusd_work.so:misc/usd \
-		libusd_usdVol.so:misc/usd
+		libopenvdb.so:misc/openvdb
 
-USES=		python:3.11+ localbase gettext-runtime scons
-USE_GL=		glew glu gl
-USE_GCC=	yes
+USES=		compiler gettext-runtime gl python:3.11+ scons
 USE_GITHUB=	yes
 GH_ACCOUNT=	ImageEngine
-GH_PROJECT=	cortex
+USE_GL=		gl glew glu
+USE_LDCONFIG=	yes
 
 # setup variables for compilation
-SCONS_ARGS+=	BOOST_INCLUDE_PATH=${LOCALBASE}/include
-SCONS_ARGS+=	BOOST_LIB_PATH=${LOCALBASE}/lib
-SCONS_ARGS+=	BOOST_LIB_SUFFIX=""
-SCONS_ARGS+=	OPENEXR_INCLUDE_PATH=${LOCALBASE}/include
-SCONS_ARGS+=	OPENEXR_LIB_PATH=${LOCALBASE}/lib
-SCONS_ARGS+=	FREETYPE_INCLUDE_PATH=${LOCALBASE}/include/freetype2
-SCONS_ARGS+=	FREETYPE_LIB_PATH=${LOCALBASE}/lib
-SCONS_ARGS+=	BLOSC_INCLUDE_PATH=${LOCALBASE}/include
-SCONS_ARGS+=	BLOSC_LIB_PATH=${LOCALBASE}/lib
-SCONS_ARGS+=	OIIO_INCLUDE_PATH=${LOCALBASE}/include/OpenImageIO
-SCONS_ARGS+=	OIIO_LIB_PATH=${LOCALBASE}/lib
-SCONS_ARGS+=	TBB_INCLUDE_PATH=${LOCALBASE}/include/oneapi/
-SCONS_ARGS+=	TBB_LIB_PATH=${LOCALBASE}/lib
-SCONS_ARGS+=	VDB_INCLUDE_PATH=${LOCALBASE}/include/openvdb
-SCONS_ARGS+=	VDB_LIB_PATH=${LOCALBASE}/lib
-SCONS_ARGS+=	ALEMBIC_INCLUDE_PATH=${LOCALBASE}/include/Alembic
-SCONS_ARGS+=	ALEMBIC_LIB_PATH=${LOCALBASE}/lib
-SCONS_ARGS+=	PYBIND11_INCLUDE_PATH=${LOCALBASE}/include
-SCONS_ARGS+=    USD_INCLUDE_PATH=${LOCALBASE}/include/pxr
-SCONS_ARGS+=    USD_LIB_PATH=${LOCALBASE}/lib
-SCONS_ARGS+=	USD_LIB_PREFIX="libusd_"
-SCONS_ARGS+=	WITH_GL=1
-SCONS_ARGS+=	WARNINGS_AS_ERRORS=0
-SCONS_ARGS+=	PYTHON_CONFIG=${PYTHON_CMD}-config
-SCONS_ARGS+=	PYTHON=${PYTHON_CMD}
-SCONS_ARGS+=	CXX=${CXX}
-SCONS_ARGS+=	DOXYGEN=${LOCALBASE}/bin/doxygen
-SCONS_ARGS+=	INSTALL_PREFIX=${STAGEDIR}${PREFIX}
-SCONS_ARGS+=	INSTALL_HEADER_DIR=${STAGEDIR}${PREFIX}/include
+SCONS_ARGS=	BOOST_INCLUDE_PATH=${LOCALBASE}/include \
+		BOOST_LIB_PATH=${LOCALBASE}/lib \
+		BOOST_LIB_SUFFIX="" \
+		OPENEXR_INCLUDE_PATH=${LOCALBASE}/include \
+		OPENEXR_LIB_PATH=${LOCALBASE}/lib \
+		ILMBASE_INCLUDE_PATH=${LOCALBASE}/include \
+		ILMBASE_LIB_PATH=${LOCALBASE}/lib \
+		FREETYPE_INCLUDE_PATH=${LOCALBASE}/include/freetype2 \
+		FREETYPE_LIB_PATH=${LOCALBASE}/lib \
+		BLOSC_INCLUDE_PATH=${LOCALBASE}/include \
+		BLOSC_LIB_PATH=${LOCALBASE}/lib \
+		OIIO_INCLUDE_PATH=${LOCALBASE}/include/OpenImageIO \
+		OIIO_LIB_PATH=${LOCALBASE}/lib \
+		TBB_INCLUDE_PATH=${LOCALBASE}/include/oneapi/ \
+		TBB_LIB_PATH=${LOCALBASE}/lib \
+		VDB_INCLUDE_PATH=${LOCALBASE}/include/openvdb \
+		VDB_LIB_PATH=${LOCALBASE}/lib \
+		ALEMBIC_INCLUDE_PATH=${LOCALBASE}/include/Alembic \
+		ALEMBIC_LIB_PATH=${LOCALBASE}/lib \
+		PYBIND11_INCLUDE_PATH=${LOCALBASE}/include \
+		WITH_GL=1 \
+		WARNINGS_AS_ERRORS=0 \
+		PYTHON_CONFIG=${PYTHON_CMD}-config \
+		PYTHON=${PYTHON_CMD} \
+		CXX=${CXX} \
+		DOXYGEN=no \
+		INSTALL_PREFIX=${STAGEDIR}${PREFIX} \
+		INSTALL_HEADER_DIR=${STAGEDIR}${PREFIX}/include \
 
 do-install:
 	${INSTALL_LIB} ${WRKSRC}/lib/*.so ${STAGEDIR}${PREFIX}/lib/
@@ -110,7 +77,14 @@ do-install:
 	(cd ${WRKSRC}/contrib/IECoreUSD/include && ${COPYTREE_SHARE} . ${STAGEDIR}${PREFIX}/include/ "-name *.inl")
 	${MKDIR} ${STAGEDIR}${PYTHON_SITELIBDIR}
 	(cd ${WRKSRC}/python && ${COPYTREE_SHARE} . ${STAGEDIR}${PYTHON_SITELIBDIR})
+	${STRIP_CMD} ${STAGEDIR}${PYTHON_SITELIBDIR}/IECore*/*.so
+
+do-test:
+	# for run tests need install idebug python library
+	cd ${WRKSRC} && ${SETENV} ${TEST_ENV} scons test ${SCONS_ARGS}
 
 .include <bsd.port.pre.mk>
+
 MAKE_ARGS=	${SCONS_ARGS}
+
 .include <bsd.port.post.mk>
