@@ -1,4 +1,4 @@
---- src/IECoreGL/DeferredRendererImplementation.cpp.orig	2025-03-02 15:11:27 UTC
+--- src/IECoreGL/DeferredRendererImplementation.cpp.orig	2025-02-25 10:37:21 UTC
 +++ src/IECoreGL/DeferredRendererImplementation.cpp
 @@ -42,15 +42,16 @@
  #include "IECoreGL/StateComponent.h"

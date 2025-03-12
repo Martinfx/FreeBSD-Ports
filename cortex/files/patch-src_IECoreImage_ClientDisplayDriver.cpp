@@ -1,4 +1,4 @@
---- src/IECoreImage/ClientDisplayDriver.cpp.orig	2025-03-01 12:08:11 UTC
+--- src/IECoreImage/ClientDisplayDriver.cpp.orig	2025-02-25 10:37:21 UTC
 +++ src/IECoreImage/ClientDisplayDriver.cpp
 @@ -73,7 +73,7 @@ class ClientDisplayDriver::PrivateData : public RefCou
  			m_socket.close();

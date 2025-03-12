@@ -1,18 +1,15 @@
---- src/IECoreScene/SceneInterface.cpp.orig	2024-11-29 15:48:55 UTC
+--- src/IECoreScene/SceneInterface.cpp.orig	2025-02-25 10:37:21 UTC
 +++ src/IECoreScene/SceneInterface.cpp
-@@ -33,10 +33,9 @@
- //////////////////////////////////////////////////////////////////////////
+@@ -34,7 +34,7 @@
  
  #include "IECoreScene/SceneInterface.h"
--
+ 
 -#include "boost/filesystem/convenience.hpp"
++#include "boost/filesystem/path.hpp"
  #include "boost/tokenizer.hpp"
  #include "boost/algorithm/string.hpp"
-+#include "boost/filesystem/path.hpp"
  
- using namespace IECore;
- using namespace IECoreScene;
-@@ -104,7 +103,7 @@ SceneInterfacePtr SceneInterface::create( const std::s
+@@ -104,7 +104,7 @@ SceneInterfacePtr SceneInterface::create( const std::s
  {
  	SceneInterfacePtr result = nullptr;
  

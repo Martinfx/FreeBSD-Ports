@@ -1,22 +1,15 @@
---- src/IECore/IndexedIO.cpp.orig	2024-11-26 17:06:28 UTC
+--- src/IECore/IndexedIO.cpp.orig	2025-02-25 10:37:21 UTC
 +++ src/IECore/IndexedIO.cpp
-@@ -33,14 +33,12 @@
- //////////////////////////////////////////////////////////////////////////
+@@ -36,7 +36,7 @@
  
- #include "IECore/IndexedIO.h"
--
  #include "IECore/Exception.h"
  
 -#include "boost/filesystem/convenience.hpp"
- #include "boost/algorithm/string.hpp"
 +#include "boost/filesystem/path.hpp"
+ #include "boost/algorithm/string.hpp"
  
  #include <iostream>
--
- #include <math.h>
- 
- using namespace IECore;
-@@ -76,7 +74,7 @@ IndexedIOPtr IndexedIO::create( const std::string &pat
+@@ -76,7 +76,7 @@ IndexedIOPtr IndexedIO::create( const std::string &pat
  {
  	IndexedIOPtr result = nullptr;
  
