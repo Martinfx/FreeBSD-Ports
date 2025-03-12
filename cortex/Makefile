@@ -31,7 +31,26 @@ LIB_DEPENDS=	libboost_filesystem.so:devel/boost-libs \
 		libfreetype.so:print/freetype2 \
 		libOpenImageIO.so:graphics/openimageio \
 		libOpenImageIO_Util.so:graphics/openimageio \
-		libopenvdb.so:misc/openvdb
+		libopenvdb.so:misc/openvdb \
+		libusd_usd.so:misc/usd \
+		libusd_usdGeom.so:misc/usd \
+		libusd_usdLux.so:misc/usd \
+		libusd_usdSkel.so:misc/usd \
+		libusd_usdShade.so:misc/usd \
+		libusd_usdUtils.so:misc/usd \
+		libusd_sdf.so:misc/usd \
+		libusd_tf.so:misc/usd \
+		libusd_pcp.so:misc/usd \
+		libusd_arch.so:misc/usd \
+		libusd_gf.so:misc/usd \
+		libusd_js.so:misc/usd \
+		libusd_vt.so:misc/usd \
+		libusd_ar.so:misc/usd \
+		libusd_plug.so:misc/usd \
+		libusd_trace.so:misc/usd \
+		libusd_kind.so:misc/usd \
+		libusd_work.so:misc/usd \
+		libusd_usdVol.so:misc/usd
 
 USES=		compiler gettext-runtime gl python:3.11+ scons
 USE_GITHUB=	yes
@@ -60,6 +79,9 @@ SCONS_ARGS=	BOOST_INCLUDE_PATH=${LOCALBASE}/include \
 		ALEMBIC_INCLUDE_PATH=${LOCALBASE}/include/Alembic \
 		ALEMBIC_LIB_PATH=${LOCALBASE}/lib \
 		PYBIND11_INCLUDE_PATH=${LOCALBASE}/include \
+		USD_INCLUDE_PATH=${LOCALBASE}/include/pxr
+		USD_LIB_PATH=${LOCALBASE}/lib
+		USD_LIB_PREFIX="libusd_"
 		WITH_GL=1 \
 		WARNINGS_AS_ERRORS=0 \
 		PYTHON_CONFIG=${PYTHON_CMD}-config \
