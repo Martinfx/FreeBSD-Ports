@@ -35,7 +35,7 @@ USE_GITHUB=	yes
 
 GH_ACCOUNT=	OpenXRay
 GH_PROJECT=	xray-16
-GH_TAGNAME=	83ab0db
+GH_TAGNAME=	7cab05ac2f56a56b55cfc484438c8583ca447546
 GH_TUPLE+=	GPUOpen-LibrariesAndSDKs:AGS_SDK:f4e655ed363a91a7e0af35f5aecffa175c79a748:AGSSDK/Externals/AGS_SDK \
 		OpenXRay:GameSpy:61d061b4b3f860865f97e659e496e11704f61eb3:GameSpy/Externals/GameSpy \
 		OpenXRay:LuaJIT:5f1dc5a08574a882f3f7ace00c50e5efe4b5ee28:LuaJIT/Externals/LuaJIT \
