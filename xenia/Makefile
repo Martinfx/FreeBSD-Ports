@@ -52,7 +52,7 @@ GH_TUPLE+=	microsoft:DirectXShaderCompiler:6b6f40200bea5ed99367513f53f6a28e52fd3
 		Cyan4973:xxHash:4c881f796d6af27ef7d9c48f87817da0d3d75dc1:xxhash/third_party/xxhash
 
 do-configure:
-	cd ${WRKSRC} && premake5 --os=bsd gmake2
+	cd ${WRKSRC} && premake5 gmake2
 do-build:
 	cd ${WRKSRC}/build && ${MAKE_ENV} ${MAKE_CMD} config=release
 
