@@ -35,13 +35,13 @@ USE_GITHUB=	yes
 
 GH_ACCOUNT=	OpenXRay
 GH_PROJECT=	xray-16
-GH_TAGNAME=	6c0a572de1cbd53c24f4593203e96b6402060464
+GH_TAGNAME=	1bec22486a8c716bbb390609922a7b6fb726347a
 GH_TUPLE+=	GPUOpen-LibrariesAndSDKs:AGS_SDK:f4e655ed363a91a7e0af35f5aecffa175c79a748:AGSSDK/Externals/AGS_SDK \
 		OpenXRay:GameSpy:61d061b4b3f860865f97e659e496e11704f61eb3:GameSpy/Externals/GameSpy \
 		OpenXRay:LuaJIT:5f1dc5a08574a882f3f7ace00c50e5efe4b5ee28:LuaJIT/Externals/LuaJIT \
 		weidai11:cryptopp:78a64e37d3ec8aa1fd941a1309b1a2eef43b0bb0:cryptopp/Externals/cryptopp \
  		g-truc:gli:779b99ac6656e4d30c3b24e96e0136a59649a869:gli/Externals/gli \
-		ocornut:imgui:15b96fd051731254f4ed0ef78c183f3466bf9e1f:ocornut/Externals/imgui \
+		ocornut:imgui:126d004f9e1eef062bf4b044b3b2faaf58d48c51:ocornut/Externals/imgui \
 		OpenXRay:luabind-deboostified:dd33679d7f3e427fa8a0046250ce8d738eb77413:luabind/Externals/luabind \
 		DLTcollab:sse2neon:6f142ae:sse2neon/Externals/sse2neon \
 		pattonkan:sse2rvv:f3a1d7d25081bc5be973576b8f12c83cd389e61f:sse2rvv/Externals/sse2rvv \
