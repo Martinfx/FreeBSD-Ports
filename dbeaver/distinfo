@@ -1,0 +1,5 @@
+TIMESTAMP = 1719099319
+SHA256 (dbeaver-dbeaver-24.1.0_GH0.tar.gz) = 70ecde6f5cab44c02c52624b1f4adf2f0a07ba835edad92cc010a948abab075d
+SIZE (dbeaver-dbeaver-24.1.0_GH0.tar.gz) = 10407224
+SHA256 (dbeaver-dbeaver-common-ff8f3a6136667e35f00bc8840a078296eac3c7b2_GH0.tar.gz) = e8da35acd91bf8803e6926e6f29c449148b7982a8bcdb12447613095dad38e1d
+SIZE (dbeaver-dbeaver-common-ff8f3a6136667e35f00bc8840a078296eac3c7b2_GH0.tar.gz) = 62190
