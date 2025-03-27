@@ -34,7 +34,7 @@ USE_GITHUB=	yes
 GH_ACCOUNT=	BrowserWorks
 GH_PROJECT=	Waterfox
 GH_TUPLE=	BrowserWorks:l10n:3046738:l10n/waterfox/browser/locales
-USE_MOZILLA=	-icu -sqlite
+USE_MOZILLA=	-sqlite
 
 # work around bindgen not finding ICU, e.g.
 # dist/include/mozilla/intl/ICU4CGlue.h:8:10: fatal error: 'unicode/uenum.h' file not found, err: true
