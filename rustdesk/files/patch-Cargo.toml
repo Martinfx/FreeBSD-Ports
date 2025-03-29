@@ -1,0 +1,20 @@
+--- Cargo.toml.orig	2025-02-22 05:17:11 UTC
++++ Cargo.toml
+@@ -58,7 +58,7 @@ parity-tokio-ipc = { git = "https://github.com/rustdes
+ sha2 = "0.10"
+ repng = "0.2"
+ parity-tokio-ipc = { git = "https://github.com/rustdesk-org/parity-tokio-ipc" }
+-magnum-opus = { git = "https://github.com/rustdesk-org/magnum-opus" }
++magnum-opus = { git = "https://github.com/Martinfx/magnum-opus" }
+ dasp = { version = "0.11", features = ["signal", "interpolate-linear", "interpolate"], optional = true }
+ rubato = { version = "0.12", optional = true }
+ samplerate = { version = "0.2", optional = true }
+@@ -71,7 +71,7 @@ errno = "0.3"
+ wol-rs = "1.0"
+ flutter_rust_bridge = { version = "=1.80", features = ["uuid"], optional = true}
+ errno = "0.3"
+-rdev = { git = "https://github.com/rustdesk-org/rdev" }
++rdev = { git = "https://github.com/Martinfx/rdev" }
+ url = { version = "2.3", features = ["serde"] }
+ crossbeam-queue = "0.3"
+ hex = "0.4"
