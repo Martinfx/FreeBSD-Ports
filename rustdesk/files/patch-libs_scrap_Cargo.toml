@@ -1,15 +1,15 @@
---- libs/scrap/Cargo.toml.orig	2024-05-29 04:24:33 UTC
+--- libs/scrap/Cargo.toml.orig	2025-02-22 05:17:11 UTC
 +++ libs/scrap/Cargo.toml
-@@ -21,7 +21,7 @@ cfg-if = "1.0"
+@@ -21,7 +21,7 @@ hbb_common = { path = "../hbb_common" }
  num_cpus = "1.15"
  lazy_static = "1.4"
  hbb_common = { path = "../hbb_common" }
--webm = { git = "https://github.com/21pages/rust-webm" }
+-webm = { git = "https://github.com/rustdesk-org/rust-webm" }
 +webm = { git = "https://github.com/Martinfx/rust-webm" }
  serde = {version="1.0", features=["derive"]}
  
  [dependencies.winapi]
-@@ -51,7 +51,7 @@ target_build_utils = "0.3"
+@@ -51,7 +51,7 @@ pkg-config = { version = "0.3.27", optional = true }
  bindgen = "0.65"
  pkg-config = { version = "0.3.27", optional = true }
  

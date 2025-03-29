@@ -1,4 +1,4 @@
---- libs/enigo/build.rs.orig	2024-05-11 08:17:55 UTC
+--- libs/enigo/build.rs.orig	2025-03-28 13:16:25 UTC
 +++ libs/enigo/build.rs
 @@ -4,18 +4,18 @@ fn main() {}
  #[cfg(target_os = "macos")]
