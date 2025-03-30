@@ -3,7 +3,7 @@ DISTVERSION=	1.3.8
 CATEGORIES=	deskutils
 
 MAINTAINER=	freebsd@sysctl.cz
-COMMENT=	Yet another remote desktop software, written in Rust. 
+COMMENT=	Yet another remote desktop software, written in Rust.
 
 LICENSE=	AGPLv3
 #LICENSE_FILE=	${WRKSRC}/LICENSE
@@ -831,5 +831,6 @@ CARGO_ENV+=	LLVM_CONFIG_PATH=${LOCALBASE}/bin/llvm-config${LLVM_DEFAULT} \
 	RUST_BACKTRACE=full
 
 CARGO_FEATURES=	linux-pkg-config unix-file-copy-paste libfuse
+MAKE_ENV+=	RUSTFLAGS="-L${LLVM_PREFIX}/lib"
 
 .include <bsd.port.mk>
