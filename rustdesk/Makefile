@@ -823,10 +823,12 @@ CARGO_CRATES=	addr2line-0.22.0 \
 		pam@git+https://github.com/Martinfx/pam?branch=max-freeebsd-support\#e1f12e1b6486f868a18f047de7d9a1bbe9ee4df1 \
 		rdev@git+https://github.com/Martinfx/rdev\#ed8d82a0068ec41b8982d6f308d9f92fbf2fb91a
 
-CARGO_ENV=	LLVM_CONFIG_PATH=${LLVM_PREFIX}/bin/llvm-config${LLVM_VERSION} \
-	LIBCLANG_PATH=${LLVM_PREFIX}/lib/libclang.so \
-	CLANG_PATH=${LLVM_PREFIX}/bin/clang
+CARGO_ENV=	LLVM_CONFIG_PATH=${LOCALBASE}/bin/llvm-config${LLVM_DEFAULT} \
+	LIBCLANG_PATH=${LLVM_PREFIX}/lib \
+	CLANG_PATH=${LLVM_PREFIX}/bin/clang \
+	RUST_BACKTRACE=full
 
-CARGO_FEATURES=	linux-pkg-config unix-file-copy-paste libfuse
+CARGO_FEATURES=	linux-pkg-config unix-file-copy-paste libfuse runtime
+RUSTFLAGS="-Lnative=LIBCLANG_PATH=${LLVM_PREFIX}/lib/libclang.so"
 
 .include <bsd.port.mk>
