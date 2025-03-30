@@ -20,7 +20,7 @@ BUILD_DEPENDS=	opus>0:audio/opus \
 
 LIB_DEPENDS=	libclang.so:devel/llvm${LLVM_DEFAULT}
 
-USES=		cargo fuse pkgconfig localbase llvm:min=16
+USES=		cargo fuse pkgconfig localbase llvm:max=16
 USE_GITHUB=	yes
 USE_GNOME=	cairo
 GH_ACCOUNT=	rustdesk
