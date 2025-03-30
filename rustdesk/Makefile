@@ -11,12 +11,15 @@ LICENSE=	AGPLv3
 BUILD_DEPENDS=	opus>0:audio/opus \
 		libyuv>0:graphics/libyuv \
 		libvpx>0:multimedia/libvpx \
+		glib>0:devel/glib20 \
+		gdk-pixbuf2>0:graphics/gdk-pixbuf2 \
+		gtk3>0:x11-toolkits/gtk30
 
-USES=           cargo fuse pkgconfig localbase llvm:min=16
-USE_GITHUB=     yes
-USE_GNOME=	cairo gdkpixbuf2 glib20 gtk30
-GH_ACCOUNT=     rustdesk
-GH_PROJECT=     rustdesk
+USES=		cargo fuse pkgconfig localbase llvm:min=16
+USE_GITHUB=	yes
+USE_GNOME=	cairo
+GH_ACCOUNT=	rustdesk
+GH_PROJECT=	rustdesk
 GH_TUPLE=	rustdesk:hbb_common:9ede5d49f65b8c513fe613dbfea2daf7694cba3e:hbb/libs/hbb_common
 
 CARGO_CRATES=	addr2line-0.22.0 \
