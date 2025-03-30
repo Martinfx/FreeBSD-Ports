@@ -8,20 +8,16 @@ COMMENT=	Yet another remote desktop software, written in Rust.
 LICENSE=	AGPLv3
 #LICENSE_FILE=	${WRKSRC}/LICENSE
 
-BUILD_DEPENDS=  cargo-cbuild:devel/cargo-c
-
-USES=           cargo fuse pkgconfig localbase llvm:min=16
-USE_GITHUB=     yes
-USE_GNOME=	cairo
-GH_ACCOUNT=     rustdesk
-GH_PROJECT=     rustdesk
-GH_TUPLE=	rustdesk:hbb_common:9ede5d49f65b8c513fe613dbfea2daf7694cba3e:hbb/libs/hbb_common
-
 BUILD_DEPENDS=	opus>0:audio/opus \
 		libyuv>0:graphics/libyuv \
 		libvpx>0:multimedia/libvpx \
-		glib>0:devel/glib20 \
-		gdk-pixbuf2>0:graphics/gdk-pixbuf2
+
+USES=           cargo fuse pkgconfig localbase llvm:min=16
+USE_GITHUB=     yes
+USE_GNOME=	cairo gdkpixbuf2 glib20 gtk30
+GH_ACCOUNT=     rustdesk
+GH_PROJECT=     rustdesk
+GH_TUPLE=	rustdesk:hbb_common:9ede5d49f65b8c513fe613dbfea2daf7694cba3e:hbb/libs/hbb_common
 
 CARGO_CRATES=	addr2line-0.22.0 \
 		adler-1.0.2 \
