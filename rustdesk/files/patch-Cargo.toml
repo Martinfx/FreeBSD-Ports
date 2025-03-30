@@ -87,6 +87,15 @@
  psimple = { package = "libpulse-simple-binding", version = "2.27" }
  pulse = { package = "libpulse-binding", version = "2.27" }
  rust-pulsectl = { git = "https://github.com/rustdesk-org/pulsectl" }
+@@ -161,7 +162,7 @@ dbus-crossroads = "0.5"
+ evdev = { git="https://github.com/rustdesk-org/evdev" }
+ dbus = "0.9"
+ dbus-crossroads = "0.5"
+-pam = { git="https://github.com/rustdesk-org/pam" }
++pam = { git="https://github.com/Martinfx/pam", branch = "max-freeebsd-support" }
+ users = { version = "0.11" }
+ x11-clipboard = {git="https://github.com/clslaid/x11-clipboard", branch = "feat/store-batch", optional = true}
+ x11rb =  {version = "0.12", features = ["all-extensions"], optional = true}
 @@ -174,7 +175,7 @@ jni = "0.21"
  [target.'cfg(target_os = "android")'.dependencies]
  android_logger = "0.13"

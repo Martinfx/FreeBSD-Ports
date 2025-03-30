@@ -440,6 +440,7 @@ CARGO_CRATES=	addr2line-0.22.0 \
 		osascript-0.3.0 \
 		page_size-0.6.0 \
 		pam-macros-0.0.3 \
+		pam-sys-1.0.0-alpha5 \
 		pango-0.18.3 \
 		pango-sys-0.18.0 \
 		parking-2.2.0 \
@@ -660,6 +661,7 @@ CARGO_CRATES=	addr2line-0.22.0 \
 		utf8-width-0.1.7 \
 		utf8parse-0.2.2 \
 		uuid-1.9.1 \
+		uzers-0.11.3 \
 		vcpkg-0.2.15 \
 		vec_map-0.8.2 \
 		version-compare-0.0.10 \
@@ -813,8 +815,7 @@ CARGO_CRATES=	addr2line-0.22.0 \
 		cpal@git+https://github.com/rustdesk-org/cpal?branch=osx-screencapturekit\#6b374bcaed076750ca8fce6da518ab39b882e14a \
 		rust-pulsectl@git+https://github.com/rustdesk-org/pulsectl\#aa34dde499aa912a3abc5289cc0b547bd07dd6e2 \
 		default_net@git+https://github.com/rustdesk-org/default_net\#78f8f70cd85151a3a2c4a3230d80d5272703c02e \
-		pam@git+https://github.com/rustdesk-org/pam\#7bfd25510202cd269292cbdd7c71f3977a6fd762 \
-		pam-sys@git+https://github.com/rustdesk-org/pam-sys?branch=fix/v1.0.0-alpha4_gnuc_va_list\#3337c9bb9a9c68d7497ec8c93cad2368c26091b7 \
+		pam@git+https://github.com/Martinfx/pam?branch=max-freeebsd-support\#e1f12e1b6486f868a18f047de7d9a1bbe9ee4df1 \
 		rdev@git+https://github.com/Martinfx/rdev\#ed8d82a0068ec41b8982d6f308d9f92fbf2fb91a
 
 CARGO_FEATURES+=linux-pkg-config unix-file-copy-paste libfuse
