@@ -18,6 +18,8 @@ BUILD_DEPENDS=	opus>0:audio/opus \
 		gstreamer1>0:multimedia/gstreamer1 \
 		gstreamer1-plugins>0:multimedia/gstreamer1-plugins
 
+LIB_DEPENDS=	libclang.so:devel/llvm${LLVM_DEFAULT}
+
 USES=		cargo fuse pkgconfig localbase llvm:min=16
 USE_GITHUB=	yes
 USE_GNOME=	cairo
