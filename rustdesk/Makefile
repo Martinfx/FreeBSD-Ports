@@ -10,13 +10,13 @@ LICENSE=	AGPLv3
 
 BUILD_DEPENDS=  cargo-cbuild:devel/cargo-c
 
-USES=           cargo fuse pkgconfig localbase
+USES=           cargo fuse pkgconfig localbase llvm:min=16
 USE_GITHUB=     yes
 GH_ACCOUNT=     rustdesk
 GH_PROJECT=     rustdesk
 GH_TUPLE=	rustdesk:hbb_common:9ede5d49f65b8c513fe613dbfea2daf7694cba3e:hbb/libs/hbb_common
 
-BUILD_DEPENDS+=	opus>0:audio/opus \
+BUILD_DEPENDS=	opus>0:audio/opus \
 		libyuv>0:graphics/libyuv \
 		libvpx>0:multimedia/libvpx
 
@@ -818,5 +818,7 @@ CARGO_CRATES=	addr2line-0.22.0 \
 		pam@git+https://github.com/Martinfx/pam?branch=max-freeebsd-support\#e1f12e1b6486f868a18f047de7d9a1bbe9ee4df1 \
 		rdev@git+https://github.com/Martinfx/rdev\#ed8d82a0068ec41b8982d6f308d9f92fbf2fb91a
 
-CARGO_FEATURES+=linux-pkg-config unix-file-copy-paste libfuse
+CARGO_ENV=	LIBCLANG_PATH=${LLVM_PREFIX}/lib
+CARGO_FEATURES=	linux-pkg-config unix-file-copy-paste libfuse
+
 .include <bsd.port.mk>
