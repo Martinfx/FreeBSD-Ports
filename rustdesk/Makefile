@@ -827,7 +827,7 @@ CARGO_ENV=	LLVM_CONFIG_PATH=${LOCALBASE}/bin/llvm-config${LLVM_DEFAULT} \
 	LIBCLANG_PATH=${LLVM_PREFIX}/lib \
 	CLANG_PATH=${LLVM_PREFIX}/bin/clang \
 	RUST_BACKTRACE=full
-
+MAKE_ENV+=${CARGO_ENV}
 CARGO_FEATURES=	linux-pkg-config unix-file-copy-paste libfuse runtime
 RUSTFLAGS="-Lnative=LIBCLANG_PATH=${LLVM_PREFIX}/lib/libclang.so"
 
