@@ -110,7 +110,7 @@ CARGO_CRATES=	addr2line-0.22.0 \
 		chrono-0.4.38 \
 		cidr-utils-0.5.11 \
 		cipher-0.4.4 \
-		clang-sys-1.9.0 \
+		clang-sys-1.8.1 \
 		clap-2.34.0 \
 		clap-4.5.8 \
 		clap_builder-4.5.8 \
@@ -409,11 +409,11 @@ CARGO_CRATES=	addr2line-0.22.0 \
 		objc-foundation-0.1.1 \
 		objc-sys-0.2.0-beta.2 \
 		objc-sys-0.3.5 \
+		objc2-0.6.0 \
 		objc2-0.3.0-beta.2 \
 		objc2-0.5.2 \
-		objc2-0.6.0 \
-		objc2-app-kit-0.2.2 \
 		objc2-app-kit-0.3.0 \
+		objc2-app-kit-0.2.2 \
 		objc2-core-data-0.2.2 \
 		objc2-core-image-0.2.2 \
 		objc2-encode-2.0.0-pre.2 \
@@ -823,12 +823,11 @@ CARGO_CRATES=	addr2line-0.22.0 \
 		pam@git+https://github.com/Martinfx/pam?branch=max-freeebsd-support\#e1f12e1b6486f868a18f047de7d9a1bbe9ee4df1 \
 		rdev@git+https://github.com/Martinfx/rdev\#ed8d82a0068ec41b8982d6f308d9f92fbf2fb91a
 
-CARGO_ENV=	LLVM_CONFIG_PATH=${LOCALBASE}/bin/llvm-config${LLVM_DEFAULT} \
+CARGO_ENV+=	LLVM_CONFIG_PATH=${LOCALBASE}/bin/llvm-config${LLVM_DEFAULT} \
 	LIBCLANG_PATH=${LLVM_PREFIX}/lib \
 	CLANG_PATH=${LLVM_PREFIX}/bin/clang \
 	RUST_BACKTRACE=full
-MAKE_ENV+=${CARGO_ENV}
-CARGO_FEATURES=	linux-pkg-config unix-file-copy-paste libfuse runtime
-RUSTFLAGS="-Lnative=LIBCLANG_PATH=${LLVM_PREFIX}/lib/libclang.so"
+
+CARGO_FEATURES=	linux-pkg-config unix-file-copy-paste libfuse
 
 .include <bsd.port.mk>

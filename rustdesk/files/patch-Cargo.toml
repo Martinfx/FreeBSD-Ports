@@ -1,26 +1,24 @@
 --- Cargo.toml.orig	2025-02-22 05:17:11 UTC
 +++ Cargo.toml
-@@ -21,6 +21,8 @@ path = "src/service.rs"
+@@ -21,6 +21,7 @@ path = "src/service.rs"
  path = "src/service.rs"
  
  [features]
-+runtime=[]
 +libfuse=[]
  inline = []
  cli = []
  use_samplerate = ["samplerate"]
-@@ -43,8 +45,9 @@ screencapturekit = ["cpal/screencapturekit"]
+@@ -43,8 +44,8 @@ screencapturekit = ["cpal/screencapturekit"]
  screencapturekit = ["cpal/screencapturekit"]
  
  # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 -
  [dependencies]
-+clang-sys = { version = "1.8.1", features = ["runtime"] }
 +fuser = { version = "0.15.1", features = ["libfuse"] }
  async-trait = "0.1"
  whoami = "1.5.0"
  scrap = { path = "libs/scrap", features = ["wayland"] }
-@@ -58,7 +61,7 @@ parity-tokio-ipc = { git = "https://github.com/rustdes
+@@ -58,7 +59,7 @@ parity-tokio-ipc = { git = "https://github.com/rustdes
  sha2 = "0.10"
  repng = "0.2"
  parity-tokio-ipc = { git = "https://github.com/rustdesk-org/parity-tokio-ipc" }
@@ -29,7 +27,7 @@
  dasp = { version = "0.11", features = ["signal", "interpolate-linear", "interpolate"], optional = true }
  rubato = { version = "0.12", optional = true }
  samplerate = { version = "0.2", optional = true }
-@@ -71,7 +74,7 @@ errno = "0.3"
+@@ -71,7 +72,7 @@ errno = "0.3"
  wol-rs = "1.0"
  flutter_rust_bridge = { version = "=1.80", features = ["uuid"], optional = true}
  errno = "0.3"
@@ -38,7 +36,7 @@
  url = { version = "2.3", features = ["serde"] }
  crossbeam-queue = "0.3"
  hex = "0.4"
-@@ -83,19 +86,19 @@ totp-rs = { version = "5.4", default-features = false,
+@@ -83,19 +84,19 @@ totp-rs = { version = "5.4", default-features = false,
  shutdown_hooks = "0.1"
  totp-rs = { version = "5.4", default-features = false, features = ["gen_secret", "otpauth"] }
  
@@ -61,7 +59,7 @@
  arboard = { git = "https://github.com/rustdesk-org/arboard", features = ["wayland-data-control"] }
  clipboard-master = { git = "https://github.com/rustdesk-org/clipboard-master" }
  
-@@ -135,15 +138,15 @@ objc_id = "0.1"
+@@ -135,15 +136,15 @@ objc_id = "0.1"
  fruitbasket = "0.10"
  objc_id = "0.1"
  
@@ -80,7 +78,7 @@
  wallpaper = { git = "https://github.com/rustdesk-org/wallpaper.rs" }
  
  [target.'cfg(any(target_os = "macos", target_os = "windows"))'.dependencies]
-@@ -153,7 +156,7 @@ reqwest = { git = "https://github.com/rustdesk-org/req
+@@ -153,7 +154,7 @@ reqwest = { git = "https://github.com/rustdesk-org/req
  [target.'cfg(not(any(target_os = "macos", target_os = "windows")))'.dependencies]
  reqwest = { git = "https://github.com/rustdesk-org/reqwest", features = ["blocking", "socks", "json", "rustls-tls", "rustls-tls-native-roots", "gzip"], default-features=false }
  
@@ -89,7 +87,7 @@
  psimple = { package = "libpulse-simple-binding", version = "2.27" }
  pulse = { package = "libpulse-binding", version = "2.27" }
  rust-pulsectl = { git = "https://github.com/rustdesk-org/pulsectl" }
-@@ -161,7 +164,7 @@ dbus-crossroads = "0.5"
+@@ -161,7 +162,7 @@ dbus-crossroads = "0.5"
  evdev = { git="https://github.com/rustdesk-org/evdev" }
  dbus = "0.9"
  dbus-crossroads = "0.5"
@@ -98,7 +96,7 @@
  users = { version = "0.11" }
  x11-clipboard = {git="https://github.com/clslaid/x11-clipboard", branch = "feat/store-batch", optional = true}
  x11rb =  {version = "0.12", features = ["all-extensions"], optional = true}
-@@ -174,7 +177,7 @@ jni = "0.21"
+@@ -174,7 +175,7 @@ jni = "0.21"
  [target.'cfg(target_os = "android")'.dependencies]
  android_logger = "0.13"
  jni = "0.21"
