@@ -110,7 +110,7 @@ CARGO_CRATES=	addr2line-0.22.0 \
 		chrono-0.4.38 \
 		cidr-utils-0.5.11 \
 		cipher-0.4.4 \
-		clang-sys-1.8.1 \
+		clang-sys-1.9.0 \
 		clap-2.34.0 \
 		clap-4.5.8 \
 		clap_builder-4.5.8 \
