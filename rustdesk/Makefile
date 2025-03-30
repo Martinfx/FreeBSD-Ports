@@ -10,7 +10,7 @@ LICENSE=	AGPLv3
 
 BUILD_DEPENDS=  cargo-cbuild:devel/cargo-c
 
-USES=           cargo pkgconfig localbase
+USES=           cargo fuse pkgconfig localbase
 USE_GITHUB=     yes
 GH_ACCOUNT=     rustdesk
 GH_PROJECT=     rustdesk
@@ -18,8 +18,7 @@ GH_TUPLE=	rustdesk:hbb_common:9ede5d49f65b8c513fe613dbfea2daf7694cba3e:hbb/libs/
 
 BUILD_DEPENDS+=	opus>0:audio/opus \
 		libyuv>0:graphics/libyuv \
-		libvpx>0:multimedia/libvpx \
-		libwebm>0:multimedia/libwebm
+		libvpx>0:multimedia/libvpx
 
 CARGO_CRATES=	addr2line-0.22.0 \
 		adler-1.0.2 \
@@ -791,7 +790,7 @@ CARGO_CRATES=	addr2line-0.22.0 \
 		cidre,cidre-macros@git+https://github.com/yury/cidre.git?rev=f05c428\#f05c4288f9870c9fab53272ddafd6ec01c7b2dbf \
 		tray-icon@git+https://github.com/tauri-apps/tray-icon\#d4078696edba67b0ab42cef67e6a421a0332c96f \
 		evdev@git+https://github.com/rustdesk-org/evdev\#cec616e37790293d2cd2aa54a96601ed6b1b35a9 \
-		sciter-rs@git+https://github.com/rustdesk-org/rust-sciter?branch=dyn\#5322f3a755a0e6bf999fbc60d1efc35246c0f821 \
+		sciter-rs@git+https://github.com/Martinfx/rust-sciter?branch=master\#c27203843d9ef4fbe6e21608ad5f0b479425ec01 \
 		hwcodec@git+https://github.com/rustdesk-org/hwcodec\#0ea7e709d3c48bb6446e33a9cc8fd0e0da5709b9 \
 		wallpaper@git+https://github.com/rustdesk-org/wallpaper.rs\#ce4a0cd3f58327c7cc44d15a63706fb0c022bacf \
 		android-wakelock@git+https://github.com/rustdesk-org/android-wakelock\#d0292e5a367e627c4fa6f1ca6bdfad005dca7d90 \
@@ -811,14 +810,12 @@ CARGO_CRATES=	addr2line-0.22.0 \
 		magnum-opus@git+https://github.com/Martinfx/magnum-opus\#0e9de9212c92c8d2c6bb1a249b7faedee4f285e8 \
 		core-foundation,core-foundation-sys,core-graphics,core-graphics-types@git+https://github.com/madsmtm/core-foundation-rs.git?rev=7d593d016175755e492a92ef89edca68ac3bd5cd\#7d593d016175755e492a92ef89edca68ac3bd5cd \
 		clipboard-master@git+https://github.com/rustdesk-org/clipboard-master\#4fb62e5b62fb6350d82b571ec7ba94b3cd466695 \
-		pam-sys@git+https://github.com/rustdesk-org/pam-sys?branch=fix/v1.0.0-alpha4_gnuc_va_list\#3337c9bb9a9c68d7497ec8c93cad2368c26091b7 \
 		cpal@git+https://github.com/rustdesk-org/cpal?branch=osx-screencapturekit\#6b374bcaed076750ca8fce6da518ab39b882e14a \
 		rust-pulsectl@git+https://github.com/rustdesk-org/pulsectl\#aa34dde499aa912a3abc5289cc0b547bd07dd6e2 \
 		default_net@git+https://github.com/rustdesk-org/default_net\#78f8f70cd85151a3a2c4a3230d80d5272703c02e \
 		pam@git+https://github.com/rustdesk-org/pam\#7bfd25510202cd269292cbdd7c71f3977a6fd762 \
-		rdev@git+https://github.com/Martinfx/rdev\#ed8d82a0068ec41b8982d6f308d9f92fbf2fb91a \
+		pam-sys@git+https://github.com/rustdesk-org/pam-sys?branch=fix/v1.0.0-alpha4_gnuc_va_list\#3337c9bb9a9c68d7497ec8c93cad2368c26091b7 \
+		rdev@git+https://github.com/Martinfx/rdev\#ed8d82a0068ec41b8982d6f308d9f92fbf2fb91a
 
-CARGO_FEATURES+=linux-pkg-config unix-file-copy-paste
-#RUSTFLAGS="-I/usr/local/include/"
-
+CARGO_FEATURES+=linux-pkg-config unix-file-copy-paste libfuse
 .include <bsd.port.mk>
