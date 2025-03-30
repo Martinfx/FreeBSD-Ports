@@ -14,7 +14,8 @@ BUILD_DEPENDS=	opus>0:audio/opus \
 		glib>0:devel/glib20 \
 		gdk-pixbuf2>0:graphics/gdk-pixbuf2 \
 		gtk3>0:x11-toolkits/gtk30 \
-		gstreamer1>0:multimedia/gstreamer1
+		gstreamer1>0:multimedia/gstreamer1 \
+		gstreamer1-plugins>0:multimedia/gstreamer1-plugins
 
 USES=		cargo fuse pkgconfig localbase llvm:min=16
 USE_GITHUB=	yes
