@@ -1,4 +1,4 @@
-ORTNAME=	rustdesk
+PORTNAME=	rustdesk
 DISTVERSION=	1.3.8
 CATEGORIES=	deskutils
 
@@ -12,13 +12,16 @@ BUILD_DEPENDS=  cargo-cbuild:devel/cargo-c
 
 USES=           cargo fuse pkgconfig localbase llvm:min=16
 USE_GITHUB=     yes
+USE_GNOME=	cairo
 GH_ACCOUNT=     rustdesk
 GH_PROJECT=     rustdesk
 GH_TUPLE=	rustdesk:hbb_common:9ede5d49f65b8c513fe613dbfea2daf7694cba3e:hbb/libs/hbb_common
 
 BUILD_DEPENDS=	opus>0:audio/opus \
 		libyuv>0:graphics/libyuv \
-		libvpx>0:multimedia/libvpx
+		libvpx>0:multimedia/libvpx \
+		glib>0:devel/glib20 \
+		gdk-pixbuf2>0:graphics/gdk-pixbuf2
 
 CARGO_CRATES=	addr2line-0.22.0 \
 		adler-1.0.2 \
@@ -818,7 +821,11 @@ CARGO_CRATES=	addr2line-0.22.0 \
 		pam@git+https://github.com/Martinfx/pam?branch=max-freeebsd-support\#e1f12e1b6486f868a18f047de7d9a1bbe9ee4df1 \
 		rdev@git+https://github.com/Martinfx/rdev\#ed8d82a0068ec41b8982d6f308d9f92fbf2fb91a
 
-CARGO_ENV=	LIBCLANG_PATH=${LLVM_PREFIX}/lib
+CARGO_ENV=	LLVM_CONFIG_PATH=${LLVM_PREFIX}/bin/llvm-config${LLVM_VERSION} \
+	LIBCLANG_PATH=${LLVM_PREFIX}/lib \
+	LIBCLANG_STATIC_PATH=${LLVM_PREFIX}/lib \
+	CLANG_PATH=${LLVM_PREFIX}/bin/clang
+
 CARGO_FEATURES=	linux-pkg-config unix-file-copy-paste libfuse
 
 .include <bsd.port.mk>
