@@ -53,8 +53,8 @@ USE_GITLAB=	nodefault
 GL_SITE=	https://gitlab.torproject.org/
 GL_ACCOUNT=	tpo
 GL_PROJECT=	translation:basebrowser translation:torbrowser
-TAG_BASE=	93eddbd3888852c09e130d536fb3c9bd7e4e6f57
-TAG_TOR=	e7a334a4adb16e506515940e81f41964ef16af76
+TAG_BASE=	d687be19490caa48a46a3e2193bda95d57cbb96d
+TAG_TOR=	95b60f2679611d39b035f2e45555c2c3d64d991f
 GL_TAGNAME=	${TAG_BASE}:basebrowser ${TAG_TOR}:torbrowser
 USE_MOZILLA=	-sqlite
 
