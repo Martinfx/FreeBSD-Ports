@@ -828,9 +828,10 @@ CARGO_CRATES=	addr2line-0.22.0 \
 CARGO_ENV+=	LLVM_CONFIG_PATH=${LOCALBASE}/bin/llvm-config${LLVM_DEFAULT} \
 	LIBCLANG_PATH=${LLVM_PREFIX}/lib \
 	CLANG_PATH=${LLVM_PREFIX}/bin/clang \
-	RUST_BACKTRACE=full
+	RUST_BACKTRACE=full  \
+	CARGO_PROFILE_RELEASE_BUILD_OVERRIDE_DEBUG=true
 
 CARGO_FEATURES=	linux-pkg-config unix-file-copy-paste libfuse
-MAKE_ENV+=	RUSTFLAGS="-L${LLVM_PREFIX}/lib"
+RUSTFLAGS+="-L${LLVM_PREFIX}/lib" "-L${LOCALBASE}/bin/llvm-config${LLVM_DEFAULT}"
 
 .include <bsd.port.mk>
