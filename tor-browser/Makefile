@@ -1,5 +1,5 @@
 PORTNAME=	tor-browser
-DISTVERSION=	14.0.7
+DISTVERSION=	14.0.9
 CATEGORIES=	www net security wayland
 MASTER_SITES=	TOR \
 		LOCAL/vvd \
@@ -11,7 +11,7 @@ MASTER_SITES=	TOR \
 		https://secure.informaction.com/%SUBDIR%/:source3
 MASTER_SITE_SUBDIR=	torbrowser/${DISTVERSION}/:DEFAULT \
 			download/releases/:source3
-DISTNAME=	src-firefox-tor-browser-128.8.0esr-14.0-1-build2
+DISTNAME=	src-firefox-tor-browser-128.9.0esr-14.0-2-build2
 NOSCRIPT=	noscript-12.1.1.xpi
 DISTFILES=	${DISTNAME}.tar.xz \
 		manual_215922.zip:source1 \
@@ -27,7 +27,7 @@ LICENSE_FILE=	${WRKSRC}/LICENSE
 
 BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
 		nss>=3.101:security/nss \
-		icu>=73.1,1:devel/icu \
+		icu>=73.1:devel/icu \
 		libevent>=2.1.8:devel/libevent \
 		harfbuzz>=8.5.0:print/harfbuzz \
 		graphite2>=1.3.14:graphics/graphite2 \
