@@ -11,15 +11,15 @@ LICENSE=	AGPLv3
 BUILD_DEPENDS=	opus>0:audio/opus \
 		libyuv>0:graphics/libyuv \
 		libvpx>0:multimedia/libvpx \
-		${LOCALBASE}/llvm${LLVM_DEFAULT}/lib/libclang.so:devel/llvm${LLVM_DEFAULT} \
+		${LOCALBASE}/llvm${LLVM_VERSION}/lib/libclang.so:devel/llvm${LLVM_VERSION} \
 		glib>0:devel/glib20 \
 		gdk-pixbuf2>0:graphics/gdk-pixbuf2 \
 		gtk3>0:x11-toolkits/gtk30 \
 		gstreamer1>0:multimedia/gstreamer1 \
 		gstreamer1-plugins>0:multimedia/gstreamer1-plugins \
-		llvm${LLVM_DEFAULT}>=0:devel/llvm${LLVM_DEFAULT}
+		llvm${LLVM_VERSION}>=0:devel/llvm${LLVM_VERSION}
 
-LIB_DEPENDS=	libclang.so:devel/llvm${LLVM_DEFAULT}
+LIB_DEPENDS=	libclang.so:devel/llvm${LLVM_VERSION}
 
 USES=		cargo fuse pkgconfig localbase llvm:max=16
 USE_GITHUB=	yes
@@ -831,8 +831,7 @@ CARGO_ENV+=	LLVM_CONFIG_PATH=${LOCALBASE}/bin/llvm-config${LLVM_VERSION} \
 	CLANG_PATH=${LLVM_PREFIX}/bin/clang \
 	RUST_BACKTRACE=full  \
 	CARGO_PROFILE_RELEASE_BUILD_OVERRIDE_DEBUG=true \
-	BINDGEN_EXTRA_CLANG_ARGS=--sysroot=${LOCALBASE} \
-	CLANG_BASE_PATH=/usr
+	LD_LIBRARY_PATH=${LLVM_PREFIX}/lib
 
 CARGO_FEATURES=	linux-pkg-config unix-file-copy-paste libfuse
 RUSTFLAGS+="-L${LLVM_PREFIX}/lib" "-L${LOCALBASE}/bin/llvm-config${LLVM_VERSION}"
