@@ -15,7 +15,7 @@
 -
  [dependencies]
 +fuser = { version = "0.15.1", features = ["libfuse"] }
-+clang-sys = { version="1.8.1",  features = ["runtime"]} 
++clang-sys = { version="1.8.1",  features = ["runtime", "clang_18_0", "clang_17_0", "clang_16_0"]} 
  async-trait = "0.1"
  whoami = "1.5.0"
  scrap = { path = "libs/scrap", features = ["wayland"] }
