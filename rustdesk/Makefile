@@ -833,6 +833,8 @@ CARGO_ENV+=	LLVM_CONFIG_PATH=${LOCALBASE}/bin/llvm-config${LLVM_VERSION} \
 	CARGO_PROFILE_RELEASE_BUILD_OVERRIDE_DEBUG=true \
 	LD_LIBRARY_PATH=${LLVM_PREFIX}/lib
 
+MAKE_ENV=${CARGO_ENV}
+
 CARGO_FEATURES=	linux-pkg-config unix-file-copy-paste libfuse
 RUSTFLAGS+="-L${LLVM_PREFIX}/lib" "-L${LOCALBASE}/bin/llvm-config${LLVM_VERSION}"
 
