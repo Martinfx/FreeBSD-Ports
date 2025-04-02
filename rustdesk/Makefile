@@ -21,7 +21,7 @@ BUILD_DEPENDS=	opus>0:audio/opus \
 
 LIB_DEPENDS=	libclang.so:devel/llvm${LLVM_VERSION}
 
-USES=		cargo fuse pkgconfig localbase llvm:max=16
+USES=		cargo fuse pkgconfig localbase llvm
 USE_GITHUB=	yes
 USE_GNOME=	cairo
 GH_ACCOUNT=	rustdesk
@@ -827,15 +827,15 @@ CARGO_CRATES=	addr2line-0.22.0 \
 		rdev@git+https://github.com/Martinfx/rdev\#ed8d82a0068ec41b8982d6f308d9f92fbf2fb91a
 
 CARGO_ENV+=	LLVM_CONFIG_PATH=${LOCALBASE}/bin/llvm-config${LLVM_VERSION} \
-	LIBCLANG_PATH=${LLVM_PREFIX}/lib \
-	CLANG_PATH=${LLVM_PREFIX}/bin/clang \
+	LIBCLANG_PATH=${LOCALBASE}/llvm${LLVM_VERSION}/lib \
+	CLANG_PATH=${LOCALBASE}/llvm${LLVM_VERSION}/bin/clang \
 	RUST_BACKTRACE=full  \
 	CARGO_PROFILE_RELEASE_BUILD_OVERRIDE_DEBUG=true \
-	LD_LIBRARY_PATH=${LLVM_PREFIX}/lib
+	LD_LIBRARY_PATH=${LOCALBASE}/llvm${LLVM_VERSION}/lib
 
 MAKE_ENV=${CARGO_ENV}
 
 CARGO_FEATURES=	linux-pkg-config unix-file-copy-paste libfuse
-RUSTFLAGS+="-L${LLVM_PREFIX}/lib" "-L${LOCALBASE}/bin/llvm-config${LLVM_VERSION}"
+RUSTFLAGS+="-L${LOCALBASE}/llvm${LLVM_VERSION}/lib" "-L${LOCALBASE}/bin/llvm-config${LLVM_VERSION}"
 
 .include <bsd.port.mk>
