@@ -9,7 +9,8 @@ COMMENT=	PlayStation 4 emulator written C++
 LICENSE=	GPLv2
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
-BUILD_DEPENDS=	cryptopp>0:security/cryptopp \
+BUILD_DEPENDS=	alsa-lib>0:audio/alsa-lib \
+		cryptopp>0:security/cryptopp \
 		date>0:devel/date \
 		rapidjson>0:devel/rapidjson \
 		ffmpeg>0:multimedia/ffmpeg
