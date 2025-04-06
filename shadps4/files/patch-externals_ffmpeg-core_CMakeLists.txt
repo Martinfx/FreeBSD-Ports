@@ -1,0 +1,31 @@
+--- externals/ffmpeg-core/CMakeLists.txt.orig	2025-04-06 15:02:36 UTC
++++ externals/ffmpeg-core/CMakeLists.txt
+@@ -40,17 +40,17 @@ execute_process(
+ 	OUTPUT_STRIP_TRAILING_WHITESPACE)
+ 
+ # Download prebuilt ffmpeg
+-if(NOT EXISTS "${CMAKE_BINARY_DIR}/external/ffmpeg.zip")
+-	message(STATUS "Downloading FFMPEG prebuilts...")
+-	file(DOWNLOAD https://github.com/shadps4-emu/ext-ffmpeg-core/releases/download/${FFMPEG_GIT_SHA}/${FFMPEG_PREBUILTS_NAME}
+-		"${CMAKE_BINARY_DIR}/external/ffmpeg.zip" SHOW_PROGRESS
+-		STATUS FILE_STATUS)
+-	list(GET FILE_STATUS 0 STATUS_CODE)
+-	if (NOT STATUS_CODE EQUAL 0)
+-		file(REMOVE "${CMAKE_BINARY_DIR}/external/ffmpeg.zip") # CMake create 0 byte file even if URL is invalid. So need to delete it.
+-		message(FATAL_ERROR "No FFMPEG prebuilt found with corresponding commit SHA (${FFMPEG_GIT_SHA})")
+-	endif()
+-endif()
++#if(NOT EXISTS "${CMAKE_BINARY_DIR}/external/ffmpeg.zip")
++#	message(STATUS "Downloading FFMPEG prebuilts...")
++#	file(DOWNLOAD https://github.com/shadps4-emu/ext-ffmpeg-core/releases/download/${FFMPEG_GIT_SHA}/${FFMPEG_PREBUILTS_NAME}
++#		"${CMAKE_BINARY_DIR}/external/ffmpeg.zip" SHOW_PROGRESS
++#		STATUS FILE_STATUS)
++#	list(GET FILE_STATUS 0 STATUS_CODE)
++#	if (NOT STATUS_CODE EQUAL 0)
++#		file(REMOVE "${CMAKE_BINARY_DIR}/external/ffmpeg.zip") # CMake create 0 byte file even if URL is invalid. So need to delete it.
++#		message(FATAL_ERROR "No FFMPEG prebuilt found with corresponding commit SHA (${FFMPEG_GIT_SHA})")
++#	endif()
++#endif()
+ 
+ if(NOT EXISTS "${CMAKE_BINARY_DIR}/external/ffmpeg/lib")
+ 	file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/external/ffmpeg/lib")
