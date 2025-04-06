@@ -1,5 +1,5 @@
 PORTNAME=	shadps4
-DISTVERSIONPREFIX=v.
+DISTVERSIONPREFIX=	v.
 DISTVERSION=	0.7.0
 CATEGORIES=	emulators
 
@@ -12,25 +12,26 @@ LICENSE_FILE=	${WRKSRC}/LICENSE
 BUILD_DEPENDS=	alsa-lib>0:audio/alsa-lib \
 		cryptopp>0:security/cryptopp \
 		date>0:devel/date \
-		rapidjson>0:devel/rapidjson \
-		ffmpeg>0:multimedia/ffmpeg
+		ffmpeg>0:multimedia/ffmpeg \
+		rapidjson>0:devel/rapidjson
 
-LIB_DEPENDS=	libdate-tz.so:devel/date \
-		libfmt.so:devel/libfmt \
-		libpng16.so:graphics/png \
-		libavcodec.so:multimedia/ffmpeg \
+LIB_DEPENDS=	libavcodec.so:multimedia/ffmpeg \
 		libavfilter.so:multimedia/ffmpeg \
 		libavformat.so:multimedia/ffmpeg \
 		libavutil.so:multimedia/ffmpeg \
+		libcryptopp.so:security/cryptopp \
+		libdate-tz.so:devel/date \
+		libfmt.so:devel/libfmt \
+		libinotify.so:devel/libinotify \
+		libpng16.so:graphics/png \
+		libpugixml.so:textproc/pugixml \
 		libswresample.so:multimedia/ffmpeg \
 		libswscale.so:multimedia/ffmpeg \
 		libxxhash.so:devel/xxhash \
-		libZycore.so:devel/zycore-c \
-		libinotify.so:devel/libinotify \
-		libpugixml.so:textproc/pugixml \
-		libcryptopp.so:security/cryptopp
+		libZycore.so:devel/zycore-c
 
-USES=		cmake compiler:c++23-lang llvm:min=19 localbase pkgconfig qt:6 ssl
+USES=		cmake compiler:c++23-lang llvm:min=19 localbase pkgconfig qt:6 \
+		ssl
 USE_GL=		gl opengl
 USE_QT=		base multimedia tools translations
 USE_GITHUB=	yes
@@ -59,7 +60,6 @@ GH_TUPLE+=	shadps4-emu:ext-LibAtrac9:ec8899dadf393f655f2871a94e0fe4b3d6220c9a:li
 		Cyan4973:xxHash:2bf8313b934633b2a5b7e8fd239645b85e10c852:xxhash/externals/xxhash \
 		shadps4-emu:winpthreads:f00c973a6ab2a23573708568b8ef4acc20a9d36b:winpthreads/externals/winpthreads \
 		herumi:xbyak:4e44f4614ddbf038f2a6296f5b906d5c72691e0f:xbyak/externals/xbyak \
-		Cyan4973:xxHash:2bf8313b934633b2a5b7e8fd239645b85e10c852:xxhash/externals/xxhash \
 		shadps4-emu:ext-zlib-ng:d54e3769be0c522015b784eca2af258b1c026107:zlib/externals/zlib-ng \
 		zyantific:zydis:bffbb610cfea643b98e87658b9058382f7522807:zybis/externals/zydis \
 		shadps4-emu:ext-cryptopp-cmake:2c384c28265a93358a2455e610e76393358794df:cmake/externals/cryptopp-cmake \
@@ -68,6 +68,7 @@ GH_TUPLE+=	shadps4-emu:ext-LibAtrac9:ec8899dadf393f655f2871a94e0fe4b3d6220c9a:li
 
 LDFLAGS=	-L${LOCALBASE}/lib -ldate-tz
 CMAKE_ON=	ENABLE_QT_GUI
+CMAKE_BUILD_TYPE=	"Debug"
 
 PLIST_FILES=	bin/shadps4 \
 		share/applications/net.shadps4.shadPS4.desktop \
@@ -86,3 +87,4 @@ do-install:
 			${STAGEDIR}${PREFIX}/share/metainfo
 
 .include <bsd.port.mk>
+
