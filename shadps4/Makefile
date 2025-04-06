@@ -71,7 +71,6 @@ CMAKE_ON=	ENABLE_QT_GUI
 
 PLIST_FILES=	bin/shadps4 \
 		share/applications/net.shadps4.shadPS4.desktop \
-		share/icons/hicolor/512x512/apps/net.shadps4.shadPS4.png \
 		share/icons/hicolor/scalable/apps/net.shadps4.shadPS4.svg \
 		share/metainfo/net.shadps4.shadPS4.metainfo.xml
 
