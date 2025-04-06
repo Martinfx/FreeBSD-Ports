@@ -14,9 +14,23 @@ BUILD_DEPENDS=	cryptopp>0:security/cryptopp \
 		rapidjson>0:devel/rapidjson \
 		ffmpeg>0:multimedia/ffmpeg
 
-LIB_DEPENDS=	libdate-tz.so:devel/date
+LIB_DEPENDS=	libdate-tz.so:devel/date \
+		libfmt.so:devel/libfmt \
+		libpng16.so:graphics/png \
+		libavcodec.so:multimedia/ffmpeg \
+		libavfilter.so:multimedia/ffmpeg \
+		libavformat.so:multimedia/ffmpeg \
+		libavutil.so:multimedia/ffmpeg \
+		libswresample.so:multimedia/ffmpeg \
+		libswscale.so:multimedia/ffmpeg \
+		libxxhash.so:devel/xxhash \
+		libZycore.so:devel/zycore-c \
+		libinotify.so:devel/libinotif \
+		libpugixml.so:textproc/pugixml \
+		libcryptopp.so:security/cryptopp
 
-USES=		cmake compiler:c++23-lang llvm:min=19 localbase qt:6
+USES=		cmake compiler:c++23-lang llvm:min=19 localbase qt:6 ssl
+USE_GL=		gl opengl
 USE_QT=		base multimedia
 USE_GITHUB=	yes
 GH_ACCOUNT=	shadps4-emu
@@ -26,7 +40,6 @@ GH_TUPLE+=	shadps4-emu:ext-LibAtrac9:ec8899dadf393f655f2871a94e0fe4b3d6220c9a:li
 		shadps4-emu:ext-imgui:636cd4a7d623a2bc9bf59bb3acbb4ca075befba3:imgui/externals/dear_imgui \
 		shadps4-emu:ext-discord-rpc:d3b5af8827031f3bccbf8c15d5dc1bfdc9467f17:discord/externals/discord-rpc \
 		shadps4-emu:ext-boost:ca6f230e67be7cc45fc919057f07b2aee64dadc1:boost/externals/ext-boost \
-		shadps4-emu:ext-ffmpeg-core:27de97c826b6b40c255891c37ac046a25836a575:ffmpeg/externals/ffmpeg-core \
 		shadps4-emu:ext-fmt:8ee89546ffcf046309d1f0d38c0393f02fde56c8:fmt/externals/fmt \
 		KhronosGroup:glslang:a0995c49ebcaca2c6d3b03efbabf74f3843decdb:glslang/externals/glslang \
 		ROCm:half:1ddada225144cac0de8f6b5c0dd9acffd99a2e68:half/externals/half \
