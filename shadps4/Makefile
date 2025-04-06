@@ -30,7 +30,7 @@ LIB_DEPENDS=	libdate-tz.so:devel/date \
 		libpugixml.so:textproc/pugixml \
 		libcryptopp.so:security/cryptopp
 
-USES=		cmake compiler:c++23-lang llvm:min=19 localbase qt:6 ssl
+USES=		cmake compiler:c++23-lang llvm:min=19 localbase pkgconfig qt:6 ssl
 USE_GL=		gl opengl
 USE_QT=		base multimedia
 USE_GITHUB=	yes

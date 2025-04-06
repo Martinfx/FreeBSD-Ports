@@ -1,14 +1,16 @@
---- externals/CMakeLists.txt.orig	2025-04-06 16:08:43 UTC
+--- externals/CMakeLists.txt.orig	2025-03-22 22:14:04 UTC
 +++ externals/CMakeLists.txt
-@@ -42,7 +42,7 @@ if (NOT TARGET FFmpeg::ffmpeg)
+@@ -42,8 +42,8 @@ if (NOT TARGET FFmpeg::ffmpeg)
  endif()
  
  if (NOT TARGET FFmpeg::ffmpeg)
 -    add_subdirectory(ffmpeg-core)
+-    add_library(FFmpeg::ffmpeg ALIAS ffmpeg)
 +#    add_subdirectory(ffmpeg-core)
-     add_library(FFmpeg::ffmpeg ALIAS ffmpeg)
++#    add_library(FFmpeg::ffmpeg ALIAS ffmpeg)
  endif()
  
+ # LibAtrac9
 @@ -231,14 +231,15 @@ endif()
  endif()
  
