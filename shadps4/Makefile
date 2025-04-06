@@ -9,8 +9,9 @@ COMMENT=	PlayStation 4 emulator written C++
 LICENSE=	GPLv2
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
-BUILD_DEPENDS=	rapidjson>0:devel/rapidjson \
-		date>0:devel/date
+BUILD_DEPENDS=	cryptopp>0:security/cryptopp \
+		date>0:devel/date \
+		rapidjson>0:devel/rapidjson
 
 USES=		cmake compiler:c++23-lang llvm:min=19 localbase qt:6
 USE_GITHUB=	yes
