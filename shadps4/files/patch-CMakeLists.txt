@@ -1,0 +1,11 @@
+--- CMakeLists.txt.orig	2025-04-06 13:39:23 UTC
++++ CMakeLists.txt
+@@ -180,7 +180,7 @@ endif()
+     find_package(cryptopp 8.9.0 MODULE)
+ endif()
+ 
+-if (APPLE)
++if (APPLE OR UNIX)
+     find_package(date 3.0.1 CONFIG)
+ endif()
+ 
