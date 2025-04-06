@@ -25,7 +25,7 @@ LIB_DEPENDS=	libdate-tz.so:devel/date \
 		libswscale.so:multimedia/ffmpeg \
 		libxxhash.so:devel/xxhash \
 		libZycore.so:devel/zycore-c \
-		libinotify.so:devel/libinotif \
+		libinotify.so:devel/libinotify \
 		libpugixml.so:textproc/pugixml \
 		libcryptopp.so:security/cryptopp
 
