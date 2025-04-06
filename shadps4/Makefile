@@ -5,6 +5,7 @@ CATEGORIES=	emulators
 
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	PlayStation 4 emulator written C++
+WWW=		https://github.com/shadps4-emu/shadPS4
 
 LICENSE=	GPLv2
 LICENSE_FILE=	${WRKSRC}/LICENSE
@@ -69,6 +70,7 @@ GH_TUPLE+=	shadps4-emu:ext-LibAtrac9:ec8899dadf393f655f2871a94e0fe4b3d6220c9a:li
 
 LDFLAGS=	-L${LOCALBASE}/lib -ldate-tz
 CMAKE_ON=	ENABLE_QT_GUI
+CMAKE_ARGS=	-DCMAKE_BUILD_TYPE=Debug
 
 PLIST_FILES=	bin/shadps4 \
 		share/applications/net.shadps4.shadPS4.desktop \
