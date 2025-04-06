@@ -11,7 +11,8 @@ LICENSE_FILE=	${WRKSRC}/LICENSE
 
 BUILD_DEPENDS=	cryptopp>0:security/cryptopp \
 		date>0:devel/date \
-		rapidjson>0:devel/rapidjson
+		rapidjson>0:devel/rapidjson \
+		ffmpeg>0:multimedia/ffmpeg
 
 LIB_DEPENDS=	libdate-tz.so:devel/date
 
