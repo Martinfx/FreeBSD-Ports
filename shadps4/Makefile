@@ -32,7 +32,7 @@ LIB_DEPENDS=	libdate-tz.so:devel/date \
 
 USES=		cmake compiler:c++23-lang llvm:min=19 localbase pkgconfig qt:6 ssl
 USE_GL=		gl opengl
-USE_QT=		base multimedia
+USE_QT=		base multimedia tools translations
 USE_GITHUB=	yes
 GH_ACCOUNT=	shadps4-emu
 GH_PROJECT=	shadPS4
@@ -68,5 +68,22 @@ GH_TUPLE+=	shadps4-emu:ext-LibAtrac9:ec8899dadf393f655f2871a94e0fe4b3d6220c9a:li
 
 LDFLAGS=	-L${LOCALBASE}/lib -ldate-tz
 CMAKE_ON=	ENABLE_QT_GUI
+
+PLIST_FILES=	bin/shadps4 \
+		share/applications/net.shadps4.shadPS4.desktop \
+		share/icons/hicolor/512x512/apps/net.shadps4.shadPS4.png \
+		share/icons/hicolor/scalable/apps/net.shadps4.shadPS4.svg \
+		share/metainfo/net.shadps4.shadPS4.metainfo.xml
+
+do-install:
+	${INSTALL_PROGRAM} ${BUILD_WRKSRC}${PORTNAME} ${STAGEDIR}${PREFIX}/bin
+	${INSTALL_DATA} ${WRKSRC}/dist/net.shadps4.shadPS4.desktop \
+			${STAGEDIR}${DESKTOPDIR}
+	${MKDIR} ${STAGEDIR}${PREFIX}/share/icons/hicolor/scalable/apps
+	${INSTALL_DATA} ${WRKSRC}/src/images/net.shadps4.shadPS4.svg \
+			${STAGEDIR}${PREFIX}/share/icons/hicolor/scalable/apps
+	${MKDIR} ${STAGEDIR}${PREFIX}/share/metainfo
+	${INSTALL_DATA} ${WRKSRC}/dist/net.shadps4.shadPS4.metainfo.xml \
+			${STAGEDIR}${PREFIX}/share/metainfo
 
 .include <bsd.port.mk>
