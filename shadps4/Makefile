@@ -76,7 +76,7 @@ PLIST_FILES=	bin/shadps4 \
 		share/metainfo/net.shadps4.shadPS4.metainfo.xml
 
 do-install:
-	${INSTALL_PROGRAM} ${BUILD_WRKSRC}${PORTNAME} ${STAGEDIR}${PREFIX}/bin
+	${INSTALL_PROGRAM} ${BUILD_WRKSRC}/${PORTNAME} ${STAGEDIR}${PREFIX}/bin
 	${INSTALL_DATA} ${WRKSRC}/dist/net.shadps4.shadPS4.desktop \
 			${STAGEDIR}${DESKTOPDIR}
 	${MKDIR} ${STAGEDIR}${PREFIX}/share/icons/hicolor/scalable/apps
