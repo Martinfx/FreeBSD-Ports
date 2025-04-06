@@ -13,7 +13,8 @@ BUILD_DEPENDS=	alsa-lib>0:audio/alsa-lib \
 		cryptopp>0:security/cryptopp \
 		date>0:devel/date \
 		ffmpeg>0:multimedia/ffmpeg \
-		rapidjson>0:devel/rapidjson
+		rapidjson>0:devel/rapidjson \
+		sndio>0:audio/sndio
 
 LIB_DEPENDS=	libavcodec.so:multimedia/ffmpeg \
 		libavfilter.so:multimedia/ffmpeg \
