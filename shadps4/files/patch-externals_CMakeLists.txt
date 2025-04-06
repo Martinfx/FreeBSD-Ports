@@ -1,0 +1,29 @@
+--- externals/CMakeLists.txt.orig	2025-04-06 16:08:43 UTC
++++ externals/CMakeLists.txt
+@@ -42,7 +42,7 @@ if (NOT TARGET FFmpeg::ffmpeg)
+ endif()
+ 
+ if (NOT TARGET FFmpeg::ffmpeg)
+-    add_subdirectory(ffmpeg-core)
++#    add_subdirectory(ffmpeg-core)
+     add_library(FFmpeg::ffmpeg ALIAS ffmpeg)
+ endif()
+ 
+@@ -231,14 +231,15 @@ endif()
+ endif()
+ 
+ # Apple-only dependencies
+-if (APPLE)
++if (CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
+     # date
+     if (NOT TARGET date::date-tz)
+         option(BUILD_TZ_LIB "" ON)
+         option(USE_SYSTEM_TZ_DB "" ON)
+         add_subdirectory(date)
+     endif()
+-
++endif()
++if(APPLE)
+     # MoltenVK
+     if (NOT TARGET MoltenVK)
+         add_subdirectory(MoltenVK)
