@@ -48,7 +48,8 @@ GH_TUPLE+=	shadps4-emu:ext-LibAtrac9:ec8899dadf393f655f2871a94e0fe4b3d6220c9a:li
 		shadps4-emu:ext-zlib-ng:d54e3769be0c522015b784eca2af258b1c026107:zlib/externals/zlib-ng \
 		zyantific:zydis:bffbb610cfea643b98e87658b9058382f7522807:zybis/externals/zydis \
 		shadps4-emu:ext-cryptopp-cmake:2c384c28265a93358a2455e610e76393358794df:cmake/externals/cryptopp-cmake \
-		shadps4-emu:ext-cryptopp:effed0d0b865afc23ed67e0916f83734e4b9b3b7:cryptopp/externals/cryptopp
+		shadps4-emu:ext-cryptopp:effed0d0b865afc23ed67e0916f83734e4b9b3b7:cryptopp/externals/cryptopp \
+		zyantific:zycore-c:0b2432ced0884fd152b471d97ecf0258ff4d859f:zycore/externals/zydis/dependencies/zycore
 
 LDFLAGS+=	-L${LOCALBASE}/lib -ldate-tz
 CMAKE_ON=	ENABLE_QT_GUI
