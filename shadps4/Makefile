@@ -17,6 +17,7 @@ BUILD_DEPENDS=	cryptopp>0:security/cryptopp \
 LIB_DEPENDS=	libdate-tz.so:devel/date
 
 USES=		cmake compiler:c++23-lang llvm:min=19 localbase qt:6
+USE_QT=		base
 USE_GITHUB=	yes
 GH_ACCOUNT=	shadps4-emu
 GH_PROJECT=	shadPS4
