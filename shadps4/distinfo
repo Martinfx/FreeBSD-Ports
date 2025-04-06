@@ -1,4 +1,4 @@
-TIMESTAMP = 1743938467
+TIMESTAMP = 1743951490
 SHA256 (shadps4-emu-shadPS4-v.0.7.0_GH0.tar.gz) = 8471c53dae26713279b271067e5b8bc103da5f484ae6ec0b67821d34868d3d38
 SIZE (shadps4-emu-shadPS4-v.0.7.0_GH0.tar.gz) = 20097598
 SHA256 (shadps4-emu-ext-LibAtrac9-ec8899dadf393f655f2871a94e0fe4b3d6220c9a_GH0.tar.gz) = 6210a9013060857d28804aa46c7c3ad2cebbdd38f259e6017e9d21c2fa1f37f5
@@ -53,3 +53,7 @@ SHA256 (shadps4-emu-ext-zlib-ng-d54e3769be0c522015b784eca2af258b1c026107_GH0.tar
 SIZE (shadps4-emu-ext-zlib-ng-d54e3769be0c522015b784eca2af258b1c026107_GH0.tar.gz) = 2413896
 SHA256 (zyantific-zydis-bffbb610cfea643b98e87658b9058382f7522807_GH0.tar.gz) = 0c884f6b9fa6699dd3db580a00753d893b1a9e3e4970300da276d0e24238e23b
 SIZE (zyantific-zydis-bffbb610cfea643b98e87658b9058382f7522807_GH0.tar.gz) = 813685
+SHA256 (shadps4-emu-ext-cryptopp-cmake-2c384c28265a93358a2455e610e76393358794df_GH0.tar.gz) = 5d6dfef00cb784a9d2e148d3b711f4ab666f3904ca04e4f50486adbfb8873139
+SIZE (shadps4-emu-ext-cryptopp-cmake-2c384c28265a93358a2455e610e76393358794df_GH0.tar.gz) = 47426
+SHA256 (shadps4-emu-ext-cryptopp-effed0d0b865afc23ed67e0916f83734e4b9b3b7_GH0.tar.gz) = 89d47cc35e1e6863f1b3a7d9c39e5a7ae1c06d462d5709b4b3ee19cb9b7c3583
+SIZE (shadps4-emu-ext-cryptopp-effed0d0b865afc23ed67e0916f83734e4b9b3b7_GH0.tar.gz) = 9156988

@@ -13,6 +13,8 @@ BUILD_DEPENDS=	cryptopp>0:security/cryptopp \
 		date>0:devel/date \
 		rapidjson>0:devel/rapidjson
 
+LIB_DEPENDS=	libdate-tz.so:devel/date
+
 USES=		cmake compiler:c++23-lang llvm:min=19 localbase qt:6
 USE_GITHUB=	yes
 GH_ACCOUNT=	shadps4-emu
@@ -43,9 +45,11 @@ GH_TUPLE+=	shadps4-emu:ext-LibAtrac9:ec8899dadf393f655f2871a94e0fe4b3d6220c9a:li
 		herumi:xbyak:4e44f4614ddbf038f2a6296f5b906d5c72691e0f:xbyak/externals/xbyak \
 		Cyan4973:xxHash:2bf8313b934633b2a5b7e8fd239645b85e10c852:xxhash/externals/xxhash \
 		shadps4-emu:ext-zlib-ng:d54e3769be0c522015b784eca2af258b1c026107:zlib/externals/zlib-ng \
-		zyantific:zydis:bffbb610cfea643b98e87658b9058382f7522807:zybis/externals/zydis
+		zyantific:zydis:bffbb610cfea643b98e87658b9058382f7522807:zybis/externals/zydis \
+		shadps4-emu:ext-cryptopp-cmake:2c384c28265a93358a2455e610e76393358794df:cmake/externals/cryptopp-cmake \
+		shadps4-emu:ext-cryptopp:effed0d0b865afc23ed67e0916f83734e4b9b3b7:cryptopp/externals/cryptopp
 
+LDFLAGS+=	-L${LOCALBASE}/lib -ldate-tz
 CMAKE_ON=	ENABLE_QT_GUI
-
 
 .include <bsd.port.mk>
