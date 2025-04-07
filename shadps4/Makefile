@@ -37,6 +37,7 @@ USE_QT=		base multimedia tools translations
 USE_GITHUB=	yes
 GH_ACCOUNT=	shadps4-emu
 GH_PROJECT=	shadPS4
+GH_TAGNAME=	473b66649f6fc4645812526eb21b520f8f88f302
 GH_TUPLE+=	shadps4-emu:ext-LibAtrac9:ec8899dadf393f655f2871a94e0fe4b3d6220c9a:libatrac/externals/LibAtrac9 \
 		HowardHinnant:date:28b7b232521ace2c8ef3f2ad4126daec3569c14f:date/externals/date \
 		shadps4-emu:ext-imgui:636cd4a7d623a2bc9bf59bb3acbb4ca075befba3:imgui/externals/dear_imgui \
@@ -46,7 +47,6 @@ GH_TUPLE+=	shadps4-emu:ext-LibAtrac9:ec8899dadf393f655f2871a94e0fe4b3d6220c9a:li
 		KhronosGroup:glslang:a0995c49ebcaca2c6d3b03efbabf74f3843decdb:glslang/externals/glslang \
 		ROCm:half:1ddada225144cac0de8f6b5c0dd9acffd99a2e68:half/externals/half \
 		pnggroup:libpng:c1cc0f3f4c3d4abd11ca68c59446a29ff6f95003:libpng/externals/libpng \
-		libusb:libusb-cmake:8f0b4a38fc3eefa2b26a99dff89e1c12bf37afd4:libusb/externals/libusb \
 		Neargye:magic_enum:1a1824df7ac798177a521eed952720681b0bf482:magic/externals/magic_enum \
 		zeux:pugixml:4bc14418d12d289dd9978fdce9490a45deeb653e:pugixml/externals/pugixml \
 		Tessil:robin-map:fe845fd7852ef541c5479ae23b3d36b57f8608ee:robin/externals/robin-map \
@@ -66,9 +66,10 @@ GH_TUPLE+=	shadps4-emu:ext-LibAtrac9:ec8899dadf393f655f2871a94e0fe4b3d6220c9a:li
 		shadps4-emu:ext-cryptopp:effed0d0b865afc23ed67e0916f83734e4b9b3b7:cryptopp/externals/cryptopp \
 		zyantific:zycore-c:0b2432ced0884fd152b471d97ecf0258ff4d859f:zycore/externals/zydis/dependencies/zycore
 
-LDFLAGS=	-L${LOCALBASE}/lib -ldate-tz
+LDFLAGS=	-L${LOCALBASE}/lib -ldate-tz -L/usr/lib -lusb
+CXXFLAGS=	-I/usr/include
 CMAKE_ON=	ENABLE_QT_GUI
-CMAKE_ARGS=	-DCMAKE_BUILD_TYPE=Debug
+CMAKE_ARGS=	-DLibUSB_LIBRARY="/usr/lib/libusb.so" -DCMAKE_BUILD_TYPE=Debug
 
 PLIST_FILES=	bin/shadps4 \
 		share/applications/net.shadps4.shadPS4.desktop \

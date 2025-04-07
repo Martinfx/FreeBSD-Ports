@@ -1,33 +1,62 @@
---- CMakeLists.txt.orig	2025-03-22 22:14:04 UTC
+--- CMakeLists.txt.orig	2025-04-07 09:25:49 UTC
 +++ CMakeLists.txt
-@@ -16,6 +16,8 @@ endif()
+@@ -15,6 +15,8 @@ if (NOT CMAKE_BUILD_TYPE)
+ 
+ if (NOT CMAKE_BUILD_TYPE)
      set(CMAKE_BUILD_TYPE Release)
++else()
++    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g -fno-omit-frame-pointer")
  endif()
  
-+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g -fno-omit-frame-pointer")
-+
  project(shadPS4 CXX C ASM ${ADDITIONAL_LANGUAGES})
- 
- # Forcing PIE makes sure that the base address is high enough so that it doesn't clash with the PS4 memory.
-@@ -54,7 +56,7 @@ if (ARCHITECTURE STREQUAL "x86_64")
+@@ -55,7 +57,7 @@ if (ARCHITECTURE STREQUAL "x86_64")
  
  if (ARCHITECTURE STREQUAL "x86_64")
-     # Set x86_64 target level to Sandy Bridge to generally match what is supported for PS4 guest code with CPU patches.
--    add_compile_options(-march=sandybridge)
-+    #add_compile_options(-march=sandybridge)
+     # Target the same x86_64 feature set as the PS4 CPU to match requirements.
+-    add_compile_options(-march=btver2 -mno-sse4a)
++    #add_compile_options(-march=btver2 -mno-sse4a)
  endif()
  
  if (APPLE AND ARCHITECTURE STREQUAL "x86_64" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "arm64")
-@@ -180,7 +182,7 @@ endif()
-     find_package(cryptopp 8.9.0 MODULE)
- endif()
+@@ -227,9 +229,9 @@ find_package(pugixml 1.14 CONFIG)
+ find_package(ZLIB 1.3 MODULE)
+ find_package(Zydis 5.0.0 CONFIG)
+ find_package(pugixml 1.14 CONFIG)
+-find_package(libusb 1.0.27 MODULE)
++#find_package(libusb 1.0.27 MODULE)
  
 -if (APPLE)
 +if (APPLE OR CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
      find_package(date 3.0.1 CONFIG)
  endif()
  
-@@ -1157,7 +1159,7 @@ install(TARGETS shadps4 BUNDLE DESTINATION .)
+@@ -1061,8 +1063,24 @@ create_target_directory_groups(shadps4)
+ 
+ create_target_directory_groups(shadps4)
+ 
++find_package(PkgConfig)
++if (PkgConfig_FOUND)
++    pkg_check_modules(LIBUSB libusb-1.0)
++    if (LIBUSB_FOUND)
++       set(LIBUSB_LIBRARIES ${LIBUSB_LINK_LIBRARIES})
++       set(LIBUSB_INCLUDE_DIR ${LIBUSB_INCLUDE_DIRS})
++       target_link_libraries(shadps4 PRIVATE ${LIBUSB_LIBRARIES})
++    endif()
++endif()
++
++if (NOT LIBUSB_LIBRARIES OR NOT LIBUSB_INCLUDE_DIR)
++    find_library(LIBUSB_LIBRARIES NAMES usb-1.0 usb)
++    find_path(LIBUSB_INCLUDE_DIR libusb.h PATH_SUFFIXES libusb-1.0 libusb)
++    target_link_libraries(shadps4 PRIVATE ${LIBUSB_LIBRARIES})
++endif()
++
+ target_link_libraries(shadps4 PRIVATE magic_enum::magic_enum fmt::fmt toml11::toml11 tsl::robin_map xbyak::xbyak Tracy::TracyClient RenderDoc::API FFmpeg::ffmpeg Dear_ImGui gcn half::half ZLIB::ZLIB PNG::PNG)
+-target_link_libraries(shadps4 PRIVATE Boost::headers GPUOpen::VulkanMemoryAllocator LibAtrac9 sirit Vulkan::Headers xxHash::xxhash Zydis::Zydis glslang::glslang SDL3::SDL3 pugixml::pugixml stb::headers libusb::usb)
++target_link_libraries(shadps4 PRIVATE Boost::headers GPUOpen::VulkanMemoryAllocator LibAtrac9 sirit Vulkan::Headers xxHash::xxhash Zydis::Zydis glslang::glslang SDL3::SDL3 pugixml::pugixml stb::headers)
+ 
+ target_compile_definitions(shadps4 PRIVATE IMGUI_USER_CONFIG="imgui/imgui_config.h")
+ target_compile_definitions(Dear_ImGui PRIVATE IMGUI_USER_CONFIG="${PROJECT_SOURCE_DIR}/src/imgui/imgui_config.h")
+@@ -1216,7 +1234,7 @@ install(TARGETS shadps4 BUNDLE DESTINATION .)
  # Install rules
  install(TARGETS shadps4 BUNDLE DESTINATION .)
  

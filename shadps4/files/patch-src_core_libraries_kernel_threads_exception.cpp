@@ -1,6 +1,6 @@
---- src/core/libraries/kernel/threads/exception.cpp.orig	2025-04-06 12:24:20 UTC
+--- src/core/libraries/kernel/threads/exception.cpp.orig	2025-04-07 09:25:49 UTC
 +++ src/core/libraries/kernel/threads/exception.cpp
-@@ -41,6 +41,25 @@ void SigactionHandler(int signum, siginfo_t* inf, ucon
+@@ -42,6 +42,25 @@ void SigactionHandler(int signum, siginfo_t* inf, ucon
          ctx.uc_mcontext.mc_rsp = regs.__rsp;
          ctx.uc_mcontext.mc_fs = regs.__fs;
          ctx.uc_mcontext.mc_gs = regs.__gs;
