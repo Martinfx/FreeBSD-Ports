@@ -11,7 +11,6 @@ LICENSE=	GPLv2
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
 BUILD_DEPENDS=	alsa-lib>0:audio/alsa-lib \
-		cryptopp>0:security/cryptopp \
 		date>0:devel/date \
 		ffmpeg>0:multimedia/ffmpeg \
 		rapidjson>0:devel/rapidjson \
@@ -21,7 +20,6 @@ LIB_DEPENDS=	libavcodec.so:multimedia/ffmpeg \
 		libavfilter.so:multimedia/ffmpeg \
 		libavformat.so:multimedia/ffmpeg \
 		libavutil.so:multimedia/ffmpeg \
-		libcryptopp.so:security/cryptopp \
 		libdate-tz.so:devel/date \
 		libfmt.so:devel/libfmt \
 		libinotify.so:devel/libinotify \
