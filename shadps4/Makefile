@@ -20,6 +20,7 @@ LIB_DEPENDS=	libavcodec.so:multimedia/ffmpeg \
 		libavfilter.so:multimedia/ffmpeg \
 		libavformat.so:multimedia/ffmpeg \
 		libavutil.so:multimedia/ffmpeg \
+		libcryptopp.so:security/cryptopp \
 		libdate-tz.so:devel/date \
 		libfmt.so:devel/libfmt \
 		libinotify.so:devel/libinotify \
@@ -37,7 +38,7 @@ USE_QT=		base multimedia tools translations
 USE_GITHUB=	yes
 GH_ACCOUNT=	shadps4-emu
 GH_PROJECT=	shadPS4
-GH_TAGNAME=	473b66649f6fc4645812526eb21b520f8f88f302
+GH_TAGNAME=	d339b3f7d663ba89bb5b3cd572ead77b41b0f0a8
 GH_TUPLE+=	shadps4-emu:ext-LibAtrac9:ec8899dadf393f655f2871a94e0fe4b3d6220c9a:libatrac/externals/LibAtrac9 \
 		HowardHinnant:date:28b7b232521ace2c8ef3f2ad4126daec3569c14f:date/externals/date \
 		shadps4-emu:ext-imgui:636cd4a7d623a2bc9bf59bb3acbb4ca075befba3:imgui/externals/dear_imgui \
@@ -75,6 +76,13 @@ PLIST_FILES=	bin/shadps4 \
 		share/applications/net.shadps4.shadPS4.desktop \
 		share/icons/hicolor/scalable/apps/net.shadps4.shadPS4.svg \
 		share/metainfo/net.shadps4.shadPS4.metainfo.xml
+
+.include <bsd.port.options.mk>
+
+# Fix segmentation fault
+.if ${ARCH} == i386 || ${ARCH} == amd64
+CXXFLAGS+=	-DCRYPTOPP_DISABLE_ASM
+.endif
 
 do-install:
 	${INSTALL_PROGRAM} ${BUILD_WRKSRC}/${PORTNAME} ${STAGEDIR}${PREFIX}/bin
