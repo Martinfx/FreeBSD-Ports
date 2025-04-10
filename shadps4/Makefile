@@ -51,7 +51,7 @@ GH_TUPLE+=	shadps4-emu:ext-LibAtrac9:ec8899dadf393f655f2871a94e0fe4b3d6220c9a:li
 		Neargye:magic_enum:1a1824df7ac798177a521eed952720681b0bf482:magic/externals/magic_enum \
 		zeux:pugixml:4bc14418d12d289dd9978fdce9490a45deeb653e:pugixml/externals/pugixml \
 		Tessil:robin-map:fe845fd7852ef541c5479ae23b3d36b57f8608ee:robin/externals/robin-map \
-		shadps4-emu:ext-SDL:a336b62d8b0b97b09214e053203e442e2b6e2be5:sdl/externals/sdl3 \
+		shadps4-emu:ext-SDL:758eb256b986a7ae07108b667c8e09a404a989a3:sdl/externals/sdl3 \
 		shadps4-emu:sirit:427a42c9ed99b38204d9107bc3dc14e92458acf1:sirit/externals/sirit \
 		KhronosGroup:SPIRV-Headers:2acb319af38d43be3ea76bfabf3998e5281d8d12:spirv/externals/sirit/externals/SPIRV-Headers \
 		ToruNiina:toml11:7f6c574ff5aa1053534e7e19c0a4f22bf4c6aaca:toml/externals/toml11 \
