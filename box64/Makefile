@@ -1,0 +1,12 @@
+PORTNAME=	box64
+DISTVERSION=	
+CATEGORIES=	FreeBSD-Ports
+MASTER_SITES=	
+
+MAINTAINER=	maxfx@hades
+COMMENT=	
+
+LICENSE=	
+LICENSE_FILE=	
+
+.include <bsd.port.mk>
