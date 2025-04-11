@@ -28,6 +28,7 @@ LIB_DEPENDS=	libavcodec.so:multimedia/ffmpeg \
 		libpugixml.so:textproc/pugixml \
 		libswresample.so:multimedia/ffmpeg \
 		libswscale.so:multimedia/ffmpeg \
+		libSDL3.so:devel/sdl3 \
 		libxxhash.so:devel/xxhash \
 		libZycore.so:devel/zycore-c
 
