@@ -95,6 +95,10 @@ do-install:
 	${MKDIR} ${STAGEDIR}${PREFIX}/share/metainfo
 	${INSTALL_DATA} ${WRKSRC}/dist/net.shadps4.shadPS4.metainfo.xml \
 			${STAGEDIR}${PREFIX}/share/metainfo
+post-install:
+.if exists(/usr/bin/elfctl)
+	${ELFCTL} -e +wxneeded ${STAGEDIR}${PREFIX}/bin/${PORTNAME}
+.endif
 
 .include <bsd.port.mk>
 
