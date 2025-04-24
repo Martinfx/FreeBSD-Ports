@@ -1,0 +1,69 @@
+--- external/CMakeLists.txt.orig	2025-04-23 19:43:02 UTC
++++ external/CMakeLists.txt
+@@ -7,29 +7,29 @@ set(CMAKE_POLICY_DEFAULT_CMP0077 "NEW")
+ # created or updated and is ignored if it exists.
+ set(CMAKE_POLICY_DEFAULT_CMP0077 "NEW")
+ 
+-function(check_submodules_present)
+-	file(READ "${CMAKE_SOURCE_DIR}/.gitmodules" gitmodules)
+-	string(REGEX MATCHALL "path *= *[^ \t\r\n]*" gitmodules ${gitmodules})
++#function(check_submodules_present)
++#	file(READ "${CMAKE_SOURCE_DIR}/.gitmodules" gitmodules)
++#	string(REGEX MATCHALL "path *= *[^ \t\r\n]*" gitmodules ${gitmodules})
++#
++#	foreach(module ${gitmodules})
++#		# Get module name
++#		string(REGEX REPLACE "path *= *" "" module ${module})
++#
++#		# Stat the folder and get amount of entries
++#		file(GLOB RESULT "${CMAKE_SOURCE_DIR}/${module}/*")
++#		list(LENGTH RESULT RES_LEN)
++#
++#		# If the module has no files, bring fatal error
++#		if(RES_LEN EQUAL 0)
++#			# directory is empty
++#			message(FATAL_ERROR "Submodule ${module} is empty. "
++#				"Please run: git submodule update --init --recursive")
++#		endif()
++#	endforeach()
++#endfunction()
++#
++#check_submodules_present()
+ 
+-	foreach(module ${gitmodules})
+-		# Get module name
+-		string(REGEX REPLACE "path *= *" "" module ${module})
+-
+-		# Stat the folder and get amount of entries
+-		file(GLOB RESULT "${CMAKE_SOURCE_DIR}/${module}/*")
+-		list(LENGTH RESULT RES_LEN)
+-
+-		# If the module has no files, bring fatal error
+-		if(RES_LEN EQUAL 0)
+-			# directory is empty
+-			message(FATAL_ERROR "Submodule ${module} is empty. "
+-				"Please run: git submodule update --init --recursive")
+-		endif()
+-	endforeach()
+-endfunction()
+-
+-check_submodules_present()
+-
+ # Set folder for external projects (for project tree in IDE)
+ set(CMAKE_FOLDER externals)
+ 
+@@ -444,3 +444,14 @@ add_library(NFDe::NFDe ALIAS nfd)
+ 
+ # Create alias to prevent the need of multiple changes in case the target name changes
+ add_library(NFDe::NFDe ALIAS nfd)
++
++include_directories(/usr/local/include)
++link_directories(/usr/local/lib)
++find_package(PkgConfig REQUIRED)
++
++pkg_check_modules(FFMPEG REQUIRED IMPORTED_TARGET
++    libavcodec
++    libavformat
++    libavutil
++    libswscale
++)
