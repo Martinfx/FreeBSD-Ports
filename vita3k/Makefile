@@ -20,6 +20,8 @@ GH_TAGNAME=	b9cf81a
 GH_TUPLE+=	Vita3K:LibAtrac9:82767fe38823c32536726ea798f392b0b49e66b9:libatrac/external/LibAtrac9 \
 		KhronosGroup:SPIRV-Cross:bccaa94db814af33d8ef05c153e7c34d8bd4d685:spirv/external/SPIRV-Cross \
 		YaaZ:VulkanMemoryAllocator-Hpp:2059f0fdd73492b03d60a90c73e5038224b99093:vulkanmemory/external/VulkanMemoryAllocator-Hpp \
+		KhronosGroup:Vulkan-Headers:952f776f6573aafbb62ea717d871cd1d6816c387:header/external/VulkanMemoryAllocator-Hpp/Vulkan-Headers \
+		GPUOpen-LibrariesAndSDKs:VulkanMemoryAllocator:c788c52156f3ef7bc7ab769cb03c110a53ac8fcb:allocator/external/VulkanMemoryAllocator-Hpp/VulkanMemoryAllocator \
 		aantron:better-enums:c35576bed0295689540b39873126129adfa0b4c8:better/external/better-enums \
 		Vita3K:ext-boost:d4c58aa5c6fe08433ffdbe03f7a098342bf8e2e9:boost/external/boost \
 		aquynh:capstone:accf4df62f1fba6f92cae692985d27063552601c:capstone/external/capstone \

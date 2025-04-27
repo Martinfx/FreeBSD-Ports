@@ -52,18 +52,12 @@
  # Set folder for external projects (for project tree in IDE)
  set(CMAKE_FOLDER externals)
  
-@@ -444,3 +444,14 @@ add_library(NFDe::NFDe ALIAS nfd)
- 
- # Create alias to prevent the need of multiple changes in case the target name changes
- add_library(NFDe::NFDe ALIAS nfd)
-+
-+include_directories(/usr/local/include)
-+link_directories(/usr/local/lib)
-+find_package(PkgConfig REQUIRED)
-+
-+pkg_check_modules(FFMPEG REQUIRED IMPORTED_TARGET
-+    libavcodec
-+    libavformat
-+    libavutil
-+    libswscale
-+)
+@@ -381,7 +381,7 @@ option(XXH_X86DISPATCH_ALLOW_AVX "Allow building XXH3 
+ option(BUILD_SHARED_LIBS "Build shared library" OFF)
+ option(XXHASH_BUILD_XXHSUM "Build the xxhsum binary" OFF)
+ option(XXH_X86DISPATCH_ALLOW_AVX "Allow building XXH3 with AVX even if it crashes on SSE2-Only CPUs" OFF)
+-if(NOT APPLE)
++if(NOT APPLE OR NOT UNIX)
+ 	set(DISPATCH 1)
+ endif()
+ add_subdirectory(xxHash/cmake_unofficial EXCLUDE_FROM_ALL)

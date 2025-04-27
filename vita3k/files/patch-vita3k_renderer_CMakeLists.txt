@@ -1,0 +1,13 @@
+--- vita3k/renderer/CMakeLists.txt.orig	2025-04-23 19:43:02 UTC
++++ vita3k/renderer/CMakeLists.txt
+@@ -46,8 +46,8 @@ target_include_directories(renderer PUBLIC include)
+ )
+ 
+ target_include_directories(renderer PUBLIC include)
+-target_link_libraries(renderer PUBLIC display mem stb shader glutil threads config util vkutil)
+-target_link_libraries(renderer PRIVATE ddspp sdl2 stb ffmpeg xxHash::xxhash concurrentqueue)
++target_link_libraries(renderer PUBLIC display mem stb shader glutil threads config util vkutil ${AVCODEC_LIBRARY} ${AVFORMAT_LIBRARY} ${AVUTIL_LIBRARY} ${AVDEVICE_LIBRARY} ${SWSCALE_LIBRARY} ${SWRESAMPLE_LIBRARY})
++target_link_libraries(renderer PRIVATE ddspp sdl2 stb xxHash::xxhash concurrentqueue)
+ 
+ # Marshmallow Tracy linking
+ if(TRACY_ENABLE_ON_CORE_COMPONENTS)

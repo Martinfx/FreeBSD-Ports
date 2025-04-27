@@ -1,4 +1,4 @@
-TIMESTAMP = 1745447635
+TIMESTAMP = 1745740949
 SHA256 (Vita3K-Vita3K-G20250423-b9cf81a_GH0.tar.gz) = e472084d13e6466f73e94b68ed9a7871b948c8e49e22c091fdc2c2b917f43fa1
 SIZE (Vita3K-Vita3K-G20250423-b9cf81a_GH0.tar.gz) = 6815346
 SHA256 (Vita3K-LibAtrac9-82767fe38823c32536726ea798f392b0b49e66b9_GH0.tar.gz) = cc626f59e4b778f9684fc39afe9147ce1adf158c4fb7eeeb456ba1a14f597f23
@@ -7,6 +7,10 @@ SHA256 (KhronosGroup-SPIRV-Cross-bccaa94db814af33d8ef05c153e7c34d8bd4d685_GH0.ta
 SIZE (KhronosGroup-SPIRV-Cross-bccaa94db814af33d8ef05c153e7c34d8bd4d685_GH0.tar.gz) = 1745485
 SHA256 (YaaZ-VulkanMemoryAllocator-Hpp-2059f0fdd73492b03d60a90c73e5038224b99093_GH0.tar.gz) = ced7832023cf1990e5ca5492e7fecb963c99e08ae287ba296bebb172053f1a0b
 SIZE (YaaZ-VulkanMemoryAllocator-Hpp-2059f0fdd73492b03d60a90c73e5038224b99093_GH0.tar.gz) = 40911
+SHA256 (KhronosGroup-Vulkan-Headers-952f776f6573aafbb62ea717d871cd1d6816c387_GH0.tar.gz) = 4c744e80c908bcc65c2057482f44e57d7e3d748f6eae4cd759fd593018f4ce35
+SIZE (KhronosGroup-Vulkan-Headers-952f776f6573aafbb62ea717d871cd1d6816c387_GH0.tar.gz) = 2573511
+SHA256 (GPUOpen-LibrariesAndSDKs-VulkanMemoryAllocator-c788c52156f3ef7bc7ab769cb03c110a53ac8fcb_GH0.tar.gz) = 7dacd2f5010f6e9c6a860d2767518b524c433912fcd38f8ff5681e6f40596c7a
+SIZE (GPUOpen-LibrariesAndSDKs-VulkanMemoryAllocator-c788c52156f3ef7bc7ab769cb03c110a53ac8fcb_GH0.tar.gz) = 985122
 SHA256 (aantron-better-enums-c35576bed0295689540b39873126129adfa0b4c8_GH0.tar.gz) = 9b78dcef7f88d1345b6f25335bfbcba5f024b08990c7d6dc605b833f4128b8dd
 SIZE (aantron-better-enums-c35576bed0295689540b39873126129adfa0b4c8_GH0.tar.gz) = 137228
 SHA256 (Vita3K-ext-boost-d4c58aa5c6fe08433ffdbe03f7a098342bf8e2e9_GH0.tar.gz) = 228fbbdad54aeb6755e412ae2eaf73e8bf0547fc40a2ff0d16fa7e6dce486a04

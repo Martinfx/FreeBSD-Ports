@@ -1,0 +1,10 @@
+--- vita3k/ngs/CMakeLists.txt.orig	2025-04-23 19:43:02 UTC
++++ vita3k/ngs/CMakeLists.txt
+@@ -21,5 +21,5 @@ target_include_directories(ngs PUBLIC include)
+ 	src/scheduler.cpp)
+ 
+ target_include_directories(ngs PUBLIC include)
+-target_link_libraries(ngs PUBLIC codec)
+-target_link_libraries(ngs PRIVATE util mem kernel cpu ffmpeg)
++target_link_libraries(ngs PUBLIC codec ${AVCODEC_LIBRARY} ${AVFORMAT_LIBRARY} ${AVUTIL_LIBRARY} ${AVDEVICE_LIBRARY} ${SWSCALE_LIBRARY} ${SWRESAMPLE_LIBRARY})
++target_link_libraries(ngs PRIVATE util mem kernel cpu )
