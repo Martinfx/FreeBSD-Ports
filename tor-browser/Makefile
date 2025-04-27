@@ -1,5 +1,5 @@
 PORTNAME=	tor-browser
-DISTVERSION=	14.0.9
+DISTVERSION=	14.5
 CATEGORIES=	www net security wayland
 MASTER_SITES=	TOR \
 		LOCAL/vvd \
@@ -11,7 +11,7 @@ MASTER_SITES=	TOR \
 		https://secure.informaction.com/%SUBDIR%/:source3
 MASTER_SITE_SUBDIR=	torbrowser/${DISTVERSION}/:DEFAULT \
 			download/releases/:source3
-DISTNAME=	src-firefox-tor-browser-128.9.0esr-14.0-2-build2
+DISTNAME=	src-firefox-tor-browser-128.9.0esr-14.5-1-build4
 NOSCRIPT=	noscript-12.1.1.xpi
 DISTFILES=	${DISTNAME}.tar.xz \
 		manual_215922.zip:source1 \
@@ -44,17 +44,17 @@ RUN_DEPENDS=	tor:security/tor \
 		snowflake-client:security/snowflake-tor
 
 USES=		compiler:c++11-lib libtool localbase:ldflags perl5 pkgconfig \
-		python:3.8+ shebangfix tar:xz
+		python shebangfix tar:xz
 USE_GECKO=	gecko
 USE_GITHUB=	nodefault
-TAG_L10N=	fcd0300e8478d1ec4d1c097a073ddb8e1e0351e3
+TAG_L10N=	c1523924f0e10259e1a80b8268556f6f7a0b29bf
 GH_TUPLE=	mozilla-l10n:firefox-l10n:${TAG_L10N}:ffl10n
 USE_GITLAB=	nodefault
 GL_SITE=	https://gitlab.torproject.org/
 GL_ACCOUNT=	tpo
 GL_PROJECT=	translation:basebrowser translation:torbrowser
-TAG_BASE=	d687be19490caa48a46a3e2193bda95d57cbb96d
-TAG_TOR=	95b60f2679611d39b035f2e45555c2c3d64d991f
+TAG_BASE=	86442427facf038d5706644221de7e2fb733550b
+TAG_TOR=	2c0b448503d52c3b512d1e7a55ccc78ac19db146
 GL_TAGNAME=	${TAG_BASE}:basebrowser ${TAG_TOR}:torbrowser
 USE_MOZILLA=	-sqlite
 
