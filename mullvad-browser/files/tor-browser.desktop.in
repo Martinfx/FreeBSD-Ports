@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Mullvad Browser
+GenericName=Web Browser
+Comment=Mullvad browser
+Categories=Network;WebBrowser;Security;
+Exec=%%LOCALBASE%%/lib/tor-browser/tor-browser
+Icon=%%LOCALBASE%%/lib/tor-browser/browser/chrome/icons/default/default128.png
+StartupWMClass=Mullvad Browser
