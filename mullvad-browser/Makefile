@@ -114,8 +114,6 @@ MOZILLA_PLIST_DIRS=	bin lib share/applications share/pixmaps \
 MOZ_OPTIONS+=	--with-wasi-sysroot=${LOCALBASE}/share/wasi-sysroot
 .endif
 post-patch:
-	@${REINPLACE_CMD} 's|LOCALBASE|${LOCALBASE}|g' \
-		"${WRKSRC}/browser/app/profile/000-tor-browser.js"
 	@${REINPLACE_CMD} 's|%%LOCALBASE%%|${LOCALBASE}|g' \
 		${WRKSRC}/browser/app/nsBrowserApp.cpp
 	${MKDIR} ${WRKSRC}/tmp-manual
