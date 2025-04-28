@@ -11,7 +11,7 @@ LICENSE_FILE=	${WRKSRC}/COPYING.txt
 BUILD_DEPENDS=	ffmpeg>0:multimedia/ffmpeg \
 		sndio>0:audio/sndio
 
-USES=		cmake compiler:c++20-lang llvm:min=19 localbase pkgconfig ssl
+USES=		cmake compiler:c++20-lang llvm:min=19 localbase pathfix pkgconfig ssl
 USE_GL=		gl opengl
 USE_GITHUB=	yes
 GH_ACCOUNT=	Vita3K
@@ -56,6 +56,7 @@ GH_TUPLE+=	Vita3K:LibAtrac9:82767fe38823c32536726ea798f392b0b49e66b9:libatrac/ex
 		jbeder:yaml-cpp:f7320141120f720aecc4c32be25586e7da9eb978:yamlcpp/external/yaml-cpp
 		# removed ffmpeg-core submodule donwload binary files
 
-CMAKE_OFF=	USE_VITA3K_UPDATE USE_DISCORD_RICH_PRESENCE USE_ALSA
+LDFLAGS=	-lexecinfo
+CMAKE_OFF=	USE_VITA3K_UPDATE USE_DISCORD_RICH_PRESENCE USE_ALSA TRACY_LIBUNWIND_BACKTRACE
 
 .include <bsd.port.mk>
