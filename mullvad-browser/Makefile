@@ -84,7 +84,9 @@ MOZ_EXPORT+=	MOZ_TELEMETRY_REPORTING="" \
 MOZ_OPTIONS=	--with-base-browser-version=${DISTVERSION} \
 		--enable-optimize \
 		--enable-bundled-fonts \
-		--disable-crashreporter
+		--disable-crashreporter \
+		--disable-debug \
+		--enable-webrtc
 
 .include "${.CURDIR}/../../www/firefox/Makefile.options"
 
