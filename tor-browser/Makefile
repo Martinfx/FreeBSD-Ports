@@ -27,7 +27,7 @@ LICENSE_FILE=	${WRKSRC}/LICENSE
 
 BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
 		nss>=3.101:security/nss \
-		icu>=73.1:devel/icu \
+		icu>=73.1,1:devel/icu \
 		libevent>=2.1.8:devel/libevent \
 		harfbuzz>=8.5.0:print/harfbuzz \
 		graphite2>=1.3.14:graphics/graphite2 \
