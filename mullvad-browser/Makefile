@@ -14,7 +14,7 @@ MASTER_SITE_SUBDIR=	mullvadbrowser/${DISTVERSION}/:DEFAULT \
 DISTNAME=	src-firefox-mullvad-browser-128.9.0esr-14.5-1-build4
 NOSCRIPT=	noscript-12.1.1.xpi
 DISTFILES=	${DISTNAME}.tar.xz \
-		manual_215922.zip:source1 \
+		manual_268702.zip:source1 \
 		fonts-3--4348e1.tar.zst:source2 \
 		${NOSCRIPT}:source3
 
@@ -27,7 +27,7 @@ LICENSE_FILE=	${WRKSRC}/LICENSE
 
 BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
 		nss>=3.101:security/nss \
-		icu>=73.1:devel/icu \
+		icu>=73.1,1:devel/icu \
 		libevent>=2.1.8:devel/libevent \
 		harfbuzz>=8.5.0:print/harfbuzz \
 		graphite2>=1.3.14:graphics/graphite2 \
@@ -122,16 +122,14 @@ post-configure:
 .for i in ${LOCALES}
 	${CP} ${WRKDIR}/translation-${TAG_BASE}/${i}/base-browser.ftl \
 		${WRKDIR}/.mozbuild/l10n-central/${i}/toolkit/toolkit/global/
-	${CP} ${WRKDIR}/translation-${TAG_BASE}/${i}/newIdentity.properties \
-		${WRKDIR}/.mozbuild/l10n-central/${i}/browser/chrome/browser/
-	${CP} ${WRKDIR}/translation-${TAG_BASE}/${i}/securityLevel.properties \
-		${WRKDIR}/.mozbuild/l10n-central/${i}/browser/chrome/browser/
 	${CP} ${WRKDIR}/translation-${TAG_TOR}/${i}/tor-browser.ftl \
 		${WRKDIR}/.mozbuild/l10n-central/${i}/toolkit/toolkit/global/
+	${MKDIR} ${WRKDIR}/.mozbuild/l10n-central/${i}/browser/branding/tb-release
+	${CP} ${WRKDIR}/translation-${TAG_TOR}/${i}/brand.properties \
+		${WRKDIR}/.mozbuild/l10n-central/${i}/browser/branding/tb-release
 	${MKDIR} ${WRKSRC}/toolkit/torbutton/chrome/locale/${i}/
-.for j in aboutTBUpdate.dtd brand.dtd brand.properties onionLocation.properties \
-	settings.properties torConnect.properties torbutton.dtd \
-	torbutton.properties torlauncher.properties
+.for j in brand.properties onionLocation.properties \
+	settings.properties torConnect.properties torlauncher.properties
 	${CP} ${WRKDIR}/translation-${TAG_TOR}/${i}/${j} \
 		${WRKSRC}/toolkit/torbutton/chrome/locale/${i}/
 .endfor
