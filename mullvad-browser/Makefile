@@ -77,8 +77,8 @@ WRKSRC=		${WRKDIR}/${DISTNAME:S/src-//}
 MOZ_EXPORT+=	MOZ_TELEMETRY_REPORTING="" \
 		MOZILLA_OFFICIAL="1" \
 		MOZ_OFFICIAL_BRANDING="1" \
-		MOZ_APP_DISPLAYNAME="Tor Browser" \
-		MOZ_APP_NAME="tor-browser" \
+		MOZ_APP_DISPLAYNAME="Mullvad Browser" \
+		MOZ_APP_NAME="mullvad-browser" \
 		MOZ_CHROME_MULTILOCALE="${LOCALES}"
 
 MOZ_OPTIONS=	--with-base-browser-version=${DISTVERSION} \
