@@ -82,19 +82,9 @@ MOZ_EXPORT+=	MOZ_TELEMETRY_REPORTING="" \
 		MOZ_CHROME_MULTILOCALE="${LOCALES}"
 
 MOZ_OPTIONS=	--with-base-browser-version=${DISTVERSION} \
-		--enable-official-branding \
 		--enable-optimize \
 		--enable-bundled-fonts \
-		--disable-tests \
-		--disable-debug \
-		--disable-crashreporter \
-		--disable-webrtc \
-		--disable-parental-controls \
-		--enable-proxy-bypass-protection \
-		--disable-system-policies \
-		--disable-backgroundtasks \
-		--with-distribution-id=org.torproject \
-		--with-branding=browser/branding/tb-release
+		--disable-crashreporter
 
 .include "${.CURDIR}/../../www/firefox/Makefile.options"
 
