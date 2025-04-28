@@ -11,7 +11,7 @@ MASTER_SITES=	TOR \
 		https://secure.informaction.com/%SUBDIR%/:source3
 MASTER_SITE_SUBDIR=	mullvadbrowser/${DISTVERSION}/:DEFAULT \
 			download/releases/:source3
-DISTNAME=	src-firefox-tor-browser-128.9.0esr-14.5-1-build4
+DISTNAME=	src-firefox-mullvad-browser-128.9.0esr-14.5-1-build4
 NOSCRIPT=	noscript-12.1.1.xpi
 DISTFILES=	${DISTNAME}.tar.xz \
 		manual_215922.zip:source1 \
