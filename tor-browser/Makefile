@@ -139,7 +139,7 @@ post-configure:
 	${CP} ${WRKDIR}/translation-${TAG_TOR}/${i}/tor-browser.ftl \
 		${WRKDIR}/.mozbuild/l10n-central/${i}/toolkit/toolkit/global/
 	${MKDIR} ${WRKSRC}/toolkit/torbutton/chrome/locale/${i}/
-.for j in aboutTBUpdate.dtd brand.dtd brand.properties onionLocation.properties \
+.for j in aboutTBUpdate.dtd brand.dtd onionLocation.properties \
 	settings.properties torConnect.properties torbutton.dtd \
 	torbutton.properties torlauncher.properties
 	${CP} ${WRKDIR}/translation-${TAG_TOR}/${i}/${j} \
