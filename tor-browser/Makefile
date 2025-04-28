@@ -47,7 +47,7 @@ USES=		compiler:c++11-lib libtool localbase:ldflags perl5 pkgconfig \
 		python shebangfix tar:xz
 USE_GECKO=	gecko
 USE_GITHUB=	nodefault
-TAG_L10N=	c1523924f0e10259e1a80b8268556f6f7a0b29bf
+TAG_L10N=	fcd0300e8478d1ec4d1c097a073ddb8e1e0351e3
 GH_TUPLE=	mozilla-l10n:firefox-l10n:${TAG_L10N}:ffl10n
 USE_GITLAB=	nodefault
 GL_SITE=	https://gitlab.torproject.org/
