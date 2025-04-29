@@ -124,6 +124,24 @@ post-build:
 		PATH="`find ${WRKRDIR}/.mozbuild/srcdirs -name build -type d -print`/bin:${PATH}" \
 		${WRKSRC}/mach package-multi-locale --locales ${LOCALES}
 
+.for i in ${LOCALES}
+	${CP} ${WRKDIR}/translation-${TAG_BASE}/${i}/base-browser.ftl \
+		${WRKDIR}/.mozbuild/l10n-central/${i}/toolkit/toolkit/global/
+	${CP} ${WRKDIR}/translation-${TAG_TOR}/${i}/tor-browser.ftl \
+		${WRKDIR}/.mozbuild/l10n-central/${i}/toolkit/toolkit/global/
+	${MKDIR} ${WRKDIR}/.mozbuild/l10n-central/${i}/browser/branding/mb-release
+	${CP} ${WRKDIR}/translation-${TAG_TOR}/${i}/brand.properties \
+		${WRKDIR}/.mozbuild/l10n-central/${i}/browser/branding/mb-release
+	${MKDIR} ${WRKSRC}/toolkit/torbutton/chrome/locale/${i}/
+.for j in brand.properties onionLocation.properties \
+	settings.properties torConnect.properties torlauncher.properties
+	${CP} ${WRKDIR}/translation-${TAG_TOR}/${i}/${j} \
+		${WRKSRC}/toolkit/torbutton/chrome/locale/${i}/
+.endfor
+	${CP} -r ${WRKDIR}/translation-${TAG_TOR}/${i}/branding \
+		${WRKSRC}/toolkit/torbutton/chrome/locale/${i}
+.endfor
+
 post-install:
 	@${MKDIR} ${STAGEDIR}${DATADIR}
 	${INSTALL_DATA} ${WRKDIR}/torrc-defaults \
