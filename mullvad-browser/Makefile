@@ -119,26 +119,6 @@ post-configure:
 	${CP} -r ${WRKDIR}/firefox-l10n-${TAG_L10N}/* \
 		${WRKDIR}/.mozbuild/l10n-central
 
-.for i in ${LOCALES}
-	${CP} ${WRKDIR}/translation-${TAG_BASE}/${i}/base-browser.ftl \
-		${WRKDIR}/.mozbuild/l10n-central/${i}/toolkit/toolkit/global/
-	${CP} ${WRKDIR}/translation-${TAG_BASE}/${i}/newIdentity.properties \
-		${WRKDIR}/.mozbuild/l10n-central/${i}/browser/chrome/browser/
-	${CP} ${WRKDIR}/translation-${TAG_BASE}/${i}/securityLevel.properties \
-		${WRKDIR}/.mozbuild/l10n-central/${i}/browser/chrome/browser/
-	${CP} ${WRKDIR}/translation-${TAG_TOR}/${i}/tor-browser.ftl \
-		${WRKDIR}/.mozbuild/l10n-central/${i}/toolkit/toolkit/global/
-	${MKDIR} ${WRKSRC}/toolkit/torbutton/chrome/locale/${i}/
-.for j in aboutTBUpdate.dtd brand.dtd brand.properties onionLocation.properties \
-	settings.properties torConnect.properties torbutton.dtd \
-	torbutton.properties torlauncher.properties
-	${CP} ${WRKDIR}/translation-${TAG_TOR}/${i}/${j} \
-		${WRKSRC}/toolkit/torbutton/chrome/locale/${i}/
-.endfor
-	${CP} -r ${WRKDIR}/translation-${TAG_TOR}/${i}/branding \
-		${WRKSRC}/toolkit/torbutton/chrome/locale/${i}
-.endfor
-
 post-build:
 	MOZBUILD_STATE_PATH=${WRKDIR}/.mozbuild AB_CD="multi" MOZ_AUTOMATION="1" \
 		PATH="`find ${WRKRDIR}/.mozbuild/srcdirs -name build -type d -print`/bin:${PATH}" \
