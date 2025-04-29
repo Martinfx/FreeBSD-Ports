@@ -70,7 +70,7 @@ CFLAGS_powerpc64le=	-DSQLITE_BYTEORDER=1234
 SSP_UNSAFE=		yes
 
 BUNDLE_LIBS=	yes
-SUB_FILES=	fonts.conf tor-browser.desktop torrc-defaults
+SUB_FILES=	fonts.conf mullvad-browser.desktop torrc-defaults
 
 WRKSRC=		${WRKDIR}/${DISTNAME:S/src-//}
 
@@ -149,7 +149,7 @@ post-install:
 	${INSTALL_DATA} ${WRKDIR}/torrc-defaults \
 		${STAGEDIR}${DATADIR}/torrc-defaults
 	${INSTALL_DATA} ${WRKDIR}/mullvad-browser.desktop \
-		${STAGEDIR}${PREFIX}/share/applications/tor-browser.desktop
+		${STAGEDIR}${PREFIX}/share/applications/mullvad-browser.desktop
 	${MKDIR} ${STAGEDIR}${PREFIX}/lib/mullvad-browser/fontconfig
 	${MKDIR} ${STAGEDIR}${PREFIX}/lib/mullvad-browser/fonts
 	${INSTALL_DATA} ${WRKDIR}/fonts.conf \
