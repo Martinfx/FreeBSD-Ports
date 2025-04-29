@@ -86,7 +86,7 @@ MOZ_OPTIONS=	--with-base-browser-version=${DISTVERSION} \
 		--enable-bundled-fonts \
 		--disable-crashreporter \
 		--disable-debug \
-		--enable-webrtc
+		--with-branding=browser/branding/mb-release
 
 .include "${.CURDIR}/../../www/firefox/Makefile.options"
 
