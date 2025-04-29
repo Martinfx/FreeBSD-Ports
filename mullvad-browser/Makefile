@@ -148,16 +148,16 @@ post-install:
 	@${MKDIR} ${STAGEDIR}${DATADIR}
 	${INSTALL_DATA} ${WRKDIR}/torrc-defaults \
 		${STAGEDIR}${DATADIR}/torrc-defaults
-	${INSTALL_DATA} ${WRKDIR}/tor-browser.desktop \
+	${INSTALL_DATA} ${WRKDIR}/mullvad-browser.desktop \
 		${STAGEDIR}${PREFIX}/share/applications/tor-browser.desktop
-	${MKDIR} ${STAGEDIR}${PREFIX}/lib/tor-browser/fontconfig
-	${MKDIR} ${STAGEDIR}${PREFIX}/lib/tor-browser/fonts
+	${MKDIR} ${STAGEDIR}${PREFIX}/lib/mullvad-browser/fontconfig
+	${MKDIR} ${STAGEDIR}${PREFIX}/lib/mullvad-browser/fonts
 	${INSTALL_DATA} ${WRKDIR}/fonts.conf \
-		${STAGEDIR}${PREFIX}/lib/tor-browser/fontconfig/fonts.conf
+		${STAGEDIR}${PREFIX}/lib/mullvad-browser/fontconfig/fonts.conf
 	(cd ${WRKDIR}/fonts && \
-		${COPYTREE_SHARE} "*.otf *.ttf" ${STAGEDIR}${PREFIX}/lib/tor-browser/fonts)
-	${MKDIR} ${STAGEDIR}${PREFIX}/lib/tor-browser/distribution/extensions
+		${COPYTREE_SHARE} "*.otf *.ttf" ${STAGEDIR}${PREFIX}/lib/mullvad-browser/fonts)
+	${MKDIR} ${STAGEDIR}${PREFIX}/lib/mullvad-browser/distribution/extensions
 	${INSTALL_DATA} ${DISTDIR}/${NOSCRIPT} \
-		"${STAGEDIR}${PREFIX}/lib/tor-browser/distribution/extensions/{73a6fe31-595d-460b-a920-fcc0f8843232}.xpi"
+		"${STAGEDIR}${PREFIX}/lib/mullvad-browser/distribution/extensions/{73a6fe31-595d-460b-a920-fcc0f8843232}.xpi"
 
 .include <bsd.port.mk>
