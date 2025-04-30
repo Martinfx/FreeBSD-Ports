@@ -1,5 +1,5 @@
 PORTNAME=	mullvad-browser
-DISTVERSION=	14.5
+DISTVERSION=	14.5.1
 CATEGORIES=	www net security wayland
 MASTER_SITES=	TOR \
 		LOCAL/vvd \
@@ -11,7 +11,7 @@ MASTER_SITES=	TOR \
 		https://secure.informaction.com/%SUBDIR%/:source3
 MASTER_SITE_SUBDIR=	mullvadbrowser/${DISTVERSION}/:DEFAULT \
 			download/releases/:source3
-DISTNAME=	src-firefox-mullvad-browser-128.9.0esr-14.5-1-build4
+DISTNAME=	src-firefox-mullvad-browser-128.10.0esr-14.5-1-build2
 NOSCRIPT=	noscript-12.1.1.xpi
 DISTFILES=	${DISTNAME}.tar.xz \
 		manual_268702.zip:source1 \

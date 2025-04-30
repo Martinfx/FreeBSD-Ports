@@ -1,6 +1,6 @@
-TIMESTAMP = 1745869945
-SHA256 (src-firefox-mullvad-browser-128.9.0esr-14.5-1-build4.tar.xz) = f922991ce519f35d8fe80771671f6ed0fd070d94febcbe778e13f70d6ec8b70a
-SIZE (src-firefox-mullvad-browser-128.9.0esr-14.5-1-build4.tar.xz) = 608717852
+TIMESTAMP = 1746021547
+SHA256 (src-firefox-mullvad-browser-128.10.0esr-14.5-1-build2.tar.xz) = 75d36e0272eed8d8ab38330bf837edd7879192f1b8f5686306a919a38ca78471
+SIZE (src-firefox-mullvad-browser-128.10.0esr-14.5-1-build2.tar.xz) = 608848156
 SHA256 (manual_268702.zip) = 609b9e87bb56760f5142544de9d0f4a23e8f94b24eb2a19069fd4a98f7ef8569
 SIZE (manual_268702.zip) = 28174255
 SHA256 (fonts-3--4348e1.tar.zst) = 7fbbecece6de777f196982f6eb567970a6d8e7ac2bf5b1ad6b90e1ea36374032
