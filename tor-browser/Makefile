@@ -18,7 +18,7 @@ MASTER_SITES=	TOR \
 MASTER_SITE_SUBDIR=	torbrowser/${DISTVERSION}/:DEFAULT \
 			download/releases/:source3
 DISTNAME=	src-firefox-tor-browser-128.9.0esr-14.5-1-build4
-MANUAL=		manual_268702.zip
+MANUAL=		manual_269235.zip
 NOSCRIPT=	noscript-12.1.1.xpi
 DISTFILES=	${DISTNAME}.tar.xz \
 		${MANUAL}:source1 \
