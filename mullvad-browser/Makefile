@@ -18,7 +18,7 @@ MASTER_SITES=	TOR \
 MASTER_SITE_SUBDIR=	mullvadbrowser/${DISTVERSION}/:DEFAULT \
 			download/releases/:source3
 DISTNAME=	src-firefox-mullvad-browser-128.10.0esr-14.5-1-build2
-MANUAL=		manual_268702.zip
+MANUAL=		manual_215922.zip
 NOSCRIPT=	noscript-12.1.1.xpi
 DISTFILES=	${DISTNAME}.tar.xz \
 		${MANUAL}:source1 \
