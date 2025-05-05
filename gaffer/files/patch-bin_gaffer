@@ -1,0 +1,78 @@
+--- bin/gaffer.orig	2025-03-04 09:57:44 UTC
++++ bin/gaffer
+@@ -1,4 +1,4 @@
+-#! /bin/bash
++#! /usr/local/bin/bash
+ ##########################################################################
+ #
+ #  Copyright (c) 2011-2012, John Haddon. All rights reserved.
+@@ -41,7 +41,7 @@
+ # correct python interpreter.
+ ##########################################################################
+ 
+-set -e
++set -x
+ 
+ # Remove -psn_0 argument that the OS X launcher adds on annoyingly.
+ ##########################################################################
+@@ -187,6 +187,8 @@ if [[ `uname` = "Linux" ]] ; then
+ 
+ if [[ `uname` = "Linux" ]] ; then
+ 	prependToPath "$GAFFER_ROOT/lib" LD_LIBRARY_PATH
++elif [[ `uname` = "FreeBSD" ]] ; then
++	prependToPath "$GAFFER_ROOT/lib" LD_LIBRARY_PATH
+ else
+ 	prependToPath "$GAFFER_ROOT/lib" DYLD_FRAMEWORK_PATH
+ 	prependToPath "$GAFFER_ROOT/lib" DYLD_LIBRARY_PATH
+@@ -235,6 +237,8 @@ if [[ $ARNOLD_ROOT ]] ; then
+ 
+ 	if [[ `uname` = "Linux" ]] ; then
+ 		appendToPath "$ARNOLD_ROOT/bin" LD_LIBRARY_PATH
++	elif [[ `uname` = "FreeBSD" ]] ; then
++		appendToPath "$ARNOLD_ROOT/bin" LD_LIBRARY_PATH
+ 	else
+ 		appendToPath "$ARNOLD_ROOT/bin" DYLD_LIBRARY_PATH
+ 	fi
+@@ -292,6 +296,8 @@ if [[ -n $DELIGHT ]] ; then
+ 
+ 	if [[ `uname` = "Linux" ]] ; then
+ 		appendToPath "$DELIGHT/lib" LD_LIBRARY_PATH
++	elif [[ `uname` = "FreeBSD" ]] ; then
++		appendToPath "$DELIGHT/lib" LD_LIBRARY_PATH
+ 	else
+ 		appendToPath "$DELIGHT/lib" DYLD_LIBRARY_PATH
+ 	fi
+@@ -312,6 +318,8 @@ if [[ -n $ONNX_ROOT ]] ; then
+ 
+ 	if [[ `uname` = "Linux" ]] ; then
+ 		appendToPath "$ONNX_ROOT/lib" LD_LIBRARY_PATH
++	elif [[ `uname` = "FreeBSD" ]] ; then
++		appendToPath "$ONNX_ROOT/lib" LD_LIBRARY_PATH
+ 	else
+ 		appendToPath "$ONNX_ROOT/lib" DYLD_LIBRARY_PATH
+ 	fi
+@@ -325,6 +333,8 @@ if [[ -n $RMANTREE ]] ; then
+ 
+ 	if [[ `uname` = "Linux" ]] ; then
+ 		appendToPath "$RMANTREE/lib" LD_LIBRARY_PATH
++	elif [[ `uname` = "FreeBSD" ]] ; then
++		appendToPath "$RMANTREE/lib" LD_LIBRARY_PATH
+ 	else
+ 		appendToPath "$RMANTREE/lib" DYLD_LIBRARY_PATH
+ 	fi
+@@ -345,6 +355,8 @@ for extension in $GAFFER_EXTENSION_PATHS; do
+ 
+ 	if [[ `uname` = "Linux" ]] ; then
+ 		appendToPath "$extension/lib" LD_LIBRARY_PATH
++	elif [[ `uname` = "FreeBSD" ]] ; then
++		appendToPath "$extension/lib" LD_LIBRARY_PATH
+ 	else
+ 		appendToPath "$extension/lib" DYLD_LIBRARY_PATH
+ 	fi
+@@ -391,5 +403,5 @@ else
+ 	# Using `which` because lldb doesn't seem to respect $PATH
+ 	exec $GAFFER_DEBUGGER `which python` "$GAFFER_ROOT/bin/__gaffer.py" "$@"
+ else
+-	exec python "$GAFFER_ROOT/bin/__gaffer.py" "$@"
++	exec python3.11 "$GAFFER_ROOT/bin/__gaffer.py" "$@"
+ fi
