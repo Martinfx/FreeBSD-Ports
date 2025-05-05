@@ -1,0 +1,5 @@
+TIMESTAMP = 1741017623
+SHA256 (embree-embree-v4.3.3_GH0.tar.gz) = 8a3bc3c3e21aa209d9861a28f8ba93b2f82ed0dc93341dddac09f1f03c36ef2d
+SIZE (embree-embree-v4.3.3_GH0.tar.gz) = 71114884
+SHA256 (cda4cf1919bb2a748e78915fbd6e421a1056638d.patch) = dcd769d6f1466b6a362205caa23aaf875aa3b9dfeab7ccbd2505692a3c16ebd1
+SIZE (cda4cf1919bb2a748e78915fbd6e421a1056638d.patch) = 1594
