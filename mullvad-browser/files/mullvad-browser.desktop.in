@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Mullvad Browser
+GenericName=Web Browser
+Comment=Mullvad browser
+Categories=Network;WebBrowser;Security;
+Exec=%%LOCALBASE%%/lib/mullvad-browser/mullvad-browser
+Icon=%%LOCALBASE%%/lib/mullvad-browser/browser/chrome/icons/default/default128.png
+StartupWMClass=Mullvad Browser
