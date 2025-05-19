@@ -1,3 +1,4 @@
+%%LINUXBASE%%/opt/kingsoft/wps-office/INSTALL/postinst
 %%LINUXBASE%%/opt/kingsoft/wps-office/INSTALL/prerm
 %%LINUXBASE%%/opt/kingsoft/wps-office/desktops/wps-office-et.desktop
 %%LINUXBASE%%/opt/kingsoft/wps-office/desktops/wps-office-pdf.desktop
