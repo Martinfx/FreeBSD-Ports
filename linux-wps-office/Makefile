@@ -1,7 +1,7 @@
 PORTNAME=	wps-office
-DISTVERSION=	11.1.0.11719
+DISTVERSION=	11.1.0.11723
 CATEGORIES=	editors linux
-MASTER_SITES=	https://wdl1.pcfg.cache.wpscdn.com/wpsdl/wpsoffice/download/linux/11719/
+MASTER_SITES=	https://wdl1.pcfg.cache.wpscdn.com/wpsdl/wpsoffice/download/linux/11723/
 PKGNAMEPREFIX=	linux-
 DISTNAME=	${PORTNAME}-${PORTVERSION}.XA-1.x86_64
 EXTRACT_SUFX=   .rpm
@@ -18,7 +18,7 @@ ONLY_FOR_ARCHS= amd64
 
 USES=		desktop-file-utils linux:rl9 shebangfix
 INSTALLS_ICONS=	yes
-USE_LINUX=	png pulseaudio-libs xorglibs libglvnd gtk3 cups-libs
+USE_LINUX=	pulseaudio-libs xorglibs libglvnd gtk3 cups-libs
 
 RUN_DEPENDS+=	linux-rl9-libxslt>0:textproc/linux-rl9-libxslt \
 		linux-rl9-libproxy>0:net/linux-rl9-libproxy
