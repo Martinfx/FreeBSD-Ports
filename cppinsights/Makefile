@@ -1,20 +1,21 @@
 PORTNAME=	cppinsights
 DISTVERSIONPREFIX=	v_
-DISTVERSION=	19.1
+DISTVERSION=	20.1
 CATEGORIES=	devel
 
 MAINTAINER=	freebsd@sysctl.cz
-COMMENT=	C++ Insights - See your source code with the eyes of a compiler.
+COMMENT=	C++ Insights - See your source code with the eyes of a compiler
 WWW=		https://github.com/andreasfertig/cppinsights
 
 LICENSE=	MIT
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
-USES=		cmake llvm:min=19,lib
+USES=		cmake llvm:min=20,lib
 USE_GITHUB=	yes
 GH_ACCOUNT=	andreasfertig
-GH_PROJECT=	cppinsights
 
 CMAKE_ARGS=	-DLLVM_CONFIG_PATH="${LOCALBASE}/llvm${LLVM_VERSION}/bin/llvm-config"
+
+PLIST_FILES=	bin/insights
 
 .include <bsd.port.mk>
