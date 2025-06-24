@@ -7,8 +7,11 @@ MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Distilled fork of Firefox
 WWW=		https://www.waterfox.net/
 
+LICENSE=	MPL20
+LICENSE_FILE=	${WRKSRC}/LICENSE
+
 BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
-		nss>=3.112:security/nss \
+		nss>=3.108:security/nss \
 		icu>=73.1,1:devel/icu \
 		libevent>=2.1.8:devel/libevent \
 		harfbuzz>=10.1.0:print/harfbuzz \
