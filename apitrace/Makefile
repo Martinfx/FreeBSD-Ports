@@ -13,6 +13,7 @@ BUILD_DEPENDS=	brotli>0:archivers/brotli \
 		googletest>0:devel/googletest \
 		libbacktrace>0:devel/libbacktrace \
 		png>0:graphics/png \
+		vulkan-headers>0:graphics/vulkan-headers \
 		snappy>0:archivers/snappy
 
 LIB_DEPENDS=	libbrotlidec.so:archivers/brotli \
@@ -39,7 +40,7 @@ USE_GL=			gl opengl
 CMAKE_ON=		ENABLE_QT6
 
 WAFFLE_DESC=		Use Waffle library to allow retrace on Wayland, headless etc.
-WAFFLE_BUILD_DEPENDS=	waffle>0:graphics/waffle
+WAFFLE_BUILD_DEPENDS=	wayland-protocols>=0:graphics/wayland-protocols
 WAFFLE_LIB_DEPENDS=	libwaffle-1.so:graphics/waffle
 WAFFLE_CMAKE_BOOL=	ENABLE_WAFFLE
 
