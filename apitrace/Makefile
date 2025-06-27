@@ -39,6 +39,7 @@ USE_GL=			gl opengl
 CMAKE_ON=		ENABLE_QT6
 
 WAFFLE_DESC=		Use Waffle library to allow retrace on Wayland, headless etc.
+WAFFLE_BUILD_DEPENDS=	waffle>0:graphics/waffle
 WAFFLE_LIB_DEPENDS=	libwaffle-1.so:graphics/waffle
 WAFFLE_CMAKE_BOOL=	ENABLE_WAFFLE
 
