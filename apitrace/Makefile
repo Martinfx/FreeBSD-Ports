@@ -21,12 +21,10 @@ LIB_DEPENDS=	libbrotlidec.so:archivers/brotli \
 		libpng.so:graphics/png \
 		libsnappy.so:archivers/snappy
 
-USES=		cmake compiler:c++17-lang desktop-file-utils pkgconfig python qt:6 shebangfix xorg
+USES=		cmake compiler:c++17-lang desktop-file-utils localbase:ldflags pkgconfig python qt:6 shebangfix xorg
 USE_XORG=	x11
 
 USE_GITHUB=	yes
-GH_ACCOUNT=	apitrace
-GH_PROJECT=	apitrace
 GH_TUPLE=	microsoft:DirectXMath:e95d848:DirectXMath/thirdparty/directxmath
 
 SHEBANG_FILES=	scripts/*.py
@@ -43,8 +41,6 @@ WAFFLE_DESC=		Use Waffle library to allow retrace on Wayland, headless etc.
 WAFFLE_BUILD_DEPENDS=	wayland-protocols>=0:graphics/wayland-protocols
 WAFFLE_LIB_DEPENDS=	libwaffle-1.so:graphics/waffle
 WAFFLE_CMAKE_BOOL=	ENABLE_WAFFLE
-
-LDFLAGS+=	-L${LOCALBASE}/lib
 
 post-patch:
 	${REINPLACE_CMD} -e 's|__linux__|__unix__|' ${WRKSRC}/retrace/glstate_images.cpp
