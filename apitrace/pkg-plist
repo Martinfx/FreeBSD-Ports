@@ -17,6 +17,7 @@ lib/apitrace/scripts/tracediff.py
 lib/apitrace/scripts/unpickle.py
 lib/apitrace/wrappers/egltrace.so
 lib/apitrace/wrappers/glxtrace.so
+share/applications/qapitrace.desktop
 %%PORTDOCS%%%%DOCSDIR%%/BUGS.markdown
 %%PORTDOCS%%%%DOCSDIR%%/NEWS.markdown
 %%PORTDOCS%%%%DOCSDIR%%/README.markdown

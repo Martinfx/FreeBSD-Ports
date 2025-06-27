@@ -51,8 +51,6 @@ post-patch:
 
 post-install:
 	${RM} ${STAGEDIR}${DOCSDIR}/LICENSE.txt
-
-post-install-QT5-on:
 	${INSTALL_DATA} ${FILESDIR}/qapitrace.desktop ${STAGEDIR}${PREFIX}/share/applications
 
 .include <bsd.port.mk>
