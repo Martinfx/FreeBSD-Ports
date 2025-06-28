@@ -47,4 +47,3 @@ lib/cmake/Tracy/TracyConfig.cmake
 lib/cmake/Tracy/TracyTargets-%%CMAKE_BUILD_TYPE%%.cmake
 lib/cmake/Tracy/TracyTargets.cmake
 lib/libTracyClient.a
-
