@@ -1403,3 +1403,9 @@ share/openxray/gamedata/textures/water/water_water_r1.dds
 share/pixmaps/openxray_cop.png
 share/pixmaps/openxray_cs.png
 share/pixmaps/openxray_soc.png
+share/openxray/gamedata/configs/text/ukr/openxray.xml
+share/openxray/gamedata/configs/ui/ui_mm_load_dlg.xml
+share/openxray/gamedata/configs/ui/ui_mm_load_dlg_16.xml
+share/openxray/gamedata/configs/ui/ui_mm_save_dlg.xml
+share/openxray/gamedata/configs/ui/ui_mm_save_dlg_16.xml
+share/openxray/gamedata/scripts/profiler.script
