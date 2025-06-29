@@ -1,5 +1,5 @@
 PORTNAME=	xray-16
-DISTVERSION=	2188-november-2023-rc1
+DISTVERSION=	2921-january-2025-rc1
 CATEGORIES=	games
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -29,7 +29,7 @@ LIB_DEPENDS=	libogg.so:audio/libogg \
 		libmimalloc.so:devel/mimalloc \
 		liblzo2.so:archivers/lzo2
 
-USES=		cmake desktop-file-utils localbase jpeg openal
+USES=		cmake desktop-file-utils localbase:ldflags jpeg openal
 USE_SDL=	sdl2
 USE_GITHUB=	yes
 
