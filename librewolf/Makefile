@@ -2,6 +2,7 @@ PORTNAME=	librewolf
 DISTVERSION=	140.0.2
 LWPATCH=	-1
 DISTVERSIONSUFFIX=	${LWPATCH}.source
+PORTREVISION=	1
 CATEGORIES=	www wayland
 MASTER_SITES=	https://gitlab.com/api/v4/projects/32320088/packages/generic/${PORTNAME}-source/${DISTVERSION}${LWPATCH}/
 
@@ -13,8 +14,8 @@ LICENSE=	MPL20
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
 BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
-		nss>=3.110:security/nss \
-		icu>=73.1,1:devel/icu \
+		nss>=3.112:security/nss \
+		icu>=76.1:devel/icu \
 		libevent>=2.1.8:devel/libevent \
 		harfbuzz>=10.1.0:print/harfbuzz \
 		graphite2>=1.3.14:graphics/graphite2 \
@@ -32,19 +33,11 @@ BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
 
 USE_GECKO=	gecko
 USE_MOZILLA=	-sqlite
+USES=		nodejs:24,run
 # work around bindgen not finding ICU, e.g.
 # dist/include/mozilla/intl/ICU4CGlue.h:8:10: fatal error: 'unicode/uenum.h' file not found, err: true
 CONFIGURE_ENV+=	BINDGEN_CFLAGS="-I${LOCALBASE}/include"
 CONFIGURE_ENV+=	MOZ_REQUIRE_SIGNING=""
-#CFLAGS_powerpc64=	-DHWY_COMPILE_ONLY_SCALAR
-CFLAGS_powerpc64le=	-DSQLITE_BYTEORDER=1234
-
-
-.if ${ARCH} == i386 && ${MACHINE_CPU:Msse2}
-# is not enabled on i386 by default
-# Fix for error: always_inline function '_mm_setzero_si64' requires target feature 'sse2'
-CFLAGS_i386+=	-msse2
-.endif
 
 WRKSRC=		${WRKDIR}/${PORTNAME}-${DISTVERSION}${LWPATCH}
 
@@ -80,6 +73,12 @@ FIREFOX_ICON_SRC=	${PREFIX}/lib/${MOZILLA}/browser/chrome/icons/default/default4
 .include "${.CURDIR}/../../www/firefox/Makefile.options"
 
 .include <bsd.port.options.mk>
+
+.if ${ARCH} == i386 && ${MACHINE_CPU:Msse2}
+# is not enabled on i386 by default
+# Fix for error: always_inline function '_mm_setzero_si64' requires target feature 'sse2'
+CFLAGS_i386+=	-msse2
+.endif
 
 .if ${ARCH} == amd64
 MOZ_OPTIONS+=	--enable-rust-simd
