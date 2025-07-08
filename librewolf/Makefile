@@ -25,6 +25,7 @@ BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
 		${PYTHON_PKGNAMEPREFIX}sqlite3>0:databases/py-sqlite3@${PY_FLAVOR} \
 		v4l_compat>0:multimedia/v4l_compat \
 		nasm:devel/nasm \
+		node${NODEJS_VERSION}>=24:www/node${NODEJS_VERSION} \
 		yasm:devel/yasm \
 		zip:archivers/zip \
 		${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc++abi.a:devel/wasi-libcxx${LLVM_VERSION} \
