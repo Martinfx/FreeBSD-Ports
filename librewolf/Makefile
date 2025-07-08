@@ -33,7 +33,7 @@ BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
 RUN_DEPENDS=	node${NODEJS_VERSION}>=24:www/node${NODEJS_VERSION}
 USE_GECKO=	gecko
 USE_MOZILLA=	-sqlite
-USES=		nodejs:current,build,run,env
+USES=		nodejs:24,build,run,env
 # work around bindgen not finding ICU, e.g.
 # dist/include/mozilla/intl/ICU4CGlue.h:8:10: fatal error: 'unicode/uenum.h' file not found, err: true
 CONFIGURE_ENV+=	BINDGEN_CFLAGS="-I${LOCALBASE}/include"
