@@ -1,5 +1,6 @@
 PORTNAME=	tor-browser
 DISTVERSION=	14.5.4
+PORTREVISION=	1
 CATEGORIES=	www net security wayland
 TAG_BASE=	90dbac96420394aa35ce29385814742ac4942b26
 TAG_TOR=	9cbc3b3d25d2c5c77f1b6b3172ba6bcad2563939
@@ -36,7 +37,7 @@ LICENSE_FILE=	${WRKSRC}/LICENSE
 
 BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
 		nss>=3.101:security/nss \
-		icu>=73.1,1:devel/icu \
+		icu>=76.1:devel/icu \
 		libevent>=2.1.8:devel/libevent \
 		harfbuzz>=8.5.0:print/harfbuzz \
 		graphite2>=1.3.14:graphics/graphite2 \
@@ -47,13 +48,14 @@ BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
 		v4l_compat>0:multimedia/v4l_compat \
 		autoconf2.13:devel/autoconf2.13 \
 		nasm:devel/nasm \
+		node${NODEJS_VERSION}>=24:www/node${NODEJS_VERSION} \
 		yasm:devel/yasm
 RUN_DEPENDS=	tor:security/tor \
 		obfs4proxy:security/obfs4proxy-tor \
 		snowflake-client:security/snowflake-tor
 
-USES=		compiler:c++11-lib libtool localbase:ldflags perl5 pkgconfig \
-		python shebangfix tar:xz
+USES=		compiler:c++11-lib libtool localbase:ldflags nodejs:24,build,run,env \
+		perl5 pkgconfig python shebangfix tar:xz
 USE_GECKO=	gecko
 USE_GITHUB=	nodefault
 TAG_L10N=	fcd0300e8478d1ec4d1c097a073ddb8e1e0351e3
@@ -103,6 +105,12 @@ MOZ_OPTIONS=	--with-base-browser-version=${DISTVERSION} \
 .include "${.CURDIR}/../../www/firefox/Makefile.options"
 
 .include <bsd.port.options.mk>
+
+.if ${ARCH} == i386 && ${MACHINE_CPU:Msse2}
+# is not enabled on i386 by default
+# Fix for error: always_inline function '_mm_setzero_si64' requires target feature 'sse2'
+CFLAGS_i386+=	-msse2
+.endif
 
 .if ${ARCH} == amd64
 MOZ_OPTIONS+=	--enable-rust-simd
