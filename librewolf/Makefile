@@ -1,5 +1,5 @@
 PORTNAME=	librewolf
-DISTVERSION=	140.0.2
+DISTVERSION=	140.0.4
 LWPATCH=	-1
 DISTVERSIONSUFFIX=	${LWPATCH}.source
 PORTREVISION=	1
@@ -25,7 +25,6 @@ BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
 		${PYTHON_PKGNAMEPREFIX}sqlite3>0:databases/py-sqlite3@${PY_FLAVOR} \
 		v4l_compat>0:multimedia/v4l_compat \
 		nasm:devel/nasm \
-		node${NODEJS_VERSION}>=24:www/node${NODEJS_VERSION} \
 		yasm:devel/yasm \
 		zip:archivers/zip \
 		${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc++abi.a:devel/wasi-libcxx${LLVM_VERSION} \
@@ -34,7 +33,6 @@ BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
 
 USE_GECKO=	gecko
 USE_MOZILLA=	-sqlite
-USES=		nodejs:24,build,env
 # work around bindgen not finding ICU, e.g.
 # dist/include/mozilla/intl/ICU4CGlue.h:8:10: fatal error: 'unicode/uenum.h' file not found, err: true
 CONFIGURE_ENV+=	BINDGEN_CFLAGS="-I${LOCALBASE}/include"
