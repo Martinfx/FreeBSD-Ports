@@ -8,8 +8,8 @@ COMMENT=	Distilled fork of Firefox
 WWW=		https://www.waterfox.net/
 
 BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
-		nss>=3.108:security/nss \
-		icu>=73.1,1:devel/icu \
+		nss>=3.112:security/nss \
+		icu>=76.1,1:devel/icu \
 		libevent>=2.1.8:devel/libevent \
 		harfbuzz>=10.1.0:print/harfbuzz \
 		graphite2>=1.3.14:graphics/graphite2 \
