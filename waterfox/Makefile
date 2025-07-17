@@ -8,6 +8,9 @@ MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Distilled fork of Firefox
 WWW=		https://www.waterfox.net/
 
+LICENSE=	MPL20
+LICENSE_FILE=	${WRKSRC}/LICENSE
+
 BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
 		nss>=3.112:security/nss \
 		icu>=76.1,1:devel/icu \
@@ -30,7 +33,7 @@ BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
 USE_GECKO=	gecko
 USE_GITHUB=	yes
 GH_ACCOUNT=	BrowserWorks
-GH_PROJECT=	Waterfox
+GH_PROJECT=	waterfox
 GH_TUPLE=	BrowserWorks:l10n:3046738:l10n/waterfox/browser/locales
 USE_MOZILLA=	-sqlite
 
@@ -71,7 +74,6 @@ MOZ_OPTIONS+=	--enable-application=browser \
 
 FIREFOX_ICON=		${MOZILLA}.png
 FIREFOX_ICON_SRC=	${PREFIX}/lib/${MOZILLA}/browser/chrome/icons/default/default48.png
-FIREFOX_DESKTOP=	${MOZSRC}/taskcluster/docker/firefox-snap/firefox.desktop
 
 .include "${.CURDIR}/../../www/firefox/Makefile.options"
 
@@ -81,17 +83,15 @@ FIREFOX_DESKTOP=	${MOZSRC}/taskcluster/docker/firefox-snap/firefox.desktop
 MOZ_OPTIONS+=	--enable-rust-simd
 .endif
 
+post-extract:
+	@${SED} -e 's|@FIREFOX_ICON@|${FIREFOX_ICON:R}|;s|@MOZILLA@|${MOZILLA}|' \
+		<${FILESDIR}/waterfox.desktop.in >${WRKDIR}/${MOZILLA_EXEC_NAME}.desktop
 post-patch:
-	@${REINPLACE_CMD} -e 's/%u/%U/' -e '/X-MultipleArgs/d' \
-		-e 's/firefox/${MOZILLA}/' \
-		-e 's/Firefox/${MOZILLA_CAP}/' \
-		-e '/^Icon/s/=.*/=${FIREFOX_ICON:R}/' \
-		${FIREFOX_DESKTOP}
 	@${REINPLACE_CMD} -e 's|%%LOCALBASE%%|${LOCALBASE}|g' \
 		${WRKSRC}/browser/app/nsBrowserApp.cpp
 
 post-install:
-	${INSTALL_DATA} ${FIREFOX_DESKTOP} ${STAGEDIR}${PREFIX}/share/applications/${MOZILLA}.desktop
+	${INSTALL_DATA} ${WRKDIR}/${MOZILLA_EXEC_NAME}.desktop ${STAGEDIR}${PREFIX}/share/applications
 	${MKDIR} ${STAGEDIR}${PREFIX}/share/pixmaps
 	${LN} -sf ${FIREFOX_ICON_SRC} ${STAGEDIR}${PREFIX}/share/pixmaps/${FIREFOX_ICON}
 
