@@ -1,5 +1,6 @@
 PORTNAME=	waterfox
-DISTVERSION=	6.5.9
+DISTVERSION=	6.6.0
+DISTVERSIONSUFFIX=-beta-2
 PORTEPOCH=	1
 CATEGORIES=	www
 
@@ -7,12 +8,9 @@ MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Distilled fork of Firefox
 WWW=		https://www.waterfox.net/
 
-LICENSE=	MPL20
-LICENSE_FILE=	${WRKSRC}/LICENSE
-
 BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
-		nss>=3.108:security/nss \
-		icu>=73.1,1:devel/icu \
+		nss>=3.112:security/nss \
+		icu>=76.1,1:devel/icu \
 		libevent>=2.1.8:devel/libevent \
 		harfbuzz>=10.1.0:print/harfbuzz \
 		graphite2>=1.3.14:graphics/graphite2 \
