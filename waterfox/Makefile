@@ -24,6 +24,7 @@ BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
 		v4l_compat>0:multimedia/v4l_compat \
 		autoconf2.13:devel/autoconf2.13 \
 		nasm:devel/nasm \
+		node${NODEJS_VERSION}>=24:www/node${NODEJS_VERSION} \
 		yasm:devel/yasm \
 		zip:archivers/zip \
 		${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc++abi.a:devel/wasi-libcxx${LLVM_VERSION} \
@@ -36,6 +37,7 @@ GH_ACCOUNT=	BrowserWorks
 GH_PROJECT=	waterfox
 GH_TUPLE=	BrowserWorks:l10n:3046738:l10n/waterfox/browser/locales
 USE_MOZILLA=	-sqlite
+USES=		nodejs:24,build,run,env
 
 # work around bindgen not finding ICU, e.g.
 # dist/include/mozilla/intl/ICU4CGlue.h:8:10: fatal error: 'unicode/uenum.h' file not found, err: true
@@ -78,6 +80,12 @@ FIREFOX_ICON_SRC=	${PREFIX}/lib/${MOZILLA}/browser/chrome/icons/default/default4
 .include "${.CURDIR}/../../www/firefox/Makefile.options"
 
 .include <bsd.port.options.mk>
+
+.if ${ARCH} == i386 && ${MACHINE_CPU:Msse2}
+# is not enabled on i386 by default
+# Fix for error: always_inline function '_mm_setzero_si64' requires target feature 'sse2'
+CFLAGS_i386+=	-msse2
+.endif
 
 .if ${ARCH} == amd64
 MOZ_OPTIONS+=	--enable-rust-simd
