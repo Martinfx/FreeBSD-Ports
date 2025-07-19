@@ -2,7 +2,6 @@ PORTNAME=	librewolf
 DISTVERSION=	140.0.4
 LWPATCH=	-1
 DISTVERSIONSUFFIX=	${LWPATCH}.source
-PORTREVISION=	1
 CATEGORIES=	www wayland
 MASTER_SITES=	https://gitlab.com/api/v4/projects/32320088/packages/generic/${PORTNAME}-source/${DISTVERSION}${LWPATCH}/
 
@@ -73,10 +72,14 @@ FIREFOX_ICON_SRC=	${PREFIX}/lib/${MOZILLA}/browser/chrome/icons/default/default4
 
 .include <bsd.port.options.mk>
 
-.if ${ARCH} == i386 && ${MACHINE_CPU:Msse2}
+.if ${ARCH} == i386
+BUILD_DEPENDS+= node${NODEJS_VERSION}>=24:www/node${NODEJS_VERSION}
+USES+=          nodejs:24,build,env
+.if ${MACHINE_CPU:Msse2}
 # is not enabled on i386 by default
 # Fix for error: always_inline function '_mm_setzero_si64' requires target feature 'sse2'
-CFLAGS_i386+=	-msse2
+CFLAGS_i386+=   -msse2
+.endif
 .endif
 
 .if ${ARCH} == amd64
