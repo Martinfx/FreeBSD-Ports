@@ -18,10 +18,9 @@ ONLY_FOR_ARCHS= amd64
 
 USES=		desktop-file-utils linux:rl9 shebangfix
 INSTALLS_ICONS=	yes
-USE_LINUX=	pulseaudio-libs xorglibs libglvnd gtk3 cups-libs
+USE_LINUX=	imageformats-libs pulseaudio-libs xorglibs libglvnd gtk3 cups-libs
 
-RUN_DEPENDS+=	linux-rl9-libxslt>0:textproc/linux-rl9-libxslt \
-		linux-rl9-libproxy>0:net/linux-rl9-libproxy
+RUN_DEPENDS+=	linux-rl9-libxslt>0:textproc/linux-rl9-libxslt
 
 
 SHEBANG_FILES= 	usr/bin/et \
