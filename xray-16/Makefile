@@ -17,6 +17,7 @@ LIB_DEPENDS=	libogg.so:audio/libogg \
 		libtheora.so:multimedia/libtheora \
 		libvorbis.so:audio/libvorbis \
 		libvorbisfile.so:audio/libvorbis  \
+		libimgui.so:x11-toolkits/imgui \
 		libmimalloc.so:devel/mimalloc \
 		liblzo2.so:archivers/lzo2 \
 		libz-ng.so:archivers/zlib-ng
@@ -30,7 +31,6 @@ GH_TUPLE=	GPUOpen-LibrariesAndSDKs:AGS_SDK:5d8812d:AGSSDK/Externals/AGS_SDK \
 		OpenXRay:BugTrap:c619077b40ee6e7ad6ffc5a194a5d3583af8f78e:BugTrap/Externals/BugTrap \
 		OpenXRay:GameSpy:61d061b4b3f860865f97e659e496e11704f61eb3:GameSpy/Externals/GameSpy \
 		OpenXRay:LuaJIT:5a5cd82:LuaJIT/Externals/LuaJIT \
-		ocornut:imgui:efe2b21:ocornut/Externals/imgui \
 		g-truc:gli:779b99ac6656e4d30c3b24e96e0136a59649a869:gli/Externals/gli \
 		OpenXRay:luabind-deboostified:dd3db67:luabind/Externals/luabind \
 		DLTcollab:sse2neon:6abd463:sse2neon/Externals/sse2neon \
