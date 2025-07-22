@@ -16,8 +16,7 @@ LIB_DEPENDS=	libogg.so:audio/libogg \
 		libvorbis.so:audio/libvorbis \
 		libvorbisfile.so:audio/libvorbis  \
 		libmimalloc.so:devel/mimalloc \
-		liblzo2.so:archivers/lzo2 \
-		libz-ng.so:archivers/zlib-ng
+		liblzo2.so:archivers/lzo2
 
 USES=		cmake jpeg openal sdl
 USE_GITHUB=	yes
