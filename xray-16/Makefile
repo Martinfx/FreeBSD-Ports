@@ -13,11 +13,6 @@ LICENSE_NAME=	unknown
 LICENSE_FILE=	${WRKSRC}/License.txt
 LICENSE_PERMS=	dist-mirror no-dist-sell pkg-mirror no-pkg-sell auto-accept
 
-BUILD_DEPENDS=	glew>0:graphics/glew \
-		openal-soft>0:audio/openal-soft \
-		jpeg-turbo>0:graphics/jpeg-turbo \
-		libtheora>0:multimedia/libtheora
-
 LIB_DEPENDS=	libogg.so:audio/libogg \
 		libtheora.so:multimedia/libtheora \
 		libvorbis.so:audio/libvorbis \
