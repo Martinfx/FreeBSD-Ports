@@ -1,11 +1,9 @@
 PORTNAME=	xray-16
-DISTVERSION=	2921-january-2025-rc1
+DISTVERSION=	g20250720
 CATEGORIES=	games
 
 MAINTAINER=	freebsd@sysctl.cz
-COMMENT=	Improved version of the X-Ray Engine, \
-		the game engine used in the world-famous S.T.A.L.K.E.R. \
-		game series by GSC Game World.
+COMMENT=	Improved version of the X-Ray Engine (used for run S.T.A.L.K.E.R.)
 WWW=		https://github.com/OpenXRay/xray-16
 
 LICENSE=	UNKNOWN
@@ -21,7 +19,7 @@ LIB_DEPENDS=	libogg.so:audio/libogg \
 		liblzo2.so:archivers/lzo2 \
 		libz-ng.so:archivers/zlib-ng
 
-USES=		cmake desktop-file-utils jpeg openal sdl
+USES=		cmake jpeg openal sdl
 USE_GITHUB=	yes
 GH_ACCOUNT=	OpenXRay
 GH_PROJECT=	xray-16
@@ -42,5 +40,9 @@ GH_TUPLE=	GPUOpen-LibrariesAndSDKs:AGS_SDK:5d8812d:AGSSDK/Externals/AGS_SDK \
 
 USE_SDL=        sdl2
 CMAKE_ON=	XRAY_USE_LUAJIT
+
+post-patch:
+	${REINPLACE_CMD} -e 's|^    COMMAND make clean$$|    COMMAND /bin/echo make clean|' \
+		${WRKSRC}/Externals/LuaJIT-proj/CMakeLists.txt
 
 .include <bsd.port.mk>
