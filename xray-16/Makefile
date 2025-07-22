@@ -6,10 +6,8 @@ MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Improved version of the X-Ray Engine (used for run S.T.A.L.K.E.R.)
 WWW=		https://github.com/OpenXRay/xray-16
 
-LICENSE=	UNKNOWN
-LICENSE_NAME=	unknown
+LICENSE=	MIT
 LICENSE_FILE=	${WRKSRC}/License.txt
-LICENSE_PERMS=	dist-mirror no-dist-sell pkg-mirror no-pkg-sell auto-accept
 
 LIB_DEPENDS=	libogg.so:audio/libogg \
 		libtheora.so:multimedia/libtheora \
