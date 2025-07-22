@@ -24,7 +24,6 @@ LIB_DEPENDS=	libogg.so:audio/libogg \
 		libvorbisfile.so:audio/libvorbis  \
 		libmimalloc.so:devel/mimalloc \
 		liblzo2.so:archivers/lzo2 \
-		libimgui.so:x11-toolkits/imgui \
 		libz-ng.so:archivers/zlib-ng
 
 USES=		cmake desktop-file-utils jpeg openal sdl
