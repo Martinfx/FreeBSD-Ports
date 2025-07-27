@@ -11,13 +11,14 @@ LICENSE_FILE=	${WRKSRC}/LICENSE
 
 BUILD_DEPENDS=	${LOCALBASE}/include/boost/regex.hpp:devel/boost-libs \
 		capstone>0:devel/capstone \
+		keystone>0:devel/keystone \
 		nlohmann-json>0:devel/nlohmann-json
 
 LIB_DEPENDS=	libunicorn.so:emulators/unicorn \
 		libglfw.so:graphics/glfw
 
 USES=		cmake pkgconfig
-USE_GCC=	14
+#USE_GCC=	14
 USE_GL=		gl glu
 USE_GITHUB=	yes
 GH_ACCOUNT=	ZathuraDbg
