@@ -11,7 +11,6 @@ USES=		cargo
 USE_GITHUB=	yes
 GH_ACCOUNT=	HACKE-RC
 GH_PROJECT=	icicle-cpp
-#GH_TUPLE=	icicle-emu:ghidra:50230050fa58bd40d5a96cab9c167fc55bc92a76:ghidra/ghidra
 
 CARGO_CRATES=	addr2line-0.24.2 \
 		adler2-2.0.0 \
@@ -126,5 +125,9 @@ CARGO_CRATES=	addr2line-0.24.2 \
 		icicle-cpu,icicle-jit,icicle-linux,icicle-mem,icicle-vm,pcode,sleigh-compile,sleigh-parse,sleigh-runtime@git+https://github.com/icicle-emu/icicle-emu\#6e9fd3e34aec440ac92c1f49f4a70fc288949de9
 
 WRKSRC_SUBDIR=	src
+
+do-install:
+	${MKDIR} ${STAGEDIR}${PREFIX}/lib
+	${INSTALL_LIB} ${WRKDIR}/target/release/libicicle.a ${STAGEDIR}${PREFIX}/lib/
 
 .include <bsd.port.mk>
