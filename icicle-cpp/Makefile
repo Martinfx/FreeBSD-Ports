@@ -125,6 +125,7 @@ CARGO_CRATES=	addr2line-0.24.2 \
 		icicle-cpu,icicle-jit,icicle-linux,icicle-mem,icicle-vm,pcode,sleigh-compile,sleigh-parse,sleigh-runtime@git+https://github.com/icicle-emu/icicle-emu\#6e9fd3e34aec440ac92c1f49f4a70fc288949de9
 
 WRKSRC_SUBDIR=	src
+PLIST_FILES=	lib/libicicle.a
 
 do-install:
 	${MKDIR} ${STAGEDIR}${PREFIX}/lib
