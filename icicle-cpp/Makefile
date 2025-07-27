@@ -7,13 +7,11 @@ MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Icicle bindings C/C++
 WWW=		https://github.com/HACKE-RC/icicle-cpp
 
-BUILD_DEPENDS=	cargo-cbuild:devel/cargo-c
-
 USES=		cargo
 USE_GITHUB=	yes
 GH_ACCOUNT=	HACKE-RC
 GH_PROJECT=	icicle-cpp
-GH_TUPLE=	icicle-emu:ghidra:50230050fa58bd40d5a96cab9c167fc55bc92a76:ghidra/ghidra
+#GH_TUPLE=	icicle-emu:ghidra:50230050fa58bd40d5a96cab9c167fc55bc92a76:ghidra/ghidra
 
 CARGO_CRATES=	addr2line-0.24.2 \
 		adler2-2.0.0 \
