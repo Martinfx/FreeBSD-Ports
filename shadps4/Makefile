@@ -13,8 +13,11 @@ LICENSE_FILE=	${WRKSRC}/LICENSE
 BUILD_DEPENDS=	alsa-lib>0:audio/alsa-lib \
 		date>0:devel/date \
 		ffmpeg>0:multimedia/ffmpeg \
+		glslang>0:graphics/glslang \
 		rapidjson>0:devel/rapidjson \
-		sndio>0:audio/sndio
+		vulkan-headers>0:graphics/vulkan-headers \
+		sndio>0:audio/sndio \
+		zlib-ng>0:archivers/zlib-ng
 
 LIB_DEPENDS=	libavcodec.so:multimedia/ffmpeg \
 		libavfilter.so:multimedia/ffmpeg \
@@ -29,12 +32,12 @@ LIB_DEPENDS=	libavcodec.so:multimedia/ffmpeg \
 		libswresample.so:multimedia/ffmpeg \
 		libswscale.so:multimedia/ffmpeg \
 		libSDL3.so:devel/sdl3 \
-		libxxhash.so:devel/xxhash \
-		libZycore.so:devel/zycore-c
+		libxxhash.so:devel/xxhash
 
 USES=		cmake compiler:c++23-lang llvm:min=19 localbase pkgconfig qt:6 \
 		ssl
 USE_GL=		gl opengl
+USE_SDL=	sdl3
 USE_QT=		base multimedia tools translations
 USE_GITHUB=	yes
 GH_ACCOUNT=	shadps4-emu
@@ -46,26 +49,22 @@ GH_TUPLE+=	shadps4-emu:ext-LibAtrac9:ec8899dadf393f655f2871a94e0fe4b3d6220c9a:li
 		shadps4-emu:ext-discord-rpc:d3b5af8827031f3bccbf8c15d5dc1bfdc9467f17:discord/externals/discord-rpc \
 		shadps4-emu:ext-boost:ca6f230e67be7cc45fc919057f07b2aee64dadc1:boost/externals/ext-boost \
 		shadps4-emu:ext-fmt:8ee89546ffcf046309d1f0d38c0393f02fde56c8:fmt/externals/fmt \
-		KhronosGroup:glslang:a0995c49ebcaca2c6d3b03efbabf74f3843decdb:glslang/externals/glslang \
 		ROCm:half:1ddada225144cac0de8f6b5c0dd9acffd99a2e68:half/externals/half \
 		pnggroup:libpng:c1cc0f3f4c3d4abd11ca68c59446a29ff6f95003:libpng/externals/libpng \
 		Neargye:magic_enum:1a1824df7ac798177a521eed952720681b0bf482:magic/externals/magic_enum \
 		zeux:pugixml:4bc14418d12d289dd9978fdce9490a45deeb653e:pugixml/externals/pugixml \
 		Tessil:robin-map:fe845fd7852ef541c5479ae23b3d36b57f8608ee:robin/externals/robin-map \
-		shadps4-emu:ext-SDL:758eb256b986a7ae07108b667c8e09a404a989a3:sdl/externals/sdl3 \
 		shadps4-emu:sirit:427a42c9ed99b38204d9107bc3dc14e92458acf1:sirit/externals/sirit \
 		KhronosGroup:SPIRV-Headers:2acb319af38d43be3ea76bfabf3998e5281d8d12:spirv/externals/sirit/externals/SPIRV-Headers \
 		ToruNiina:toml11:7f6c574ff5aa1053534e7e19c0a4f22bf4c6aaca:toml/externals/toml11 \
 		shadps4-emu:tracy:143a53d1985b8e52a7590a0daca30a0a7c653b42:tracy/externals/tracy \
 		GPUOpen-LibrariesAndSDKs:VulkanMemoryAllocator:5a53a198945ba8260fbc58fadb788745ce6aa263:vma/externals/vma \
-		KhronosGroup:Vulkan-Headers:a03d2f6d5753b365d704d58161825890baad0755:vulkan/externals/vulkan-headers \
 		Cyan4973:xxHash:2bf8313b934633b2a5b7e8fd239645b85e10c852:xxhash/externals/xxhash \
 		shadps4-emu:winpthreads:f00c973a6ab2a23573708568b8ef4acc20a9d36b:winpthreads/externals/winpthreads \
 		herumi:xbyak:4e44f4614ddbf038f2a6296f5b906d5c72691e0f:xbyak/externals/xbyak \
-		shadps4-emu:ext-zlib-ng:d54e3769be0c522015b784eca2af258b1c026107:zlib/externals/zlib-ng \
-		zyantific:zydis:bffbb610cfea643b98e87658b9058382f7522807:zybis/externals/zydis \
 		shadps4-emu:ext-cryptopp-cmake:2c384c28265a93358a2455e610e76393358794df:cmake/externals/cryptopp-cmake \
 		shadps4-emu:ext-cryptopp:effed0d0b865afc23ed67e0916f83734e4b9b3b7:cryptopp/externals/cryptopp \
+		zyantific:zydis:bffbb610cfea643b98e87658b9058382f7522807:zybis/externals/zydis \
 		zyantific:zycore-c:0b2432ced0884fd152b471d97ecf0258ff4d859f:zycore/externals/zydis/dependencies/zycore
 
 LDFLAGS=	-L${LOCALBASE}/lib -ldate-tz -L/usr/lib -lusb
@@ -95,10 +94,10 @@ do-install:
 	${MKDIR} ${STAGEDIR}${PREFIX}/share/metainfo
 	${INSTALL_DATA} ${WRKSRC}/dist/net.shadps4.shadPS4.metainfo.xml \
 			${STAGEDIR}${PREFIX}/share/metainfo
-post-install:
-.if exists(/usr/bin/elfctl)
-	${ELFCTL} -e +wxneeded ${STAGEDIR}${PREFIX}/bin/${PORTNAME}
-.endif
+#post-install:
+#.if exists(/usr/bin/elfctl)
+#	${ELFCTL} -e +wxneeded ${STAGEDIR}${PREFIX}/bin/${PORTNAME}
+#.endif
 
 .include <bsd.port.mk>
 

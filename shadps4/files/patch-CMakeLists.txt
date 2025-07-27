@@ -42,6 +42,117 @@
  endif()
  
  if (APPLE AND ARCHITECTURE STREQUAL "x86_64" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "arm64")
+@@ -113,62 +131,62 @@ string(TIMESTAMP BUILD_DATE "%Y-%m-%d %H:%M:%S")
+ git_branch_name(GIT_BRANCH)
+ string(TIMESTAMP BUILD_DATE "%Y-%m-%d %H:%M:%S")
+ 
+-message("start git things")
++#message("start git things")
+ # Try to get the upstream remote and branch
+-message("check for remote and branch")
+-execute_process(
+-  COMMAND git rev-parse --abbrev-ref --symbolic-full-name @{u}
+-  OUTPUT_VARIABLE GIT_REMOTE_NAME
+-  RESULT_VARIABLE GIT_REMOTE_RESULT
+-  ERROR_QUIET
+-  OUTPUT_STRIP_TRAILING_WHITESPACE
+-)
++#message("check for remote and branch")
++#execute_process(
++#  COMMAND git rev-parse --abbrev-ref --symbolic-full-name @{u}
++#  OUTPUT_VARIABLE GIT_REMOTE_NAME
++#  RESULT_VARIABLE GIT_REMOTE_RESULT
++#  ERROR_QUIET
++#  OUTPUT_STRIP_TRAILING_WHITESPACE
++#)
+ # If there's no upstream set or the command failed, check remote.pushDefault
+-if (GIT_REMOTE_RESULT OR GIT_REMOTE_NAME STREQUAL "")
+-  message("check default push")
+-  execute_process(
+-    COMMAND git config --get remote.pushDefault
+-    OUTPUT_VARIABLE GIT_REMOTE_NAME
+-    RESULT_VARIABLE GIT_REMOTE_RESULT
+-    ERROR_QUIET
+-    OUTPUT_STRIP_TRAILING_WHITESPACE
+-  )
+-endif()
++#if (GIT_REMOTE_RESULT OR GIT_REMOTE_NAME STREQUAL "")
++#  message("check default push")
++#  execute_process(
++#    COMMAND git config --get remote.pushDefault
++#    OUTPUT_VARIABLE GIT_REMOTE_NAME
++#    RESULT_VARIABLE GIT_REMOTE_RESULT
++#    ERROR_QUIET
++#    OUTPUT_STRIP_TRAILING_WHITESPACE
++#  )
++#endif()
+ # If running in GitHub Actions and the above fails
+-if (GIT_REMOTE_RESULT OR GIT_REMOTE_NAME STREQUAL "")
+-  message("check github")
+-  set(GIT_REMOTE_NAME "origin")
++#if (GIT_REMOTE_RESULT OR GIT_REMOTE_NAME STREQUAL "")
++#  message("check github")
++#  set(GIT_REMOTE_NAME "origin")
++#
++#  if (DEFINED ENV{GITHUB_HEAD_REF})  # PR branch name
++#    set(GIT_BRANCH "pr-$ENV{GITHUB_HEAD_REF}")
++#  elseif (DEFINED ENV{GITHUB_REF})  # Normal branch name
++#    string(REGEX REPLACE "^refs/[^/]*/" "" GIT_BRANCH "$ENV{GITHUB_REF}")
++#  else()
++#    message("couldn't find branch")
++#    set(GIT_BRANCH "detached-head")
++#  endif()
++#else()
++#  # Extract remote name if the output contains a remote/branch format
++#  string(FIND "${GIT_REMOTE_NAME}" "/" INDEX)
++#  if (INDEX GREATER -1)
++#    string(SUBSTRING "${GIT_REMOTE_NAME}" 0 "${INDEX}" GIT_REMOTE_NAME)
++#  else()
++#    # If no remote is present (only a branch name), default to origin
++#    set(GIT_REMOTE_NAME "origin")
++#  endif()
++#endif()
+ 
+-  if (DEFINED ENV{GITHUB_HEAD_REF})  # PR branch name
+-    set(GIT_BRANCH "pr-$ENV{GITHUB_HEAD_REF}")
+-  elseif (DEFINED ENV{GITHUB_REF})  # Normal branch name
+-    string(REGEX REPLACE "^refs/[^/]*/" "" GIT_BRANCH "$ENV{GITHUB_REF}")
+-  else()
+-    message("couldn't find branch")
+-    set(GIT_BRANCH "detached-head")
+-  endif()
+-else()
+-  # Extract remote name if the output contains a remote/branch format
+-  string(FIND "${GIT_REMOTE_NAME}" "/" INDEX)
+-  if (INDEX GREATER -1)
+-    string(SUBSTRING "${GIT_REMOTE_NAME}" 0 "${INDEX}" GIT_REMOTE_NAME)
+-  else()
+-    # If no remote is present (only a branch name), default to origin
+-    set(GIT_REMOTE_NAME "origin")
+-  endif()
+-endif()
+-
+ # Get remote link
+-message("getting remote link")
+-execute_process(
+-  COMMAND git config --get remote.${GIT_REMOTE_NAME}.url
+-  OUTPUT_VARIABLE GIT_REMOTE_URL
+-  OUTPUT_STRIP_TRAILING_WHITESPACE
+-)
++#message("getting remote link")
++#execute_process(
++#  COMMAND git config --get remote.${GIT_REMOTE_NAME}.url
++#  OUTPUT_VARIABLE GIT_REMOTE_URL
++#  OUTPUT_STRIP_TRAILING_WHITESPACE
++#)
+ 
+ configure_file("${CMAKE_CURRENT_SOURCE_DIR}/src/common/scm_rev.cpp.in" "${CMAKE_CURRENT_BINARY_DIR}/src/common/scm_rev.cpp" @ONLY)
+ 
+-message("end git things, remote: ${GIT_REMOTE_NAME}, branch: ${GIT_BRANCH}")
++#message("end git things, remote: ${GIT_REMOTE_NAME}, branch: ${GIT_BRANCH}")
+ 
+ find_package(Boost 1.84.0 CONFIG)
+ find_package(FFmpeg 5.1.2 MODULE)
 @@ -1189,7 +1207,7 @@ install(TARGETS shadps4 BUNDLE DESTINATION .)
  # Install rules
  install(TARGETS shadps4 BUNDLE DESTINATION .)
