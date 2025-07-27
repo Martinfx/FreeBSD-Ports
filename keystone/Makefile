@@ -9,11 +9,10 @@ WWW=		https://www.keystone-engine.org/
 LICENSE=	GPLv2
 LICENSE_FILE=	${WRKSRC}/COPYING
 
-USES=		cmake compiler:c++23-lang
+USES=		cmake
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	keystone-engine
 GH_PROJECT=	keystone
-GH_TAGNAME=	fb92f32
 
 .include <bsd.port.mk>
