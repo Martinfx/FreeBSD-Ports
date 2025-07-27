@@ -1,11 +1,11 @@
---- src/CMakeLists.txt.orig	2024-11-16 12:27:30 UTC
+--- src/CMakeLists.txt.orig	2025-07-27 11:38:26 UTC
 +++ src/CMakeLists.txt
-@@ -34,7 +34,7 @@ set(SOURCES
-         ${CMAKE_SOURCE_DIR}/app/arch/x86.cpp
-         ${CMAKE_SOURCE_DIR}/../vendor/whereami/src/whereami.c
-         app/app.cpp
--        ../vendor/code/tinyfiledialogs.c
-+        ../vendor/tinydialogue/tinyfiledialogs.c
-         app/tasks/fileTasks.cpp
-         app/tasks/editorTasks.cpp
-         utils/fonts.cpp
+@@ -150,7 +150,7 @@ if (UNIX AND NOT APPLE)
+     add_compile_options(-Og)
+ #    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -g")
+ #    set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} -fsanitize=address")
+-    set(LIBS ${GLFW_LDFLAGS} -lGL -ldl -lstdc++ -lkeystone -lcapstone -L/usr/lib -L/usr/local/lib -licicle -lssl -lcrypto)
++    set(LIBS ${GLFW_LDFLAGS} -lGL -ldl -lstdc++ -lkeystone -lcapstone -L/usr/lib -L/usr/local/lib  -lssl -lcrypto)
+ elseif (APPLE)
+     message("Mac OS X")
+     find_library(GLFW_LIB glfw3)
