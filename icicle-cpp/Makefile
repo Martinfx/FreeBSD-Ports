@@ -1,6 +1,5 @@
 PORTNAME=	icicle-cpp
-DISTVERSIONPREFIX=	v
-DISTVERSION=	1.0-beta
+DISTVERSION=	g20250728
 CATEGORIES=	devel
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -11,6 +10,7 @@ USES=		cargo
 USE_GITHUB=	yes
 GH_ACCOUNT=	HACKE-RC
 GH_PROJECT=	icicle-cpp
+GH_TAGNAME=	1cadcd6
 
 CARGO_CRATES=	addr2line-0.24.2 \
 		adler2-2.0.0 \
@@ -19,11 +19,13 @@ CARGO_CRATES=	addr2line-0.24.2 \
 		arbitrary-1.4.1 \
 		autocfg-1.4.0 \
 		base64-0.21.7 \
+		bincode-1.3.3 \
 		bitflags-1.3.2 \
 		bitflags-2.9.0 \
 		bstr-1.11.3 \
 		bumpalo-3.17.0 \
 		bytemuck-1.22.0 \
+		cc-1.2.20 \
 		cfg-if-1.0.0 \
 		cpp_demangle-0.4.4 \
 		cranelift-0.113.1 \
@@ -47,6 +49,7 @@ CARGO_CRATES=	addr2line-0.24.2 \
 		flate2-1.1.1 \
 		foldhash-0.1.5 \
 		getrandom-0.2.15 \
+		getrandom-0.3.2 \
 		gimli-0.31.1 \
 		half-2.5.0 \
 		hashbrown-0.12.3 \
@@ -55,6 +58,7 @@ CARGO_CRATES=	addr2line-0.24.2 \
 		ihex-3.0.0 \
 		indexmap-1.9.3 \
 		indexmap-2.8.0 \
+		jobserver-0.1.33 \
 		lazy_static-1.5.0 \
 		libc-0.2.171 \
 		linux-raw-sys-0.4.15 \
@@ -69,8 +73,10 @@ CARGO_CRATES=	addr2line-0.24.2 \
 		once_cell-1.21.3 \
 		overload-0.1.1 \
 		pin-project-lite-0.2.16 \
+		pkg-config-0.3.32 \
 		proc-macro2-1.0.94 \
 		quote-1.0.40 \
+		r-efi-5.2.0 \
 		regalloc2-0.10.2 \
 		region-3.0.2 \
 		ron-0.8.1 \
@@ -82,6 +88,7 @@ CARGO_CRATES=	addr2line-0.24.2 \
 		serde-xml-rs-0.6.0 \
 		serde_derive-1.0.219 \
 		sharded-slab-0.1.7 \
+		shlex-1.3.0 \
 		slice-group-by-0.3.1 \
 		smallvec-1.14.0 \
 		stable_deref_trait-1.2.0 \
@@ -102,6 +109,7 @@ CARGO_CRATES=	addr2line-0.24.2 \
 		valuable-0.1.1 \
 		version_check-0.9.5 \
 		wasi-0.11.0+wasi-snapshot-preview1 \
+		wasi-0.14.2+wasi-0.2.4 \
 		wasmtime-jit-debug-26.0.1 \
 		wasmtime-jit-icache-coherence-26.0.1 \
 		wasmtime-versioned-export-macros-26.0.1 \
@@ -119,16 +127,20 @@ CARGO_CRATES=	addr2line-0.24.2 \
 		windows_x86_64_gnu-0.52.6 \
 		windows_x86_64_gnullvm-0.52.6 \
 		windows_x86_64_msvc-0.52.6 \
+		wit-bindgen-rt-0.39.0 \
 		xml-rs-0.8.25 \
 		zerocopy-0.7.35 \
 		zerocopy-derive-0.7.35 \
+		zstd-0.13.3 \
+		zstd-safe-7.2.4 \
+		zstd-sys-2.0.15+zstd.1.5.7 \
 		icicle-cpu,icicle-jit,icicle-linux,icicle-mem,icicle-vm,pcode,sleigh-compile,sleigh-parse,sleigh-runtime@git+https://github.com/icicle-emu/icicle-emu\#6e9fd3e34aec440ac92c1f49f4a70fc288949de9
 
 WRKSRC_SUBDIR=	src
 PLIST_FILES=	lib/libicicle.a
 
 do-install:
-	${MKDIR} ${STAGEDIR}${PREFIX}/lib
-	${INSTALL_LIB} ${WRKDIR}/target/release/libicicle.a ${STAGEDIR}${PREFIX}/lib/
+	${INSTALL_DATA} ${WRKDIR}/${PORTNAME}-${GH_TAGNAME}/icicle.h ${STAGEDIR}${PREFIX}/include
+	${INSTALL_LIB} ${WRKDIR}/target/release/libicicle.a ${STAGEDIR}${PREFIX}/lib
 
 .include <bsd.port.mk>
