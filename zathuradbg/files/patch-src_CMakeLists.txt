@@ -13,7 +13,7 @@
          ${VENDOR_DIR}/http
  )
  
-@@ -139,13 +139,13 @@ if (UNIX AND NOT APPLE)
+@@ -139,18 +139,18 @@ if (UNIX AND NOT APPLE)
      find_package(OpenGL REQUIRED)
      find_package(glfw3 REQUIRED)
  
@@ -27,5 +27,20 @@
 -    add_compile_options(-pthread -std=c++23)
 +    add_compile_options(-pthread)
  #    add_compile_options(-O3)
-     add_compile_options(-Og)
+-    add_compile_options(-Og)
++#    add_compile_options(-Og)
  #    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -g")
+ #    set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} -fsanitize=address")
+-    set(LIBS ${GLFW_LDFLAGS} -lGL -ldl -lstdc++ -lkeystone -lcapstone -L/usr/lib -L/usr/local/lib -licicle -lssl -lcrypto)
++    set(LIBS ${GLFW_LDFLAGS} -lGL -ldl -lstdc++ -lkeystone -lcapstone -licicle -lssl -lcrypto)
+ elseif (APPLE)
+     message("Mac OS X")
+     find_library(GLFW_LIB glfw3)
+@@ -170,6 +170,7 @@ add_executable(${PROJECT_NAME} ${SOURCES})
+ add_executable(${PROJECT_NAME} ${SOURCES})
+ 
+ # Link libraries
++target_link_options(${PROJECT_NAME} PRIVATE ${LIBS} -l:libicicle.a)
+ target_link_libraries(${PROJECT_NAME} ${LIBS})
+ 
+ # Custom targets
