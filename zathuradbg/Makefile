@@ -18,7 +18,7 @@ BUILD_DEPENDS=	${LOCALBASE}/include/boost/regex.hpp:devel/boost-libs \
 LIB_DEPENDS=	libunicorn.so:emulators/unicorn \
 		libglfw.so:graphics/glfw
 
-USES=		cmake pkgconfig
+USES=		cmake pkgconfig localbase
 USE_GL=		gl glu
 USE_GITHUB=	yes
 GH_ACCOUNT=	ZathuraDbg
