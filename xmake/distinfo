@@ -1,0 +1,17 @@
+TIMESTAMP = 1717937309
+SHA256 (xmake-io-xmake-v2.9.2_GH0.tar.gz) = c57db1179f78e0d05a5d00e3cd95ee4a73ca80e5cbb71904420f3721d967d9d6
+SIZE (xmake-io-xmake-v2.9.2_GH0.tar.gz) = 2300270
+SHA256 (xmake-io-xmake-core-lua-cjson-ddcecf3b24b71421e7b4a2962f1fbcc0297e0c1e_GH0.tar.gz) = b3f9e04d27ef44c4384130a40231e55e4a2de264346507d385086bb241e4261b
+SIZE (xmake-io-xmake-core-lua-cjson-ddcecf3b24b71421e7b4a2962f1fbcc0297e0c1e_GH0.tar.gz) = 67652
+SHA256 (xmake-io-xmake-core-lua-eadd8c7178c79c814ecca9652973a9b9dd4cc71b_GH0.tar.gz) = 3322b8de8b233b7722ddeba26135a5d3d2865bb19a12ef46c22b2cda0c3d81be
+SIZE (xmake-io-xmake-core-lua-eadd8c7178c79c814ecca9652973a9b9dd4cc71b_GH0.tar.gz) = 451545
+SHA256 (xmake-io-xmake-core-luajit-7cdc078416037cd0a16a79553509a7f153fe629d_GH0.tar.gz) = d041e92dc9d62c66e7bdb969719473a7ca8c5e2c242d9afd8e86ff1ef2533bf4
+SIZE (xmake-io-xmake-core-luajit-7cdc078416037cd0a16a79553509a7f153fe629d_GH0.tar.gz) = 1496833
+SHA256 (xmake-io-xmake-core-lz4-033606ef259ef2852f6ae1e8ec7a10c641417654_GH0.tar.gz) = f09d02a2e9eeed10cf8f2277e218528defa1dff755040692a747d8176490342d
+SIZE (xmake-io-xmake-core-lz4-033606ef259ef2852f6ae1e8ec7a10c641417654_GH0.tar.gz) = 330463
+SHA256 (xmake-io-xmake-core-pdcurses-5c62af03e9a05e3a3ae8c8354c1234b772dcf4b0_GH0.tar.gz) = 323a9a95ead0c9d5af992bcc8cb30fffc3426cbe12840c77c8dca8969affc227
+SIZE (xmake-io-xmake-core-pdcurses-5c62af03e9a05e3a3ae8c8354c1234b772dcf4b0_GH0.tar.gz) = 364832
+SHA256 (xmake-io-xmake-core-sv-b3363a3cb2f499a735eaebe87a8a3491593e3289_GH0.tar.gz) = d1c9d3d3d663e0eb3501c37c956b696d3ea025528cb69db18e022469fa732572
+SIZE (xmake-io-xmake-core-sv-b3363a3cb2f499a735eaebe87a8a3491593e3289_GH0.tar.gz) = 25869
+SHA256 (tboox-tbox-36c7364_GH0.tar.gz) = 181eca7f97ab693113aa9021e54df3da5222ff1017b47d1ff55345e7d37be04b
+SIZE (tboox-tbox-36c7364_GH0.tar.gz) = 861998
