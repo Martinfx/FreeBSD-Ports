@@ -6,12 +6,12 @@ MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Free universal database tool and SQL client.
 WWW=		https://dbeaver.io
 
-LICENSE= 	APACHE20
+LICENSE=	APACHE20
 LICENSE_FILE=	${WRKSRC}/LICENSE.md
 
 BUILD_DEPENDS=	maven39>0:devel/maven39
 
-USES=		java:build
+USES=		java:build shebangfix
 USE_GITHUB=	yes
 GH_ACCOUNT=	dbeaver
 GH_PROJECT=	dbeaver
@@ -20,6 +20,9 @@ GH_TUPLE=	dbeaver:dbeaver-common:8be2658:dbeavercommon \
 
 JAVA_VERSION=	21+
 JAVA_VENDOR=	openjdk
+INSTALL_TARGET=	install-strip
+SUB_FILES=	${PORTNAME} ${PORTNAME}.desktop
+SHEBANG_FILES=	share/dbeaver/tools/build.sh
 
 .include <bsd.port.pre.mk>
 
@@ -32,19 +35,22 @@ MAVEN_ARCH=	${ARCH}
 .endif
 
 MAVEN_ENV=	MAVEN_OPTS=-Xmx1024m  JAVA_HOME=${JAVA_HOME}
+DBEAVER_PATH=	product/community/target/products/org.jkiss.dbeaver.core.product/freebsd/gtk/${MAVEN_ARCH}/dbeaver
 
 pre-configure:
-	@mv ${WRKDIR}/dbeaver-common-8be2658 ${WRKDIR}/dbeaver-common
-	@mv ${WRKDIR}/dbeaver-jdbc-libsql-221cc34 ${WRKDIR}/dbeaver-jdbc-libsql
+	${MV} ${WRKDIR}/dbeaver-common-8be2658 ${WRKDIR}/dbeaver-common
+	${MV} ${WRKDIR}/dbeaver-jdbc-libsql-221cc34 ${WRKDIR}/dbeaver-jdbc-libsql
 
 do-build:
 	@cd ${WRKSRC}/product/aggregate && ${SETENV} ${MAVEN_ENV} ${LOCALBASE}/bin/mvn  \
 		-Dnative=gtk.freebsd.${MAVEN_ARCH} -T 1C -DskipTests verify \
 		-Duser.home=${WRKDIR} \
 		-Dmaven.repo.local=${WRKDIR}/m2
-
 do-install:
+	${MKDIR} ${STAGEDIR}${DATADIR}
+	@(cd ${WRKSRC}/${DBEAVER_PATH} && ${COPYTREE_SHARE} . ${STAGEDIR}${DATADIR})
+	#@(cd ${WRKSRC} && ${COPYTREE_BIN} . ${STAGEDIR}${DATADIR} "-name *\.sh")
+	${INSTALL_SCRIPT} ${WRKDIR}/${PORTNAME} ${STAGEDIR}${PREFIX}/bin/${PORTNAME}
+	${INSTALL_DATA} ${WRKDIR}/${PORTNAME}.desktop ${STAGEDIR}${PREFIX}/share/applications
 
 .include <bsd.port.post.mk>
-
-
