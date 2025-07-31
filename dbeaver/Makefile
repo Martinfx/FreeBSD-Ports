@@ -1,6 +1,6 @@
 PORTNAME=	dbeaver
 DISTVERSION=	25.1.3
-CATEGORIES=	editors
+CATEGORIES=	devel java
 
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Free universal database tool and SQL client.
@@ -9,7 +9,7 @@ WWW=		https://dbeaver.io
 LICENSE= 	APACHE20
 LICENSE_FILE=	${WRKSRC}/LICENSE.md
 
-BUILD_DEPENDS=	maven>0:devel/maven
+BUILD_DEPENDS=	maven39>0:devel/maven39
 
 USES=		java:build
 USE_GITHUB=	yes
