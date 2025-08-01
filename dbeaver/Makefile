@@ -1,6 +1,8 @@
 PORTNAME=	dbeaver
 DISTVERSION=	25.1.3
 CATEGORIES=	devel java
+MASTER_SITES=	LOCAL/vvd:deps
+DISTFILES=	${PORTNAME}-${PORTVERSION}-deps.tar.gz:deps
 
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Free universal database tool and SQL client.
@@ -21,6 +23,7 @@ GH_TUPLE=	dbeaver:dbeaver-common:8be2658:dbeavercommon \
 JAVA_VERSION=	21+
 JAVA_VENDOR=	openjdk
 SUB_FILES=	${PORTNAME} ${PORTNAME}.desktop
+OFFLINE=	-o
 
 .include <bsd.port.pre.mk>
 
@@ -40,7 +43,7 @@ pre-configure:
 	${MV} ${WRKDIR}/dbeaver-jdbc-libsql-221cc34 ${WRKDIR}/dbeaver-jdbc-libsql
 
 do-build:
-	@cd ${WRKSRC}/product/aggregate && ${SETENV} ${MAVEN_ENV} ${LOCALBASE}/bin/mvn  \
+	@cd ${WRKSRC}/product/aggregate && ${SETENV} ${MAVEN_ENV} ${LOCALBASE}/bin/mvn ${OFFLINE} \
 		-Dnative=gtk.freebsd.${MAVEN_ARCH} -T 1C -DskipTests verify \
 		-Duser.home=${WRKDIR} \
 		-Dmaven.repo.local=${WRKDIR}/m2
