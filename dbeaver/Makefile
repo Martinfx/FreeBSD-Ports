@@ -20,9 +20,7 @@ GH_TUPLE=	dbeaver:dbeaver-common:8be2658:dbeavercommon \
 
 JAVA_VERSION=	21+
 JAVA_VENDOR=	openjdk
-INSTALL_TARGET=	install-strip
 SUB_FILES=	${PORTNAME} ${PORTNAME}.desktop
-SHEBANG_FILES=	share/dbeaver/tools/build.sh
 
 .include <bsd.port.pre.mk>
 
@@ -49,8 +47,11 @@ do-build:
 do-install:
 	${MKDIR} ${STAGEDIR}${DATADIR}
 	@(cd ${WRKSRC}/${DBEAVER_PATH} && ${COPYTREE_SHARE} . ${STAGEDIR}${DATADIR})
-	#@(cd ${WRKSRC} && ${COPYTREE_BIN} . ${STAGEDIR}${DATADIR} "-name *\.sh")
 	${INSTALL_SCRIPT} ${WRKDIR}/${PORTNAME} ${STAGEDIR}${PREFIX}/bin/${PORTNAME}
 	${INSTALL_DATA} ${WRKDIR}/${PORTNAME}.desktop ${STAGEDIR}${PREFIX}/share/applications
+
+post-install:
+	${STRIP_CMD} ${STAGEDIR}${DATADIR}/plugins/org.eclipse.equinox.launcher.gtk.freebsd.x86_64_1.2.1400.v20250607-0038/eclipse_11911.so
+	${STRIP_CMD} ${STAGEDIR}${DATADIR}/dbeaver
 
 .include <bsd.port.post.mk>
