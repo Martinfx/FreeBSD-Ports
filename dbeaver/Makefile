@@ -47,11 +47,14 @@ do-build:
 do-install:
 	${MKDIR} ${STAGEDIR}${DATADIR}
 	@(cd ${WRKSRC}/${DBEAVER_PATH} && ${COPYTREE_SHARE} . ${STAGEDIR}${DATADIR})
+	${INSTALL_PROGRAM} ${WRKSRC}/${DBEAVER_PATH}/${PORTNAME} ${STAGEDIR}${DATADIR}
 	${INSTALL_SCRIPT} ${WRKDIR}/${PORTNAME} ${STAGEDIR}${PREFIX}/bin/${PORTNAME}
 	${INSTALL_DATA} ${WRKDIR}/${PORTNAME}.desktop ${STAGEDIR}${PREFIX}/share/applications
-
-post-install:
 	${STRIP_CMD} ${STAGEDIR}${DATADIR}/plugins/org.eclipse.equinox.launcher.gtk.freebsd.x86_64_1.2.1400.v20250607-0038/eclipse_11911.so
 	${STRIP_CMD} ${STAGEDIR}${DATADIR}/dbeaver
+	@(cd ${STAGEDIR}${PREFIX}; ${FIND} -s "share/dbeaver" -not -type d) >> ${TMPPLIST}
+	@(cd ${STAGEDIR}${PREFIX}; ${FIND} -s -d "share/dbeaver" -type d -empty | ${SED} -ne 's,^,@dir ,p') >> ${TMPPLIST}
+	echo "bin/${PORTNAME}" >> ${TMPPLIST}
+	echo "share/applications/${PORTNAME}.desktop" >> ${TMPPLIST}
 
 .include <bsd.port.post.mk>
