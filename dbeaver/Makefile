@@ -54,7 +54,7 @@ do-install:
 	${STRIP_CMD} ${STAGEDIR}${DATADIR}/dbeaver
 	@(cd ${STAGEDIR}${PREFIX}; ${FIND} -s "share/dbeaver" -not -type d) >> ${TMPPLIST}
 	@(cd ${STAGEDIR}${PREFIX}; ${FIND} -s -d "share/dbeaver" -type d -empty | ${SED} -ne 's,^,@dir ,p') >> ${TMPPLIST}
-	echo "bin/${PORTNAME}" >> ${TMPPLIST}
-	echo "share/applications/${PORTNAME}.desktop" >> ${TMPPLIST}
+	${ECHO} "bin/${PORTNAME}" >> ${TMPPLIST}
+	${ECHO} "share/applications/${PORTNAME}.desktop" >> ${TMPPLIST}
 
 .include <bsd.port.post.mk>
