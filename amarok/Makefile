@@ -1,6 +1,6 @@
 PORTNAME=	amarok
 DISTVERSIONPREFIX=	v
-DISTVERSION=	3.2.2
+DISTVERSION=	3.3.0
 CATEGORIES=	audio kde
 
 MAINTAINER=	kde@FreeBSD.org
@@ -62,7 +62,7 @@ IPOD_LIB_DEPENDS=	libgpod.so:audio/libgpod \
 			libimobiledevice-1.0.so:comms/libimobiledevice \
 			libplist-2.0.so:devel/libplist
 IPOD_USES=		gnome
-IPOD_USE=		GNOME=gdkpixbuf2,glib20
+IPOD_USE=		GNOME=gdkpixbuf,glib20
 IPOD_CMAKE_BOOL=	WITH_IPOD
 LASTFM_CMAKE_BOOL=	WITH_LASTFM
 MP3TUNES_LIB_DEPENDS=	libcurl.so:ftp/curl \
