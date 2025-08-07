@@ -104,14 +104,10 @@ MOZ_OPTIONS=	--with-base-browser-version=${DISTVERSION} \
 
 .include <bsd.port.options.mk>
 
-.if ${ARCH} == i386
-BUILD_DEPENDS+=	node${NODEJS_VERSION}>=24:www/node${NODEJS_VERSION}
-USES+=		nodejs:24,build,env
-.  if ${MACHINE_CPU:Msse2}
+.if ${ARCH} == i386 && ${MACHINE_CPU:Msse2}
 # is not enabled on i386 by default
 # Fix for error: always_inline function '_mm_setzero_si64' requires target feature 'sse2'
 CFLAGS_i386+=	-msse2
-.  endif
 .endif
 
 .if ${ARCH} == amd64
