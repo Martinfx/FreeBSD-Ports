@@ -19,10 +19,11 @@ LIB_DEPENDS=	libdbus-1.so:devel/dbus \
 		liblastfm6.so:audio/liblastfm \
 		libmtp.so:multimedia/libmtp \
 		libtag.so:audio/taglib \
-		libunwind.so:devel/libunwind
+		libunwind.so:devel/libunwind \
+		libmariadb.so:databases/mariadb106-client
 
 USES=		cmake compiler:c++11-lang cpe desktop-file-utils gettext gl \
-		kde:6 mysql:client pkgconfig qt:6 shared-mime-info ssl xorg
+		kde:6 pkgconfig qt:6 shared-mime-info ssl xorg
 
 CPE_VENDOR=	kde
 
