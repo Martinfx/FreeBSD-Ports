@@ -19,11 +19,10 @@ LIB_DEPENDS=	libdbus-1.so:devel/dbus \
 		liblastfm6.so:audio/liblastfm \
 		libmtp.so:multimedia/libmtp \
 		libtag.so:audio/taglib \
-		libunwind.so:devel/libunwind \
-		libmariadb.so:databases/mariadb-connector-c
+		libunwind.so:devel/libunwind
 
 USES=		cmake compiler:c++11-lang cpe desktop-file-utils gettext gl \
-		kde:6 mysql:client,server pkgconfig qt:6 shared-mime-info ssl xorg
+		kde:6 mysql:client pkgconfig qt:6 shared-mime-info ssl xorg
 
 CPE_VENDOR=	kde
 
@@ -43,7 +42,7 @@ USE_QT=		base declarative positioning tools svg webchannel webengine 5compat
 USE_XORG=	ice sm x11 xext
 
 CMAKE_ARGS=	-DOPENSSL_ROOT_DIR=${OPENSSLBASE}
-CMAKE_ON=	WITH_DESKTOP_UI BUILD_WITH_QT6
+CMAKE_ON=	WITH_DESKTOP_UI BUILD_WITH_QT6 WITHOUT_EMBEDDED_DB
 CMKAE_OFF=	WITH_EMBEDDED_SERVER
 
 CONFIGURE_ENV=	MYSQL_DIR=${LOCALBASE}
