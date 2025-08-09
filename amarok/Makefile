@@ -20,7 +20,8 @@ LIB_DEPENDS=	libdbus-1.so:devel/dbus \
 		libmtp.so:multimedia/libmtp \
 		libtag.so:audio/taglib \
 		libunwind.so:devel/libunwind \
-		libmariadb.so:databases/mariadb106-client
+		libmariadb.so:databases/mariadb106-client \
+		libmariadb.so:databases/mariadb-connector-c
 
 USES=		cmake compiler:c++11-lang cpe desktop-file-utils gettext gl \
 		kde:6 pkgconfig qt:6 shared-mime-info ssl xorg
