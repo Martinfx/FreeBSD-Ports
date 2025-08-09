@@ -12,7 +12,8 @@ LICENSE_FILE=	${WRKSRC}/COPYING
 
 BUILD_DEPENDS=	libunwind>0:devel/libunwind \
 		taglib>2.0.0:audio/taglib \
-		libglvnd>0:graphics/libglvnd
+		libglvnd>0:graphics/libglvnd \
+		mariadb118-server>0:databases/mariadb118-server
 
 LIB_DEPENDS=	libdbus-1.so:devel/dbus \
 		libfftw3.so:math/fftw3 \
