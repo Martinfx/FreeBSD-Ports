@@ -29,14 +29,13 @@ BUILD_DEPENDS=	antlr4>0:devel/antlr4 \
 		unixODBC>0:databases/unixODBC \
 		rapidjson>0:devel/rapidjson \
 		gdal>0:graphics/gdal \
-		vsqlite>0:databases/vsqlite \
 		swig:devel/swig
 
-CPPFLAGS=	 -I${LOCALBASE}/include \
-		 -I${WRKSRC}/library/forms/gtk/src \
-		 -I${LOCALBASE}/include/cairo/ \
-		 -I${LOCALBASE}/include `pkg-config --cflags gtk+-3.0`
-LDFLAGS=	 -L${LOCALBASE}/lib
+CPPFLAGS=	-I${LOCALBASE}/include \
+		-I${WRKSRC}/library/forms/gtk/src \
+		-I${LOCALBASE}/include/cairo/ \
+		-I${LOCALBASE}/include `pkg-config --cflags gtk+-3.0`
+LDFLAGS=	-L${LOCALBASE}/lib
 
 CMAKE_ARGS=	-DODBC_INCLUDE_DIRS="${LOCALBASE}/include/" \
 		-DODBC_LIBRARIES="${LOCALBASE}/lib" \
