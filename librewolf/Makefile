@@ -1,5 +1,5 @@
 PORTNAME=	librewolf
-DISTVERSION=	141.0.2
+DISTVERSION=	141.0.3
 LWPATCH=	-1
 DISTVERSIONSUFFIX=	${LWPATCH}.source
 CATEGORIES=	www wayland
@@ -75,7 +75,7 @@ MOZ_OPTIONS=	--enable-application=browser \
 .if ${ARCH} == i386 && ${MACHINE_CPU:Msse2}
 # is not enabled on i386 by default
 # Fix for error: always_inline function '_mm_setzero_si64' requires target feature 'sse2'
-CFLAGS_i386+=  -msse2
+CFLAGS_i386+=	-msse2
 .endif
 
 .if ${ARCH} == amd64
