@@ -35,7 +35,7 @@ MAVEN_ENV=      MAVEN_OPTS=-Xmx2048m JAVA_HOME=${JAVA_HOME}
 
 # To make the build working, set the (maven) architecture to x86_64 instead of amd64
 # Finally there are problems with amd64
-MAVEN_ARCH=     ${ARCH:S|amd64|x86_64|}
+MAVEN_ARCH=	${ARCH:S|amd64|x86_64|:S|aarch64|arm64|}
 
 MAVEN_PARAMS=   ${OFFLINE} \
                 -Dmaven.repo.local=${WRKDIR}/m2 \
