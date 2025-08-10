@@ -21,7 +21,6 @@ LIB_DEPENDS=	libdbus-1.so:devel/dbus \
 		libmtp.so:multimedia/libmtp \
 		libtag.so:audio/taglib \
 		libunwind.so:devel/libunwind \
-		libmariadb.so:databases/mariadb106-client \
 		libmariadb.so:databases/mariadb-connector-c
 
 USES=		cmake compiler:c++11-lang cpe desktop-file-utils gettext gl \
@@ -48,7 +47,7 @@ CMAKE_ARGS=	-DOPENSSL_ROOT_DIR=${OPENSSLBASE}
 CMAKE_ON=	WITH_DESKTOP_UI BUILD_WITH_QT6 WITHOUT_EMBEDDED_DB
 CMAKE_OFF=	MYSQL_EMBEDDED WITH_EMBEDDED USE_EMBEDDED WITH_MARIADB_EMBEDDED
 
-#CONFIGURE_ENV=	MYSQL_DIR=${LOCALBASE}
+CONFIGURE_ENV=	MYSQL_DIR=${LOCALBASE}
 
 OPTIONS_DEFINE=		IPOD MP3TUNES GPODDER LASTFM UTILITES PLAYER
 OPTIONS_DEFAULT=	IPOD MP3TUNES GPODDER LASTFM UTILITES PLAYER
