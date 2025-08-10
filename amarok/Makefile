@@ -12,16 +12,14 @@ LICENSE_FILE=	${WRKSRC}/COPYING
 
 BUILD_DEPENDS=	libunwind>0:devel/libunwind \
 		taglib>2.0.0:audio/taglib \
-		libglvnd>0:graphics/libglvnd \
-		mariadb118-server>0:databases/mariadb118-server
+		libglvnd>0:graphics/libglvnd
 
 LIB_DEPENDS=	libdbus-1.so:devel/dbus \
 		libfftw3.so:math/fftw3 \
 		liblastfm6.so:audio/liblastfm \
 		libmtp.so:multimedia/libmtp \
 		libtag.so:audio/taglib \
-		libunwind.so:devel/libunwind \
-		libmariadb.so:databases/mariadb-connector-c
+		libunwind.so:devel/libunwind
 
 USES=		cmake compiler:c++11-lang cpe desktop-file-utils gettext gl \
 		kde:6 mysql:client pkgconfig qt:6 shared-mime-info ssl xorg
