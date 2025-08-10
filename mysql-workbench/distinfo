@@ -1,5 +1,5 @@
-TIMESTAMP = 1716044843
-SHA256 (mysql-workbench-community-8.0.36-src.tar.gz) = 634d8a66b6c2777491058a60aba8187e947e4c49a0e7ae83df312fa70714637c
-SIZE (mysql-workbench-community-8.0.36-src.tar.gz) = 27419906
+TIMESTAMP = 1754787467
+SHA256 (mysql-workbench-community-8.0.43-src.tar.gz) = 13d7e7ef6af7e56ac6cc83a80e8b88bc91597697f0f6c803347c047bfd037542
+SIZE (mysql-workbench-community-8.0.43-src.tar.gz) = 59140628
 SHA256 (antlr-4.11.1-complete.jar) = 62975e192b4af2622b72b5f0131553ee3cbce97f76dc2a41632dcc55e25473e1
 SIZE (antlr-4.11.1-complete.jar) = 3547867

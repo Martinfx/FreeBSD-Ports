@@ -1,5 +1,5 @@
 PORTNAME=	mysql-workbench
-DISTVERSION=	8.0.36
+DISTVERSION=	8.0.43
 CATEGORIES=	editors
 MASTER_SITES=	https://dev.mysql.com/get/Downloads/MySQLGUITools/:sql \
 		https://www.antlr.org/download/:jar
@@ -16,7 +16,7 @@ USES=		cmake gnome pkgconfig mysql:80 localbase:ldflags
 USES_GNOME=	gtk30 cairo
 USE_XORG=	x11
 
-BUILD_DEPENDS+=	antlr4>0:devel/antlr4 \
+BUILD_DEPENDS=	antlr4>0:devel/antlr4 \
 		boost-all>0:devel/boost-all \
 		libsecret>0:security/libsecret \
 		libssh>0:security/libssh \
@@ -24,7 +24,7 @@ BUILD_DEPENDS+=	antlr4>0:devel/antlr4 \
 		gtk3>0:x11-toolkits/gtk30 \
 		gtkmm30>0:x11-toolkits/gtkmm30 \
 		pcre>0:devel/pcre \
-		e2fsprogs-libuuid>0:misc/e2fsprogs-libuuid \
+		libuuid>0:misc/libuuid \
 		mysql-connector-c++>0:databases/mysql-connector-c++ \
 		unixODBC>0:databases/unixODBC \
 		rapidjson>0:devel/rapidjson \
@@ -32,14 +32,14 @@ BUILD_DEPENDS+=	antlr4>0:devel/antlr4 \
 		vsqlite>0:databases/vsqlite \
 		swig:devel/swig
 
-CPPFLAGS+=	 -I${LOCALBASE}/include \
+CPPFLAGS=	 -I${LOCALBASE}/include \
 		 -I${WRKSRC}/library/forms/gtk/src \
 		 -I${LOCALBASE}/include/cairo/ \
 		 -I${LOCALBASE}/include `pkg-config --cflags gtk+-3.0`
-LDFLAGS+=	 -L${LOCALBASE}/lib
+LDFLAGS=	 -L${LOCALBASE}/lib
 
-CMAKE_ARGS+=	-DODBC_INCLUDE_DIRS="/usr/local/include/" \
-		-DODBC_LIBRARIES="/usr/local/lib" \
+CMAKE_ARGS=	-DODBC_INCLUDE_DIRS="${LOCALBASE}/include/" \
+		-DODBC_LIBRARIES="${LOCALBASE}/lib" \
 		-DANTLR_JAR_PATH=${WRKDIR} \
 		-DX11_X11_INCLUDE_PATH="/usr/local/include" \
 		-DX11_X11_LIB="/usr/local/lib" \
