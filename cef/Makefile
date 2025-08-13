@@ -259,8 +259,8 @@ PLIST_SUB+=	NOT_AARCH64=""
 FFMPEG_TARGET=	ia32
 .endif
 
-FFMPEG_BDIR=	${WRKSRC}/third_party/ffmpeg/build.${FFMPEG_TARGET}.freebsd/${FFMPEG_BRAND}
-FFMPEG_CDIR=	${WRKSRC}/third_party/ffmpeg/chromium/config/${FFMPEG_BRAND}/freebsd/${FFMPEG_TARGET}
+FFMPEG_BDIR=    ${WRKDIR}/chromium-${CHROMIUM}/third_party/ffmpeg/build.${FFMPEG_TARGET}.freebsd/${FFMPEG_BRAND}
+FFMPEG_CDIR=    ${WRKDIR}/chromium-${CHROMIUM}/third_party/ffmpeg/chromium/config/${FFMPEG_BRAND}/freebsd/${FFMPEG_TARGET}
 
 # Allow relocations against read-only segments (override lld default)
 LDFLAGS_i386=	-Wl,-znotext
@@ -300,10 +300,10 @@ pre-configure:
 	cd ${WRKDIR}/chromium-${CHROMIUM}/media/ffmpeg && \
 		${PYTHON_CMD} scripts/build_ffmpeg.py freebsd ${FFMPEG_TARGET} \
 		--config-only --branding=${FFMPEG_BRAND}
-	cd ${WRKDIR}/chromium-${CHROMIUM}${FFMPEG_BDIR} && ${GMAKE} ffversion.h
-	${MKDIR} ${WRKDIR}${FFMPEG_CDIR}
+	cd ${FFMPEG_BDIR} && ${GMAKE} ffversion.h
+	${MKDIR} $${FFMPEG_CDIR}
 .for _e in config.h config.asm config_components.h libavcodec libavformat libavutil
-	-${CP} -pR ${WRKDIR}/chromium-${CHROMIUM}${FFMPEG_BDIR}/${_e} ${WRKDIR}${FFMPEG_CDIR}
+	-${CP} -pR ${FFMPEG_BDIR}/${_e} ${FFMPEG_CDIR}
 .endfor
 	touch ${WRKDIR}/pulseaudio-${PULSEV}/src/pulse/version.h
 	@${REINPLACE_CMD} -e 's|$${LOCALBASE}|${LOCALBASE}|;s|$${MODCLANG_VERSION}|${LLVM_DEFAULT}|' \
