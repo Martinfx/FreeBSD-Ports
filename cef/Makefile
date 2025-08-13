@@ -292,12 +292,12 @@ pre-configure:
 	# system libraries and not shipped ones.
 	# cd ${WRKSRC} && ${PYTHON_CMD} \
 	#./build/linux/unbundle/remove_bundled_libraries.py [list of preserved]
-	cd ${WRKSRC}/chromium-${CHROMIUM} && ${SETENV} ${CONFIGURE_ENV} ${PYTHON_CMD} \
+	cd ${WRKDIR}/chromium-${CHROMIUM} && ${SETENV} ${CONFIGURE_ENV} ${PYTHON_CMD} \
 		./build/linux/unbundle/replace_gn_files.py --system-libraries \
 		dav1d flac fontconfig harfbuzz-ng libdrm libpng \
 		libusb libwebp libxml libxslt openh264 opus || ${FALSE}
 	# Chromium uses an unreleased version of FFmpeg, so configure it
-	cd ${WRKSRC}/chromium-${CHROMIUM}/media/ffmpeg && \
+	cd ${WRKDIR}/chromium-${CHROMIUM}/media/ffmpeg && \
 		${PYTHON_CMD} scripts/build_ffmpeg.py freebsd ${FFMPEG_TARGET} \
 		--config-only --branding=${FFMPEG_BRAND}
 	cd ${FFMPEG_BDIR} && ${GMAKE} ffversion.h
@@ -307,7 +307,7 @@ pre-configure:
 .endfor
 	touch ${WRKDIR}/pulseaudio-${PULSEV}/src/pulse/version.h
 	@${REINPLACE_CMD} -e 's|$${LOCALBASE}|${LOCALBASE}|;s|$${MODCLANG_VERSION}|${LLVM_DEFAULT}|' \
-		${WRKSRC}/chromium-${CHROMIUM}/build/rust/rust_bindgen.gni \
-		${WRKSRC}/chromium-${CHROMIUM}/build/rust/rust_bindgen_generator.gni
+		${WRKDIR}/chromium-${CHROMIUM}/build/rust/rust_bindgen.gni \
+		${WRKDIR}/chromium-${CHROMIUM}/build/rust/rust_bindgen_generator.gni
 
 .include <bsd.port.post.mk>
