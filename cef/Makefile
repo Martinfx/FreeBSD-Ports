@@ -94,7 +94,7 @@ GH_TAGNAME=	18c5467
 #SHEBANG_FILES=	chrome/tools/build/linux/chrome-wrapper #buildtools/linux64/clang-format
 
 MAKE_ARGS=	-C out/${BUILDTYPE}
-ALL_TARGET=	chrome
+ALL_TARGET=	cefclient cefsimple ceftests chrome_sandbox
 
 BINARY_ALIAS=	python3=${PYTHON_CMD}
 
@@ -309,5 +309,14 @@ pre-configure:
 	@${REINPLACE_CMD} -e 's|$${LOCALBASE}|${LOCALBASE}|;s|$${MODCLANG_VERSION}|${LLVM_DEFAULT}|' \
 		${WRKDIR}/chromium-${CHROMIUM}/build/rust/rust_bindgen.gni \
 		${WRKDIR}/chromium-${CHROMIUM}/build/rust/rust_bindgen_generator.gni
+
+do-configure:
+	${MV} ${WRKDIR}/${PORTNAME}-${GH_TAGNAME}/ ${WRKDIR}/chromium-${CHROMIUM}/src/cef
+
+	cd ${WRKDIR}/chromium-${CHROMIUM} && ${SETENV} ${CONFIGURE_ENV} CC=${CC} CXX=${CXX} LD=${CXX} \
+		READELF=${READELF} AR=${AR} NM=${NM} ${PYTHON_CMD} \
+		./tools/gn/bootstrap/bootstrap.py ${GN_BOOTSTRAP_FLAGS}
+	cd ${WRKDIR}/chromium-${CHROMIUM} && ${SETENV} ${CONFIGURE_ENV} ./out/${BUILDTYPE}/gn \
+		gen --args='${GN_ARGS}' out/${BUILDTYPE}
 
 .include <bsd.port.post.mk>
