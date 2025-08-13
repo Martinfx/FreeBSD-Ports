@@ -2,7 +2,7 @@ PORTNAME=	cef
 PORTVERSION=	G20250813
 PULSEMV=	16
 PULSEV=		${PULSEMV}.1
-CHROMIUM=	139.0.7258.0
+CHROMIUM=	139.0.7258.66
 CATEGORIES=	www wayland
 MASTER_SITES=	https://commondatastorage.googleapis.com/chromium-browser-official/:source1 \
 		https://nerd.hu/distfiles/:external \
