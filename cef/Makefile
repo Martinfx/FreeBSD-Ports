@@ -312,6 +312,8 @@ pre-configure:
 		${WRKDIR}/chromium-${CHROMIUM}/build/rust/rust_bindgen_generator.gni
 
 do-configure:
+	${MKDIR} ${WRKDIR}/chromium-${CHROMIUM}/src
+	${MKDIR} ${WRKDIR}/chromium-${CHROMIUM}/src/cef
 	${CP} -vR ${WRKDIR}/${PORTNAME}-${GH_TAGNAME}/ ${WRKDIR}/chromium-${CHROMIUM}/src/cef
 
 	cd ${WRKDIR}/chromium-${CHROMIUM} && ${SETENV} ${CONFIGURE_ENV} CC=${CC} CXX=${CXX} LD=${CXX} \
