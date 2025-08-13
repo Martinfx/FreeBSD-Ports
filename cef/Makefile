@@ -316,10 +316,10 @@ do-configure:
 	${MKDIR} ${WRKDIR}/chromium-${CHROMIUM}/src/cef
 	${CP} -vR ${WRKDIR}/${PORTNAME}-${GH_TAGNAME}/ ${WRKDIR}/chromium-${CHROMIUM}/src/cef
 
-	cd ${WRKDIR}/chromium-${CHROMIUM} && ${SETENV} ${CONFIGURE_ENV} CC=${CC} CXX=${CXX} LD=${CXX} \
+	cd ${WRKDIR}/chromium-${CHROMIUM}/src && ${SETENV} ${CONFIGURE_ENV} CC=${CC} CXX=${CXX} LD=${CXX} \
 		READELF=${READELF} AR=${AR} NM=${NM} ${PYTHON_CMD} \
 		./tools/gn/bootstrap/bootstrap.py ${GN_BOOTSTRAP_FLAGS}
-	cd ${WRKDIR}/chromium-${CHROMIUM} && ${SETENV} ${CONFIGURE_ENV} ./out/${BUILDTYPE}/gn \
+	cd ${WRKDIR}/chromium-${CHROMIUM}/src && ${SETENV} ${CONFIGURE_ENV} ./out/${BUILDTYPE}/gn \
 		gen --args='${GN_ARGS}' out/${BUILDTYPE}
 
 .include <bsd.port.post.mk>
