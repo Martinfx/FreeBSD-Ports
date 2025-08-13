@@ -308,6 +308,4 @@ pre-configure:
 		${WRKSRC}/build/rust/rust_bindgen.gni \
 		${WRKSRC}/build/rust/rust_bindgen_generator.gni
 
-
-
-.include <bsd.port.mk>
+.include <bsd.port.post.mk>
