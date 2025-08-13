@@ -300,10 +300,10 @@ pre-configure:
 	cd ${WRKDIR}/chromium-${CHROMIUM}/media/ffmpeg && \
 		${PYTHON_CMD} scripts/build_ffmpeg.py freebsd ${FFMPEG_TARGET} \
 		--config-only --branding=${FFMPEG_BRAND}
-	cd ${WRKDIR}/chromium-${CHROMIUM}/${FFMPEG_BDIR} && ${GMAKE} ffversion.h
+	cd ${WRKDIR}/chromium-${CHROMIUM}${FFMPEG_BDIR} && ${GMAKE} ffversion.h
 	${MKDIR} ${FFMPEG_CDIR}
 .for _e in config.h config.asm config_components.h libavcodec libavformat libavutil
-	-${CP} -pR ${WRKDIR}/chromium-${CHROMIUM}/${FFMPEG_BDIR}/${_e} ${FFMPEG_CDIR}
+	-${CP} -pR ${WRKDIR}/chromium-${CHROMIUM}${FFMPEG_BDIR}/${_e} ${FFMPEG_CDIR}
 .endfor
 	touch ${WRKDIR}/pulseaudio-${PULSEV}/src/pulse/version.h
 	@${REINPLACE_CMD} -e 's|$${LOCALBASE}|${LOCALBASE}|;s|$${MODCLANG_VERSION}|${LLVM_DEFAULT}|' \
