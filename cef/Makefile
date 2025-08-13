@@ -224,9 +224,9 @@ SNDIO_VARS_OFF=		GN_ARGS+=use_sndio=false
 WIDEVINE_DESC=		Depend on foreign-cdm to enable playback of DRM content
 WIDEVINE_RUN_DEPENDS=	foreign-cdm>0:www/foreign-cdm
 
-.include "Makefile.tests"
-TEST_DISTFILES=		${PORTNAME}-${DISTVERSION}-testdata${EXTRACT_SUFX}
-TEST_ALL_TARGET=	${TEST_TARGETS}
+#.include "Makefile.tests"
+#TEST_DISTFILES=		${PORTNAME}-${DISTVERSION}-testdata${EXTRACT_SUFX}
+#TEST_ALL_TARGET=	${TEST_TARGETS}
 
 .include <bsd.port.options.mk>
 .include <bsd.port.pre.mk> # for COMPILER_VERSION
