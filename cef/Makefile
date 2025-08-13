@@ -278,6 +278,7 @@ GN_ARGS+=	enable_rust=true \
 		rustc_version="${RUSTC_VERSION}"
 
 PATCH_WRKSRC=	${WRKDIR}/chromium-${CHROMIUM}
+WRKSRC=		${WRKDIR}/chromium-${CHROMIUM}/src
 
 pre-everything::
 	@${ECHO_MSG}
