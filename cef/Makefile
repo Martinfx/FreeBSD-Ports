@@ -91,7 +91,7 @@ USE_GITHUB=	yes
 GH_ACCOUNT=	chromiumembedded
 GH_PROJECT=	cef
 GH_TAGNAME=	18c5467
-SHEBANG_FILES=	chrome/tools/build/linux/chrome-wrapper #buildtools/linux64/clang-format
+#SHEBANG_FILES=	chrome/tools/build/linux/chrome-wrapper #buildtools/linux64/clang-format
 
 MAKE_ARGS=	-C out/${BUILDTYPE}
 ALL_TARGET=	chrome
