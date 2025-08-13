@@ -301,7 +301,7 @@ pre-configure:
 		${PYTHON_CMD} scripts/build_ffmpeg.py freebsd ${FFMPEG_TARGET} \
 		--config-only --branding=${FFMPEG_BRAND}
 	cd ${FFMPEG_BDIR} && ${GMAKE} ffversion.h
-	${MKDIR} $${FFMPEG_CDIR}
+	${MKDIR} ${FFMPEG_CDIR}
 .for _e in config.h config.asm config_components.h libavcodec libavformat libavutil
 	-${CP} -vpR ${FFMPEG_BDIR}/${_e} ${FFMPEG_CDIR}
 .endfor
