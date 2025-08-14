@@ -38,9 +38,12 @@ do-install:
 	${INSTALL_DATA} ${WRKSRC}/build/libarm_compute_graph.so \
                 ${STAGEDIR}${PREFIX}/lib/libarm_compute_graph.so
 	${INSTALL_DATA} ${WRKSRC}/build/*.a ${STAGEDIR}${PREFIX}/lib
-	${INSTALL_DATA} ${WRKSRC}/examples/*.{h,cpp} \
-		${PREFIX}/share/examples/arm-compute-library
+	${MKDIR} ${STAGEDIR}${PREFIX}/share/examples/arm-compute-library
+	${INSTALL_DATA} ${WRKSRC}/examples/*.h \
+		${STAGEDIR}${PREFIX}/share/examples/arm-compute-library
+	${INSTALL_DATA} ${WRKSRC}/examples/*.cpp \
+		${STAGEDIR}${PREFIX}/share/examples/arm-compute-library
 	${CP} -R ${WRKSRC}/examples/gemm_tuner \
-		${PREFIX}/share/examples/arm-compute-library
+		${STAGEDIR}${PREFIX}/share/examples/arm-compute-library
 
 .include <bsd.port.post.mk>
