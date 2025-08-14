@@ -31,7 +31,7 @@ do-install:
 .for dir in arm_compute support utils
 	${CP} -vR ${WRKSRC}/${dir} ${STAGEDIR}${PREFIX}/include
 .endfor
-	${INSTALL_DATA}	${WRKSRC}/include/* ${STAGEDIR}${PREFIX}/include
+	${INSTALL_DATA}	${WRKSRC}/include/ ${STAGEDIR}${PREFIX}/include
 	${INSTALL_DATA} ${WRKSRC}/build/libarm_compute.so \
                 ${STAGEDIR}${PREFIX}/lib/libarm_compute.so
 	${INSTALL_DATA} ${WRKSRC}/build/libarm_compute_graph.so \
