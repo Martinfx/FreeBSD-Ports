@@ -5,9 +5,8 @@
          ${CMAKE_SOURCE_DIR}/app/windows
          ${CMAKE_SOURCE_DIR}/../vendor/unicorn/include
 -        ${CMAKE_SOURCE_DIR}/../vendor/keystone/include
--        ${CMAKE_SOURCE_DIR}/../vendor/capstone/include
 +        #${CMAKE_SOURCE_DIR}/../vendor/keystone/include
-+        #${CMAKE_SOURCE_DIR}/../vendor/capstone/include
+         ${CMAKE_SOURCE_DIR}/../vendor/capstone/include
          ${CMAKE_SOURCE_DIR}/../vendor/whereami/src
 -        ${CMAKE_SOURCE_DIR}/../vendor/icicle-cpp
 +#        ${CMAKE_SOURCE_DIR}/../vendor/icicle-cpp
