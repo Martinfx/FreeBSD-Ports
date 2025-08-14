@@ -19,10 +19,13 @@ LIB_DEPENDS=	libunicorn.so:emulators/unicorn \
 		libglfw.so:graphics/glfw
 
 USES=		cmake gl pkgconfig localbase
+USE_GCC=	yes
 USE_GL=		gl glu
 USE_GITHUB=	yes
 GH_ACCOUNT=	ZathuraDbg
 GH_PROJECT=	ZathuraDbg
+#CXXLDFLAGS=	-lc++ -lc++abi
+
 
 CMAKE_SOURCE_PATH=	${WRKSRC}/src
 

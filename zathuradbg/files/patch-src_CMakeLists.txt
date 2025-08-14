@@ -5,8 +5,9 @@
          ${CMAKE_SOURCE_DIR}/app/windows
          ${CMAKE_SOURCE_DIR}/../vendor/unicorn/include
 -        ${CMAKE_SOURCE_DIR}/../vendor/keystone/include
+-        ${CMAKE_SOURCE_DIR}/../vendor/capstone/include
 +        #${CMAKE_SOURCE_DIR}/../vendor/keystone/include
-         ${CMAKE_SOURCE_DIR}/../vendor/capstone/include
++        #${CMAKE_SOURCE_DIR}/../vendor/capstone/include
          ${CMAKE_SOURCE_DIR}/../vendor/whereami/src
 -        ${CMAKE_SOURCE_DIR}/../vendor/icicle-cpp
 +#        ${CMAKE_SOURCE_DIR}/../vendor/icicle-cpp
@@ -38,7 +39,7 @@
  #    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -g")
  #    set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} -fsanitize=address")
 -    set(LIBS ${GLFW_LDFLAGS} -lGL -ldl -lstdc++ -lkeystone -lcapstone -L/usr/lib -L/usr/local/lib -licicle -lssl -lcrypto)
-+    set(LIBS ${GLFW_LDFLAGS} -lGL -ldl -lstdc++ -lkeystone -lcapstone -licicle -lssl -lcrypto)
++    set(LIBS ${GLFW_LDFLAGS} -lGL lkeystone -lcapstone -licicle -lssl -lcrypto)
  elseif (APPLE)
      message("Mac OS X")
      find_library(GLFW_LIB glfw3)
