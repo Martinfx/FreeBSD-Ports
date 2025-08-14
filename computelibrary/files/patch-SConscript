@@ -1,0 +1,11 @@
+--- SConscript.orig	2025-07-01 09:33:23 UTC
++++ SConscript
+@@ -399,7 +399,7 @@ arm_compute_env.AlwaysBuild(version_file)
+ version_file = arm_compute_env.Command("src/core/arm_compute_version.embed", "", action=create_version_file)
+ arm_compute_env.AlwaysBuild(version_file)
+ 
+-default_cpp_compiler = 'g++' if env['os'] not in ['android', 'macos', 'openbsd'] else 'clang++'
++default_cpp_compiler = 'g++' if env['os'] not in ['android', 'macos', 'openbsd', 'freebsd' 'freebsd'] else 'clang++'
+ cpp_compiler = os.environ.get('CXX', default_cpp_compiler)
+ 
+ # Generate embed files
