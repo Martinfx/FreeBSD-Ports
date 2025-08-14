@@ -1,0 +1,10 @@
+--- sleigh/sleigh-compile/Cargo.toml.orig	2025-07-27 15:15:31 UTC
++++ sleigh/sleigh-compile/Cargo.toml
+@@ -1,6 +1,6 @@ name = "sleigh-compile"
+ [package]
+ name = "sleigh-compile"
+-version = "0.3.0"
++version = "0.3.1"
+ edition = "2021"
+ 
+ [dependencies]
