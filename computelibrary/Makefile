@@ -8,15 +8,16 @@ COMMENT=	Arm compute library
 WWW=		https://github.com/ARM-software/ComputeLibrary
 
 LICENSE=	MIT
-LICENSE_FILE=	${WRKSRC}/LICENSE
+LICENSE_FILE=	${WRKSRC}/LICENSES/MIT.txt
 
 ONLY_FOR_ARCHS=	aarch64 amd64 armv7
 
 USES=		scons
-USE_GCC=	yes
+#USE_GCC=	yes
 USE_GITHUB=	yes
 GH_ACCOUNT=	ARM-software
 GH_PROJECT=	ComputeLibrary
+INSTALL_TARGET=	install-strip
 
 .include <bsd.port.pre.mk>
 

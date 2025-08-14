@@ -1,6 +1,6 @@
---- arm_compute/core/utils/misc/Utility.h.orig	2023-02-16 15:41:23 UTC
+--- arm_compute/core/utils/misc/Utility.h.orig	2025-07-01 09:33:23 UTC
 +++ arm_compute/core/utils/misc/Utility.h
-@@ -31,6 +31,7 @@
+@@ -36,6 +36,7 @@
  #include <limits>
  #include <numeric>
  #include <vector>
