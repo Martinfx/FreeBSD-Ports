@@ -1,6 +1,6 @@
 PORTNAME=	ComputeLibrary
 DISTVERSIONPREFIX=v
-DISTVERSION=	23.02
+DISTVERSION=	52.3.0
 CATEGORIES=	devel
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -28,9 +28,9 @@ MAKE_ARGS=	${SCONS_ARGS}
 
 do-install:
 .for dir in arm_compute support utils
-	cp -Rv ${WRKSRC}/${dir} ${STAGEDIR}${PREFIX}/include
+	${CP} -Rv ${WRKSRC}/${dir} ${STAGEDIR}${PREFIX}/include
 .endfor
-	cp -Rv ${WRKSRC}/include/* ${STAGEDIR}${PREFIX}/include
+	${CP} -Rv ${WRKSRC}/include/* ${STAGEDIR}${PREFIX}/include
 	${INSTALL_DATA} ${WRKSRC}/build/libarm_compute.so \
                 ${STAGEDIR}${PREFIX}/lib/libarm_compute.so
 	${INSTALL_DATA} ${WRKSRC}/build/libarm_compute_graph.so \
