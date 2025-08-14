@@ -26,6 +26,7 @@ SCONS_ARGS_aarch64=	neon=1 opencl=0 examples=0 arch=arm64-v8a
 SCONS_ARGS_armv7=	neon=1 opencl=0 examples=0 arch=armv7a
 SCONS_ARGS+= 		os=freebsd Werror=0 embed_kernels=0 build=native ${SCONS_ARGS_${ARCH}}
 MAKE_ARGS=	${SCONS_ARGS}
+TEST_TARGET=	test
 
 do-install:
 .for dir in arm_compute support utils
@@ -37,5 +38,9 @@ do-install:
 	${INSTALL_DATA} ${WRKSRC}/build/libarm_compute_graph.so \
                 ${STAGEDIR}${PREFIX}/lib/libarm_compute_graph.so
 	${INSTALL_DATA} ${WRKSRC}/build/*.a ${STAGEDIR}${PREFIX}/lib
+	${INSTALL_DATA} ${WRKSRC}/examples/*.{h,cpp} \
+		${PREFIX}/share/examples/arm-compute-library
+	${CP} -R ${WRKSRC}/examples/gemm_tuner \
+		${PREFIX}/share/examples/arm-compute-library
 
 .include <bsd.port.post.mk>
