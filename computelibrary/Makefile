@@ -29,9 +29,9 @@ MAKE_ARGS=	${SCONS_ARGS}
 
 do-install:
 .for dir in arm_compute support utils
-	${CP} -Rv ${WRKSRC}/${dir} ${STAGEDIR}${PREFIX}/include
+	${INSTALL_DATA}	${WRKSRC}/${dir} ${STAGEDIR}${PREFIX}/include
 .endfor
-	${CP} -Rv ${WRKSRC}/include/* ${STAGEDIR}${PREFIX}/include
+	${INSTALL_DATA}	${WRKSRC}/include/* ${STAGEDIR}${PREFIX}/include
 	${INSTALL_DATA} ${WRKSRC}/build/libarm_compute.so \
                 ${STAGEDIR}${PREFIX}/lib/libarm_compute.so
 	${INSTALL_DATA} ${WRKSRC}/build/libarm_compute_graph.so \
