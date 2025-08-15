@@ -1,4 +1,4 @@
---- Makefile.orig    2024-04-12 21:12:28 UTC
+--- Makefile.orig	2024-05-24 00:09:14 UTC
 +++ Makefile
 @@ -19,7 +19,7 @@ endif
  ifeq ($(WANT_PYTHON_BINDINGS),1)
@@ -8,3 +8,4 @@
 +#QMAKE_FLAGS+=PREFIX=$(PREFIX)
  
  all: iaito
+ 
