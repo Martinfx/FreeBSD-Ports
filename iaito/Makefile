@@ -1,60 +1,61 @@
 PORTNAME=	iaito
-PORTVERSION=	5.9.0
-CATEGORIES=	x11
+DISTVERSION=	6.0.0
+CATEGORIES=	devel
+
+PATCH_SITES=	https://github.com/radareorg/iaito/commit/
+#PATCHFILES+=	14d843c138defd36b8550c37f067e64d6b8316fb.patch:-p1 # Fix build with Qt >= 6.9.0
 
 MAINTAINER=	freebsd@sysctl.cz
-COMMENT=	Official QT frontend of radare2
+COMMENT=	Official QT frontend of radare2, a libre reverse engineering framework
 WWW=		https://github.com/radareorg/iaito
 
 LICENSE=	GPLv3
 
-BUILD_DEPENDS=	radare2>0:devel/radare2
+BROKEN_i386=	error: non-constant-expression cannot be narrowed from type 'const unsigned long long' to 'size_t' (aka 'unsigned int')
 
-LIB_DEPENDS=	libr_core.so:devel/radare2 \
-		libcapstone.so:devel/capstone \
-		libr_config.so:devel/radare2 \
-		libr_debug.so:devel/radare2 \
-		libr_bin.so:devel/radare2 \
-		libr_lang.so:devel/radare2 \
-		libr_anal.so:devel/radare2 \
-		libr_bp.so:devel/radare2 \
-		libr_egg.so:devel/radare2 \
-		libr_asm.so:devel/radare2 \
-		libr_flag.so:devel/radare2 \
-		libr_cons.so:devel/radare2 \
-		libr_reg.so:devel/radare2 \
-		libr_search.so:devel/radare2 \
-		libr_syscall.so:devel/radare2 \
-		libr_socket.so:devel/radare2 \
-		libr_fs.so:devel/radare2 \
-		libr_util.so:devel/radare2 \
-		libr_io.so:devel/radare2 \
-		libr_magic.so:devel/radare2 \
-		libr_crypto.so:devel/radare2 \
-		libr_arch.so:devel/radare2 \
-		libr_esil.so:devel/radare2 \
-		libGL.so:graphics/libglvnd \
+LIB_DEPENDS=	libcapstone.so:devel/capstone \
+		libr_core.so:devel/radare2
 
-USES=		gmake ssl qt:5 pkgconfig qmake:no_configure
-USE_QT=		svg widgets gui network core linguisttools buildtools
-USE_GL=		gl
-MAKE_ENV=	QMAKE_FLAGS="PREFIX=${STAGEDIR}${PREFIX}"\
-		DESTDIR=${STAGEDIR}${PREFIX}
-GNU_CONFIGURE=	yes
+FLAVORS=		qt6 qt5
+FLAVOR?=		qt6
+qt5_PKGNAMESUFFIX=	-qt5
+qt6_PKGNAMESUFFIX=	-qt6
 
+USES=		compiler:c++17-lang desktop-file-utils gl gmake pkgconfig \
+		qmake:no_configure
 USE_GITHUB=	yes
 GH_ACCOUNT=	radareorg
-GH_PROJECT=	iaito
+GNU_CONFIGURE=	yes
+
+.if ${FLAVOR} == qt5
+USES+=		qt:5
+USE_GL=		gl
+USE_QT=		core gui network svg widgets \
+		buildtools:build linguisttools:build qmake:build
+.else
+USES+=		qt:6
+USE_GL=		opengl
+USE_QT=		base svg
+CONFIGURE_ARGS=	--with-qmake6
+.endif
+
+MAKE_ENV=	DESTDIR=${STAGEDIR}${PREFIX} \
+		QMAKE_FLAGS="PREFIX=${STAGEDIR}${PREFIX}"
+
+PLIST_FILES=	bin/iaito \
+		share/applications/org.radare.iaito.desktop \
+		share/icons/hicolor/scalable/apps/org.radare.iaito.svg \
+		share/metainfo/org.radare.iaito.appdata.xml
 
 do-install:
 	${INSTALL_PROGRAM} ${WRKSRC}/build/${PORTNAME} ${STAGEDIR}${PREFIX}/bin
-	${INSTALL_DATA} ${WRKSRC}/src/org.radare.${PORTNAME}.desktop \
+	${INSTALL_DATA} ${WRKSRC}/src/org.radare.iaito.desktop \
 			${STAGEDIR}${DESKTOPDIR}
 	${MKDIR} ${STAGEDIR}${PREFIX}/share/icons/hicolor/scalable/apps
 	${INSTALL_DATA} ${WRKSRC}/src/img/org.radare.iaito.svg \
-		${STAGEDIR}${PREFIX}/share/icons/hicolor/scalable/apps
+			${STAGEDIR}${PREFIX}/share/icons/hicolor/scalable/apps
 	${MKDIR} ${STAGEDIR}${PREFIX}/share/metainfo
 	${INSTALL_DATA} ${WRKSRC}/src/org.radare.iaito.appdata.xml \
-		${STAGEDIR}${PREFIX}/share/metainfo
+			${STAGEDIR}${PREFIX}/share/metainfo
 
 .include <bsd.port.mk>
