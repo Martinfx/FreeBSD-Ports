@@ -52,7 +52,6 @@ share/openxray/gamedata/configs/text/eng/openxray.xml
 share/openxray/gamedata/configs/text/ger/openxray.xml
 share/openxray/gamedata/configs/text/pol/openxray.xml
 share/openxray/gamedata/configs/text/rus/openxray.xml
-share/openxray/gamedata/configs/text/ukr/openxray.xml
 share/openxray/gamedata/configs/ui/styles_/ui_style_cs/actor_menu.xml
 share/openxray/gamedata/configs/ui/styles_/ui_style_cs/actor_menu_16.xml
 share/openxray/gamedata/configs/ui/styles_/ui_style_cs/actor_menu_item.xml
@@ -219,17 +218,12 @@ share/openxray/gamedata/configs/ui/styles_/ui_style_cs/zone_map.xml
 share/openxray/gamedata/configs/ui/styles_/ui_style_cs/zone_map_16.xml
 share/openxray/gamedata/configs/ui/ui_keybinding.xml
 share/openxray/gamedata/configs/ui/ui_keybinding_gamepad.xml
-share/openxray/gamedata/configs/ui/ui_mm_load_dlg.xml
-share/openxray/gamedata/configs/ui/ui_mm_load_dlg_16.xml
 share/openxray/gamedata/configs/ui/ui_mm_opt.xml
 share/openxray/gamedata/configs/ui/ui_mm_opt_16.xml
-share/openxray/gamedata/configs/ui/ui_mm_save_dlg.xml
-share/openxray/gamedata/configs/ui/ui_mm_save_dlg_16.xml
 share/openxray/gamedata/scripts/.gitattributes
 share/openxray/gamedata/scripts/bind_anomaly_field.script
 share/openxray/gamedata/scripts/bind_smart_cover.script
 share/openxray/gamedata/scripts/bind_stalker.script
-share/openxray/gamedata/scripts/profiler.script
 share/openxray/gamedata/scripts/ssfx_001_mcm.script
 share/openxray/gamedata/scripts/ssfx_001_settings.script
 share/openxray/gamedata/scripts/ssfx_interactive_grass.script
@@ -1410,3 +1404,9 @@ share/openxray/gamedata/textures/water/water_water_r1.dds
 share/pixmaps/openxray_cop.png
 share/pixmaps/openxray_cs.png
 share/pixmaps/openxray_soc.png
+share/openxray/gamedata/configs/text/ukr/openxray.xml
+share/openxray/gamedata/configs/ui/ui_mm_load_dlg.xml
+share/openxray/gamedata/configs/ui/ui_mm_load_dlg_16.xml
+share/openxray/gamedata/configs/ui/ui_mm_save_dlg.xml
+share/openxray/gamedata/configs/ui/ui_mm_save_dlg_16.xml
+share/openxray/gamedata/scripts/profiler.script
