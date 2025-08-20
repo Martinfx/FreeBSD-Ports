@@ -1,3 +1,3 @@
-TIMESTAMP = 1738605650
-SHA256 (podman-desktop-1.16.1.tar.gz) = aaa2d8313096e9614d75ca4ebaa204a57de5691390290c14e0b7d1f1f799dc39
-SIZE (podman-desktop-1.16.1.tar.gz) = 127312006
+TIMESTAMP = 1755716319
+SHA256 (podman-desktop-1.20.1.tar.gz) = 7afbb7428b5704d2657e4c7fc382104f78a6b29fd9656951d9b00b5871ab9733
+SIZE (podman-desktop-1.20.1.tar.gz) = 138404950

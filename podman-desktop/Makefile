@@ -1,5 +1,5 @@
 PORTNAME=	podman-desktop
-PORTVERSION=	1.16.1
+PORTVERSION=	1.20.1
 CATEGORIES=	deskutils
 MASTER_SITES=	https://github.com/containers/podman-desktop/releases/download/v${PORTVERSION}/
 
