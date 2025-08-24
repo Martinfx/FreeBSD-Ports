@@ -41,7 +41,7 @@ GH_ACCOUNT=	shadps4-emu
 GH_PROJECT=	shadPS4
 GH_TUPLE+=	shadps4-emu:ext-LibAtrac9:ec8899dadf393f655f2871a94e0fe4b3d6220c9a:libatrac/externals/LibAtrac9 \
 		HowardHinnant:date:a45ea7c:date/externals/date \
-		shadps4-emu:ext-imgui:f4d9359:imgui/externals/dear_imgui \
+		shadps4-emu:ext-imgui:636cd4a7d623a2bc9bf59bb3acbb4ca075befba3:imgui/externals/dear_imgui \
 		shadps4-emu:ext-discord-rpc:19f66e6:discord/externals/discord-rpc \
 		shadps4-emu:ext-boost:ca6f230e67be7cc45fc919057f07b2aee64dadc1:boost/externals/ext-boost \
 		shadps4-emu:ext-fmt:8ee89546ffcf046309d1f0d38c0393f02fde56c8:fmt/externals/fmt \
