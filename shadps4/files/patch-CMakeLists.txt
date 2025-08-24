@@ -1,0 +1,38 @@
+--- CMakeLists.txt.orig	2025-03-22 22:14:04 UTC
++++ CMakeLists.txt
+@@ -16,6 +16,8 @@ endif()
+     set(CMAKE_BUILD_TYPE Release)
+ endif()
+ 
++set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g -fno-omit-frame-pointer")
++
+ project(shadPS4 CXX C ASM ${ADDITIONAL_LANGUAGES})
+ 
+ # Forcing PIE makes sure that the base address is high enough so that it doesn't clash with the PS4 memory.
+@@ -54,7 +56,7 @@ if (ARCHITECTURE STREQUAL "x86_64")
+ 
+ if (ARCHITECTURE STREQUAL "x86_64")
+     # Set x86_64 target level to Sandy Bridge to generally match what is supported for PS4 guest code with CPU patches.
+-    add_compile_options(-march=sandybridge)
++    #add_compile_options(-march=sandybridge)
+ endif()
+ 
+ if (APPLE AND ARCHITECTURE STREQUAL "x86_64" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "arm64")
+@@ -180,7 +182,7 @@ endif()
+     find_package(cryptopp 8.9.0 MODULE)
+ endif()
+ 
+-if (APPLE)
++if (APPLE OR CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
+     find_package(date 3.0.1 CONFIG)
+ endif()
+ 
+@@ -1157,7 +1159,7 @@ install(TARGETS shadps4 BUNDLE DESTINATION .)
+ # Install rules
+ install(TARGETS shadps4 BUNDLE DESTINATION .)
+ 
+-if (ENABLE_QT_GUI AND CMAKE_SYSTEM_NAME STREQUAL "Linux")
++if (ENABLE_QT_GUI AND CMAKE_SYSTEM_NAME STREQUAL "Linux" OR CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
+     install(FILES "dist/net.shadps4.shadPS4.desktop" DESTINATION "share/applications")
+     install(FILES "dist/net.shadps4.shadPS4.metainfo.xml" DESTINATION "share/metainfo")
+     install(FILES ".github/shadps4.png" DESTINATION "share/icons/hicolor/512x512/apps" RENAME "net.shadps4.shadPS4.png")
