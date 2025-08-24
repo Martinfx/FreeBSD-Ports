@@ -1,4 +1,4 @@
---- externals/CMakeLists.txt.orig	2025-03-27 20:40:40 UTC
+--- externals/CMakeLists.txt.orig	2025-03-22 22:14:04 UTC
 +++ externals/CMakeLists.txt
 @@ -42,8 +42,8 @@ if (NOT TARGET FFmpeg::ffmpeg)
  endif()
@@ -11,15 +11,6 @@
  endif()
  
  # LibAtrac9
-@@ -196,7 +196,7 @@ else()
- if (CMAKE_BUILD_TYPE STREQUAL "Release")
-     option(TRACY_ENABLE "" OFF)
- else()
--    option(TRACY_ENABLE "" ON)
-+    option(TRACY_ENABLE "" OFF)
- endif()
- option(TRACY_NO_CRASH_HANDLER "" ON) # Otherwise texture cache exceptions will be treaten as a crash
- option(TRACY_ON_DEMAND "" ON)
 @@ -231,14 +231,15 @@ endif()
  endif()
  
