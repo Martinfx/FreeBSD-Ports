@@ -1,10 +1,6 @@
 PORTNAME=	iaito
 DISTVERSION=	6.0.0
 CATEGORIES=	devel
-
-PATCH_SITES=	https://github.com/radareorg/iaito/commit/
-#PATCHFILES+=	14d843c138defd36b8550c37f067e64d6b8316fb.patch:-p1 # Fix build with Qt >= 6.9.0
-
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Official QT frontend of radare2, a libre reverse engineering framework
 WWW=		https://github.com/radareorg/iaito
