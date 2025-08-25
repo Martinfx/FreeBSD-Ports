@@ -1,0 +1,19 @@
+--- CMakeLists.txt.orig	2025-08-25 03:36:05 UTC
++++ CMakeLists.txt
+@@ -208,12 +208,12 @@ endif()
+ ##################
+ # Automated Tests
+ ##
+-enable_testing()
++#enable_testing()
+ 
+ 
+-if(BUILD_TESTING)
+-  add_subdirectory(test)
+-endif()
++#if(BUILD_TESTING)
++#  add_subdirectory(test)
++#endif()
+ 
+ ###############
+ # Installation
