@@ -4240,5 +4240,5 @@ share/icons/hicolor/96x96/apps/wps-office2019-wpsmain.png
 @dir %%LINUXBASE%%/opt/kingsoft
 @dir %%LINUXBASE%%/opt
 @dir %%LINUXBASE%%
-@dir /compat@owner
 @dir /compat
+@owner
