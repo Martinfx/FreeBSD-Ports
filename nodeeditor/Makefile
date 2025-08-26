@@ -18,14 +18,10 @@ GH_PROJECT=	nodeeditor
 USE_GL=		gl
 USE_QT=		base
 
-CMAKE_ARGS=	-DBUILD_DOCS=OFF -D_BUILD_TESTING=OFF
+CMAKE_ARGS=	-DBUILD_DOCS=OFF
 
 post-patch:
 	@${FIND} ${WRKSRC} -type f | ${XARGS} ${REINPLACE_CMD} \
 		-E -e 's|#include <catch2/catch.hpp>|#include <catch2/catch_all.hpp>|g'
-
-post-extract:
-	${MKDIR} ${WRKDIR}/.build/external/Catch2/single_include/catch2
-	${LN} -s ${DISTDIR}/catch.hpp ${WRKDIR}/.build/external/Catch2/single_include/catch2
 
 .include <bsd.port.mk>
