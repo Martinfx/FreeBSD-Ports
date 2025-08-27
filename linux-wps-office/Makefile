@@ -1,26 +1,30 @@
 PORTNAME=	wps-office
-DISTVERSION=	11.1.0.10161
+DISTVERSION=	11.1.0.11723
 CATEGORIES=	editors linux
-MASTER_SITES=	https://wdl1.pcfg.cache.wpscdn.com/wpsdl/wpsoffice/download/linux/10161/
+MASTER_SITES=	https://wdl1.pcfg.cache.wpscdn.com/wpsdl/wpsoffice/download/linux/11723/
 PKGNAMEPREFIX=	linux-
 DISTNAME=	${PORTNAME}-${PORTVERSION}.XA-1.x86_64
-EXTRACT_SUFX=   .rpm
+EXTRACT_SUFX=	.rpm
 
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Complete office suite with PDF editor
+WWW=		https://www.wps.com/
 
 LICENSE=	commercial
 LICENSE_NAME=	End User License Agreement
 LICENSE_TEXT=	See: https://www.wps.com/eula
 LICENSE_PERMS=	no-auto-accept no-dist-mirror no-dist-sell no-pkg-mirror no-pkg-sell
 
-ONLY_FOR_ARCHS= amd64
+ONLY_FOR_ARCHS=	amd64
 
-USES=		desktop-file-utils linux shebangfix
+USES=		desktop-file-utils linux:rl9 shebangfix
 INSTALLS_ICONS=	yes
-USE_LINUX=	png pulseaudio-libs xorglibs
+USE_LINUX=	imageformats-libs pulseaudio-libs xorglibs libglvnd gtk3 cups-libs
 
-SHEBANG_FILES= 	usr/bin/et \
+RUN_DEPENDS=	linux-rl9-libxslt>0:textproc/linux-rl9-libxslt
+
+
+SHEBANG_FILES=	usr/bin/et \
 		usr/bin/wpp \
 		usr/bin/wps \
 		usr/bin/wpspdf
@@ -41,7 +45,7 @@ post-patch:
 .endfor
 
 do-install:
-.for s in 16 20 24 32 40 48 60 64 72 80 96 128 256 512
+.for s in 16 24 32 48 64 96 128 256 512
 	${MKDIR} ${STAGEDIR}${PREFIX}/share/icons/hicolor/${s}x${s}/apps
 	${INSTALL_DATA} ${WRKSRC}/usr/share/icons/hicolor/${s}x${s}/mimetypes/*.png \
 		${STAGEDIR}${PREFIX}/share/icons/hicolor/${s}x${s}/apps/

@@ -14,11 +14,6 @@ lib/xrRender_GL.so
 lib/xrScriptEngine.so
 lib/xrSound.so
 lib/xrUICore.so
-lib/xrGameSpy.so
-lib/xrPhysics.so
-lib/xrODE.so
-lib/xrOPCODE.so
-lib/xrGame.so
 share/applications/openxray_cop.desktop
 share/applications/openxray_cs.desktop
 share/applications/openxray_soc.desktop
@@ -52,6 +47,7 @@ share/openxray/gamedata/configs/scripts/zaton/zat_b14_stalker_1.ltx
 share/openxray/gamedata/configs/shaders_new_default.ltx
 share/openxray/gamedata/configs/shaders_new_high.ltx
 share/openxray/gamedata/configs/shaders_vanilla.ltx
+share/openxray/gamedata/configs/text/cze/openxray.xml
 share/openxray/gamedata/configs/text/eng/openxray.xml
 share/openxray/gamedata/configs/text/ger/openxray.xml
 share/openxray/gamedata/configs/text/pol/openxray.xml
@@ -1408,3 +1404,9 @@ share/openxray/gamedata/textures/water/water_water_r1.dds
 share/pixmaps/openxray_cop.png
 share/pixmaps/openxray_cs.png
 share/pixmaps/openxray_soc.png
+share/openxray/gamedata/configs/text/ukr/openxray.xml
+share/openxray/gamedata/configs/ui/ui_mm_load_dlg.xml
+share/openxray/gamedata/configs/ui/ui_mm_load_dlg_16.xml
+share/openxray/gamedata/configs/ui/ui_mm_save_dlg.xml
+share/openxray/gamedata/configs/ui/ui_mm_save_dlg_16.xml
+share/openxray/gamedata/scripts/profiler.script
