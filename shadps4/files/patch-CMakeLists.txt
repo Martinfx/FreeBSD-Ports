@@ -18,7 +18,15 @@
  endif()
  
  if (APPLE AND ARCHITECTURE STREQUAL "x86_64" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "arm64")
-@@ -180,7 +182,7 @@ endif()
+@@ -168,6 +170,7 @@ find_package(tsl-robin-map 1.3.0 CONFIG)
+ find_package(stb MODULE)
+ find_package(toml11 4.2.0 CONFIG)
+ find_package(tsl-robin-map 1.3.0 CONFIG)
++find_package(tracy CONFIG)
+ find_package(VulkanHeaders 1.4.305 CONFIG)
+ find_package(VulkanMemoryAllocator 3.1.0 CONFIG)
+ find_package(xbyak 7.07 CONFIG)
+@@ -180,7 +183,7 @@ endif()
      find_package(cryptopp 8.9.0 MODULE)
  endif()
  
@@ -27,7 +35,16 @@
      find_package(date 3.0.1 CONFIG)
  endif()
  
-@@ -1157,7 +1159,7 @@ install(TARGETS shadps4 BUNDLE DESTINATION .)
+@@ -1001,7 +1004,7 @@ create_target_directory_groups(shadps4)
+ 
+ create_target_directory_groups(shadps4)
+ 
+-target_link_libraries(shadps4 PRIVATE magic_enum::magic_enum fmt::fmt toml11::toml11 tsl::robin_map xbyak::xbyak Tracy::TracyClient RenderDoc::API FFmpeg::ffmpeg Dear_ImGui gcn half::half ZLIB::ZLIB PNG::PNG)
++target_link_libraries(shadps4 PRIVATE magic_enum::magic_enum fmt::fmt toml11::toml11 tsl::robin_map xbyak::xbyak TracyClient RenderDoc::API FFmpeg::ffmpeg Dear_ImGui gcn half::half ZLIB::ZLIB PNG::PNG)
+ target_link_libraries(shadps4 PRIVATE Boost::headers GPUOpen::VulkanMemoryAllocator LibAtrac9 sirit Vulkan::Headers xxHash::xxhash Zydis::Zydis glslang::glslang SDL3::SDL3 pugixml::pugixml stb::headers cryptopp::cryptopp)
+ 
+ target_compile_definitions(shadps4 PRIVATE IMGUI_USER_CONFIG="imgui/imgui_config.h")
+@@ -1157,7 +1160,7 @@ install(TARGETS shadps4 BUNDLE DESTINATION .)
  # Install rules
  install(TARGETS shadps4 BUNDLE DESTINATION .)
  
