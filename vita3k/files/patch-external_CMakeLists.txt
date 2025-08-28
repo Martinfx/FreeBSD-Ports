@@ -1,4 +1,4 @@
---- external/CMakeLists.txt.orig	2025-04-23 19:43:02 UTC
+--- external/CMakeLists.txt.orig	2025-08-28 04:25:40 UTC
 +++ external/CMakeLists.txt
 @@ -7,29 +7,29 @@ set(CMAKE_POLICY_DEFAULT_CMP0077 "NEW")
  # created or updated and is ignored if it exists.
@@ -52,7 +52,7 @@
  # Set folder for external projects (for project tree in IDE)
  set(CMAKE_FOLDER externals)
  
-@@ -381,7 +381,7 @@ option(XXH_X86DISPATCH_ALLOW_AVX "Allow building XXH3 
+@@ -369,7 +369,7 @@ option(XXH_X86DISPATCH_ALLOW_AVX "Allow building XXH3 
  option(BUILD_SHARED_LIBS "Build shared library" OFF)
  option(XXHASH_BUILD_XXHSUM "Build the xxhsum binary" OFF)
  option(XXH_X86DISPATCH_ALLOW_AVX "Allow building XXH3 with AVX even if it crashes on SSE2-Only CPUs" OFF)

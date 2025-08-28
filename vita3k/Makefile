@@ -16,7 +16,7 @@ USE_GL=		gl opengl
 USE_GITHUB=	yes
 GH_ACCOUNT=	Vita3K
 GH_PROJECT=	Vita3K
-GH_TAGNAME=	b9cf81a
+GH_TAGNAME=	4e526f0c8057e4eae0e00a323d7d4c58cdee8813
 GH_TUPLE+=	Vita3K:LibAtrac9:82767fe38823c32536726ea798f392b0b49e66b9:libatrac/external/LibAtrac9 \
 		KhronosGroup:SPIRV-Cross:bccaa94db814af33d8ef05c153e7c34d8bd4d685:spirv/external/SPIRV-Cross \
 		YaaZ:VulkanMemoryAllocator-Hpp:2059f0fdd73492b03d60a90c73e5038224b99093:vulkanmemory/external/VulkanMemoryAllocator-Hpp \
@@ -32,7 +32,7 @@ GH_TUPLE+=	Vita3K:LibAtrac9:82767fe38823c32536726ea798f392b0b49e66b9:libatrac/ex
 		Vita3K:dynarmic:838ac0f79288d2d0485345022b3d842bc2bf77bc:dynarmic/external/dynarmic \
 		Vita3K:ffmpeg-core:434b71f3c16a949dffd275dcd8bee89fb637cddd:ffmpeg/external/ffmpeg \
 		fmtlib:fmt:123913715afeb8a437e6388b4473fcc4753e1c9a:fmt/external/fmt \
-		KhronosGroup:glslang:76b52ebf77833908dc4c0dd6c70a9c357ac720bd:glslang/external/glslang \
+		KhronosGroup:glslang:fc9889c889561c5882e83819dcaffef5ed45529b:glslang/external/glslang \
 		google:googletest:6910c9d9165801d8827d628cb72eb7ea9dd538c5:googletest/external/googletest \
 		ocornut:imgui:cb16568fca5297512ff6a8f3b877f461c4323fbe:imgui/external/imgui \
 		ocornut:imgui_club:53a2df3dd1b19dd321beb0897a0d1b9f87e5429c:imguiclub/external/imgui_club \
@@ -45,7 +45,7 @@ GH_TUPLE+=	Vita3K:LibAtrac9:82767fe38823c32536726ea798f392b0b49e66b9:libatrac/ex
 		Vita3K:psvpfsparser:4094450bcaac2256236d61ae3a730425ae47bd39:parser/external/psvpfstools/psvpfsparser \
 		korewawatchful:zlib:cb210089eb06453199578993566012493f6f7d21:zlib/external/psvpfstools/zlib \
 		zeux:pugixml:ee86beb30e4973f5feffe3ce63bfa4fbadf72f38:pugixml/external/pugixml \
-		Vita3K:sdl:6d973c85105c8e4a9e5458e4504e712cecec6aa9:sdl/external/sdl \
+		libsdl-org:SDL:17656d051b750b945fdd8b4608f9524c7879bc1b:sdl/external/sdl \
 		tcbrindle:sdl2-cmake-scripts:e037fb54f32973343fada6a051d3a3f8adf3a4a0:sdlcmakescripts/external/sdl2-cmake-scripts \
 		gabime:spdlog:48bcf39a661a13be22666ac64db8a7f886f2637e:spdlog/external/spdlog \
 		nothings:stb:f0569113c93ad095470c54bf34a17b36646bbbb5:stb/external/stb \
