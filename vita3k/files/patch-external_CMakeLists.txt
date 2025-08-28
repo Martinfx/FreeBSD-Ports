@@ -1,6 +1,6 @@
---- external/CMakeLists.txt.orig	2025-08-28 04:25:40 UTC
+--- external/CMakeLists.txt.orig	2025-08-28 07:29:23 UTC
 +++ external/CMakeLists.txt
-@@ -7,29 +7,29 @@ set(CMAKE_POLICY_DEFAULT_CMP0077 "NEW")
+@@ -7,36 +7,36 @@ set(CMAKE_POLICY_DEFAULT_CMP0077 "NEW")
  # created or updated and is ignored if it exists.
  set(CMAKE_POLICY_DEFAULT_CMP0077 "NEW")
  
@@ -52,6 +52,28 @@
  # Set folder for external projects (for project tree in IDE)
  set(CMAKE_FOLDER externals)
  
+-option(BUILD_SHARED_LIBS "Build shared library" OFF)
+-option(CAPSTONE_ARCHITECTURE_DEFAULT "Whether architectures are enabled by default" OFF)
+-option(CAPSTONE_ARM_SUPPORT "ARM support" ON)
+-add_subdirectory(capstone EXCLUDE_FROM_ALL)
++#option(BUILD_SHARED_LIBS "Build shared library" OFF)
++#option(CAPSTONE_ARCHITECTURE_DEFAULT "Whether architectures are enabled by default" OFF)
++#option(CAPSTONE_ARM_SUPPORT "ARM support" ON)
++#add_subdirectory(capstone EXCLUDE_FROM_ALL)
+ 
+ add_library(dirent INTERFACE)
+ 
+@@ -136,8 +136,8 @@ endif()
+ 	endif()
+ endif()
+ 
+-set(UNICORN_ARCH "arm")
+-add_subdirectory(unicorn EXCLUDE_FROM_ALL)
++#set(UNICORN_ARCH "arm")
++#add_subdirectory(unicorn EXCLUDE_FROM_ALL)
+ 
+ add_library(vita-toolchain INTERFACE)
+ target_include_directories(vita-toolchain INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/vita-toolchain/src")
 @@ -369,7 +369,7 @@ option(XXH_X86DISPATCH_ALLOW_AVX "Allow building XXH3 
  option(BUILD_SHARED_LIBS "Build shared library" OFF)
  option(XXHASH_BUILD_XXHSUM "Build the xxhsum binary" OFF)

@@ -1,5 +1,5 @@
 PORTNAME=	vita3k
-DISTVERSION=	G20250423
+DISTVERSION=	G20250828
 CATEGORIES=	emulators
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -9,7 +9,8 @@ LICENSE=	GPLv2
 LICENSE_FILE=	${WRKSRC}/COPYING.txt
 
 BUILD_DEPENDS=	ffmpeg>0:multimedia/ffmpeg \
-		sndio>0:audio/sndio
+		sndio>0:audio/sndio \
+		zycore-c>0:devel/zycore-c
 
 USES=		cmake compiler:c++20-lang llvm:min=19 localbase pathfix pkgconfig ssl
 USE_GL=		gl opengl
@@ -24,7 +25,6 @@ GH_TUPLE+=	Vita3K:LibAtrac9:82767fe38823c32536726ea798f392b0b49e66b9:libatrac/ex
 		GPUOpen-LibrariesAndSDKs:VulkanMemoryAllocator:c788c52156f3ef7bc7ab769cb03c110a53ac8fcb:allocator/external/VulkanMemoryAllocator-Hpp/VulkanMemoryAllocator \
 		aantron:better-enums:c35576bed0295689540b39873126129adfa0b4c8:better/external/better-enums \
 		Vita3K:ext-boost:d4c58aa5c6fe08433ffdbe03f7a098342bf8e2e9:boost/external/boost \
-		aquynh:capstone:accf4df62f1fba6f92cae692985d27063552601c:capstone/external/capstone \
 		cameron314:concurrentqueue:6dd38b8a1dbaa7863aa907045f32308a56a6ff5d:concurentqueue/external/concurrentqueue \
 		mozilla:cubeb:f8633c0c9217ed5499fdda391946d416c52e6809:cubeb/external/cubeb \
 		tronkko:dirent:39c1f1bc98ef3326237d03006f35d7dd44620e43:dirent/external/dirent \
@@ -50,11 +50,11 @@ GH_TUPLE+=	Vita3K:LibAtrac9:82767fe38823c32536726ea798f392b0b49e66b9:libatrac/ex
 		gabime:spdlog:48bcf39a661a13be22666ac64db8a7f886f2637e:spdlog/external/spdlog \
 		nothings:stb:f0569113c93ad095470c54bf34a17b36646bbbb5:stb/external/stb \
 		wolfpld:tracy:5d542dc09f3d9378d005092a4ad446bd405f819a:tracy/external/tracy \
-		Vita3K:unicorn:9c816e02de9a0fd7f68ce94766335a409ffac5e1:unicorn/external/unicorn \
 		vitasdk:vita-toolchain:77f17b979678e7af0acfe708dc97a45ca6fd55e2:vitatoolchain/external/vita-toolchain \
 		Cyan4973:xxHash:e626a72bc2321cd320e953a0ccf1584cad60f363:xxhash/external/xxHash \
-		jbeder:yaml-cpp:f7320141120f720aecc4c32be25586e7da9eb978:yamlcpp/external/yaml-cpp
-		# removed ffmpeg-core submodule donwload binary files
+		jbeder:yaml-cpp:f7320141120f720aecc4c32be25586e7da9eb978:yamlcpp/external/yaml-cpp \
+		Vita3K:unicorn:9c816e02de9a0fd7f68ce94766335a409ffac5e1:unicorn/external/unicorn \
+		aquynh:capstone:accf4df62f1fba6f92cae692985d27063552601c:capstone/external/capstone
 
 LDFLAGS=	-lexecinfo
 CMAKE_OFF=	USE_VITA3K_UPDATE USE_DISCORD_RICH_PRESENCE USE_ALSA TRACY_LIBUNWIND_BACKTRACE
