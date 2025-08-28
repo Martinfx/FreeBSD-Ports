@@ -1,6 +1,6 @@
 PORTNAME=	shadps4
 DISTVERSIONPREFIX=	v.
-DISTVERSION=	0.7.0
+DISTVERSION=	0.10.0
 CATEGORIES=	emulators
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -68,7 +68,7 @@ GH_TUPLE+=	shadps4-emu:ext-LibAtrac9:ec8899dadf393f655f2871a94e0fe4b3d6220c9a:li
 		shadps4-emu:ext-cryptopp:effed0d0b865afc23ed67e0916f83734e4b9b3b7:cryptopp/externals/cryptopp \
 		zyantific:zycore-c:0b2432ced0884fd152b471d97ecf0258ff4d859f:zycore/externals/zydis/dependencies/zycore
 
-LDFLAGS=	-L${LOCALBASE}/lib -ldate-tz
+LDFLAGS=	-L${LOCALBASE}/lib -ldate-tz -I/usr/include -L/usr/lib -lusb
 CMAKE_ON=	ENABLE_QT_GUI
 
 PLIST_FILES=	bin/shadps4 \
