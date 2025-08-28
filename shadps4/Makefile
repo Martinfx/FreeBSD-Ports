@@ -15,6 +15,8 @@ BUILD_DEPENDS=	alsa-lib>0:audio/alsa-lib \
 		date>0:devel/date \
 		ffmpeg>0:multimedia/ffmpeg \
 		rapidjson>0:devel/rapidjson \
+		tracy>0:devel/tracy \
+		vulkan-headers>0:graphics/vulkan-headers \
 		sndio>0:audio/sndio
 
 LIB_DEPENDS=	libavcodec.so:multimedia/ffmpeg \
@@ -56,9 +58,7 @@ GH_TUPLE+=	shadps4-emu:ext-LibAtrac9:ec8899dadf393f655f2871a94e0fe4b3d6220c9a:li
 		shadps4-emu:sirit:427a42c9ed99b38204d9107bc3dc14e92458acf1:sirit/externals/sirit \
 		KhronosGroup:SPIRV-Headers:2acb319af38d43be3ea76bfabf3998e5281d8d12:spirv/externals/sirit/externals/SPIRV-Headers \
 		ToruNiina:toml11:7f6c574ff5aa1053534e7e19c0a4f22bf4c6aaca:toml/externals/toml11 \
-		shadps4-emu:tracy:143a53d1985b8e52a7590a0daca30a0a7c653b42:tracy/externals/tracy \
 		GPUOpen-LibrariesAndSDKs:VulkanMemoryAllocator:5a53a198945ba8260fbc58fadb788745ce6aa263:vma/externals/vma \
-		KhronosGroup:Vulkan-Headers:a03d2f6d5753b365d704d58161825890baad0755:vulkan/externals/vulkan-headers \
 		Cyan4973:xxHash:2bf8313b934633b2a5b7e8fd239645b85e10c852:xxhash/externals/xxhash \
 		shadps4-emu:winpthreads:f00c973a6ab2a23573708568b8ef4acc20a9d36b:winpthreads/externals/winpthreads \
 		herumi:xbyak:4e44f4614ddbf038f2a6296f5b906d5c72691e0f:xbyak/externals/xbyak \
