@@ -1,8 +1,8 @@
---- externals/CMakeLists.txt.orig	2025-03-22 22:14:04 UTC
+--- externals/CMakeLists.txt.orig	2025-07-06 18:24:57 UTC
 +++ externals/CMakeLists.txt
-@@ -42,8 +42,8 @@ if (NOT TARGET FFmpeg::ffmpeg)
- endif()
+@@ -28,8 +28,8 @@ if (NOT TARGET FFmpeg::ffmpeg)
  
+ # FFmpeg
  if (NOT TARGET FFmpeg::ffmpeg)
 -    add_subdirectory(ffmpeg-core)
 -    add_library(FFmpeg::ffmpeg ALIAS ffmpeg)
@@ -11,7 +11,7 @@
  endif()
  
  # LibAtrac9
-@@ -193,22 +193,22 @@ target_include_directories(Dear_ImGui INTERFACE dear_i
+@@ -173,22 +173,22 @@ target_include_directories(Dear_ImGui INTERFACE dear_i
  target_include_directories(Dear_ImGui INTERFACE dear_imgui/)
  
  # Tracy
@@ -50,7 +50,22 @@
  
  # pugixml
  if (NOT TARGET pugixml::pugixml)
-@@ -231,14 +231,15 @@ endif()
+@@ -196,10 +196,10 @@ endif()
+ endif()
+ 
+ # libusb
+-if (NOT TARGET libusb::usb)
+-    add_subdirectory(libusb)
+-    add_library(libusb::usb ALIAS usb-1.0)
+-endif()
++#if (NOT TARGET libusb::usb)
++#    add_subdirectory(libusb)
++#    add_library(libusb::usb ALIAS usb-1.0)
++#endif()
+ 
+ # Discord RPC
+ if (ENABLE_DISCORD_RPC)
+@@ -217,14 +217,15 @@ endif()
  endif()
  
  # Apple-only dependencies

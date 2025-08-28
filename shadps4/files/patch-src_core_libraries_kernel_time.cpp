@@ -1,4 +1,4 @@
---- src/core/libraries/kernel/time.cpp.orig	2025-03-22 22:14:04 UTC
+--- src/core/libraries/kernel/time.cpp.orig	2025-07-06 18:24:57 UTC
 +++ src/core/libraries/kernel/time.cpp
 @@ -2,6 +2,7 @@
  // SPDX-License-Identifier: GPL-2.0-or-later
@@ -8,16 +8,16 @@
  
  #include "common/assert.h"
  #include "common/native_clock.h"
-@@ -17,7 +18,7 @@
+@@ -16,7 +17,7 @@
+ #include <windows.h>
  #include "common/ntapi.h"
- 
  #else
 -#if __APPLE__
 +#if __APPLE__ || __FreeBSD__
  #include <date/tz.h>
  #endif
- #include <sys/resource.h>
-@@ -422,7 +423,7 @@ int PS4_SYSV_ABI sceKernelConvertUtcToLocaltime(time_t
+ #include <ctime>
+@@ -489,7 +490,7 @@ s32 PS4_SYSV_ABI sceKernelConvertUtcToLocaltime(time_t
      // std::chrono::current_zone() not available yet.
      const auto* time_zone = date::current_zone();
  #else
@@ -26,7 +26,7 @@
  #endif
      auto info = time_zone->get_info(std::chrono::system_clock::now());
  
-@@ -470,4 +471,4 @@ void RegisterTime(Core::Loader::SymbolsResolver* sym) 
+@@ -544,4 +545,4 @@ void RegisterTime(Core::Loader::SymbolsResolver* sym) 
      LIB_FUNCTION("-o5uEDpN+oY", "libkernel", 1, "libkernel", 1, 1, sceKernelConvertUtcToLocaltime);
  }
  
