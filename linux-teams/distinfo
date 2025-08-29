@@ -1,6 +1,3 @@
-TIMESTAMP = 1756387008
-SHA256 (teams-for-linux-2.5.1.aarch64.rpm) = 75c9b2531325daf391b622faedf8f8a6a2a5f93a3d4ae9e7c27088b05a62b8fb
-SIZE (teams-for-linux-2.5.1.aarch64.rpm) = 89324581
-TIMESTAMP = 1756385872
-SHA256 (teams-for-linux-2.5.1.x86_64.rpm) = ff72023d974fc795dc88d08ac7f4e841d411e78c73af91387a889cdaec6ff798
-SIZE (teams-for-linux-2.5.1.x86_64.rpm) = 94465489
+TIMESTAMP = 1756406492
+SHA256 (IsmaelMartinez-teams-for-linux-v2.5.1_GH0.tar.gz) = 611997e3e8e3feb62edbb10deb1cb841b1729a9014393a3c6dc9a3a0f4af9701
+SIZE (IsmaelMartinez-teams-for-linux-v2.5.1_GH0.tar.gz) = 12776665

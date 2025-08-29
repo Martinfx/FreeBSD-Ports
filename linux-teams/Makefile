@@ -1,45 +1,49 @@
 PORTNAME=	teams-for-linux
 DISTVERSIONPREFIX=	v
 DISTVERSION=	2.5.1
-CATEGORIES=	net-im linux
-MASTER_SITES=	https://github.com/IsmaelMartinez/${PORTNAMAE}/releases/download/v${DISTVERSION}/
-DISTNAME=	${PORTNAME}-${DISTVERSION}${EXTRACT_SUFX_${ARCH}}
+CATEGORIES=	net-im
 
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Unofficial Microsoft Teams for Linux client
 WWW=		https://github.com/IsmaelMartinez/teams-for-linux
 
 LICENSE=	GPLv3
+LICENSE_FILE=	${WRKSRC}/LICENSE.md
 
-USES=		desktop-file-utils linux:rl9 shared-mime-info
-USE_LINUX=	alsalib alsa-plugins-oss alsa-plugins-pulseaudio at-spi2-atk \
-		ca-certificates cairo cups-libs curl dbuslibs dri expat \
-		ffmpeg-libs gnupg gstreamer1-libav gtk3 libxkbcommon \
-		nspr nss p11-kit pango sqlite3 wget xorglibs
+BUILD_DEPENDS=	electron${ELECTRON_VER_MAJOR}:devel/electron${ELECTRON_VER_MAJOR} \
+		npm${NODEJS_SUFFIX}>0:www/npm${NODEJS_SUFFIX}
 
-ONLY_FOR_ARCHS=	aarch64 amd64
-INSTALLS_ICONS=	yes
-NO_BUILD=	yes
-NO_WRKSUBDIR=	yes
-PLIST_SUB=	LINUXBASE=${LINUXBASE}
+USES=		desktop-file-utils gl gmake gnome gssapi:mit iconv:wchar_t \
+		jpeg localbase:ldflags nodejs:22,build pkgconfig python:build \
+		shebangfix xorg
+USE_GITHUB=	yes
+GH_ACCOUNT=	IsmaelMartinez
+MAKE_ENV+=	ELECTRON_SKIP_BINARY_DOWNLOAD=1
+NODEJS_DIR=	${.CURDIR:H:H}/www/node22
+.include "${NODEJS_DIR}/Makefile.version"
+ELECTRON_DIR=	${.CURDIR:H:H}/devel/electron37
+.include "${ELECTRON_DIR}/Makefile.version"
 
-EXTRACT_SUFX?=		.rpm
-EXTRACT_SUFX_amd64?=	.x86_64
-EXTRACT_SUFX_aarch64?=	.aarch64
+ELECTRON_DOWNLOAD_URL=	https://github.com/electron/electron/releases/download/v${ELECTRON_VER}
+ELECTRON_DOWNLOAD_URL_HASH!=	/sbin/sha256 -q -s ${ELECTRON_DOWNLOAD_URL}
+ELECTRON_ARCH=		${ARCH:S/aarch64/arm64/:S/amd64/x64/:S/i386/ia32/}
+
+# Don't download electron binary distribution on electron node_modules installation
+MAKE_ENV+=	ELECTRON_SKIP_BINARY_DOWNLOAD=1 PYTHONDONTWRITEBYTECODE=1
+
+pre-build:
+	# rebuild native node modules in top directory
+	@for subdir in `${FIND} ${WRKSRC}/node_modules -type f -name binding.gyp -exec ${DIRNAME} {} ';'`; do \
+		${ECHO_MSG} "===>   Rebuilding native modules in $${subdir}"; \
+		cd $${subdir} && \
+		${SETENV} ${MAKE_ENV} \
+			npm_config_runtime=electron \
+			npm_config_target=${ELECTRON_VER} \
+			npm_config_nodedir=${LOCALBASE}/share/electron${ELECTRON_VER_MAJOR}/node_headers \
+			node-gyp --userconfig=${WRKSRC}/.npmrc rebuild; \
+	done
 
 do-install:
-	${INSTALL_SCRIPT} ${FILESDIR}/${PORTNAME}.in ${STAGEDIR}${PREFIX}/bin/${PORTNAME}
 
-.for s in 16 24 32 48 64 96 128 256 512 1024
-	${MKDIR} ${STAGEDIR}${PREFIX}/share/icons/hicolor/${s}x${s}/apps
-	${INSTALL_DATA} ${WRKSRC}/usr/share/icons/hicolor/${s}x${s}/apps/*.png \
-		${STAGEDIR}${PREFIX}/share/icons/hicolor/${s}x${s}/apps/
-.endfor
-
-	${INSTALL_DATA} ${WRKSRC}/usr/share/applications/${PORTNAME}.desktop \
-			${STAGEDIR}${DESKTOPDIR}
-	${MKDIR} ${STAGEDIR}${LINUXBASE}
-	(cd ${WRKSRC} && ${COPYTREE_SHARE} opt ${STAGEDIR}${LINUXBASE})
-	${CHMOD} +x ${STAGEDIR}${LINUXBASE}/opt/teams-for-linux/${PORTNAME}
 
 .include <bsd.port.mk>
