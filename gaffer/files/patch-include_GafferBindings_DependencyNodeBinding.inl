@@ -1,28 +1,20 @@
---- include/GafferBindings/DependencyNodeBinding.inl.orig	2025-03-02 13:39:44 UTC
+--- include/GafferBindings/DependencyNodeBinding.inl.orig	2025-08-28 19:52:07 UTC
 +++ include/GafferBindings/DependencyNodeBinding.inl
-@@ -81,7 +81,11 @@ DependencyNodeClass<T, Ptr>::DependencyNodeClass( cons
+@@ -81,7 +81,7 @@ DependencyNodeClass<T, Ptr>::DependencyNodeClass( cons
  	this->def( "enabledPlug", &Detail::enabledPlug<T> );
  	this->def( "correspondingInput", &Detail::correspondingInput<T> );
  	// Install our custom metaclass.
--	Py_TYPE( this->ptr() ) = Detail::dependencyNodeMetaclass();
-+	#if PY_VERSION_HEX >= 0x03090000
-+		Py_SET_TYPE(this->ptr(), Detail::dependencyNodeMetaclass());
-+	#else
-+		Py_TYPE(this->ptr()) = Detail::dependencyNodeMetaclass();
-+	#endif
+-	Py_SET_TYPE( this->ptr(), Detail::dependencyNodeMetaclass() );
++	Py_TYPE( this->ptr(), Detail::dependencyNodeMetaclass() );
  }
  
  template<typename T, typename Ptr>
-@@ -92,7 +96,11 @@ DependencyNodeClass<T, Ptr>::DependencyNodeClass( cons
+@@ -92,7 +92,7 @@ DependencyNodeClass<T, Ptr>::DependencyNodeClass( cons
  	this->def( "enabledPlug", &Detail::enabledPlug<T> );
  	this->def( "correspondingInput", &Detail::correspondingInput<T> );
  	// Install our custom metaclass.
--	Py_TYPE( this->ptr() ) = Detail::dependencyNodeMetaclass();
-+	#if PY_VERSION_HEX >= 0x03090000
-+		Py_SET_TYPE(this->ptr(), Detail::dependencyNodeMetaclass());
-+	#else
-+		Py_TYPE(this->ptr()) = Detail::dependencyNodeMetaclass();
-+	#endif
+-	Py_SET_TYPE( this->ptr(), Detail::dependencyNodeMetaclass() );
++	Py_TYPE( this->ptr(), Detail::dependencyNodeMetaclass() );
  }
  
  } // namespace GafferBindings

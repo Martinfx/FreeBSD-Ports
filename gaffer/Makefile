@@ -1,5 +1,5 @@
 PORTNAME=	gaffer
-DISTVERSION=	1.5.7.0
+DISTVERSION=	1.6.0.0
 CATEGORIES=	graphics
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -14,7 +14,6 @@ BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}Jinja2>0:devel/py-Jinja2@${PY_FLAVOR} \
 		${PYTHON_PKGNAMEPREFIX}PyOpenGL>0:graphics/py-PyOpenGL@${PY_FLAVOR} \
 		${PYTHON_PKGNAMEPREFIX}pyside2>0:devel/pyside2@${PY_FLAVOR} \
 		${PYTHON_PKGNAMEPREFIX}QtPy>0:devel/py-QtPy@${PY_FLAVOR} \
-		${PYTHON_PKGNAMEPREFIX}types-MarkupSafe>0:devel/py-types-MarkupSafe@${PY_FLAVOR} \
 		bitstream-vera>0:x11-fonts/bitstream-vera \
 		boost-libs>=1.87.0:devel/boost-libs \
 		c-blosc2>0:archivers/c-blosc2 \
@@ -55,11 +54,11 @@ BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}Jinja2>0:devel/py-Jinja2@${PY_FLAVOR} \
 		zstd>0:archivers/zstd \
 		usd>0:misc/usd
 
-RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}qt5-pyqt>0:devel/py-qt5-pyqt@${PY_FLAVOR} \
+RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}qt5-pyqt>0:devel/py-qt6-pyqt@${PY_FLAVOR} \
 		${PYTHON_PKGNAMEPREFIX}pyside2>0:devel/pyside2@${PY_FLAVOR}
 
-USES=		llvm:min=15,build,run localbase compiler:c++20-lang python:3.11+,env qt:5 scons
-USE_QT=		core gui widgets opengl buildtools:build qmake:build
+USES=		llvm:min=15,build,run localbase compiler:c++20-lang python:3.11+,env qt:6 scons
+USE_QT=		base
 USE_GITHUB=	yes
 GH_ACCOUNT=	GafferHQ
 GH_PROJECT=	gaffer
