@@ -54,10 +54,10 @@ BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}Jinja2>0:devel/py-Jinja2@${PY_FLAVOR} \
 		zstd>0:archivers/zstd \
 		usd>0:misc/usd
 
-RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}qt5-pyqt>0:devel/py-qt6-pyqt@${PY_FLAVOR} \
+RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}qt6-pyqt>0:devel/py-qt6-pyqt@${PY_FLAVOR} \
 		${PYTHON_PKGNAMEPREFIX}pyside2>0:devel/pyside2@${PY_FLAVOR}
 
-USES=		llvm:min=15,build,run localbase compiler:c++20-lang python:3.11+,env qt:6 scons
+USES=		llvm:min=16,build,run localbase python:3.11+,env qt:6 scons
 USE_QT=		base
 USE_GITHUB=	yes
 GH_ACCOUNT=	GafferHQ
