@@ -17,9 +17,17 @@ BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}shiboken6>0:devel/shiboken6@${PY_FLAVOR} \
 
 RUN_DEPENDS=    ${PYTHON_PKGNAMEPREFIX}pyside6>0:devel/pyside6@${PY_FLAVOR}
 
-USES=		cmake python qt:6
-USE_PYTHON=	autoplist flavors pep517
-USE_QT=		base
+NO_ARCH=	yes
+USES=		python
+USE_PYTHON=	autoplist distutils flavors
+#CMAKE_ARGS=	-DPython3_EXECUTABLE=${PYTHON_CMD} \
+#		-DCMAKE_PREFIX_PATH=${LOCALBASE} \
+#		-DADS_BUILD_DEMO=OFF \
+#		-DBUILD_EXAMPLES=OFF \
+#		-DQT_VERSION_MAJOR=6
+
+do-build:
+	@cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} ${PYTHON_CMD} setup.py
 
 .include <bsd.port.mk>
 
