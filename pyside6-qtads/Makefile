@@ -12,8 +12,11 @@ WWW=		https://github.com/mborgerson/pyside6_qtads
 LICENSE=	LGPL21
 
 BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}shiboken6>0:devel/shiboken6@${PY_FLAVOR} \
+		${PYTHON_PKGNAMEPREFIX}setuptools>=0:devel/py-setuptools@${PY_FLAVOR} \
 		${PYTHON_PKGNAMEPREFIX}pyside6>0:devel/pyside6@${PY_FLAVOR} \
-		${PYTHON_PKGNAMEPREFIX}pyside6-tools>0:devel/pyside6-tools@${PY_FLAVOR}
+		${PYTHON_PKGNAMEPREFIX}pyside6-tools>0:devel/pyside6-tools@${PY_FLAVOR} \
+		${PYTHON_PKGNAMEPREFIX}cmake-build-extension>0:devel/pycmake-build-extension@${PY_FLAVOR}
+
 
 RUN_DEPENDS=    ${PYTHON_PKGNAMEPREFIX}pyside6>0:devel/pyside6@${PY_FLAVOR}
 
@@ -26,8 +29,8 @@ USE_PYTHON=	autoplist distutils flavors
 #		-DBUILD_EXAMPLES=OFF \
 #		-DQT_VERSION_MAJOR=6
 
-do-build:
-	@cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} ${PYTHON_CMD} setup.py
+#do-build:
+#	@cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} ${PYTHON_CMD} setup.py
 
 .include <bsd.port.mk>
 
