@@ -1,0 +1,10 @@
+--- Qt-Advanced-Docking-System/src/CMakeLists.txt.orig	2025-09-06 10:22:51 UTC
++++ Qt-Advanced-Docking-System/src/CMakeLists.txt
+@@ -97,7 +97,6 @@ set_target_properties(${library_name} PROPERTIES
+     AUTOMOC ON
+     AUTORCC ON
+     CXX_EXTENSIONS OFF
+-    VERSION ${VERSION_SHORT}
+     EXPORT_NAME ${library_name}
+     DEBUG_POSTFIX "d"
+     ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${ads_PlatformDir}/lib"
