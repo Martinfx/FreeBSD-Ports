@@ -1,1 +1,3 @@
-[description of the port]
+This project aims to simplify the integration of C++ projects based on CMake with Python packaging tools.
+CMake provides out-of-the-box support to either SWIG and pybind11,
+that are two among the most used projects to create Python bindings from C++ sources.
