@@ -1054,7 +1054,6 @@
 %%LINUXBASE%%/opt/kingsoft/wps-office/office6/document theme/theme fonts/Urban.xml
 %%LINUXBASE%%/opt/kingsoft/wps-office/office6/document theme/theme fonts/Verve.xml
 %%LINUXBASE%%/opt/kingsoft/wps-office/office6/document theme/theme fonts/Waveform.xml
-%%LINUXBASE%%/opt/kingsoft/wps-office/office6/et
 %%LINUXBASE%%/opt/kingsoft/wps-office/office6/ksolaunch
 %%LINUXBASE%%/opt/kingsoft/wps-office/office6/libIRLAS.so
 %%LINUXBASE%%/opt/kingsoft/wps-office/office6/libKMailLib.so
@@ -3013,8 +3012,6 @@
 %%LINUXBASE%%/opt/kingsoft/wps-office/office6/skins/2020dark_pdf/wpsoffice.kuip
 %%LINUXBASE%%/opt/kingsoft/wps-office/office6/thirdpartylegalnotices.txt
 %%LINUXBASE%%/opt/kingsoft/wps-office/office6/transerr
-%%LINUXBASE%%/opt/kingsoft/wps-office/office6/wpp
-%%LINUXBASE%%/opt/kingsoft/wps-office/office6/wps
 %%LINUXBASE%%/opt/kingsoft/wps-office/office6/wpsart/colors/accent0_1.xml
 %%LINUXBASE%%/opt/kingsoft/wps-office/office6/wpsart/colors/accent0_2.xml
 %%LINUXBASE%%/opt/kingsoft/wps-office/office6/wpsart/colors/accent0_3.xml
@@ -3340,7 +3337,6 @@
 %%LINUXBASE%%/opt/kingsoft/wps-office/office6/wpscloudsvr
 %%LINUXBASE%%/opt/kingsoft/wps-office/office6/wpsd
 %%LINUXBASE%%/opt/kingsoft/wps-office/office6/wpsoffice
-%%LINUXBASE%%/opt/kingsoft/wps-office/office6/wpspdf
 %%LINUXBASE%%/opt/kingsoft/wps-office/templates/DOC Document.docx
 %%LINUXBASE%%/opt/kingsoft/wps-office/templates/DOCX Document.docx
 %%LINUXBASE%%/opt/kingsoft/wps-office/templates/PPT Presentation.ppt
@@ -4241,4 +4237,7 @@ share/icons/hicolor/96x96/apps/wps-office2019-wpsmain.png
 @dir %%LINUXBASE%%/opt
 @dir %%LINUXBASE%%
 @dir /compat
-@owner
+@(,,0755) %%LINUXBASE%%/opt/kingsoft/wps-office/office6/et
+@(,,0755) %%LINUXBASE%%/opt/kingsoft/wps-office/office6/wpp
+@(,,0755) %%LINUXBASE%%/opt/kingsoft/wps-office/office6/wps
+@(,,0755) %%LINUXBASE%%/opt/kingsoft/wps-office/office6/wpspdf
