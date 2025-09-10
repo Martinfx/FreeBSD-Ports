@@ -1,0 +1,22 @@
+--- CMakeLists.txt.orig	2025-09-09 15:50:53 UTC
++++ CMakeLists.txt
+@@ -286,8 +286,17 @@ else()
+ 	if (UNIX)
+ 		find_package(PkgConfig REQUIRED)
+ 	endif()
+-	pkg_check_modules(tinyxml tinyxml IMPORTED_TARGET REQUIRED)
+-	add_library(External_lib_tinyxml ALIAS PkgConfig::tinyxml)
++
++	include(FindPkgConfig)
++	pkg_check_modules(tinyxml tinyxml)
++	if(NOT TINYXML_FOUND)
++  		find_path(TINYXML_INCLUDE_DIR tinyxml.h)
++  		find_library(TINYXML_LIBRARY tinyxml)
++  		include(FindPackageHandleStandardArgs)
++  		find_package_handle_standard_args(TinyXML DEFAULT_MSG TINYXML_INCLUDE_DIR TINYXML_LIBRARY)
++  		set(TINYXML_INCLUDE_DIRS ${TINYXML_INCLUDE_DIR})
++  		set(TINYXML_LIBRARIES ${TINYXML_LIBRARY})
++	endif()
+ endif()
+ message(STATUS "Found tinyxml ${tinyxml_VERSION}")
+ 

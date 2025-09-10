@@ -1,0 +1,11 @@
+--- src/lib/CMakeLists.txt.orig	2025-09-10 14:16:50 UTC
++++ src/lib/CMakeLists.txt
+@@ -778,7 +778,7 @@ target_link_libraries(Sourcetrail_lib
+ 		$<$<BOOL:${BUILD_JAVA_LANGUAGE_PACKAGE}>:Sourcetrail_lib_java>
+ 		$<$<BOOL:${BUILD_PYTHON_LANGUAGE_PACKAGE}>:Sourcetrail_lib_python>
+ 
+-		External_lib_tinyxml
++		${TINYXML_LIBRARY}
+ 		External_lib_cppsqlite3
+ 		External_lib_boost
+ )

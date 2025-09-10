@@ -1,0 +1,10 @@
+--- java_indexer/CMakeLists.txt.orig	2025-09-09 15:50:53 UTC
++++ java_indexer/CMakeLists.txt
+@@ -19,6 +19,5 @@ add_custom_target(Sourcetrail_java_indexer ALL
+ 	
+ 	WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"	
+ 	
+-	COMMAND "${MVN_COMMAND}" package "-Dsourcetrail.jar.name=${jarName}" "-Dsourcetrail.jar.directory=${jarDirectory}"
+-		${quietSwitch} ${skipTestsSwitch} 
++	COMMAND "${MVN_COMMAND}" package "-Dsourcetrail.jar.name=${jarName}" "-Dsourcetrail.jar.directory=${jarDirectory}" "-Dmaven.repo.local=/home/maxfx/Documents/FreeBSD-Ports/sourcetrail/work/m2" ${quietSwitch} ${skipTestsSwitch}
+ )
