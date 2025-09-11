@@ -52,7 +52,7 @@ post-patch:
 do-install:
 	${INSTALL_PROGRAM} ${BUILD_WRKSRC}/app/Sourcetrail ${STAGEDIR}${PREFIX}/bin
 	${INSTALL_PROGRAM} ${BUILD_WRKSRC}/app/sourcetrail_indexer ${STAGEDIR}${PREFIX}/bin
-	${MKDIR} ${STAGEDIR}${DATADIR}/Sourcetrails
-	${CP} -R ${BUILD_WRKSRC}/app/data ${STAGEDIR}${DATADIR}/Sourcetrails
+	${MKDIR} ${STAGEDIR}${DATADIR}
+	${CP} -R ${BUILD_WRKSRC}/app/data ${STAGEDIR}${DATADIR}
 
 .include <bsd.port.mk>
