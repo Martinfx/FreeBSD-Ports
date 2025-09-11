@@ -6,5 +6,5 @@
  	
 -	COMMAND "${MVN_COMMAND}" package "-Dsourcetrail.jar.name=${jarName}" "-Dsourcetrail.jar.directory=${jarDirectory}"
 -		${quietSwitch} ${skipTestsSwitch} 
-+	COMMAND "${MVN_COMMAND}" package "-Dsourcetrail.jar.name=${jarName}" "-Dsourcetrail.jar.directory=${jarDirectory}" "-Dmaven.repo.local=/home/maxfx/Documents/FreeBSD-Ports/sourcetrail/work/m2" ${quietSwitch} ${skipTestsSwitch}
++	COMMAND "${MVN_COMMAND}" package "-Dsourcetrail.jar.name=${jarName}" "-Dsourcetrail.jar.directory=${jarDirectory}" "-Dmaven.repo.local=${WRKDIR}/m2" ${quietSwitch} ${skipTestsSwitch}
  )
