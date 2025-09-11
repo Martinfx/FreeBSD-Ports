@@ -43,8 +43,7 @@ WPS_URL=	https://wps-linux-personal.wpscdn.cn/wps/download/ep/Linux2023/22571/wp
 
 do-fetch:
 	@if [ ! -f ${DISTDIR}/${DISTFILES} ]; then \
-		@${MKDIR} ${DISTDIR} \
-		@${ECHO_MSG} "=> Fetching ${DISTNAME}${EXTRACT_SUFX}" \
+		${ECHO_MSG} "=> Fetching ${DISTNAME}${EXTRACT_SUFX}" \
 		${FETCH_CMD} -o ${DISTDIR}/${DISTNAME}${EXTRACT_SUFX} "${WPS_URL}"; \
 	fi
 
