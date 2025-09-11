@@ -46,7 +46,7 @@ do-fetch:
 	@${MKDIR} ${DISTDIR}
 	@${ECHO_MSG} "=> Fetching ${DISTNAME}${EXTRACT_SUFX}"
 	@${FETCH_CMD} ${FETCH_BEFORE_ARGS} \
-		-ARr -o ${DISTDIR}/${DISTNAME}${EXTRACT_SUFX} \
+		 -o ${DISTDIR}/${DISTNAME}${EXTRACT_SUFX} \
 		"${WPS_URL}" \
 		${FETCH_AFTER_ARGS}
 .else
