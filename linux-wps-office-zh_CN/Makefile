@@ -39,13 +39,19 @@ WPS_BINS=	et wpp wps wpspdf
 WPS_DESK=	et wpp wps pdf prometheus
 INSTALL_TARGET=	install-strip
 
-WPS_URL=	https://wps-linux-personal.wpscdn.cn/wps/download/ep/Linux2023/22571/wps-office-12.1.2.22571.AK.preread.sw-1-480058.x86_64${EXTRACT_SUFX}?t=1757579155&k=a2fbc70c6265749c995c4ae1c16e64b7
+WPS_URL=	https://wps-linux-personal.wpscdn.cn/wps/download/ep/Linux2023/22571/wps-office-12.1.2.22571.AK.preread.sw-1-480058.x86_64.rpm?t=1757579155&k=a2fbc70c6265749c995c4ae1c16e64b7
 
 do-fetch:
-	@if [ ! -f ${DISTDIR}/${DISTFILES} ]; then \
-		${ECHO_MSG} "=> Fetching ${DISTNAME}${EXTRACT_SUFX}" \
-		${FETCH_CMD} -o ${DISTDIR}/${DISTNAME}${EXTRACT_SUFX} "${WPS_URL}"; \
-	fi
+.if !exists(${DISTDIR}/${DISTNAME}${EXTRACT_SUFX})
+	@${MKDIR} ${DISTDIR}
+	@${ECHO_MSG} "=> Fetching ${DISTNAME}${EXTRACT_SUFX}"
+	@${FETCH_CMD} ${FETCH_BEFORE_ARGS} \
+		-ARr -o ${DISTDIR}/${DISTNAME}${EXTRACT_SUFX} \
+		"${WPS_URL}" \
+		${FETCH_AFTER_ARGS}
+.else
+	@${ECHO_MSG} "=> ${DISTNAME}${EXTRACT_SUFX} already fetched"
+.endif
 
 post-patch:
 	${REINPLACE_CMD} -i '' -e 's|/usr/bin|${PREFIX}/bin|' \
