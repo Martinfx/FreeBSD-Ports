@@ -16,6 +16,7 @@ BUILD_DEPENDS=	alsa-lib>0:audio/alsa-lib \
 		ffmpeg>0:multimedia/ffmpeg \
 		rapidjson>0:devel/rapidjson \
 		tracy>0:devel/tracy \
+		libuuid>0:misc/libuuid \
 		vulkan-headers>0:graphics/vulkan-headers \
 		sndio>0:audio/sndio
 
@@ -34,7 +35,7 @@ LIB_DEPENDS=	libavcodec.so:multimedia/ffmpeg \
 		libxxhash.so:devel/xxhash \
 		libZycore.so:devel/zycore-c
 
-USES=		cmake compiler:c++23-lang llvm:min=19 localbase pkgconfig qt:6 \
+USES=		cmake:noninja compiler:c++23-lang gmake llvm:min=19 localbase pkgconfig qt:6 \
 		ssl
 USE_GL=		gl opengl
 USE_QT=		base multimedia tools translations
@@ -43,7 +44,7 @@ GH_ACCOUNT=	shadps4-emu
 GH_PROJECT=	shadPS4
 GH_TUPLE+=	shadps4-emu:ext-LibAtrac9:ec8899dadf393f655f2871a94e0fe4b3d6220c9a:libatrac/externals/LibAtrac9 \
 		HowardHinnant:date:a45ea7c:date/externals/date \
-		shadps4-emu:ext-imgui:636cd4a7d623a2bc9bf59bb3acbb4ca075befba3:imgui/externals/dear_imgui \
+		shadps4-emu:ext-imgui:f4d9359:imgui/externals/dear_imgui \
 		shadps4-emu:ext-discord-rpc:19f66e6:discord/externals/discord-rpc \
 		shadps4-emu:ext-boost:ca6f230e67be7cc45fc919057f07b2aee64dadc1:boost/externals/ext-boost \
 		shadps4-emu:ext-fmt:8ee89546ffcf046309d1f0d38c0393f02fde56c8:fmt/externals/fmt \
@@ -54,9 +55,9 @@ GH_TUPLE+=	shadps4-emu:ext-LibAtrac9:ec8899dadf393f655f2871a94e0fe4b3d6220c9a:li
 		Neargye:magic_enum:1a1824df7ac798177a521eed952720681b0bf482:magic/externals/magic_enum \
 		zeux:pugixml:4bc14418d12d289dd9978fdce9490a45deeb653e:pugixml/externals/pugixml \
 		Tessil:robin-map:fe845fd7852ef541c5479ae23b3d36b57f8608ee:robin/externals/robin-map \
-		shadps4-emu:ext-SDL:86b206d:sdl/externals/sdl3 \
-		shadps4-emu:sirit:427a42c9ed99b38204d9107bc3dc14e92458acf1:sirit/externals/sirit \
-		KhronosGroup:SPIRV-Headers:2acb319af38d43be3ea76bfabf3998e5281d8d12:spirv/externals/sirit/externals/SPIRV-Headers \
+		shadps4-emu:ext-SDL:e9c2e9b:sdl/externals/sdl3 \
+		shadps4-emu:sirit:6b45070:sirit/externals/sirit \
+		KhronosGroup:SPIRV-Headers:2acb319:spirv/externals/sirit/externals/SPIRV-Headers \
 		ToruNiina:toml11:7f6c574ff5aa1053534e7e19c0a4f22bf4c6aaca:toml/externals/toml11 \
 		GPUOpen-LibrariesAndSDKs:VulkanMemoryAllocator:5a53a198945ba8260fbc58fadb788745ce6aa263:vma/externals/vma \
 		Cyan4973:xxHash:2bf8313b934633b2a5b7e8fd239645b85e10c852:xxhash/externals/xxhash \
