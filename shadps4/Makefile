@@ -15,10 +15,9 @@ BUILD_DEPENDS=	alsa-lib>0:audio/alsa-lib \
 		date>0:devel/date \
 		ffmpeg>0:multimedia/ffmpeg \
 		rapidjson>0:devel/rapidjson \
+		sndio>0:audio/sndio \
 		tracy>0:devel/tracy \
-		libuuid>0:misc/libuuid \
-		vulkan-headers>0:graphics/vulkan-headers \
-		sndio>0:audio/sndio
+		vulkan-headers>0:graphics/vulkan-headers
 
 LIB_DEPENDS=	libavcodec.so:multimedia/ffmpeg \
 		libavfilter.so:multimedia/ffmpeg \
@@ -32,11 +31,12 @@ LIB_DEPENDS=	libavcodec.so:multimedia/ffmpeg \
 		libpugixml.so:textproc/pugixml \
 		libswresample.so:multimedia/ffmpeg \
 		libswscale.so:multimedia/ffmpeg \
+		libuuid.so:misc/e2fsprogs-libuuid \
 		libxxhash.so:devel/xxhash \
 		libZycore.so:devel/zycore-c
 
-USES=		cmake:noninja compiler:c++23-lang gmake llvm:min=19 localbase pkgconfig qt:6 \
-		ssl
+USES=		cmake:noninja compiler:c++23-lang gmake llvm:min=19 localbase \
+		pkgconfig qt:6 ssl
 USE_GL=		gl opengl
 USE_QT=		base multimedia tools translations
 USE_GITHUB=	yes
@@ -89,4 +89,3 @@ do-install:
 			${STAGEDIR}${PREFIX}/share/metainfo
 
 .include <bsd.port.mk>
-
