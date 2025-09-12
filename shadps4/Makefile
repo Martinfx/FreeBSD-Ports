@@ -31,7 +31,7 @@ LIB_DEPENDS=	libavcodec.so:multimedia/ffmpeg \
 		libpugixml.so:textproc/pugixml \
 		libswresample.so:multimedia/ffmpeg \
 		libswscale.so:multimedia/ffmpeg \
-		libuuid.so:misc/e2fsprogs-libuuid \
+		libuuid.so:misc/libuuid \
 		libxxhash.so:devel/xxhash \
 		libZycore.so:devel/zycore-c
 
