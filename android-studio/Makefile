@@ -1,9 +1,10 @@
 PORTNAME=	android-studio
-DISTVERSION=	2023.3.1.18
+DISTVERSION=	2025.1.3.7
 CATEGORIES=	devel linux
-MASTER_SITES=	https://redirector.gvt1.com/edgedl/android/studio/ide-zips/${DISTVERSION}/
+MASTER_SITES=	https://r1---sn-2gb7snez.gvt1.com/edgedl/android/studio/ide-zips/2025.1.3.7/
 PKGNAMEPREFIX=	linux-
 DISTNAME=	${PORTNAME}-${DISTVERSION}-linux
+EXTRACT_SUFX=.tar.gz
 MAINTAINER=	freebsd@sysctl.cz
 
 COMMENT=	Official IDE for Android
@@ -12,10 +13,9 @@ WWW=		https://developer.android.com/studio/
 LICENSE=	APACHE20
 LICENSE_FILE=	${WRKSRC}/LICENSE.txt
 
-USE_JAVA=	yes
+USES=		java:run
 JAVA_VERSION=	11
 JAVA_VENDOR=	openjdk
-JAVA_RUN=	yes
 
 NO_BUILD=	yes
 WRKSRC=		${WRKDIR}/${PORTNAME}
