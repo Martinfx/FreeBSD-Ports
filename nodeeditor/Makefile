@@ -12,6 +12,8 @@ WWW=		https://github.com/paceholder/nodeeditor
 LICENSE=	BSD3CLAUSE
 LICENSE_FILE=	${WRKSRC}/LICENSE.rst
 
+BUILD_DEPENDS=	vulkan-headers>0:graphics/vulkan-headers
+
 USES=		cmake gl qt:6
 USE_GITHUB=	yes
 GH_ACCOUNT=	paceholder
