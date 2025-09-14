@@ -2538,7 +2538,6 @@ share/applications/clion.desktop
 %%DATADIR%%/bin/jetbrains_client64.vmoptions
 %%DATADIR%%/bin/lldb/helpers/LICENSE
 %%DATADIR%%/bin/lldb/helpers/jb_lldb_init.py
-%%DATADIR%%/bin/lldb/helpers/jb_lldb_polyfills.py
 %%DATADIR%%/bin/lldb/helpers/jb_lldb_python_profiler.py
 %%DATADIR%%/bin/lldb/helpers/jb_lldb_stepping.py
 %%DATADIR%%/bin/lldb/helpers/mixed_mode/jb_mono_utils.py
@@ -2560,6 +2559,7 @@ share/applications/clion.desktop
 %%DATADIR%%/bin/lldb/helpers/renderers/jb_lldb_natvis_loader.py
 %%DATADIR%%/bin/lldb/helpers/renderers/jb_lldb_natvis_synthetic_item_type_viz_cache.py
 %%DATADIR%%/bin/lldb/helpers/renderers/jb_lldb_string_utils.py
+%%DATADIR%%/bin/lldb/helpers/renderers/jb_lldb_top_level_lazy_declarations.py
 %%DATADIR%%/bin/lldb/helpers/renderers/jb_lldb_utils.py
 %%DATADIR%%/bin/lldb/helpers/stepping/__init__.py
 %%DATADIR%%/bin/lldb/helpers/stepping/jb_lldb_abstract_scripted_thread_plan.py
@@ -2625,7 +2625,7 @@ share/applications/clion.desktop
 %%DATADIR%%/lib/app-client.jar
 %%DATADIR%%/lib/app.jar
 %%DATADIR%%/lib/bouncy-castle.jar
-%%DATADIR%%/lib/build-marker-CL-252.23892.426
+%%DATADIR%%/lib/build-marker-CL-252.25557.127
 %%DATADIR%%/lib/eclipse.lsp4j.debug.jar
 %%DATADIR%%/lib/eclipse.lsp4j.jar
 %%DATADIR%%/lib/eclipse.lsp4j.jsonrpc.debug.jar
@@ -2652,6 +2652,7 @@ share/applications/clion.desktop
 %%DATADIR%%/lib/modules/intellij.cidr.workspaceModel.ide.jar
 %%DATADIR%%/lib/modules/intellij.clion.ide.core.jar
 %%DATADIR%%/lib/modules/intellij.clion.ide.customization.jar
+%%DATADIR%%/lib/modules/intellij.clion.ide.survey.jar
 %%DATADIR%%/lib/modules/intellij.clion.langSwitcher.jar
 %%DATADIR%%/lib/modules/intellij.emojipicker.jar
 %%DATADIR%%/lib/modules/intellij.execution.process.elevation.jar
@@ -2680,6 +2681,7 @@ share/applications/clion.desktop
 %%DATADIR%%/lib/modules/intellij.platform.clouds.jar
 %%DATADIR%%/lib/modules/intellij.platform.collaborationTools.jar
 %%DATADIR%%/lib/modules/intellij.platform.compose.jar
+%%DATADIR%%/lib/modules/intellij.platform.compose.markdown.jar
 %%DATADIR%%/lib/modules/intellij.platform.coverage.agent.jar
 %%DATADIR%%/lib/modules/intellij.platform.coverage.jar
 %%DATADIR%%/lib/modules/intellij.platform.dap.jar
@@ -2714,13 +2716,16 @@ share/applications/clion.desktop
 %%DATADIR%%/lib/modules/intellij.platform.jewel.markdown.extensions.gfmAlerts.jar
 %%DATADIR%%/lib/modules/intellij.platform.jewel.markdown.extensions.gfmStrikethrough.jar
 %%DATADIR%%/lib/modules/intellij.platform.jewel.markdown.extensions.gfmTables.jar
+%%DATADIR%%/lib/modules/intellij.platform.jewel.markdown.extensions.images.jar
 %%DATADIR%%/lib/modules/intellij.platform.jewel.markdown.ideLafBridgeStyling.jar
 %%DATADIR%%/lib/modules/intellij.platform.jewel.ui.jar
 %%DATADIR%%/lib/modules/intellij.platform.kernel.backend.jar
 %%DATADIR%%/lib/modules/intellij.platform.kernel.impl.jar
+%%DATADIR%%/lib/modules/intellij.platform.lang.impl.backend.jar
 %%DATADIR%%/lib/modules/intellij.platform.lvcs.impl.jar
 %%DATADIR%%/lib/modules/intellij.platform.managed.cache.backend.jar
 %%DATADIR%%/lib/modules/intellij.platform.ml.impl.jar
+%%DATADIR%%/lib/modules/intellij.platform.ml.logs.jar
 %%DATADIR%%/lib/modules/intellij.platform.monolith.jar
 %%DATADIR%%/lib/modules/intellij.platform.navbar.backend.jar
 %%DATADIR%%/lib/modules/intellij.platform.navbar.frontend.jar
@@ -2982,6 +2987,7 @@ share/applications/clion.desktop
 %%DATADIR%%/plugins/cwm-plugin/lib/modules/intellij.terminal.backend.split.jar
 %%DATADIR%%/plugins/cwm-plugin/lib/modules/intellij.vcs.git.backend.split.jar
 %%DATADIR%%/plugins/cwm-plugin/lib/modules/intellij.vcs.git.frontend.split.jar
+%%DATADIR%%/plugins/cwm-plugin/lib/modules/intellij.xml.frontend.split.jar
 %%DATADIR%%/plugins/cwm-plugin/lib/quiche-jna-stubs.jar
 %%DATADIR%%/plugins/cwm-plugin/lib/remote-controller-backend.jar
 %%DATADIR%%/plugins/cwm-plugin/lib/remote-controller.jar
@@ -3006,7 +3012,6 @@ share/applications/clion.desktop
 %%DATADIR%%/plugins/fullLine/lib/clikt.jar
 %%DATADIR%%/plugins/fullLine/lib/fullLine.jar
 %%DATADIR%%/plugins/fullLine/lib/jgrapht.core.jar
-%%DATADIR%%/plugins/fullLine/lib/modules/intellij.fullLine.core.completion.trigger.jar
 %%DATADIR%%/plugins/fullLine/lib/modules/intellij.fullLine.css.local.jar
 %%DATADIR%%/plugins/fullLine/lib/modules/intellij.fullLine.go.local.jar
 %%DATADIR%%/plugins/fullLine/lib/modules/intellij.fullLine.html.local.jar
@@ -3021,6 +3026,7 @@ share/applications/clion.desktop
 %%DATADIR%%/plugins/fullLine/lib/modules/intellij.fullLine.ruby.local.jar
 %%DATADIR%%/plugins/fullLine/lib/modules/intellij.fullLine.rust.local.jar
 %%DATADIR%%/plugins/fullLine/lib/modules/intellij.fullLine.terraform.local.jar
+%%DATADIR%%/plugins/fullLine/lib/modules/intellij.ml.llm.completion.trigger.model.jar
 %%DATADIR%%/plugins/fullLine/lib/modules/intellij.ml.llm.cpp.completion.jar
 %%DATADIR%%/plugins/fullLine/lib/modules/intellij.ml.llm.css.completion.jar
 %%DATADIR%%/plugins/fullLine/lib/modules/intellij.ml.llm.go.completion.jar
@@ -3232,11 +3238,11 @@ share/applications/clion.desktop
 %%DATADIR%%/plugins/grid-plugin/lib/modules/intellij.grid.scripting.rt.jar
 %%DATADIR%%/plugins/html-tools/lib/html-tools.jar
 %%DATADIR%%/plugins/ini/lib/ini.jar
+%%DATADIR%%/plugins/javascript-debugger/lib/javascript-debugger-frontend.jar
 %%DATADIR%%/plugins/javascript-debugger/lib/javascript-debugger.jar
 %%DATADIR%%/plugins/javascript-debugger/lib/modules/intellij.javascript.debugger.backend.jar
 %%DATADIR%%/plugins/javascript-debugger/lib/modules/intellij.javascript.debugger.frontend.jar
 %%DATADIR%%/plugins/javascript-debugger/lib/modules/intellij.javascript.debugger.shared.jar
-%%DATADIR%%/plugins/javascript-debugger/lib/modules/intellij.javascript.debugger.ui.shared.jar
 %%DATADIR%%/plugins/javascript-debugger/lib/modules/intellij.javascript.debugger.webstorm.specific.jar
 %%DATADIR%%/plugins/javascript-debugger/lib/modules/intellij.javascript.reactNativeDebugger.jar
 %%DATADIR%%/plugins/javascript-debugger/nodeDebugInitializer/debugConnectionForwarder.js
@@ -3290,8 +3296,8 @@ share/applications/clion.desktop
 %%DATADIR%%/plugins/javascript-plugin/helpers/vitest-intellij/node_modules/vitest-intellij-reporter-safe.js
 %%DATADIR%%/plugins/javascript-plugin/helpers/vitest-intellij/vitest-intellij-reporter.js
 %%DATADIR%%/plugins/javascript-plugin/helpers/vitest-intellij/vitest-intellij-util.js
-%%DATADIR%%/plugins/javascript-plugin/js/js-predefined-d6986cc7102b-e03c56caf84a.ijx
-%%DATADIR%%/plugins/javascript-plugin/js/js-predefined-d6986cc7102b-e03c56caf84a.txt
+%%DATADIR%%/plugins/javascript-plugin/js/js-predefined-d6986cc7102b-b598e85cdad2.ijx
+%%DATADIR%%/plugins/javascript-plugin/js/js-predefined-d6986cc7102b-b598e85cdad2.txt
 %%DATADIR%%/plugins/javascript-plugin/jsLanguageServicesImpl/external/!HowToUpdateBundledTypeScript.md
 %%DATADIR%%/plugins/javascript-plugin/jsLanguageServicesImpl/external/_tsserver.js
 %%DATADIR%%/plugins/javascript-plugin/jsLanguageServicesImpl/external/_typingsInstaller.js
@@ -4775,9 +4781,7 @@ share/applications/clion.desktop
 %%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/contrib/gis/gdal/raster/const.pyi
 %%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/contrib/gis/gdal/raster/source.pyi
 %%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/contrib/gis/gdal/srs.pyi
-%%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/contrib/gis/geoip2/__init__.pyi
-%%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/contrib/gis/geoip2/base.pyi
-%%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/contrib/gis/geoip2/resources.pyi
+%%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/contrib/gis/geoip2.pyi
 %%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/contrib/gis/geometry.pyi
 %%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/contrib/gis/geos/__init__.pyi
 %%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/contrib/gis/geos/base.pyi
@@ -5108,6 +5112,7 @@ share/applications/clion.desktop
 %%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/db/models/enums.pyi
 %%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/db/models/expressions.pyi
 %%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/db/models/fields/__init__.pyi
+%%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/db/models/fields/composite.pyi
 %%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/db/models/fields/files.pyi
 %%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/db/models/fields/generated.pyi
 %%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/db/models/fields/json.pyi
@@ -5120,6 +5125,7 @@ share/applications/clion.desktop
 %%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/db/models/functions/__init__.pyi
 %%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/db/models/functions/comparison.pyi
 %%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/db/models/functions/datetime.pyi
+%%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/db/models/functions/json.pyi
 %%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/db/models/functions/math.pyi
 %%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/db/models/functions/mixins.pyi
 %%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/db/models/functions/text.pyi
@@ -5166,8 +5172,10 @@ share/applications/clion.desktop
 %%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/middleware/http.pyi
 %%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/middleware/locale.pyi
 %%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/middleware/security.pyi
+%%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/py.typed
 %%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/shortcuts.pyi
 %%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/template/__init__.pyi
+%%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/template/autoreload.pyi
 %%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/template/backends/__init__.pyi
 %%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/template/backends/base.pyi
 %%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/template/backends/django.pyi
@@ -5241,7 +5249,6 @@ share/applications/clion.desktop
 %%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/utils/inspect.pyi
 %%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/utils/ipv6.pyi
 %%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/utils/itercompat.pyi
-%%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/utils/jslex.pyi
 %%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/utils/log.pyi
 %%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/utils/lorem_ipsum.pyi
 %%DATADIR%%/plugins/python-ce/helpers/bundled_stubs/Django/django-stubs/utils/module_loading.pyi
@@ -5932,6 +5939,8 @@ share/applications/clion.desktop
 %%DATADIR%%/plugins/python-ce/helpers/pycharm/teamcity/pylint_reporter.py
 %%DATADIR%%/plugins/python-ce/helpers/pycharm/teamcity/pytest_plugin.py
 %%DATADIR%%/plugins/python-ce/helpers/pycharm/teamcity/unittestpy.py
+%%DATADIR%%/plugins/python-ce/helpers/pycharm_altair_backend/__init__.py
+%%DATADIR%%/plugins/python-ce/helpers/pycharm_altair_backend/sitecustomize.py
 %%DATADIR%%/plugins/python-ce/helpers/pycharm_display/datalore/__init__.py
 %%DATADIR%%/plugins/python-ce/helpers/pycharm_display/datalore/display/__init__.py
 %%DATADIR%%/plugins/python-ce/helpers/pycharm_display/datalore/display/display_.py
@@ -6385,6 +6394,9 @@ share/applications/clion.desktop
 %%DATADIR%%/plugins/python-ce/helpers/syspath.py
 %%DATADIR%%/plugins/python-ce/helpers/testResources/.gitattributes
 %%DATADIR%%/plugins/python-ce/helpers/testResources/__main__.py
+%%DATADIR%%/plugins/python-ce/helpers/testResources/behave_examples/feature_with_rules/rule.feature
+%%DATADIR%%/plugins/python-ce/helpers/testResources/behave_examples/feature_with_rules/steps/example_steps.py
+%%DATADIR%%/plugins/python-ce/helpers/testResources/behave_examples/feature_with_rules/steps/person_steps.py
 %%DATADIR%%/plugins/python-ce/helpers/testResources/build.gradle.kts
 %%DATADIR%%/plugins/python-ce/helpers/testResources/data/docstrings/google_fragments_math.html
 %%DATADIR%%/plugins/python-ce/helpers/testResources/data/docstrings/google_fragments_math.json
@@ -12189,11 +12201,11 @@ share/applications/clion.desktop
 %%DATADIR%%/plugins/python-ce/helpers/virtualenv-py3.pyz
 %%DATADIR%%/plugins/python-ce/lib/completion-ranking-python-with-full-line.jar
 %%DATADIR%%/plugins/python-ce/lib/io.github.z4kn4fein.semver.jvm.jar
-%%DATADIR%%/plugins/python-ce/lib/jetbrains.ml.models.python.imports.ranking.model.jar
 %%DATADIR%%/plugins/python-ce/lib/jsr305.jar
 %%DATADIR%%/plugins/python-ce/lib/kaml.jar
 %%DATADIR%%/plugins/python-ce/lib/libthrift.jar
 %%DATADIR%%/plugins/python-ce/lib/ml-completion-prev-exprs-models.jar
+%%DATADIR%%/plugins/python-ce/lib/modules/intellij.python.ml.features.jar
 %%DATADIR%%/plugins/python-ce/lib/python-ce-frontend.jar
 %%DATADIR%%/plugins/python-ce/lib/python-ce.jar
 %%DATADIR%%/plugins/python-ce/lib/tuweni-toml.jar
@@ -12687,6 +12699,11 @@ share/applications/clion.desktop
 %%DATADIR%%/plugins/vitejs/lib/vitejs.jar
 %%DATADIR%%/plugins/vuejs/lib/commons-text.jar
 %%DATADIR%%/plugins/vuejs/lib/vuejs.jar
+%%DATADIR%%/plugins/vuejs/typescript-vue-plugin/node_modules/@vue/typescript-plugin/README.md
+%%DATADIR%%/plugins/vuejs/typescript-vue-plugin/node_modules/@vue/typescript-plugin/index.js
+%%DATADIR%%/plugins/vuejs/typescript-vue-plugin/node_modules/@vue/typescript-plugin/package-lock.json
+%%DATADIR%%/plugins/vuejs/typescript-vue-plugin/node_modules/@vue/typescript-plugin/package.json
+%%DATADIR%%/plugins/vuejs/typescript-vue-plugin/node_modules/@vue/typescript-plugin/rolldown.config.ts
 %%DATADIR%%/plugins/vuejs/vue-language-server/.gitignore
 %%DATADIR%%/plugins/vuejs/vue-language-server/README.md
 %%DATADIR%%/plugins/vuejs/vue-language-server/bin/vue-language-server.js
@@ -12733,4 +12750,4 @@ share/applications/clion.desktop
 %%DATADIR%%/product-info.json
 share/man/man1/clion.1.gz
 @dir %%DATADIR%%/plugins/cwm-plugin/quiche-native/linux-x86-64
-@dir %%DATADIR%%/plugins/station-plugin/toolbox/jetbrains-toolbox-2.7.0.48109.tar.gz
+@dir %%DATADIR%%/plugins/station-plugin/toolbox/jetbrains-toolbox-2.8.1.52155.tar.gz
