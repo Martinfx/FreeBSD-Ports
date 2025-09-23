@@ -1,4 +1,4 @@
---- core/DesktopEditor/cximage/CxImage/ximainfo.cpp.orig	2021-09-30 12:13:32 UTC
+--- core/DesktopEditor/cximage/CxImage/ximainfo.cpp.orig	2025-09-24 05:35:49 UTC
 +++ core/DesktopEditor/cximage/CxImage/ximainfo.cpp
 @@ -5,7 +5,7 @@
  

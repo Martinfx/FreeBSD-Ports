@@ -1,4 +1,4 @@
---- core/Common/3dParty/v8_89/v8/build/linux/unbundle/libusb.gn.orig	2025-09-23 21:37:41 UTC
+--- core/Common/3dParty/v8_89/v8/build/linux/unbundle/libusb.gn.orig	2025-09-23 22:50:19 UTC
 +++ core/Common/3dParty/v8_89/v8/build/linux/unbundle/libusb.gn
 @@ -0,0 +1,24 @@
 +# Copyright 2016 The Chromium Authors. All rights reserved.

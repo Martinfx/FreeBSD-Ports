@@ -1,4 +1,4 @@
---- core/DesktopEditor/cximage/CxImage/ximagif.cpp.orig	2021-09-30 12:13:32 UTC
+--- core/DesktopEditor/cximage/CxImage/ximagif.cpp.orig	2025-09-23 23:42:43 UTC
 +++ core/DesktopEditor/cximage/CxImage/ximagif.cpp
 @@ -86,7 +86,7 @@ namespace NSGeneratePalette
  

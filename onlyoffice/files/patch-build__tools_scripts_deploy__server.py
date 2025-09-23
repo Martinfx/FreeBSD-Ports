@@ -1,4 +1,4 @@
---- build_tools/scripts/deploy_server.py.orig	2025-09-23 21:37:40 UTC
+--- build_tools/scripts/deploy_server.py.orig	2025-09-23 22:50:09 UTC
 +++ build_tools/scripts/deploy_server.py
 @@ -98,7 +98,7 @@ def make():
        base.copy_file(core_dir + "/Common/3dParty/icu/" + platform + "/build/icudt58.dll", converter_dir + "/icudt58.dll")

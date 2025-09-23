@@ -1,4 +1,4 @@
---- core/Common/3dParty/v8_89/v8/build/linux/libpci/BUILD.gn.orig	2025-09-23 21:37:34 UTC
+--- core/Common/3dParty/v8_89/v8/build/linux/libpci/BUILD.gn.orig	2025-09-23 22:49:55 UTC
 +++ core/Common/3dParty/v8_89/v8/build/linux/libpci/BUILD.gn
 @@ -3,20 +3,36 @@ import("//tools/generate_library_loader/generate_libra
  # found in the LICENSE file.

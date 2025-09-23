@@ -20,6 +20,7 @@ ONLY_FOR_ARCHS=	aarch64 amd64
 ONLY_FOR_ARCHS_REASON=	Upstream only supports amd64 and arm64
 
 PKGFETCH_NODE_VERSION=	20.19.4
+DS_BUILD=	50
 
 BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}Jinja2>=0:devel/py-Jinja2@${PY_FLAVOR} \
 		boost-libs>0:devel/boost-libs \
@@ -41,7 +42,6 @@ LIB_DEPENDS=	libboost_regex.so:devel/boost-libs \
 RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}supervisor>0:sysutils/py-supervisor@${PY_FLAVOR} \
 		${LOCALBASE}/share/certs/ca-root-nss.crt:security/ca_root_nss \
 		gsed:textproc/gsed \
-		nginx:www/nginx \
 		pwgen:sysutils/pwgen \
 		rabbitmq>0:net/rabbitmq \
 		webfonts>=0:x11-fonts/webfonts
@@ -50,28 +50,28 @@ USES=		autoreconf:build dos2unix fakeroot gmake gnome iconv localbase pkgconfig 
 		python:3.9+,build qt:5 ssl trigger
 
 USE_LDCONFIG=	yes
-USE_QT=	qmake:build
+USE_QT=		qmake:build
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	ONLYOFFICE
 GH_PROJECT=	DesktopEditors
-GH_TUPLE=	ONLYOFFICE:core:bc96c82:core/core \
-		ONLYOFFICE:core-fonts:7030c66:corefonts/core-fonts \
-		ONLYOFFICE:dictionaries:d3223bb:dictionaries/dictionaries \
-		ONLYOFFICE:sdkjs:34d1a1e:sdkjs/sdkjs \
-		ONLYOFFICE:web-apps:0e5d9fd:webapps/web-apps \
-		ONLYOFFICE:build_tools:2ffc1b9:buildtools/build_tools \
-		ONLYOFFICE:DocumentBuilder:626d1e44db3d06ceb8298215a67ef0475912d89a:document_builder/DocumentBuilder \
+DS_TAGNAME=	${DISTVERSIONPREFIX}${DISTVERSION}.${DS_BUILD}
+GH_TUPLE=	ONLYOFFICE:core:${DS_TAGNAME}:core/core \
+		ONLYOFFICE:core-fonts:${DS_TAGNAME}:corefonts/core-fonts \
+		ONLYOFFICE:dictionaries:${DS_TAGNAME}:dictionaries/dictionaries \
+		ONLYOFFICE:sdkjs:${DS_TAGNAME}:sdkjs/sdkjs \
+		ONLYOFFICE:web-apps:${DS_TAGNAME}:webapps/web-apps \
+		ONLYOFFICE:build_tools:${DS_TAGNAME}:buildtools/build_tools \
 		ONLYOFFICE:onlyoffice.github.io:b26d001664d771df4f663d2d3ba7dd4a188b6cab:sdkjs_plugins_v1/onlyoffice.github.io \
 		jasenhuang:katana-parser:be6df45:jasenhuang_katana/core/Common/3dParty/html/katana-parser \
 		google:gumbo-parser:aa91b27:google_gumbo/core/Common/3dParty/html/gumbo-parser \
 		google:brotli:a47d747:google_brotli/core/Common/3dParty/brotli/brotli \
 		hunspell:hyphen:73dd296:hunspell_hyphen/core/Common/3dParty/hyphen/hyphen \
-		mity:md4c:481fbfb:mity_md4c/core/Common/3dParty/md/md4c
-#		fsbruva:onlyoffice-DS-pkg-cache:v${PKGFETCH_NODE_VERSION}:pkg_cache/ \
-#		fsbruva:onlyoffice-DS-npm-cache:${DS_TAGNAME}-20250831:npm_cache/
+		mity:md4c:481fbfb:mity_md4c/core/Common/3dParty/md/md4c \
+		fsbruva:onlyoffice-DS-pkg-cache:v${PKGFETCH_NODE_VERSION}:pkg_cache/ \
+		fsbruva:onlyoffice-DS-npm-cache:${DS_TAGNAME}-20250831:npm_cache/
 
-MAKE_ENV=	BUILD_NUMBER=50 \
+MAKE_ENV=	BUILD_NUMBER=${DS_BUILD} \
 		npm_package_config_node_gyp_nodedir=${LOCALBASE} \
 		npm_package_config_node_gyp_python=${PYTHON_CMD} \
 		PKG_CACHE_PATH=${WRKDIR}/.pkg-cache \
@@ -95,12 +95,61 @@ BINARY_ALIAS+=	ar=${LOCALBASE}/bin/llvm-ar${LLVM_DEFAULT} \
 post-extract:
 	@${MV} ${WRKDIR}/v8 ${WRKSRC}/core/Common/3dParty/v8_89
 
-	#@${LN} -s ${WRKSRC_npm_cache} ${WRKDIR}/.npm
-	#@${LN} -s ${WRKSRC_pkg_cache} ${WRKDIR}/.pkg-cache
-	#@${CP} ${DISTDIR}/node-v${PKGFETCH_NODE_VERSION}.tar.gz ${WRKDIR}/.pkg-cache/node
+	@${LN} -s ${WRKSRC_npm_cache} ${WRKDIR}/.npm
+	@${LN} -s ${WRKSRC_pkg_cache} ${WRKDIR}/.pkg-cache
+	@${CP} ${DISTDIR}/node-v${PKGFETCH_NODE_VERSION}.tar.gz ${WRKDIR}/.pkg-cache/node
 
 	@${MKDIR} ${WRKSRC}/sdkjs-plugins/v1
 	@${CP} ${WRKSRC}/onlyoffice.github.io/sdkjs-plugins/v1/* ${WRKSRC}/sdkjs-plugins/v1
+
+
+pre-configure:
+	@${REINPLACE_CMD} 's|%%LOCALBASE%%|${LOCALBASE}|' \
+		${WRKSRC}/build_tools/tools/freebsd/automate.py \
+		${WRKSRC}/core/Apple/IWork.pro \
+		${WRKSRC}/core/Common/3dParty/boost/boost.pri \
+		${WRKSRC}/core/Common/3dParty/icu/icu.pri \
+		${WRKSRC}/core/Common/3dParty/v8_89/v8/build/toolchain/gcc_toolchain.gni \
+		${WRKSRC}/core/Common/3dParty/v8_89/v8/buildtools/third_party/libc++/BUILD.gn \
+		${WRKSRC}/core/DesktopEditor/fontengine/ApplicationFonts.cpp 
+	@${REINPLACE_CMD} -e 's|%%CC%%|${CC}|' -e 's|%%CXX%%|${CXX}|' \
+		${WRKSRC}/core/Common/3dParty/v8_89/v8/build/toolchain/gcc_toolchain.gni \
+		${WRKSRC}/core/Common/base.pri
+	@${REINPLACE_CMD} 's|%%WRKSRC%%|${WRKSRC}|' \
+		${WRKSRC}/build_tools/scripts/build_js.py \
+		${WRKSRC}/build_tools/scripts/build_server.py 
+	@${REINPLACE_CMD} 's|%%PKGFETCH_NODE_MAJOR_VERSION%%|${PKGFETCH_NODE_VERSION:C/^([0-9]+)\..*/\1/}|' \
+		${WRKSRC}/build_tools/scripts/build_server.py
+	@${REINPLACE_CMD} 's|%%DISTDIR%%|${DISTDIR}|' \
+		${WRKSRC}/web-apps/build/patches/optipng-bin+5.1.0.patch
+	@${REINPLACE_CMD} 's|%%OPENSSL_LIB%%|${OPENSSLLIB}|' \
+		${WRKSRC}/core/Common/3dParty/openssl/openssl.pri
+
+	@${ECHO} "# Generated from 'DEPS'" > ${WRKSRC}/core/Common/3dParty/v8_89/v8/build/config/gclient_args.gni
+	@${ECHO} "checkout_google_benchmark = false" >> ${WRKSRC}/core/Common/3dParty/v8_89/v8/build/config/gclient_args.gni
+
+do-build:
+	${INSTALL_SCRIPT} ${FILESDIR}/npm ${BINARY_LINKDIR}/npm
+	@${REINPLACE_CMD} 's|%%LOCALBASE%%|${LOCALBASE}|g' ${WRKDIR}/.bin/npm
+
+	@cd ${WRKSRC}/web-apps/build ; ${SETENV} ${MAKE_ENV} npm install patch-package
+	@cd ${WRKSRC}/web-apps/build ; ${SETENV} ${MAKE_ENV} npm install optipng-bin@5.1.0
+	@cd ${WRKSRC}/web-apps/build ; node_modules/.bin/patch-package
+	@cd ${WRKSRC}/web-apps/build/node_modules/optipng-bin ; ${SETENV} ${MAKE_ENV} npm run postinstall optipng-bin
+
+	@cd ${WRKSRC}/sdkjs  ; ${SETENV} ${MAKE_ENV} npm install grunt-cli
+	@cd ${WRKSRC}/sdkjs  ; ${SETENV} ${MAKE_ENV} npm install grunt
+
+	@${MKDIR} ${WRKSRC}/yao-pkg
+	@${CP} ${FILESDIR}/package* ${WRKSRC}/yao-pkg
+	@cd ${WRKSRC}/yao-pkg ; ${SETENV} ${MAKE_ENV} npm install @yao-pkg/pkg@6.6.0
+
+	@cd ${WRKSRC} && ${PATCH} -N -s -i ${FILESDIR}/extra-patch-pkg-fetch_lib-es5_build.js || ${TRUE}
+	@cd ${WRKSRC} && ${PATCH} -N -s -i ${FILESDIR}/extra-patch-pkg-fetch_patches_node.v${PKGFETCH_NODE_VERSION}.cpp.patch || ${TRUE}
+
+	cd ${WRKSRC}/build_tools/tools/freebsd ; ${SETENV} ${MAKE_ENV} ${PYTHON_CMD} automate.py desktop
+	cd ${WRKSRC}/document-server-package ; ${SETENV} ${MAKE_ENV} ${GMAKE} freebsd
+
 
 do-install:
 

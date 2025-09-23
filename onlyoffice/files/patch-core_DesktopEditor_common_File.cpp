@@ -1,4 +1,4 @@
---- core/DesktopEditor/common/File.cpp.orig	2023-01-27 21:00:04 UTC
+--- core/DesktopEditor/common/File.cpp.orig	2025-09-23 23:00:51 UTC
 +++ core/DesktopEditor/common/File.cpp
 @@ -39,10 +39,14 @@
  #include <windows.h>
@@ -16,7 +16,7 @@
  #include <sys/time.h>
  #include <utime.h>
  #endif
-@@ -1915,6 +1919,23 @@ namespace NSFile
+@@ -1924,6 +1928,23 @@ namespace NSFile
  #endif
  			return L"";
  		}

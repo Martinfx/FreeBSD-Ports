@@ -1,8 +1,8 @@
---- core/DesktopEditor/doctrenderer/app_builder/main.cpp.orig	2021-09-30 12:13:32 UTC
+--- core/DesktopEditor/doctrenderer/app_builder/main.cpp.orig	2025-09-24 06:04:08 UTC
 +++ core/DesktopEditor/doctrenderer/app_builder/main.cpp
-@@ -34,7 +34,7 @@
- #include "../docbuilder.h"
+@@ -35,7 +35,7 @@
  #include "../../common/File.h"
+ #include "../../common/SystemUtils.h"
  
 -#ifdef LINUX
 +#if defined(LINUX) || defined(__FreeBSD__)

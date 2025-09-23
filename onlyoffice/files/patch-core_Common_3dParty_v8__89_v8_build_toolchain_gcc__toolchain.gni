@@ -1,4 +1,4 @@
---- core/Common/3dParty/v8_89/v8/build/toolchain/gcc_toolchain.gni.orig	2025-09-23 21:37:34 UTC
+--- core/Common/3dParty/v8_89/v8/build/toolchain/gcc_toolchain.gni.orig	2025-09-23 22:49:55 UTC
 +++ core/Common/3dParty/v8_89/v8/build/toolchain/gcc_toolchain.gni
 @@ -51,6 +51,11 @@ if (enable_resource_allowlist_generation) {
        "enable_resource_allowlist_generation=true does not work for target_os=$target_os")

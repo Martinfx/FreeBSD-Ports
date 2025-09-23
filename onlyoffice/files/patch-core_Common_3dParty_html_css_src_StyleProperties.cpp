@@ -1,4 +1,4 @@
---- core/Common/3dParty/html/css/src/StyleProperties.cpp.orig	2025-09-23 21:37:34 UTC
+--- core/Common/3dParty/html/css/src/StyleProperties.cpp.orig	2025-09-23 22:49:58 UTC
 +++ core/Common/3dParty/html/css/src/StyleProperties.cpp
 @@ -858,7 +858,7 @@ namespace NSCSS
  		}

@@ -1,4 +1,4 @@
---- core/Common/3dParty/boost/boost.pri.orig	2025-09-23 21:37:34 UTC
+--- core/Common/3dParty/boost/boost.pri.orig	2025-09-23 22:49:58 UTC
 +++ core/Common/3dParty/boost/boost.pri
 @@ -1,5 +1,11 @@
 -INCLUDEPATH += $$PWD/build/$$CORE_BUILDS_PLATFORM_PREFIX/include

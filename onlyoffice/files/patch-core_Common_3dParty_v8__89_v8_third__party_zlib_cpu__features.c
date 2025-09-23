@@ -1,4 +1,4 @@
---- core/Common/3dParty/v8_89/v8/third_party/zlib/cpu_features.c.orig	2025-09-23 21:37:32 UTC
+--- core/Common/3dParty/v8_89/v8/third_party/zlib/cpu_features.c.orig	2025-09-23 22:49:58 UTC
 +++ core/Common/3dParty/v8_89/v8/third_party/zlib/cpu_features.c
 @@ -31,11 +31,20 @@ int ZLIB_INTERNAL x86_cpu_enable_simd = 0;
  

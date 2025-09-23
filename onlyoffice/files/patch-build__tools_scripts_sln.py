@@ -1,4 +1,4 @@
---- build_tools/scripts/sln.py.orig	2025-09-23 21:37:40 UTC
+--- build_tools/scripts/sln.py.orig	2025-09-23 22:50:09 UTC
 +++ build_tools/scripts/sln.py
 @@ -30,6 +30,7 @@ def adjust_project_params(params):
    all_windows = []

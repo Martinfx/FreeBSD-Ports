@@ -1,4 +1,4 @@
---- core/Common/3dParty/v8_89/v8/src/api/api.cc.orig	2025-09-23 21:37:32 UTC
+--- core/Common/3dParty/v8_89/v8/src/api/api.cc.orig	2025-09-23 22:49:55 UTC
 +++ core/Common/3dParty/v8_89/v8/src/api/api.cc
 @@ -5894,7 +5894,7 @@ bool v8::V8::Initialize(const int build_config) {
    return true;

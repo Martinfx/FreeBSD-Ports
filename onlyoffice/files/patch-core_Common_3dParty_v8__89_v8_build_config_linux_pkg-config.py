@@ -1,4 +1,4 @@
---- core/Common/3dParty/v8_89/v8/build/config/linux/pkg-config.py.orig	2025-09-23 21:37:34 UTC
+--- core/Common/3dParty/v8_89/v8/build/config/linux/pkg-config.py.orig	2025-09-23 22:49:55 UTC
 +++ core/Common/3dParty/v8_89/v8/build/config/linux/pkg-config.py
 @@ -59,8 +59,12 @@ def SetConfigPath(options):
      print("You must specify an architecture via -a if using a sysroot.")

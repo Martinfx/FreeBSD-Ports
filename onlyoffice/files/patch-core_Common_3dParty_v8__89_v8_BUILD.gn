@@ -1,4 +1,4 @@
---- core/Common/3dParty/v8_89/v8/BUILD.gn.orig	2025-09-23 21:37:31 UTC
+--- core/Common/3dParty/v8_89/v8/BUILD.gn.orig	2025-09-23 22:49:55 UTC
 +++ core/Common/3dParty/v8_89/v8/BUILD.gn
 @@ -4209,7 +4209,7 @@ v8_component("v8_libbase") {
      }

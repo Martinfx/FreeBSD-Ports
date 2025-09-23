@@ -1,4 +1,4 @@
---- core/Common/3dParty/v8_89/v8/build/detect_host_arch.py.orig	2025-09-23 21:37:34 UTC
+--- core/Common/3dParty/v8_89/v8/build/detect_host_arch.py.orig	2025-09-23 22:49:55 UTC
 +++ core/Common/3dParty/v8_89/v8/build/detect_host_arch.py
 @@ -21,6 +21,8 @@ def HostArch():
      host_arch = 'ia32'

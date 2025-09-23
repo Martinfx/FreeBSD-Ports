@@ -1,4 +1,4 @@
---- build_tools/scripts/config.py.orig	2025-09-23 21:37:40 UTC
+--- build_tools/scripts/config.py.orig	2025-09-23 22:50:09 UTC
 +++ build_tools/scripts/config.py
 @@ -26,6 +26,7 @@ def parse():
    global platforms

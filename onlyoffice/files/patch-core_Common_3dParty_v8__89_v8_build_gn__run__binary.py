@@ -1,4 +1,4 @@
---- core/Common/3dParty/v8_89/v8/build/gn_run_binary.py.orig	2025-09-23 21:37:34 UTC
+--- core/Common/3dParty/v8_89/v8/build/gn_run_binary.py.orig	2025-09-23 22:49:55 UTC
 +++ core/Common/3dParty/v8_89/v8/build/gn_run_binary.py
 @@ -24,7 +24,7 @@ args = [path] + sys.argv[2:]
  # The rest of the arguments are passed directly to the executable.

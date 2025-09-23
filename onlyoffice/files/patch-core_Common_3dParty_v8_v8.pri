@@ -1,4 +1,4 @@
---- core/Common/3dParty/v8/v8.pri.orig	2025-09-23 21:37:29 UTC
+--- core/Common/3dParty/v8/v8.pri.orig	2025-09-23 22:49:58 UTC
 +++ core/Common/3dParty/v8/v8.pri
 @@ -55,6 +55,24 @@ core_windows {
      LIBS += -lShlwapi

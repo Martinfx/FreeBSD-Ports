@@ -1,7 +1,7 @@
---- core/DesktopEditor/fontengine/MemoryStream.h.orig	2021-09-30 12:13:32 UTC
+--- core/DesktopEditor/fontengine/MemoryStream.h.orig	2025-09-24 06:04:09 UTC
 +++ core/DesktopEditor/fontengine/MemoryStream.h
 @@ -41,7 +41,7 @@
- //#define _LOGGING_NATIVE_
+ // #define _LOGGING_NATIVE_
  #endif
  
 -#ifdef _LINUX

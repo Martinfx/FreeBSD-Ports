@@ -1,4 +1,4 @@
---- core/DesktopEditor/graphics/Graphics.cpp.orig	2023-02-13 11:23:51 UTC
+--- core/DesktopEditor/graphics/Graphics.cpp.orig	2025-09-24 06:05:50 UTC
 +++ core/DesktopEditor/graphics/Graphics.cpp
 @@ -61,7 +61,7 @@ namespace Aggplus
  		m_bSwapRGB = false;
@@ -9,7 +9,7 @@
  		m_bSwapRGB = true;
  #endif
  
-@@ -95,7 +95,7 @@ namespace Aggplus
+@@ -100,7 +100,7 @@ namespace Aggplus
  
  		m_bSwapRGB = false;
  
@@ -18,7 +18,7 @@
  		m_bSwapRGB = true;
  #endif
  
-@@ -134,7 +134,7 @@ namespace Aggplus
+@@ -144,7 +144,7 @@ namespace Aggplus
  
  		m_bSwapRGB = false;
  

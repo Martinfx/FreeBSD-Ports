@@ -1,4 +1,4 @@
---- core/Common/base.pri.orig	2025-09-23 21:37:29 UTC
+--- core/Common/base.pri.orig	2025-09-23 22:49:53 UTC
 +++ core/Common/base.pri
 @@ -102,6 +102,14 @@ android {
  	DEFINES += __ANDROID__ LINUX _LINUX _ARM_ALIGN_

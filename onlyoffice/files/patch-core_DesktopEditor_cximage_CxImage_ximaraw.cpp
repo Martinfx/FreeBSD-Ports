@@ -1,4 +1,4 @@
---- core/DesktopEditor/cximage/CxImage/ximaraw.cpp.orig	2021-09-30 12:13:32 UTC
+--- core/DesktopEditor/cximage/CxImage/ximaraw.cpp.orig	2025-09-24 05:50:51 UTC
 +++ core/DesktopEditor/cximage/CxImage/ximaraw.cpp
 @@ -200,7 +200,7 @@ bool CxImageRAW::Decode(CxFile *hFile)
  				for (c=0; c < dcr.colors; c++) ppm2[col*dcr.colors+c] = dcr.image[soff][c];

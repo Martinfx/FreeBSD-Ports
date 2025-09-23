@@ -1,4 +1,4 @@
---- build_tools/scripts/base.py.orig	2025-09-23 21:37:40 UTC
+--- build_tools/scripts/base.py.orig	2025-09-23 22:50:09 UTC
 +++ build_tools/scripts/base.py
 @@ -1449,9 +1449,15 @@ def support_old_versions_plugins(out_dir):
  def support_old_versions_plugins(out_dir):

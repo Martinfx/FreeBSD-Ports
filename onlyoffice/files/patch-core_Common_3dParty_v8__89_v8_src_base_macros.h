@@ -1,4 +1,4 @@
---- core/Common/3dParty/v8_89/v8/src/base/macros.h.orig	2025-09-23 21:37:31 UTC
+--- core/Common/3dParty/v8_89/v8/src/base/macros.h.orig	2025-09-23 22:49:55 UTC
 +++ core/Common/3dParty/v8_89/v8/src/base/macros.h
 @@ -203,7 +203,8 @@ struct is_trivially_copyable {
  // base::is_trivially_copyable will differ for these cases.
