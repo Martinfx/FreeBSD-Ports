@@ -17,6 +17,7 @@ ONLY_FOR_ARCHS=	aarch64 amd64 i386
 BUILD_DEPENDS=	bash:shells/bash \
 		${PYTHON_PKGNAMEPREFIX}Jinja2>0:devel/py-Jinja2@${PY_FLAVOR} \
 		${PYTHON_PKGNAMEPREFIX}ply>0:devel/py-ply@${PY_FLAVOR} \
+		bindgen:devel/rust-bindgen-cli \
 		gperf:devel/gperf \
 		flock:sysutils/flock \
 		node:www/node \
