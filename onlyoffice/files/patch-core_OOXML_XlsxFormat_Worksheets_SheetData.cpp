@@ -1,8 +1,8 @@
---- core/OOXML/XlsxFormat/Worksheets/SheetData.cpp.orig	2024-08-28 20:40:12 UTC
+--- core/OOXML/XlsxFormat/Worksheets/SheetData.cpp.orig	2025-09-24 09:41:02 UTC
 +++ core/OOXML/XlsxFormat/Worksheets/SheetData.cpp
-@@ -72,6 +72,8 @@
- #include <boost/date_time/gregorian/gregorian.hpp>
- #include <boost/date_time/posix_time/posix_time.hpp>
+@@ -76,6 +76,8 @@
+ 
+ #include <boost/make_unique.hpp>
  
 +#include <cfloat>
 +

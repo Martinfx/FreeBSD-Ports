@@ -1,6 +1,6 @@
---- core/OOXML/Binary/Presentation/Converter.cpp.orig	2023-02-13 16:17:44 UTC
+--- core/OOXML/Binary/Presentation/Converter.cpp.orig	2025-09-24 09:41:03 UTC
 +++ core/OOXML/Binary/Presentation/Converter.cpp
-@@ -203,7 +203,7 @@ namespace PPTX2EditorAdvanced
+@@ -205,7 +205,7 @@ namespace PPTX2EditorAdvanced
  			// проверяем note
  			size_t pPointerN = (size_t)(slide->Note.operator ->());
  			LONG nNoteIndex = -1;

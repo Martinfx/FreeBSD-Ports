@@ -1,6 +1,6 @@
---- core/OOXML/PPTXFormat/DrawingConverter/ASCOfficeDrawingConverter.cpp.orig	2023-06-14 14:39:19 UTC
+--- core/OOXML/PPTXFormat/DrawingConverter/ASCOfficeDrawingConverter.cpp.orig	2025-09-24 09:41:03 UTC
 +++ core/OOXML/PPTXFormat/DrawingConverter/ASCOfficeDrawingConverter.cpp
-@@ -1953,11 +1953,11 @@ bool CDrawingConverter::ParceObject(const std::wstring
+@@ -1965,11 +1965,11 @@ bool CDrawingConverter::ParceObject(const std::wstring
  {
  	XmlUtils::CXmlNode oMainNode;
  	if (!oMainNode.FromXmlString(strXml))

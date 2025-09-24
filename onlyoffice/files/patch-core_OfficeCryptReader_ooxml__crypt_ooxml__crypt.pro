@@ -1,6 +1,6 @@
---- core/OfficeCryptReader/ooxml_crypt/ooxml_crypt.pro.orig	2021-12-18 11:22:47 UTC
+--- core/OfficeCryptReader/ooxml_crypt/ooxml_crypt.pro.orig	2025-09-24 09:41:11 UTC
 +++ core/OfficeCryptReader/ooxml_crypt/ooxml_crypt.pro
-@@ -50,6 +50,11 @@ core_windows {
+@@ -56,6 +56,11 @@ core_windows {
      LIBS += -lws2_32
  }
  
@@ -10,5 +10,5 @@
 +}
 +
  core_linux {
-     LIBS += -lz -pthread
-     QMAKE_LFLAGS += -Wl,--rpath=./
+     LIBS += -lz -pthread -ldl
+ }

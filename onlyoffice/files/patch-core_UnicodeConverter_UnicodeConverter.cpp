@@ -1,4 +1,4 @@
---- core/UnicodeConverter/UnicodeConverter.cpp.orig	2022-09-27 13:24:04 UTC
+--- core/UnicodeConverter/UnicodeConverter.cpp.orig	2025-09-24 09:43:08 UTC
 +++ core/UnicodeConverter/UnicodeConverter.cpp
 @@ -38,6 +38,7 @@
  #include "unicode/usprep.h"
