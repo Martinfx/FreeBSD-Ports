@@ -1,5 +1,14 @@
---- build_tools/scripts/deploy_desktop.py.orig	2025-09-24 14:44:06 UTC
+--- build_tools/scripts/deploy_desktop.py.orig	2025-09-24 14:46:14 UTC
 +++ build_tools/scripts/deploy_desktop.py
+@@ -120,7 +120,7 @@ def make():
+   
+     # cef
+     build_dir_name = "build"
+-    if (0 == platform.find("linux")) and (config.check_option("config", "cef_version_107")):
++    if (0 == platform.find("freebsd")) and (config.check_option("config", "cef_version_107")):
+       build_dir_name = "build_107"
+     elif (0 == platform.find("mac")) and (config.check_option("config", "use_v8")):
+       build_dir_name = "build_103"
 @@ -233,9 +233,12 @@ def make():
  
      # io
