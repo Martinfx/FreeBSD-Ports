@@ -1,0 +1,10 @@
+name: "${PKGNAME}"
+version: "${PKGVERSION}"
+origin: "${PKGORIGIN}"
+comment: "${COMMENT}"
+desc: <<EOD
+${DESCR}
+EOD
+maintainer: "${MAINTAINER}"
+www: "${WWW}"
+licenses: [ "${LICENSE}" ]
