@@ -58,14 +58,13 @@ GH_PROJECT=	DesktopEditors
 DS_TAGNAME=	${DISTVERSIONPREFIX}${DISTVERSION}.${DS_BUILD}
 GH_TUPLE=	ONLYOFFICE:core:${DS_TAGNAME}:core/core \
 		ONLYOFFICE:desktop-apps:${DS_TAGNAME}:apps/desktop-apps \
-		ONLYOFFICE:desktop-sdk:${DS_TAGNAME}:desktop/desktop-sdk \
 		ONLYOFFICE:core-fonts:${DS_TAGNAME}:corefonts/core-fonts \
 		ONLYOFFICE:dictionaries:${DS_TAGNAME}:dictionaries/dictionaries \
 		ONLYOFFICE:sdkjs:${DS_TAGNAME}:sdkjs/sdkjs \
 		ONLYOFFICE:web-apps:${DS_TAGNAME}:webapps/web-apps \
 		ONLYOFFICE:build_tools:${DS_TAGNAME}:buildtools/build_tools \
 		ONLYOFFICE:onlyoffice.github.io:b26d001664d771df4f663d2d3ba7dd4a188b6cab:sdkjs_plugins_v1/onlyoffice.github.io \
-		Martinfx:desktop-sdk:7ab881ff6bec644d296556cdffb61ebf95c34411:cef/desktop-sdk/ChromiumBasedEditors/lib \
+		Martinfx:desktop-sdk:7ab881ff6bec644d296556cdffb61ebf95c34411:desktop/desktop-sdk \
 		jasenhuang:katana-parser:be6df45:jasenhuang_katana/core/Common/3dParty/html/katana-parser \
 		google:gumbo-parser:aa91b27:google_gumbo/core/Common/3dParty/html/gumbo-parser \
 		google:brotli:a47d747:google_brotli/core/Common/3dParty/brotli/brotli \
