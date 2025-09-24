@@ -1,4 +1,4 @@
-TIMESTAMP = 1758728634
+TIMESTAMP = 1758729201
 SHA256 (v8-8.9.255.25_all.tar.gz) = 54853ef93accc063a82a0dc29457b25c9b6d88315431d62e06ab1f84797c5f80
 SIZE (v8-8.9.255.25_all.tar.gz) = 72818814
 SHA256 (node-v20.19.4.tar.gz) = cc363c0a90fe5025939175c1c29ab67235f36ebe4b5d78506634da27a73eef5d
@@ -21,8 +21,8 @@ SHA256 (ONLYOFFICE-build_tools-v9.0.4.50_GH0.tar.gz) = d52aacc9d97ed5a0b1174150e
 SIZE (ONLYOFFICE-build_tools-v9.0.4.50_GH0.tar.gz) = 33885000
 SHA256 (ONLYOFFICE-onlyoffice.github.io-b26d001664d771df4f663d2d3ba7dd4a188b6cab_GH0.tar.gz) = 347b8f1d3c21b1f61a3f1fcae86f402b27ce4f8b826e18158834251046d83cf5
 SIZE (ONLYOFFICE-onlyoffice.github.io-b26d001664d771df4f663d2d3ba7dd4a188b6cab_GH0.tar.gz) = 17009005
-SHA256 (Martinfx-desktop-sdk-7ab881ff6bec644d296556cdffb61ebf95c34411_GH0.tar.gz) = c7755150158000695c37edd80dd33be1a1e0240fa079d9aea609ce2fbcdd3a50
-SIZE (Martinfx-desktop-sdk-7ab881ff6bec644d296556cdffb61ebf95c34411_GH0.tar.gz) = 13217032
+SHA256 (Martinfx-desktop-sdk-8d7a866_GH0.tar.gz) = e3abd52e84cc697e41eb7e13bef3face557052fc3ada93c4550c178b9ec327d6
+SIZE (Martinfx-desktop-sdk-8d7a866_GH0.tar.gz) = 13215971
 SHA256 (jasenhuang-katana-parser-be6df45_GH0.tar.gz) = 363ede45ba6d125fdb7323c43d34acd3d0ae9028ac18aec632eb6a623160f09a
 SIZE (jasenhuang-katana-parser-be6df45_GH0.tar.gz) = 97712
 SHA256 (google-gumbo-parser-aa91b27_GH0.tar.gz) = 1360f85c02fb2573a10f00abcddebc8f1ff277a16f66553439193af93afae335

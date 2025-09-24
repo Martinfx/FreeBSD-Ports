@@ -64,7 +64,7 @@ GH_TUPLE=	ONLYOFFICE:core:${DS_TAGNAME}:core/core \
 		ONLYOFFICE:web-apps:${DS_TAGNAME}:webapps/web-apps \
 		ONLYOFFICE:build_tools:${DS_TAGNAME}:buildtools/build_tools \
 		ONLYOFFICE:onlyoffice.github.io:b26d001664d771df4f663d2d3ba7dd4a188b6cab:sdkjs_plugins_v1/onlyoffice.github.io \
-		Martinfx:desktop-sdk:7ab881ff6bec644d296556cdffb61ebf95c34411:desktop/desktop-sdk \
+		Martinfx:desktop-sdk:8d7a866:desktop/desktop-sdk \
 		jasenhuang:katana-parser:be6df45:jasenhuang_katana/core/Common/3dParty/html/katana-parser \
 		google:gumbo-parser:aa91b27:google_gumbo/core/Common/3dParty/html/gumbo-parser \
 		google:brotli:a47d747:google_brotli/core/Common/3dParty/brotli/brotli \
