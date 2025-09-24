@@ -57,6 +57,8 @@ GH_ACCOUNT=	ONLYOFFICE
 GH_PROJECT=	DesktopEditors
 DS_TAGNAME=	${DISTVERSIONPREFIX}${DISTVERSION}.${DS_BUILD}
 GH_TUPLE=	ONLYOFFICE:core:${DS_TAGNAME}:core/core \
+		ONLYOFFICE:desktop-apps:${DS_TAGNAME}:apps/desktop-apps \
+		ONLYOFFICE:desktop-sdk:${DS_TAGNAME}:desktop/desktop-sdk \
 		ONLYOFFICE:core-fonts:${DS_TAGNAME}:corefonts/core-fonts \
 		ONLYOFFICE:dictionaries:${DS_TAGNAME}:dictionaries/dictionaries \
 		ONLYOFFICE:sdkjs:${DS_TAGNAME}:sdkjs/sdkjs \
