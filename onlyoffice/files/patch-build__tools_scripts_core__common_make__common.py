@@ -1,15 +1,14 @@
---- build_tools/scripts/core_common/make_common.py.orig	2025-08-05 15:06:08 UTC
+--- build_tools/scripts/core_common/make_common.py.orig	2025-09-24 14:52:58 UTC
 +++ build_tools/scripts/core_common/make_common.py
-@@ -8,22 +8,22 @@ import config
+@@ -8,22 +8,22 @@ import glob
  import base
  import glob
  
 -import boost
--import cef
++#import boost
+ import cef
 -import icu
 -import openssl
-+#import boost
-+#import cef
 +#import icu
 +#import openssl
  import curl
@@ -35,11 +34,10 @@
          check_android_ndk_macos_arm(toolchain + "/prebuilt")
  
 -  boost.make()
--  cef.make()
++#  boost.make()
+   cef.make()
 -  icu.make()
 -  openssl.make()
-+#  boost.make()
-+#  cef.make()
 +#  icu.make()
 +#  openssl.make()
    v8.make()

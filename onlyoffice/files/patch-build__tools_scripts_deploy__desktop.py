@@ -1,4 +1,4 @@
---- build_tools/scripts/deploy_desktop.py.orig	2025-09-24 14:46:14 UTC
+--- build_tools/scripts/deploy_desktop.py.orig	2025-09-24 14:52:58 UTC
 +++ build_tools/scripts/deploy_desktop.py
 @@ -120,7 +120,7 @@ def make():
    
@@ -9,6 +9,15 @@
        build_dir_name = "build_107"
      elif (0 == platform.find("mac")) and (config.check_option("config", "use_v8")):
        build_dir_name = "build_103"
+@@ -189,7 +189,7 @@ def make():
+           base.copy_file(git_dir + "/desktop-apps/win-linux/extras/online-installer/" + apps_postfix + "/online-installer.exe", root_dir + "/online-installer.exe")
+         base.copy_file(git_dir + "/desktop-apps/win-linux/" + apps_postfix + "/DesktopEditors.exe", root_dir + "/editors.exe")
+         base.copy_file(git_dir + "/desktop-apps/win-linux/res/icons/desktopeditors.ico", root_dir + "/app.ico")
+-      elif (0 == platform.find("linux")):
++      elif (0 == platform.find("freebsd")):
+         base.copy_file(git_dir + "/desktop-apps/win-linux/" + apps_postfix + "/DesktopEditors", root_dir + "/DesktopEditors")
+ 
+       if base.check_congig_option_with_platfom(platform, "libvlc"):
 @@ -233,9 +233,12 @@ def make():
  
      # io
