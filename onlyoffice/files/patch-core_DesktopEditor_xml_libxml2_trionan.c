@@ -1,4 +1,4 @@
---- core/DesktopEditor/xml/libxml2/trionan.c.orig	2021-09-30 12:13:32 UTC
+--- core/DesktopEditor/xml/libxml2/trionan.c.orig	2025-09-24 06:18:09 UTC
 +++ core/DesktopEditor/xml/libxml2/trionan.c
 @@ -51,7 +51,7 @@
  # include <signal.h>
@@ -18,7 +18,7 @@
  #  error "Must be compiled with option -mieee"
  # endif
  #endif /* __alpha && ! _IEEE_FP */
-@@ -443,7 +443,7 @@ trio_isinf
+@@ -443,7 +443,7 @@ TRIO_ARGS1((number),
  TRIO_ARGS1((number),
  	   double number)
  {
