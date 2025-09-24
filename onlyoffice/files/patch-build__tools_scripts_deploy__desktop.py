@@ -1,19 +1,6 @@
---- build_tools/scripts/deploy_desktop.py.orig	2025-09-24 14:37:32 UTC
+--- build_tools/scripts/deploy_desktop.py.orig	2025-09-24 14:44:06 UTC
 +++ build_tools/scripts/deploy_desktop.py
-@@ -87,9 +87,9 @@ def make():
-       base.copy_file(core_dir + "/Common/3dParty/icu/" + platform + "/build/icuuc58.dll", root_dir + "/converter/icuuc58.dll")
-       #base.copy_file(git_dir + "/desktop-apps/common/converter/package.config", root_dir + "/converter/package.config")
- 
--    if (0 == platform.find("linux")):
--      base.copy_file(core_dir + "/Common/3dParty/icu/" + platform + "/build/libicudata.so.58", root_dir + "/converter/libicudata.so.58")
--      base.copy_file(core_dir + "/Common/3dParty/icu/" + platform + "/build/libicuuc.so.58", root_dir + "/converter/libicuuc.so.58")
-+     if (0 != platform.find('freebsd')):
-+        base.copy_file(core_dir + "/Common/3dParty/icu/" + platform + "/build/libicudata.so.58", root_dir + "/converter/libicudata.so.58")
-+        base.copy_file(core_dir + "/Common/3dParty/icu/" + platform + "/build/libicuuc.so.58", root_dir + "/converter/libicuuc.so.58")
- 
-     if (0 == platform.find("mac")):
-       base.copy_file(core_dir + "/Common/3dParty/icu/" + platform + "/build/libicudata.58.dylib", root_dir + "/converter/libicudata.58.dylib")
-@@ -233,9 +233,13 @@ def make():
+@@ -233,9 +233,12 @@ def make():
  
      # io
      base.create_dir(root_dir + "/editors/sdkjs-plugins/v1")
@@ -26,7 +13,6 @@
 +    base.copy_file(plugins_dir + "/v1/plugins.js", js_dir + "/editors/sdkjs-plugins/v1/plugins.js")
 +    base.copy_file(plugins_dir + "/v1/plugins-ui.js", js_dir + "/editors/sdkjs-plugins/v1/plugins-ui.js")
 +    base.copy_file(plugins_dir + "/v1/plugins.css", js_dir + "/editors/sdkjs-plugins/v1/plugins.css")
-+
      base.support_old_versions_plugins(root_dir + "/editors/sdkjs-plugins")
  
      base.copy_sdkjs_plugin(git_dir + "/desktop-sdk/ChromiumBasedEditors/plugins/encrypt", root_dir + "/editors/sdkjs-plugins", "advanced2", True)
