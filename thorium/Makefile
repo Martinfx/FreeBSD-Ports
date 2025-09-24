@@ -73,10 +73,10 @@ USES=		bison compiler:c++17-lang cpe desktop-file-utils gl gmake gnome \
 		iconv:wchar_t jpeg localbase:ldflags ninja perl5 pkgconfig \
 		python:build qt:5 shebangfix tar:xz xorg
 
-CPE_VENDOR=	google
+CPE_VENDOR=	thorium
 CPE_PRODUCT=	chrome
 USE_GL=		gbm gl
-USE_GNOME=	atk dconf gdkpixbuf2 glib20 gtk30 libxml2 libxslt
+USE_GNOME=	atk dconf gdkpixbuf glib20 gtk30 libxml2 libxslt
 USE_LDCONFIG=	${DATADIR}
 USE_PERL5=	build
 USE_XORG=	x11 xcb xcomposite xcursor xext xdamage xfixes xi \
