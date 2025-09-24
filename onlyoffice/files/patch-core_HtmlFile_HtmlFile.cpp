@@ -1,4 +1,4 @@
---- core/HtmlFile/HtmlFile.cpp.orig	2021-09-30 12:13:32 UTC
+--- core/HtmlFile/HtmlFile.cpp.orig	2025-09-24 09:30:24 UTC
 +++ core/HtmlFile/HtmlFile.cpp
 @@ -45,7 +45,7 @@
  #include <vector>
@@ -9,7 +9,7 @@
  #include <unistd.h>
  #include <sys/wait.h>
  #include <stdio.h>
-@@ -475,7 +475,7 @@ int CHtmlFile::Convert(const std::vector<std::wstring>
+@@ -472,7 +472,7 @@ int CHtmlFile::Convert(const std::vector<std::wstring>
      NSFile::CFileBinary::Remove(sTempFileForParams);
  #endif
  
