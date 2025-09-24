@@ -5,7 +5,7 @@
      list(APPEND ${name_of_list} ${${name_of_list}_LINUX})
    endif()
 +  if("${CMAKE_SYSTEM_NAME}" STREQUAL "FreeBSD" AND ${name_of_list}_FREEBSD)
-+    list(APPEND ${name_of_list} ${${name_of_list}_LINUX})
++    list(APPEND ${name_of_list} ${${name_of_list}_FREEBSD})
 +  endif()
    if("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows" AND ${name_of_list}_WINDOWS)
      list(APPEND ${name_of_list} ${${name_of_list}_WINDOWS})
