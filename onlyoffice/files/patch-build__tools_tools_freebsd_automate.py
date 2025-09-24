@@ -1,4 +1,4 @@
---- build_tools/tools/freebsd/automate.py.orig	2021-12-18 16:54:46 UTC
+--- build_tools/tools/freebsd/automate.py.orig	2025-09-24 12:47:49 UTC
 +++ build_tools/tools/freebsd/automate.py
 @@ -0,0 +1,53 @@
 +#!/usr/bin/env python
@@ -16,7 +16,7 @@
 +base.set_env('QT_SELECT', 'qt5')
 +if not base.is_dir("./qt_build/Qt-5.15.14"):
 +    base.cmd("mkdir", ["-p", "qt_build/Qt-5.15.14",])
-+    base.cmd("ln", ["-s", "%%LOCALBASE%%/lib/qt5", "qt_build/Qt-5.15.14/clang_64"])
++    base.cmd("ln", ["-s", "/usr/local/lib/qt5", "qt_build/Qt-5.15.14/clang_64"])
 +
 +config = {}
 +for arg in array_args:
@@ -26,8 +26,8 @@
 +      config[arg[2:indexEq]] = arg[indexEq + 1:]
 +  else:
 +    # XXX Currently only server has been checked for compilation under FreeBSD
-+    if arg != 'server':
-+    	print("module %s not supported yet under FreeBSD" % arg)
++#    if arg != 'server':
++#    	print("module %s not supported yet under FreeBSD" % arg)
 +    array_modules.append(arg)
 +
 +if ("branch" in config):
@@ -39,8 +39,8 @@
 +
 +modules = " ".join(array_modules)
 +# XXX Currently only server has been checked for compilation under FreeBSD
-+if "" == modules:
-+  modules = "server"
++if "desktop" == modules:
++  modules = "desktop"
 +
 +print("---------------------------------------------")
 +print("build modules: " + modules)
