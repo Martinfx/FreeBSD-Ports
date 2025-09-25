@@ -1,0 +1,11 @@
+--- CMakeLists.txt.orig	2024-12-05 22:53:11 UTC
++++ CMakeLists.txt
+@@ -71,6 +71,8 @@ include(macros)
+ include(compiler_utils)
+ include(macros)
+ 
++add_compile_definitions(GLOG_USE_GLOG_EXPORT)
++
+ ###########################################################################
+ # Global settings.
+ 
