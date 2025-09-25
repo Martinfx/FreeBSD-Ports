@@ -41,7 +41,7 @@
    return ip4;
 +#endif
 +
-+  return 0;
++  return ip4;
  }
  
  std::string getIp6(const std::string& interface) {
@@ -64,7 +64,7 @@
    freeifaddrs(ifaddr);
    return ip6;
 +#endif
-+ return 0;
++ return ip6;
  }
  
  std::vector<Network> getAllNetworks() {
