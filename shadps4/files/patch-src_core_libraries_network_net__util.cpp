@@ -1,4 +1,4 @@
---- src/core/libraries/network/net_util.cpp.orig	2025-09-12 14:03:51 UTC
+--- src/core/libraries/network/net_util.cpp.orig	2025-09-18 06:54:56 UTC
 +++ src/core/libraries/network/net_util.cpp
 @@ -8,7 +8,7 @@ typedef int socklen_t;
  #include <winsock2.h>
@@ -8,8 +8,8 @@
 +#elif __linux__
  #include <cerrno>
  #include <arpa/inet.h>
- #include <net/if.h>
-@@ -19,6 +19,15 @@ typedef int net_socket;
+ #include <ifaddrs.h>
+@@ -20,6 +20,15 @@ typedef int net_socket;
  #include <sys/socket.h>
  #include <unistd.h>
  typedef int net_socket;
@@ -24,8 +24,8 @@
 +#include <cstring>
  #endif
  #if defined(__APPLE__)
- #include <ifaddrs.h>
-@@ -70,6 +79,28 @@ bool NetUtilInternal::RetrieveEthernetAddr() {
+ #include <net/if_dl.h>
+@@ -76,6 +85,28 @@ bool NetUtilInternal::RetrieveEthernetAddr() {
          }
          freeifaddrs(ifap);
      }
@@ -54,10 +54,12 @@
  #else
      ifreq ifr;
      ifconf ifc;
-@@ -107,4 +138,4 @@ bool NetUtilInternal::RetrieveEthernetAddr() {
+@@ -115,7 +146,7 @@ bool NetUtilInternal::RetrieveEthernetAddr() {
  #endif
      return false;
  }
--} // namespace NetUtil
-\ No newline at end of file
+-
 +} // namespace NetUtil
+ const std::string& NetUtilInternal::GetDefaultGateway() const {
+     return default_gateway;
+ }
