@@ -57,14 +57,17 @@ GH_TUPLE+=	shadps4-emu:ext-LibAtrac9:ec8899dadf393f655f2871a94e0fe4b3d6220c9a:li
 		Tessil:robin-map:fe845fd7852ef541c5479ae23b3d36b57f8608ee:robin/externals/robin-map \
 		shadps4-emu:ext-SDL:e9c2e9b:sdl/externals/sdl3 \
 		shadps4-emu:sirit:282083a:sirit/externals/sirit \
+		shadps4-emu:tracy:143a53d1985b8e52a7590a0daca30a0a7c653b42:tracy/externals/tracy \
 		KhronosGroup:SPIRV-Headers:2acb319:spirv/externals/sirit/externals/SPIRV-Headers \
 		ToruNiina:toml11:7f6c574ff5aa1053534e7e19c0a4f22bf4c6aaca:toml/externals/toml11 \
 		GPUOpen-LibrariesAndSDKs:VulkanMemoryAllocator:5a53a198945ba8260fbc58fadb788745ce6aa263:vma/externals/vma \
 		Cyan4973:xxHash:2bf8313b934633b2a5b7e8fd239645b85e10c852:xxhash/externals/xxhash \
 		shadps4-emu:winpthreads:f00c973a6ab2a23573708568b8ef4acc20a9d36b:winpthreads/externals/winpthreads \
 		herumi:xbyak:4e44f4614ddbf038f2a6296f5b906d5c72691e0f:xbyak/externals/xbyak \
+		shadps4-emu:ext-hwinfo:351c59828a79958f74f3ccab5e7773ffd724f6f7:hwinfo/externals/hwinfo \
 		shadps4-emu:ext-zlib-ng:d54e3769be0c522015b784eca2af258b1c026107:zlib/externals/zlib-ng \
 		zyantific:zydis:120e0e7:zybis/externals/zydis \
+		KhronosGroup:Vulkan-Headers:a01329f307fa6067da824de9f587f292d761680b:headers/externals/vulkan-headers \
 		shadps4-emu:ext-cryptopp-cmake:2c384c28265a93358a2455e610e76393358794df:cmake/externals/cryptopp-cmake \
 		shadps4-emu:ext-cryptopp:effed0d0b865afc23ed67e0916f83734e4b9b3b7:cryptopp/externals/cryptopp \
 		zyantific:zycore-c:38d4f02:zycore/externals/zydis/dependencies/zycore
