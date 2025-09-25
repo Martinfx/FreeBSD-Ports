@@ -59,7 +59,7 @@
    for (struct ifaddrs* ifa = ifaddr; ifa != nullptr; ifa = ifa->ifa_next) {
      if (ifa->ifa_addr == nullptr) {
        continue;
-@@ -74,6 +92,8 @@ std::string getIp6(const std::string& interface) {
+@@ -74,10 +92,13 @@ std::string getIp6(const std::string& interface) {
    }
    freeifaddrs(ifaddr);
    return ip6;
@@ -68,3 +68,16 @@
  }
  
  std::vector<Network> getAllNetworks() {
+   std::vector<Network> networks;
++#if defined(__linux__)
+   struct ifaddrs* ifaddr;
+   if (getifaddrs(&ifaddr) == -1) {
+     perror("getifaddrs");
+@@ -98,6 +119,7 @@ std::vector<Network> getAllNetworks() {
+     networks.push_back(std::move(network));
+   }
+   freeifaddrs(ifaddr);
++#endif
+   return networks;
+ }
+ 
