@@ -1,4 +1,4 @@
---- externals/CMakeLists.txt.orig	2025-07-06 18:24:57 UTC
+--- externals/CMakeLists.txt.orig	2025-09-18 06:54:56 UTC
 +++ externals/CMakeLists.txt
 @@ -28,8 +28,8 @@ if (NOT TARGET FFmpeg::ffmpeg)
  
@@ -55,18 +55,18 @@
  
  # libusb
 -if (NOT TARGET libusb::usb)
--    add_subdirectory(libusb)
+-    add_subdirectory(ext-libusb)
 -    add_library(libusb::usb ALIAS usb-1.0)
 -endif()
 +#if (NOT TARGET libusb::usb)
-+#    add_subdirectory(libusb)
++#    add_subdirectory(ext-libusb)
 +#    add_library(libusb::usb ALIAS usb-1.0)
 +#endif()
  
  # Discord RPC
  if (ENABLE_DISCORD_RPC)
-@@ -217,14 +217,15 @@ endif()
- endif()
+@@ -221,14 +221,15 @@ add_subdirectory(hwinfo)
+ add_subdirectory(hwinfo)
  
  # Apple-only dependencies
 -if (APPLE)

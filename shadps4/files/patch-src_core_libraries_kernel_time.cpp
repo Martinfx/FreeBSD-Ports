@@ -1,4 +1,4 @@
---- src/core/libraries/kernel/time.cpp.orig	2025-07-06 18:24:57 UTC
+--- src/core/libraries/kernel/time.cpp.orig	2025-09-18 06:54:56 UTC
 +++ src/core/libraries/kernel/time.cpp
 @@ -2,6 +2,7 @@
  // SPDX-License-Identifier: GPL-2.0-or-later
@@ -12,8 +12,8 @@
  #include <windows.h>
  #include "common/ntapi.h"
  #else
--#if __APPLE__
-+#if __APPLE__ || __FreeBSD__
+-#ifdef __APPLE__
++#if defined(__APPLE__) || defined(__FreeBSD__)
  #include <date/tz.h>
  #endif
  #include <ctime>
@@ -26,10 +26,12 @@
  #endif
      auto info = time_zone->get_info(std::chrono::system_clock::now());
  
-@@ -544,4 +545,4 @@ void RegisterTime(Core::Loader::SymbolsResolver* sym) 
-     LIB_FUNCTION("-o5uEDpN+oY", "libkernel", 1, "libkernel", 1, 1, sceKernelConvertUtcToLocaltime);
+@@ -526,7 +527,7 @@ s32 PS4_SYSV_ABI sceKernelSettimeofday(OrbisKernelTime
+     return ret;
  }
  
--} // namespace Libraries::Kernel
-\ No newline at end of file
+-void RegisterTime(Core::Loader::SymbolsResolver* sym) {
 +} // namespace Libraries::Kernel
+     clock = std::make_unique<Common::NativeClock>();
+     initial_ptc = clock->GetUptime();
+ 

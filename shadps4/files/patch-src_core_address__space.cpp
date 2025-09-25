@@ -1,6 +1,6 @@
---- src/core/address_space.cpp.orig	2025-07-06 18:24:57 UTC
+--- src/core/address_space.cpp.orig	2025-09-18 06:54:56 UTC
 +++ src/core/address_space.cpp
-@@ -374,7 +374,7 @@ struct AddressSpace::Impl {
+@@ -382,7 +382,7 @@ struct AddressSpace::Impl {
          user_size = UserSize;
  
          constexpr int protection_flags = PROT_READ | PROT_WRITE;
@@ -9,7 +9,7 @@
  #if defined(__APPLE__) && defined(ARCH_X86_64)
          // On ARM64 Macs under Rosetta 2, we run into limitations due to the commpage from
          // 0xFC0000000 - 0xFFFFFFFFF and the GPU carveout region from 0x1000000000 - 0x6FFFFFFFFF.
-@@ -440,7 +440,9 @@ struct AddressSpace::Impl {
+@@ -448,7 +448,9 @@ struct AddressSpace::Impl {
          }
          shm_unlink(shm_path.c_str());
  #else
