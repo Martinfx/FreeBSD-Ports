@@ -1,4 +1,4 @@
---- desktop-sdk/ChromiumBasedEditors/lib/src/cef_107/freebsd/libcef_dll/CMakeLists.txt.orig	2025-09-26 15:11:20 UTC
+--- desktop-sdk/ChromiumBasedEditors/lib/src/cef_107/freebsd/libcef_dll/CMakeLists.txt.orig	2025-09-26 16:07:26 UTC
 +++ desktop-sdk/ChromiumBasedEditors/lib/src/cef_107/freebsd/libcef_dll/CMakeLists.txt
 @@ -10,6 +10,9 @@ macro(LIBCEF_APPEND_PLATFORM_SOURCES name_of_list)
    if("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux" AND ${name_of_list}_LINUX)
@@ -10,14 +10,22 @@
    if("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows" AND ${name_of_list}_WINDOWS)
      list(APPEND ${name_of_list} ${${name_of_list}_WINDOWS})
    endif()
-@@ -666,6 +669,10 @@ set(LIBCEF_INCLUDE_INTERNAL_SRCS_LINUX
-   )
- set(LIBCEF_INCLUDE_INTERNAL_SRCS_LINUX
+@@ -668,6 +671,10 @@ set(LIBCEF_INCLUDE_INTERNAL_SRCS_LINUX
    ../include/internal/cef_linux.h
-+  ../include/internal/cef_types_linux.h
-+  )
-+set(LIBCEF_INCLUDE_INTERNAL_SRCS_FREEBSD
-+  ../include/internal/cef_freebsd.h
    ../include/internal/cef_types_linux.h
    )
++set(LIBCEF_INCLUDE_INTERNAL_SRCS_FREEBSD
++  ../include/internal/cef_freebsd.h
++  ../include/internal/cef_types_linux.h
++  )
  set(LIBCEF_INCLUDE_INTERNAL_SRCS_MAC
+   ../include/internal/cef_mac.h
+   ../include/internal/cef_types_mac.h
+@@ -768,6 +775,7 @@ add_library(${CEF_TARGET}
+   ${LIBCEF_INCLUDE_VIEWS_SRCS}
+   ${LIBCEF_INCLUDE_WRAPPER_SRCS}
+   ${LIBCEF_WRAPPER_SRCS}
++  ${LIBCEF_INCLUDE_INTERNAL_SRCS_FREEBSD}
+   )
+ SET_LIBRARY_TARGET_PROPERTIES(${CEF_TARGET})
+ 
