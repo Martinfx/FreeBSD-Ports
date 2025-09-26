@@ -1,11 +1,11 @@
---- desktop-sdk/ChromiumBasedEditors/lib/src/cef_107/freebsd/libcef_dll/CMakeLists.txt.orig	2025-09-24 18:05:29 UTC
+--- desktop-sdk/ChromiumBasedEditors/lib/src/cef_107/freebsd/libcef_dll/CMakeLists.txt.orig	2025-09-26 15:11:20 UTC
 +++ desktop-sdk/ChromiumBasedEditors/lib/src/cef_107/freebsd/libcef_dll/CMakeLists.txt
 @@ -10,6 +10,9 @@ macro(LIBCEF_APPEND_PLATFORM_SOURCES name_of_list)
    if("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux" AND ${name_of_list}_LINUX)
      list(APPEND ${name_of_list} ${${name_of_list}_LINUX})
    endif()
 +  if("${CMAKE_SYSTEM_NAME}" STREQUAL "FreeBSD" AND ${name_of_list}_FREEBSD)
-+    list(APPEND ${name_of_list} ${${name_of_list}_LINUX})
++    list(APPEND ${name_of_list} ${${name_of_list}_FREEBSD})
 +  endif()
    if("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows" AND ${name_of_list}_WINDOWS)
      list(APPEND ${name_of_list} ${${name_of_list}_WINDOWS})
