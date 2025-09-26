@@ -26,6 +26,7 @@ BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}Jinja2>=0:devel/py-Jinja2@${PY_FLAVOR} \
 		boost-libs>0:devel/boost-libs \
 		glib>=2.54:devel/glib20 \
 		gn:devel/gn \
+		gtk3>0:x11-toolkits/gtk30 \
 		java:java/openjdk11 \
 		ninja:devel/ninja \
 		npm:www/npm-node20
