@@ -1,4 +1,4 @@
---- build_tools/scripts/config.py.orig	2025-09-23 22:50:09 UTC
+--- build_tools/scripts/config.py.orig	2025-09-26 05:38:13 UTC
 +++ build_tools/scripts/config.py
 @@ -26,6 +26,7 @@ def parse():
    global platforms
@@ -36,3 +36,12 @@
    elif (0 == platform.find("linux")):
      compiler["compiler"] = "gcc"
      compiler["compiler_64"] = "gcc_64"
+@@ -229,7 +237,7 @@ def is_cef_107():
+   return
+ 
+ def is_cef_107():
+-  if ("linux" == base.host_platform()) and (5004 > base.get_gcc_version()) and not check_option("platform", "android"):
++  if ("freebsd" == base.host_platform()) and not check_option("platform", "android"):
+     return True
+   return False
+ 
