@@ -9,7 +9,7 @@
 +    const VmaAllocationCreateFlags bda_flag = VMA_ALLOCATION_CREATE_DEDICATED_MEMORY_BIT;
      const VmaAllocationCreateInfo alloc_ci = {
 -        .flags = VMA_ALLOCATION_CREATE_WITHIN_BUDGET_BIT | bda_flag | MemoryUsageVmaFlags(usage),
-+        .flags =  bda_flag | VMA_ALLOCATION_CREATE_WITHIN_BUDGET_BIT | MemoryUsageVmaFlags(usage),
++        .flags = VMA_ALLOCATION_CREATE_WITHIN_BUDGET_BIT | MemoryUsageVmaFlags(usage),
          .usage = MemoryUsageVma(usage),
          .requiredFlags = 0,
          .preferredFlags = MemoryUsagePreferredVmaFlags(usage),
