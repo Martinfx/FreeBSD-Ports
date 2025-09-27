@@ -1,65 +1,81 @@
---- src/core/libraries/network/net_util.cpp.orig	2025-09-18 06:54:56 UTC
+--- src/core/libraries/network/net_util.cpp.orig	2025-09-26 23:09:32 UTC
 +++ src/core/libraries/network/net_util.cpp
-@@ -8,7 +8,7 @@ typedef int socklen_t;
- #include <winsock2.h>
- typedef SOCKET net_socket;
- typedef int socklen_t;
--#else
-+#elif __linux__
- #include <cerrno>
- #include <arpa/inet.h>
- #include <ifaddrs.h>
-@@ -20,6 +20,15 @@ typedef int net_socket;
- #include <sys/socket.h>
- #include <unistd.h>
- typedef int net_socket;
-+#elif __FreeBSD__
-+#include <sys/types.h>
-+#include <sys/socket.h>
-+#include <ifaddrs.h>
-+#include <net/if_dl.h>
-+#include <net/if_types.h>
-+#include <array>
-+#include <algorithm>
-+#include <cstring>
+@@ -29,12 +29,17 @@ typedef int net_socket;
+ #include <array>
+ #include <algorithm>
+ #include <cstring>
++#include <net/if.h>
++#include <net/route.h>
++#include <netinet/in.h>
++#include <arpa/inet.h>
++#include <unistd.h>
  #endif
  #if defined(__APPLE__)
  #include <net/if_dl.h>
-@@ -76,6 +85,28 @@ bool NetUtilInternal::RetrieveEthernetAddr() {
-         }
-         freeifaddrs(ifap);
-     }
-+#elif defined __FreeBSD__
-+    ifaddrs* ifap = nullptr;
-+    if (getifaddrs(&ifap) != 0 || !ifap) {
-+        return false;
-+    }
-+
-+    for (ifaddrs* p = ifap; p; p = p->ifa_next) {
-+        if (!p->ifa_addr) continue;
-+        if (p->ifa_addr->sa_family != AF_LINK) continue;
-+
-+        auto* sdl = reinterpret_cast<sockaddr_dl*>(p->ifa_addr);
-+        if (sdl->sdl_type != IFT_ETHER) continue;
-+        if (sdl->sdl_alen < 6) continue;
-+
-+        const uint8_t* mac = reinterpret_cast<const uint8_t*>(LLADDR(sdl));
-+        std::copy(mac, mac + 6, ether_address.begin());
-+        freeifaddrs(ifap);
-+        return true;
-+    }
-+    freeifaddrs(ifap);
-+    return false;
-+
- #else
-     ifreq ifr;
-     ifconf ifc;
-@@ -115,7 +146,7 @@ bool NetUtilInternal::RetrieveEthernetAddr() {
+ #include <net/route.h>
  #endif
+-#if __linux__
++#if defined(__linux__) || defined(__FreeBSD__)
+ #include <fstream>
+ #include <iostream>
+ #include <sstream>
+@@ -147,11 +152,12 @@ bool NetUtilInternal::RetrieveEthernetAddr() {
      return false;
  }
--
-+} // namespace NetUtil
- const std::string& NetUtilInternal::GetDefaultGateway() const {
+ } // namespace NetUtil
+-const std::string& NetUtilInternal::GetDefaultGateway() const {
++
++const std::string& NetUtil::NetUtilInternal::GetDefaultGateway() const {
      return default_gateway;
  }
+ 
+-bool NetUtilInternal::RetrieveDefaultGateway() {
++bool NetUtil::NetUtilInternal::RetrieveDefaultGateway() {
+     std::scoped_lock lock{m_mutex};
+ 
+ #ifdef _WIN32
+@@ -253,7 +259,9 @@ bool NetUtilInternal::RetrieveDefaultGateway() {
+     this->default_gateway = str;
+     return true;
+ 
+-#else
++#elif defined(__FreeBSD__)
++   return true;
++#elif defined(__linux__)
+     std::ifstream route{"/proc/net/route"};
+     std::string line;
+ 
+@@ -283,11 +291,11 @@ bool NetUtilInternal::RetrieveDefaultGateway() {
+     return false;
+ }
+ 
+-const std::string& NetUtilInternal::GetNetmask() const {
++const std::string& NetUtil::NetUtilInternal::GetNetmask() const {
+     return netmask;
+ }
+ 
+-bool NetUtilInternal::RetrieveNetmask() {
++bool NetUtil::NetUtilInternal::RetrieveNetmask() {
+     std::scoped_lock lock{m_mutex};
+     char netmaskStr[INET_ADDRSTRLEN];
+     auto success = false;
+@@ -353,11 +361,11 @@ bool NetUtilInternal::RetrieveNetmask() {
+     return success;
+ }
+ 
+-const std::string& NetUtilInternal::GetIp() const {
++const std::string& NetUtil::NetUtilInternal::GetIp() const {
+     return ip;
+ }
+ 
+-bool NetUtilInternal::RetrieveIp() {
++bool NetUtil::NetUtilInternal::RetrieveIp() {
+     std::scoped_lock lock{m_mutex};
+ 
+     auto sockfd = socket(AF_INET, SOCK_STREAM, 0);
+@@ -398,4 +406,3 @@ bool NetUtilInternal::RetrieveIp() {
+     return true;
+ }
+ 
+-} // namespace NetUtil
+\ No newline at end of file

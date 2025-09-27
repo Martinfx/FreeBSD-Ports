@@ -35,7 +35,7 @@ LIB_DEPENDS=	libavcodec.so:multimedia/ffmpeg \
 		libxxhash.so:devel/xxhash \
 		libZycore.so:devel/zycore-c
 
-USES=		cmake:noninja compiler:c++23-lang gmake llvm:min=19 localbase \
+USES=		cmake:noninja gmake llvm:min=21 localbase \
 		pkgconfig qt:6 ssl
 USE_GL=		gl opengl
 USE_QT=		base multimedia tools translations
