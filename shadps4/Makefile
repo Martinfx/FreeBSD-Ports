@@ -42,7 +42,7 @@ USE_QT=		base multimedia tools translations
 USE_GITHUB=	yes
 GH_ACCOUNT=	AzaharPlus
 GH_PROJECT=	shadPS4Plus
-GH_TAGNAME=	ea8fe53a76f0e2c5410c9d82d3e46baed2be892a
+GH_TAGNAME=	edf0c21505299a3b9bccca1f04959f5f2fab9547
 GH_TUPLE+=	shadps4-emu:ext-LibAtrac9:ec8899dadf393f655f2871a94e0fe4b3d6220c9a:libatrac/externals/LibAtrac9 \
 		HowardHinnant:date:a45ea7c:date/externals/date \
 		shadps4-emu:ext-imgui:f4d9359:imgui/externals/dear_imgui \
