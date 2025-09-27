@@ -1,6 +1,17 @@
 --- src/core/tls.cpp.orig	2025-09-27 09:27:17 UTC
 +++ src/core/tls.cpp
-@@ -160,14 +160,28 @@ void SetTcbBase(void* image_address) {
+@@ -22,6 +22,10 @@
+ #include <asm/prctl.h>
+ #include <sys/prctl.h>
+ #endif
++#if defined(__FreeBSD__) && defined(__amd64__)
++  #include <sys/types.h>
++  #include <machine/sysarch.h>   // sysarch(), amd64_{set,get}_gsbase
++#endif
+ 
+ namespace Core {
+ 
+@@ -160,14 +164,28 @@ void SetTcbBase(void* image_address) {
  // Other POSIX x86_64
  
  void SetTcbBase(void* image_address) {
