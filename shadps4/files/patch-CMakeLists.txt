@@ -1,4 +1,4 @@
---- CMakeLists.txt.orig	2025-09-18 06:54:56 UTC
+--- CMakeLists.txt.orig	2025-09-22 18:34:11 UTC
 +++ CMakeLists.txt
 @@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.24)
  # Version 3.24 needed for FetchContent OVERRIDE_FIND_PACKAGE
@@ -27,7 +27,7 @@
  endif()
  
  if (APPLE AND ARCHITECTURE STREQUAL "x86_64" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "arm64")
-@@ -236,6 +238,7 @@ find_package(toml11 4.2.0 CONFIG)
+@@ -235,6 +237,7 @@ find_package(toml11 4.2.0 CONFIG)
  find_package(SDL3 3.1.2 CONFIG)
  find_package(stb MODULE)
  find_package(toml11 4.2.0 CONFIG)
@@ -35,20 +35,16 @@
  find_package(tsl-robin-map 1.3.0 CONFIG)
  find_package(VulkanHeaders 1.4.324 CONFIG)
  find_package(VulkanMemoryAllocator 3.1.0 CONFIG)
-@@ -1153,9 +1156,10 @@ create_target_directory_groups(shadps4)
+@@ -1167,7 +1170,7 @@ create_target_directory_groups(shadps4)
  
  create_target_directory_groups(shadps4)
  
 -target_link_libraries(shadps4 PRIVATE magic_enum::magic_enum fmt::fmt toml11::toml11 tsl::robin_map xbyak::xbyak Tracy::TracyClient RenderDoc::API FFmpeg::ffmpeg Dear_ImGui gcn half::half ZLIB::ZLIB PNG::PNG)
--target_link_libraries(shadps4 PRIVATE Boost::headers GPUOpen::VulkanMemoryAllocator LibAtrac9 sirit Vulkan::Headers xxHash::xxhash Zydis::Zydis glslang::glslang SDL3::SDL3 pugixml::pugixml stb::headers libusb::usb lfreist-hwinfo::hwinfo)
 +target_link_libraries(shadps4 PRIVATE magic_enum::magic_enum fmt::fmt toml11::toml11 tsl::robin_map xbyak::xbyak TracyClient RenderDoc::API FFmpeg::ffmpeg Dear_ImGui gcn half::half ZLIB::ZLIB PNG::PNG)
-+target_link_libraries(shadps4 PRIVATE Boost::headers GPUOpen::VulkanMemoryAllocator LibAtrac9 sirit Vulkan::Headers xxHash::xxhash Zydis::Zydis glslang::glslang SDL3::SDL3 pugixml::pugixml stb::headers lfreist-hwinfo::hwinfo)
+ target_link_libraries(shadps4 PRIVATE Boost::headers GPUOpen::VulkanMemoryAllocator LibAtrac9 sirit Vulkan::Headers xxHash::xxhash Zydis::Zydis glslang::glslang SDL3::SDL3 pugixml::pugixml stb::headers libusb::usb lfreist-hwinfo::hwinfo)
+ target_link_libraries(shadps4 PRIVATE Boost::headers GPUOpen::VulkanMemoryAllocator LibAtrac9 sirit Vulkan::Headers xxHash::xxhash Zydis::Zydis glslang::glslang SDL3::SDL3 pugixml::pugixml stb::headers cryptopp::cryptopp)
  
-+
- target_compile_definitions(shadps4 PRIVATE IMGUI_USER_CONFIG="imgui/imgui_config.h")
- target_compile_definitions(Dear_ImGui PRIVATE IMGUI_USER_CONFIG="${PROJECT_SOURCE_DIR}/src/imgui/imgui_config.h")
- 
-@@ -1163,7 +1167,7 @@ endif()
+@@ -1178,7 +1181,7 @@ endif()
      target_compile_definitions(shadps4 PRIVATE ENABLE_DISCORD_RPC)
  endif()
  
@@ -57,7 +53,7 @@
      # Optional due to https://github.com/shadps4-emu/shadPS4/issues/1704
      if (ENABLE_USERFAULTFD)
          target_compile_definitions(shadps4 PRIVATE ENABLE_USERFAULTFD)
-@@ -1319,7 +1323,7 @@ install(TARGETS shadps4 BUNDLE DESTINATION .)
+@@ -1334,7 +1337,7 @@ install(TARGETS shadps4 BUNDLE DESTINATION .)
  # Install rules
  install(TARGETS shadps4 BUNDLE DESTINATION .)
  

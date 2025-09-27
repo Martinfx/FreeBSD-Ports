@@ -1,4 +1,4 @@
-PORTNAME=	shadps4
+PORTNAME=	shadps4plus
 DISTVERSIONPREFIX=	v.
 DISTVERSION=	0.11.0
 CATEGORIES=	emulators
@@ -40,8 +40,9 @@ USES=		cmake:noninja gmake llvm:min=21 localbase \
 USE_GL=		gl opengl
 USE_QT=		base multimedia tools translations
 USE_GITHUB=	yes
-GH_ACCOUNT=	shadps4-emu
-GH_PROJECT=	shadPS4
+GH_ACCOUNT=	AzaharPlus
+GH_PROJECT=	shadPS4Plus
+GH_TAGNAME=	ea8fe53a76f0e2c5410c9d82d3e46baed2be892a
 GH_TUPLE+=	shadps4-emu:ext-LibAtrac9:ec8899dadf393f655f2871a94e0fe4b3d6220c9a:libatrac/externals/LibAtrac9 \
 		HowardHinnant:date:a45ea7c:date/externals/date \
 		shadps4-emu:ext-imgui:f4d9359:imgui/externals/dear_imgui \
