@@ -70,7 +70,7 @@ GH_TUPLE+=	shadps4-emu:ext-LibAtrac9:ec8899dadf393f655f2871a94e0fe4b3d6220c9a:li
 		zyantific:zydis:120e0e7:zybis/externals/zydis \
 		KhronosGroup:Vulkan-Headers:a01329f307fa6067da824de9f587f292d761680b:headers/externals/vulkan-headers \
 		shadps4-emu:ext-cryptopp-cmake:2c384c28265a93358a2455e610e76393358794df:cmake/externals/cryptopp-cmake \
-		shadps4-emu:ext-cryptopp:effed0d0b865afc23ed67e0916f83734e4b9b3b7:cryptopp/externals/cryptopp \
+		shadps4-emu:ext-cryptopp:effed0d:cryptopp/externals/cryptopp \
 		zyantific:zycore-c:38d4f02:zycore/externals/zydis/dependencies/zycore
 
 LDFLAGS=	-L${LOCALBASE}/lib -ldate-tz -I/usr/include -L/usr/lib -lusb
@@ -82,7 +82,7 @@ PLIST_FILES=	bin/shadps4 \
 		share/metainfo/net.shadps4.shadPS4.metainfo.xml
 
 do-install:
-	${INSTALL_PROGRAM} ${BUILD_WRKSRC}/${PORTNAME} ${STAGEDIR}${PREFIX}/bin
+	${INSTALL_PROGRAM} ${BUILD_WRKSRC}/shadps4 ${STAGEDIR}${PREFIX}/bin
 	${INSTALL_DATA} ${WRKSRC}/dist/net.shadps4.shadPS4.desktop \
 			${STAGEDIR}${DESKTOPDIR}
 	${MKDIR} ${STAGEDIR}${PREFIX}/share/icons/hicolor/scalable/apps
