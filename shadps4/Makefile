@@ -76,6 +76,13 @@ GH_TUPLE+=	shadps4-emu:ext-LibAtrac9:ec8899dadf393f655f2871a94e0fe4b3d6220c9a:li
 LDFLAGS=	-L${LOCALBASE}/lib -ldate-tz -I/usr/include -L/usr/lib -lusb
 CMAKE_ON=	ENABLE_QT_GUI
 
+.include <bsd.port.options.mk>
+
+# Fix segmentation fault
+.if ${ARCH} == i386 || ${ARCH} == amd64
+CXXFLAGS+=	-DCRYPTOPP_DISABLE_ASM
+.endif
+
 PLIST_FILES=	bin/shadps4 \
 		share/applications/net.shadps4.shadPS4.desktop \
 		share/icons/hicolor/scalable/apps/net.shadps4.shadPS4.svg \
