@@ -16,9 +16,10 @@ LIB_DEPENDS=	libogg.so:audio/libogg \
 		libvorbis.so:audio/libvorbis \
 		libvorbisfile.so:audio/libvorbis \
 		libmimalloc.so:devel/mimalloc \
-		liblzo2.so:archivers/lzo2
+		liblzo2.so:archivers/lzo2 \
+		libimgui.so:x11-toolkits/imgui
 
-USES=		cmake compiler:c++23-lang jpeg localbase:ldflags openal sdl
+USES=		cmake jpeg localbase:ldflags openal sdl
 USE_GITHUB=	yes
 GH_ACCOUNT=	OpenXRay
 GH_TAGNAME=	64b0f07062e7c9e064c9692f0489f202dc1aa444
@@ -32,8 +33,11 @@ GH_TUPLE=	GPUOpen-LibrariesAndSDKs:AGS_SDK:5d8812d:AGSSDK/Externals/AGS_SDK \
 		OpenXRay:xrLuaFix:0e89050:xrLuaFix/Externals/xrLuaFix \
 		OpenXRay:luafilesystem:314c0d0fe8f4676ef35ac8abf3731be8535812fb:luafilesystem/Externals/xrLuaFix/lfs \
 		OpenXRay:lua-marshal:983a3bfd646486292daa9f2ec9b72409f86dc931:marsal/Externals/xrLuaFix/lua-marshal \
-		OpenXRay:lua-pack:c1e5a149b571cc31069e7e3146e881c203bdd052:pack/Externals/xrLuaFix/lua-pack \
-		ocornut:imgui:8d9c90391937e389ed19a8abd96a5ec08c8876c2:imgui/Externals/imgui
+		OpenXRay:lua-pack:c1e5a149b571cc31069e7e3146e881c203bdd052:pack/Externals/xrLuaFix/lua-pack
+
+CFLAGS+=	-DIMGUI_DEFINE_MATH_OPERATORS \
+		-DIMGUI_DISABLE_OBSOLETE_KEYIO \
+		-DIMGUI_DISABLE_OBSOLETE_FUNCTIONS
 
 USE_SDL=	sdl2
 CMAKE_ON=	XRAY_USE_LUAJIT
@@ -41,5 +45,10 @@ CMAKE_ON=	XRAY_USE_LUAJIT
 post-patch:
 	${REINPLACE_CMD} -e 's|^    COMMAND make clean$$|    COMMAND /bin/echo make clean|' \
 		${WRKSRC}/Externals/LuaJIT-proj/CMakeLists.txt
+	${REINPLACE_CMD} -e 's|xrImGui|imgui|' \
+		${WRKSRC}/src/Layers/xrRenderPC_GL/CMakeLists.txt \
+		${WRKSRC}/src/xrEngine/CMakeLists.txt \
+		${WRKSRC}/src/xrGame/CMakeLists.txt \
+		${WRKSRC}/src/xrUICore/CMakeLists.txt
 
 .include <bsd.port.mk>
