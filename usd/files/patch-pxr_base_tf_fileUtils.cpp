@@ -1,6 +1,6 @@
---- pxr/base/tf/fileUtils.cpp.orig	2025-02-04 21:22:17 UTC
+--- pxr/base/tf/fileUtils.cpp.orig	2025-10-24 16:21:56 UTC
 +++ pxr/base/tf/fileUtils.cpp
-@@ -216,7 +216,7 @@ TfIsWritable(string const& path)
+@@ -230,7 +230,7 @@ TfIsWritable(string const& path)
  bool
  TfIsWritable(string const& path)
  {

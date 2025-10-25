@@ -1,4 +1,4 @@
---- pxr/base/arch/stackTrace.cpp.orig	2025-02-04 21:22:17 UTC
+--- pxr/base/arch/stackTrace.cpp.orig	2025-10-24 16:21:56 UTC
 +++ pxr/base/arch/stackTrace.cpp
 @@ -58,11 +58,11 @@
  /* Darwin/ppc did not do stack traces.  Darwin/i386 still 
@@ -21,9 +21,9 @@
 -#if defined(ARCH_OS_LINUX)
 +#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_FREEBSD)
      (ForkFunc)dlsym(RTLD_DEFAULT, "_Fork");
- #elif defined(ARCH_OS_DARWIN)
+ #elif defined(ARCH_OS_DARWIN) || defined(ARCH_OS_WASM_VM)
      NULL;
-@@ -570,7 +570,7 @@ nonLockingFork()
+@@ -626,7 +626,7 @@ nonLockingFork()
  }
  #endif
  
@@ -32,7 +32,7 @@
  static int
  nonLockingLinux__execve (const char *file,
                           char *const argv[],
-@@ -1336,7 +1336,7 @@ ArchGetStackFrames(size_t maxDepth, size_t skip, vecto
+@@ -1392,7 +1392,7 @@ ArchGetStackFrames(size_t maxDepth, size_t skip, vecto
      frames->resize(ArchGetStackFrames(maxDepth, skip, frames->data()));
  }
  

@@ -1,4 +1,4 @@
---- pxr/base/arch/fileSystem.cpp.orig	2025-02-04 21:22:17 UTC
+--- pxr/base/arch/fileSystem.cpp.orig	2025-10-24 16:21:56 UTC
 +++ pxr/base/arch/fileSystem.cpp
 @@ -35,12 +35,24 @@
  #include <Windows.h>
@@ -29,65 +29,59 @@
  bool
  ArchStatIsWritable(const ArchStatType *st)
  {
--#if defined(ARCH_OS_LINUX) || defined (ARCH_OS_DARWIN)
-+#if defined(ARCH_OS_LINUX) || defined (ARCH_OS_DARWIN) || defined(ARCH_OS_FREEBSD) 
+-#if defined(ARCH_OS_LINUX) || defined (ARCH_OS_DARWIN) || \
++#if defined(ARCH_OS_LINUX) || defined (ARCH_OS_DARWIN) || defined(ARCH_OS_FREEBSD) || \
+     defined(ARCH_OS_WASM_VM)
      if (st) {
          return (st->st_mode & S_IWOTH) || 
-             ((getegid() == st->st_gid) && (st->st_mode & S_IWGRP)) ||
-@@ -180,7 +192,7 @@ ArchGetModificationTime(const ArchStatType& st)
+@@ -181,7 +193,7 @@ ArchGetModificationTime(const ArchStatType& st)
  double
  ArchGetModificationTime(const ArchStatType& st)
  {
--#if defined(ARCH_OS_LINUX)
-+#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_FREEBSD)
+-#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_WASM_VM)
++#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_WASM_VM) || defined(ARCH_OS_FREEBSD)
      return st.st_mtim.tv_sec + 1e-9*st.st_mtim.tv_nsec;
  #elif defined(ARCH_OS_DARWIN)
      return st.st_mtimespec.tv_sec + 1e-9*st.st_mtimespec.tv_nsec;
-@@ -432,7 +444,7 @@ ArchGetAccessTime(const struct stat& st)
+@@ -433,7 +445,7 @@ ArchGetAccessTime(const struct stat& st)
  double
  ArchGetAccessTime(const struct stat& st)
  {
--#if defined(ARCH_OS_LINUX)
-+#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_FREEBSD)
+-#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_WASM_VM)
++#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_WASM_VM) || defined(ARCH_OS_FREEBSD)
      return st.st_atim.tv_sec + 1e-9*st.st_atim.tv_nsec;
  #elif defined(ARCH_OS_DARWIN)
      return st.st_atimespec.tv_sec + 1e-9*st.st_atimespec.tv_nsec;
-@@ -447,7 +459,7 @@ ArchGetStatusChangeTime(const struct stat& st)
+@@ -448,7 +460,7 @@ ArchGetStatusChangeTime(const struct stat& st)
  double
  ArchGetStatusChangeTime(const struct stat& st)
  {
--#if defined(ARCH_OS_LINUX)
-+#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_FREEBSD)
+-#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_WASM_VM)
++#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_WASM_VM) || defined(ARCH_OS_FREEBSD)
      return st.st_ctim.tv_sec + 1e-9*st.st_ctim.tv_nsec;
  #elif defined(ARCH_OS_DARWIN)
      return st.st_ctimespec.tv_sec + 1e-9*st.st_ctimespec.tv_nsec;
-@@ -477,12 +489,13 @@ ArchGetFileLength(FILE *file)
- {
+@@ -479,7 +491,7 @@ ArchGetFileLength(FILE *file)
      if (!file)
          return -1;
--#if defined (ARCH_OS_LINUX) || defined (ARCH_OS_DARWIN)
-+#if defined (ARCH_OS_LINUX) || defined (ARCH_OS_DARWIN) || defined (ARCH_OS_FREEBSD)
+ #if defined (ARCH_OS_LINUX) || defined (ARCH_OS_DARWIN) || \
+-    defined(ARCH_OS_WASM_VM)
++    defined(ARCH_OS_WASM_VM) || defined(ARCH_OS_FREEBSD)
      struct stat buf;
      return fstat(fileno(file), &buf) < 0 ? -1 :
          static_cast<int64_t>(buf.st_size);
- #elif defined (ARCH_OS_WINDOWS)
-     return _GetFileLength(_FileToWinHANDLE(file));
-+
- #else
- #error Unknown system architecture
- #endif
-@@ -491,7 +504,7 @@ ArchGetFileLength(const char* fileName)
- int64_t
+@@ -494,7 +506,7 @@ ArchGetFileLength(const char* fileName)
  ArchGetFileLength(const char* fileName)
  {
--#if defined (ARCH_OS_LINUX) || defined (ARCH_OS_DARWIN)
-+#if defined (ARCH_OS_LINUX) || defined (ARCH_OS_DARWIN) || defined (ARCH_OS_FREEBSD)
+ #if defined (ARCH_OS_LINUX) || defined (ARCH_OS_DARWIN) || \
+-    defined(ARCH_OS_WASM_VM)
++    defined(ARCH_OS_WASM_VM) || defined(ARCH_OS_FREEBSD)
      struct stat buf;
      return stat(fileName, &buf) < 0 ? -1 : static_cast<int64_t>(buf.st_size);
  #elif defined (ARCH_OS_WINDOWS)
-@@ -562,7 +575,49 @@ ArchGetFileName(FILE *file)
-         auto canonicalPath = std::filesystem::canonical(result);
-         result = canonicalPath.string();
+@@ -557,7 +569,49 @@ ArchGetFileName(FILE *file)
+             std::filesystem::path(filePath.begin(), filePath.begin() + dwSize));
+         result = ArchWindowsUtf16ToUtf8(canonicalPath.wstring());
      }
 -    return result;                                        
 +    return result;
@@ -136,7 +130,7 @@
  #else
  #error Unknown system architecture
  #endif
-@@ -924,6 +979,9 @@ ArchQueryMappedMemoryResidency(
+@@ -920,6 +974,9 @@ ArchQueryMappedMemoryResidency(
      int ret = mincore(
          reinterpret_cast<caddr_t>(const_cast<void *>(addr)), len,
          reinterpret_cast<char *>(pageMap));
