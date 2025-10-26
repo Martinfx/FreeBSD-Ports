@@ -28,6 +28,7 @@ BUILD_DEPENDS=	expat>0:textproc/expat2 \
 		opusfile>0:audio/opusfile \
 		portaudio>0:audio/portaudio \
 		portmidi>0:audio/portmidi \
+		rapidjson>0:devel/rapidjson \
 		soundtouch>0:audio/soundtouch \
 		sqlite3>0:databases/sqlite3 \
 		suil>0:audio/suil \
