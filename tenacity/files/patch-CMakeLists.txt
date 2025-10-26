@@ -1,0 +1,11 @@
+--- CMakeLists.txt.orig	2025-10-26 07:54:18 UTC
++++ CMakeLists.txt
+@@ -743,7 +743,7 @@ if (NYQUIST)
+ if (NYQUIST)
+     set(USE_NYQUIST ON)
+     add_subdirectory(lib-src/libnyquist)
+-    set_target_properties(nyquist PROPERTIES POSITION_INDEPENDENT_CODE ON)
++#    set_target_properties(nyquist PROPERTIES POSITION_INDEPENDENT_CODE ON)
+ 
+     add_subdirectory("nyquist")
+     add_subdirectory("plug-ins")
