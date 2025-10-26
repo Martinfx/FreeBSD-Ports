@@ -21,6 +21,7 @@ BUILD_DEPENDS=	expat>0:textproc/expat2 \
 		libsndfile>0:audio/libsndfile \
 		libsoxr>0:audio/libsoxr \
 		libzip>0:archivers/libzip \
+		libmatroska>0:multimedia/libmatroska \
 		lilv>0:audio/lilv \
 		lv2>0:audio/lv2 \
 		mpg123>0:audio/mpg123 \
@@ -49,4 +50,3 @@ CMAKE_OFF=	LIBNYQUIST_BUILD_EXAMPLE
 CFLAGS+=	-fPIC
 
 .include <bsd.port.mk>
-
