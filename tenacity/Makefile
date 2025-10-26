@@ -38,7 +38,7 @@ BUILD_DEPENDS=	expat>0:textproc/expat2 \
 		wx32-gtk3>0:x11-toolkits/wxgtk32 \
 		zam-plugins-lv2>0:audio/zam-plugins-lv2
 
-LIB_DEPENDS+=	libatk-1.0.so:accessibility/at-spi2-core \
+LIB_DEPENDS=	libatk-1.0.so:accessibility/at-spi2-core \
 		libexpat.so:textproc/expat2 \
 		libharfbuzz.so:print/harfbuzz \
 		liblilv-0.so:audio/lilv \
@@ -53,7 +53,8 @@ LIB_DEPENDS+=	libatk-1.0.so:accessibility/at-spi2-core \
 		libwx_gtk3u_core-3.2.so:x11-toolkits/wxgtk32 \
 		libwx_gtk3u_html-3.2.so:x11-toolkits/wxgtk32 \
 		libwx_gtk3u_qa-3.2.so:x11-toolkits/wxgtk32
-USES=		cmake gettext-runtime localbase pkgconfig python sqlite
+
+USES=		cmake desktop-file-utils gettext-runtime localbase pkgconfig python sqlite
 USE_GNOME=	cairo gdkpixbuf glib20 gtk30 pango
 
 USE_GITHUB=	yes
@@ -64,8 +65,6 @@ GH_TUPLE+=	Martinfx:libnyquist:a76cd38:libnyquist/lib-src/libnyquist
 CMAKE_OFF=	LIBNYQUIST_BUILD_EXAMPLE
 CFLAGS+=	-fPIC
 
-.include <bsd.port.options.mk>
-
 OPTIONS_DEFINE=		AVX AVX2 AVX512 SSE4
 OPTIONS_DEFAULT=	SSE4
 
@@ -73,6 +72,8 @@ SSE4_DESC=	Prefer SSE4 fallback (no AVX*)
 AVX_DESC=	Enable AVX (x86_64 only)
 AVX2_DESC=	Enable AVX2 (x86_64 only)
 AVX512_DESC=	Enable AVX512 (x86_64 only)
+
+.include <bsd.port.options.mk>
 
 .if ${ARCH} != amd64
 OPTIONS_EXCLUDE+=	AVX AVX2 AVX512 SSE4
