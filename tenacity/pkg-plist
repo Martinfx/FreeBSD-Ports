@@ -68,8 +68,6 @@ lib/tenacity/lib-wx-init.so
 lib/tenacity/lib-wx-wrappers.so
 lib/tenacity/lib-xml.so
 share/applications/tenacity.desktop
-%%PORTDOCS%%%%DOCSDIR%%/LICENSE.txt
-%%PORTDOCS%%%%DOCSDIR%%/README.md
 share/icons/hicolor/16x16/tenacity.png
 share/icons/hicolor/22x22/tenacity.png
 share/icons/hicolor/24x24/tenacity.png
@@ -217,5 +215,3 @@ share/pixmaps/tenacity32.xpm
 %%DATADIR%%/plug-ins/tremolo.ny
 %%DATADIR%%/plug-ins/vocalrediso.ny
 %%DATADIR%%/plug-ins/vocoder.ny
-%%PORTDOCS%%%%DOCSDIR%%/LICENSE.txt
-%%PORTDOCS%%%%DOCSDIR%%/README.md
