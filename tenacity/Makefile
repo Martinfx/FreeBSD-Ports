@@ -46,6 +46,7 @@ GH_PROJECT=	tenacity
 GH_TUPLE+=	Martinfx:libnyquist:a76cd38:libnyquist/lib-src/libnyquist
 
 CMAKE_OFF=	LIBNYQUIST_BUILD_EXAMPLE
+CFLAGS+=	-fPIC
 
 .include <bsd.port.mk>
 
