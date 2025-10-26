@@ -15,13 +15,12 @@ BUILD_DEPENDS=	expat>0:textproc/expat2 \
 		ffmpeg>0:multimedia/ffmpeg \
 		flac>0:audio/flac \
 		glib>0:devel/glib20 \
-		gtk3>0:x11-toolkits/gtk30 \
 		lame>0:audio/lame \
 		libid3tag>0:audio/libid3tag \
+		libmatroska>0:multimedia/libmatroska \
 		libsndfile>0:audio/libsndfile \
 		libsoxr>0:audio/libsoxr \
 		libzip>0:archivers/libzip \
-		libmatroska>0:multimedia/libmatroska \
 		lilv>0:audio/lilv \
 		lv2>0:audio/lv2 \
 		mpg123>0:audio/mpg123 \
@@ -31,7 +30,6 @@ BUILD_DEPENDS=	expat>0:textproc/expat2 \
 		portmidi>0:audio/portmidi \
 		rapidjson>0:devel/rapidjson \
 		soundtouch>0:audio/soundtouch \
-		sqlite3>0:databases/sqlite3 \
 		suil>0:audio/suil \
 		twolame>0:audio/twolame \
 		vamp-plugin-sdk>0:audio/vamp-plugin-sdk \
@@ -39,7 +37,23 @@ BUILD_DEPENDS=	expat>0:textproc/expat2 \
 		wx32-gtk3>0:x11-toolkits/wxgtk32 \
 		zam-plugins-lv2>0:audio/zam-plugins-lv2
 
-USES=		cmake python localbase
+LIB_DEPENDS+=	libatk-1.0.so:accessibility/at-spi2-core \
+		libexpat.so:textproc/expat2 \
+		libharfbuzz.so:print/harfbuzz \
+		liblilv-0.so:audio/lilv \
+		libportaudio.so:audio/portaudio \
+		libsndfile.so:audio/libsndfile \
+		libSoundTouch.so:audio/soundtouch \
+		libsoxr.so:audio/libsoxr \
+		libsuil-0.so:audio/suil \
+		libvamp-hostsdk.so:audio/vamp-plugin-sdk \
+		libwx_baseu-3.2.so:x11-toolkits/wxgtk32 \
+		libwx_baseu_net-3.2.so:x11-toolkits/wxgtk32 \
+		libwx_gtk3u_core-3.2.so:x11-toolkits/wxgtk32 \
+		libwx_gtk3u_html-3.2.so:x11-toolkits/wxgtk32 \
+		libwx_gtk3u_qa-3.2.so:x11-toolkits/wxgtk32
+USES=		cmake gettext-runtime localbase pkgconfig python sqlite
+USE_GNOME=	cairo gdkpixbuf glib20 gtk30 pango
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	tenacityteam
@@ -50,3 +64,4 @@ CMAKE_OFF=	LIBNYQUIST_BUILD_EXAMPLE
 CFLAGS+=	-fPIC
 
 .include <bsd.port.mk>
+
