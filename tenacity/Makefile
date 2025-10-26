@@ -63,5 +63,35 @@ GH_TUPLE+=	Martinfx:libnyquist:a76cd38:libnyquist/lib-src/libnyquist
 CMAKE_OFF=	LIBNYQUIST_BUILD_EXAMPLE
 CFLAGS+=	-fPIC
 
+.include <bsd.port.options.mk>
+
+OPTIONS_DEFINE=	SSE4 AVX AVX2 AVX512
+OPTIONS_DEFAULT= SSE4
+
+SSE4_DESC=	Prefer SSE4 fallback (no AVX*)
+AVX_DESC=	Enable AVX (x86_64 only)
+AVX2_DESC=	Enable AVX2 (x86_64 only)
+AVX512_DESC=	Enable AVX512 (x86_64 only)
+
+.if ${ARCH} != amd64
+OPTIONS_EXCLUDE+=       SSE4 AVX AVX2 AVX512
+.endif
+
+CMAKE_ARGS+=    -DAVX=OFF -DAVX2=OFF -DAVX512=OFF
+
+.if ${ARCH} == amd64
+.if ${PORT_OPTIONS:MAVX512}
+CMAKE_ARGS+=    -DAVX=OFF -DAVX2=OFF -DAVX512=ON
+.elif ${PORT_OPTIONS:MAVX2}
+CMAKE_ARGS+=    -DAVX=OFF -DAVX2=ON  -DAVX512=OFF
+.elif ${PORT_OPTIONS:MAVX}
+CMAKE_ARGS+=    -DAVX=ON  -DAVX2=OFF -DAVX512=OFF
+.elif ${PORT_OPTIONS:MSSE4}
+CMAKE_ARGS+=    -DAVX=OFF -DAVX2=OFF -DAVX512=OFF
+.else
+.endif
+.endif
+
+
 .include <bsd.port.mk>
 

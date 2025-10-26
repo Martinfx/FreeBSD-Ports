@@ -217,3 +217,5 @@ share/pixmaps/tenacity32.xpm
 %%DATADIR%%/plug-ins/tremolo.ny
 %%DATADIR%%/plug-ins/vocalrediso.ny
 %%DATADIR%%/plug-ins/vocoder.ny
+%%PORTDOCS%%%%DOCSDIR%%/LICENSE.txt
+%%PORTDOCS%%%%DOCSDIR%%/README.md
