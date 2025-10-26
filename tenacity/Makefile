@@ -39,7 +39,7 @@ BUILD_DEPENDS=	expat>0:textproc/expat2 \
 		wx32-gtk3>0:x11-toolkits/wxgtk32 \
 		zam-plugins-lv2>0:audio/zam-plugins-lv2
 
-USES=		cmake localbase
+USES=		cmake python localbase
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	tenacityteam
