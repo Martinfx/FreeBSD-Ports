@@ -24,6 +24,7 @@ BUILD_DEPENDS=	expat>0:textproc/expat2 \
 		lilv>0:audio/lilv \
 		lv2>0:audio/lv2 \
 		mpg123>0:audio/mpg123 \
+		nasm>=0:devel/nasm \
 		opus>0:audio/opus \
 		opusfile>0:audio/opusfile \
 		portaudio>0:audio/portaudio \
@@ -65,8 +66,8 @@ CFLAGS+=	-fPIC
 
 .include <bsd.port.options.mk>
 
-OPTIONS_DEFINE=	SSE4 AVX AVX2 AVX512
-OPTIONS_DEFAULT= SSE4
+OPTIONS_DEFINE=		AVX AVX2 AVX512 SSE4
+OPTIONS_DEFAULT=	SSE4
 
 SSE4_DESC=	Prefer SSE4 fallback (no AVX*)
 AVX_DESC=	Enable AVX (x86_64 only)
@@ -74,24 +75,32 @@ AVX2_DESC=	Enable AVX2 (x86_64 only)
 AVX512_DESC=	Enable AVX512 (x86_64 only)
 
 .if ${ARCH} != amd64
-OPTIONS_EXCLUDE+=       SSE4 AVX AVX2 AVX512
+OPTIONS_EXCLUDE+=	AVX AVX2 AVX512 SSE4
 .endif
 
-CMAKE_ARGS+=    -DAVX=OFF -DAVX2=OFF -DAVX512=OFF
+CMAKE_ARGS+=	-DAVX2=OFF \
+		-DAVX512=OFF \
+		-DAVX=OFF
 
 .if ${ARCH} == amd64
 .if ${PORT_OPTIONS:MAVX512}
-CMAKE_ARGS+=    -DAVX=OFF -DAVX2=OFF -DAVX512=ON
+CMAKE_ARGS+=	-DAVX2=OFF \
+		-DAVX512=ON \
+		-DAVX=OFF
 .elif ${PORT_OPTIONS:MAVX2}
-CMAKE_ARGS+=    -DAVX=OFF -DAVX2=ON  -DAVX512=OFF
+CMAKE_ARGS+=	-DAVX2=ON \
+		-DAVX512=OFF \
+		-DAVX=OFF
 .elif ${PORT_OPTIONS:MAVX}
-CMAKE_ARGS+=    -DAVX=ON  -DAVX2=OFF -DAVX512=OFF
+CMAKE_ARGS+=	-DAVX2=OFF \
+		-DAVX512=OFF \
+		-DAVX=ON
 .elif ${PORT_OPTIONS:MSSE4}
-CMAKE_ARGS+=    -DAVX=OFF -DAVX2=OFF -DAVX512=OFF
+CMAKE_ARGS+=	-DAVX2=OFF \
+		-DAVX512=OFF \
+		-DAVX=OFF
 .else
 .endif
 .endif
 
-
 .include <bsd.port.mk>
-
