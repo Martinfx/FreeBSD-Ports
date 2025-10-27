@@ -18,14 +18,13 @@ LIB_DEPENDS=	libboost_filesystem.so:devel/boost-libs \
 		libboost_thread.so:devel/boost-libs \
 		libboost_timer.so:devel/boost-libs \
 		libboost_chrono.so:devel/boost-libs \
-		libboost_system.so:devel/boost-libs \
 		libboost_python${PYTHON_SUFFIX}.so:devel/boost-python-libs \
-		libOpenEXR-3_3.so:graphics/openexr \
+		libOpenEXR.so:graphics/openexr \
 		libtbb.so:devel/onetbb \
 		libblosc.so:archivers/c-blosc \
-		libIex-3_3.so:graphics/openexr \
-		libImath-3_1.so:math/Imath \
-		libIlmThread-3_3.so:graphics/openexr \
+		libIex.so:graphics/openexr \
+		libImath.so:math/Imath \
+		libIlmThread.so:graphics/openexr \
 		libhdf5.so:science/hdf5 \
 		libAlembic.so:graphics/alembic \
 		libfreetype.so:print/freetype2 \
