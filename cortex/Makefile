@@ -1,5 +1,5 @@
 PORTNAME=	cortex
-DISTVERSION=	10.5.13.0
+DISTVERSION=	10.6.1.0
 CATEGORIES=	graphics
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -19,12 +19,9 @@ LIB_DEPENDS=	libboost_filesystem.so:devel/boost-libs \
 		libboost_timer.so:devel/boost-libs \
 		libboost_chrono.so:devel/boost-libs \
 		libboost_python${PYTHON_SUFFIX}.so:devel/boost-python-libs \
-		libOpenEXR.so:graphics/openexr \
 		libtbb.so:devel/onetbb \
 		libblosc.so:archivers/c-blosc \
-		libIex.so:graphics/openexr \
 		libImath.so:math/Imath \
-		libIlmThread.so:graphics/openexr \
 		libhdf5.so:science/hdf5 \
 		libAlembic.so:graphics/alembic \
 		libfreetype.so:print/freetype2 \
@@ -32,13 +29,12 @@ LIB_DEPENDS=	libboost_filesystem.so:devel/boost-libs \
 		libOpenImageIO_Util.so:graphics/openimageio \
 		libopenvdb.so:misc/openvdb
 
-USES=		compiler gettext-runtime gl python:3.11+ scons
+USES=		gettext-runtime gl python:3.11+ scons
 USE_GITHUB=	yes
 GH_ACCOUNT=	ImageEngine
 USE_GL=		gl glew glu
 USE_LDCONFIG=	yes
 
-# setup variables for compilation
 SCONS_ARGS=	BOOST_INCLUDE_PATH=${LOCALBASE}/include \
 		BOOST_LIB_PATH=${LOCALBASE}/lib \
 		BOOST_LIB_SUFFIX="" \
@@ -59,6 +55,9 @@ SCONS_ARGS=	BOOST_INCLUDE_PATH=${LOCALBASE}/include \
 		ALEMBIC_INCLUDE_PATH=${LOCALBASE}/include/Alembic \
 		ALEMBIC_LIB_PATH=${LOCALBASE}/lib \
 		PYBIND11_INCLUDE_PATH=${LOCALBASE}/include \
+		USD_INCLUDE_PATH=${LOCALBASE}/include/pxr \
+		USD_LIB_PATH=${LOCALBASE}/lib \
+		USD_LIB_PREFIX="libusd_" \
 		WITH_GL=1 \
 		WARNINGS_AS_ERRORS=0 \
 		PYTHON_CONFIG=${PYTHON_CMD}-config \
@@ -66,7 +65,7 @@ SCONS_ARGS=	BOOST_INCLUDE_PATH=${LOCALBASE}/include \
 		CXX=${CXX} \
 		DOXYGEN=no \
 		INSTALL_PREFIX=${STAGEDIR}${PREFIX} \
-		INSTALL_HEADER_DIR=${STAGEDIR}${PREFIX}/include \
+		INSTALL_HEADER_DIR=${STAGEDIR}${PREFIX}/include
 
 do-install:
 	${INSTALL_LIB} ${WRKSRC}/lib/*.so ${STAGEDIR}${PREFIX}/lib/
@@ -82,6 +81,6 @@ do-test:
 
 .include <bsd.port.pre.mk>
 
-MAKE_ARGS=	${SCONS_ARGS}
+MAKE_ARGS=${SCONS_ARGS}
 
 .include <bsd.port.post.mk>
