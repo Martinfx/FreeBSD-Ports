@@ -4,7 +4,7 @@ DISTVERSION=	4.5.0
 CATEGORIES=	graphics
 
 MAINTAINER=	freebsd@sysctl.cz
-COMMENT=	Cycles is a physically based production renderer developed by Blender.
+COMMENT=	Cycles is a physically based production renderer developed by Blender
 WWW=		https://github.com/blender/cycles
 
 LICENSE=	APACHE20
@@ -107,4 +107,3 @@ do-install:
 	(cd ${WRKSRC}/third_party/atomic/intern && ${COPYTREE_SHARE} "*.h" ${STAGEDIR}${PREFIX}/include/third_party/atomic/intern)
 
 .include <bsd.port.mk>
-
