@@ -1,4 +1,4 @@
---- SConstruct.orig	2025-08-28 19:52:07 UTC
+--- SConstruct.orig	2025-10-10 20:24:55 UTC
 +++ SConstruct
 @@ -48,6 +48,7 @@ import codecs
  import tempfile
@@ -37,7 +37,7 @@
  		"$BUILD_DIR/include/Imath",
  		"$BUILD_DIR/include/GL",
 -	] + env["LOCATE_DEPENDENCY_SYSTEMPATH"] :
-+	] + str.split(env["LOCATE_DEPENDENCY_SYSTEMPATH"]) :
++	] + (env["LOCATE_DEPENDENCY_SYSTEMPATH"] if isinstance(env["LOCATE_DEPENDENCY_SYSTEMPATH"], list) else [env["LOCATE_DEPENDENCY_SYSTEMPATH"]]) :
  
  	env.Append(
  		CXXFLAGS = [ systemIncludeArgument, path ]
@@ -61,7 +61,38 @@
  )
  
  if not boostVersionHeader :
-@@ -1600,12 +1615,13 @@ for library in ( "GafferUI", ) :
+@@ -1038,13 +1053,26 @@ if env["GAFFERUSD"] :
+ usdPythonLib = basePythonEnv.subst( "boost_python$BOOST_PYTHON_LIB_SUFFIX" )
+ if env["GAFFERUSD"] :
+ 
++	systemPaths = baseLibEnv["LOCATE_DEPENDENCY_SYSTEMPATH"]
++	if not isinstance(systemPaths, list):
++    		systemPaths = [ systemPaths ]
++
++	cppPaths = baseLibEnv["LOCATE_DEPENDENCY_CPPPATH"]
++	if not isinstance(cppPaths, list):
++    		cppPaths = [ cppPaths ]
++
+ 	pxrVersionHeader = baseLibEnv.FindFile(
+-		"pxr/pxr.h",
+-		[ "$BUILD_DIR/include" ] +
+-		baseLibEnv["LOCATE_DEPENDENCY_SYSTEMPATH"] +
+-		baseLibEnv["LOCATE_DEPENDENCY_CPPPATH"]
++    	"pxr/pxr.h",
++    	[ "$BUILD_DIR/include" ] + systemPaths + cppPaths
+ 	)
+ 
++#	pxrVersionHeader = baseLibEnv.FindFile(
++#		"pxr/pxr.h",
++#		[ "$BUILD_DIR/include" ] +
++#		baseLibEnv["LOCATE_DEPENDENCY_SYSTEMPATH"] +
++#		baseLibEnv["LOCATE_DEPENDENCY_CPPPATH"]
++#	)
++
+ 	if not pxrVersionHeader :
+ 		sys.stderr.write( "ERROR : unable to find \"pxr/pxr.h\".\n" )
+ 		Exit( 1 )
+@@ -1597,12 +1625,13 @@ for library in ( "GafferUI", ) :
  			libraries[library]["envAppends"]["LIBS"].append( "Qt${QT_VERSION}" + qtLibrary )
  
  for library in ( "GafferUI", ) :
@@ -76,7 +107,7 @@
  # Add required platform-specific libraries
  
  if env["PLATFORM"] == "win32" :
-@@ -1839,7 +1855,7 @@ for libraryName, libraryDef in libraries.items() :
+@@ -1837,7 +1866,7 @@ for libraryName, libraryDef in libraries.items() :
  	# command ourselves.
  
  	for sourceFile in libraryDef.get( "mocSourceFiles", [] ) :
@@ -85,7 +116,7 @@
  		# Somehow the above leads to a circular dependency between `mocOutput` and itself.
  		# Tell SCons not to worry. The official SCons tool does the same.
  		env.Ignore( mocOutput, mocOutput )
-@@ -1895,23 +1911,23 @@ for libraryName, libraryDef in libraries.items() :
+@@ -1893,23 +1922,23 @@ for libraryName, libraryDef in libraries.items() :
  
  	# osl shaders
  
@@ -125,7 +156,7 @@
  	# class stubs
  
  	def buildClassStub( target, source, env ) :
-@@ -1937,56 +1953,6 @@ for libraryName, libraryDef in libraries.items() :
+@@ -1935,56 +1964,6 @@ for libraryName, libraryDef in libraries.items() :
  
  	# USD Schemas
  

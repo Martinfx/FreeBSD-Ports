@@ -1,6 +1,6 @@
---- src/GafferScene/Cryptomatte.cpp.orig	2025-03-02 22:40:44 UTC
+--- src/GafferScene/Cryptomatte.cpp.orig	2025-10-10 20:24:55 UTC
 +++ src/GafferScene/Cryptomatte.cpp
-@@ -329,7 +329,7 @@ const std::string g_firstDataChannelSuffix = "00.R";
+@@ -363,7 +363,7 @@ const std::string g_firstDataChannelSuffix = "00.R";
  };
  
  const std::string g_firstDataChannelSuffix = "00.R";

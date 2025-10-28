@@ -1,4 +1,4 @@
---- src/Gaffer/Metadata.cpp.orig	2024-11-22 14:42:33 UTC
+--- src/Gaffer/Metadata.cpp.orig	2025-10-10 20:24:55 UTC
 +++ src/Gaffer/Metadata.cpp
 @@ -50,16 +50,18 @@
  #include "boost/multi_index/sequenced_index.hpp"
@@ -22,7 +22,7 @@
  
  //////////////////////////////////////////////////////////////////////////
  // Internal implementation details
-@@ -86,8 +88,8 @@ struct NodeSignals
+@@ -119,8 +121,8 @@ struct NodeSignals
  	Metadata::PlugValueChangedSignal plugSignal;
  };
  
@@ -33,7 +33,7 @@
  
  // Access to the signals requires the passing of a scoped_lock that
  // will be locked for you automatically, and must remain locked while
-@@ -95,8 +97,11 @@ SignalsMap &signalsMap( SignalsMapLock &lock )
+@@ -128,8 +130,11 @@ SignalsMap &signalsMap( SignalsMapLock &lock )
  SignalsMap &signalsMap( SignalsMapLock &lock )
  {
  	static SignalsMap *g_signalsMap = new SignalsMap;
