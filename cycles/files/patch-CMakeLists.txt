@@ -1,6 +1,6 @@
---- CMakeLists.txt.orig	2024-12-05 22:53:11 UTC
+--- CMakeLists.txt.orig	2025-10-18 14:00:18 UTC
 +++ CMakeLists.txt
-@@ -71,6 +71,8 @@ include(macros)
+@@ -74,6 +74,8 @@ include(macros)
  include(compiler_utils)
  include(macros)
  

@@ -1,8 +1,8 @@
---- src/util/atomic.h.orig	2025-03-04 16:01:33 UTC
+--- src/util/atomic.h.orig	2025-10-18 14:00:18 UTC
 +++ src/util/atomic.h
-@@ -5,6 +5,8 @@
- #ifndef __UTIL_ATOMIC_H__
- #define __UTIL_ATOMIC_H__
+@@ -4,6 +4,8 @@
+ 
+ #pragma once
  
 +#include "atomic_ops.h"
 +
