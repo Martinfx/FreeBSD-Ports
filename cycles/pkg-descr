@@ -1,2 +1,5 @@
-Cycles is a path tracing renderer focused on interactivity and ease of use,
-while supporting many production features.
+Cycles is an open-source production-ready path tracer with unified CPU/GPU rendering.
+It supports interactive workflows including progressive and tiled rendering with fast updates to objects, shaders and lights.
+The engine handles modern scene geometry (meshes, curves, volumes), instancing, motion blur and adaptive subdivision/displacement.
+It delivers physically based shading, node-based materials and lights, volumetric scattering/emission and full lighting suites including global illumination and environment lights.
+Support GPU rendering on NVIDIA, AMD, Intel and Apple Silicon hardware.

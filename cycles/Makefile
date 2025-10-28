@@ -4,7 +4,7 @@ DISTVERSION=	4.5.0
 CATEGORIES=	graphics
 
 MAINTAINER=	freebsd@sysctl.cz
-COMMENT=	Cycles is a physically based production renderer.
+COMMENT=	Cycles is a physically based production renderer developed by Blender.
 WWW=		https://github.com/blender/cycles
 
 LICENSE=	APACHE20
@@ -76,7 +76,7 @@ CMAKE_ON=	CMAKE_POSITION_INDEPENDENT_CODE WITH_CYCLES_ALEMBIC \
 		WITH_CYCLES_OPENCOLORIO WITH_CYCLES_OPENIMAGEDENOISE \
 		WITH_CYCLES_OPENSUBDIV WITH_CYCLES_OPENVDB WITH_CYCLES_OSL
 CMAKE_OFF=	WITH_CYCLES_DEVICE_OPTIX WITH_CYCLES_NANOVDB WITH_CYCLES_USD \
-		WITH_LIBS_PRECOMPILED 
+		WITH_LIBS_PRECOMPILED
 
 OPTIONS_DEFINE=		EMBREE
 EMBREE_DESC=		Collection of high-performance ray tracing kernels.
@@ -87,6 +87,10 @@ OPTIONS_EXCLUDE=	EMBREE
 OPTIONS_EXCLUDE_amd64=	EMBREE
 OPTIONS_DEFAULT=	EMBREE
 OPTIONS_SUB=		no
+
+post-patch:
+	@${REINPLACE_CMD} -e 's|%%BUILD_WRKSRC%%|${BUILD_WRKSRC}|g' \
+		${WRKSRC}/src/app/CMakeLists.txt
 
 do-install:
 	${INSTALL_PROGRAM} ${BUILD_WRKSRC}/bin/cycles ${STAGEDIR}${PREFIX}/bin
