@@ -1,6 +1,6 @@
 PORTNAME=	cycles
 DISTVERSIONPREFIX=	v
-DISTVERSION=	4.3.0
+DISTVERSION=	4.5.0
 CATEGORIES=	graphics
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -33,19 +33,18 @@ LIB_DEPENDS=	libAlembic.so:graphics/alembic \
 		libboost_iostreams.so:devel/boost-libs \
 		libboost_regex.so:devel/boost-libs \
 		libboost_serialization.so:devel/boost-libs \
-		libboost_system.so:devel/boost-libs \
 		libboost_thread.so:devel/boost-libs \
 		libboost_wave.so:devel/boost-libs \
 		libexpat.so:textproc/expat2 \
 		libgflags.so:devel/gflags \
 		libglog.so:devel/glog \
-		libIex-3_3.so:graphics/openexr \
-		libIlmThread-3_3.so:graphics/openexr \
-		libImath-3_1.so:math/Imath \
+		libIex.so:graphics/openexr \
+		libIlmThread.so:graphics/openexr \
+		libImath.so:math/Imath \
 		libminizip.so:archivers/minizip \
 		libOpenColorIO.so:graphics/opencolorio \
-		libOpenEXR-3_3.so:graphics/openexr \
-		libOpenEXRCore-3_3.so:graphics/openexr \
+		libOpenEXR.so:graphics/openexr \
+		libOpenEXRCore.so:graphics/openexr \
 		libOpenImageDenoise.so:graphics/oidn \
 		libOpenImageIO.so:graphics/openimageio \
 		libOpenImageIO_Util.so:graphics/openimageio \
