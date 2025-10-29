@@ -1,4 +1,4 @@
---- test/CMakeLists.txt.orig	2025-10-09 16:38:20 UTC
+--- test/CMakeLists.txt.orig	2025-10-29 07:01:47 UTC
 +++ test/CMakeLists.txt
 @@ -4,6 +4,8 @@ endif()
    find_package(Qt5 COMPONENTS Test)

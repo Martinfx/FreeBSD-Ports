@@ -18,7 +18,7 @@ USE_GL=		gl
 USE_QT=		base
 
 .if defined(WITH_DEBUG)
-BUILD_DEPENDS+=	catch2>0:devel/catch2
+LIB_DEPENDS+=	libCatch2.so:devel/catch2
 CMAKE_ON=	BUILD_TESTING
 .else
 CMAKE_OFF=	BUILD_TESTING
@@ -27,9 +27,28 @@ CMAKE_OFF+=	BUILD_DOCS
 
 PORTEXAMPLES=	*
 
-OPTIONS_DEFINE=		EXAMPLES
-OPTIONS_SUB=		yes
+OPTIONS_DEFINE=	EXAMPLES
+OPTIONS_SUB=	yes
 EXAMPLES_CMAKE_BOOL=	BUILD_EXAMPLES
+
+_CATCH= test_main.cpp \
+	src/TestUIInteraction.cpp \
+	src/TestDataFlow.cpp \
+	src/TestConnectionId.cpp \
+	src/TestNodeDelegateModelRegistry.cpp \
+	src/TestBasicGraphicsScene.cpp \
+	src/TestAbstractGraphModelSignals.cpp \
+	src/TestDataFlowGraphModel.cpp \
+	src/TestUndoCommands.cpp \
+	src/TestSerialization.cpp \
+	src/TestAbstractGraphModel.cpp
+
+post-patch:
+.if defined(WITH_DEBUG)
+	${REINPLACE_CMD} 's|<catch2/catch.hpp>|<catch2/catch_all.hpp>|' \
+		${_CATCH:S|^|${WRKSRC}/test/|}
+	${ECHO_CMD} 'int main(){return 0;}' >> ${WRKSRC}/test/test_main.cpp
+.endif
 
 post-install-EXAMPLES-on:
 	${MKDIR} ${STAGEDIR}${EXAMPLESDIR}/bin
