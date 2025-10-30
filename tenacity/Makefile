@@ -1,11 +1,10 @@
 PORTNAME=	tenacity
 DISTVERSIONPREFIX=	v
-DISTVERSION=	1.4
-DISTVERSIONSUFFIX=	-alpha1
+DISTVERSION=	1.4-alpha1
 CATEGORIES=	multimedia
 
 MAINTAINER=	freebsd@sysctl.cz
-COMMENT=	Tenacity is an easy-to-use multi-track audio editor and recorde.
+COMMENT=	Tenacity is an easy-to-use multi-track audio editor and recorder
 WWW=		https://tenacityaudio.org/
 
 LICENSE=	GPLv2
@@ -54,54 +53,43 @@ LIB_DEPENDS=	libatk-1.0.so:accessibility/at-spi2-core \
 		libwx_gtk3u_html-3.2.so:x11-toolkits/wxgtk32 \
 		libwx_gtk3u_qa-3.2.so:x11-toolkits/wxgtk32
 
-USES=		cmake desktop-file-utils gettext-runtime localbase pkgconfig python sqlite
+USES=		cmake desktop-file-utils gettext-runtime localbase pkgconfig \
+		python sqlite
 USE_GNOME=	cairo gdkpixbuf glib20 gtk30 pango
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	tenacityteam
 GH_PROJECT=	tenacity
-GH_TUPLE+=	Martinfx:libnyquist:a76cd38:libnyquist/lib-src/libnyquist
+GH_TUPLE=	Martinfx:libnyquist:a76cd38:libnyquist/lib-src/libnyquist
 
-CMAKE_OFF=	LIBNYQUIST_BUILD_EXAMPLE
-CFLAGS+=	-fPIC
+OPTIONS_DEFINE_amd64=	AVX AVX2 AVX512
 
-OPTIONS_DEFINE=		AVX AVX2 AVX512 SSE4
-OPTIONS_DEFAULT=	SSE4
+AVX_DESC=       Enable AVX (x86_64 only)
+AVX2_DESC=      Enable AVX2 (x86_64 only)
+AVX512_DESC=    Enable AVX512 (x86_64 only)
 
-SSE4_DESC=	Prefer SSE4 fallback (no AVX*)
-AVX_DESC=	Enable AVX (x86_64 only)
-AVX2_DESC=	Enable AVX2 (x86_64 only)
-AVX512_DESC=	Enable AVX512 (x86_64 only)
+CMAKE_OFF=      LIBNYQUIST_BUILD_EXAMPLE
+CFLAGS=         -fPIC
 
 .include <bsd.port.options.mk>
 
-.if ${ARCH} != amd64
-OPTIONS_EXCLUDE+=	AVX AVX2 AVX512 SSE4
+.if ${PORT_OPTIONS:MAVX}
+CMAKE_ARGS+=	-DAVX:BOOL=TRUE
 .endif
-
-CMAKE_ARGS+=	-DAVX2=OFF \
-		-DAVX512=OFF \
-		-DAVX=OFF
-
-.if ${ARCH} == amd64
+.if ${PORT_OPTIONS:MAVX2}
+CMAKE_ARGS+=	-DAVX2:BOOL=TRUE
+.endif
 .if ${PORT_OPTIONS:MAVX512}
-CMAKE_ARGS+=	-DAVX2=OFF \
-		-DAVX512=ON \
-		-DAVX=OFF
-.elif ${PORT_OPTIONS:MAVX2}
-CMAKE_ARGS+=	-DAVX2=ON \
-		-DAVX512=OFF \
-		-DAVX=OFF
-.elif ${PORT_OPTIONS:MAVX}
-CMAKE_ARGS+=	-DAVX2=OFF \
-		-DAVX512=OFF \
-		-DAVX=ON
-.elif ${PORT_OPTIONS:MSSE4}
-CMAKE_ARGS+=	-DAVX2=OFF \
-		-DAVX512=OFF \
-		-DAVX=OFF
-.else
+CMAKE_ARGS+=	-DAVX512:BOOL=TRUE
 .endif
+
+.if ${ARCH} != amd64
+OPTIONS_EXCLUDE=	AVX AVX2 AVX512
+.endif
+
+.if ${ARCH} == i386
+CFLAGS=		-msse2
+CXXFLAGS=	-msse2 # fixes error: always_inline function '_mm_unpacklo_ps' requires target feature 'sse', but would be inlined into function 'pffft_zreorder' that is compiled without support for 'sse'
 .endif
 
 .include <bsd.port.mk>
