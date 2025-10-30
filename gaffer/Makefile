@@ -57,7 +57,7 @@ BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}Jinja2>0:devel/py-Jinja2@${PY_FLAVOR} \
 RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}qt6-pyqt>0:devel/py-qt6-pyqt@${PY_FLAVOR} \
 		${PYTHON_PKGNAMEPREFIX}pyside2>0:devel/pyside2@${PY_FLAVOR}
 
-USES=		localbase python:3.11+,env qt:6 scons
+USES=		llvm:min=16,build,run localbase python:3.11+,env qt:6 scons
 USE_QT=		base
 USE_GITHUB=	yes
 GH_ACCOUNT=	GafferHQ
@@ -66,8 +66,8 @@ GH_PROJECT=	gaffer
 SCONS_ARGS=	LOCATE_DEPENDENCY_LIBPATH=${LOCALBASE}/lib \
 		LOCATE_DEPENDENCY_SYSTEMPATH=${LOCALBASE}/include
 SCONS_ARGS+=	BOOST_LIB_SUFFIX="" SPHINX=${LOCALBASE}/bin/sphinx-build \
-		INKSCAPE=${LOCALBASE}/bin/inkscape WARNINGS_AS_ERRORS=0 \
-		CXXSTD=c++20
+		INKSCAPE=${LOCALBASE}/bin/inkscape WARNINGS_AS_ERRORS=0 # \
+		#CXXSTD=c++20
 SCONS_ARGS+=	CYCLES_ROOT=${LOCALBASE}/bin
 SCONS_ARGS+=	OSLHOME=${LOCALBASE}/share/openshadinglanguage/shaders
 
