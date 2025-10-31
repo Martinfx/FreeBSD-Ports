@@ -9,12 +9,3 @@
      # Allow AVX2 or AVX512 to be enabled if desired
      option(AVX    "Enable the usage of AVX in builds instead of SSE4.")
      option(AVX2   "Enable the usage of AVX2 in builds instead of SSE4 or AVX." OFF)
-@@ -743,7 +743,7 @@ if (NYQUIST)
- if (NYQUIST)
-     set(USE_NYQUIST ON)
-     add_subdirectory(lib-src/libnyquist)
--    set_target_properties(nyquist PROPERTIES POSITION_INDEPENDENT_CODE ON)
-+#    set_target_properties(nyquist PROPERTIES POSITION_INDEPENDENT_CODE ON)
- 
-     add_subdirectory("nyquist")
-     add_subdirectory("plug-ins")
