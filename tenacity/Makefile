@@ -64,12 +64,12 @@ GH_TUPLE=	Martinfx:libnyquist:a76cd38:libnyquist/lib-src/libnyquist
 
 OPTIONS_DEFINE_amd64=	AVX AVX2 AVX512
 
-AVX_DESC=       Enable AVX (x86_64 only)
-AVX2_DESC=      Enable AVX2 (x86_64 only)
-AVX512_DESC=    Enable AVX512 (x86_64 only)
+AVX_DESC=	Enable AVX (x86_64 only)
+AVX2_DESC=	Enable AVX2 (x86_64 only)
+AVX512_DESC=	Enable AVX512 (x86_64 only)
 
-CMAKE_OFF=      LIBNYQUIST_BUILD_EXAMPLE
-CFLAGS=         -fPIC
+CMAKE_OFF=	LIBNYQUIST_BUILD_EXAMPLE
+CXXFLAGS=	-fPIC
 
 .include <bsd.port.options.mk>
 
