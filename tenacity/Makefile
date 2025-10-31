@@ -69,7 +69,7 @@ AVX2_DESC=	Enable AVX2 (x86_64 only)
 AVX512_DESC=	Enable AVX512 (x86_64 only)
 
 CMAKE_OFF=	LIBNYQUIST_BUILD_EXAMPLE
-CFLAGS=		-fPIC
+#CFLAGS=		-fPIC
 
 .include <bsd.port.options.mk>
 
@@ -88,8 +88,8 @@ OPTIONS_EXCLUDE=	AVX AVX2 AVX512
 .endif
 
 .if ${ARCH} == i386
-CFLAGS=		-msse2
-CXXFLAGS=	-msse2 # fixes error: always_inline function '_mm_unpacklo_ps' requires target feature 'sse', but would be inlined into function 'pffft_zreorder' that is compiled without support for 'sse'
+CFLAGS=	-msse2
+CXXFLAGS= -msse2 # fixes error: always_inline function '_mm_unpacklo_ps' requires target feature 'sse', but would be inlined into function 'pffft_zreorder' that is compiled without support for 'sse'
 .endif
 
 .include <bsd.port.mk>
