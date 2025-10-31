@@ -69,7 +69,7 @@ AVX2_DESC=	Enable AVX2 (x86_64 only)
 AVX512_DESC=	Enable AVX512 (x86_64 only)
 
 CMAKE_OFF=	LIBNYQUIST_BUILD_EXAMPLE
-CXXFLAGS=	-fPIC
+CFLAGS=		-fPIC
 
 .include <bsd.port.options.mk>
 
