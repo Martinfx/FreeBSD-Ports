@@ -75,7 +75,7 @@ AVX512_CMAKE_BOOL= AVX512
 
 CMAKE_OFF=	LIBNYQUIST_BUILD_EXAMPLE
 
-.include <bsd.port.options.mk
+.include <bsd.port.options.mk>
 
 .if ${ARCH} != amd64
 OPTIONS_EXCLUDE=	AVX AVX2 AVX512
