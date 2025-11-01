@@ -50,6 +50,19 @@
  	else :
  
  		env["GAFFER_PLATFORM"] = "linux"
+@@ -752,9 +767,9 @@ haveSphinx = conf.checkSphinx()
+ 
+ haveSphinx = conf.checkSphinx()
+ 
+-if not conf.checkQtVersion() :
+-	sys.stderr.write( "Qt not found\n" )
+-	Exit( 1 )
++#if not conf.checkQtVersion() :
++#	sys.stderr.write( "Qt not found\n" )
++#	Exit( 1 )
+ 
+ ###############################################################################################
+ # An environment for running commands with access to the applications we've built
 @@ -837,8 +852,8 @@ boostVersionHeader = baseLibEnv.FindFile(
  boostVersionHeader = baseLibEnv.FindFile(
  	"boost/version.hpp",
