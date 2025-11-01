@@ -1,4 +1,4 @@
---- SConstruct.orig	2025-10-21 10:03:35 UTC
+--- SConstruct.orig	2025-10-30 22:32:44 UTC
 +++ SConstruct
 @@ -96,7 +96,7 @@ o.Add(
  o.Add(
@@ -18,6 +18,26 @@
  
  	if "clang++" in os.path.basename( env["CXX"] ) :
  		# Turn off the parts of `-Wall` and `-Wextra` that we don't like.
+@@ -1099,14 +1099,14 @@ if doConfigure :
+ 		]
+ 	)
+ 
+-	if int( env["BOOST_MINOR_VERSION"] ) >=35 :
+-		env.Append( LIBS = [ "boost_system" + env["BOOST_LIB_SUFFIX"] ] )
++	#if int( env["BOOST_MINOR_VERSION"] ) >=35 :
++	#	env.Append( LIBS = [ "boost_system" + env["BOOST_LIB_SUFFIX"] ] )
+ 
+ 	c = configureSharedLibrary( env )
+ 
+-	if not c.CheckLibWithHeader( env.subst( "boost_iostreams" + env["BOOST_LIB_SUFFIX"] ), "boost/iostreams/chain.hpp", "CXX" ) :
+-		sys.stderr.write( "ERROR : unable to find the boost libraries - check BOOST_LIB_PATH.\n" )
+-		Exit( 1 )
++	#if not c.CheckLibWithHeader( env.subst( "boost_iostreams" + env["BOOST_LIB_SUFFIX"] ), "boost/hana/chain.hpp", "CXX" ) :
++	#	sys.stderr.write( "ERROR : unable to find the boost libraries - check BOOST_LIB_PATH.\n" )
++	#	Exit( 1 )
+ 
+ 	if not c.CheckLibWithHeader( "Iex" + env["OPENEXR_LIB_SUFFIX"], "OpenEXR/ImfInputFile.h", "C++" ) :
+ 		sys.stderr.write( "ERROR : unable to find the OpenEXR libraries - check OPENEXR_INCLUDE_PATH and OPENEXR_LIB_PATH.\n" )
 @@ -1508,8 +1508,8 @@ if env["INSTALL_CREATE_SYMLINKS"]:
  headerInstall = coreEnv.Install( "$INSTALL_HEADER_DIR/IECore", coreHeaders )
  if env["INSTALL_CREATE_SYMLINKS"]:
