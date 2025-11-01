@@ -1,5 +1,5 @@
 PORTNAME=	cortex
-DISTVERSION=	10.6.0.2
+DISTVERSION=	10.6.2.0
 CATEGORIES=	graphics
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -18,7 +18,6 @@ LIB_DEPENDS=	libboost_filesystem.so:devel/boost-libs \
 		libboost_thread.so:devel/boost-libs \
 		libboost_timer.so:devel/boost-libs \
 		libboost_chrono.so:devel/boost-libs \
-		libboost_system.so:devel/boost-libs \
 		libboost_python${PYTHON_SUFFIX}.so:devel/boost-python-libs \
 		libOpenEXR.so:graphics/openexr \
 		libtbb.so:devel/onetbb \
@@ -52,7 +51,7 @@ LIB_DEPENDS=	libboost_filesystem.so:devel/boost-libs \
 		libusd_work.so:misc/usd \
 		libusd_usdVol.so:misc/usd
 
-USES=		compiler gettext-runtime gl python:3.11+ scons
+USES=		gettext-runtime gl python:3.11+ scons
 USE_GITHUB=	yes
 GH_ACCOUNT=	ImageEngine
 USE_GL=		gl glew glu
@@ -89,7 +88,7 @@ SCONS_ARGS=	BOOST_INCLUDE_PATH=${LOCALBASE}/include \
 		CXX=${CXX} \
 		DOXYGEN=no \
 		INSTALL_PREFIX=${STAGEDIR}${PREFIX} \
-		INSTALL_HEADER_DIR=${STAGEDIR}${PREFIX}/include \
+		INSTALL_HEADER_DIR=${STAGEDIR}${PREFIX}/include
 
 do-install:
 	${INSTALL_LIB} ${WRKSRC}/lib/*.so ${STAGEDIR}${PREFIX}/lib/
