@@ -13,7 +13,7 @@
  	CPPPATH = [
  		"include",
 +		"/usr/local/include",
-+		"/usr/local/include/qt6",
++		"/usr/local/include/qt5",
 +		"/usr/local/include/python3.11/",
 +		"/usr/local/include/Imath/",
 +		"/usr/local/include/oneapi/",
@@ -27,8 +27,8 @@
  	LIBPATH = [
  		"./lib",
 +		"/usr/local/lib",
-+		"/usr/local/lib/qt6",
-+		"/usr/local/lib/qt6/bin",
++		"/usr/local/lib/qt5",
++		"/usr/local/lib/qt5/bin",
  		"$BUILD_DIR/lib",
  		"$LOCATE_DEPENDENCY_LIBPATH",
  	],
