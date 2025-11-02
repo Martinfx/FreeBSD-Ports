@@ -59,7 +59,7 @@ RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}qt6-pyqt>0:devel/py-qt6-pyqt@${PY_FLAVOR} \
 		${PYTHON_PKGNAMEPREFIX}pyside2>0:devel/pyside2@${PY_FLAVOR}
 
 USES=		compiler:c++17-lang llvm:min=16,build,run localbase python:3.11+,env qt:5 scons
-USE_QT=		core
+USE_QT=		core buildtools
 USE_GITHUB=	yes
 GH_ACCOUNT=	GafferHQ
 GH_PROJECT=	gaffer

@@ -1,4 +1,4 @@
---- SConstruct.orig	2025-10-10 20:24:55 UTC
+--- SConstruct.orig	2025-10-31 22:00:44 UTC
 +++ SConstruct
 @@ -48,6 +48,7 @@ import codecs
  import tempfile
@@ -9,7 +9,7 @@
  EnsureSConsVersion( 3, 0, 2 ) # Substfile is a default builder as of 3.0.2
  
 @@ -67,6 +68,7 @@ gafferVersionSuffix = "" # used for alpha/beta release
- gafferMinorVersion = 3 # new backwards-compatible features
+ gafferMinorVersion = 4 # new backwards-compatible features
  gafferPatchVersion = 0 # bug fixes
  gafferVersionSuffix = "" # used for alpha/beta releases : "a1", "b2", etc.
 +QT_VERSION = 5
@@ -113,8 +113,15 @@
  	if not pxrVersionHeader :
  		sys.stderr.write( "ERROR : unable to find \"pxr/pxr.h\".\n" )
  		Exit( 1 )
-@@ -1597,12 +1626,13 @@ for library in ( "GafferUI", ) :
- 			libraries[library]["envAppends"]["LIBS"].append( "Qt${QT_VERSION}" + qtLibrary )
+@@ -1592,17 +1621,18 @@ def addQtLibrary( library, qtLibrary, pythonOnly = Tru
+ 		if not pythonOnly:
+ 			libraries[library]["envAppends"].setdefault( "FRAMEWORKS", [] ).append( "Qt" + qtLibrary )
+ 	else :
+-		libraries[library]["pythonEnvAppends"]["LIBS"].append( "Qt${QT_VERSION}" + qtLibrary )
++		libraries[library]["pythonEnvAppends"]["LIBS"].append( "Qt5" + qtLibrary )
+ 		if not pythonOnly:
+-			libraries[library]["envAppends"]["LIBS"].append( "Qt${QT_VERSION}" + qtLibrary )
++			libraries[library]["envAppends"]["LIBS"].append( "Qt5" + qtLibrary )
  
  for library in ( "GafferUI", ) :
 -	addQtLibrary( library, "Core", False )
