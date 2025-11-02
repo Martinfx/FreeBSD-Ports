@@ -8,7 +8,15 @@
  
  EnsureSConsVersion( 3, 0, 2 ) # Substfile is a default builder as of 3.0.2
  
-@@ -405,11 +406,23 @@ env = Environment(
+@@ -67,6 +68,7 @@ gafferVersionSuffix = "" # used for alpha/beta release
+ gafferMinorVersion = 3 # new backwards-compatible features
+ gafferPatchVersion = 0 # bug fixes
+ gafferVersionSuffix = "" # used for alpha/beta releases : "a1", "b2", etc.
++QT_VERSION = 5
+ 
+ # All of the following must be considered when determining
+ # whether or not a change is backwards-compatible
+@@ -405,11 +407,23 @@ env = Environment(
  
  	CPPPATH = [
  		"include",
@@ -32,7 +40,7 @@
  		"$BUILD_DIR/lib",
  		"$LOCATE_DEPENDENCY_LIBPATH",
  	],
-@@ -429,7 +442,7 @@ for path in [
+@@ -429,7 +443,7 @@ for path in [
  		"$BUILD_DIR/include",
  		"$BUILD_DIR/include/Imath",
  		"$BUILD_DIR/include/GL",
@@ -41,7 +49,7 @@
  
  	env.Append(
  		CXXFLAGS = [ systemIncludeArgument, path ]
-@@ -465,6 +478,8 @@ if env["PLATFORM"] != "win32" :
+@@ -465,6 +479,8 @@ if env["PLATFORM"] != "win32" :
  		env.Append( CXXFLAGS = [ "-DBOOST_NO_CXX98_FUNCTION_BASE", "-D_HAS_AUTO_PTR_ETC=0" ] )
  		env["GAFFER_PLATFORM"] = "macos"
  
@@ -50,7 +58,7 @@
  	else :
  
  		env["GAFFER_PLATFORM"] = "linux"
-@@ -752,9 +767,9 @@ haveSphinx = conf.checkSphinx()
+@@ -752,9 +768,9 @@ haveSphinx = conf.checkSphinx()
  
  haveSphinx = conf.checkSphinx()
  
@@ -63,7 +71,7 @@
  
  ###############################################################################################
  # An environment for running commands with access to the applications we've built
-@@ -837,8 +852,8 @@ boostVersionHeader = baseLibEnv.FindFile(
+@@ -837,8 +853,8 @@ boostVersionHeader = baseLibEnv.FindFile(
  boostVersionHeader = baseLibEnv.FindFile(
  	"boost/version.hpp",
  	[ "$BUILD_DIR/include" ] +
@@ -74,7 +82,7 @@
  )
  
  if not boostVersionHeader :
-@@ -1038,13 +1053,26 @@ if env["GAFFERUSD"] :
+@@ -1038,13 +1054,26 @@ if env["GAFFERUSD"] :
  usdPythonLib = basePythonEnv.subst( "boost_python$BOOST_PYTHON_LIB_SUFFIX" )
  if env["GAFFERUSD"] :
  
@@ -105,7 +113,7 @@
  	if not pxrVersionHeader :
  		sys.stderr.write( "ERROR : unable to find \"pxr/pxr.h\".\n" )
  		Exit( 1 )
-@@ -1597,12 +1625,13 @@ for library in ( "GafferUI", ) :
+@@ -1597,12 +1626,13 @@ for library in ( "GafferUI", ) :
  			libraries[library]["envAppends"]["LIBS"].append( "Qt${QT_VERSION}" + qtLibrary )
  
  for library in ( "GafferUI", ) :
@@ -120,7 +128,7 @@
  # Add required platform-specific libraries
  
  if env["PLATFORM"] == "win32" :
-@@ -1837,7 +1866,7 @@ for libraryName, libraryDef in libraries.items() :
+@@ -1837,7 +1867,7 @@ for libraryName, libraryDef in libraries.items() :
  	# command ourselves.
  
  	for sourceFile in libraryDef.get( "mocSourceFiles", [] ) :
@@ -129,7 +137,7 @@
  		# Somehow the above leads to a circular dependency between `mocOutput` and itself.
  		# Tell SCons not to worry. The official SCons tool does the same.
  		env.Ignore( mocOutput, mocOutput )
-@@ -1893,23 +1922,23 @@ for libraryName, libraryDef in libraries.items() :
+@@ -1893,23 +1923,23 @@ for libraryName, libraryDef in libraries.items() :
  
  	# osl shaders
  
@@ -169,7 +177,7 @@
  	# class stubs
  
  	def buildClassStub( target, source, env ) :
-@@ -1935,56 +1964,6 @@ for libraryName, libraryDef in libraries.items() :
+@@ -1935,56 +1965,6 @@ for libraryName, libraryDef in libraries.items() :
  
  	# USD Schemas
  
