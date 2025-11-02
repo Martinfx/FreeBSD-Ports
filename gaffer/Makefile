@@ -46,6 +46,7 @@ BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}Jinja2>0:devel/py-Jinja2@${PY_FLAVOR} \
 		pcg-cpp>0:devel/pcg-cpp \
 		png>0:graphics/png \
 		pugixml>0:textproc/pugixml \
+		python>0:lang/python \
 		pybind11>0:devel/pybind11 \
 		pystring>0:devel/pystring \
 		webp>0:graphics/webp \
