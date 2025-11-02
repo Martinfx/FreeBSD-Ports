@@ -57,7 +57,7 @@ BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}Jinja2>0:devel/py-Jinja2@${PY_FLAVOR} \
 RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}qt6-pyqt>0:devel/py-qt6-pyqt@${PY_FLAVOR} \
 		${PYTHON_PKGNAMEPREFIX}pyside2>0:devel/pyside2@${PY_FLAVOR}
 
-USES=		compiler:c++17-lang llvm:min=20,build,run python:3.11+,env qt:5 scons
+USES=		compiler:c++17-lang llvm:min=20,build,run localbase python:3.11+,env qt:5 scons
 USE_QT=		core
 USE_GITHUB=	yes
 GH_ACCOUNT=	GafferHQ
