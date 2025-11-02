@@ -27,14 +27,15 @@ OPTIONS_DEFINE=		IMAGING TOOLS
 OPTIONS_DEFAULT=	TOOLS
 OPTIONS_SUB=		yes
 
-IMAGING_DESC=		Build imaging components
+IMAGING_DESC=	Build imaging components
+TOOLS_DESC=	Build commandline tools
+
+IMAGING_BROKEN=		see https://github.com/PixarAnimationStudios/USD/issues/1706
 IMAGING_CMAKE_BOOL=	PXR_BUILD_IMAGING
 IMAGING_CMAKE_ON=	-DPTEX_INCLUDE_DIR=${LOCALBASE}/include
-IMAGING_BROKEN=		see https://github.com/PixarAnimationStudios/USD/issues/1706
 
-TOOLS_DESC=		Build commandline tools
-TOOLS_CMAKE_BOOL=	PXR_BUILD_USD_TOOLS
 TOOLS_LIB_DEPENDS=	libboost_program_options.so:devel/boost-libs
+TOOLS_CMAKE_BOOL=	PXR_BUILD_USD_TOOLS
 
 do-test: # tests are expected to be installed, see https://github.com/PixarAnimationStudios/USD/issues/1707
 	@cd ${BUILD_WRKSRC} && \
