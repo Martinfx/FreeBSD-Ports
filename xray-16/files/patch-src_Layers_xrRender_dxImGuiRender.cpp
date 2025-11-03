@@ -1,4 +1,4 @@
---- src/Layers/xrRender/dxImGuiRender.cpp.orig	2025-08-24 01:59:20 UTC
+--- src/Layers/xrRender/dxImGuiRender.cpp.orig	2025-07-20 11:05:19 UTC
 +++ src/Layers/xrRender/dxImGuiRender.cpp
 @@ -5,7 +5,7 @@
  #if defined(USE_DX11)

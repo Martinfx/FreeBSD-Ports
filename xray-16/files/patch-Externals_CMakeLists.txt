@@ -1,4 +1,4 @@
---- Externals/CMakeLists.txt.orig	2025-10-18 07:38:32 UTC
+--- Externals/CMakeLists.txt.orig	2025-10-14 13:38:51 UTC
 +++ Externals/CMakeLists.txt
 @@ -13,7 +13,7 @@ add_subdirectory(GameSpy)
  add_compile_options(${XRAY_DISABLE_WARNINGS})
