@@ -10,7 +10,7 @@ LICENSE=	MIT
 LICENSE_FILE=	${WRKSRC}/LICENSE.md
 
 USES=		cargo gnome
-USE_GNOME=	pango glib20
+USE_GNOME=	atk pango glib20
 USE_GITHUB=	yes
 GH_ACCOUNT=	jpochyla
 GH_TAGNAME=	31861f4
