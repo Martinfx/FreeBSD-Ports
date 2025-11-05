@@ -658,8 +658,9 @@ CARGO_CRATES=	addr2line-0.24.2 \
 		druid-enums@git+https://github.com/jpochyla/druid-enums\#a492fab38d86beb199e83aadfd8753fc7d65a387 \
 		druid,druid-derive,druid-shell@git+https://github.com/jpochyla/druid?branch=psst\#f554301008e9cf2aebd8d995f1c1332c49ba587f
 
-PROGRAMS= psst-cli psst-gui
-PLIST_FILES= bin/psst bin/psst-gui
+PROGRAMS=	psst-cli psst-gui
+PLIST_FILES=	bin/psst \
+		bin/psst-gui
 
 do-install:
 # workaround for error: found a virtual manifest
