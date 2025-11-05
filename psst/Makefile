@@ -9,7 +9,8 @@ WWW=		https://github.com/jpochyla/psst
 LICENSE=	MIT
 LICENSE_FILE=	${WRKSRC}/LICENSE.md
 
-USES=		cargo
+USES=		cargo gnome
+USE_GNOME=	glib20
 USE_GITHUB=	yes
 GH_ACCOUNT=	jpochyla
 GH_TAGNAME=	31861f4
