@@ -668,7 +668,7 @@ PLIST_FILES=	bin/psst-cli \
 
 do-install:
 # workaround for error: found a virtual manifest
-.for p in ${PROGS}
+.for p in ${PROGRAMS}
 	${INSTALL_PROGRAM} \
 	${WRKDIR}/target/release/${p} \
 	${STAGEDIR}${PREFIX}/bin
