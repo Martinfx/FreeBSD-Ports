@@ -9,6 +9,8 @@ WWW=		https://github.com/jpochyla/psst
 LICENSE=	MIT
 LICENSE_FILE=	${WRKSRC}/LICENSE.md
 
+LIB_DEPENDS=	libasound.so:audio/alsa-lib
+
 USES=		cargo gnome
 USE_GNOME=	atk pango glib20 gtk30
 USE_GITHUB=	yes
