@@ -1,6 +1,3 @@
-TIMESTAMP = 1756387008
-SHA256 (teams-for-linux-2.5.1.aarch64.rpm) = 75c9b2531325daf391b622faedf8f8a6a2a5f93a3d4ae9e7c27088b05a62b8fb
-SIZE (teams-for-linux-2.5.1.aarch64.rpm) = 89324581
-TIMESTAMP = 1756385872
-SHA256 (teams-for-linux-2.5.1.x86_64.rpm) = ff72023d974fc795dc88d08ac7f4e841d411e78c73af91387a889cdaec6ff798
-SIZE (teams-for-linux-2.5.1.x86_64.rpm) = 94465489
+TIMESTAMP = 1762457790
+SHA256 (teams-for-linux-2.6.11.x86_64.rpm) = 45ed2d9f01a3496f85c9315d21ee167e00f4ecf213fc36497e4b71ffd35c3e44
+SIZE (teams-for-linux-2.6.11.x86_64.rpm) = 94182093
