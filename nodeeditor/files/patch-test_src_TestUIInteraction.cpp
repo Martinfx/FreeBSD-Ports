@@ -1,10 +1,10 @@
---- test/src/TestUIInteraction.cpp.orig	2025-08-25 03:04:21 UTC
+--- test/src/TestUIInteraction.cpp.orig	2025-10-29 07:53:22 UTC
 +++ test/src/TestUIInteraction.cpp
-@@ -30,6 +30,7 @@ using QtNodes::PortType;
- using QtNodes::NodeRole;
- using QtNodes::PortIndex;
- using QtNodes::PortType;
-+using namespace Catch;
+@@ -20,6 +20,7 @@
+ #include <QGraphicsScene>
+ #include <QTimer>
  
- TEST_CASE("UI Interaction - Node Movement", "[ui][visual]")
- {
++using namespace Catch;
+ using QtNodes::BasicGraphicsScene;
+ using QtNodes::ConnectionGraphicsObject;
+ using QtNodes::ConnectionId;

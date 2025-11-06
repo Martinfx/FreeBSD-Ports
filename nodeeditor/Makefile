@@ -9,19 +9,50 @@ WWW=		https://github.com/paceholder/nodeeditor
 LICENSE=	BSD3CLAUSE
 LICENSE_FILE=	${WRKSRC}/LICENSE.rst
 
-BUILD_DEPENDS=	catch2>0:devel/catch2
+BUILD_DEPENDS=	vulkan-headers>0:graphics/vulkan-headers
 
-USES=		cmake localbase gl qt:6
+USES=		cmake gl qt:6
 USE_GITHUB=	yes
 GH_ACCOUNT=	paceholder
-GH_PROJECT=	nodeeditor
 USE_GL=		gl
 USE_QT=		base
 
-CMAKE_ARGS=	-DBUILD_DOCS=OFF
+.if defined(WITH_DEBUG)
+LIB_DEPENDS+=	libCatch2.so:devel/catch2
+CMAKE_ON=	BUILD_TESTING
+.else
+CMAKE_OFF=	BUILD_TESTING
+.endif
+CMAKE_OFF+=	BUILD_DOCS
+
+PORTEXAMPLES=	*
+
+OPTIONS_DEFINE=	EXAMPLES
+OPTIONS_SUB=	yes
+EXAMPLES_CMAKE_BOOL=	BUILD_EXAMPLES
+
+_CATCH= test_main.cpp \
+	src/TestUIInteraction.cpp \
+	src/TestDataFlow.cpp \
+	src/TestConnectionId.cpp \
+	src/TestNodeDelegateModelRegistry.cpp \
+	src/TestBasicGraphicsScene.cpp \
+	src/TestAbstractGraphModelSignals.cpp \
+	src/TestDataFlowGraphModel.cpp \
+	src/TestUndoCommands.cpp \
+	src/TestSerialization.cpp \
+	src/TestAbstractGraphModel.cpp
 
 post-patch:
-	@${FIND} ${WRKSRC} -type f | ${XARGS} ${REINPLACE_CMD} \
-		-E -e 's|#include <catch2/catch.hpp>|#include <catch2/catch_all.hpp>|g'
+.if defined(WITH_DEBUG)
+	${REINPLACE_CMD} 's|<catch2/catch.hpp>|<catch2/catch_all.hpp>|' \
+		${_CATCH:S|^|${WRKSRC}/test/|}
+	${ECHO_CMD} 'int main(){return 0;}' >> ${WRKSRC}/test/test_main.cpp
+.endif
+
+post-install-EXAMPLES-on:
+	${MKDIR} ${STAGEDIR}${EXAMPLESDIR}/bin
+	${INSTALL_PROGRAM} ${WRKDIR}/.build/bin/* ${STAGEDIR}${EXAMPLESDIR}/bin
+	(cd ${WRKSRC}/examples && ${COPYTREE_SHARE} . ${STAGEDIR}${EXAMPLESDIR})
 
 .include <bsd.port.mk>

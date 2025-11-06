@@ -14,51 +14,44 @@ LICENSE=	commercial
 LICENSE_NAME=	End User License Agreement
 LICENSE_TEXT=	See: https://www.wps.com/eula
 LICENSE_PERMS=	no-auto-accept no-dist-mirror no-dist-sell no-pkg-mirror no-pkg-sell
+LICENSE_PERMS=	auto-accept
 
 ONLY_FOR_ARCHS=	amd64
 
-USES=		desktop-file-utils linux:rl9 shebangfix
-INSTALLS_ICONS=	yes
-USE_LINUX=	imageformats-libs pulseaudio-libs xorglibs libglvnd gtk3 cups-libs
-
-RUN_DEPENDS=	linux-rl9-libxslt>0:textproc/linux-rl9-libxslt
-
+USES=		desktop-file-utils linux:rl9 shebangfix ssl
+USE_LINUX=	cups-libs gtk3 imageformats-libs libglvnd pulseaudio-libs xorglibs libxslt
 
 SHEBANG_FILES=	usr/bin/et \
 		usr/bin/wpp \
 		usr/bin/wps \
 		usr/bin/wpspdf
 
+CONFLICTS_INSTALL=	linux-wps-office-zh_CN
+
 NO_BUILD=	yes
 NO_WRKSUBDIR=	yes
 PLIST_SUB=	LINUXBASE=${LINUXBASE}
 
+ICONS_SIZES=	16 24 32 48 64 96 128 256 512
 WPS_BINS=	et wpp wps wpspdf
 WPS_DESK=	et wpp wps pdf prometheus
 
 post-patch:
-.for d in ${WPS_DESK}
-	@${REINPLACE_CMD} -i '' -e 's|/usr/bin|${PREFIX}/bin|' ${WRKSRC}/opt/kingsoft/${PORTNAME}/desktops/${PORTNAME}-${d}.desktop
-.endfor
-.for b in ${WPS_BINS}
-	@${REINPLACE_CMD} -e 's|gInstallPath=/opt|gInstallPath=${LINUXBASE}/opt|' ${WRKSRC}/usr/bin/${b}
-.endfor
+	${REINPLACE_CMD} -i '' -e 's|/usr/bin|${PREFIX}/bin|' \
+		${WPS_DESK:C|(.+)|${WRKSRC}/opt/kingsoft/${PORTNAME}/desktops/${PORTNAME}-\1.desktop|}
+	${REINPLACE_CMD} -e 's|gInstallPath=/opt|gInstallPath=${LINUXBASE}/opt|' \
+		${WPS_BINS:C|^|${WRKSRC}/usr/bin/|}
 
 do-install:
-.for s in 16 24 32 48 64 96 128 256 512
-	${MKDIR} ${STAGEDIR}${PREFIX}/share/icons/hicolor/${s}x${s}/apps
+	${MKDIR} ${ICONS_SIZES:C|([0-9]+)|${STAGEDIR}${PREFIX}/share/icons/hicolor/\1x\1/apps|}
+.for s in ${ICONS_SIZES}
 	${INSTALL_DATA} ${WRKSRC}/usr/share/icons/hicolor/${s}x${s}/mimetypes/*.png \
 		${STAGEDIR}${PREFIX}/share/icons/hicolor/${s}x${s}/apps/
 .endfor
-.for d in ${WPS_DESK}
-	${INSTALL_DATA} ${WRKSRC}/opt/kingsoft/${PORTNAME}/desktops/${PORTNAME}-${d}.desktop \
+	${INSTALL_DATA} \
+		${WPS_DESK:C|(.+)|${WRKSRC}/opt/kingsoft/${PORTNAME}/desktops/${PORTNAME}-\1.desktop|} \
 		${STAGEDIR}${DESKTOPDIR}
-.endfor
-	${MKDIR} ${STAGEDIR}${LINUXBASE}
 	(cd ${WRKSRC} && ${COPYTREE_SHARE} opt ${STAGEDIR}${LINUXBASE})
-.for b in ${WPS_BINS}
-	${INSTALL_SCRIPT} ${WRKSRC}/usr/bin/${b} ${STAGEDIR}${PREFIX}/bin
-	${CHMOD} +x ${STAGEDIR}${LINUXBASE}/opt/kingsoft/wps-office/office6/${b}
-.endfor
+	${INSTALL_SCRIPT} ${WPS_BINS:C|^|${WRKSRC}/usr/bin/|} ${STAGEDIR}${PREFIX}/bin
 
 .include <bsd.port.mk>

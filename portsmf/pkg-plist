@@ -1,0 +1,12 @@
+include/portsmf/allegro.h
+include/portsmf/mfmidi.h
+include/portsmf/strparse.h
+include/portsmf/trace.h
+lib/cmake/PortSMF/PortSMFConfig.cmake
+lib/cmake/PortSMF/PortSMFConfigVersion.cmake
+lib/cmake/PortSMF/PortSMFTargets-%%CMAKE_BUILD_TYPE%%.cmake
+lib/cmake/PortSMF/PortSMFTargets.cmake
+lib/libportSMF.so
+lib/libportSMF.so.1
+lib/libportSMF.so.1.0.236
+libdata/pkgconfig/portSMF.pc
