@@ -1,8 +1,8 @@
 PORTNAME=	teams-for-linux
 DISTVERSIONPREFIX=	v
-DISTVERSION=	2.5.1
+DISTVERSION=	2.6.11
 CATEGORIES=	net-im linux
-MASTER_SITES=	https://github.com/IsmaelMartinez/${PORTNAMAE}/releases/download/v${DISTVERSION}/
+MASTER_SITES=	https://github.com/IsmaelMartinez/teams-for-linux/releases/download/v${DISTVERSION}/
 DISTNAME=	${PORTNAME}-${DISTVERSION}${EXTRACT_SUFX_${ARCH}}
 
 MAINTAINER=	freebsd@sysctl.cz
