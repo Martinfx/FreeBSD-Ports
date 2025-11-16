@@ -1,4 +1,4 @@
---- src/IECoreImage/DisplayDriverServer.cpp.orig	2025-02-25 10:37:21 UTC
+--- src/IECoreImage/DisplayDriverServer.cpp.orig	2025-10-30 22:32:44 UTC
 +++ src/IECoreImage/DisplayDriverServer.cpp
 @@ -106,7 +106,7 @@ class DisplayDriverServer::Session : public RefCounted
  {
@@ -18,7 +18,7 @@
  		boost::asio::ip::tcp::acceptor m_acceptor;
  		std::thread m_thread;
  		MergeMap m_mergeMap;
-@@ -306,7 +306,7 @@ void DisplayDriverServer::handleAccept( DisplayDriverS
+@@ -320,7 +320,7 @@ void DisplayDriverServer::handleAccept( DisplayDriverS
   * DisplayDriverServer::Session functions
   */
  

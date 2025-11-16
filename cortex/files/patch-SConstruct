@@ -1,4 +1,4 @@
---- SConstruct.orig	2025-02-25 10:37:21 UTC
+--- SConstruct.orig	2025-10-30 22:32:44 UTC
 +++ SConstruct
 @@ -96,7 +96,7 @@ o.Add(
  o.Add(
@@ -9,7 +9,7 @@
  )
  
  o.Add(
-@@ -1109,7 +1109,7 @@ if env["PLATFORM"] != "win32" :
+@@ -870,7 +870,7 @@ if env["PLATFORM"] != "win32" :
  			if gccVersion >= [ 5, 1 ] and gccVersion < [ 11, 2 ] :
  				env.Append( CXXFLAGS = [ "-D_GLIBCXX_USE_CXX11_ABI=0" ] )
  
@@ -18,7 +18,18 @@
  
  	if "clang++" in os.path.basename( env["CXX"] ) :
  		# Turn off the parts of `-Wall` and `-Wextra` that we don't like.
-@@ -1773,8 +1773,8 @@ if env["INSTALL_CREATE_SYMLINKS"]:
+@@ -1099,8 +1099,8 @@ if doConfigure :
+ 		]
+ 	)
+ 
+-	if int( env["BOOST_MINOR_VERSION"] ) >=35 :
+-		env.Append( LIBS = [ "boost_system" + env["BOOST_LIB_SUFFIX"] ] )
++	#if int( env["BOOST_MINOR_VERSION"] ) >=35 :
++	#	env.Append( LIBS = [ "boost_system" + env["BOOST_LIB_SUFFIX"] ] )
+ 
+ 	c = configureSharedLibrary( env )
+ 
+@@ -1508,8 +1508,8 @@ if env["INSTALL_CREATE_SYMLINKS"]:
  headerInstall = coreEnv.Install( "$INSTALL_HEADER_DIR/IECore", coreHeaders )
  if env["INSTALL_CREATE_SYMLINKS"]:
  	coreEnv.AddPostAction( "$INSTALL_HEADER_DIR/IECore", lambda target, source, env : makeSymLinks( coreEnv, coreEnv["INSTALL_HEADER_DIR"] ) )
@@ -29,7 +40,7 @@
  coreEnv.Alias( "install", [ headerInstall, versionHeaderInstall ] )
  coreEnv.Alias( "installCore", [ headerInstall, versionHeaderInstall ] )
  
-@@ -2302,20 +2302,20 @@ if env["WITH_GL"] and doConfigure :
+@@ -2044,20 +2044,20 @@ if env["WITH_GL"] and doConfigure :
  
  		Default( [ glLibrary, glPythonModule ] )
  
@@ -63,4 +74,4 @@
 +#		glTestEnv.Alias( "testGL", glTest )
  
  ###########################################################################################
- # Build, install and test the coreMaya library and bindings
+ # Build, install and test the IECoreUSD library and bindings

@@ -1,7 +1,7 @@
---- include/IECoreVDB/VDBObject.h.orig	2025-02-25 10:37:21 UTC
+--- include/IECoreVDB/VDBObject.h.orig	2025-10-30 22:32:44 UTC
 +++ include/IECoreVDB/VDBObject.h
-@@ -58,7 +58,7 @@ IECORE_POP_DEFAULT_VISIBILITY
- #endif
+@@ -53,7 +53,7 @@ IECORE_POP_DEFAULT_VISIBILITY
+ #include "Imath/ImathBox.h"
  IECORE_POP_DEFAULT_VISIBILITY
  
 -#include "tbb/recursive_mutex.h"
