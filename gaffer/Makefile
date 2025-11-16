@@ -64,19 +64,18 @@ USE_GITHUB=	yes
 GH_ACCOUNT=	GafferHQ
 GH_PROJECT=	gaffer
 
-SCONS_ARGS+=	LOCATE_DEPENDENCY_LIBPATH=${LOCALBASE}/lib \
+SCONS_ARGS=	LOCATE_DEPENDENCY_LIBPATH=${LOCALBASE}/lib \
 		LOCATE_DEPENDENCY_SYSTEMPATH=${LOCALBASE}/include \
-		BOOST_LIB_SUFFIX="" \
+		BOOST_LIB_SUFFIX=" " \
 		SPHINX=${LOCALBASE}/bin/sphinx-build \
 		INKSCAPE=${LOCALBASE}/bin/inkscape \
-		WARNINGS_AS_ERRORS=0
-
-SCONS_ARGS+=	CYCLES_ROOT=${LOCALBASE}/bin
-SCONS_ARGS+=	OSLHOME=${LOCALBASE}/share/openshadinglanguage/shaders
+		WARNINGS_AS_ERRORS=0 \
+		CYCLES_ROOT=${LOCALBASE}/bin \
+		OSLHOME=${LOCALBASE}/share/openshadinglanguage/shaders
 
 do-install:
 	${INSTALL_LIB} ${WRKSRC}/lib/*.so ${STAGEDIR}${PREFIX}/lib/
 
 .include <bsd.port.pre.mk>
-MAKE_ARGS+=	${SCONS_ARGS}
+MAKE_ARGS+=		${SCONS_ARGS}
 .include <bsd.port.post.mk>
