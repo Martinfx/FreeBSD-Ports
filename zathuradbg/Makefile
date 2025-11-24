@@ -4,7 +4,7 @@ CATEGORIES=	devel
 
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	An emulation based tool for learning and debugging assembly.
-WWW=		https://zathuradbg.github.io/
+WWW=		https://www.zathura.dev
 
 LICENSE=	GPLv3
 LICENSE_FILE=	${WRKSRC}/LICENSE
@@ -25,8 +25,6 @@ USE_GL=		gl glu
 USE_GITHUB=	yes
 GH_ACCOUNT=	ZathuraDbg
 GH_PROJECT=	ZathuraDbg
-#CXXLDFLAGS=	-lc++ -lc++abi
-
 
 CMAKE_SOURCE_PATH=	${WRKSRC}/src
 
