@@ -1,4 +1,4 @@
---- source/MaterialXFormat/File.cpp.orig	2024-11-23 23:42:38 UTC
+--- source/MaterialXFormat/File.cpp.orig	2025-09-15 18:12:11 UTC
 +++ source/MaterialXFormat/File.cpp
 @@ -23,6 +23,7 @@
      #include <linux/limits.h>
@@ -41,7 +41,7 @@
 +    size_t lastSlash = path.find_last_of('/');
 +    if (lastSlash == string::npos)
 +    {
-+        return "."; // Pokud není nadřazená cesta
++        return ".";
 +    }
 +    return path.substr(0, lastSlash);
  }
