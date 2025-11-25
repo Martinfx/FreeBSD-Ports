@@ -4,7 +4,7 @@ DISTVERSION=	1.39.4
 CATEGORIES=	graphics
 
 MAINTAINER=	freebsd@sysctl.cz
-COMMENT=	MaterialX is an open standard for the exchange of rich material and look-development content across applications and renderers.
+COMMENT=	MaterialX is an open standard for the exchange of rich material
 WWW=		http://www.materialx.org/
 
 LICENSE=	APACHE20
@@ -17,10 +17,7 @@ LIB_DEPENDS=	libImath.so:math/Imath \
 		libOpenImageIO.so:graphics/openimageio \
 		libOpenImageIO_Util.so:graphics/openimageio
 
-USES=		cmake localbase python:3.11+
-USE_GL=		opengl
-USE_XORG=	ice sm x11 xt
-USE_LDCONFIG=	yes
+USES=		cmake gl localbase python:3.9+ xorg
 USE_GITHUB=	yes
 GH_ACCOUNT=	AcademySoftwareFoundation
 GH_PROJECT=	MaterialX
@@ -32,13 +29,15 @@ GH_TUPLE=	mitsuba-renderer:nanogui:6452dd6:nanogui/source/MaterialXView/NanoGUI 
 		wjakob:nanovg:bf2320d:nanovg/source/MaterialXView/NanoGUI/ext/nanovg \
 		wjakob:nanovg_metal:075b04f:nanovgmetal/source/MaterialXView/NanoGUI/ext/nanovg_metal
 
-CMAKE_ON+=	MATERIALX_BUILD_GRAPH_EDITOR MATERIALX_BUILD_OIIO \
-		MATERIALX_BUILD_PYTHON MATERIALX_BUILD_SHARED_LIBS \
-		MATERIALX_BUILD_VIEWER \
-		MATERIALX_INSTALL_PYTHON=${STAGEDIR}${PREFIX} \
-		MATERIALX_BUILD_TESTS
+USE_GL=		opengl
+USE_LDCONFIG=	yes
+USE_XORG=	ice sm x11 xt
 
-CMAKE_INSTALL_PREFIX=	${STAGEDIR}${PREFIX}
+CMAKE_ARGS=	-DCMAKE_INSTALL_PREFIX=${STAGEDIR}${PREFIX}
+CMAKE_ON=	MATERIALX_BUILD_GRAPH_EDITOR MATERIALX_BUILD_OIIO \
+		MATERIALX_BUILD_PYTHON MATERIALX_BUILD_SHARED_LIBS \
+		MATERIALX_BUILD_TESTS MATERIALX_BUILD_VIEWER \
+		MATERIALX_INSTALL_PYTHON=${STAGEDIR}${PREFIX}
 
 do-install:
 	${INSTALL_PROGRAM} ${WRKDIR}/.build/bin/MaterialXGraphEditor ${STAGEDIR}${PREFIX}/bin
@@ -49,6 +48,6 @@ do-install:
 	(cd ${WRKSRC}/source && ${COPYTREE_SHARE} .  ${STAGEDIR}${PREFIX}/include/${PORTNAME} "-name *.h")
 
 do-test:
-	@cd ${TEST_WRKSRC} && ctest -C ${CMAKE_BUILD_TYPE} ${_MAKE_JOBS}
+	cd ${TEST_WRKSRC} && ctest -C ${CMAKE_BUILD_TYPE} ${_MAKE_JOBS}
 
 .include <bsd.port.mk>

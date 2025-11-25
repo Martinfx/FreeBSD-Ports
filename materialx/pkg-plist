@@ -490,7 +490,6 @@ lib/libMaterialXRenderHw.so.1.39.4
 lib/libMaterialXRenderOsl.so
 lib/libMaterialXRenderOsl.so.1
 lib/libMaterialXRenderOsl.so.1.39.4
-python/setup.py
 %%DATADIR%%/materialx/CMakeLists.txt
 %%DATADIR%%/materialx/Geometry/boombox.glb
 %%DATADIR%%/materialx/Geometry/chess_set.glb
