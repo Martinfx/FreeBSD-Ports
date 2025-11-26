@@ -1,6 +1,6 @@
---- SConstruct.orig	2025-07-01 09:33:23 UTC
+--- SConstruct.orig	2025-10-31 12:59:45 UTC
 +++ SConstruct
-@@ -98,7 +98,7 @@ vars.AddVariables(
+@@ -103,7 +103,7 @@ vars.AddVariables(
                    allowed_values=("armv7a", "armv7a-hf", "arm64-v8a", "arm64-v8.2-a", "arm64-v8.2-a-sve", "arm64-v8.2-a-sve2", "x86_32", "x86_64",
                                    "armv8a", "armv8.2-a", "armv8.2-a-sve", "armv8.6-a", "armv8.6-a-sve", "armv8.6-a-sve2", "armv8.6-a-sve2-sme2", "armv8r64", "x86")),
      EnumVariable("estate", "Execution State", "auto", allowed_values=("auto", "32", "64")),
@@ -9,7 +9,7 @@
      EnumVariable("build", "Either build directly on your device (native) or cross compile from your desktop machine (cross-compile). In both cases make sure the compiler is available in your path.", "cross_compile", allowed_values=("native", "cross_compile", "embed_only")),
      BoolVariable("examples", "Build example programs", True),
      BoolVariable("gemm_tuner", "Build gemm_tuner programs", True),
-@@ -253,11 +253,11 @@ cpp_tool = {'linux': 'g++', 'android' : 'clang++',
+@@ -282,11 +282,11 @@ cpp_tool = {'linux': 'g++', 'android' : 'clang++',
  
  cpp_tool = {'linux': 'g++', 'android' : 'clang++',
               'tizen': 'g++', 'macos':'clang++',
@@ -23,7 +23,7 @@
  
  default_cpp_compiler = cpp_tool[env['os']]
  default_c_compiler = c_tool[env['os']]
-@@ -538,7 +538,7 @@ if env["os"] not in ["windows","android", "bare_metal"
+@@ -567,7 +567,7 @@ if env["os"] not in ["windows","android", "bare_metal"
  if env["os"] not in ["windows","android", "bare_metal", "qnx"] and (env['opencl'] or env['cppthreads']):
      env.Append(LIBS = ['pthread'])
  

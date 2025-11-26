@@ -1,4 +1,4 @@
---- src/common/cpuinfo/CpuInfo.cpp.orig	2025-07-01 09:33:23 UTC
+--- src/common/cpuinfo/CpuInfo.cpp.orig	2025-10-31 12:59:45 UTC
 +++ src/common/cpuinfo/CpuInfo.cpp
 @@ -31,6 +31,8 @@
  
@@ -9,6 +9,25 @@
  
  #if !defined(BARE_METAL)
  #include <algorithm>
+@@ -52,15 +54,15 @@
+ #endif /* !defined(BARE_METAL) */
+ 
+ #if !defined(_WIN64)
+-#if !defined(BARE_METAL) && !defined(__APPLE__) && !defined(__OpenBSD__) && !defined(__QNX__) && \
++#if !defined(BARE_METAL) && !defined(__APPLE__) && !defined(__OpenBSD__) && !defined(__FreeBSD__) && !defined(__QNX__) && \
+     (defined(__arm__) || defined(__aarch64__))
+ #include <asm/hwcap.h> /* Get HWCAP bits from asm/hwcap.h */
+ #include <sys/auxv.h>
+-#elif (defined(__OpenBSD__) || defined(__APPLE__)) && defined(__aarch64__)
++#elif (defined(__OpenBSD__) || defined(__FreeBSD__) || defined(__APPLE__)) && defined(__aarch64__)
+ #include <sys/sysctl.h>
+ #include <sys/types.h>
+ #endif /* defined(__APPLE__) && defined(__aarch64__)) */
+-#endif /* !defined(BARE_METAL) && !defined(__APPLE__) && !defined(__OpenBSD__) && !defined(__QNX__) && (defined(__arm__) || defined(__aarch64__)) */
++#endif /* !defined(BARE_METAL) && !defined(__APPLE__) && !defined(__OpenBSD__) !defined(__FreeBSD__) && !defined(__QNX__) && (defined(__arm__) || defined(__aarch64__)) */
+ 
+ #define ARM_COMPUTE_CPU_FEATURE_HWCAP_CPUID    (1 << 11)
+ #define ARM_COMPUTE_GET_FEATURE_REG(var, freg) __asm __volatile("MRS %0, " #freg : "=r"(var))
 @@ -70,7 +72,7 @@ namespace
  {
  namespace
