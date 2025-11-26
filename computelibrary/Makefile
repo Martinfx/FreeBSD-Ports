@@ -1,6 +1,6 @@
 PORTNAME=	ComputeLibrary
 DISTVERSIONPREFIX=v
-DISTVERSION=	52.3.0
+DISTVERSION=	52.6.0
 CATEGORIES=	devel
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -13,7 +13,6 @@ LICENSE_FILE=	${WRKSRC}/LICENSES/MIT.txt
 ONLY_FOR_ARCHS=	aarch64 amd64 armv7
 
 USES=		scons
-#USE_GCC=	yes
 USE_GITHUB=	yes
 GH_ACCOUNT=	ARM-software
 GH_PROJECT=	ComputeLibrary
@@ -24,7 +23,7 @@ INSTALL_TARGET=	install-strip
 SCONS_ARGS_amd64=	neon=0 opencl=1 examples=1 arch=x86_64
 SCONS_ARGS_aarch64=	neon=1 opencl=0 examples=0 arch=arm64-v8a
 SCONS_ARGS_armv7=	neon=1 opencl=0 examples=0 arch=armv7a
-SCONS_ARGS+= 		os=freebsd Werror=0 embed_kernels=0 build=native ${SCONS_ARGS_${ARCH}}
+SCONS_ARGS=		os=freebsd Werror=0 embed_kernels=0 build=native ${SCONS_ARGS_${ARCH}}
 MAKE_ARGS=	${SCONS_ARGS}
 TEST_TARGET=	test
 
@@ -33,17 +32,17 @@ do-install:
 	${CP} -vR ${WRKSRC}/${dir} ${STAGEDIR}${PREFIX}/include
 .endfor
 	${CP} -vR ${WRKSRC}/include/ ${STAGEDIR}${PREFIX}/include
-	${INSTALL_DATA} ${WRKSRC}/build/libarm_compute.so \
-                ${STAGEDIR}${PREFIX}/lib/libarm_compute.so
-	${INSTALL_DATA} ${WRKSRC}/build/libarm_compute_graph.so \
-                ${STAGEDIR}${PREFIX}/lib/libarm_compute_graph.so
+	${INSTALL_LIB} ${WRKSRC}/build/libarm_compute.so \
+		${STAGEDIR}${PREFIX}/lib/libarm_compute.so
+	${INSTALL_LIB} ${WRKSRC}/build/libarm_compute_graph.so \
+		${STAGEDIR}${PREFIX}/lib/libarm_compute_graph.so
 	${INSTALL_DATA} ${WRKSRC}/build/*.a ${STAGEDIR}${PREFIX}/lib
-	${MKDIR} ${STAGEDIR}${PREFIX}/share/examples/arm-compute-library
+	${MKDIR} ${STAGEDIR}${EXAMPLESDIR}/arm-compute-library
 	${INSTALL_DATA} ${WRKSRC}/examples/*.h \
-		${STAGEDIR}${PREFIX}/share/examples/arm-compute-library
+		${STAGEDIR}${EXAMPLESDIR}/arm-compute-library
 	${INSTALL_DATA} ${WRKSRC}/examples/*.cpp \
-		${STAGEDIR}${PREFIX}/share/examples/arm-compute-library
+		${STAGEDIR}${EXAMPLESDIR}/arm-compute-library
 	${CP} -R ${WRKSRC}/examples/gemm_tuner \
-		${STAGEDIR}${PREFIX}/share/examples/arm-compute-library
+		${STAGEDIR}${EXAMPLESDIR}/arm-compute-library
 
 .include <bsd.port.post.mk>
