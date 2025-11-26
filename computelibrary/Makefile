@@ -21,8 +21,8 @@ INSTALL_TARGET=	install-strip
 .include <bsd.port.pre.mk>
 
 SCONS_ARGS_amd64=	neon=0 opencl=1 examples=1 arch=x86_64
-SCONS_ARGS_aarch64=	neon=1 opencl=0 examples=0 arch=arm64-v8a
-SCONS_ARGS_armv7=	neon=1 opencl=0 examples=0 arch=armv7a
+SCONS_ARGS_aarch64=	neon=1 opencl=0 examples=1 arch=arm64-v8a
+SCONS_ARGS_armv7=	neon=1 opencl=0 examples=1 arch=armv7a
 SCONS_ARGS=		os=freebsd Werror=0 embed_kernels=0 build=native ${SCONS_ARGS_${ARCH}}
 MAKE_ARGS=	${SCONS_ARGS}
 TEST_TARGET=	test
