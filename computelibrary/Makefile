@@ -12,6 +12,8 @@ LICENSE_FILE=	${WRKSRC}/LICENSES/MIT.txt
 
 ONLY_FOR_ARCHS=	aarch64 amd64 armv7
 
+TEST_DEPENDS=	scons:devel/scons
+
 USES=		scons
 USE_GITHUB=	yes
 GH_ACCOUNT=	ARM-software
@@ -20,9 +22,9 @@ INSTALL_TARGET=	install-strip
 
 .include <bsd.port.pre.mk>
 
-SCONS_ARGS_amd64=	neon=0 opencl=1 examples=1 arch=x86_64
-SCONS_ARGS_aarch64=	neon=1 opencl=0 examples=1 arch=arm64-v8a
-SCONS_ARGS_armv7=	neon=1 opencl=0 examples=1 arch=armv7a
+SCONS_ARGS_amd64=	neon=0 opencl=1 examples=0 arch=x86_64
+SCONS_ARGS_aarch64=	neon=1 opencl=0 examples=0 arch=arm64-v8a
+SCONS_ARGS_armv7=	neon=1 opencl=0 examples=0 arch=armv7a
 SCONS_ARGS=		os=freebsd Werror=0 embed_kernels=0 build=native ${SCONS_ARGS_${ARCH}}
 MAKE_ARGS=	${SCONS_ARGS}
 TEST_TARGET=	test
@@ -44,5 +46,8 @@ do-install:
 		${STAGEDIR}${EXAMPLESDIR}/arm-compute-library
 	${CP} -R ${WRKSRC}/examples/gemm_tuner \
 		${STAGEDIR}${EXAMPLESDIR}/arm-compute-library
+
+do-test:
+	@cd ${WRKSRC} && ${SETENV} ${TEST_ENV} scons ${SCONS_ARGS}
 
 .include <bsd.port.post.mk>
