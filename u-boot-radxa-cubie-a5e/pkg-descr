@@ -1,0 +1,5 @@
+U-Boot loader and related files for the radxa cubie a5e
+
+To install this bootloader on an sdcard just do:
+
+dd if=/usr/local/share/u-boot/u-boot-radxa-cubie-a5e/u-boot-sunxi-with-spl.bin of=/path/to/sdcarddevice bs=1k seek=8 conv=sync
