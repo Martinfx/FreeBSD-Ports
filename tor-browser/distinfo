@@ -1,4 +1,4 @@
-TIMESTAMP = 1765272138
+TIMESTAMP = 1765298059
 SHA256 (src-firefox-tor-browser-140.6.0esr-15.0-1-build5.tar.xz) = 5aeaf4ae95002273d5be947c55f0abe6c509305ea676933778b5696dbf17fb06
 SIZE (src-firefox-tor-browser-140.6.0esr-15.0-1-build5.tar.xz) = 693406452
 SHA256 (manual_215922.zip) = b5ed703f54d52e9f197320f3698e936d585a3fed23cc4f9fbf59edce2869f885
@@ -11,5 +11,5 @@ SHA256 (tpo-translation-dff70d135408cfc24931c170efa91fbaded19914_GL0.tar.gz) = c
 SIZE (tpo-translation-dff70d135408cfc24931c170efa91fbaded19914_GL0.tar.gz) = 1022345
 SHA256 (tpo-translation-ca310e42296a7085ea59fc323592f3dc702123ac_GL0.tar.gz) = 0af26f717359fdd1ed951d6376e6e350641acf5ee5f4bf28316108caff3086dd
 SIZE (tpo-translation-ca310e42296a7085ea59fc323592f3dc702123ac_GL0.tar.gz) = 2904329
-SHA256 (mozilla-l10n-firefox-l10n-64046fdc97c1b1886a479dead61e6dc5428ae6e6_GH0.tar.gz) = b8b0adbb24f4eb19f9a490c2e1ce3851990a30c91029b097c1a7827e89896d2b
-SIZE (mozilla-l10n-firefox-l10n-64046fdc97c1b1886a479dead61e6dc5428ae6e6_GH0.tar.gz) = 71152825
+SHA256 (mozilla-l10n-firefox-l10n-412690f1368e37f70af57eecabb93497167eb9ba_GH0.tar.gz) = f4d29be04a7f29934b772988e0a677f8a15ce7d6c131d6e3232642168742fb4a
+SIZE (mozilla-l10n-firefox-l10n-412690f1368e37f70af57eecabb93497167eb9ba_GH0.tar.gz) = 72166951

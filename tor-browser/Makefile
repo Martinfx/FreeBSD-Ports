@@ -56,7 +56,7 @@ USES=		compiler:c++11-lib libtool localbase:ldflags perl5 pkgconfig \
 		python shebangfix tar:xz
 USE_GECKO=	gecko
 USE_GITHUB=	nodefault
-TAG_L10N=	64046fdc97c1b1886a479dead61e6dc5428ae6e6
+TAG_L10N=	412690f1368e37f70af57eecabb93497167eb9ba
 GH_TUPLE=	mozilla-l10n:firefox-l10n:${TAG_L10N}:ffl10n
 USE_MOZILLA=	-sqlite
 
