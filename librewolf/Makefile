@@ -1,6 +1,6 @@
 PORTNAME=	librewolf
-DISTVERSION=	145.0.2
-LWPATCH=	-2
+DISTVERSION=	146.0
+LWPATCH=	-1
 DISTVERSIONSUFFIX=	${LWPATCH}.source
 CATEGORIES=	www wayland
 MASTER_SITES=	https://gitlab.com/api/v4/projects/32320088/packages/generic/${PORTNAME}-source/${DISTVERSION}${LWPATCH}/
@@ -14,7 +14,7 @@ LICENSE_FILE=	${WRKSRC}/LICENSE
 
 BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
 		nss>=3.117:security/nss \
-		icu>=76.1:devel/icu \
+		icu>=76.1,1:devel/icu \
 		libevent>=2.1.8:devel/libevent \
 		harfbuzz>=10.1.0:print/harfbuzz \
 		graphite2>=1.3.14:graphics/graphite2 \
