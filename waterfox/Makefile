@@ -31,7 +31,7 @@ BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
 USE_GECKO=	gecko
 USE_GITHUB=	yes
 GH_ACCOUNT=	BrowserWorks
-GH_TUPLE=	BrowserWorks:l10n:b74025d:l10n/waterfox/browser/locales
+GH_TUPLE=	BrowserWorks:l10n:5889642:l10n/waterfox/browser/locales
 USE_MOZILLA=	-sqlite
 # work around bindgen not finding ICU, e.g.
 # dist/include/mozilla/intl/ICU4CGlue.h:8:10: fatal error: 'unicode/uenum.h' file not found, err: true
