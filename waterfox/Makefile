@@ -1,5 +1,5 @@
 PORTNAME=	waterfox
-DISTVERSION=	6.6.6
+DISTVERSION=	6.6.7
 PORTEPOCH=	1
 CATEGORIES=	www
 
@@ -11,8 +11,8 @@ LICENSE=	MPL20
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
 BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
-		nss>=3.117:security/nss \
-		icu>=76.1:devel/icu \
+		nss>=3.118:security/nss \
+		icu>=76.1,1:devel/icu \
 		libevent>=2.1.8:devel/libevent \
 		harfbuzz>=10.1.0:print/harfbuzz \
 		graphite2>=1.3.14:graphics/graphite2 \
