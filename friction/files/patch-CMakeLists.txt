@@ -1,0 +1,11 @@
+--- CMakeLists.txt.orig	2025-08-06 11:39:26 UTC
++++ CMakeLists.txt
+@@ -62,7 +62,7 @@ if(UNIX AND NOT APPLE)
+ endif()
+ if(UNIX AND NOT APPLE)
+     option(BUILD_TESTING "Don't build gperftools tests" OFF)
+-    add_subdirectory(src/gperftools)
++#    add_subdirectory(src/gperftools)
+ endif()
+ add_subdirectory(src/core)
+ add_subdirectory(src/ui)

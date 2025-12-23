@@ -1,0 +1,19 @@
+--- src/app/CMakeLists.txt.orig	2025-08-06 11:39:26 UTC
++++ src/app/CMakeLists.txt
+@@ -71,13 +71,13 @@ if(WIN32)
+ 
+ if(WIN32)
+     set(QSCINTILLA_LIBRARIES_DIRS ${CMAKE_SOURCE_DIR}/sdk/bin)
+-    set(QSCINTILLA_LIBRARIES qscintilla2_qt5)
++    set(QSCINTILLA_LIBRARIESqscintilla2_qt5)
+     set(QSCINTILLA_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/sdk/include)
+     add_definitions(-DQSCINTILLA_DLL)
+ else()
+-    set(QSCINTILLA_LIBRARIES_DIRS "/usr/lib" CACHE STRING "qscintilla library path")
++    set(QSCINTILLA_LIBRARIES_DIRS "/usr/local/lib/qt5" CACHE STRING "qscintilla library path")
+     set(QSCINTILLA_LIBRARIES "qscintilla2_qt5" CACHE STRING "qscintilla library")
+-    set(QSCINTILLA_INCLUDE_DIRS "/usr/include/x86_64-linux-gnu/qt5" CACHE STRING "qscintilla includes path")
++    set(QSCINTILLA_INCLUDE_DIRS "/usr/local/include/qt5" CACHE STRING "qscintilla includes path")
+ endif()
+ 
+ message("-- qscintilla include: ${QSCINTILLA_INCLUDE_DIRS}")
