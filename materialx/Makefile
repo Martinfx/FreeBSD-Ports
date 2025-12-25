@@ -37,15 +37,34 @@ CMAKE_ARGS=	-DCMAKE_INSTALL_PREFIX=${STAGEDIR}${PREFIX}
 CMAKE_ON=	MATERIALX_BUILD_GRAPH_EDITOR MATERIALX_BUILD_OIIO \
 		MATERIALX_BUILD_PYTHON MATERIALX_BUILD_SHARED_LIBS \
 		MATERIALX_BUILD_TESTS MATERIALX_BUILD_VIEWER \
-		MATERIALX_INSTALL_PYTHON=${STAGEDIR}${PREFIX}
+		MATERIALX_INSTALL_RESOURCES
+#		MATERIALX_INSTALL_PYTHON MATERIALX_INSTALL_RESOURCES
 
 do-install:
 	${INSTALL_PROGRAM} ${WRKDIR}/.build/bin/MaterialXGraphEditor ${STAGEDIR}${PREFIX}/bin
 	${INSTALL_PROGRAM} ${WRKDIR}/.build/bin/MaterialXView ${STAGEDIR}${PREFIX}/bin
-	${INSTALL_LIB} ${BUILD_WRKSRC}/lib/*.so* ${STAGEDIR}${PREFIX}/lib/
-	${MKDIR} ${STAGEDIR}/${DATADIR}/${PORTNAME}
-	(cd ${WRKSRC}/resources  && ${COPYTREE_SHARE} . ${STAGEDIR}/${DATADIR}/${PORTNAME})
-	(cd ${WRKSRC}/source && ${COPYTREE_SHARE} .  ${STAGEDIR}${PREFIX}/include/${PORTNAME} "-name *.h")
+	${MKDIR} ${STAGEDIR}${PREFIX}/lib
+	${INSTALL_LIB} ${BUILD_WRKSRC}/lib/*.so* ${STAGEDIR}${PREFIX}/lib
+	${MKDIR} ${STAGEDIR}/share/MaterialX
+	(cd ${WRKSRC}/resources  && ${COPYTREE_SHARE} . ${STAGEDIR}${PREFIX}/share/MaterialX)
+	(cd ${WRKSRC}/source && ${COPYTREE_SHARE} .  ${STAGEDIR}${PREFIX}/include "-name *.h")
+	${MKDIR} ${STAGEDIR}${PREFIX}/share/MaterialX/examples
+	(cd ${WRKSRC}/python/Scripts/ && ${COPYTREE_SHARE} . ${STAGEDIR}${PREFIX}/share/MaterialX/examples)
+	${MKDIR} ${STAGEDIR}${PYTHONPREFIX_SITELIBDIR}
+	(cd ${WRKSRC}/python/MaterialX && ${COPYTREE_SHARE} . ${STAGEDIR}${PYTHONPREFIX_SITELIBDIR}/MaterialX)
+	${MKDIR} ${STAGEDIR}${PREFIX}/share/MaterialX/stdlib
+	(cd ${WRKSRC}/libraries && ${COPYTREE_SHARE} . ${STAGEDIR}${PREFIX}/share/MaterialX/stdlib "-name *.mtlx")
+	${MKDIR} ${STAGEDIR}${PREFIX}/lib/cmake/MaterialX
+	${MV} ${WRKDIR}/.build/cmake/* ${STAGEDIR}${PREFIX}/lib/cmake/MaterialX
+	${MV} ${BUILD_WRKSRC}/CMakeFiles/Export/6ec30f313a190b6699aad53a4a5af714/MaterialXTargets.cmake \
+		${STAGEDIR}${PREFIX}/lib/cmake/MaterialX
+	${REINPLACE_CMD} -e 's/libraries/${PACKAGE_PREFIX_DIR}\share\/MaterialX\/stdlib/g' \
+		${STAGEDIR}${PREFIX}/lib/cmake/MaterialX/MaterialXConfig.cmake
+#	${REINPLACE_CMD} -e \
+#		"s/python/${PACKAGE_PREFIX_DIR}\lib\/${PYTHONPREFIX_SITELIBDIR}\/MaterialX/g" \
+#		${STAGEDIR}${PREFIX}/lib/cmake/MaterialX/MaterialXConfig.cmake
+	${REINPLACE_CMD} -e 's/resources/${PACKAGE_PREFIX_DIR}\share\/MaterialX/g' \
+		${STAGEDIR}${PREFIX}/lib/cmake/MaterialX/MaterialXConfig.cmake
 
 do-test:
 	cd ${TEST_WRKSRC} && ctest -C ${CMAKE_BUILD_TYPE} ${_MAKE_JOBS}
