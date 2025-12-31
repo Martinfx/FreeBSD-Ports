@@ -1,6 +1,25 @@
---- Cargo.toml.orig	2025-02-22 05:17:11 UTC
+--- Cargo.toml.orig	2025-11-19 03:39:37 UTC
 +++ Cargo.toml
-@@ -58,7 +58,7 @@ parity-tokio-ipc = { git = "https://github.com/rustdes
+@@ -21,6 +21,7 @@ path = "src/service.rs"
+ path = "src/service.rs"
+ 
+ [features]
++libfuse=[]
+ inline = []
+ cli = []
+ use_samplerate = ["samplerate"]
+@@ -43,8 +44,9 @@ screencapturekit = ["cpal/screencapturekit"]
+ screencapturekit = ["cpal/screencapturekit"]
+ 
+ # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+-
+ [dependencies]
++fuser = { version = "0.15.1", features = ["libfuse"] }
++clang-sys = { version="1.8.1",  features = ["runtime", "clang_18_0", "clang_17_0", "clang_16_0"]} 
+ async-trait = "0.1"
+ scrap = { path = "libs/scrap", features = ["wayland"] }
+ hbb_common = { path = "libs/hbb_common" }
+@@ -57,7 +59,7 @@ parity-tokio-ipc = { git = "https://github.com/rustdes
  sha2 = "0.10"
  repng = "0.2"
  parity-tokio-ipc = { git = "https://github.com/rustdesk-org/parity-tokio-ipc" }
@@ -9,7 +28,7 @@
  dasp = { version = "0.11", features = ["signal", "interpolate-linear", "interpolate"], optional = true }
  rubato = { version = "0.12", optional = true }
  samplerate = { version = "0.2", optional = true }
-@@ -71,7 +71,7 @@ errno = "0.3"
+@@ -70,7 +72,7 @@ errno = "0.3"
  wol-rs = "1.0"
  flutter_rust_bridge = { version = "=1.80", features = ["uuid"], optional = true}
  errno = "0.3"
@@ -18,3 +37,66 @@
  url = { version = "2.3", features = ["serde"] }
  crossbeam-queue = "0.3"
  hex = "0.4"
+@@ -85,14 +87,14 @@ reqwest = { version = "0.12", features = ["blocking", 
+ kcp-sys= { git = "https://github.com/rustdesk-org/kcp-sys"}
+ reqwest = { version = "0.12", features = ["blocking", "socks", "json", "native-tls", "rustls-tls", "rustls-tls-native-roots", "gzip"], default-features=false }
+ 
+-[target.'cfg(not(target_os = "linux"))'.dependencies]
++[target.'cfg(not(target_os = "freebsd"))'.dependencies]
+ # https://github.com/rustdesk/rustdesk/discussions/10197, not use cpal on linux
+ cpal = { git = "https://github.com/rustdesk-org/cpal", branch = "osx-screencapturekit" }
+ ringbuf = "0.3"
+ 
+ [target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
+ mac_address = "1.1"
+-sciter-rs = { git = "https://github.com/rustdesk-org/rust-sciter", branch = "dyn" }
++sciter-rs = { git = "https://github.com/Martinfx/rust-sciter", branch = "master" }
+ sys-locale = "0.3"
+ enigo = { path = "libs/enigo", features = [ "with_serde" ] }
+ clipboard = { path = "libs/clipboard" }
+@@ -151,15 +153,15 @@ foreign-types = "0.3"
+ piet-coregraphics = "0.6"
+ foreign-types = "0.3"
+ 
+-[target.'cfg(any(target_os = "macos", target_os = "linux", target_os = "windows"))'.dependencies]
++[target.'cfg(any(target_os = "macos", target_os = "linux", target_os = "windows", target_os = "freebsd"))'.dependencies]
+ tray-icon = { git = "https://github.com/tauri-apps/tray-icon" }
+ tao = { git = "https://github.com/rustdesk-org/tao", branch = "dev" }
+ image = "0.24"
+ 
+-[target.'cfg(any(target_os = "macos", target_os = "linux"))'.dependencies]
++[target.'cfg(any(target_os = "macos", target_os = "linux", target_os = "freebsd"))'.dependencies]
+ keepawake = { git = "https://github.com/rustdesk-org/keepawake-rs" }
+ 
+-[target.'cfg(any(target_os = "windows", target_os = "linux"))'.dependencies]
++[target.'cfg(any(target_os = "windows", target_os = "linux", target_os = "freebsd"))'.dependencies]
+ wallpaper = { git = "https://github.com/rustdesk-org/wallpaper.rs" }
+ tiny-skia = "0.11"
+ softbuffer = "0.4"
+@@ -167,7 +169,7 @@ ttf-parser = "0.25"
+ bytemuck = "1.23"
+ ttf-parser = "0.25"
+ 
+-[target.'cfg(target_os = "linux")'.dependencies]
++[target.'cfg(target_os = "freebsd")'.dependencies]
+ psimple = { package = "libpulse-simple-binding", version = "2.27" }
+ pulse = { package = "libpulse-binding", version = "2.27" }
+ rust-pulsectl = { git = "https://github.com/rustdesk-org/pulsectl" }
+@@ -175,7 +177,7 @@ dbus-crossroads = "0.5"
+ evdev = { git="https://github.com/rustdesk-org/evdev" }
+ dbus = "0.9"
+ dbus-crossroads = "0.5"
+-pam = { git="https://github.com/rustdesk-org/pam" }
++pam = { git="https://github.com/Martinfx/pam", branch = "max-freeebsd-support" }
+ users = { version = "0.11" }
+ x11-clipboard = {git="https://github.com/clslaid/x11-clipboard", branch = "feat/store-batch", optional = true}
+ x11rb =  {version = "0.12", features = ["all-extensions"], optional = true}
+@@ -193,7 +195,7 @@ jni = "0.21"
+ [target.'cfg(target_os = "android")'.dependencies]
+ android_logger = "0.13"
+ jni = "0.21"
+-android-wakelock = { git = "https://github.com/rustdesk-org/android-wakelock" }
++# android-wakelock = { git = "https://github.com/rustdesk-org/android-wakelock" }
+ 
+ [workspace]
+ members = ["libs/scrap", "libs/hbb_common", "libs/enigo", "libs/clipboard", "libs/virtual_display", "libs/virtual_display/dylib", "libs/portable", "libs/remote_printer"]

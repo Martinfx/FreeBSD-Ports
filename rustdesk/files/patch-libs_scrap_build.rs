@@ -1,4 +1,4 @@
---- libs/scrap/build.rs.orig	2025-02-22 05:17:11 UTC
+--- libs/scrap/build.rs.orig	2025-11-19 03:39:37 UTC
 +++ libs/scrap/build.rs
 @@ -4,7 +4,7 @@ use std::{
      println,
@@ -9,7 +9,7 @@
  fn link_pkg_config(name: &str) -> Vec<PathBuf> {
      // sometimes an override is needed
      let pc_name = match name {
-@@ -18,68 +18,7 @@ fn link_pkg_config(name: &str) -> Vec<PathBuf> {
+@@ -18,123 +18,15 @@ fn link_pkg_config(name: &str) -> Vec<PathBuf> {
  
      lib.include_paths
  }
@@ -57,28 +57,66 @@
 -    }
 -    path.push(target);
 -    println!(
--        "{}",
--        format!(
--            "cargo:rustc-link-lib=static={}",
--            name.trim_start_matches("lib")
--        )
+-        "cargo:rustc-link-lib=static={}",
+-        name.trim_start_matches("lib")
 -    );
 -    println!(
--        "{}",
--        format!(
--            "cargo:rustc-link-search={}",
--            path.join("lib").to_str().unwrap()
--        )
+-        "cargo:rustc-link-search={}",
+-        path.join("lib").to_str().unwrap()
 -    );
 -    let include = path.join("include");
--    println!("{}", format!("cargo:include={}", include.to_str().unwrap()));
+-    println!("cargo:include={}", include.to_str().unwrap());
 -    include
 -}
 -
- /// Link homebrew package(for Mac M1).
- fn link_homebrew_m1(name: &str) -> PathBuf {
-     let target_os = std::env::var("CARGO_CFG_TARGET_OS").unwrap();
-@@ -137,16 +76,8 @@ fn find_package(name: &str) -> Vec<PathBuf> {
+-/// Link homebrew package(for Mac M1).
+-fn link_homebrew_m1(name: &str) -> PathBuf {
+-    let target_os = std::env::var("CARGO_CFG_TARGET_OS").unwrap();
+-    let target_arch = std::env::var("CARGO_CFG_TARGET_ARCH").unwrap();
+-    if target_os != "macos" || target_arch != "aarch64" {
+-        panic!("Couldn't find VCPKG_ROOT, also can't fallback to homebrew because it's only for macos aarch64.");
+-    }
+-    let mut path = PathBuf::from("/opt/homebrew/Cellar");
+-    path.push(name);
+-    let entries = if let Ok(dir) = std::fs::read_dir(&path) {
+-        dir
+-    } else {
+-        panic!("Could not find package in {}. Make sure your homebrew and package {} are all installed.", path.to_str().unwrap(),&name);
+-    };
+-    let mut directories = entries
+-        .into_iter()
+-        .filter(|x| x.is_ok())
+-        .map(|x| x.unwrap().path())
+-        .filter(|x| x.is_dir())
+-        .collect::<Vec<_>>();
+-    // Find the newest version.
+-    directories.sort_unstable();
+-    if directories.is_empty() {
+-        panic!(
+-            "There's no installed version of {} in /opt/homebrew/Cellar",
+-            name
+-        );
+-    }
+-    path.push(directories.pop().unwrap());
+-    // Link the library.
+-    println!(
+-        "cargo:rustc-link-lib=static={}",
+-        name.trim_start_matches("lib")
+-    );
+-    // Add the library path.
+-    println!(
+-        "cargo:rustc-link-search={}",
+-        path.join("lib").to_str().unwrap()
+-    );
+-    // Add the include path.
+-    let include = path.join("include");
+-    println!("cargo:include={}", include.to_str().unwrap());
+-    include
+-}
+-
+ /// Find package. By default, it will try to find vcpkg first, then homebrew(currently only for Mac M1).
+ /// If building for linux and feature "linux-pkg-config" is enabled, will try to use pkg-config
+ /// unless check fails (e.g. NO_PKG_CONFIG_libyuv=1)
  fn find_package(name: &str) -> Vec<PathBuf> {
      let no_pkg_config_var_name = format!("NO_PKG_CONFIG_{name}");
      println!("cargo:rerun-if-env-changed={no_pkg_config_var_name}");

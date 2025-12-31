@@ -1,6 +1,6 @@
---- libs/clipboard/Cargo.toml.orig	2025-03-29 10:46:15 UTC
+--- libs/clipboard/Cargo.toml.orig	2025-11-19 03:39:37 UTC
 +++ libs/clipboard/Cargo.toml
-@@ -32,18 +32,18 @@ parking_lot = {version = "0.12"}
+@@ -32,21 +32,21 @@ parking_lot = {version = "0.12"}
  hbb_common = { path = "../hbb_common" }
  parking_lot = {version = "0.12"}
  
@@ -31,3 +31,6 @@
  [target.'cfg(target_os = "macos")'.dependencies]
 -cacao = {git="https://github.com/clslaid/cacao", branch = "feat/set-file-urls", optional = true}
 +cacao = { git = "https://github.com/clslaid/cacao", branch = "feat/set-file-urls", optional = true }
+ # Use `relax-void-encoding`, as that allows us to pass `c_void` instead of implementing `Encode` correctly for `&CGImageRef`
+ objc2 = { version = "0.5.1", features = ["relax-void-encoding"] }
+ objc2-foundation = { version = "0.2.0", features = ["NSArray", "NSString", "NSEnumerator", "NSGeometry", "NSProgress"] }
