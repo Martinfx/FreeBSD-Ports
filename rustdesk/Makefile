@@ -1,5 +1,5 @@
 PORTNAME=	rustdesk
-DISTVERSION=	1.4.4
+DISTVERSION=	1.4.3
 CATEGORIES=	deskutils
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -60,7 +60,7 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		associative-cache-1.0.1 \
 		async-broadcast-0.5.1 \
 		async-channel-2.3.1 \
-		async-compression-0.4.32 \
+		async-compression-0.4.11 \
 		async-executor-1.12.0 \
 		async-fs-1.6.0 \
 		async-io-1.13.0 \
@@ -114,9 +114,7 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		cairo-rs-0.18.5 \
 		cairo-sys-rs-0.18.2 \
 		calloop-0.13.0 \
-		calloop-0.14.3 \
 		calloop-wayland-source-0.3.0 \
-		calloop-wayland-source-0.4.1 \
 		cc-1.2.13 \
 		cesu8-1.1.0 \
 		cexpr-0.6.0 \
@@ -131,6 +129,7 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		clang-sys-1.8.1 \
 		clap-2.34.0 \
 		clap-4.5.8 \
+		clap-4.5.51 \
 		clap_builder-4.5.8 \
 		clap_lex-0.7.1 \
 		clipboard-win-5.4.0 \
@@ -143,8 +142,6 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		color_quant-1.1.0 \
 		colorchoice-1.0.1 \
 		combine-4.6.7 \
-		compression-codecs-0.4.31 \
-		compression-core-0.4.29 \
 		concurrent-queue-2.5.0 \
 		console_error_panic_hook-0.1.7 \
 		const_fn-0.4.10 \
@@ -240,7 +237,7 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		env_logger-0.11.6 \
 		epoll-4.3.3 \
 		equivalent-1.0.1 \
-		errno-0.3.14 \
+		errno-0.3.9 \
 		error-code-3.2.0 \
 		event-listener-2.5.3 \
 		event-listener-3.1.0 \
@@ -342,10 +339,10 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		http-body-util-0.1.3 \
 		httparse-1.10.1 \
 		humantime-2.1.0 \
-		hyper-1.7.0 \
-		hyper-rustls-0.27.7 \
+		hyper-1.6.0 \
+		hyper-rustls-0.27.6 \
 		hyper-tls-0.6.0 \
-		hyper-util-0.1.17 \
+		hyper-util-0.1.12 \
 		iana-time-zone-0.1.60 \
 		iana-time-zone-haiku-0.1.2 \
 		idna-0.5.0 \
@@ -360,8 +357,7 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		instant-0.1.13 \
 		io-lifetimes-1.0.11 \
 		ioctl-rs-0.1.6 \
-		ipnet-2.11.0 \
-		iri-string-0.7.8 \
+		ipnet-2.9.0 \
 		is-terminal-0.4.16 \
 		is_debug-1.0.1 \
 		is_terminal_polyfill-1.70.0 \
@@ -402,7 +398,6 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		linux-raw-sys-0.3.8 \
 		linux-raw-sys-0.4.14 \
 		linux-raw-sys-0.6.5 \
-		linux-raw-sys-0.11.0 \
 		lock_api-0.4.12 \
 		log-0.4.22 \
 		lru-slab-0.1.2 \
@@ -418,6 +413,7 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		memoffset-0.7.1 \
 		memoffset-0.9.1 \
 		metal-0.18.0 \
+		mime-0.3.17 \
 		minimal-lexical-0.2.1 \
 		miniz_oxide-0.7.4 \
 		mio-0.8.11 \
@@ -496,7 +492,6 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		openssl-0.10.68 \
 		openssl-macros-0.1.1 \
 		openssl-probe-0.1.5 \
-		openssl-src-300.5.3+3.5.4 \
 		openssl-sys-0.9.104 \
 		option-ext-0.2.0 \
 		orbclient-0.3.48 \
@@ -563,10 +558,10 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		quest-0.3.0 \
 		quick-xml-0.30.0 \
 		quick-xml-0.31.0 \
-		quick-xml-0.37.5 \
-		quinn-0.11.9 \
-		quinn-proto-0.11.13 \
-		quinn-udp-0.5.14 \
+		quick-xml-0.34.0 \
+		quinn-0.11.8 \
+		quinn-proto-0.11.12 \
+		quinn-udp-0.5.12 \
 		quote-0.6.13 \
 		quote-1.0.36 \
 		r-efi-5.2.0 \
@@ -600,7 +595,6 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		regex-automata-0.4.9 \
 		regex-syntax-0.8.5 \
 		repng-0.2.2 \
-		reqwest-0.12.24 \
 		rgb-0.8.50 \
 		ring-0.17.14 \
 		ringbuf-0.3.3 \
@@ -618,14 +612,15 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		rustfft-6.2.0 \
 		rustix-0.37.27 \
 		rustix-0.38.34 \
-		rustix-1.1.2 \
-		rustls-0.23.28 \
+		rustls-0.23.26 \
+		rustls-0.23.27 \
 		rustls-native-certs-0.8.1 \
+		rustls-pemfile-2.2.0 \
 		rustls-pki-types-1.11.0 \
-		rustls-platform-verifier-0.6.2 \
-		rustls-platform-verifier-0.3.1 \
-		rustls-platform-verifier-android-0.1.1 \
-		rustls-webpki-0.103.3 \
+		rustls-platform-verifier-0.5.1 \
+		rustls-platform-verifier-android-0.1.0 \
+		rustls-platform-verifier-0.6.0 \
+		rustls-webpki-0.103.1 \
 		rustversion-1.0.17 \
 		ryu-1.0.18 \
 		same-file-1.0.6 \
@@ -635,8 +630,8 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		scopeguard-1.2.0 \
 		sctk-adwaita-0.10.1 \
 		security-framework-2.10.0 \
-		security-framework-3.5.1 \
-		security-framework-sys-2.15.0 \
+		security-framework-3.2.0 \
+		security-framework-sys-2.14.0 \
 		semver-1.0.23 \
 		serde-0.9.15 \
 		serde-1.0.203 \
@@ -710,9 +705,9 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		termios-0.3.3 \
 		textwrap-0.11.0 \
 		thiserror-1.0.61 \
-		thiserror-2.0.17 \
+		thiserror-2.0.11 \
 		thiserror-impl-1.0.61 \
-		thiserror-impl-2.0.17 \
+		thiserror-impl-2.0.11 \
 		thread_local-1.1.8 \
 		threadpool-1.8.1 \
 		tiff-0.9.1 \
@@ -729,6 +724,7 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		tokio-macros-2.5.0 \
 		tokio-native-tls-0.3.1 \
 		tokio-rustls-0.26.0 \
+		tokio-socks-0.5.2 \
 		tokio-tungstenite-0.26.2 \
 		tokio-util-0.7.15 \
 		toml-0.5.11 \
@@ -739,7 +735,6 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		toml_edit-0.20.2 \
 		totp-rs-5.5.1 \
 		tower-0.5.2 \
-		tower-http-0.6.6 \
 		tower-layer-0.3.3 \
 		tower-service-0.3.3 \
 		tracing-0.1.41 \
@@ -806,21 +801,21 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		wasm-bindgen-macro-0.2.100 \
 		wasm-bindgen-macro-support-0.2.100 \
 		wasm-bindgen-shared-0.2.100 \
-		wayland-backend-0.3.11 \
-		wayland-client-0.31.11 \
+		wayland-backend-0.3.6 \
+		wayland-client-0.31.5 \
 		wayland-csd-frame-0.3.0 \
 		wayland-cursor-0.31.5 \
-		wayland-protocols-0.32.9 \
-		wayland-protocols-experimental-20250721.0.1 \
-		wayland-protocols-misc-0.3.9 \
+		wayland-protocols-0.32.3 \
 		wayland-protocols-plasma-0.3.3 \
 		wayland-protocols-wlr-0.3.3 \
-		wayland-scanner-0.31.7 \
-		wayland-sys-0.31.7 \
+		wayland-scanner-0.31.4 \
+		wayland-sys-0.31.4 \
 		web-sys-0.3.77 \
 		web-time-1.1.0 \
-		webpki-root-certs-1.0.3 \
+		webpki-root-certs-0.26.8 \
+		webpki-root-certs-1.0.0 \
 		webpki-roots-0.26.9 \
+		webpki-roots-1.0.0 \
 		webpki-roots-1.0.4 \
 		weezl-0.1.8 \
 		which-4.4.2 \
@@ -855,6 +850,7 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		windows-interface-0.59.1 \
 		windows-link-0.1.1 \
 		windows-numerics-0.2.0 \
+		windows-registry-0.4.0 \
 		windows-result-0.1.2 \
 		windows-result-0.3.2 \
 		windows-service-0.6.0 \
@@ -866,40 +862,49 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		windows-targets-0.42.2 \
 		windows-targets-0.48.5 \
 		windows-targets-0.52.6 \
+		windows-targets-0.53.0 \
 		windows-version-0.1.1 \
 		windows-win-3.0.0 \
 		windows_aarch64_gnullvm-0.42.2 \
 		windows_aarch64_gnullvm-0.48.5 \
 		windows_aarch64_gnullvm-0.52.6 \
+		windows_aarch64_gnullvm-0.53.0 \
 		windows_aarch64_msvc-0.32.0 \
 		windows_aarch64_msvc-0.34.0 \
 		windows_aarch64_msvc-0.42.2 \
 		windows_aarch64_msvc-0.48.5 \
 		windows_aarch64_msvc-0.52.6 \
+		windows_aarch64_msvc-0.53.0 \
 		windows_i686_gnu-0.32.0 \
 		windows_i686_gnu-0.34.0 \
 		windows_i686_gnu-0.42.2 \
 		windows_i686_gnu-0.48.5 \
 		windows_i686_gnu-0.52.6 \
+		windows_i686_gnu-0.53.0 \
 		windows_i686_gnullvm-0.52.6 \
+		windows_i686_gnullvm-0.53.0 \
 		windows_i686_msvc-0.32.0 \
 		windows_i686_msvc-0.34.0 \
 		windows_i686_msvc-0.42.2 \
 		windows_i686_msvc-0.48.5 \
 		windows_i686_msvc-0.52.6 \
+		windows_i686_msvc-0.53.0 \
 		windows_x86_64_gnu-0.32.0 \
 		windows_x86_64_gnu-0.34.0 \
 		windows_x86_64_gnu-0.42.2 \
 		windows_x86_64_gnu-0.48.5 \
 		windows_x86_64_gnu-0.52.6 \
+		windows_x86_64_gnu-0.53.0 \
 		windows_x86_64_gnullvm-0.42.2 \
 		windows_x86_64_gnullvm-0.48.5 \
 		windows_x86_64_gnullvm-0.52.6 \
+		windows_x86_64_gnullvm-0.53.0 \
 		windows_x86_64_msvc-0.32.0 \
 		windows_x86_64_msvc-0.34.0 \
 		windows_x86_64_msvc-0.42.2 \
 		windows_x86_64_msvc-0.48.5 \
 		windows_x86_64_msvc-0.52.6 \
+		windows_x86_64_msvc-0.53.0 \
 		winit-0.30.9 \
 		winnow-0.5.40 \
 		winreg-0.10.1 \
@@ -909,6 +914,7 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		wl-clipboard-rs-0.9.0 \
 		wol-rs-1.0.1 \
 		wyz-0.5.1 \
+		webrtc-0.14.0 \
 		x11-2.21.0 \
 		x11-clipboard-0.9.2 \
 		x11-dl-2.21.0 \
@@ -939,37 +945,41 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		zvariant-3.15.2 \
 		zvariant_derive-3.15.2 \
 		zvariant_utils-1.0.1 \
-		webm,webm-sys@git+https://github.com/Martinfx/rust-webm\#40e75a231305e87d75f16a99149197206fcf345c \
+		hwcodec@git+https://github.com/rustdesk-org/hwcodec\#17c1dbb38450fe4a64aeba78fb50bec32f364a16 \
+		webm,webm-sys@git+https://github.com/rustdesk-org/rust-webm\#d2c4d3ac133c7b0e4c0f656da710b48391981e64 \
 		confy@git+https://github.com/rustdesk-org/confy\#83db9ec19a2f97e9718aef69e4fc5611bb382479 \
 		cidre,cidre-macros@git+https://github.com/yury/cidre.git?rev=f05c428\#f05c4288f9870c9fab53272ddafd6ec01c7b2dbf \
 		tray-icon@git+https://github.com/tauri-apps/tray-icon\#d4078696edba67b0ab42cef67e6a421a0332c96f \
 		evdev@git+https://github.com/rustdesk-org/evdev\#cec616e37790293d2cd2aa54a96601ed6b1b35a9 \
-		sciter-rs@git+https://github.com/Martinfx/rust-sciter?branch=master\#c27203843d9ef4fbe6e21608ad5f0b479425ec01 \
-		hwcodec@git+https://github.com/rustdesk-org/hwcodec\#0ea7e709d3c48bb6446e33a9cc8fd0e0da5709b9 \
+		filedescriptor,portable-pty@git+https://github.com/rustdesk-org/wezterm?branch=rustdesk/pty_based_0.8.1\#80174f8009f41565f0fa8c66dab90d4f9211ae16 \
+		sciter-rs@git+https://github.com/rustdesk-org/rust-sciter?branch=dyn\#5322f3a755a0e6bf999fbc60d1efc35246c0f821 \
 		wallpaper@git+https://github.com/rustdesk-org/wallpaper.rs\#ce4a0cd3f58327c7cc44d15a63706fb0c022bacf \
 		android-wakelock@git+https://github.com/rustdesk-org/android-wakelock\#d0292e5a367e627c4fa6f1ca6bdfad005dca7d90 \
-		tokio-socks@git+https://github.com/rustdesk-org/tokio-socks\#94e97c6d7c93b0bcbfa54f2dc397c1da0a6e43d3 \
 		sysinfo@git+https://github.com/rustdesk-org/sysinfo?branch=rlim_max\#90b1705d909a4902dbbbdea37ee64db17841077d \
 		cacao@git+https://github.com/clslaid/cacao?branch=feat/set-file-urls\#05e1536b0b43aaae308ec72c0eed703e875b7b95 \
+		rdev@git+https://github.com/rustdesk-org/rdev\#f9b60b1dd0f3300a1b797d7a74c116683cd232c8 \
+		reqwest@git+https://github.com/rustdesk-org/reqwest\#9e859438203a71eb86ddc294fbebfde14cba7f7c \
 		keepawake@git+https://github.com/rustdesk-org/keepawake-rs\#64d568586dd16551d02120e19668d2b0fec8e3c9 \
-		tfc@git+https://github.com/Martinfx/The-Fat-Controller\#8078f423e13ca75b5dc953e0bcd0f6104243a311 \
-		reqwest@git+https://github.com/rustdesk-org/reqwest\#9cb758c9fb2f4edc62eb790acfd45a6a3da21ed3 \
-		parity-tokio-ipc@git+https://github.com/rustdesk-org/parity-tokio-ipc\#3623ec9ebef50c9b118e03b03df831008a4d1441 \
+		tfc@git+https://github.com/rustdesk-org/The-Fat-Controller?branch=history/rebase_upstream_20240722\#78bb80a8e596e4c14ae57c8448f5fca75f91f2b0 \
+		clipboard-master@git+https://github.com/rustdesk-org/clipboard-master\#ddc39f00a6211959489ae683aa6ae6eedf03a809 \
 		x11-clipboard@git+https://github.com/clslaid/x11-clipboard?branch=feat/store-batch\#5fc2e73bc01ada3681159b34cf3ea8f0d14cd904 \
+		nokhwa,nokhwa-bindings-linux,nokhwa-bindings-macos,nokhwa-bindings-windows,nokhwa-core@git+https://github.com/rustdesk-org/nokhwa.git?branch=fix_from_raw_parts\#c2f74662b6ce117f7f94301693fdfadc0b1ec91a \
 		impersonate_system@git+https://github.com/rustdesk-org/impersonate-system\#2f429010a5a10b1fe5eceb553c6672fd53d20167 \
 		x11@git+https://github.com/bjornsnoen/x11-rs\#c2e9bfaa7b196938f8700245564d8ac5d447786a \
 		machine-uid@git+https://github.com/rustdesk-org/machine-uid\#381ff579c1dc3a6c54db9dfec47c44bcb0246542 \
 		tao,tao-macros@git+https://github.com/rustdesk-org/tao?branch=dev\#288c219cb0527e509590c2b2d8e7072aa9feb2d3 \
-		arboard@git+https://github.com/rustdesk-org/arboard\#1dcc18b221a52d93342db7ba9b1340c10af6abd1 \
-		magnum-opus@git+https://github.com/Martinfx/magnum-opus\#0e9de9212c92c8d2c6bb1a249b7faedee4f285e8 \
+		parity-tokio-ipc@git+https://github.com/rustdesk-org/parity-tokio-ipc\#c8c8bbcbabf9be1201c53afb0269b92b9b02d291 \
+		arboard@git+https://github.com/rustdesk-org/arboard\#4e16bad260ea05dd7dcdb68cc7549dad3920b940 \
+		magnum-opus@git+https://github.com/rustdesk-org/magnum-opus\#5cd2bf989c148662fa3a2d9d539a71d71fd1d256 \
+		kcp-sys@git+https://github.com/rustdesk-org/kcp-sys\#32a6c09fc6223f54aea83981a6aa8995931d29be \
 		core-foundation,core-foundation-sys,core-graphics,core-graphics-types@git+https://github.com/madsmtm/core-foundation-rs.git?rev=7d593d016175755e492a92ef89edca68ac3bd5cd\#7d593d016175755e492a92ef89edca68ac3bd5cd \
-		nokhwa,nokhwa-bindings-linux,nokhwa-bindings-macos,nokhwa-bindings-windows,nokhwa-core@git+https://github.com/rustdesk-org/nokhwa.git?branch=fix_from_raw_parts\#c2f74662b6ce117f7f94301693fdfadc0b1ec91a \
-		clipboard-master@git+https://github.com/rustdesk-org/clipboard-master\#4fb62e5b62fb6350d82b571ec7ba94b3cd466695 \
+		pam-sys@git+https://github.com/rustdesk-org/pam-sys?branch=fix/v1.0.0-alpha4_gnuc_va_list\#3337c9bb9a9c68d7497ec8c93cad2368c26091b7 \
 		cpal@git+https://github.com/rustdesk-org/cpal?branch=osx-screencapturekit\#6b374bcaed076750ca8fce6da518ab39b882e14a \
 		rust-pulsectl@git+https://github.com/rustdesk-org/pulsectl\#aa34dde499aa912a3abc5289cc0b547bd07dd6e2 \
+		tokio-socks@git+https://github.com/rustdesk-org/tokio-socks\#bdb9aa3de5bac41602d0742b8ef6bbc6bfebd127 \
 		default_net@git+https://github.com/rustdesk-org/default_net\#78f8f70cd85151a3a2c4a3230d80d5272703c02e \
-		pam@git+https://github.com/Martinfx/pam?branch=max-freeebsd-support\#e1f12e1b6486f868a18f047de7d9a1bbe9ee4df1 \
-		rdev@git+https://github.com/Martinfx/rdev\#ed8d82a0068ec41b8982d6f308d9f92fbf2fb91a
+		pam@git+https://github.com/rustdesk-org/pam\#7bfd25510202cd269292cbdd7c71f3977a6fd762
+
 
 CARGO_ENV+=	LLVM_CONFIG_PATH=${LOCALBASE}/bin/llvm-config${LLVM_VERSION} \
 	LIBCLANG_PATH=${LOCALBASE}/llvm${LLVM_VERSION}/lib \
