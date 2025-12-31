@@ -1,0 +1,28 @@
+--- src/brave/build/commands/lib/config.js.rej.orig	2025-12-31 03:57:56 UTC
++++ src/brave/build/commands/lib/config.js.rej
+@@ -1,3 +1,12 @@
++@@ -169,6 +169,8 @@
++       return 'linux'
++     case 'win32':
++       return 'win'
+++    case 'freebsd':
+++      return 'freebsd'
++     default:
++       throw new Error(`Unsupported process.platform: ${process.platform}`)
++   }
+ @@ -336,7 +338,8 @@
+  
+  Config.prototype.enableCDMHostVerification = function () {
+@@ -45,3 +54,12 @@ +      ['android', 'ios', 'linux', 'freebsd', 'mac', '
+        `Unsupported target_os value: ${this.targetOS}`
+      )
+    }
++@@ -1185,7 +1189,7 @@
++       env.NINJA_SUMMARIZE_BUILD = 1
++     }
++ 
++-    if (process.platform === 'linux') {
+++    if (process.platform === 'linux' || process.platform === 'freebsd') {
++       env.LLVM_DOWNLOAD_GOLD_PLUGIN = '1'
++     }
++ 

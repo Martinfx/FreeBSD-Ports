@@ -1,6 +1,6 @@
 PORTNAME=	brave
 DISTVERSIONPREFIX=v
-DISTVERSION=	1.75.155
+DISTVERSION=	1.87.131
 CATEGORIES=	www
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -25,7 +25,7 @@ USES=           compiler:c++14-lang linux:rl9 python:3.11+ pkgconfig \
 USE_GITHUB=     yes
 GH_ACCOUNT=     brave
 GH_PROJECT=     brave-browser
-GH_TUPLE=       brave:brave-core:8d3cd1b:core/src/brave \
+GH_TUPLE=       brave:brave-core:eebca352d681b19d6bdc0d8eed3fc7d26f0ada04:core/src/brave \
                 brave:adblock-rust:fd4b7b3:adblock/src/brave/components/adblock_rust_ffi \
 		brave:chromium:47e0e94:chromium \
 		Martinfx:depot_tools:497ed51:depot/src/brave/vendor/depot_tools
@@ -44,7 +44,7 @@ do-configure:
 
 
 #do-install:
-	#cd ${WRKSRC}/src/brave && npm install --verbose
+	cd ${WRKSRC}/src/brave && npm install --verbose
 	#cd ${WRKSRC}/src/brave && npm run init -- --target_os=linux --target_arch=x64
 	cd ${WRKSRC}/src/brave && npm run build -- Release --target_os=linux --target_arch=x64 \
 	--gn enable_dsyms:false --gn enable_stripping:false

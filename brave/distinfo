@@ -1,8 +1,8 @@
-TIMESTAMP = 1736760869
-SHA256 (brave-brave-browser-v1.75.155_GH0.tar.gz) = 7c414cb1028b0be9cb174d588801e5b755b250c3eef46f15cb2d1f6578d9f740
-SIZE (brave-brave-browser-v1.75.155_GH0.tar.gz) = 207166
-SHA256 (brave-brave-core-8d3cd1b_GH0.tar.gz) = 2e2051703cffe78b0a1b00f6cb5f1d2b3a9bb210463779df9de43b0216e81e83
-SIZE (brave-brave-core-8d3cd1b_GH0.tar.gz) = 266257161
+TIMESTAMP = 1767153265
+SHA256 (brave-brave-browser-v1.87.131_GH0.tar.gz) = aacfcf987c54968b3d75063b1d12646fa81c8baad0c48b7438333a4013ef4386
+SIZE (brave-brave-browser-v1.87.131_GH0.tar.gz) = 228167
+SHA256 (brave-brave-core-eebca352d681b19d6bdc0d8eed3fc7d26f0ada04_GH0.tar.gz) = afc93d2217c6c0c70fa556b03f1e0ced6e8fa195f8ed63fa2d6fa9c7962cf6fd
+SIZE (brave-brave-core-eebca352d681b19d6bdc0d8eed3fc7d26f0ada04_GH0.tar.gz) = 366550106
 SHA256 (brave-adblock-rust-fd4b7b3_GH0.tar.gz) = 60f245bd04f8c7a8db85889bac1c76653750d75efcd42027d8c8eb73b42eac6e
 SIZE (brave-adblock-rust-fd4b7b3_GH0.tar.gz) = 27703957
 SHA256 (brave-chromium-47e0e94_GH0.tar.gz) = 65609405822f6a692b6b1386e8efd0e34267bbe0815866a47ab81d195953991a
