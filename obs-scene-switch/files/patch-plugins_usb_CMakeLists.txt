@@ -1,0 +1,59 @@
+--- plugins/usb/CMakeLists.txt.orig	2025-12-27 19:38:53 UTC
++++ plugins/usb/CMakeLists.txt
+@@ -4,27 +4,29 @@ get_target_property(ADVSS_SOURCE_DIR advanced-scene-sw
+ # --- Check libusb requirements ---
+ 
+ get_target_property(ADVSS_SOURCE_DIR advanced-scene-switcher-lib SOURCE_DIR)
+-set(libusb_DEPS_DIR "${ADVSS_SOURCE_DIR}/deps/libusb")
++#set(libusb_DEPS_DIR "${ADVSS_SOURCE_DIR}/deps/libusb")
+ 
+-if(OS_LINUX)
++if(OS_FREEBSD)
++    find_path(libusb_HEADER_DIR
++        NAMES libusb.h
++        PATHS
++            /usr/include
++            /usr/local/include
++    )
+ 
+-  find_package(PkgConfig)
+-  if(NOT PKG_CONFIG_FOUND)
+-    message(WARNING "pkg-config not found!\n" "USB condition will be disabled!")
+-    return()
+-  endif()
+-  pkg_check_modules(libusb OPTIONAL libusb)
+-  find_path(
+-    libusb_HEADER_DIR
+-    NAMES libusb.h
+-    PATHS ${libusb_INCLUDEDIR} /usr/include /usr/local/include
+-          /opt/local/include
+-    PATH_SUFFIXES libusb-1.0)
+-  find_library(
+-    libusb_LINK_LIBRARIES
+-    NAMES usb-1.0 usb
+-    PATHS /usr/lib /usr/local/lib /opt/local/lib)
++    find_library(libusb_LINK_LIBRARIES
++        NAMES usb
++        PATHS
++            /usr/lib
++            /usr/local/lib
++    )
+ 
++    if (libusb_HEADER_DIR AND libusb_LINK_LIBRARIES)
++        message(STATUS "Found libusb (FreeBSD base): include=${libusb_HEADER_DIR} lib=${libusb_LINK_LIBRARIES}")
++    else()
++        message(WARNING "libusb not found -> USB disabled")
++    endif()
++
+ elseif(OS_MACOS)
+ 
+   find_path(
+@@ -83,7 +85,7 @@ endif()
+                   "libusb sources are available under: ${libusb_DEPS_DIR}")
+   return()
+ endif()
+-if(NOT OS_LINUX AND (NOT libusb_RUNTIME_LIBRARY OR NOT EXISTS
++if(NOT OS_FREEBSD AND (NOT libusb_RUNTIME_LIBRARY OR NOT EXISTS
+                                                    "${libusb_RUNTIME_LIBRARY}"))
+   message(
+     WARNING "libusb runtime library not found. Make sure libusb is installed. "
