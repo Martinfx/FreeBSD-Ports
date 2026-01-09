@@ -23,7 +23,7 @@ LIB_DEPENDS=	libceres.so:math/ceres-solver \
 		libglog.so:devel/glog \
 		libgphoto2.so:graphics/libgphoto2 \
 		libgphoto2_port.so:graphics/libgphoto2 \
-		libharfbuzz.so:print/harfbuzzb \
+		libharfbuzz.so:print/harfbuzz \
 		libhdf5.so:science/hdf \
 		libjack.so:audio/jack \
 		libobs-frontend-api.so:multimedia/obs-studio \
