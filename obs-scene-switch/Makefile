@@ -10,6 +10,7 @@ LICENSE=	GPLv2
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
 BUILD_DEPENDS=	curl>0:ftp/curl \
+		libXScrnSaver>0:x11/libXScrnSaver \
 		nlohmann-json>0:devel/nlohmann-json \
 		opencv>0:graphics/opencv \
 		simde>0:devel/simde
