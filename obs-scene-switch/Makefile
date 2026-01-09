@@ -31,6 +31,6 @@ GH_TUPLE=	chriskohlhoff:asio:c465349:asio/deps/asio \
 USE_GL=		opengl
 USE_QT=		base
 LDFLAGS=	-I/usr/include -L/usr/lib -lusb
-
+CMAKE_OFF=	CMAKE_COMPILE_WARNING_AS_ERROR
 
 .include <bsd.port.mk>
