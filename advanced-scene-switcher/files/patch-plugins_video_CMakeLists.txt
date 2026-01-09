@@ -1,0 +1,20 @@
+--- plugins/video/CMakeLists.txt.orig	2026-01-09 09:37:12 UTC
++++ plugins/video/CMakeLists.txt
+@@ -19,7 +19,7 @@ find_package(Tesseract QUIET)
+ find_package(Leptonica QUIET)
+ find_package(Tesseract QUIET)
+ 
+-if(OS_LINUX AND NOT Leptonica_FOUND)
++if(OS_FREESD AND NOT Leptonica_FOUND)
+   find_package(PkgConfig REQUIRED)
+ 
+   pkg_check_modules(Tesseract IMPORTED_TARGET tesseract lept)
+@@ -72,7 +72,7 @@ install_advss_plugin(${PROJECT_NAME})
+ target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenCV_LIBRARIES})
+ 
+ install_advss_plugin(${PROJECT_NAME})
+-if(NOT OS_LINUX)
++if(NOT OS_FREEBSD)
+   install_advss_plugin_dependency(TARGET ${PROJECT_NAME} DEPENDENCIES
+                                   ${OpenCV_LIBS})
+ endif()
