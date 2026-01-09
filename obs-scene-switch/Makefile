@@ -40,9 +40,13 @@ LIB_DEPENDS=	libceres.so:math/ceres-solver \
 		libOpenEXR-3_4.so:graphics/openexr \
 		libopenjp2.so:graphics/openjpeg \
 		libpng16.so:graphics/png \
-		libtiff.so:graphics/tiff
+		libtiff.so:graphics/tiff \
+		libfreetype.so:print/freetype2 \
+		libwebp.so:graphics/webp \
+		libwebpmux.so:graphics/webp \
+		libwebpdemux.so:graphics/webp
 
-USES=		cmake gl gnome localbase pkgconfig qt:6 xorg
+USES=		cmake gl gnome jpeg localbase pkgconfig qt:6 xorg
 USE_GITHUB=	yes
 GH_ACCOUNT=	WarmUpTill
 GH_PROJECT=	SceneSwitcher
