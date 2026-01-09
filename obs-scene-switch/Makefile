@@ -11,7 +11,8 @@ LICENSE_FILE=	${WRKSRC}/LICENSE
 
 BUILD_DEPENDS=	curl>0:ftp/curl \
 		nlohmann-json>0:devel/nlohmann-json \
-		opencv>0:graphics/opencv
+		opencv>0:graphics/opencv \
+		simde>0:devel/simde
 
 LIB_DEPENDS=	libceres.so:math/ceres-solver \
 		libcurl.so:ftp/curl \
