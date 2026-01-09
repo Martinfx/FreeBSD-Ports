@@ -1,6 +1,6 @@
 --- plugins/usb/CMakeLists.txt.orig	2025-12-27 19:38:53 UTC
 +++ plugins/usb/CMakeLists.txt
-@@ -4,27 +4,29 @@ get_target_property(ADVSS_SOURCE_DIR advanced-scene-sw
+@@ -4,27 +4,31 @@ get_target_property(ADVSS_SOURCE_DIR advanced-scene-sw
  # --- Check libusb requirements ---
  
  get_target_property(ADVSS_SOURCE_DIR advanced-scene-switcher-lib SOURCE_DIR)
@@ -10,7 +10,7 @@
 -if(OS_LINUX)
 +if(OS_FREEBSD)
 +    find_path(libusb_HEADER_DIR
-+        NAMES libusb.h
++        NAMES libusb.h libusb20
 +        PATHS
 +            /usr/include
 +            /usr/local/include
@@ -41,6 +41,8 @@
  
 +    if (libusb_HEADER_DIR AND libusb_LINK_LIBRARIES)
 +        message(STATUS "Found libusb (FreeBSD base): include=${libusb_HEADER_DIR} lib=${libusb_LINK_LIBRARIES}")
++        include_directories("/usr/include") # usb includes
++        link_directories("/usr/lib") # usb libraries
 +    else()
 +        message(WARNING "libusb not found -> USB disabled")
 +    endif()
@@ -48,7 +50,7 @@
  elseif(OS_MACOS)
  
    find_path(
-@@ -83,7 +85,7 @@ endif()
+@@ -83,7 +87,7 @@ endif()
                    "libusb sources are available under: ${libusb_DEPS_DIR}")
    return()
  endif()
@@ -57,3 +59,12 @@
                                                     "${libusb_RUNTIME_LIBRARY}"))
    message(
      WARNING "libusb runtime library not found. Make sure libusb is installed. "
+@@ -105,7 +109,7 @@ install_advss_plugin(${PROJECT_NAME})
+ target_include_directories(${PROJECT_NAME} PRIVATE ${libusb_HEADER_DIR})
+ target_link_libraries(${PROJECT_NAME} PRIVATE ${libusb_LINK_LIBRARIES})
+ install_advss_plugin(${PROJECT_NAME})
+-if(NOT OS_LINUX)
++if(NOT OS_FREEBSD)
+   install_advss_plugin_dependency(TARGET ${PROJECT_NAME} DEPENDENCIES
+                                   ${libusb_RUNTIME_LIBRARY})
+ endif()
