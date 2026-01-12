@@ -1,5 +1,5 @@
 PORTNAME=	cortex
-DISTVERSION=	10.6.2.0
+DISTVERSION=	10.7.0.0a2
 CATEGORIES=	graphics
 
 MAINTAINER=	freebsd@sysctl.cz
