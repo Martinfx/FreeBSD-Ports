@@ -32,7 +32,7 @@ LIB_DEPENDS=	libAlembic.so:graphics/alembic \
 		libopenvdb.so:misc/openvdb \
 		libtbb.so:devel/onetbb
 
-USES=		gettext-runtime gl python:3.11+ scons
+USES=		compiler:c++17-lang gettext-runtime gl python:3.11+ scons
 USE_GITHUB=	yes
 GH_ACCOUNT=	ImageEngine
 USE_GL=		gl glew glu
