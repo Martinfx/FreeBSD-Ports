@@ -159,6 +159,8 @@ include/IECore/PolygonAlgo.inl
 include/IECore/QuatAlgo.h
 include/IECore/QuatInterpolator.inl
 include/IECore/RadixSort.h
+include/IECore/Ramp.h
+include/IECore/RampData.h
 include/IECore/RandomAlgo.h
 include/IECore/RandomAlgo.inl
 include/IECore/RandomRotationOp.h
@@ -476,6 +478,8 @@ include/IECorePython/PointerFromSWIG.inl
 include/IECorePython/PolygonAlgoBinding.h
 include/IECorePython/PyBindConverter.h
 include/IECorePython/RadixSortBinding.h
+include/IECorePython/RampBinding.h
+include/IECorePython/RampDataBinding.h
 include/IECorePython/RandomAlgoBinding.h
 include/IECorePython/RandomRotationOpBinding.h
 include/IECorePython/ReaderBinding.h
