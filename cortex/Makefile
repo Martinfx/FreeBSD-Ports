@@ -9,7 +9,8 @@ WWW=		https://github.com/ImageEngine/cortex/
 LICENSE=	BSD3CLAUSE
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
-BUILD_DEPENDS=	pybind11>0:devel/pybind11
+BUILD_DEPENDS=	pybind11>0:devel/pybind11 \
+		usd>0:misc/usd
 
 LIB_DEPENDS=	libAlembic.so:graphics/alembic \
 		libblosc.so:archivers/c-blosc \
@@ -32,7 +33,7 @@ LIB_DEPENDS=	libAlembic.so:graphics/alembic \
 		libopenvdb.so:misc/openvdb \
 		libtbb.so:devel/onetbb
 
-USES=		compiler:c++17-lang gettext-runtime gl python:3.11+ scons
+USES=		compiler:c++17-lang gettext-runtime gl pkgconfig python:3.11+ scons
 USE_GITHUB=	yes
 GH_ACCOUNT=	ImageEngine
 USE_GL=		gl glew glu
@@ -58,23 +59,19 @@ SCONS_ARGS=	BOOST_INCLUDE_PATH=${LOCALBASE}/include \
 		ALEMBIC_INCLUDE_PATH=${LOCALBASE}/include/Alembic \
 		ALEMBIC_LIB_PATH=${LOCALBASE}/lib \
 		PYBIND11_INCLUDE_PATH=${LOCALBASE}/include \
-		USD_INCLUDE_PATH=${LOCALBASE}/include/pxr \
-		USD_LIB_PATH=${LOCALBASE}/lib \
-		USD_LIB_PREFIX="libusd_" \
+		USD_INCLUDE_PATH=${LOCALBASE}/include/usd \
+		USD_LIB_PATH=${LOCALBASE}/lib/pxr \
 		WITH_GL=1 WARNINGS_AS_ERRORS=0 \
 		PYTHON_CONFIG=${PYTHON_CMD}-config \
 		PYTHON=${PYTHON_CMD} \
 		CXX=${CXX} DOXYGEN=no \
-		INSTALL_PREFIX=${STAGEDIR}${PREFIX} \
-		INSTALL_HEADER_DIR=${STAGEDIR}${PREFIX}/include
-
-do-install:
-	${INSTALL_LIB} ${WRKSRC}/lib/*.so ${STAGEDIR}${PREFIX}/lib/
-	(cd ${WRKSRC}/include && ${COPYTREE_SHARE} . ${STAGEDIR}${PREFIX}/include/ "-name *.h")
-	(cd ${WRKSRC}/include && ${COPYTREE_SHARE} . ${STAGEDIR}${PREFIX}/include/ "-name *.inl")
-	${MKDIR} ${STAGEDIR}${PYTHON_SITELIBDIR}
-	(cd ${WRKSRC}/python && ${COPYTREE_SHARE} . ${STAGEDIR}${PYTHON_SITELIBDIR})
-	${STRIP_CMD} ${STAGEDIR}${PYTHON_SITELIBDIR}/IECore*/*.so
+		INSTALL_PREFIX=${LOCALBASE} \
+		INSTALL_HEADER_DIR=${STAGEDIR}${PREFIX}/include \
+		INSTALL_GLSL_HEADER_DIR=${STAGEDIR}${DATADIR} \
+		INSTALL_GLSL_SHADER_DIR=${STAGEDIR}${DATADIR} \
+		INSTALL_PYTHON_DIR=${STAGEDIR}${PYTHON_SITELIBDIR} \
+		INSTALL_IECORE_OPS="" \
+		WITH_USD_MONOLITHIC=0
 
 do-test:
 # for run tests need install idebug python library
