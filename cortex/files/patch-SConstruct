@@ -1,0 +1,22 @@
+--- SConstruct.orig	2026-01-23 21:27:51 UTC
++++ SConstruct
+@@ -1104,14 +1104,14 @@ if doConfigure :
+ 		]
+ 	)
+ 
+-	if int( env["BOOST_MINOR_VERSION"] ) >=35 :
+-		env.Append( LIBS = [ "boost_system" + env["BOOST_LIB_SUFFIX"] ] )
++	#if int( env["BOOST_MINOR_VERSION"] ) >=35 :
++	#	env.Append( LIBS = [ "boost_system" + env["BOOST_LIB_SUFFIX"] ] )
+ 
+ 	c = configureSharedLibrary( env )
+ 
+-	if not c.CheckLibWithHeader( env.subst( "boost_iostreams" + env["BOOST_LIB_SUFFIX"] ), "boost/iostreams/chain.hpp", "CXX" ) :
+-		sys.stderr.write( "ERROR : unable to find the boost libraries - check BOOST_LIB_PATH.\n" )
+-		Exit( 1 )
++	#if not c.CheckLibWithHeader( env.subst( "boost_iostreams" + env["BOOST_LIB_SUFFIX"] ), "boost/iostreams/chain.hpp", "CXX" ) :
++	#	sys.stderr.write( "ERROR : unable to find the boost libraries - check BOOST_LIB_PATH.\n" )
++	#	Exit( 1 )
+ 
+ 	if not c.CheckLibWithHeader( "Iex" + env["OPENEXR_LIB_SUFFIX"], "OpenEXR/ImfInputFile.h", "C++" ) :
+ 		sys.stderr.write( "ERROR : unable to find the OpenEXR libraries - check OPENEXR_INCLUDE_PATH and OPENEXR_LIB_PATH.\n" )
