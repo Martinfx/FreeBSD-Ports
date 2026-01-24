@@ -4,7 +4,7 @@ CATEGORIES=	deskutils security
 
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Official authentication app for German ID cards and residence permits
-WWW=		https://www.ausweisapp.bund.de/ausweisapp2/
+WWW=		https://github.com/Governikus/AusweisApp
 
 LICENSE=	EUPL12
 LICENSE_FILE=	${WRKSRC}/LICENSE.txt
