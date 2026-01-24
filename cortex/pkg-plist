@@ -644,3 +644,10 @@ include/IECoreVDB/VDBObject.h
 %%DATADIR%%/IECoreGL/VertexShader.h
 %%DATADIR%%/ieConstant.frag
 %%DATADIR%%/ieConstant.vert
+lib/libIECore.so
+lib/libIECoreAlembic.so
+lib/libIECoreGL.so
+lib/libIECoreImage.so
+lib/libIECorePython.so
+lib/libIECoreScene.so
+lib/libIECoreVDB.so
