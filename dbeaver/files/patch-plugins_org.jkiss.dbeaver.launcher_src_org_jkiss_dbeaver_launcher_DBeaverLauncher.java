@@ -1,4 +1,4 @@
---- plugins/org.jkiss.dbeaver.launcher/src/org/jkiss/dbeaver/launcher/DBeaverLauncher.java.orig	2025-07-31 08:34:43 UTC
+--- plugins/org.jkiss.dbeaver.launcher/src/org/jkiss/dbeaver/launcher/DBeaverLauncher.java.orig	2025-07-18 15:47:12 UTC
 +++ plugins/org.jkiss.dbeaver.launcher/src/org/jkiss/dbeaver/launcher/DBeaverLauncher.java
 @@ -392,6 +392,8 @@ public class DBeaverLauncher {
              return Constants.WS_WIN32;

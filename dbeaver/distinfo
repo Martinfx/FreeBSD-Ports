@@ -1,9 +1,7 @@
-TIMESTAMP = 1754213278
-SHA256 (dbeaver-25.1.3-deps.tar.xz) = ca7a6d58d5c159e2055174f1a8a85c8a8d07d533f08ad2eb2675aecf76e07a18
-SIZE (dbeaver-25.1.3-deps.tar.xz) = 618508636
-SHA256 (dbeaver-dbeaver-25.1.3_GH0.tar.gz) = 786ed277c3221419d5b3c67103e27f68733b32647c19ae7ef1d08d8871855fa0
-SIZE (dbeaver-dbeaver-25.1.3_GH0.tar.gz) = 9670323
-SHA256 (dbeaver-dbeaver-common-1379027_GH0.tar.gz) = feb40fc85a97bb0c2f1b6de7b315f7ce4e328b2f4458566275182f7b06536b1f
-SIZE (dbeaver-dbeaver-common-1379027_GH0.tar.gz) = 103446
-SHA256 (dbeaver-dbeaver-jdbc-libsql-a2c75c1_GH0.tar.gz) = 3afd08e2c12adb0ff470b1f2bb6cad4d425f99b24cd4b009c2e70aa214c2077f
-SIZE (dbeaver-dbeaver-jdbc-libsql-a2c75c1_GH0.tar.gz) = 23611
+TIMESTAMP = 1769255029
+SHA256 (dbeaver-dbeaver-25.3.3_GH0.tar.gz) = 5fd2ceedbfa73400fb6d07068b0bf592c527085770fdbdb662e995da2c2917e6
+SIZE (dbeaver-dbeaver-25.3.3_GH0.tar.gz) = 9843213
+SHA256 (dbeaver-dbeaver-common-21905e0_GH0.tar.gz) = 5c7eef8ee11f25235e769b3a62ec60d770584f818e05fd41d884498014e2ef18
+SIZE (dbeaver-dbeaver-common-21905e0_GH0.tar.gz) = 103909
+SHA256 (dbeaver-dbeaver-jdbc-libsql-d46d17c_GH0.tar.gz) = be36dfbedb5ad236b5378d395b2eff82a1689d0ff0cc55808b29b8b1320f8e98
+SIZE (dbeaver-dbeaver-jdbc-libsql-d46d17c_GH0.tar.gz) = 25010
