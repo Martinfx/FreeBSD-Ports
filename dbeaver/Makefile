@@ -1,53 +1,49 @@
-PORTNAME=       dbeaver
-DISTVERSION=    25.1.3
-CATEGORIES=     databases java
+PORTNAME=	dbeaver
+DISTVERSION=	25.3.3
+CATEGORIES=	databases java
 
-MAINTAINER=     freebsd@sysctl.cz
-COMMENT=        Free universal database tool and SQL client
-WWW=            https://dbeaver.io
+MAINTAINER=	freebsd@sysctl.cz
+COMMENT=	Free universal database tool and SQL client
+WWW=		https://dbeaver.io
 
-LICENSE=        APACHE20
-LICENSE_FILE=   ${WRKSRC}/LICENSE.md
+LICENSE=	APACHE20
+LICENSE_FILE=	${WRKSRC}/LICENSE.md
 
-ONLY_FOR_ARCHS= aarch64 amd64
+ONLY_FOR_ARCHS=	amd64
 
-BUILD_DEPENDS=  maven39>0:devel/maven39
+BUILD_DEPENDS=	maven39>0:devel/maven39
 
-USES=           dos2unix java
-DOS2UNIX_GLOB=  *.MF *.css *.exsd *.java *.properties *.txt *.xml
-USE_GITHUB=     yes
-GH_TUPLE=       dbeaver:dbeaver-common:1379027:dbeavercommon \
-                dbeaver:dbeaver-jdbc-libsql:a2c75c1:jdbc
-JAVA_VERSION=   21+
+USES=		dos2unix java
+DOS2UNIX_GLOB=	*.MF *.css *.exsd *.java *.properties *.txt *.xml
+USE_GITHUB=	yes
+GH_TUPLE=	dbeaver:dbeaver-common:21905e0:common/../dbeaver-common \
+		dbeaver:dbeaver-jdbc-libsql:d46d17c:jdbc/../dbeaver-jdbc-libsql
+JAVA_VERSION=	21+
 
-SUB_FILES=      ${PORTNAME} ${PORTNAME}.desktop
+SUB_FILES=	${PORTNAME} ${PORTNAME}.desktop
 
 .include <bsd.port.pre.mk>
 
 # For create local maven repository (m2) run: make -DMAINTAINER_MODE
 .if !defined(MAINTAINER_MODE)
-MASTER_SITES+=  LOCAL/vvd:deps
-DISTFILES+=     ${PORTNAME}-${PORTVERSION}-deps.tar.xz:deps
-OFFLINE=        -o
+MASTER_SITES+=	LOCAL/vvd:deps
+DISTFILES+=	${PORTNAME}-${PORTVERSION}-deps.tar.xz:deps
+OFFLINE=	-o
 .endif # !defined(MAINTAINER_MODE)
 
-MAVEN_ENV=      MAVEN_OPTS=-Xmx2048m JAVA_HOME=${JAVA_HOME}
+MAVEN_ENV=	MAVEN_OPTS=-Xmx2048m JAVA_HOME=${JAVA_HOME}
 
 # To make the build working, set the (maven) architecture to x86_64 instead of amd64
 # Finally there are problems with amd64
-MAVEN_ARCH=	${ARCH:S|amd64|x86_64|:S|aarch64|arm64|}
+MAVEN_ARCH=	${ARCH:S|amd64|x86_64|}
 
-MAVEN_PARAMS=   ${OFFLINE} \
-                -Dmaven.repo.local=${WRKDIR}/m2 \
-                -Dnative=gtk.freebsd.${MAVEN_ARCH} \
-                -DskipTests clean verify \
-                -T ${MAKE_JOBS_NUMBER}
+MAVEN_PARAMS=	${OFFLINE} \
+		-Dmaven.repo.local=${WRKDIR}/m2 \
+		-Dnative=gtk.freebsd.${MAVEN_ARCH} \
+		-DskipTests clean verify \
+		-T ${MAKE_JOBS_NUMBER}
 
-DBEAVER_PATH=   product/community/target/products/org.jkiss.dbeaver.core.product/freebsd/gtk/${MAVEN_ARCH}/dbeaver
-
-pre-configure:
-	${MV} ${WRKDIR}/dbeaver-common-* ${WRKDIR}/dbeaver-common
-	${MV} ${WRKDIR}/dbeaver-jdbc-libsql-* ${WRKDIR}/dbeaver-jdbc-libsql
+DBEAVER_PATH=	product/community/target/products/org.jkiss.dbeaver.core.product/freebsd/gtk/${MAVEN_ARCH}/dbeaver
 
 do-build:
 	@(cd ${WRKSRC}/product/aggregate && \
