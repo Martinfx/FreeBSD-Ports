@@ -1,4 +1,4 @@
-PORTNAME=	openusd
+PORTNAME=	usd
 DISTVERSIONPREFIX=	v
 DISTVERSION=	25.11
 CATEGORIES=	misc
@@ -13,7 +13,9 @@ LICENSE_FILE=	${WRKSRC}/LICENSE.txt
 ONLY_FOR_ARCHS=		aarch64 amd64
 ONLY_FOR_ARCHS_REASON=	CMakeLists.txt fails for non-64-bit architectures: Compiler does not support 64-bit builds; also: pxr/base/arch/defines.h:69:2: error: "Unsupported architecture.  x86_64 or ARM64 required."
 
-LIB_DEPENDS=	libtbb.so:devel/onetbb
+BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}pyside6-tools>0:devel/pyside6-tools@${PY_FLAVOR}
+LIB_DEPENDS=	libtbb.so:devel/onetbb \
+		libpython3.11.so:lang/python311
 
 USES=		cmake python:test
 USE_GITHUB=	yes
@@ -21,11 +23,11 @@ GH_ACCOUNT=	PixarAnimationStudios
 GH_PROJECT=	OpenUSD
 USE_LDCONFIG=	yes
 
-CMAKE_OFF=	PXR_BUILD_EXAMPLES PXR_BUILD_TESTS PXR_BUILD_TUTORIALS \
-		PXR_ENABLE_PYTHON_SUPPORT
+CMAKE_ON=       PXR_ENABLE_PYTHON_SUPPORT
+CMAKE_OFF=	PXR_BUILD_EXAMPLES PXR_BUILD_TESTS PXR_BUILD_TUTORIALS
 
 OPTIONS_DEFINE=		IMAGING MONOLITHIC TOOLS
-OPTIONS_DEFAULT=	IMAGING MONOLITHIC TOOLS
+OPTIONS_DEFAULT=	IMAGING TOOLS
 OPTIONS_SUB=		yes
 
 IMAGING_DESC=		Build imaging components
