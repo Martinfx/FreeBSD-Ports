@@ -300,6 +300,8 @@ include/pxr/usdImaging/usdviewq/debugCodes.h
 include/pxr/usdImaging/usdviewq/hydraObserver.h
 include/pxr/usdImaging/usdviewq/utils.h
 lib/python/pxr/__init__.py
+lib/libusd_ms.so
+lib/python/pxr/__init__.py@owner
 cmake/pxrTargets-%%CMAKE_BUILD_TYPE%%.cmake
 cmake/pxrTargets.cmake
 include/pxr/base/arch/align.h
