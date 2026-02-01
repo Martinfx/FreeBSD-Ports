@@ -2239,7 +2239,6 @@ plugin/usd/usdShaders/resources/shaders/shaderDefs.usda
 plugin/usd/usdShaders/resources/shaders/transform2d.glslfx
 plugin/usd/usdShaders/resources/shaders/uvTexture.glslfx
 pxrConfig.cmake
-lib/libusd_ms.so
 lib/python/pxr/Ar/__init__.py
 lib/python/pxr/Ar/__init__.pyc
 lib/python/pxr/Ar/_ar.so
