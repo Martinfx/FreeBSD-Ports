@@ -17,10 +17,9 @@ BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}Jinja2>0:devel/py-Jinja2@${PY_FLAVOR} \
 		${PYTHON_PKGNAMEPREFIX}PyOpenGL>0:graphics/py-PyOpenGL@${PY_FLAVOR} \
 		${PYTHON_PKGNAMEPREFIX}pyside6-tools>0:devel/pyside6-tools@${PY_FLAVOR}
 
-LIB_DEPENDS=	libpython3.11.so:lang/python311 \
-		libtbb.so:devel/onetbb
+LIB_DEPENDS=	libtbb.so:devel/onetbb
 
-USES=		cmake python:test
+USES=		cmake python python:test
 USE_GITHUB=	yes
 GH_ACCOUNT=	PixarAnimationStudios
 GH_PROJECT=	OpenUSD
