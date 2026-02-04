@@ -1,8 +1,8 @@
 PORTNAME=	tor-browser
-DISTVERSION=	16.0a1
+DISTVERSION=	16.0a2
 CATEGORIES=	www net security wayland
-TAG_BASE=	d366318349af0977ff23b492fa87e436e8672fdd
-TAG_TOR=	45b67d3be52f79e8a4b361fd04ab12f342ab0016
+TAG_BASE=	4949fc27ebf9e81a632c60caa5623a0cdafebbee
+TAG_TOR=	66ba3b7e492ca273062c612fa401991e8af9da6b
 MASTER_SITES=	TOR \
 		LOCAL/vvd \
 		https://build-sources.tbb.torproject.org/:source1 \
@@ -17,9 +17,9 @@ MASTER_SITES=	TOR \
 		LOCAL/vvd:source5
 MASTER_SITE_SUBDIR=	torbrowser/${DISTVERSION}/:DEFAULT \
 			download/releases/:source3
-DISTNAME=	src-firefox-tor-browser-146.0a1-16.0-2-build2
+DISTNAME=	src-firefox-tor-browser-147.0a1-16.0-2-build2
 MANUAL=		manual_215922.zip
-NOSCRIPT=	noscript-13.5.4.1984.xpi
+NOSCRIPT=	noscript-13.5.9.90601984.xpi
 DISTFILES=	${DISTNAME}.tar.xz \
 		${MANUAL}:source1 \
 		fonts-3--4348e1.tar.zst:source2 \
@@ -36,7 +36,7 @@ LICENSE_FILE=	${WRKSRC}/LICENSE
 
 BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
 		nss>=3.112:security/nss \
-		icu>=76.1,1:devel/icu \
+		icu>=78.1:devel/icu \
 		libevent>=2.1.8:devel/libevent \
 		harfbuzz>=10.1.0:print/harfbuzz \
 		graphite2>=1.3.14:graphics/graphite2 \
@@ -56,7 +56,7 @@ USES=		compiler:c++11-lib libtool localbase:ldflags perl5 pkgconfig \
 		python shebangfix tar:xz
 USE_GECKO=	gecko
 USE_GITHUB=	nodefault
-TAG_L10N=	4b41b2ae00d50633e5e9d8204b0f45e468920743
+TAG_L10N=	aa40f18dcfd7d65b8bad9eb220957420414f202c
 GH_TUPLE=	mozilla-l10n:firefox-l10n:${TAG_L10N}:ffl10n
 USE_MOZILLA=	-sqlite
 
@@ -80,13 +80,12 @@ WRKSRC=		${WRKDIR}/${DISTNAME:S/src-//}
 
 MOZ_EXPORT=	MOZ_TELEMETRY_REPORTING="" \
 		MOZILLA_OFFICIAL="1" \
-		MOZ_OFFICIAL_BRANDING="1" \
 		MOZ_APP_DISPLAYNAME="Tor Browser" \
 		MOZ_APP_NAME="tor-browser" \
+		MOZ_BRANDING_DIRECTORY="browser/branding/tb-release" \
 		MOZ_CHROME_MULTILOCALE="${LOCALES}"
 
 MOZ_OPTIONS=	--with-base-browser-version=${DISTVERSION} \
-		--enable-official-branding \
 		--enable-optimize \
 		--enable-bundled-fonts \
 		--disable-tests \
