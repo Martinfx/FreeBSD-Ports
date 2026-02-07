@@ -567,6 +567,13 @@ include/IECoreScene/private/TransformStack.h
 include/IECoreVDB/Export.h
 include/IECoreVDB/TypeIds.h
 include/IECoreVDB/VDBObject.h
+lib/libIECore.so
+lib/libIECoreAlembic.so
+lib/libIECoreGL.so
+lib/libIECoreImage.so
+lib/libIECorePython.so
+lib/libIECoreScene.so
+lib/libIECoreVDB.so
 %%PYTHON_SITELIBDIR%%/IECore/BasicPreset.py
 %%PYTHON_SITELIBDIR%%/IECore/CapturingMessageHandler.py
 %%PYTHON_SITELIBDIR%%/IECore/ClassLoader.py
@@ -644,10 +651,3 @@ include/IECoreVDB/VDBObject.h
 %%DATADIR%%/IECoreGL/VertexShader.h
 %%DATADIR%%/ieConstant.frag
 %%DATADIR%%/ieConstant.vert
-lib/libIECore.so
-lib/libIECoreAlembic.so
-lib/libIECoreGL.so
-lib/libIECoreImage.so
-lib/libIECorePython.so
-lib/libIECoreScene.so
-lib/libIECoreVDB.so
