@@ -1,6 +1,6 @@
---- src/GafferSceneUI/Inspector.cpp.orig	2026-01-06 23:37:17 UTC
+--- src/GafferSceneUI/Inspector.cpp.orig	2025-10-24 22:57:40 UTC
 +++ src/GafferSceneUI/Inspector.cpp
-@@ -344,7 +344,7 @@ Inspector::ResultPtr Inspector::inspect() const
+@@ -336,7 +336,7 @@ Inspector::ResultPtr Inspector::inspect() const
  		}
  
  		result->m_editors = {
