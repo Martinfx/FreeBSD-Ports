@@ -2,8 +2,8 @@ bin/fasm
 bin/listing
 bin/sasm
 share/applications/sasm.desktop
-%%PORTDOCS%%%%DOCSDIR%%/changelog.gz
-%%PORTDOCS%%%%DOCSDIR%%/copyright
+%%DOCSDIR%%/changelog.gz
+%%DOCSDIR%%/copyright
 %%DATADIR%%/NASM/macro.c
 %%DATADIR%%/Projects/FASMHello.asm
 %%DATADIR%%/Projects/FASMHellox64.asm
@@ -23,4 +23,3 @@ share/applications/sasm.desktop
 %%DATADIR%%/include/io64.inc
 %%DATADIR%%/keys.ini
 %%DATADIR%%/sasm.png
-
