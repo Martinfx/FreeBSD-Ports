@@ -1,0 +1,12 @@
+--- CMakeLists.txt.orig	2026-02-03 14:10:32 UTC
++++ CMakeLists.txt
+@@ -564,7 +564,8 @@ if(KLEIDIAI_BUILD_TESTS)
+ set_target_properties(kleidiai PROPERTIES INTERPROCEDURAL_OPTIMIZATION OFF)
+ 
+ if(KLEIDIAI_BUILD_TESTS)
+-    include(FetchGTest)
++    find_package(GTest)
++#   include(FetchGTest)
+     enable_testing()
+     include(GoogleTest)
+ 
