@@ -12,7 +12,7 @@ LICENSE_FILE=	${WRKSRC}/LICENSE
 BUILD_DEPENDS=	simde>0:devel/simde
 LIB_DEPENDS=	libobs.so:multimedia/obs-studio
 
-USES=		cmake gl qt:6
+USES=		cmake localbase gl qt:6
 USE_GITHUB=	yes
 GH_ACCOUNT=	sorayuki
 USE_GL=		opengl
@@ -20,6 +20,7 @@ USE_QT=		base
 
 CMAKE_ON=	ENABLE_QT
 CMAKE_OFF=	CMAKE_COMPILE_WARNING_AS_ERROR
+CMAKE_ARGS=	-DCMAKE_MAP_IMPORTED_CONFIG_MINSIZEREL="Release"
 
 do-install:
 	${MKDIR} \
