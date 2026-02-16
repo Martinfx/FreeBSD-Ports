@@ -50,26 +50,27 @@ post-patch:
 		${WRKSRC}/cmake/modules/MaterialXConfig.cmake.in
 
 do-install:
-	${INSTALL_PROGRAM} ${WRKDIR}/.build/bin/MaterialXGraphEditor ${STAGEDIR}${PREFIX}/bin
-	${INSTALL_PROGRAM} ${WRKDIR}/.build/bin/MaterialXView ${STAGEDIR}${PREFIX}/bin
-	${MKDIR} ${STAGEDIR}${PREFIX}/lib
+	${INSTALL_PROGRAM} ${WRKDIR}/.build/bin/MaterialXGraphEditor \
+		${WRKDIR}/.build/bin/MaterialXView ${STAGEDIR}${PREFIX}/bin
 	${INSTALL_LIB} ${BUILD_WRKSRC}/lib/*.so* ${STAGEDIR}${PREFIX}/lib
-	${MKDIR} ${STAGEDIR}/share/MaterialX
-	(cd ${WRKSRC}/resources  && ${COPYTREE_SHARE} . ${STAGEDIR}${PREFIX}/share/MaterialX)
-	(cd ${WRKSRC}/source && ${COPYTREE_SHARE} .  ${STAGEDIR}${PREFIX}/include "-name *.h")
-	${CP} ${BUILD_WRKSRC}/source/MaterialXCore/Generated.h ${STAGEDIR}${PREFIX}/include/MaterialXCore
-	${MKDIR} ${STAGEDIR}${PREFIX}/share/MaterialX/examples
-	(cd ${WRKSRC}/python/Scripts/ && ${COPYTREE_SHARE} . ${STAGEDIR}${PREFIX}/share/MaterialX/examples)
-	${MKDIR} ${STAGEDIR}${PYTHONPREFIX_SITELIBDIR}
-	(cd ${WRKSRC}/python/MaterialX && ${COPYTREE_SHARE} . ${STAGEDIR}${PYTHONPREFIX_SITELIBDIR}/MaterialX)
-	${MKDIR} ${STAGEDIR}${PREFIX}/share/MaterialX/stdlib
-	(cd ${WRKSRC}/libraries && ${COPYTREE_SHARE} . ${STAGEDIR}${PREFIX}/share/MaterialX/stdlib "-name *.mtlx")
+	(cd ${WRKSRC}/resources && ${COPYTREE_SHARE} . \
+		${STAGEDIR}${PREFIX}/share/MaterialX)
+	(cd ${WRKSRC}/source && ${COPYTREE_SHARE} . \
+		${STAGEDIR}${PREFIX}/include "-name *.h")
+	${INSTALL_DATA} ${BUILD_WRKSRC}/source/MaterialXCore/Generated.h \
+		${STAGEDIR}${PREFIX}/include/MaterialXCore
+	${INSTALL_DATA} ${WRKSRC}/source/MaterialXRender/TextureBaker.inl \
+		${STAGEDIR}${PREFIX}/include/MaterialXRender
+	(cd ${WRKSRC}/python/Scripts && ${COPYTREE_SHARE} . \
+		${STAGEDIR}${PREFIX}/share/MaterialX/examples)
+	(cd ${WRKSRC}/python/MaterialX && ${COPYTREE_SHARE} . \
+		${STAGEDIR}${PYTHONPREFIX_SITELIBDIR}/MaterialX)
+	(cd ${WRKSRC}/libraries && ${COPYTREE_SHARE} . \
+		${STAGEDIR}${PREFIX}/share/MaterialX/stdlib "-name *.mtlx")
 	${MKDIR} ${STAGEDIR}${PREFIX}/lib/cmake/MaterialX
-	${MV} ${WRKDIR}/.build/cmake/* ${STAGEDIR}${PREFIX}/lib/cmake/MaterialX
-	${MV} ${BUILD_WRKSRC}/CMakeFiles/Export/6ec30f313a190b6699aad53a4a5af714/MaterialXTargets.cmake \
+	${INSTALL_DATA} ${WRKDIR}/.build/cmake/*.cmake \
+		${BUILD_WRKSRC}/CMakeFiles/Export/6ec30f313a190b6699aad53a4a5af714/MaterialXTargets.cmake \
 		${STAGEDIR}${PREFIX}/lib/cmake/MaterialX
-	${REINPLACE_CMD} -e 's/libraries/${PACKAGE_PREFIX_DIR}\share\/MaterialX\/stdlib/g' \
-		${STAGEDIR}${PREFIX}/lib/cmake/MaterialX/MaterialXConfig.cmake
 
 do-test:
 	cd ${TEST_WRKSRC} && ctest -C ${CMAKE_BUILD_TYPE} ${_MAKE_JOBS}
