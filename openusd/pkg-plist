@@ -2513,3 +2513,10 @@ lib/python/pxr/Work/__init__.py
 lib/python/pxr/Work/__init__.pyc
 lib/python/pxr/Work/_work.so
 lib/python/pxr/__init__.py
+include/pxr/usd/usdMtlx/api.h
+include/pxr/usd/usdMtlx/debugCodes.h
+include/pxr/usd/usdMtlx/materialXConfigAPI.h
+include/pxr/usd/usdMtlx/reader.h
+include/pxr/usd/usdMtlx/tokens.h
+include/pxr/usd/usdMtlx/utils.h
+
