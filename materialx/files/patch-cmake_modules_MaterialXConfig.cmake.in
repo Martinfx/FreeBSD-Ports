@@ -1,6 +1,6 @@
 --- cmake/modules/MaterialXConfig.cmake.in.orig	2025-09-15 18:12:11 UTC
 +++ cmake/modules/MaterialXConfig.cmake.in
-@@ -20,10 +20,28 @@ set_and_check(MATERIALX_BASE_DIR "@PACKAGE_CMAKE_INSTA
+@@ -20,10 +20,32 @@ set_and_check(MATERIALX_BASE_DIR "@PACKAGE_CMAKE_INSTA
  # MATERIALX_RESOURCES_DIR    Path to MaterialX Resources (sample data, mtlx etc)
  
  set_and_check(MATERIALX_BASE_DIR "@PACKAGE_CMAKE_INSTALL_PREFIX@")
@@ -16,6 +16,10 @@
 +    MaterialXGenShader
 +    MaterialXRender
 +    MaterialXUtil
++    MaterialXRenderGlsl
++    MaterialXGenGlsl
++    MaterialXGenMsl
++    MaterialXRenderHw
 +)
 +    if(TARGET ${_lib})
 +        set_target_properties(${_lib} PROPERTIES

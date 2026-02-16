@@ -216,6 +216,7 @@ include/MaterialXRender/ShaderMaterial.h
 include/MaterialXRender/ShaderRenderer.h
 include/MaterialXRender/StbImageLoader.h
 include/MaterialXRender/TextureBaker.h
+include/MaterialXRender/TextureBaker.inl
 include/MaterialXRender/Timer.h
 include/MaterialXRender/TinyObjLoader.h
 include/MaterialXRender/Types.h
@@ -459,7 +460,6 @@ lib/PyMaterialXRender%%PYTHON_TAG%%.so
 lib/PyMaterialXRenderGlsl%%PYTHON_TAG%%.so
 lib/PyMaterialXRenderOsl%%PYTHON_TAG%%.so
 lib/cmake/MaterialX/MaterialXConfig.cmake
-lib/cmake/MaterialX/MaterialXConfig.cmake.bak
 lib/cmake/MaterialX/MaterialXConfigVersion.cmake
 lib/cmake/MaterialX/MaterialXTargets.cmake
 lib/libMaterialXCore.so
@@ -859,5 +859,3 @@ share/MaterialX/stdlib/targets/genglsl.mtlx
 share/MaterialX/stdlib/targets/genmdl.mtlx
 share/MaterialX/stdlib/targets/genmsl.mtlx
 share/MaterialX/stdlib/targets/genosl.mtlx
-@dir /share/MaterialX
-@dir /share
