@@ -58,6 +58,10 @@ MONOLITHIC_CMAKE_BOOL=	PXR_BUILD_MONOLITHIC
 
 TOOLS_CMAKE_BOOL=	PXR_BUILD_USD_TOOLS
 
+post-patch:
+	${REINPLACE_CMD} 's|%%LOCALBASE%%|${LOCALBASE}|' \
+		${WRKSRC}/cmake/modules/FindPySide.cmake
+
 do-test: # tests are expected to be installed, see https://github.com/PixarAnimationStudios/USD/issues/1707
 	@cd ${BUILD_WRKSRC} && \
 		${SETENV} ${CONFIGURE_ENV} ${CMAKE_BIN} ${CMAKE_ARGS} \
