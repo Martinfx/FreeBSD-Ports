@@ -5,7 +5,7 @@
      RESULT_VARIABLE pySideImportResult 
  )
 +
-+set(PYSIDEUICBINARY "/usr/local/PySide6/bin/uic")
++set(PYSIDEUICBINARY "%%LOCALBASE%%/PySide6/bin/uic")
 +
  if (pySideImportResult EQUAL 0)
      set(pySideImportResult "PySide6")
