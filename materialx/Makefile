@@ -15,6 +15,7 @@ BUILD_DEPENDS=	libglvnd>0:graphics/libglvnd \
 		openimageio>0:graphics/openimageio \
 		openshadinglanguage>0:graphics/openshadinglanguage
 LIB_DEPENDS=	libImath.so:math/Imath \
+		libOpenColorIO.so:graphics/opencolorio \
 		libOpenImageIO.so:graphics/openimageio \
 		libOpenImageIO_Util.so:graphics/openimageio
 
@@ -41,11 +42,11 @@ CMAKE_ARGS=	-DCMAKE_INSTALL_PREFIX=${STAGEDIR}${PREFIX} \
 
 CMAKE_ON=	MATERIALX_BUILD_GRAPH_EDITOR \
 		MATERIALX_BUILD_OIIO \
+		MATERIALX_BUILD_OCIO \
 		MATERIALX_BUILD_PYTHON \
 		MATERIALX_BUILD_SHARED_LIBS \
 		MATERIALX_BUILD_TESTS \
-		MATERIALX_BUILD_VIEWER \
-		MATERIALX_BUILD_OIIO
+		MATERIALX_BUILD_VIEWER
 post-patch:
 	${REINPLACE_CMD} 's|%%PREFIX%%|${PREFIX}|' \
 		${WRKSRC}/cmake/modules/MaterialXConfig.cmake.in
