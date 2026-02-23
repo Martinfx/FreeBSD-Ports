@@ -1,4 +1,4 @@
---- source/MaterialXGraphEditor/RenderView.cpp.orig	2026-02-18 22:33:02 UTC
+--- source/MaterialXGraphEditor/RenderView.cpp.orig	2025-09-15 18:12:11 UTC
 +++ source/MaterialXGraphEditor/RenderView.cpp
 @@ -16,6 +16,9 @@
  #include <MaterialXRender/TinyObjLoader.h>
