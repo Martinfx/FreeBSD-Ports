@@ -53,7 +53,7 @@ BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}Jinja2>0:devel/py-Jinja2@${PY_FLAVOR} \
 		yaml-cpp>0:devel/yaml-cpp \
 		zlib-ng>0:archivers/zlib-ng \
 		zstd>0:archivers/zstd \
-		usd>0:misc/usd
+		openusd>0:graphics/openusd
 
 RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}qt6-pyqt>0:devel/py-qt6-pyqt@${PY_FLAVOR} \
 		${PYTHON_PKGNAMEPREFIX}pyside2>0:devel/pyside2@${PY_FLAVOR}
