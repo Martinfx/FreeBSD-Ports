@@ -10,19 +10,33 @@ WWW=		http://www.openusd.org/
 LICENSE=	APACHE20
 LICENSE_FILE=	${WRKSRC}/LICENSE.txt
 
-ONLY_FOR_ARCHS=		aarch64 amd64
+ONLY_FOR_ARCHS=	aarch64 amd64
 ONLY_FOR_ARCHS_REASON=	CMakeLists.txt fails for non-64-bit architectures: Compiler does not support 64-bit builds; also: pxr/base/arch/defines.h:69:2: error: "Unsupported architecture.  x86_64 or ARM64 required."
 
-LIB_DEPENDS=	libtbb.so:devel/onetbb
+BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}Jinja2>0:devel/py-Jinja2@${PY_FLAVOR} \
+		${PYTHON_PKGNAMEPREFIX}PyOpenGL>0:graphics/py-PyOpenGL@${PY_FLAVOR} \
+		${PYTHON_PKGNAMEPREFIX}pyside6-tools>0:devel/pyside6-tools@${PY_FLAVOR}
 
-USES=		cmake python:test
+LIB_DEPENDS=	libtbb.so:devel/onetbb \
+		libMaterialXGenMsl.so:graphics/materialx \
+		libMaterialXRenderGlsl.so:graphics/materialx \
+		libMaterialXGenGlsl.so:graphics/materialx \
+		libMaterialXRenderHw.so:graphics/materialx \
+		libMaterialXRender.so:graphics/materialx \
+		libMaterialXGenShader.so:graphics/materialx \
+		libMaterialXFormat.so:graphics/materialx \
+		libMaterialXCore.so:graphics/materialx
+
+USES=		cmake python python:test
+USE_XORG=	xt
 USE_GITHUB=	yes
 GH_ACCOUNT=	PixarAnimationStudios
 GH_PROJECT=	OpenUSD
 USE_LDCONFIG=	yes
 
-CMAKE_OFF=	PXR_BUILD_EXAMPLES PXR_BUILD_TESTS PXR_BUILD_TUTORIALS \
-		PXR_ENABLE_PYTHON_SUPPORT
+CMAKE_ARGS=	-DMATERIALX_STDLIB_DIR=${LOCALBASE}/share/MaterialX/stdlib
+CMAKE_ON=	PXR_ENABLE_PYTHON_SUPPORT PXR_ENABLE_MATERIALX_SUPPORT
+CMAKE_OFF=	PXR_BUILD_EXAMPLES PXR_BUILD_TESTS PXR_BUILD_TUTORIALS
 
 OPTIONS_DEFINE=		IMAGING MONOLITHIC TOOLS
 OPTIONS_DEFAULT=	IMAGING MONOLITHIC TOOLS
@@ -35,13 +49,18 @@ TOOLS_DESC=		Build commandline tools
 IMAGING_LIB_DEPENDS=	libosdCPU.so:graphics/opensubdiv \
 			libosdGPU.so:graphics/opensubdiv
 IMAGING_USES=		gl xorg
-IMAGING_USE=		GL=gl XORG=ice,sm,x11,xext
+IMAGING_USE=		GL=gl \
+			XORG=ice,sm,x11,xext
 IMAGING_CMAKE_BOOL=	PXR_BUILD_IMAGING
 IMAGING_CMAKE_ON=	-DPTEX_INCLUDE_DIR=${LOCALBASE}/include
 
 MONOLITHIC_CMAKE_BOOL=	PXR_BUILD_MONOLITHIC
 
 TOOLS_CMAKE_BOOL=	PXR_BUILD_USD_TOOLS
+
+post-patch:
+	${REINPLACE_CMD} 's|%%LOCALBASE%%|${LOCALBASE}|' \
+		${WRKSRC}/cmake/modules/FindPySide.cmake
 
 do-test: # tests are expected to be installed, see https://github.com/PixarAnimationStudios/USD/issues/1707
 	@cd ${BUILD_WRKSRC} && \
