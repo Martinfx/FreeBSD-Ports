@@ -25,6 +25,7 @@
 %%IMAGING%%%%NO_MONOLITHIC%%plugin/usd/hioAvif.so
 %%IMAGING%%%%NO_MONOLITHIC%%plugin/usd/hioOpenEXR.so
 %%IMAGING%%%%NO_MONOLITHIC%%plugin/usd/sdrGlslfx.so
+%%IMAGING%%include/pxr/base/ts/segment.h
 %%IMAGING%%include/pxr/imaging/cameraUtil/api.h
 %%IMAGING%%include/pxr/imaging/cameraUtil/conformWindow.h
 %%IMAGING%%include/pxr/imaging/cameraUtil/framing.h
@@ -152,6 +153,7 @@
 %%IMAGING%%include/pxr/imaging/hd/legacyDisplayStyleSchema.h
 %%IMAGING%%include/pxr/imaging/hd/legacyGeomSubsetSceneIndex.h
 %%IMAGING%%include/pxr/imaging/hd/legacyPrimSceneIndex.h
+%%IMAGING%%include/pxr/imaging/hd/legacyRenderControlInterface.h
 %%IMAGING%%include/pxr/imaging/hd/legacyTaskFactory.h
 %%IMAGING%%include/pxr/imaging/hd/legacyTaskSchema.h
 %%IMAGING%%include/pxr/imaging/hd/lensDistortionSchema.h
@@ -200,7 +202,10 @@
 %%IMAGING%%include/pxr/imaging/hd/renderBufferSchema.h
 %%IMAGING%%include/pxr/imaging/hd/renderCapabilitiesSchema.h
 %%IMAGING%%include/pxr/imaging/hd/renderDelegate.h
+%%IMAGING%%include/pxr/imaging/hd/renderDelegateAdapterRenderer.h
+%%IMAGING%%include/pxr/imaging/hd/renderDelegateInfo.h
 %%IMAGING%%include/pxr/imaging/hd/renderIndex.h
+%%IMAGING%%include/pxr/imaging/hd/renderIndexAdapterSceneIndex.h
 %%IMAGING%%include/pxr/imaging/hd/renderPass.h
 %%IMAGING%%include/pxr/imaging/hd/renderPassSchema.h
 %%IMAGING%%include/pxr/imaging/hd/renderPassState.h
@@ -211,6 +216,7 @@
 %%IMAGING%%include/pxr/imaging/hd/renderVarSchema.h
 %%IMAGING%%include/pxr/imaging/hd/renderer.h
 %%IMAGING%%include/pxr/imaging/hd/rendererCreateArgs.h
+%%IMAGING%%include/pxr/imaging/hd/rendererCreateArgsSchema.h
 %%IMAGING%%include/pxr/imaging/hd/rendererPlugin.h
 %%IMAGING%%include/pxr/imaging/hd/rendererPluginHandle.h
 %%IMAGING%%include/pxr/imaging/hd/rendererPluginRegistry.h
@@ -226,6 +232,7 @@
 %%IMAGING%%include/pxr/imaging/hd/sceneGlobalsSchema.h
 %%IMAGING%%include/pxr/imaging/hd/sceneIndex.h
 %%IMAGING%%include/pxr/imaging/hd/sceneIndexAdapterSceneDelegate.h
+%%IMAGING%%include/pxr/imaging/hd/sceneIndexInputArgsSchema.h
 %%IMAGING%%include/pxr/imaging/hd/sceneIndexObserver.h
 %%IMAGING%%include/pxr/imaging/hd/sceneIndexPlugin.h
 %%IMAGING%%include/pxr/imaging/hd/sceneIndexPluginRegistry.h
@@ -236,6 +243,7 @@
 %%IMAGING%%include/pxr/imaging/hd/selection.h
 %%IMAGING%%include/pxr/imaging/hd/selectionSchema.h
 %%IMAGING%%include/pxr/imaging/hd/selectionsSchema.h
+%%IMAGING%%include/pxr/imaging/hd/skinningSettings.h
 %%IMAGING%%include/pxr/imaging/hd/smoothNormals.h
 %%IMAGING%%include/pxr/imaging/hd/sortedIds.h
 %%IMAGING%%include/pxr/imaging/hd/sphereSchema.h
@@ -266,15 +274,6 @@
 %%IMAGING%%include/pxr/imaging/hd/volumeFieldSchema.h
 %%IMAGING%%include/pxr/imaging/hd/vtBufferSource.h
 %%IMAGING%%include/pxr/imaging/hd/xformSchema.h
-%%IMAGING%%include/pxr/base/ts/segment.h
-%%IMAGING%%include/pxr/imaging/hd/legacyRenderControlInterface.h
-%%IMAGING%%include/pxr/imaging/hd/renderDelegateAdapterRenderer.h
-%%IMAGING%%include/pxr/imaging/hd/renderDelegateInfo.h
-%%IMAGING%%include/pxr/imaging/hd/renderIndexAdapterSceneIndex.h
-%%IMAGING%%include/pxr/imaging/hd/rendererCreateArgsSchema.h
-%%IMAGING%%include/pxr/imaging/hd/sceneIndexInputArgsSchema.h
-%%IMAGING%%include/pxr/imaging/hd/skinningSettings.h
-%%IMAGING%%include/pxr/imaging/hdsi/materialRenderContextFilteringSceneIndex.h
 %%IMAGING%%include/pxr/imaging/hdGp/api.h
 %%IMAGING%%include/pxr/imaging/hdGp/generativeProcedural.h
 %%IMAGING%%include/pxr/imaging/hdGp/generativeProceduralFilteringSceneIndex.h
@@ -386,6 +385,7 @@
 %%IMAGING%%include/pxr/imaging/hdsi/materialBindingResolvingSceneIndex.h
 %%IMAGING%%include/pxr/imaging/hdsi/materialOverrideResolvingSceneIndex.h
 %%IMAGING%%include/pxr/imaging/hdsi/materialPrimvarTransferSceneIndex.h
+%%IMAGING%%include/pxr/imaging/hdsi/materialRenderContextFilteringSceneIndex.h
 %%IMAGING%%include/pxr/imaging/hdsi/nodeIdentifierResolvingSceneIndex.h
 %%IMAGING%%include/pxr/imaging/hdsi/nurbsApproximatingSceneIndex.h
 %%IMAGING%%include/pxr/imaging/hdsi/pinnedCurveExpandingSceneIndex.h
@@ -570,6 +570,7 @@
 %%IMAGING%%include/pxr/usdImaging/usdImaging/geomModelAPIAdapter.h
 %%IMAGING%%include/pxr/usdImaging/usdImaging/geomModelSchema.h
 %%IMAGING%%include/pxr/usdImaging/usdImaging/geomSubsetAdapter.h
+%%IMAGING%%include/pxr/usdImaging/usdImaging/geomXformVectorsSchema.h
 %%IMAGING%%include/pxr/usdImaging/usdImaging/geometryLightAdapter.h
 %%IMAGING%%include/pxr/usdImaging/usdImaging/gprimAdapter.h
 %%IMAGING%%include/pxr/usdImaging/usdImaging/hermiteCurvesAdapter.h
@@ -631,6 +632,7 @@
 %%IMAGING%%include/pxr/usdImaging/usdImaging/usdRenderProductSchema.h
 %%IMAGING%%include/pxr/usdImaging/usdImaging/usdRenderSettingsSchema.h
 %%IMAGING%%include/pxr/usdImaging/usdImaging/usdRenderVarSchema.h
+%%IMAGING%%include/pxr/usdImaging/usdImaging/usdSceneIndexInputArgsSchema.h
 %%IMAGING%%include/pxr/usdImaging/usdImaging/version.h
 %%IMAGING%%include/pxr/usdImaging/usdImaging/volumeAdapter.h
 %%IMAGING%%include/pxr/usdImaging/usdImagingGL/api.h
@@ -685,13 +687,11 @@
 %%IMAGING%%include/pxr/usdImaging/usdSkelImaging/xformResolver.h
 %%IMAGING%%include/pxr/usdImaging/usdVolImaging/api.h
 %%IMAGING%%include/pxr/usdImaging/usdVolImaging/dataSourceFieldAsset.h
+%%IMAGING%%include/pxr/usdImaging/usdVolImaging/dataSourceParticleField.h
 %%IMAGING%%include/pxr/usdImaging/usdVolImaging/field3dAssetAdapter.h
 %%IMAGING%%include/pxr/usdImaging/usdVolImaging/openvdbAssetAdapter.h
-%%IMAGING%%include/pxr/usdImaging/usdVolImaging/tokens.h
-%%IMAGING%%include/pxr/usdImaging/usdImaging/geomXformVectorsSchema.h
-%%IMAGING%%include/pxr/usdImaging/usdImaging/usdSceneIndexInputArgsSchema.h
-%%IMAGING%%include/pxr/usdImaging/usdVolImaging/dataSourceParticleField.h
 %%IMAGING%%include/pxr/usdImaging/usdVolImaging/particleFieldAdapter.h
+%%IMAGING%%include/pxr/usdImaging/usdVolImaging/tokens.h
 %%IMAGING%%lib/usd/glf/resources/plugInfo.json
 %%IMAGING%%lib/usd/glf/resources/shaders/pcfShader.glslfx
 %%IMAGING%%lib/usd/glf/resources/shaders/simpleLighting.glslfx
@@ -729,6 +729,7 @@
 %%IMAGING%%lib/usd/hdSt/resources/shaders/visibility.glslfx
 %%IMAGING%%lib/usd/hdSt/resources/shaders/volume.glslfx
 %%IMAGING%%lib/usd/hdSt/resources/textures/fallbackBlackDomeLight.png
+%%IMAGING%%lib/usd/hdSt/resources/shaders/skinning.glslfx
 %%IMAGING%%lib/usd/hdsi/resources/plugInfo.json
 %%IMAGING%%lib/usd/hdx/resources/plugInfo.json
 %%IMAGING%%lib/usd/hdx/resources/shaders/boundingBox.glslfx
@@ -2170,8 +2171,6 @@ include/pxr/usd/usdVol/field3DAsset.h
 include/pxr/usd/usdVol/fieldAsset.h
 include/pxr/usd/usdVol/fieldBase.h
 include/pxr/usd/usdVol/openVDBAsset.h
-include/pxr/usd/usdVol/tokens.h
-include/pxr/usd/usdVol/volume.h
 include/pxr/usd/usdVol/particleField.h
 include/pxr/usd/usdVol/particleField3DGaussianSplat.h
 include/pxr/usd/usdVol/particleFieldKernelBaseAPI.h
@@ -2185,6 +2184,8 @@ include/pxr/usd/usdVol/particleFieldPositionBaseAPI.h
 include/pxr/usd/usdVol/particleFieldRadianceBaseAPI.h
 include/pxr/usd/usdVol/particleFieldScaleAttributeAPI.h
 include/pxr/usd/usdVol/particleFieldSphericalHarmonicsAttributeAPI.h
+include/pxr/usd/usdVol/tokens.h
+include/pxr/usd/usdVol/volume.h
 include/pxr/usd/usdVol/volumeFieldAsset.h
 include/pxr/usd/usdVol/volumeFieldBase.h
 include/pxr/usdImaging/usdBakeMtlx/api.h
@@ -2936,4 +2937,5 @@ plugin/usd/usdShaders/resources/shaders/primvarReader.glslfx
 plugin/usd/usdShaders/resources/shaders/shaderDefs.usda
 plugin/usd/usdShaders/resources/shaders/transform2d.glslfx
 plugin/usd/usdShaders/resources/shaders/uvTexture.glslfx
+plugin/usd/usdAbc/resources/plugInfo.json
 pxrConfig.cmake
