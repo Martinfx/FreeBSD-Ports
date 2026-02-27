@@ -1,0 +1,36 @@
+--- libs/clipboard/Cargo.toml.orig	2025-11-19 03:39:37 UTC
++++ libs/clipboard/Cargo.toml
+@@ -32,21 +32,21 @@ parking_lot = {version = "0.12"}
+ hbb_common = { path = "../hbb_common" }
+ parking_lot = {version = "0.12"}
+ 
+-[target.'cfg(any(target_os = "linux", target_os = "macos"))'.dependencies]
+-rand = {version = "0.8", optional = true}
+-libc = {version = "0.2", optional = true}
+-dashmap = {version ="5.5", optional = true}
+-utf16string = {version = "0.2", optional = true}
+-once_cell = {version = "1.18", optional = true}
++[target.'cfg(any(target_os = "linux", target_os = "macos", target_os = "freebsd"))'.dependencies]
++rand = { version = "0.8", optional = true }
++libc = { version = "0.2", optional = true }
++dashmap = { version = "5.5", optional = true }
++utf16string = { version = "0.2", optional = true }
++once_cell = { version = "1.18", optional = true }
+ 
+-[target.'cfg(target_os = "linux")'.dependencies]
+-percent-encoding = {version  ="2.3", optional = true}
+-x11-clipboard = {git="https://github.com/clslaid/x11-clipboard", branch = "feat/store-batch", optional = true}
+-x11rb =  {version = "0.12", features = ["all-extensions"], optional = true}
+-fuser = {version = "0.15", default-features = false, optional = true}
++[target.'cfg(any(target_os = "linux", target_os = "freebsd"))'.dependencies]
++percent-encoding = { version = "2.3", optional = true }
++x11-clipboard = { git = "https://github.com/clslaid/x11-clipboard", branch = "feat/store-batch", optional = true }
++x11rb = { version = "0.12", features = ["all-extensions"], optional = true }
++fuser = { version = "0.15", default-features = false, optional = true }
+ 
+ [target.'cfg(target_os = "macos")'.dependencies]
+-cacao = {git="https://github.com/clslaid/cacao", branch = "feat/set-file-urls", optional = true}
++cacao = { git = "https://github.com/clslaid/cacao", branch = "feat/set-file-urls", optional = true }
+ # Use `relax-void-encoding`, as that allows us to pass `c_void` instead of implementing `Encode` correctly for `&CGImageRef`
+ objc2 = { version = "0.5.1", features = ["relax-void-encoding"] }
+ objc2-foundation = { version = "0.2.0", features = ["NSArray", "NSString", "NSEnumerator", "NSGeometry", "NSProgress"] }
