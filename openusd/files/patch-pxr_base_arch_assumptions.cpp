@@ -9,12 +9,25 @@
  #elif defined(ARCH_OS_DARWIN)
  #include <sys/sysctl.h>
  #include <mach-o/arch.h>
-@@ -35,6 +37,8 @@ Arch_ObtainCacheLineSize()
+@@ -33,15 +35,19 @@ Arch_ObtainCacheLineSize()
+ static size_t
+ Arch_ObtainCacheLineSize()
  {
- #if defined(ARCH_OS_LINUX)
+-#if defined(ARCH_OS_LINUX)
++#if defined(ARCH_OS_FREEBSD)
++    return CACHE_LINE_SIZE;
++/*#if defined(ARCH_OS_LINUX)
      return sysconf(_SC_LEVEL1_DCACHE_LINESIZE);
 +#elif defined(ARCH_OS_FREEBSD)
 +    return CACHE_LINE_SIZE;
  #elif defined(ARCH_OS_WASM_VM)
      return 64;
  #elif defined(ARCH_OS_DARWIN)
+     size_t cacheLineSize = 0;
+     size_t cacheLineSizeSize = sizeof(cacheLineSize);
+     sysctlbyname("hw.cachelinesize", &cacheLineSize, &cacheLineSizeSize, 0, 0);
+-    return cacheLineSize;
++    return cacheLineSize;*/
+ #elif defined(ARCH_OS_WINDOWS)
+     DWORD bufferSize = 0;
+     using INFO = SYSTEM_LOGICAL_PROCESSOR_INFORMATION;

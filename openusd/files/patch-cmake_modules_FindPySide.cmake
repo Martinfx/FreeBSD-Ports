@@ -1,4 +1,4 @@
---- cmake/modules/FindPySide.cmake.orig	2025-10-24 16:21:56 UTC
+--- cmake/modules/FindPySide.cmake.orig	2026-02-23 22:54:59 UTC
 +++ cmake/modules/FindPySide.cmake
 @@ -14,6 +14,9 @@ execute_process(
      COMMAND "${PYTHON_EXECUTABLE}" "-c" "import PySide6"

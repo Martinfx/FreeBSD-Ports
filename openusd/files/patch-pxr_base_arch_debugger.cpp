@@ -65,7 +65,7 @@
  
 +#elif defined(ARCH_OS_FREEBSD)
 +static bool
-+AmIBeingDebugged()
++AmIBeingBSDDebugged()
 +{
 +    int junk;
 +    struct kinfo_proc info;
@@ -97,12 +97,17 @@
      // Maximum length of a pid written as a decimal.  It's okay for this
      // to be greater than that.
      static const size_t _decimalPidLength = 20;
-@@ -631,6 +647,8 @@ ArchDebuggerIsAttached()
- #if defined(ARCH_OS_WINDOWS)
+@@ -632,8 +648,11 @@ ArchDebuggerIsAttached()
      return IsDebuggerPresent() == TRUE;
  #elif defined(ARCH_OS_DARWIN)
-+    return AmIBeingDebugged();
-+#elif defined(ARCH_OS_FREEBSD)
      return AmIBeingDebugged();
- #elif defined(ARCH_OS_LINUX)
-     return Arch_DebuggerIsAttachedPosix();
+-#elif defined(ARCH_OS_LINUX)
+-    return Arch_DebuggerIsAttachedPosix();
++#elif defined(ARCH_OS_FREEBSD)
++/*    return AmIBeingBSDDebugged();*/
++/*#elif defined(ARCH_OS_LINUX)
++    return Arch_DebuggerIsAttachedPosix();*/
++    return false;
+ #endif
+     return false;
+ }
