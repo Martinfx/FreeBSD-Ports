@@ -1,6 +1,6 @@
 PORTNAME=	openusd
 DISTVERSIONPREFIX=	v
-DISTVERSION=	25.11
+DISTVERSION=	26.03
 CATEGORIES=	graphics
 
 MAINTAINER=	yuri@FreeBSD.org
@@ -13,11 +13,14 @@ LICENSE_FILE=	${WRKSRC}/LICENSE.txt
 ONLY_FOR_ARCHS=	aarch64 amd64
 ONLY_FOR_ARCHS_REASON=	CMakeLists.txt fails for non-64-bit architectures: Compiler does not support 64-bit builds; also: pxr/base/arch/defines.h:69:2: error: "Unsupported architecture.  x86_64 or ARM64 required."
 
-BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}Jinja2>0:devel/py-Jinja2@${PY_FLAVOR} \
+BUILD_DEPENDS=	alembic>0:graphics/alembic \
+		${PYTHON_PKGNAMEPREFIX}Jinja2>0:devel/py-Jinja2@${PY_FLAVOR} \
 		${PYTHON_PKGNAMEPREFIX}PyOpenGL>0:graphics/py-PyOpenGL@${PY_FLAVOR} \
 		${PYTHON_PKGNAMEPREFIX}pyside6-tools>0:devel/pyside6-tools@${PY_FLAVOR}
 
-LIB_DEPENDS=	libtbb.so:devel/onetbb \
+LIB_DEPENDS=	libAlembic.so:graphics/alembic \
+		libtbb.so:devel/onetbb \
+		libImath-3_2.so:math/Imath \
 		libMaterialXGenMsl.so:graphics/materialx \
 		libMaterialXRenderGlsl.so:graphics/materialx \
 		libMaterialXGenGlsl.so:graphics/materialx \
@@ -34,8 +37,13 @@ GH_ACCOUNT=	PixarAnimationStudios
 GH_PROJECT=	OpenUSD
 USE_LDCONFIG=	yes
 
-CMAKE_ARGS=	-DMATERIALX_STDLIB_DIR=${LOCALBASE}/share/MaterialX/stdlib
-CMAKE_ON=	PXR_ENABLE_PYTHON_SUPPORT PXR_ENABLE_MATERIALX_SUPPORT
+CMAKE_ARGS=	-DMaterialX_DIR:STRING=${LOCALBASE}/lib/cmake/MaterialX \
+		-DMATERIALX_STDLIB_DIR:STRING=${LOCALBASE}/share/MaterialX \
+		-DMATERIALX_PYTHON_DIR:STRING=${PYTHON_SITELIBDIR}/MaterialX \
+		-DPXR_OVERRIDE_PLUGINPATH_NAME=${LOCALBASE}/plugin \
+		-DUSD_PLUGIN_PATH=${LOCALBASE}/plugin
+CMAKE_ON=	PXR_ENABLE_PYTHON_SUPPORT PXR_ENABLE_MATERIALX_SUPPORT \
+		PXR_BUILD_ALEMBIC_PLUGIN
 CMAKE_OFF=	PXR_BUILD_EXAMPLES PXR_BUILD_TESTS PXR_BUILD_TUTORIALS
 
 OPTIONS_DEFINE=		IMAGING MONOLITHIC TOOLS
