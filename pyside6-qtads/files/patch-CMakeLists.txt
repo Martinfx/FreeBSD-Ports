@@ -1,0 +1,18 @@
+--- CMakeLists.txt.orig	2025-09-06 12:06:27 UTC
++++ CMakeLists.txt
+@@ -115,10 +115,11 @@ pyside_config(--pyside-shared-libraries-cmake pyside_s
+ pyside_config(--python-link-flags-cmake python_linking_data 0)
+ pyside_config(--pyside-shared-libraries-cmake pyside_shared_libraries 0)
+ 
+-set(shiboken_path "${shiboken_generator_path}/shiboken6${CMAKE_EXECUTABLE_SUFFIX}")
+-if(NOT EXISTS ${shiboken_path})
+-    message(FATAL_ERROR "Shiboken executable not found at path: ${shiboken_path}")
+-endif()
++set(shiboken_path "/usr/local/lib/python3.11/site-packages/shiboken6${CMAKE_EXECUTABLE_SUFFIX}")
++#set(shiboken_path "${shiboken_generator_path}/shiboken6${CMAKE_EXECUTABLE_SUFFIX}")
++#if(NOT EXISTS ${shiboken_path})
++#    message(FATAL_ERROR "Shiboken executable not found at path: ${shiboken_path}")
++#endif()
+ 
+ 
+ # ==================================== RPATH configuration ====================================
