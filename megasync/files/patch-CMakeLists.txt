@@ -1,0 +1,13 @@
+--- CMakeLists.txt.orig	2026-03-02 15:55:24 UTC
++++ CMakeLists.txt
+@@ -56,8 +56,8 @@ include(GNUInstallDirs) # Values for installation dire
+ message(STATUS "Building MEGA Desktop App project v${PROJECT_VERSION}")
+ 
+ include(GNUInstallDirs) # Values for installation directories. All platforms
+-include(target_sources_conditional) # function to add files to the project without building them
+-include(target_platform_compile_options) # To add compile options depeding on the platform
++#include(target_sources_conditional) # function to add files to the project without building them
++#include(target_platform_compile_options) # To add compile options depeding on the platform
+ 
+ # Load common and per platform configuration for the project
+ include(desktopapp_configuration)
