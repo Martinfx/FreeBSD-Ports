@@ -55,16 +55,42 @@
      int    mib[2] = {0, 0};
      int    ncpu   = {1};
      size_t len    = sizeof(ncpu);
-@@ -420,7 +422,7 @@ CpuInfo CpuInfo::build()
+@@ -419,11 +421,31 @@ CpuInfo CpuInfo::build()
+     std::vector<CpuModel> cpus_model(1, midr_to_model(midr));
      CpuInfo               info(isa, cpus_model);
      return info;
- #elif defined(__aarch64__) && \
+-#elif defined(__aarch64__) && \
 -    (defined(__OpenBSD__) || defined(__APPLE__)) /* #elif(BARE_METAL) && defined(__aarch64__) */
-+    (defined(__OpenBSD__) || defined(__FreeBSD__) || defined(__APPLE__)) /* #elif(BARE_METAL) && defined(__aarch64__) */
-     int                   ncpus = get_hw_capability("hw.perflevel0.logicalcpu");
+-    int                   ncpus = get_hw_capability("hw.perflevel0.logicalcpu");
++
++#elif defined(__aarch64__) && (defined(__OpenBSD__) || defined(__FreeBSD__))
++    /* #elif(BARE_METAL) && defined(__aarch64__) */
++    int ncpus = get_hw_capability("hw.ncpu");
++
      CpuIsaInfo            isainfo;
      std::vector<CpuModel> cpus_model(ncpus);
-@@ -466,7 +468,7 @@ CpuModel CpuInfo::cpu_model() const
++    isainfo.neon       = get_hw_capability("hw.optional.neon");
++    isainfo.fp16       = get_hw_capability("hw.optional.neon_fp16");
++    isainfo.dot        = get_hw_capability("hw.optional.arm.FEAT_DotProd");
++    isainfo.bf16       = get_hw_capability("hw.optional.arm.FEAT_BF16");
++    isainfo.i8mm       = get_hw_capability("hw.optional.arm.FEAT_I8MM");
++    isainfo.sme        = get_hw_capability("hw.optional.arm.FEAT_SME");
++    isainfo.sme_f32f32 = get_hw_capability("hw.optional.arm.SME_F32F32");
++    isainfo.sme_b16f32 = get_hw_capability("hw.optional.arm.SME_B16F32");
++    isainfo.sme_f16f32 = get_hw_capability("hw.optional.arm.SME_F16F32");
++    isainfo.sme_i8i32  = get_hw_capability("hw.optional.arm.SME_I8I32");
++    isainfo.sme2       = get_hw_capability("hw.optional.arm.FEAT_SME2");
++    CpuInfo info(isainfo, cpus_model);
++    return info;
++#elif defined(__aarch64__) && defined(__APPLE__)
++    int ncpus = get_hw_capability("hw.perflevel0.logicalcpu");
++
++    CpuIsaInfo            isainfo;
++    std::vector<CpuModel> cpus_model(ncpus);
+     isainfo.neon = get_hw_capability("hw.optional.neon");
+     isainfo.fp16 = get_hw_capability("hw.optional.neon_fp16");
+     isainfo.dot  = get_hw_capability("hw.optional.arm.FEAT_DotProd");
+@@ -466,7 +488,7 @@ CpuModel CpuInfo::cpu_model() const
  
  CpuModel CpuInfo::cpu_model() const
  {
