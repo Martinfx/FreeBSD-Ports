@@ -28,7 +28,7 @@
      env.Append(LIBS = ['pthread'])
  
 -if env['os'] == 'openbsd':
-+if env['os'] == 'openbsd' or 'frebsd':
++if env['os'] == 'openbsd' or 'freebsd':
      env.Append(LIBS = ['c'])
      env.Append(CCFLAGS = ['-fPIC'])
  
