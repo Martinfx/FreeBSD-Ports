@@ -55,16 +55,24 @@
      int    mib[2] = {0, 0};
      int    ncpu   = {1};
      size_t len    = sizeof(ncpu);
-@@ -420,7 +422,7 @@ CpuInfo CpuInfo::build()
+@@ -419,9 +421,13 @@ CpuInfo CpuInfo::build()
+     std::vector<CpuModel> cpus_model(1, midr_to_model(midr));
      CpuInfo               info(isa, cpus_model);
      return info;
- #elif defined(__aarch64__) && \
+-#elif defined(__aarch64__) && \
 -    (defined(__OpenBSD__) || defined(__APPLE__)) /* #elif(BARE_METAL) && defined(__aarch64__) */
-+    (defined(__OpenBSD__) || defined(__FreeBSD__) || defined(__APPLE__)) /* #elif(BARE_METAL) && defined(__aarch64__) */
-     int                   ncpus = get_hw_capability("hw.perflevel0.logicalcpu");
+-    int                   ncpus = get_hw_capability("hw.perflevel0.logicalcpu");
++#elif defined(__aarch64__) && (defined(__OpenBSD__) || defined(__FreeBSD__))
++                               /* #elif(BARE_METAL) && defined(__aarch64__) */
++	int                   ncpus = get_hw_capability("hw.ncpu");
++#if defined(defined(__aarch64__) && defined(__APPLE__)
++	int                   ncpus = get_hw_capability("hw.perflevel0.logicalcpu");
++#endif
++
      CpuIsaInfo            isainfo;
      std::vector<CpuModel> cpus_model(ncpus);
-@@ -466,7 +468,7 @@ CpuModel CpuInfo::cpu_model() const
+     isainfo.neon = get_hw_capability("hw.optional.neon");
+@@ -466,7 +472,7 @@ CpuModel CpuInfo::cpu_model() const
  
  CpuModel CpuInfo::cpu_model() const
  {
