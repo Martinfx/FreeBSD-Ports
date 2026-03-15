@@ -1,5 +1,5 @@
 PORTNAME=	cortex
-DISTVERSION=	10.7.0.0a4
+DISTVERSION=	10.7.0.0a7
 CATEGORIES=	graphics
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -10,7 +10,7 @@ LICENSE=	BSD3CLAUSE
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
 BUILD_DEPENDS=	pybind11>0:devel/pybind11 \
-		usd>0:misc/usd
+		openusd>0:graphics/openusd
 
 LIB_DEPENDS=	libAlembic.so:graphics/alembic \
 		libblosc.so:archivers/c-blosc \
