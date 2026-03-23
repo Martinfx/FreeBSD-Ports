@@ -1,6 +1,7 @@
 PORTNAME=	tenacity
 DISTVERSIONPREFIX=	v
 DISTVERSION=	1.4-alpha1
+PORTREVISION=	4
 CATEGORIES=	multimedia
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -28,6 +29,7 @@ BUILD_DEPENDS=	expat>0:textproc/expat2 \
 		opusfile>0:audio/opusfile \
 		portaudio>0:audio/portaudio \
 		portmidi>0:audio/portmidi \
+		portsmf>0:multimedia/portsmf \
 		rapidjson>0:devel/rapidjson \
 		soundtouch>0:audio/soundtouch \
 		suil>0:audio/suil \
@@ -42,6 +44,8 @@ LIB_DEPENDS=	libatk-1.0.so:accessibility/at-spi2-core \
 		libharfbuzz.so:print/harfbuzz \
 		liblilv-0.so:audio/lilv \
 		libportaudio.so:audio/portaudio \
+		libportSMF.so:multimedia/portsmf \
+		libportmidi.so:audio/portmidi \
 		libsndfile.so:audio/libsndfile \
 		libSoundTouch.so:audio/soundtouch \
 		libsoxr.so:audio/libsoxr \
@@ -53,13 +57,16 @@ LIB_DEPENDS=	libatk-1.0.so:accessibility/at-spi2-core \
 		libwx_gtk3u_html-3.2.so:x11-toolkits/wxgtk32 \
 		libwx_gtk3u_qa-3.2.so:x11-toolkits/wxgtk32
 
-USES=		cmake desktop-file-utils gettext-runtime localbase pkgconfig \
-			sqlite
-USE_GNOME=	cairo gdkpixbuf glib20 gtk30 pango
+USES=		cmake desktop-file-utils gettext-runtime gnome localbase \
+		pkgconfig sqlite
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	tenacityteam
 GH_TUPLE=	Martinfx:libnyquist:a76cd38:libnyquist/lib-src/libnyquist
+
+USE_GNOME=	cairo gdkpixbuf glib20 gtk30 pango
+
+CMAKE_OFF=	LIBNYQUIST_BUILD_EXAMPLE
 
 OPTIONS_DEFINE_amd64=	AVX AVX2 AVX512
 
@@ -67,23 +74,15 @@ AVX_DESC=	Enable AVX (x86_64 only)
 AVX2_DESC=	Enable AVX2 (x86_64 only)
 AVX512_DESC=	Enable AVX512 (x86_64 only)
 
-.if ${ARCH} == amd64
-AVX_CMAKE_BOOL=    AVX
-AVX2_CMAKE_BOOL=   AVX2
-AVX512_CMAKE_BOOL= AVX512
-.endif
-
-CMAKE_OFF=	LIBNYQUIST_BUILD_EXAMPLE
+AVX_CMAKE_BOOL=		AVX
+AVX2_CMAKE_BOOL=	AVX2
+AVX512_CMAKE_BOOL=	AVX512
 
 .include <bsd.port.options.mk>
 
-.if ${ARCH} != amd64
-OPTIONS_EXCLUDE=	AVX AVX2 AVX512
-.endif
-
 .if ${ARCH} == i386
-CFLAGS=	-msse2
-CXXFLAGS= -msse2 # fixes error: always_inline function '_mm_unpacklo_ps' requires target feature 'sse', but would be inlined into function 'pffft_zreorder' that is compiled without support for 'sse'
+CFLAGS+=	-msse2
+CXXFLAGS+=	-msse2 # fixes error: always_inline function '_mm_unpacklo_ps' requires target feature 'sse', but would be inlined into function 'pffft_zreorder' that is compiled without support for 'sse'
 .endif
 
 .include <bsd.port.mk>
