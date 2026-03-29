@@ -493,6 +493,7 @@ include/computelibrary/support/Semaphore.h
 include/computelibrary/support/StringSupport.h
 include/computelibrary/support/ToolchainSupport.h
 include/computelibrary/support/Traits.h
+include/computelibrary/support/WindowsSupport.h
 include/computelibrary/utils/BUILD.bazel
 include/computelibrary/utils/CommonGraphOptions.cpp
 include/computelibrary/utils/CommonGraphOptions.h
