@@ -86,7 +86,6 @@ include/computelibrary/arm_compute/core/utils/misc/Macros.h
 include/computelibrary/arm_compute/core/utils/misc/ShapeCalculator.h
 include/computelibrary/arm_compute/core/utils/misc/Traits.h
 include/computelibrary/arm_compute/core/utils/misc/Utility.h
-include/computelibrary/arm_compute/core/utils/misc/Utility.h.orig
 include/computelibrary/arm_compute/core/utils/quantization/AsymmHelpers.h
 include/computelibrary/arm_compute/function_info/ActivationLayerInfo.h
 include/computelibrary/arm_compute/function_info/ConvolutionInfo.h
@@ -438,6 +437,7 @@ include/computelibrary/arm_compute/runtime/NEON/functions/NESplit.h
 include/computelibrary/arm_compute/runtime/NEON/functions/NEStackLayer.h
 include/computelibrary/arm_compute/runtime/NEON/functions/NEStridedSlice.h
 include/computelibrary/arm_compute/runtime/NEON/functions/NETile.h
+include/computelibrary/arm_compute/runtime/NEON/functions/NETopKV.h
 include/computelibrary/arm_compute/runtime/NEON/functions/NETranspose.h
 include/computelibrary/arm_compute/runtime/NEON/functions/NEUnstack.h
 include/computelibrary/arm_compute/runtime/NEON/functions/NEWinogradConvolutionLayer.h
