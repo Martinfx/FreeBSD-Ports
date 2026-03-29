@@ -1,6 +1,6 @@
 PORTNAME=	computelibrary
 DISTVERSIONPREFIX=	v
-DISTVERSION=	52.6.0
+DISTVERSION=	52.8.0
 CATEGORIES=	devel
 
 MAINTAINER=	freebsd@sysctl.cz
