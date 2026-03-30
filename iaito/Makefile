@@ -1,5 +1,5 @@
 PORTNAME=	iaito
-DISTVERSION=	6.0.8
+DISTVERSION=	6.1.2
 CATEGORIES=	devel
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -17,7 +17,7 @@ FLAVORS=		qt6 qt5
 FLAVOR?=		qt6
 ${FLAVOR}_PKGNAMESUFFIX=	-${FLAVOR}
 
-USES=		compiler:c++17-lang desktop-file-utils gl gmake pkgconfig \
+USES=		compiler:c++17-lang desktop-file-utils gl gmake pkgconfig llvm:min=20 \
 		qmake:no_configure
 USE_GITHUB=	yes
 GH_ACCOUNT=	radareorg
