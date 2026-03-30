@@ -29,6 +29,7 @@ lib/tenacity/lib-menus.so
 lib/tenacity/lib-mixer.so
 lib/tenacity/lib-module-manager.so
 lib/tenacity/lib-music-information-retrieval.so
+lib/tenacity/lib-note-track.so
 lib/tenacity/lib-numeric-formats.so
 lib/tenacity/lib-nyquist-effects.so
 lib/tenacity/lib-playable-track.so
@@ -68,6 +69,8 @@ lib/tenacity/lib-wx-init.so
 lib/tenacity/lib-wx-wrappers.so
 lib/tenacity/lib-xml.so
 share/applications/tenacity.desktop
+%%PORTDOCS%%%%DOCSDIR%%/LICENSE.txt
+%%PORTDOCS%%%%DOCSDIR%%/README.md
 share/icons/hicolor/16x16/tenacity.png
 share/icons/hicolor/22x22/tenacity.png
 share/icons/hicolor/24x24/tenacity.png
