@@ -1,5 +1,7 @@
-TIMESTAMP = 1751019549
-SHA256 (apitrace-apitrace-13.0_GH0.tar.gz) = 843f34ad3859519644c82628ac6e6405e1a497fc5f227d06591c5dc4a643c00a
-SIZE (apitrace-apitrace-13.0_GH0.tar.gz) = 2274587
-SHA256 (microsoft-DirectXMath-e95d848_GH0.tar.gz) = efc8fe6c7cebe8e90d5d29020e2f09e7af41570959ec7ab501b55a7d36aad318
-SIZE (microsoft-DirectXMath-e95d848_GH0.tar.gz) = 219785
+TIMESTAMP = 1774883182
+SHA256 (apitrace-apitrace-14.0_GH0.tar.gz) = 53469052b28ca56dc0d28153d218dee6c2c128c53b2aa32d6e7f906f7a5c6c7a
+SIZE (apitrace-apitrace-14.0_GH0.tar.gz) = 2281429
+SHA256 (microsoft-DirectXMath-56206b1_GH0.tar.gz) = 02b328f8314fedf4f0f16d0e8c1df55da405dd7cea95dd65a3ce60176d6c7b6a
+SIZE (microsoft-DirectXMath-56206b1_GH0.tar.gz) = 236468
+SHA256 (facebook-zstd-f8745da6ff1ad1e7bab384bd1f9d742439278e99_GH0.tar.gz) = 4b0bd1f0cfb25e61b9103c35f27395530ff5b4c0d2513a00fd745849e85ea52c
+SIZE (facebook-zstd-f8745da6ff1ad1e7bab384bd1f9d742439278e99_GH0.tar.gz) = 2453329

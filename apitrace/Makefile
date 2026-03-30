@@ -1,5 +1,5 @@
 PORTNAME=	apitrace
-DISTVERSION=	13.0
+DISTVERSION=	14.0
 CATEGORIES=	devel
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -25,7 +25,9 @@ USES=		cmake compiler:c++17-lang desktop-file-utils localbase:ldflags pkgconfig 
 USE_XORG=	x11
 
 USE_GITHUB=	yes
-GH_TUPLE=	microsoft:DirectXMath:e95d848:DirectXMath/thirdparty/directxmath
+GH_TUPLE=	microsoft:DirectXMath:56206b1:DirectXMath/thirdparty/directxmath \
+		facebook:zstd:f8745da6ff1ad1e7bab384bd1f9d742439278e99:zstd/thirdparty/zstd
+
 
 SHEBANG_FILES=	scripts/*.py
 
