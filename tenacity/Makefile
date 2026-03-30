@@ -1,7 +1,7 @@
 PORTNAME=	tenacity
 DISTVERSIONPREFIX=	v
 DISTVERSION=	1.4-alpha1
-PORTREVISION=	4
+PORTREVISION=	3
 CATEGORIES=	multimedia
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -27,7 +27,6 @@ BUILD_DEPENDS=	expat>0:textproc/expat2 \
 		nasm>=0:devel/nasm \
 		opus>0:audio/opus \
 		opusfile>0:audio/opusfile \
-		portaudio>0:audio/portaudio \
 		portmidi>0:audio/portmidi \
 		portsmf>0:multimedia/portsmf \
 		rapidjson>0:devel/rapidjson \
@@ -58,7 +57,7 @@ LIB_DEPENDS=	libatk-1.0.so:accessibility/at-spi2-core \
 		libwx_gtk3u_qa-3.2.so:x11-toolkits/wxgtk32
 
 USES=		cmake desktop-file-utils gettext-runtime gnome localbase \
-		pkgconfig sqlite
+		pkgconfig shared-mime-info sqlite
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	tenacityteam
@@ -68,6 +67,7 @@ USE_GNOME=	cairo gdkpixbuf glib20 gtk30 pango
 
 CMAKE_OFF=	LIBNYQUIST_BUILD_EXAMPLE
 
+OPTIONS_DEFINE=	DOCS
 OPTIONS_DEFINE_amd64=	AVX AVX2 AVX512
 
 AVX_DESC=	Enable AVX (x86_64 only)
