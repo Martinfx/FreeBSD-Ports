@@ -1,6 +1,6 @@
 --- src/common/cpuinfo/CpuInfo.cpp.orig	2026-03-18 08:43:09 UTC
 +++ src/common/cpuinfo/CpuInfo.cpp
-@@ -57,9 +57,14 @@
+@@ -57,11 +57,16 @@
      !defined(__QNX__) && (defined(__arm__) || defined(__aarch64__))
  #include <asm/hwcap.h> /* Get HWCAP bits from asm/hwcap.h */
  #include <sys/auxv.h>
@@ -8,14 +8,18 @@
 +#elif (defined(__APPLE__)) && defined(__aarch64__)
  #include <sys/sysctl.h>
  #include <sys/types.h>
+-#endif /* defined(__APPLE__) && defined(__aarch64__)) */
+-#endif /* !defined(BARE_METAL) && !defined(__APPLE__) && !defined(__OpenBSD__) && !defined(__FreeBSD__) && !defined(__QNX__) && (defined(__arm__) || defined(__aarch64__)) */
 +#elif (defined(__OpenBSD__) || defined(__FreeBSD__))
 +#include <sys/auxv.h>
 +#include <sys/sysctl.h>
 +#include <sys/types.h>
 +#include <unistd.h>
- #endif /* defined(__APPLE__) && defined(__aarch64__)) */
- #endif /* !defined(BARE_METAL) && !defined(__APPLE__) && !defined(__OpenBSD__) && !defined(__FreeBSD__) && !defined(__QNX__) && (defined(__arm__) || defined(__aarch64__)) */
++#endif /* #elif (defined(OpenBSD) || defined(FreeBSD)) && defined(aarch64) */
++#endif /* #elif (defined(__APPLE__)) && defined(__aarch64__) */
  
+ #define ARM_COMPUTE_CPU_FEATURE_HWCAP_CPUID    (1 << 11)
+ #define ARM_COMPUTE_GET_FEATURE_REG(var, freg) __asm __volatile("MRS %0, " #freg : "=r"(var))
 @@ -435,8 +440,32 @@ CpuInfo CpuInfo::build()
      std::vector<CpuModel> cpus_model(1, midr_to_model(midr));
      CpuInfo               info(isa, cpus_model);
@@ -47,7 +51,7 @@
 +    CpuInfo info(isainfo, cpus_model);
 +    return info;
 +
-+#elif defined(__aarch64__) && defined(__APPLE__)
++#elif defined(__aarch64__) && defined(__APPLE__) /* #elif defined(__aarch64__) && (defined(__OpenBSD__) || defined(__FreeBSD__)) */
      int                   ncpus = get_hw_capability("hw.perflevel0.logicalcpu");
      CpuIsaInfo            isainfo;
      std::vector<CpuModel> cpus_model(ncpus);
