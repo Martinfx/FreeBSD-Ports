@@ -66,6 +66,7 @@ MOZ_OPTIONS=	--enable-application=browser \
 		--with-unsigned-addon-scopes=app,system \
 		--enable-linker=lld \
 		--enable-bootstrap \
+		--with-l10n-base=${WRKSRC}/lw/l10n \
 		MOZ_CRASHREPORTER=0 \
 		MOZ_DATA_REPORTING=0 \
 		OPT_LEVEL="2" \
