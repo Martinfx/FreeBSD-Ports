@@ -64,9 +64,12 @@ MOZ_OPTIONS=	--enable-application=browser \
 		--with-app-name=${MOZILLA} \
 		--with-branding=browser/branding/${MOZILLA} \
 		--with-unsigned-addon-scopes=app,system \
+		--enable-linker=lld \
 		--enable-bootstrap \
 		MOZ_CRASHREPORTER=0 \
-		MOZ_DATA_REPORTING=0
+		MOZ_DATA_REPORTING=0 \
+		OPT_LEVEL="2" \
+		RUSTC_OPT_LEVEL="2"
 
 .include "${.CURDIR}/../../www/firefox/Makefile.options"
 
