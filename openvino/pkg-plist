@@ -1,6 +1,3 @@
-licenses/onednn_third-party-programs.txt
-licenses/onetbb_third-party-programs.txt
-licenses/runtime-third-party-programs.txt
 python/openvino/__init__.py
 python/openvino/__init__.pyi
 python/openvino/_offline_transformations/__init__.py
@@ -993,8 +990,3 @@ samples/python/model_creation_sample/data.py
 samples/python/model_creation_sample/lenet.bin
 samples/python/model_creation_sample/model_creation_sample.py
 samples/python/setup.cfg
-@dir install_dependencies
-licenses/onednn_third-party-programs.txt
-licenses/onetbb_third-party-programs.txt
-licenses/runtime-third-party-programs.txt
-runtime/lib/intel64/pkgconfig/openvino.pc
