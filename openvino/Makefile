@@ -2,7 +2,7 @@ PORTNAME=	openvino
 DISTVERSION=	2026.1.0
 CATEGORIES=	devel
 
-MAINTAINER=	root@hades
+MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	OpenVINO™ is an open source toolkit for optimizing and deploying AI inference
 WWW=		https://docs.openvino.ai/
 
