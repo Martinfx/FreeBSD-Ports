@@ -990,4 +990,3 @@ samples/python/model_creation_sample/data.py
 samples/python/model_creation_sample/lenet.bin
 samples/python/model_creation_sample/model_creation_sample.py
 samples/python/setup.cfg
-runtime/lib/intel64/pkgconfig/openvino.pc
