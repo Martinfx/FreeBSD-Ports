@@ -18,7 +18,7 @@ USES=		scons
 USE_GITHUB=	yes
 GH_ACCOUNT=	ARM-software
 GH_PROJECT=	ComputeLibrary
-GH_TAGNAME=	09bda62
+GH_TAGNAME=	450bb88
 INSTALL_TARGET=	install-strip
 
 .include <bsd.port.pre.mk>
