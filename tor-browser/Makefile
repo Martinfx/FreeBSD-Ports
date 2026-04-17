@@ -1,8 +1,8 @@
 PORTNAME=	tor-browser
-DISTVERSION=	16.0a2
+DISTVERSION=	16.0a5
 CATEGORIES=	www net security wayland
-TAG_BASE=	4949fc27ebf9e81a632c60caa5623a0cdafebbee
-TAG_TOR=	66ba3b7e492ca273062c612fa401991e8af9da6b
+TAG_BASE=	25f648dc77b9fe7a6f376a009f2e0073df66b62e
+TAG_TOR=	df0ed48b6e007f4e078ea03cbe2c06a5756af991
 MASTER_SITES=	TOR \
 		LOCAL/vvd \
 		https://build-sources.tbb.torproject.org/:source1 \
@@ -17,9 +17,9 @@ MASTER_SITES=	TOR \
 		LOCAL/vvd:source5
 MASTER_SITE_SUBDIR=	torbrowser/${DISTVERSION}/:DEFAULT \
 			download/releases/:source3
-DISTNAME=	src-firefox-tor-browser-147.0a1-16.0-2-build2
+DISTNAME=	src-firefox-tor-browser-149.0a1-16.0-2-build3
 MANUAL=		manual_215922.zip
-NOSCRIPT=	noscript-13.5.9.90601984.xpi
+NOSCRIPT=	noscript-13.6.9.90101984.xpi
 DISTFILES=	${DISTNAME}.tar.xz \
 		${MANUAL}:source1 \
 		fonts-3--4348e1.tar.zst:source2 \
@@ -36,7 +36,7 @@ LICENSE_FILE=	${WRKSRC}/LICENSE
 
 BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
 		nss>=3.112:security/nss \
-		icu>=78.1:devel/icu \
+		icu>=76.1:devel/icu \
 		libevent>=2.1.8:devel/libevent \
 		harfbuzz>=10.1.0:print/harfbuzz \
 		graphite2>=1.3.14:graphics/graphite2 \
@@ -56,7 +56,7 @@ USES=		compiler:c++11-lib libtool localbase:ldflags perl5 pkgconfig \
 		python shebangfix tar:xz
 USE_GECKO=	gecko
 USE_GITHUB=	nodefault
-TAG_L10N=	aa40f18dcfd7d65b8bad9eb220957420414f202c
+TAG_L10N=	586144d925020bc36454a0e1b54a5f6bc1cf39f4
 GH_TUPLE=	mozilla-l10n:firefox-l10n:${TAG_L10N}:ffl10n
 USE_MOZILLA=	-sqlite
 
@@ -115,8 +115,8 @@ MOZ_OPTIONS+=	--enable-rust-simd
 .if ${ARCH} == powerpc64
 MOZ_OPTIONS+=	--without-wasm-sandboxed-libraries
 .else
-BUILD_DEPENDS+=	${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc++abi.a:devel/wasi-libcxx${LLVM_VERSION} \
-		${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc.a:devel/wasi-libc@${LLVM_VERSION} \
+BUILD_DEPENDS+=	${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasip1/libc++abi.a:devel/wasi-libcxx${LLVM_VERSION} \
+		${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasip1/libc.a:devel/wasi-libc@${LLVM_VERSION} \
 		wasi-compiler-rt${LLVM_VERSION}>0:devel/wasi-compiler-rt${LLVM_VERSION}
 MOZILLA_PLIST_DIRS=	bin lib share/applications share/pixmaps \
 			share/tor-browser
@@ -128,6 +128,10 @@ post-patch:
 		"${WRKSRC}/browser/app/profile/000-tor-browser.js"
 	@${REINPLACE_CMD} 's|%%LOCALBASE%%|${LOCALBASE}|g' \
 		${WRKSRC}/browser/app/nsBrowserApp.cpp
+.if ${ARCH} != powerpc64
+	@${REINPLACE_CMD} 's|wasm32-wasi|&p1|' \
+		${WRKSRC}/build/moz.configure/toolchain.configure
+.endif
 	${MKDIR} ${WRKSRC}/tmp-manual
 	${UNZIP_NATIVE_CMD} -d ${WRKSRC}/tmp-manual ${DISTDIR}/${MANUAL}
 
