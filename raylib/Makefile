@@ -1,5 +1,5 @@
 PORTNAME=	raylib
-DISTVERSION=	5.0
+DISTVERSION=	5.5
 CATEGORIES=	devel education
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -9,17 +9,16 @@ WWW=		https://www.raylib.com/
 LICENSE=	ZLIB
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
-BUILD_DEPENDS=	glfw>=3.3:graphics/glfw
-
-USES=		cmake gl localbase:ldflags xorg
+USES=		cmake localbase:ldflags sdl xorg
 USE_GITHUB=	yes
 GH_ACCOUNT=	raysan5
-USE_GL=		gl glu
 USE_LDCONFIG=	yes
+USE_SDL=	sdl2
 USE_XORG=	ice sm x11 xcursor xext xi xinerama xrandr xxf86vm
 
 CMAKE_ON=	BUILD_SHARED_LIBS
-CMAKE_OFF=	BUILD_EXAMPLES BUILD_GAMES STATIC USE_EXTERNAL_GLFW
+CMAKE_OFF=	BUILD_EXAMPLES BUILD_GAMES STATIC
+CMAKE_ARGS=	-DPLATFORM=SDL
 
 post-install:
 # Install all parts for raylib
