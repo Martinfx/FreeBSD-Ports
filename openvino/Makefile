@@ -1,5 +1,5 @@
 PORTNAME=	openvino
-DISTVERSION=	2026.1.0
+DISTVERSION=	2026.1.2
 CATEGORIES=	devel
 
 MAINTAINER=	freebsd@sysctl.cz
