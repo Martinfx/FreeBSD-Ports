@@ -1,6 +1,6 @@
-TIMESTAMP = 1775805746
-SHA256 (openvinotoolkit-openvino-2026.1.0_GH0.tar.gz) = 8810fcf950c891ed4541e3fa1153f58cd8390a459a87e5fee509cd5ffe64e974
-SIZE (openvinotoolkit-openvino-2026.1.0_GH0.tar.gz) = 25375444
+TIMESTAMP = 1777187573
+SHA256 (openvinotoolkit-openvino-2026.1.2_GH0.tar.gz) = 8cf610bc5caeb2f57bc48dbd3fcf379d6b00caa8acdfb676fe3afbb183997624
+SIZE (openvinotoolkit-openvino-2026.1.2_GH0.tar.gz) = 25384640
 SHA256 (herumi-xbyak-0d67fd1530016b7c56f3cd74b3fca920f4c3e2b4_GH0.tar.gz) = 18aa05ac8e4bd5f5cb52c5481b86ba02cac395ad8cdbec6fe5acac94ad546dc8
 SIZE (herumi-xbyak-0d67fd1530016b7c56f3cd74b3fca920f4c3e2b4_GH0.tar.gz) = 293437
 SHA256 (madler-zlib-51b7f2a_GH0.tar.gz) = 122c369f1cee74e8b71f41948100f3b1788c71e70ddff4331817e79b76c756c1
