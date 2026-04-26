@@ -9,7 +9,8 @@ WWW=		https://docs.openvino.ai/
 LICENSE=	APACHE20
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
-BUILD_DEPENDS=	computelibrary>0:devel/computelibrary
+BUILD_DEPENDS=	computelibrary>0:devel/computelibrary \
+		${PYTHON_PKGNAMEPREFIX}jax>0:math/py-jax@${PY_FLAVOR}
 
 LIB_DEPENDS=	libtbb.so:devel/onetbb \
 		libOpenCL.so:devel/ocl-icd
