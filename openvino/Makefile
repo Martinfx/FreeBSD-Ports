@@ -15,7 +15,7 @@ BUILD_DEPENDS=	computelibrary>0:devel/computelibrary \
 LIB_DEPENDS=	libtbb.so:devel/onetbb \
 		libOpenCL.so:devel/ocl-icd
 
-USES=		cmake pkgconfig
+USES=		cmake pkgconfig python
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	openvinotoolkit
