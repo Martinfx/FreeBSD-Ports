@@ -1,5 +1,5 @@
 PORTNAME=	openvino
-DISTVERSION=	2026.1.0
+DISTVERSION=	2026.1.2
 CATEGORIES=	devel
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -9,12 +9,13 @@ WWW=		https://docs.openvino.ai/
 LICENSE=	APACHE20
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
-BUILD_DEPENDS=	computelibrary>0:devel/computelibrary
+BUILD_DEPENDS=	computelibrary>0:devel/computelibrary \
+		${PYTHON_PKGNAMEPREFIX}jax>=0.4.2:math/py-jax@${PY_FLAVOR}
 
 LIB_DEPENDS=	libtbb.so:devel/onetbb \
 		libOpenCL.so:devel/ocl-icd
 
-USES=		cmake pkgconfig
+USES=		cmake pkgconfig python
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	openvinotoolkit
@@ -54,7 +55,7 @@ CMAKE_ARGS=	-DARM_COMPUTE_INCLUDE_DIR=${LOCALBASE}/include/computelibrary \
 
 CMAKE_ON=	BUILD_SHARED_LIBS ENABLE_SYSTEM_TBB
 CMAKE_OFF=	ENABLE_INTEL_NPU ENABLE_INTEL_NPU_COMPILER \
-		ENABLE_ONEDNN_FOR_GPU ONEDNN_BUILD_GRAPH ENABLE_JS # broken NPU API
+		ENABLE_ONEDNN_FOR_GPU ONEDNN_BUILD_GRAPH ENABLE_OV_JAX_FRONTEND ENABLE_JS # broken NPU API
 
 post-install:
 	${RM} ${STAGEDIR}${PREFIX}/setupvars.sh
