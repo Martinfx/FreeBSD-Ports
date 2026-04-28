@@ -263,8 +263,6 @@ python/openvino/utils/reduction.py
 python/openvino/utils/types.py
 python/openvino/utils/types.pyi
 python/requirements.txt
-python/openvino/frontend/jax/py_jax_frontend%%PYTHON_TAG%%.so
-python/openvino/frontend/jax/py_jax_frontend%%PYTHON_TAG%%.so
 runtime/cmake/OpenVINOConfig-version.cmake
 runtime/cmake/OpenVINOConfig.cmake
 runtime/cmake/OpenVINOTargets-%%CMAKE_BUILD_TYPE%%.cmake
