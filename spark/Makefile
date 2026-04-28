@@ -1,12 +1,11 @@
 PORTNAME=	spark
-PORTVERSION=	3.3.4
-PORTREVISION=	3
+PORTVERSION=	4.1.1
 CATEGORIES=	devel java
-MASTER_SITES=	https://archive.apache.org/dist/${PORTNAME}/${PORTNAME}-${PORTVERSION}/ \
-		LOCAL/vvd:deps
+MASTER_SITES=	https://archive.apache.org/dist/${PORTNAME}/${PORTNAME}-${PORTVERSION}/ # \
+#		LOCAL/vvd:deps
 PKGNAMEPREFIX=	apache-
-DISTFILES=	${PORTNAME}-${PORTVERSION}.tgz \
-		${PORTNAME}-${PORTVERSION}-deps.tgz:deps
+DISTFILES=	${PORTNAME}-${PORTVERSION}.tgz #\
+#		${PORTNAME}-${PORTVERSION}-deps.tgz:deps
 
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Fast big data processing engine
@@ -21,10 +20,11 @@ BROKEN_powerpc=	not enough memory on this architecture to build the port
 
 BUILD_DEPENDS=	${LOCALBASE}/lib/libsnappyjava.so:archivers/snappy-java \
 		bash:shells/bash \
-		maven>0:devel/maven
+		maven>0:devel/maven \
+		protobuf3>0:devel/protobuf3
 RUN_DEPENDS=	bash:shells/bash
 
-USES=		cpe java python shebangfix
+USES=		cpe java python shebangfix tar:tgz
 CPE_VENDOR=	apache
 JAVA_VERSION=	8 11 17
 
@@ -60,9 +60,9 @@ JAVA_ARCH=	${ARCH}
 .endif
 
 # Update spark-*-dist.tgz if the hadoop version is changed!
-HADOOP_VERSION=	3.3.4
+HADOOP_VERSION=	3.4.2
 # Comment out next line for download m2 and update ${PORTNAME}-${PORTVERSION}-deps.tgz
-OFFLINE=	-o
+#OFFLINE=	-o
 
 do-build:
 	${MKDIR} ${WRKDIR}/snappy/org/xerial/snappy/native/${OPSYS}/${JAVA_ARCH}
@@ -70,11 +70,16 @@ do-build:
 		${WRKDIR}/snappy/org/xerial/snappy/native/${OPSYS}/${JAVA_ARCH}
 	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} \
 		${LOCALBASE}/bin/mvn ${OFFLINE} \
+		-T 12  \
+		-Dos.detected.classifier=linux-${JAVA_ARCH} \
 		-Duser.home=${WRKDIR} \
+		-Duser-defined-protoc \
 		-Dmaven.repo.local=${WRKDIR}/m2 \
 		-Dhadoop.version=${HADOOP_VERSION} \
 		-Pyarn -Phive -Phive-thriftserver -DskipTests \
+		-DprotocCommand=/usr/local/bin/protoc \
 		clean package
+
 	${JAR} uvf ${WRKSRC}/assembly/target/scala*/jars/snappy-java-*.jar \
 		-C ${WRKDIR}/snappy org
 
