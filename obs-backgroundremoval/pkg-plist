@@ -1,0 +1,15 @@
+lib/obs-plugins/obs-backgroundremoval.so
+share/obs/obs-plugins/obs-backgroundremoval/locale/ar-EG.ini
+share/obs/obs-plugins/obs-backgroundremoval/locale/bn-IN.ini
+share/obs/obs-plugins/obs-backgroundremoval/locale/en-US.ini
+share/obs/obs-plugins/obs-backgroundremoval/locale/es-SP.ini
+share/obs/obs-plugins/obs-backgroundremoval/locale/fr-FR.ini
+share/obs/obs-plugins/obs-backgroundremoval/locale/hi-IN.ini
+share/obs/obs-plugins/obs-backgroundremoval/locale/it-IT.ini
+share/obs/obs-plugins/obs-backgroundremoval/locale/ja-JP.ini
+share/obs/obs-plugins/obs-backgroundremoval/locale/ko-KR.ini
+share/obs/obs-plugins/obs-backgroundremoval/locale/pt-BR.ini
+share/obs/obs-plugins/obs-backgroundremoval/locale/ru-RU.ini
+share/obs/obs-plugins/obs-backgroundremoval/locale/ta-IN.ini
+share/obs/obs-plugins/obs-backgroundremoval/locale/tr-TR.ini
+share/obs/obs-plugins/obs-backgroundremoval/locale/zh-CN.ini
