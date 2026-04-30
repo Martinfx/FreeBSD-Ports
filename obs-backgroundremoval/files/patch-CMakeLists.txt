@@ -1,0 +1,29 @@
+--- CMakeLists.txt.orig	2026-04-07 03:19:07 UTC
++++ CMakeLists.txt
+@@ -195,7 +195,25 @@ add_library(${CMAKE_PROJECT_NAME} MODULE)
+ 
+ # Plugin build definitions
+ add_library(${CMAKE_PROJECT_NAME} MODULE)
+-target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE OBS::libobs)
++
++if(TARGET OBS::libobs)
++    get_target_property(_loc OBS::libobs IMPORTED_LOCATION_RELEASE)
++    if(NOT _loc)
++        set_target_properties(OBS::libobs PROPERTIES
++            IMPORTED_LOCATION_RELEASE "%%LOCALBASE%%/lib/libobs.so"
++        )
++    endif()
++endif()
++
++if(TARGET OBS::obs-frontend-api)
++    get_target_property(_loc OBS::obs-frontend-api IMPORTED_LOCATION_RELEASE)
++    if(NOT _loc)
++        set_target_properties(OBS::obs-frontend-api PROPERTIES
++            IMPORTED_LOCATION_RELEASE "%%LOCALBASE%%/lib/libobs-frontend-api.so"
++        )
++    endif()
++endif()
++
+ target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE OBS::obs-frontend-api)
+ target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE onnxruntime::onnxruntime)
+ add_subdirectory(src/update-checker/CurlClient)
