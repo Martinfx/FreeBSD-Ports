@@ -1,4 +1,4 @@
-PORTNAME=	advanced-scene-switcher
+PORTNAME=	obs-advanced-scene-switcher
 DISTVERSION=	1.32.6
 CATEGORIES=	multimedia
 
@@ -44,66 +44,67 @@ USE_GL=		opengl
 USE_GNOME=	glib20
 USE_QT=		base
 USE_XORG=	ice sm x11 xext
+CMAKE_ON=	BUILD_SHARED_LIBS
 CMAKE_OFF=	CMAKE_COMPILE_WARNING_AS_ERROR
 USE_GSTREAMER1=	yes
 USE_LDCONFIG=	yes
 
 do-install:
 	${MKDIR} \
-		${STAGEDIR}${PREFIX}/lib/obs-plugins/${PORTNAME} \
-		${STAGEDIR}${PREFIX}/share/obs/obs-plugins/${PORTNAME}/locale \
-		${STAGEDIR}${PREFIX}/share/obs/obs-plugins/${PORTNAME}/res/cascadeClassifiers \
-		${STAGEDIR}${PREFIX}/share/obs/obs-plugins/${PORTNAME}/res/images \
-		${STAGEDIR}${PREFIX}/share/obs/obs-plugins/${PORTNAME}/res/ocr
+		${STAGEDIR}${PREFIX}/lib/obs-plugins/advanced-scene-switcher \
+		${STAGEDIR}${PREFIX}/share/obs/obs-plugins/advanced-scene-switcher/locale \
+		${STAGEDIR}${PREFIX}/share/obs/obs-plugins/advanced-scene-switcher/res/cascadeClassifiers \
+		${STAGEDIR}${PREFIX}/share/obs/obs-plugins/advanced-scene-switcher/res/images \
+		${STAGEDIR}${PREFIX}/share/obs/obs-plugins/advanced-scene-switcher/res/ocr
 
 	${INSTALL_DATA} \
 		${WRKSRC}/data/locale/*.ini \
-		${STAGEDIR}${PREFIX}/share/obs/obs-plugins/${PORTNAME}/locale
+		${STAGEDIR}${PREFIX}/share/obs/obs-plugins/advanced-scene-switcher/locale
 
 	${INSTALL_DATA} \
 		${WRKSRC}/data/res/cascadeClassifiers/*.xml \
-		${STAGEDIR}${PREFIX}/share/obs/obs-plugins/${PORTNAME}/res/cascadeClassifiers
+		${STAGEDIR}${PREFIX}/share/obs/obs-plugins/advanced-scene-switcher/res/cascadeClassifiers
 
 	${INSTALL_DATA} \
 		${WRKSRC}/data/res/images/*.svg \
-		${STAGEDIR}${PREFIX}/share/obs/obs-plugins/${PORTNAME}/res/images
+		${STAGEDIR}${PREFIX}/share/obs/obs-plugins/advanced-scene-switcher/res/images
 
 	${INSTALL_DATA} \
 		${WRKSRC}/data/res/ocr/*.traineddata \
-		${STAGEDIR}${PREFIX}/share/obs/obs-plugins/${PORTNAME}/res/ocr
+		${STAGEDIR}${PREFIX}/share/obs/obs-plugins/advanced-scene-switcher/res/ocr
 
 	${INSTALL_LIB} \
-		${BUILD_WRKSRC}/${PORTNAME}.so \
+		${BUILD_WRKSRC}/advanced-scene-switcher-lib.so \
 		${STAGEDIR}${PREFIX}/lib/obs-plugins
 	${INSTALL_LIB} \
-		${BUILD_WRKSRC}/${PORTNAME}-lib.so \
+		${BUILD_WRKSRC}/advanced-scene-switcher-lib.so \
 		${STAGEDIR}${PREFIX}/lib/obs-plugins
 	${INSTALL_LIB} \
-		${BUILD_WRKSRC}/${PORTNAME}-lib.so.1 \
+		${BUILD_WRKSRC}/advanced-scene-switcher-lib.so.1 \
 		${STAGEDIR}${PREFIX}/lib/obs-plugins
 	${INSTALL_LIB} \
 		${BUILD_WRKSRC}/plugins/base/advanced-scene-switcher-base.so \
-		${STAGEDIR}${PREFIX}/lib/obs-plugins/${PORTNAME}
+		${STAGEDIR}${PREFIX}/lib/obs-plugins/advanced-scene-switcher
 	${INSTALL_LIB} \
 		${BUILD_WRKSRC}/plugins/http/advanced-scene-switcher-http.so \
-		${STAGEDIR}${PREFIX}/lib/obs-plugins/${PORTNAME}
+		${STAGEDIR}${PREFIX}/lib/obs-plugins/advanced-scene-switcher
 	${INSTALL_LIB} \
 		${BUILD_WRKSRC}/plugins/midi/advanced-scene-switcher-midi.so \
-		${STAGEDIR}${PREFIX}/lib/obs-plugins/${PORTNAME}
+		${STAGEDIR}${PREFIX}/lib/obs-plugins/advanced-scene-switcher
 	${INSTALL_LIB} \
 		${BUILD_WRKSRC}/plugins/scripting/advanced-scene-switcher-scripting.so \
-		${STAGEDIR}${PREFIX}/lib/obs-plugins/${PORTNAME}
+		${STAGEDIR}${PREFIX}/lib/obs-plugins/advanced-scene-switcher
 	${INSTALL_LIB} \
 		${BUILD_WRKSRC}/plugins/stream-deck/advanced-scene-switcher-stream-deck.so \
-		${STAGEDIR}${PREFIX}/lib/obs-plugins/${PORTNAME}
+		${STAGEDIR}${PREFIX}/lib/obs-plugins/advanced-scene-switcher
 	${INSTALL_LIB} \
 		${BUILD_WRKSRC}/plugins/twitch/advanced-scene-switcher-twitch.so \
-		${STAGEDIR}${PREFIX}/lib/obs-plugins/${PORTNAME}
+		${STAGEDIR}${PREFIX}/lib/obs-plugins/advanced-scene-switcher
 	${INSTALL_LIB} \
 		${BUILD_WRKSRC}/plugins/usb/advanced-scene-switcher-usb.so \
-		${STAGEDIR}${PREFIX}/lib/obs-plugins/${PORTNAME}
+		${STAGEDIR}${PREFIX}/lib/obs-plugins/advanced-scene-switcher
 	${INSTALL_LIB} \
 		${BUILD_WRKSRC}/plugins/video/advanced-scene-switcher-opencv.so \
-		${STAGEDIR}${PREFIX}/lib/obs-plugins/${PORTNAME}
+		${STAGEDIR}${PREFIX}/lib/obs-plugins/advanced-scene-switcher
 
 .include <bsd.port.mk>
