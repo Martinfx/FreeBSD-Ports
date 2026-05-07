@@ -1,8 +1,7 @@
 PORTNAME=	librewolf
-DISTVERSION=	150.0.1
+DISTVERSION=	150.0.2
 LWPATCH=	-1
 DISTVERSIONSUFFIX=	${LWPATCH}.source
-PORTREVISION=	1
 CATEGORIES=	www wayland
 MASTER_SITES=	https://codeberg.org/api/packages/librewolf/generic/librewolf-source/${DISTVERSION}${LWPATCH}/
 
@@ -66,6 +65,7 @@ MOZ_OPTIONS=	--enable-application=browser \
 		--with-branding=browser/branding/${MOZILLA} \
 		--with-unsigned-addon-scopes=app,system \
 		--enable-bootstrap \
+		--with-l10n-base=${WRKSRC}/lw/l10n \
 		MOZ_CRASHREPORTER=0 \
 		MOZ_DATA_REPORTING=0
 
