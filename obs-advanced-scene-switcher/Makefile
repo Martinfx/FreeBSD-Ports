@@ -74,7 +74,7 @@ do-install:
 		${STAGEDIR}${PREFIX}/share/obs/obs-plugins/advanced-scene-switcher/res/ocr
 
 	${INSTALL_LIB} \
-		${BUILD_WRKSRC}/advanced-scene-switcher-lib.so \
+		${BUILD_WRKSRC}/advanced-scene-switcher.so \
 		${STAGEDIR}${PREFIX}/lib/obs-plugins
 	${INSTALL_LIB} \
 		${BUILD_WRKSRC}/advanced-scene-switcher-lib.so \
