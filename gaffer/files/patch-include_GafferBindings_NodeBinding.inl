@@ -1,6 +1,6 @@
---- include/GafferBindings/NodeBinding.inl.orig	2025-03-02 13:36:57 UTC
+--- include/GafferBindings/NodeBinding.inl.orig	2026-05-27 19:02:41 UTC
 +++ include/GafferBindings/NodeBinding.inl
-@@ -46,13 +46,13 @@ template<typename T, typename TWrapper>
+@@ -50,13 +50,13 @@ template<typename T, typename TWrapper>
  // node constructor bindings
  
  template<typename T, typename TWrapper>

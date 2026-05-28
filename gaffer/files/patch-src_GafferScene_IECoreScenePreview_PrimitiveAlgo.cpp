@@ -1,6 +1,6 @@
---- src/GafferScene/IECoreScenePreview/PrimitiveAlgo.cpp.orig	2025-10-10 20:24:55 UTC
+--- src/GafferScene/IECoreScenePreview/PrimitiveAlgo.cpp.orig	2026-05-27 19:02:41 UTC
 +++ src/GafferScene/IECoreScenePreview/PrimitiveAlgo.cpp
-@@ -1417,6 +1417,16 @@ void PrimitiveAlgo::transformPrimitive(
+@@ -1420,6 +1420,16 @@ void PrimitiveAlgo::transformPrimitive(
  	}
  }
  
@@ -17,7 +17,7 @@
  IECoreScene::PrimitivePtr PrimitiveAlgo::mergePrimitives(
  	const std::vector< std::pair< const IECoreScene::Primitive*, Imath::M44f > > &primitives,
  	const IECore::Canceller *canceller
-@@ -1448,7 +1458,7 @@ IECoreScene::PrimitivePtr PrimitiveAlgo::mergePrimitiv
+@@ -1451,7 +1461,7 @@ IECoreScene::PrimitivePtr PrimitiveAlgo::mergePrimitiv
  	else
  	{
  		throw IECore::Exception( fmt::format(

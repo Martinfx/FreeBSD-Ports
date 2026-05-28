@@ -1,7 +1,7 @@
---- include/GafferSceneTest/ContextSanitiser.h.orig	2025-03-03 10:05:07 UTC
+--- include/GafferSceneTest/ContextSanitiser.h.orig	2026-05-27 19:02:41 UTC
 +++ include/GafferSceneTest/ContextSanitiser.h
-@@ -42,6 +42,8 @@
- #include "Gaffer/Plug.h"
+@@ -44,6 +44,8 @@
+ #include "boost/functional/hash.hpp"
  
  #include "tbb/concurrent_unordered_set.h"
 +#include <functional>
@@ -9,7 +9,7 @@
  
  namespace GafferSceneTest
  {
-@@ -61,7 +63,7 @@ class GAFFERSCENETEST_API ContextSanitiser : public Ga
+@@ -63,7 +65,7 @@ class GAFFERSCENETEST_API ContextSanitiser : public Ga
  		void processStarted( const Gaffer::Process *process ) override;
  		void processFinished( const Gaffer::Process *process ) override;
  
@@ -18,9 +18,9 @@
  
  		/// First is the upstream plug where the problem was detected. Second
  		/// is the plug from the parent process responsible for calling upstream.
-@@ -72,7 +74,7 @@ class GAFFERSCENETEST_API ContextSanitiser : public Ga
+@@ -86,7 +88,7 @@ class GAFFERSCENETEST_API ContextSanitiser : public Ga
  
- 		using WarningSet = tbb::concurrent_unordered_set<Warning>;
+ 		using WarningSet = tbb::concurrent_unordered_set<Warning, WarningHash>;
  		WarningSet m_warningsEmitted;
 -
 +*/

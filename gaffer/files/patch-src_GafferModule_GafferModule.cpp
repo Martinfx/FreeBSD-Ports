@@ -1,6 +1,6 @@
---- src/GafferModule/GafferModule.cpp.orig	2025-10-29 19:40:56 UTC
+--- src/GafferModule/GafferModule.cpp.orig	2026-05-27 19:02:41 UTC
 +++ src/GafferModule/GafferModule.cpp
-@@ -98,6 +98,10 @@ static char **environ = *_NSGetEnviron();
+@@ -95,6 +95,10 @@ static char **environ = *_NSGetEnviron();
  static char **environ = *_NSGetEnviron();
  #endif
  
@@ -8,6 +8,6 @@
 +extern char **environ;
 +#endif
 +
- #ifdef _MSC_VER
- #include "IECore/MessageHandler.h"
- 
+ using namespace boost::python;
+ using namespace Gaffer;
+ using namespace GafferModule;

@@ -1,5 +1,5 @@
 PORTNAME=	gaffer
-DISTVERSION=	1.6.18.0
+DISTVERSION=	1.7.0.0a1
 CATEGORIES=	graphics
 
 MAINTAINER=	freebsd@sysctl.cz

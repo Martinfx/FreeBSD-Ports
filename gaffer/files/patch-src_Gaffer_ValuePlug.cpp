@@ -1,4 +1,4 @@
---- src/Gaffer/ValuePlug.cpp.orig	2025-02-19 21:25:16 UTC
+--- src/Gaffer/ValuePlug.cpp.orig	2026-05-27 19:02:41 UTC
 +++ src/Gaffer/ValuePlug.cpp
 @@ -53,6 +53,7 @@
  
@@ -46,7 +46,7 @@
  };
  
  // `hash_value( HashCacheKey )` is a requirement of the LRUCache,
-@@ -466,6 +467,20 @@ class ValuePlug::HashProcess : public Process
+@@ -482,6 +483,20 @@ class ValuePlug::HashProcess : public Process
  		static std::atomic_size_t g_cacheSizeLimit;
  
  };
