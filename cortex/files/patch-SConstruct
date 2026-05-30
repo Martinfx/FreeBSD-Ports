@@ -1,6 +1,6 @@
---- SConstruct.orig	2026-01-23 21:27:51 UTC
+--- SConstruct.orig	2026-05-12 16:34:12 UTC
 +++ SConstruct
-@@ -1104,14 +1104,14 @@ if doConfigure :
+@@ -1115,14 +1115,14 @@ if doConfigure :
  		]
  	)
  
