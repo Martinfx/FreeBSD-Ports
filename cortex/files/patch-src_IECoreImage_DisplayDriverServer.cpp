@@ -1,4 +1,4 @@
---- src/IECoreImage/DisplayDriverServer.cpp.orig	2025-10-21 10:03:35 UTC
+--- src/IECoreImage/DisplayDriverServer.cpp.orig	2026-05-12 16:34:12 UTC
 +++ src/IECoreImage/DisplayDriverServer.cpp
 @@ -106,7 +106,7 @@ class DisplayDriverServer::Session : public RefCounted
  {
