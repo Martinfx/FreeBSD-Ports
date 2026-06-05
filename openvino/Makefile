@@ -9,15 +9,18 @@ WWW=		https://docs.openvino.ai/
 LICENSE=	APACHE20
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
-BUILD_DEPENDS=	computelibrary>0:devel/computelibrary \
-		${PYTHON_PKGNAMEPREFIX}jax>=0.4.2:math/py-jax@${PY_FLAVOR}
+BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}jax>=0.4.2:math/py-jax@${PY_FLAVOR} \
+		${PYTHON_PKGNAMEPREFIX}tensorflow>0:science/py-tensorflow@${PY_FLAVOR} \
+		computelibrary>0:devel/computelibrary \
+		patchelf>0:sysutils/patchelf
 
-LIB_DEPENDS=	libtbb.so:devel/onetbb \
-		libOpenCL.so:devel/ocl-icd
+LIB_DEPENDS=	libOpenCL.so:devel/ocl-icd \
+		libtbb.so:devel/onetbb
 
 USES=		cmake pkgconfig python
 
 USE_GITHUB=	yes
+USE_LDCONFIG=	yes
 GH_ACCOUNT=	openvinotoolkit
 GH_PROJECT=	openvino
 GH_TUPLE=	herumi:xbyak:0d67fd1530016b7c56f3cd74b3fca920f4c3e2b4:xbyak_/thirdparty/xbyak \
@@ -49,17 +52,38 @@ GH_TUPLE=	herumi:xbyak:0d67fd1530016b7c56f3cd74b3fca920f4c3e2b4:xbyak_/thirdpart
 
 CMAKE_ARGS=	-DARM_COMPUTE_INCLUDE_DIR=${LOCALBASE}/include/computelibrary \
 		-DARM_COMPUTE_LIB_DIR=${LOCALBASE}/lib \
+		-DCMAKE_INSTALL_PREFIX=${STAGEDIR}${PREFIX} \
 		-DDNNL_GPU_RUNTIME:STRING=OCL \
 		-DONEDNN_ENABLE_PRIMITIVE:STRING=ALL \
 		-DTBB_DIR="${LOCALBASE}/lib/cmake/TBB/"
 
-CMAKE_ON=	BUILD_SHARED_LIBS ENABLE_SYSTEM_TBB
-CMAKE_OFF=	ENABLE_INTEL_NPU ENABLE_INTEL_NPU_COMPILER \
-		ENABLE_ONEDNN_FOR_GPU ONEDNN_BUILD_GRAPH ENABLE_OV_JAX_FRONTEND ENABLE_JS # broken NPU API
+CMAKE_ON=	BUILD_SHARED_LIBS ENABLE_OV_IR_FRONTEND ENABLE_OV_ONNX_FRONTEND \
+		ENABLE_OV_PADDLE_FRONTEND ENABLE_OV_PYTORCH_FRONTEND \
+		ENABLE_OV_TF_LITE_FRONTEND ENABLE_PKGCONFIG_GEN \
+		ENABLE_PLUGINS_XML ENABLE_PYTHON ENABLE_SYSTEM_TBB
+CMAKE_OFF=	ENABLE_INTEL_NPU ENABLE_INTEL_NPU_COMPILER ENABLE_JS \
+		ENABLE_ONEDNN_FOR_GPU ENABLE_OV_JAX_FRONTEND ENABLE_SAMPLES \
+		ONEDNN_BUILD_GRAPH # broken NPU API
 
 post-install:
 	${RM} ${STAGEDIR}${PREFIX}/setupvars.sh
 	${RM} -rf ${STAGEDIR}${PREFIX}/install_dependencies
 	${RM} -rf ${STAGEDIR}${PREFIX}/licenses
+
+do-install:
+	${MKDIR} ${STAGEDIR}${PYTHONPREFIX_SITELIBDIR}/${PORTNAME}
+	cd ${WRKSRC}/src/bindings/python/src/${PORTNAME} && ${COPYTREE_SHARE} . ${STAGEDIR}${PYTHONPREFIX_SITELIBDIR}/${PORTNAME}
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/${PORTNAME}
+	cd ${WRKSRC}/src/bindings/c/include/${PORTNAME} && ${COPYTREE_SHARE} . ${STAGEDIR}${PREFIX}/include/${PORTNAME}
+	cd ${WRKSRC}/src/core/include/${PORTNAME} && ${COPYTREE_SHARE} . ${STAGEDIR}${PREFIX}/include/${PORTNAME}
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/${PORTNAME}/frontend
+	cd ${WRKSRC}/src/frontends/common/include/${PORTNAME} && ${COPYTREE_SHARE} . ${STAGEDIR}${PREFIX}/include/${PORTNAME}
+	cd ${WRKSRC}/src/frontends/ir/include/${PORTNAME} && ${COPYTREE_SHARE} . ${STAGEDIR}${PREFIX}/include/${PORTNAME}
+	cd ${WRKSRC}/src/frontends/onnx/frontend/include/${PORTNAME} && ${COPYTREE_SHARE} . ${STAGEDIR}${PREFIX}/include/${PORTNAME}
+	cd ${WRKSRC}/src/frontends/pytorch/include/${PORTNAME} && ${COPYTREE_SHARE} . ${STAGEDIR}${PREFIX}/include/${PORTNAME}
+	cd ${WRKSRC}/src/frontends/tensorflow/include/${PORTNAME} && ${COPYTREE_SHARE} . ${STAGEDIR}${PREFIX}/include/${PORTNAME}
+	cd ${WRKSRC}/src/frontends/tensorflow_lite/include/${PORTNAME} && ${COPYTREE_SHARE} . ${STAGEDIR}${PREFIX}/include/${PORTNAME}
+	cd ${WRKSRC}/src/inference/include/${PORTNAME} && ${COPYTREE_SHARE} . ${STAGEDIR}${PREFIX}/include/${PORTNAME}
+	${INSTALL_LIB} ${WRKSRC}/bin/intel64/Release/libopenvino*  ${STAGEDIR}${PREFIX}/lib
 
 .include <bsd.port.mk>
