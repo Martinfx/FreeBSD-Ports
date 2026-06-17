@@ -1,6 +1,6 @@
 PORTNAME=	shadps4
 DISTVERSIONPREFIX=	v.
-DISTVERSION=	0.10.0
+DISTVERSION=	0.16.0
 CATEGORIES=	emulators
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -42,7 +42,10 @@ USE_QT=		base multimedia tools translations
 USE_GITHUB=	yes
 GH_ACCOUNT=	shadps4-emu
 GH_PROJECT=	shadPS4
-GH_TUPLE+=	shadps4-emu:ext-LibAtrac9:ec8899dadf393f655f2871a94e0fe4b3d6220c9a:libatrac/externals/LibAtrac9 \
+GH_TUPLE=	shadexternals:CLI11:12ba4ac4dbaa6489cb07e01be796e2bc074ef4f4:cl/externals/CLI11 \
+		shadexternals:ImGuiFileDialog:6e3ddeb485e8804beefae6e6d690b7709084bacd:img/externals/ImGuiFileDialog \
+		shadps4-emu:ext-LibAtrac9:ec8899dadf393f655f2871a94e0fe4b3d6220c9a:libatrac/externals/LibAtrac9 \
+		gabime:spdlog:b8944a4bcd478ee03375c9c50dc8d6c741f43f7b:spdlog/externals/spdlog \
 		HowardHinnant:date:a45ea7c:date/externals/date \
 		shadps4-emu:ext-imgui:f4d9359:imgui/externals/dear_imgui \
 		shadps4-emu:ext-discord-rpc:19f66e6:discord/externals/discord-rpc \
@@ -55,7 +58,7 @@ GH_TUPLE+=	shadps4-emu:ext-LibAtrac9:ec8899dadf393f655f2871a94e0fe4b3d6220c9a:li
 		Neargye:magic_enum:1a1824df7ac798177a521eed952720681b0bf482:magic/externals/magic_enum \
 		zeux:pugixml:4bc14418d12d289dd9978fdce9490a45deeb653e:pugixml/externals/pugixml \
 		Tessil:robin-map:fe845fd7852ef541c5479ae23b3d36b57f8608ee:robin/externals/robin-map \
-		shadps4-emu:ext-SDL:e9c2e9b:sdl/externals/sdl3 \
+		shadexternals:sdl3:d5af35e3fbb5bb6555ed00e69740d52af2a4e877:sdl/externals/sdl3 \
 		shadps4-emu:sirit:6b45070:sirit/externals/sirit \
 		KhronosGroup:SPIRV-Headers:2acb319:spirv/externals/sirit/externals/SPIRV-Headers \
 		ToruNiina:toml11:7f6c574ff5aa1053534e7e19c0a4f22bf4c6aaca:toml/externals/toml11 \
@@ -67,7 +70,11 @@ GH_TUPLE+=	shadps4-emu:ext-LibAtrac9:ec8899dadf393f655f2871a94e0fe4b3d6220c9a:li
 		zyantific:zydis:bffbb610cfea643b98e87658b9058382f7522807:zybis/externals/zydis \
 		shadps4-emu:ext-cryptopp-cmake:2c384c28265a93358a2455e610e76393358794df:cmake/externals/cryptopp-cmake \
 		shadps4-emu:ext-cryptopp:effed0d0b865afc23ed67e0916f83734e4b9b3b7:cryptopp/externals/cryptopp \
-		zyantific:zycore-c:0b2432ced0884fd152b471d97ecf0258ff4d859f:zycore/externals/zydis/dependencies/zycore
+		zyantific:zycore-c:0b2432ced0884fd152b471d97ecf0258ff4d859f:zycore/externals/zydis/dependencies/zycore \
+		shadps4-emu:ext-hwinfo:8660006e0ca4aae5dda7a29e585968b50b0273b7:hwinfo/externals/hwinfo \
+		richgel999:miniz:174573d60290f447c13a2b1b3405de2b96e27d6c:miniz/externals/miniz \
+		shadexternals:libressl:b0504086dbbc186724b0cc92e6ba1832c245de0b:libressl/externals/libressl \
+		shadps4-emu:ext-wepoll:d3bb81035304a0dc6a5ca48ebf0f8cee1fe269e4:epoll/externals/epoll-shim
 
 LDFLAGS=	-L${LOCALBASE}/lib -ldate-tz -I/usr/include -L/usr/lib -lusb
 CMAKE_ON=	ENABLE_QT_GUI

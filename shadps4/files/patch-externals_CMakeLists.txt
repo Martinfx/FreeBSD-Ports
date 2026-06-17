@@ -1,6 +1,6 @@
---- externals/CMakeLists.txt.orig	2025-07-06 18:24:57 UTC
+--- externals/CMakeLists.txt.orig	2026-06-01 15:47:16 UTC
 +++ externals/CMakeLists.txt
-@@ -28,8 +28,8 @@ if (NOT TARGET FFmpeg::ffmpeg)
+@@ -37,8 +37,8 @@ if (NOT TARGET FFmpeg::ffmpeg)
  
  # FFmpeg
  if (NOT TARGET FFmpeg::ffmpeg)
@@ -11,7 +11,7 @@
  endif()
  
  # LibAtrac9
-@@ -173,22 +173,22 @@ target_include_directories(Dear_ImGui INTERFACE dear_i
+@@ -182,22 +182,22 @@ target_include_directories(Dear_ImGui INTERFACE dear_i
  target_include_directories(Dear_ImGui INTERFACE dear_imgui/)
  
  # Tracy
@@ -50,36 +50,3 @@
  
  # pugixml
  if (NOT TARGET pugixml::pugixml)
-@@ -196,10 +196,10 @@ endif()
- endif()
- 
- # libusb
--if (NOT TARGET libusb::usb)
--    add_subdirectory(libusb)
--    add_library(libusb::usb ALIAS usb-1.0)
--endif()
-+#if (NOT TARGET libusb::usb)
-+#    add_subdirectory(libusb)
-+#    add_library(libusb::usb ALIAS usb-1.0)
-+#endif()
- 
- # Discord RPC
- if (ENABLE_DISCORD_RPC)
-@@ -217,14 +217,15 @@ endif()
- endif()
- 
- # Apple-only dependencies
--if (APPLE)
-+if (CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
-     # date
-     if (NOT TARGET date::date-tz)
-         option(BUILD_TZ_LIB "" ON)
-         option(USE_SYSTEM_TZ_DB "" ON)
-         add_subdirectory(date)
-     endif()
--
-+endif()
-+if(APPLE)
-     # MoltenVK
-     if (NOT TARGET MoltenVK)
-         add_subdirectory(MoltenVK)
