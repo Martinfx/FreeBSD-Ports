@@ -1,7 +1,8 @@
 PORTNAME=	librewolf
-DISTVERSION=	151.0.1
+DISTVERSION=	152.0
 LWPATCH=	-1
 DISTVERSIONSUFFIX=	${LWPATCH}.source
+PORTREVISION=	1
 CATEGORIES=	www wayland
 MASTER_SITES=	https://codeberg.org/api/packages/librewolf/generic/librewolf-source/${DISTVERSION}${LWPATCH}/
 
@@ -92,8 +93,6 @@ post-extract:
 post-patch:
 	@${REINPLACE_CMD} -e 's|%%LOCALBASE%%|${LOCALBASE}|g' \
 		${WRKSRC}/browser/app/nsBrowserApp.cpp
-	@${REINPLACE_CMD} -e 's|wasm32-wasi|&p1|' \
-		${WRKSRC}/build/moz.configure/toolchain.configure
 	@${RM} ${WRKSRC}/mozconfig
 
 post-install:
