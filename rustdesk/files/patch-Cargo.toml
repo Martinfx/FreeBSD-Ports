@@ -1,0 +1,39 @@
+--- Cargo.toml.orig	2025-12-31 10:50:52 UTC
++++ Cargo.toml
+@@ -83,7 +83,7 @@ kcp-sys= { git = "https://github.com/rustdesk-org/kcp-
+ totp-rs = { version = "5.4", default-features = false, features = ["gen_secret", "otpauth"] }
+ stunclient = "0.4"
+ kcp-sys= { git = "https://github.com/rustdesk-org/kcp-sys"}
+-[target.'cfg(not(target_os = "linux"))'.dependencies]
++[target.'cfg(not(target_os = "freebsd"))'.dependencies]
+ # https://github.com/rustdesk/rustdesk/discussions/10197, not use cpal on linux
+ cpal = { git = "https://github.com/rustdesk-org/cpal", branch = "osx-screencapturekit" }
+ ringbuf = "0.3"
+@@ -149,15 +149,15 @@ foreign-types = "0.3"
+ piet-coregraphics = "0.6"
+ foreign-types = "0.3"
+ 
+-[target.'cfg(any(target_os = "macos", target_os = "linux", target_os = "windows"))'.dependencies]
++[target.'cfg(any(target_os = "macos", target_os = "freebsd", target_os = "windows"))'.dependencies]
+ tray-icon = { git = "https://github.com/tauri-apps/tray-icon" }
+ tao = { git = "https://github.com/rustdesk-org/tao", branch = "dev" }
+ image = "0.24"
+ 
+-[target.'cfg(any(target_os = "macos", target_os = "linux"))'.dependencies]
++[target.'cfg(any(target_os = "macos", target_os = "freebsd"))'.dependencies]
+ keepawake = { git = "https://github.com/rustdesk-org/keepawake-rs" }
+ 
+-[target.'cfg(any(target_os = "windows", target_os = "linux"))'.dependencies]
++[target.'cfg(any(target_os = "windows", target_os = "freebsd"))'.dependencies]
+ wallpaper = { git = "https://github.com/rustdesk-org/wallpaper.rs" }
+ tiny-skia = "0.11"
+ softbuffer = "0.4"
+@@ -172,7 +172,7 @@ reqwest = { git = "https://github.com/rustdesk-org/req
+ [target.'cfg(not(any(target_os = "macos", target_os = "windows")))'.dependencies]
+ reqwest = { git = "https://github.com/rustdesk-org/reqwest", features = ["blocking", "socks", "json", "rustls-tls", "rustls-tls-native-roots", "gzip"], default-features=false }
+ 
+-[target.'cfg(target_os = "linux")'.dependencies]
++[target.'cfg(target_os = "freebsd")'.dependencies]
+ psimple = { package = "libpulse-simple-binding", version = "2.27" }
+ pulse = { package = "libpulse-binding", version = "2.27" }
+ rust-pulsectl = { git = "https://github.com/rustdesk-org/pulsectl" }
