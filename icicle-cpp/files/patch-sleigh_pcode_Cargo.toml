@@ -1,0 +1,10 @@
+--- sleigh/pcode/Cargo.toml.orig	2025-07-27 15:14:00 UTC
++++ sleigh/pcode/Cargo.toml
+@@ -1,6 +1,6 @@ name = "pcode"
+ [package]
+ name = "pcode"
+-version = "0.2.0"
++version = "0.2.1"
+ edition = "2021"
+ 
+ [dependencies]
