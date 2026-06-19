@@ -1,0 +1,11 @@
+--- query_classifier/qc_sqlite/CMakeLists.txt.orig	2022-10-18 19:53:16 UTC
++++ query_classifier/qc_sqlite/CMakeLists.txt
+@@ -4,7 +4,7 @@ ExternalProject_Add(maxscale_sqlite
+   SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/sqlite-src-3110100
+   BINARY_DIR ${CMAKE_BINARY_DIR}/sqlite-bld-3110100
+   CONFIGURE_COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/sqlite-src-3110100/configure --with-pic --enable-maxscale
+-  BUILD_COMMAND make sqlite3.c
++  BUILD_COMMAND gmake sqlite3.c
+   INSTALL_COMMAND ""
+   LOG_DOWNLOAD 1
+   LOG_UPDATE 1
