@@ -1,8 +1,8 @@
---- Makefile.orig	2026-03-19 13:17:45 UTC
+--- Makefile.orig	2026-07-10 21:09:26 UTC
 +++ Makefile
-@@ -15,7 +15,7 @@ endif
- ifeq ($(WANT_PYTHON_BINDINGS),1)
- QMAKE_FLAGS+=IAITO_ENABLE_PYTHON_BINDINGS=true
+@@ -23,7 +23,7 @@ endif
+ ifeq ($(WANT_CRASH_REPORTS),1)
+ QMAKE_FLAGS+=IAITO_ENABLE_CRASH_REPORTS=true
  endif
 -QMAKE_FLAGS+=PREFIX=$(PREFIX)
 +#QMAKE_FLAGS+=PREFIX=$(PREFIX)
