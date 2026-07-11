@@ -1,0 +1,147 @@
+PORTNAME=	icicle-cpp
+DISTVERSION=	g20250728
+CATEGORIES=	devel
+
+MAINTAINER=	freebsd@sysctl.cz
+COMMENT=	Icicle bindings C/C++
+WWW=		https://github.com/HACKE-RC/icicle-cpp
+
+USES=		cargo
+USE_GITHUB=	yes
+GH_ACCOUNT=	HACKE-RC
+GH_PROJECT=	icicle-cpp
+GH_TAGNAME=	1cadcd6
+
+CARGO_CRATES=	addr2line-0.24.2 \
+		adler2-2.0.0 \
+		ahash-0.8.11 \
+		anyhow-1.0.97 \
+		arbitrary-1.4.1 \
+		autocfg-1.4.0 \
+		base64-0.21.7 \
+		bincode-1.3.3 \
+		bitflags-1.3.2 \
+		bitflags-2.9.0 \
+		bstr-1.11.3 \
+		bumpalo-3.17.0 \
+		bytemuck-1.22.0 \
+		cc-1.2.20 \
+		cfg-if-1.0.0 \
+		cpp_demangle-0.4.4 \
+		cranelift-0.113.1 \
+		cranelift-bforest-0.113.1 \
+		cranelift-bitset-0.113.1 \
+		cranelift-codegen-0.113.1 \
+		cranelift-codegen-meta-0.113.1 \
+		cranelift-codegen-shared-0.113.1 \
+		cranelift-control-0.113.1 \
+		cranelift-entity-0.113.1 \
+		cranelift-frontend-0.113.1 \
+		cranelift-isle-0.113.1 \
+		cranelift-jit-0.113.1 \
+		cranelift-module-0.113.1 \
+		cranelift-native-0.113.1 \
+		crc32fast-1.4.2 \
+		crunchy-0.2.3 \
+		equivalent-1.0.2 \
+		errno-0.3.10 \
+		fallible-iterator-0.3.0 \
+		flate2-1.1.1 \
+		foldhash-0.1.5 \
+		getrandom-0.2.15 \
+		getrandom-0.3.2 \
+		gimli-0.31.1 \
+		half-2.5.0 \
+		hashbrown-0.12.3 \
+		hashbrown-0.14.5 \
+		hashbrown-0.15.2 \
+		ihex-3.0.0 \
+		indexmap-1.9.3 \
+		indexmap-2.8.0 \
+		jobserver-0.1.33 \
+		lazy_static-1.5.0 \
+		libc-0.2.171 \
+		linux-raw-sys-0.4.15 \
+		log-0.4.27 \
+		mach2-0.4.2 \
+		memchr-2.7.4 \
+		memmap2-0.9.5 \
+		memoffset-0.9.1 \
+		miniz_oxide-0.8.5 \
+		nu-ansi-term-0.46.0 \
+		object-0.36.7 \
+		once_cell-1.21.3 \
+		overload-0.1.1 \
+		pin-project-lite-0.2.16 \
+		pkg-config-0.3.32 \
+		proc-macro2-1.0.94 \
+		quote-1.0.40 \
+		r-efi-5.2.0 \
+		regalloc2-0.10.2 \
+		region-3.0.2 \
+		ron-0.8.1 \
+		rustc-demangle-0.1.24 \
+		rustc-hash-2.1.1 \
+		rustix-0.38.44 \
+		ruzstd-0.7.3 \
+		serde-1.0.219 \
+		serde-xml-rs-0.6.0 \
+		serde_derive-1.0.219 \
+		sharded-slab-0.1.7 \
+		shlex-1.3.0 \
+		slice-group-by-0.3.1 \
+		smallvec-1.14.0 \
+		stable_deref_trait-1.2.0 \
+		static_assertions-1.1.0 \
+		syn-2.0.100 \
+		target-lexicon-0.12.16 \
+		thiserror-1.0.69 \
+		thiserror-impl-1.0.69 \
+		thread_local-1.1.8 \
+		tracing-0.1.41 \
+		tracing-attributes-0.1.28 \
+		tracing-core-0.1.33 \
+		tracing-log-0.2.0 \
+		tracing-subscriber-0.3.19 \
+		twox-hash-1.6.3 \
+		typed-arena-2.0.2 \
+		unicode-ident-1.0.18 \
+		valuable-0.1.1 \
+		version_check-0.9.5 \
+		wasi-0.11.0+wasi-snapshot-preview1 \
+		wasi-0.14.2+wasi-0.2.4 \
+		wasmtime-jit-debug-26.0.1 \
+		wasmtime-jit-icache-coherence-26.0.1 \
+		wasmtime-versioned-export-macros-26.0.1 \
+		winapi-0.3.9 \
+		winapi-i686-pc-windows-gnu-0.4.0 \
+		winapi-x86_64-pc-windows-gnu-0.4.0 \
+		windows-sys-0.52.0 \
+		windows-sys-0.59.0 \
+		windows-targets-0.52.6 \
+		windows_aarch64_gnullvm-0.52.6 \
+		windows_aarch64_msvc-0.52.6 \
+		windows_i686_gnu-0.52.6 \
+		windows_i686_gnullvm-0.52.6 \
+		windows_i686_msvc-0.52.6 \
+		windows_x86_64_gnu-0.52.6 \
+		windows_x86_64_gnullvm-0.52.6 \
+		windows_x86_64_msvc-0.52.6 \
+		wit-bindgen-rt-0.39.0 \
+		xml-rs-0.8.25 \
+		zerocopy-0.7.35 \
+		zerocopy-derive-0.7.35 \
+		zstd-0.13.3 \
+		zstd-safe-7.2.4 \
+		zstd-sys-2.0.15+zstd.1.5.7 \
+		icicle-cpu,icicle-jit,icicle-linux,icicle-mem,icicle-vm,pcode,sleigh-compile,sleigh-parse,sleigh-runtime@git+https://github.com/icicle-emu/icicle-emu\#6e9fd3e34aec440ac92c1f49f4a70fc288949de9
+
+WRKSRC_SUBDIR=	src
+PLIST_FILES=	lib/libicicle.a \
+		include/icicle.h
+
+do-install:
+	${INSTALL_DATA} ${WRKDIR}/${PORTNAME}-${GH_TAGNAME}/icicle.h ${STAGEDIR}${PREFIX}/include
+	${INSTALL_LIB} ${WRKDIR}/target/release/libicicle.a ${STAGEDIR}${PREFIX}/lib
+
+.include <bsd.port.mk>
