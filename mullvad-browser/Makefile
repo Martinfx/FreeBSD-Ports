@@ -1,8 +1,8 @@
 PORTNAME=	mullvad-browser
-DISTVERSION=	14.5.1
+DISTVERSION=	16.0a9
 CATEGORIES=	www net security wayland
-TAG_BASE=	86442427facf038d5706644221de7e2fb733550b
-TAG_TOR=	2c0b448503d52c3b512d1e7a55ccc78ac19db146
+TAG_BASE=	d366318349af0977ff23b492fa87e436e8672fdd
+TAG_TOR=	45b67d3be52f79e8a4b361fd04ab12f342ab0016
 MASTER_SITES=	TOR \
 		LOCAL/vvd \
 		https://build-sources.tbb.torproject.org/:source1 \
@@ -17,9 +17,9 @@ MASTER_SITES=	TOR \
 		LOCAL/vvd:source5
 MASTER_SITE_SUBDIR=	mullvadbrowser/${DISTVERSION}/:DEFAULT \
 			download/releases/:source3
-DISTNAME=	src-firefox-mullvad-browser-128.10.0esr-14.5-1-build2
+DISTNAME=	src-firefox-mullvad-browser-153.0esr-16.0-1-build2
 MANUAL=		manual_215922.zip
-NOSCRIPT=	noscript-12.1.1.xpi
+NOSCRIPT=	noscript-13.5.4.1984.xpi
 DISTFILES=	${DISTNAME}.tar.xz \
 		${MANUAL}:source1 \
 		fonts-3--4348e1.tar.zst:source2 \
@@ -35,10 +35,10 @@ LICENSE=	MPL20
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
 BUILD_DEPENDS=	nspr>=4.32:devel/nspr \
-		nss>=3.101:security/nss \
-		icu>=73.1,1:devel/icu \
+		nss>=3.112:security/nss \
+		icu>=76.1:devel/icu \
 		libevent>=2.1.8:devel/libevent \
-		harfbuzz>=8.5.0:print/harfbuzz \
+		harfbuzz>=10.1.0:print/harfbuzz \
 		graphite2>=1.3.14:graphics/graphite2 \
 		png>=1.6.43:graphics/png \
 		dav1d>=1.0.0:multimedia/dav1d \
@@ -56,7 +56,7 @@ USES=		compiler:c++11-lib libtool localbase:ldflags perl5 pkgconfig \
 		python shebangfix tar:xz
 USE_GECKO=	gecko
 USE_GITHUB=	nodefault
-TAG_L10N=	fcd0300e8478d1ec4d1c097a073ddb8e1e0351e3
+TAG_L10N=	4b41b2ae00d50633e5e9d8204b0f45e468920743
 GH_TUPLE=	mozilla-l10n:firefox-l10n:${TAG_L10N}:ffl10n
 USE_MOZILLA=	-sqlite
 
@@ -102,9 +102,10 @@ MOZ_OPTIONS+=	--enable-rust-simd
 .if ${ARCH} == powerpc64
 MOZ_OPTIONS+=	--without-wasm-sandboxed-libraries
 .else
-BUILD_DEPENDS+=	${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc++abi.a:devel/wasi-libcxx${LLVM_VERSION} \
-		${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasi/libc.a:devel/wasi-libc@${LLVM_VERSION} \
-		wasi-compiler-rt${LLVM_VERSION}>0:devel/wasi-compiler-rt${LLVM_VERSION}
+BUILD_DEPENDS+= ${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasip1/libc++abi.a:devel/wasi-libcxx${LLVM_VERSION} \
+				${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasip1/libc.a:devel/wasi-libc@${LLVM_VERSION} \
+				wasi-compiler-rt${LLVM_VERSION}>0:devel/wasi-compiler-rt${LLVM_VERSION}
+
 MOZILLA_PLIST_DIRS=	bin lib share/applications share/pixmaps \
 			share/mullvad-browser
 MOZ_OPTIONS+=	--with-wasi-sysroot=${LOCALBASE}/share/wasi-sysroot
