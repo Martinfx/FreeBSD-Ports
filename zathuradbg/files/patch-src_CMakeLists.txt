@@ -1,0 +1,52 @@
+--- src/CMakeLists.txt.orig	2025-05-21 09:02:27 UTC
++++ src/CMakeLists.txt
+@@ -118,10 +118,10 @@ include_directories(
+         ${CMAKE_SOURCE_DIR}/app/arch
+         ${CMAKE_SOURCE_DIR}/app/windows
+         ${CMAKE_SOURCE_DIR}/../vendor/unicorn/include
+-        ${CMAKE_SOURCE_DIR}/../vendor/keystone/include
++        #${CMAKE_SOURCE_DIR}/../vendor/keystone/include
+         ${CMAKE_SOURCE_DIR}/../vendor/capstone/include
+         ${CMAKE_SOURCE_DIR}/../vendor/whereami/src
+-        ${CMAKE_SOURCE_DIR}/../vendor/icicle-cpp
++#        ${CMAKE_SOURCE_DIR}/../vendor/icicle-cpp
+         ${VENDOR_DIR}/http
+ )
+ 
+@@ -133,24 +133,23 @@ if (UNIX AND NOT APPLE)
+ 
+ # Platform-specific options
+ if (UNIX AND NOT APPLE)
+-    message("Linux")
+     find_package(PkgConfig REQUIRED)
+     pkg_check_modules(GLFW REQUIRED glfw3)
+     find_package(OpenGL REQUIRED)
+     find_package(glfw3 REQUIRED)
+ 
+-   
+     include_directories(${OPENGL_INCLUDE_DIR})
++    add_compile_options(-I/usr/local/include)
+     link_libraries(${OPENGL_LIBRARIES} glfw)
+     link_libraries(${GLFW_LIBRARIES})
+     link_directories(/usr/lib /usr/local/lib)
+     add_compile_options(${GLFW_CFLAGS})
+-    add_compile_options(-pthread -std=c++23)
++    add_compile_options(-pthread)
+ #    add_compile_options(-O3)
+-    add_compile_options(-Og)
++#    add_compile_options(-Og)
+ #    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -g")
+ #    set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} -fsanitize=address")
+-    set(LIBS ${GLFW_LDFLAGS} -lGL -ldl -lstdc++ -lkeystone -lcapstone -L/usr/lib -L/usr/local/lib -licicle -lssl -lcrypto)
++    set(LIBS ${GLFW_LDFLAGS} -lGL lkeystone -lcapstone -licicle -lssl -lcrypto)
+ elseif (APPLE)
+     message("Mac OS X")
+     find_library(GLFW_LIB glfw3)
+@@ -170,6 +169,7 @@ add_executable(${PROJECT_NAME} ${SOURCES})
+ add_executable(${PROJECT_NAME} ${SOURCES})
+ 
+ # Link libraries
++target_link_options(${PROJECT_NAME} PRIVATE -L/usr/local/lib -l:libicicle.a)
+ target_link_libraries(${PROJECT_NAME} ${LIBS})
+ 
+ # Custom targets
