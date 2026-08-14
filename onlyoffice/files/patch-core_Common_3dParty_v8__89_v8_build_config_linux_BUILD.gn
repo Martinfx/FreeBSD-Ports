@@ -1,0 +1,11 @@
+--- core/Common/3dParty/v8_89/v8/build/config/linux/BUILD.gn.orig	2025-09-23 22:49:55 UTC
++++ core/Common/3dParty/v8_89/v8/build/config/linux/BUILD.gn
+@@ -32,7 +32,7 @@ config("runtime_library") {
+ 
+   if ((!(is_chromeos_ash || is_chromeos_lacros) ||
+        default_toolchain != "//build/toolchain/cros:target") &&
+-      (!use_custom_libcxx || current_cpu == "mipsel")) {
++      (!use_custom_libcxx || current_cpu == "mipsel") && !is_bsd) {
+     libs = [ "atomic" ]
+   }
+ }
