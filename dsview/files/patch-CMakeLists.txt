@@ -1,0 +1,28 @@
+--- CMakeLists.txt.orig	2026-08-22 10:27:04 UTC
++++ CMakeLists.txt
+@@ -177,7 +177,7 @@ include_directories(${ZLIB_INCLUDE_DIRS})
+ #= Qt5 or Qt6
+ #-------------------------------------------------------------------------------
+ 
+-find_package(Qt5Core QUIET)
++find_package(QT NAMES Qt6 COMPONENTS Core Gui REQUIRED)
+ 
+ if(Qt5Core_FOUND)
+ 	message("----- Qt5:")
+@@ -638,6 +638,7 @@ add_executable(${PROJECT_NAME}
+ 	${libsigrokdecode4DSL_SOURCES}
+ )
+ 
++target_compile_options(${PROJECT_NAME} PRIVATE -I/usr/local/include)
+ target_link_libraries(${PROJECT_NAME} ${DSVIEW_LINK_LIBS})
+ 
+ if(WIN32)
+@@ -665,7 +666,7 @@ install(FILES DSView/icons/logo.svg DESTINATION share/
+ install(FILES DSView/icons/logo.svg DESTINATION share/icons/hicolor/scalable/apps RENAME dsview.svg)
+ install(FILES DSView/icons/logo.svg DESTINATION share/pixmaps RENAME dsview.svg)
+ 
+-if(CMAKE_SYSTEM_NAME MATCHES "Linux")	
++if(CMAKE_SYSTEM_NAME MATCHES "FreeBSD")
+ 	install(FILES DSView/DSView.desktop DESTINATION /usr/share/applications RENAME dsview.desktop)
+ 	
+ 	if(IS_DIRECTORY /usr/lib/udev/rules.d)
