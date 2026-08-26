@@ -1,0 +1,13 @@
+--- libs/enigo/Cargo.toml.orig	2025-02-22 05:17:11 UTC
++++ libs/enigo/Cargo.toml
+@@ -22,8 +22,8 @@ log = "0.4"
+ serde = { version = "1.0", optional = true }
+ serde_derive = { version = "1.0", optional = true }
+ log = "0.4"
+-rdev = { git = "https://github.com/rustdesk-org/rdev" }
+-tfc = { git = "https://github.com/rustdesk-org/The-Fat-Controller", branch = "history/rebase_upstream_20240722" }
++rdev = { git = "https://github.com/MartinFx/rdev" }
++tfc = { git = "https://github.com/Martinfx/The-Fat-Controller" }
+ hbb_common = { path = "../hbb_common" }
+ 
+ [features]
