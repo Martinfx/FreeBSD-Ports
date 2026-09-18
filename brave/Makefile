@@ -159,23 +159,18 @@ GN_ARGS+=	import("//brave/build/args/brave_defaults.gni") \
 		target_os="freebsd" \
 		target_cpu="${GN_CPU}" \
 		brave_channel="" \
-		brave_version_major="${BRAVE_VERSION_MAJOR}" \
-		brave_version_minor="${BRAVE_VERSION_MINOR}" \
-		brave_version_build="${BRAVE_VERSION_BUILD}" \
-		chrome_version_string="${CHROME_VERSION}" \
 		cc_wrapper="${REDIRECT_CC_DIR}/redirect_cc" \
 		clang_use_chrome_plugins=false \
 		chrome_pgo_phase=0 \
 		enable_backup_ref_ptr_support=false \
 		enable_cdm_host_verification=false \
 		enable_hangout_services_extension=false \
-		enable_nacl=false \
 		enable_remoting=false \
 		enable_updater=false \
 		enable_update_notifications=false \
 		enable_widevine=false \
 		fatal_linker_warnings=false \
-		icu_use_data_file=false \
+		icu_use_data_file=true \
 		is_clang=true \
 		is_component_build=false \
 		is_official_build=false \
@@ -205,8 +200,14 @@ GN_ARGS+=	import("//brave/build/args/brave_defaults.gni") \
 		extra_ldflags="${LDFLAGS}" \
 		ffmpeg_branding="${FFMPEG_BRAND}"
 
-# redirect_cc is a small host tool, it must not be wrapped by itself.
+# redirect_cc is a small host tool, it must not be wrapped by itself.  Its
+# rewrapper_buildflags target bakes the path in unconditionally, so it needs a
+# non-empty real_rewrapper even with RBE off, exactly like Brave's own build
+# driver passes it.
 GN_REDIRECT_CC_ARGS=	import("//brave/tools/redirect_cc/args.gni") \
+			real_rewrapper="${BUILD_WRKSRC}/buildtools/reclient/rewrapper" \
+			enable_rust=true \
+			rust_sysroot_absolute="${LOCALBASE}" \
 			target_os="freebsd" \
 			target_cpu="${GN_CPU}" \
 			clang_use_chrome_plugins=false \
@@ -320,11 +321,20 @@ post-extract:
 # against pristine Chromium, so they have to go in before the FreeBSD patches
 # in files/, which the regular patch phase applies right after this target.
 # The layout below patches/ mirrors the Chromium tree.
+#
+# Roughly fifty of them are for Android and iOS files that the -lite tarball
+# does not ship.  None of brave-core's patches creates a file, so a patch whose
+# target is missing is one for a platform this port does not build, and it is
+# skipped; everything else has to apply.
 pre-patch:
 	@${ECHO_MSG} "===>  Applying brave-core patches to the Chromium tree"
 	@cd ${WRKSRC}/src/brave/patches && ${FIND} . -name '*.patch' | sort | \
 	while read _p; do \
-		${PATCH} -s -d ${WRKSRC}/src/$$(dirname "$${_p}") -p1 \
+		_d=$$(dirname "$${_p}"); \
+		_f=$$(${AWK} '/^\+\+\+ b\//{sub(/^\+\+\+ b\//, ""); \
+		    sub(/\t.*/, ""); print; exit}' "$${_p}"); \
+		[ -f "${WRKSRC}/src/$${_d}/$${_f}" ] || continue; \
+		${PATCH} -s -t -d ${WRKSRC}/src/$${_d} -p1 \
 		    -i ${WRKSRC}/src/brave/patches/$${_p} || exit 1; \
 	done
 
@@ -347,6 +357,17 @@ pre-configure:
 		${BUILD_WRKSRC}/build/linux/strip_binary.gni \
 		${BUILD_WRKSRC}/build/rust/rust_bindgen.gni \
 		${BUILD_WRKSRC}/build/rust/rust_bindgen_generator.gni
+	# Brave keeps the upstream Chromium version in a sidecar and writes its own
+	# version into chrome/VERSION; //brave/build/version.gni is generated from
+	# the two and imported all over the Brave build files.  Upstream does this
+	# from git in a gclient hook, which a ports build has neither of.
+	${CP} ${BUILD_WRKSRC}/chrome/VERSION ${BUILD_WRKSRC}/chrome/VERSION.chromium
+	@${REINPLACE_CMD} -e 's|^MINOR=.*|MINOR=${BRAVE_VERSION_MAJOR}|' \
+		-e 's|^BUILD=.*|BUILD=${BRAVE_VERSION_MINOR}|' \
+		-e 's|^PATCH=.*|PATCH=${BRAVE_VERSION_BUILD}|' \
+		${BUILD_WRKSRC}/chrome/VERSION
+	cd ${WRKSRC}/src/brave && ${SETENV} ${CONFIGURE_ENV} ${PYTHON_CMD} \
+		build/util/version.py gen ../chrome/VERSION
 	# The webpack based parts of the Brave UI are built out of node_modules;
 	# brave-core is a pnpm workspace, which corepack provides.  This is the
 	# only step that still wants network access, so it is skipped when the
@@ -414,6 +435,7 @@ do-install:
 		${STAGEDIR}${DATADIR}
 	${INSTALL_DATA} ${BUILD_WRKSRC}/out/${BUILDTYPE}/*.pak ${STAGEDIR}${DATADIR}
 	${INSTALL_DATA} ${BUILD_WRKSRC}/out/${BUILDTYPE}/*.bin ${STAGEDIR}${DATADIR}
+	${INSTALL_DATA} ${BUILD_WRKSRC}/out/${BUILDTYPE}/icudtl.dat ${STAGEDIR}${DATADIR}
 	cd ${BUILD_WRKSRC}/out/${BUILDTYPE} && \
 		${COPYTREE_SHARE} "locales resources" ${STAGEDIR}${DATADIR}
 .for _f in libEGL.so libGLESv2.so libVkICD_mock_icd.so

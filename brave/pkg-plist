@@ -2,6 +2,7 @@
 @comment after the first successful build to confirm it.
 bin/brave
 %%DATADIR%%/brave
+%%DATADIR%%/icudtl.dat
 %%DATADIR%%/brave_100_percent.pak
 %%DATADIR%%/brave_200_percent.pak
 %%DATADIR%%/brave_resources.pak
