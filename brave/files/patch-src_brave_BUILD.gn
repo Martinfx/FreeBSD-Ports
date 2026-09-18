@@ -1,0 +1,17 @@
+--- src/brave/BUILD.gn.orig	2026-06-01 00:00:00 UTC
++++ src/brave/BUILD.gn
+@@ -280,7 +280,13 @@
+ }
+ 
+ group("brave") {
+-  deps = [ "build/$target_os:brave" ]
++  # FreeBSD is built with the Chromium Linux configuration and reuses the
++  # Linux targets, there is no build/freebsd directory.
++  if (target_os == "freebsd") {
++    deps = [ "build/linux:brave" ]
++  } else {
++    deps = [ "build/$target_os:brave" ]
++  }
+   if (!is_android && !is_ios) {
+     deps += [
+       "//brave/components/version_info:generate_version",

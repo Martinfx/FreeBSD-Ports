@@ -1,6 +1,6 @@
 PORTNAME=	brave
 DISTVERSIONPREFIX=	v
-DISTVERSION=	1.87.131
+DISTVERSION=	1.94.120
 CATEGORIES=	www
 MASTER_SITES=	https://commondatastorage.googleapis.com/chromium-browser-official/:chromium
 DISTFILES=	chromium-${CHROME_VERSION}-lite.tar.xz:chromium
@@ -16,8 +16,10 @@ ONLY_FOR_ARCHS=	aarch64 amd64
 ONLY_FOR_ARCHS_REASON=	the Chromium build is only supported on amd64 and aarch64
 
 # Chromium release the pinned brave-core revision is built against, see
-# "config.projects.chrome.tag" in src/brave/package.json.
-CHROME_VERSION=	144.0.7559.31
+# "config.projects.chrome.tag" in src/brave/package.json.  Brave 1.94.120 is
+# the release that comes closest to the Chromium in www/chromium (152.0.7977.75
+# there, .76 here), so that port's FreeBSD patches apply to this tree as well.
+CHROME_VERSION=	152.0.7977.76
 
 # This port builds natively: depot_tools, gclient, cipd, siso and reclient are
 # not used at all.  Everything is taken from the official Chromium release
@@ -29,27 +31,35 @@ CHROME_VERSION=	144.0.7559.31
 USE_GITHUB=	yes
 GH_ACCOUNT=	brave
 GH_PROJECT=	brave-browser
-GH_TUPLE=	brave:brave-core:eebca352d681b19d6bdc0d8eed3fc7d26f0ada04:core/src/brave \
-		brave:python-patch:d8880110be6554686bc08261766538c2926d4e82:pypatch/src/brave/vendor/python-patch \
+GH_TUPLE=	brave:brave-core:v${DISTVERSION}:core/src/brave \
 		brave-intl:bat-native-tweetnacl:8b424ccf29957fe01c88c36076fd32006a357887:tweetnacl/src/brave/vendor/bat-native-tweetnacl \
 		brave:gn-project-generators:b76e14b162aa0ce40f11920ec94bfc12da29e5d0:gnprojgen/src/brave/vendor/gn-project-generators \
-		brave:web-discovery-project:17d6581e06c4cfbc476f5da0c9bb61bd1520617f:wdp/src/brave/vendor/web-discovery-project \
-		brave-intl:bat-native-bip39wally-core:0d3a8713a2b388d2156fe49a70ef3f7cdb44b190:bip39wally/src/brave/third_party/bip39wally-core-native \
+		brave:web-discovery-project:ae82a1b7510f4035d13df47b87a1a7fe5b6471ac:wdp/src/brave/vendor/web-discovery-project \
+		brave-intl:bat-native-bip39wally-core:547a7810333d821e29b8f55126aba031aa0d5fcd:bip39wally/src/brave/third_party/bip39wally-core-native \
 		chfast:ethash:e4a15c3d76dc09392c7efd3e30d84ee3b871e9ce:ethash/src/brave/third_party/ethash/src \
 		bitcoin:bitcoin:8105bce5b384c72cf08b25b7c5343622754e7337:bitcoincore/src/brave/third_party/bitcoin-core/src \
 		P-H-C:phc-winner-argon2:62358ba2123abd17fccf2a108a301d4b52c01a7c:argon2/src/brave/third_party/argon2/src \
 		brave:playlist-component:673d40f017a1559bb685a15cf608ad1d4a94f8fb:playlist/src/brave/third_party/playlist_component/src \
 		brave-intl:futures-retry:2aaaafbc3d394661534d4dbd14159d164243c20e:futuresretry/src/brave/third_party/rust/futures_retry/v0_5/crate \
-		brave:librustzcash:127aacc83dc9ed12fc38c3c7f5b52f7f51011e4d:librustzcash/src/brave/components/brave_wallet/browser/zcash/rust/librustzcash/src
+		brave:librustzcash:f01f50d64214278552edbe4a34b9049244ce03c1:librustzcash/src/brave/components/brave_wallet/browser/zcash/rust/librustzcash/src \
+		rollup:rollup:v4.60.4:rollup/src/rollup \
+		evanw:esbuild:v${_ESBUILD_VERSION:sh}:esbuild/src/esbuild
+
+# Chromium builds devtools-frontend with rollup and esbuild.  Neither ships a
+# FreeBSD binary, so the rollup native binding is built from source (like
+# www/chromium does, hence the shared Makefile.crates) and esbuild is taken
+# from ports.
+_ESBUILD_VERSION=	${MAKE} -C ${PORTSDIR}/devel/esbuild -V DISTVERSION
 
 BUILD_DEPENDS=	bash:shells/bash \
 		${PYTHON_PKGNAMEPREFIX}Jinja2>0:devel/py-Jinja2@${PY_FLAVOR} \
 		${PYTHON_PKGNAMEPREFIX}ply>0:devel/py-ply@${PY_FLAVOR} \
 		${PYTHON_PKGNAMEPREFIX}html5lib>0:www/py-html5lib@${PY_FLAVOR} \
 		bindgen:devel/rust-bindgen-cli \
+		esbuild:devel/esbuild \
 		gperf:devel/gperf \
 		flock:sysutils/flock \
-		npm:www/npm \
+		corepack>0:www/corepack \
 		rustc:lang/rust \
 		xcb-proto>0:x11/xcb-proto \
 		${LOCALBASE}/include/linux/videodev2.h:multimedia/v4l_compat \
@@ -94,9 +104,17 @@ LIB_DEPENDS=	libatk-bridge-2.0.so:accessibility/at-spi2-core \
 RUN_DEPENDS=	xdg-open:devel/xdg-utils \
 		noto-basic>0:x11-fonts/noto-basic
 
-USES=		bison compiler:c++20-lang cpe desktop-file-utils gl gmake gnome \
-		iconv:wchar_t jpeg localbase:ldflags ninja nodejs:24,build \
-		perl5 pkgconfig python:build shebangfix tar:xz xorg
+USES=		bison cargo compiler:c++20-lang cpe desktop-file-utils gl gmake \
+		gnome go:no_targets iconv:wchar_t jpeg localbase:ldflags ninja \
+		nodejs:24,build perl5 pkgconfig python:build shebangfix tar:xz \
+		xorg
+
+CARGO_CARGOTOML=	${WRKSRC}/src/rollup/rust/Cargo.toml
+CARGO_CARGOLOCK=	${WRKSRC}/src/rollup/rust/Cargo.lock
+CARGO_TARGET_DIR=	${WRKSRC}/src/rollup/rust/target
+CARGO_INSTALL=		No
+CARGO_BUILD=		No
+CARGO_TEST=		No
 
 CPE_VENDOR=	brave
 CPE_PRODUCT=	brave
@@ -126,9 +144,10 @@ GN=		${BUILD_WRKSRC}/out/${BUILDTYPE}/gn
 GN_BOOTSTRAP_FLAGS=	--no-clean --no-rebuild --skip-generate-buildfiles
 
 # FreeBSD support for the Chromium tree itself lives in www/chromium, it is not
-# duplicated here.  Point CHROMIUM_FREEBSD_PATCHDIR at the files/ directory of a
-# www/chromium port for the very same Chromium release; anything else will fail
-# to apply.
+# duplicated here.  CHROMIUM_FREEBSD_PATCHDIR has to point at the files/
+# directory of a Chromium port for the same Chromium branch;
+# www/ungoogled-chromium/files carries the same FreeBSD patches and can be used
+# instead when it is the closer match.
 CHROMIUM_FREEBSD_PATCHDIR?=	${PORTSDIR}/www/chromium/files
 
 # Brave overrides Chromium sources through chromium_src/, which only works when
@@ -246,10 +265,12 @@ SNDIO_VARS_OFF=		GN_ARGS+=use_sndio=false
 SUB_FILES=	brave brave-browser.desktop
 SUB_LIST=	COMMENT="${COMMENT}"
 
+.include "Makefile.crates"
+
 .include <bsd.port.options.mk>
 .include <bsd.port.pre.mk>
 
-LLVM_DEFAULT=	21
+LLVM_DEFAULT=	22
 BUILD_DEPENDS+=	clang${LLVM_DEFAULT}:devel/llvm${LLVM_DEFAULT}
 BINARY_ALIAS+=	cpp=${LOCALBASE}/bin/clang-cpp${LLVM_DEFAULT} \
 		cc=${LOCALBASE}/bin/clang${LLVM_DEFAULT} \
@@ -276,11 +297,12 @@ FFMPEG_CDIR=	${BUILD_WRKSRC}/third_party/ffmpeg/chromium/config/${FFMPEG_BRAND}/
 .if !exists(${CHROMIUM_FREEBSD_PATCHDIR}/patch-BUILD.gn)
 IGNORE=		needs the FreeBSD patches for the Chromium tree: set \
 		CHROMIUM_FREEBSD_PATCHDIR to the files/ directory of a \
-		www/chromium port for Chromium ${CHROME_VERSION}
+		Chromium port for the ${CHROME_VERSION:R:R:R} branch
 .endif
 
 MAKE_ENV+=	C_INCLUDE_PATH=${LOCALBASE}/include \
 		CPLUS_INCLUDE_PATH=${LOCALBASE}/include \
+		GOCACHE=${WRKDIR}/go-cache \
 		RUSTC_BOOTSTRAP=1
 CONFIGURE_ENV+=	${MAKE_ENV}
 
@@ -308,17 +330,10 @@ post-extract:
 # FreeBSD ones.
 post-patch:
 	@${ECHO_MSG} "===>  Applying brave-core patches to the Chromium tree"
-	@cd ${WRKSRC}/src/brave/patches && for _d in . v8 third_party/catapult \
-	    third_party/devtools-frontend/src \
-	    third_party/search_engines_data/resources; do \
-		[ -d "$${_d}" ] || continue; \
-		if [ "$${_d}" = "." ]; then _t=${WRKSRC}/src; \
-		else _t=${WRKSRC}/src/$${_d}; fi; \
-		for _p in $${_d}/*.patch; do \
-			[ -f "$${_p}" ] || continue; \
-			${PATCH} -s -d "$${_t}" -p1 \
-			    -i ${WRKSRC}/src/brave/patches/$${_p} || exit 1; \
-		done; \
+	@cd ${WRKSRC}/src/brave/patches && ${FIND} . -name '*.patch' | sort | \
+	while read _p; do \
+		${PATCH} -s -d ${WRKSRC}/src/$$(dirname "$${_p}") -p1 \
+		    -i ${WRKSRC}/src/brave/patches/$${_p} || exit 1; \
 	done
 	@${ECHO_MSG} "===>  Applying FreeBSD patches to the Chromium tree"
 	@for _p in ${CHROMIUM_FREEBSD_PATCHDIR}/patch-*; do \
@@ -344,16 +359,37 @@ pre-configure:
 		${BUILD_WRKSRC}/build/linux/strip_binary.gni \
 		${BUILD_WRKSRC}/build/rust/rust_bindgen.gni \
 		${BUILD_WRKSRC}/build/rust/rust_bindgen_generator.gni
-	# The webpack based parts of the Brave UI are built out of node_modules.
-	# This is the only step that still wants network access, so it is skipped
-	# when the modules have been staged into the work directory beforehand.
+	# The webpack based parts of the Brave UI are built out of node_modules;
+	# brave-core is a pnpm workspace, which corepack provides.  This is the
+	# only step that still wants network access, so it is skipped when the
+	# modules have been staged into the work directory beforehand.
 	@if [ ! -d ${WRKSRC}/src/brave/node_modules ]; then \
 		cd ${WRKSRC}/src/brave && ${SETENV} ${CONFIGURE_ENV} \
-		    ${LOCALBASE}/bin/npm install --ignore-scripts --no-audit \
-		    --no-fund; \
+		    ${LOCALBASE}/bin/corepack pnpm install --frozen-lockfile \
+		    --ignore-scripts; \
 	fi
 
+pre-build:
+	# The rollup plugin devtools-frontend loads is a native node module
+	@${CARGO_CARGO_RUN} build --manifest-path ${CARGO_CARGOTOML} \
+		${CARGO_BUILD_ARGS}
+	(cd ${BUILD_WRKSRC}/third_party/devtools-frontend/src/node_modules/@rollup && \
+		${MKDIR} rollup-freebsd && \
+		${CP} ${CARGO_TARGET_DIR}/release/libbindings_napi.so \
+			rollup-freebsd/rollup.freebsd.node && \
+		${ECHO_CMD} '{ "main": "./rollup.freebsd.node" }' \
+			> rollup-freebsd/package.json)
+
 do-configure:
+	(cd ${WRKSRC}/src/esbuild && \
+		${LOCALBASE}/bin/node scripts/esbuild.js \
+		${LOCALBASE}/bin/esbuild --neutral && \
+		${RM} -r ${BUILD_WRKSRC}/third_party/devtools-frontend/src/node_modules/esbuild && \
+		${LN} -sf ${WRKSRC}/src/esbuild/npm/esbuild \
+		${BUILD_WRKSRC}/third_party/devtools-frontend/src/node_modules/esbuild)
+	${LN} -sf ${LOCALBASE}/bin/esbuild \
+		${BUILD_WRKSRC}/third_party/devtools-frontend/src/third_party/esbuild/esbuild
+
 	# gn itself is built from the Chromium tree, no prebuilt binary is fetched
 	cd ${BUILD_WRKSRC} && ${SETENV} ${CONFIGURE_ENV} CC=${CC} CXX=${CXX} \
 		LD=${CXX} READELF=${READELF} AR=${AR} NM=${NM} ${PYTHON_CMD} \
