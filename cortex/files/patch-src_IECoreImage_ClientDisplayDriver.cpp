@@ -1,6 +1,6 @@
---- src/IECoreImage/ClientDisplayDriver.cpp.orig	2026-05-12 16:34:12 UTC
+--- src/IECoreImage/ClientDisplayDriver.cpp.orig	2026-09-10 21:49:58 UTC
 +++ src/IECoreImage/ClientDisplayDriver.cpp
-@@ -72,7 +72,7 @@ class ClientDisplayDriver::PrivateData : public RefCou
+@@ -72,7 +72,7 @@
  			m_socket.close();
  		}
  
@@ -9,7 +9,7 @@
  		std::string m_host;
  		std::string m_port;
  		bool m_scanLineOrderOnly;
-@@ -96,18 +96,18 @@ ClientDisplayDriver::ClientDisplayDriver( const Imath:
+@@ -96,18 +96,18 @@
  	m_data->m_port = displayPortData->readable();
  
  	tcp::resolver resolver(m_data->m_service);
@@ -34,4 +34,13 @@
 +	//	}
  	}
  	if( error )
+ 	{
+@@ -139,7 +139,7 @@
+ 
+ 	sendHeader( DisplayDriverServerHeader::imageOpen, dataSize );
+ 
+-	boost::asio::write( m_data->m_socket, boost::asio::buffer( &(buf->readable()[0]), dataSize ) );
++	boost::asio::write( m_data->m_socket, boost::asio::buffer( buf->readable().data(), dataSize ) );
+ 
+ 	if ( receiveHeader( DisplayDriverServerHeader::imageOpen ) != sizeof(m_data->m_scanLineOrderOnly) )
  	{
