@@ -21,6 +21,10 @@ ONLY_FOR_ARCHS_REASON=	the Chromium build is only supported on amd64 and aarch64
 # there, .76 here), so that port's FreeBSD patches apply to this tree as well.
 CHROME_VERSION=	152.0.7977.76
 
+# The FreeBSD patches for the Chromium tree in files/ are the ones from
+# www/chromium 152.0.7977.75, rewritten for the src/ prefix this port unpacks
+# Chromium into.
+#
 # This port builds natively: depot_tools, gclient, cipd, siso and reclient are
 # not used at all.  Everything is taken from the official Chromium release
 # tarball (which, unlike a git checkout, already contains all DEPS-managed
@@ -142,13 +146,6 @@ BRAVE_VERSION_BUILD=	${DISTVERSION:E}
 
 GN=		${BUILD_WRKSRC}/out/${BUILDTYPE}/gn
 GN_BOOTSTRAP_FLAGS=	--no-clean --no-rebuild --skip-generate-buildfiles
-
-# FreeBSD support for the Chromium tree itself lives in www/chromium, it is not
-# duplicated here.  CHROMIUM_FREEBSD_PATCHDIR has to point at the files/
-# directory of a Chromium port for the same Chromium branch;
-# www/ungoogled-chromium/files carries the same FreeBSD patches and can be used
-# instead when it is the closer match.
-CHROMIUM_FREEBSD_PATCHDIR?=	${PORTSDIR}/www/chromium/files
 
 # Brave overrides Chromium sources through chromium_src/, which only works when
 # the compiler is invoked through redirect_cc as a cc_wrapper.  Without siso
@@ -294,12 +291,6 @@ PLIST_SUB+=	NOT_AARCH64=""
 FFMPEG_BDIR=	${BUILD_WRKSRC}/third_party/ffmpeg/build.${FFMPEG_TARGET}.freebsd/${FFMPEG_BRAND}
 FFMPEG_CDIR=	${BUILD_WRKSRC}/third_party/ffmpeg/chromium/config/${FFMPEG_BRAND}/freebsd/${FFMPEG_TARGET}
 
-.if !exists(${CHROMIUM_FREEBSD_PATCHDIR}/patch-BUILD.gn)
-IGNORE=		needs the FreeBSD patches for the Chromium tree: set \
-		CHROMIUM_FREEBSD_PATCHDIR to the files/ directory of a \
-		Chromium port for the ${CHROME_VERSION:R:R:R} branch
-.endif
-
 MAKE_ENV+=	C_INCLUDE_PATH=${LOCALBASE}/include \
 		CPLUS_INCLUDE_PATH=${LOCALBASE}/include \
 		GOCACHE=${WRKDIR}/go-cache \
@@ -325,19 +316,16 @@ post-extract:
 		-maxdepth 1 -exec ${MV} {} ${WRKSRC}/src/ \;
 	@${RMDIR} ${WRKDIR}/chromium-${CHROME_VERSION}
 
-# Order matters: brave-core carries its own patches for the Chromium tree and
-# they are written against pristine Chromium, so they have to go in before the
-# FreeBSD ones.
-post-patch:
+# brave-core carries its own patches for the Chromium tree and they are written
+# against pristine Chromium, so they have to go in before the FreeBSD patches
+# in files/, which the regular patch phase applies right after this target.
+# The layout below patches/ mirrors the Chromium tree.
+pre-patch:
 	@${ECHO_MSG} "===>  Applying brave-core patches to the Chromium tree"
 	@cd ${WRKSRC}/src/brave/patches && ${FIND} . -name '*.patch' | sort | \
 	while read _p; do \
 		${PATCH} -s -d ${WRKSRC}/src/$$(dirname "$${_p}") -p1 \
 		    -i ${WRKSRC}/src/brave/patches/$${_p} || exit 1; \
-	done
-	@${ECHO_MSG} "===>  Applying FreeBSD patches to the Chromium tree"
-	@for _p in ${CHROMIUM_FREEBSD_PATCHDIR}/patch-*; do \
-		${PATCH} -s -d ${WRKSRC}/src -p0 -i "$${_p}" || exit 1; \
 	done
 
 pre-configure:
