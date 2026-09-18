@@ -1,0 +1,85 @@
+--- external/CMakeLists.txt.orig	2025-08-28 07:29:23 UTC
++++ external/CMakeLists.txt
+@@ -7,36 +7,36 @@ set(CMAKE_POLICY_DEFAULT_CMP0077 "NEW")
+ # created or updated and is ignored if it exists.
+ set(CMAKE_POLICY_DEFAULT_CMP0077 "NEW")
+ 
+-function(check_submodules_present)
+-	file(READ "${CMAKE_SOURCE_DIR}/.gitmodules" gitmodules)
+-	string(REGEX MATCHALL "path *= *[^ \t\r\n]*" gitmodules ${gitmodules})
++#function(check_submodules_present)
++#	file(READ "${CMAKE_SOURCE_DIR}/.gitmodules" gitmodules)
++#	string(REGEX MATCHALL "path *= *[^ \t\r\n]*" gitmodules ${gitmodules})
++#
++#	foreach(module ${gitmodules})
++#		# Get module name
++#		string(REGEX REPLACE "path *= *" "" module ${module})
++#
++#		# Stat the folder and get amount of entries
++#		file(GLOB RESULT "${CMAKE_SOURCE_DIR}/${module}/*")
++#		list(LENGTH RESULT RES_LEN)
++#
++#		# If the module has no files, bring fatal error
++#		if(RES_LEN EQUAL 0)
++#			# directory is empty
++#			message(FATAL_ERROR "Submodule ${module} is empty. "
++#				"Please run: git submodule update --init --recursive")
++#		endif()
++#	endforeach()
++#endfunction()
++#
++#check_submodules_present()
+ 
+-	foreach(module ${gitmodules})
+-		# Get module name
+-		string(REGEX REPLACE "path *= *" "" module ${module})
+-
+-		# Stat the folder and get amount of entries
+-		file(GLOB RESULT "${CMAKE_SOURCE_DIR}/${module}/*")
+-		list(LENGTH RESULT RES_LEN)
+-
+-		# If the module has no files, bring fatal error
+-		if(RES_LEN EQUAL 0)
+-			# directory is empty
+-			message(FATAL_ERROR "Submodule ${module} is empty. "
+-				"Please run: git submodule update --init --recursive")
+-		endif()
+-	endforeach()
+-endfunction()
+-
+-check_submodules_present()
+-
+ # Set folder for external projects (for project tree in IDE)
+ set(CMAKE_FOLDER externals)
+ 
+-option(BUILD_SHARED_LIBS "Build shared library" OFF)
+-option(CAPSTONE_ARCHITECTURE_DEFAULT "Whether architectures are enabled by default" OFF)
+-option(CAPSTONE_ARM_SUPPORT "ARM support" ON)
+-add_subdirectory(capstone EXCLUDE_FROM_ALL)
++#option(BUILD_SHARED_LIBS "Build shared library" OFF)
++#option(CAPSTONE_ARCHITECTURE_DEFAULT "Whether architectures are enabled by default" OFF)
++#option(CAPSTONE_ARM_SUPPORT "ARM support" ON)
++#add_subdirectory(capstone EXCLUDE_FROM_ALL)
+ 
+ add_library(dirent INTERFACE)
+ 
+@@ -136,8 +136,8 @@ endif()
+ 	endif()
+ endif()
+ 
+-set(UNICORN_ARCH "arm")
+-add_subdirectory(unicorn EXCLUDE_FROM_ALL)
++#set(UNICORN_ARCH "arm")
++#add_subdirectory(unicorn EXCLUDE_FROM_ALL)
+ 
+ add_library(vita-toolchain INTERFACE)
+ target_include_directories(vita-toolchain INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/vita-toolchain/src")
+@@ -369,7 +369,7 @@ option(XXH_X86DISPATCH_ALLOW_AVX "Allow building XXH3 
+ option(BUILD_SHARED_LIBS "Build shared library" OFF)
+ option(XXHASH_BUILD_XXHSUM "Build the xxhsum binary" OFF)
+ option(XXH_X86DISPATCH_ALLOW_AVX "Allow building XXH3 with AVX even if it crashes on SSE2-Only CPUs" OFF)
+-if(NOT APPLE)
++if(NOT APPLE OR NOT UNIX)
+ 	set(DISPATCH 1)
+ endif()
+ add_subdirectory(xxHash/cmake_unofficial EXCLUDE_FROM_ALL)
