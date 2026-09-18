@@ -16,6 +16,7 @@ include/IECore/CachedReader.h
 include/IECore/CamelCase.h
 include/IECore/CamelCase.inl
 include/IECore/Canceller.h
+include/IECore/Canceller.inl
 include/IECore/CircularIterator.h
 include/IECore/CircularIterator.inl
 include/IECore/ClassData.h
@@ -80,8 +81,6 @@ include/IECore/GeometricTypedData.inl
 include/IECore/GeometricTypedDataInterpolator.inl
 include/IECore/HalfTypeTraits.h
 include/IECore/HeaderGenerator.h
-include/IECore/HenyeyGreenstein.h
-include/IECore/HenyeyGreenstein.inl
 include/IECore/HexConversion.h
 include/IECore/IECore.h
 include/IECore/IFFFile.h
@@ -158,7 +157,6 @@ include/IECore/PolygonAlgo.h
 include/IECore/PolygonAlgo.inl
 include/IECore/QuatAlgo.h
 include/IECore/QuatInterpolator.inl
-include/IECore/RadixSort.h
 include/IECore/Ramp.h
 include/IECore/RampData.h
 include/IECore/RandomAlgo.h
@@ -189,8 +187,6 @@ include/IECore/StandardRadialLensModel.h
 include/IECore/StreamIndexedIO.h
 include/IECore/StringAlgo.h
 include/IECore/StringAlgo.inl
-include/IECore/SweepAndPrune.h
-include/IECore/SweepAndPrune.inl
 include/IECore/TestTypedData.h
 include/IECore/TestTypedData.inl
 include/IECore/TetrahedronAlgo.h
@@ -398,7 +394,6 @@ include/IECorePython/GeometricTypedDataBinding.h
 include/IECorePython/GeometricTypedDataBinding.inl
 include/IECorePython/HalfBinding.h
 include/IECorePython/HeaderGeneratorBinding.h
-include/IECorePython/HenyeyGreensteinBinding.h
 include/IECorePython/HexConversionBinding.h
 include/IECorePython/IECoreBinding.h
 include/IECorePython/ImathBoxVectorBinding.h
@@ -425,6 +420,7 @@ include/IECorePython/MatrixTypedParameterBinding.h
 include/IECorePython/MessageHandlerBinding.h
 include/IECorePython/ModifyOpBinding.h
 include/IECorePython/MurmurHashBinding.h
+include/IECorePython/NanobindConverter.h
 include/IECorePython/NullObjectBinding.h
 include/IECorePython/NumericParameterBinding.h
 include/IECorePython/ObjectBinding.h
@@ -448,7 +444,6 @@ include/IECorePython/PointerFromSWIG.h
 include/IECorePython/PointerFromSWIG.inl
 include/IECorePython/PolygonAlgoBinding.h
 include/IECorePython/PyBindConverter.h
-include/IECorePython/RadixSortBinding.h
 include/IECorePython/RampBinding.h
 include/IECorePython/RampDataBinding.h
 include/IECorePython/RandomAlgoBinding.h
@@ -525,6 +520,8 @@ include/IECoreScene/ParticleReader.h
 include/IECoreScene/ParticleReader.inl
 include/IECoreScene/ParticleWriter.h
 include/IECoreScene/PatchMeshPrimitive.h
+include/IECoreScene/PointInstancer.h
+include/IECoreScene/PointInstancer.inl
 include/IECoreScene/PointsAlgo.h
 include/IECoreScene/PointsPrimitive.h
 include/IECoreScene/PointsPrimitiveEvaluator.h
@@ -564,6 +561,16 @@ include/IECoreScene/VisibleRenderable.h
 include/IECoreScene/private/PrimitiveAlgoUtils.h
 include/IECoreScene/private/PrimitiveVariableAlgos.h
 include/IECoreScene/private/TransformStack.h
+include/IECoreUSD/AttributeAlgo.h
+include/IECoreUSD/DataAlgo.h
+include/IECoreUSD/DataAlgo.inl
+include/IECoreUSD/Export.h
+include/IECoreUSD/ObjectAlgo.h
+include/IECoreUSD/PrimitiveAlgo.h
+include/IECoreUSD/PrimitiveAlgo.inl
+include/IECoreUSD/SceneCacheDataAlgo.h
+include/IECoreUSD/ShaderAlgo.h
+include/IECoreUSD/TypeTraits.h
 include/IECoreVDB/Export.h
 include/IECoreVDB/TypeIds.h
 include/IECoreVDB/VDBObject.h
@@ -573,6 +580,7 @@ lib/libIECoreGL.so
 lib/libIECoreImage.so
 lib/libIECorePython.so
 lib/libIECoreScene.so
+lib/libIECoreUSD.so
 lib/libIECoreVDB.so
 %%PYTHON_SITELIBDIR%%/IECore/BasicPreset.py
 %%PYTHON_SITELIBDIR%%/IECore/CapturingMessageHandler.py
@@ -635,8 +643,11 @@ lib/libIECoreVDB.so
 %%PYTHON_SITELIBDIR%%/IECoreScene/SWAReader.py
 %%PYTHON_SITELIBDIR%%/IECoreScene/_IECoreScene.so
 %%PYTHON_SITELIBDIR%%/IECoreScene/__init__.py
+%%PYTHON_SITELIBDIR%%/IECoreUSD/_IECoreUSD.so
+%%PYTHON_SITELIBDIR%%/IECoreUSD/__init__.py
 %%PYTHON_SITELIBDIR%%/IECoreVDB/_IECoreVDB.so
 %%PYTHON_SITELIBDIR%%/IECoreVDB/__init__.py
+resources/IECoreUSD/plugInfo.json
 %%DATADIR%%/IECoreGL/ColorAlgo.h
 %%DATADIR%%/IECoreGL/CurvesPrimitive.h
 %%DATADIR%%/IECoreGL/Diffuse.h
