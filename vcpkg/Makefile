@@ -1,5 +1,5 @@
 PORTNAME=	vcpkg
-DISTVERSION=	2024.04.26
+DISTVERSION=	2024.09.30
 CATEGORIES=	ports-mgmt
 
 MAINTAINER=	freebsd@sysctl.cz
