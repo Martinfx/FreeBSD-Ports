@@ -1,6 +1,21 @@
---- SConstruct.orig	2026-05-12 16:34:12 UTC
+--- SConstruct.orig	2026-09-10 21:49:58 UTC
 +++ SConstruct
-@@ -1115,14 +1115,14 @@ if doConfigure :
+@@ -482,6 +482,14 @@
+ 	"",
+ )
+ 
++o.Add(
++	"NANOBIND_SRC_PATH",
++	"The path to the nanobind src directory. When set, nanobind's core is "
++	"compiled from source rather than linking against a prebuilt "
++	"libnanobind-static, which is not shipped by all nanobind distributions.",
++	"",
++)
++
+ # Build options
+ 
+ o.Add(
+@@ -1118,14 +1126,14 @@
  		]
  	)
  
@@ -20,3 +35,80 @@
  
  	if not c.CheckLibWithHeader( "Iex" + env["OPENEXR_LIB_SUFFIX"], "OpenEXR/ImfInputFile.h", "C++" ) :
  		sys.stderr.write( "ERROR : unable to find the OpenEXR libraries - check OPENEXR_INCLUDE_PATH and OPENEXR_LIB_PATH.\n" )
+@@ -1872,10 +1880,24 @@
+ 
+ 		if vdbVersion and int( vdbVersion ) >= 12 :
+ 			vdbPythonModuleEnv.Append(
+-				LIBPATH = [ "$NANOBIND_LIB_PATH" ],
+-				LIBS = [ "nanobind-static" ],
+ 				CXXFLAGS = [ "-fPIC", systemIncludeArgument, "$NANOBIND_INCLUDE_PATH" ]
+ 			)
++			if env["NANOBIND_SRC_PATH"] :
++				# Compile nanobind's core into the Python module, as documented
++				# in `nb_combined.cpp`. `NB_BUILD` must only be defined for this
++				# one translation unit, so it can't be added to the environment.
++				vdbPythonModuleSources.append(
++					vdbPythonModuleEnv.SharedObject(
++						"src/IECoreVDB/bindings/nb_combined",
++						os.path.join( env["NANOBIND_SRC_PATH"], "nb_combined.cpp" ),
++						CXXFLAGS = vdbPythonModuleEnv["CXXFLAGS"] + [ "-DNB_BUILD", "-fno-strict-aliasing" ]
++					)
++				)
++			else :
++				vdbPythonModuleEnv.Append(
++					LIBPATH = [ "$NANOBIND_LIB_PATH" ],
++					LIBS = [ "nanobind-static" ],
++				)
+ 
+ 		vdbEnv.Append(
+ 			LIBS = [
+@@ -2014,6 +2036,11 @@
+ 					"GLU",
+ 				]
+ 			)
++			if sys.platform.startswith( "freebsd" ) :
++				# `IECoreGL::init()` calls into Xlib to create its offscreen
++				# context, and lld does not resolve symbols via the indirect
++				# dependencies of libGL.
++				glEnv.Append( LIBS = [ "X11" ] )
+ 
+ 		glSources = sorted( glob.glob( "src/IECoreGL/*.cpp" ) )
+ 		glPythonSources = sorted( glob.glob( "src/IECoreGL/bindings/*.cpp" ) )
+@@ -2138,10 +2165,20 @@
+ if usdEnv["USD_LIB_PREFIX"] :
+ 	usdLibs = [ usdEnv["USD_LIB_PREFIX"] + x for x in usdLibs ]
+ 
+-usdPythonLib = env.subst( "boost_python$BOOST_PYTHON_LIB_SUFFIX" )
++# Not `$BOOST_PYTHON_LIB_SUFFIX` : that option is empty unless the user sets
++# it, whereas `boostPythonLibSuffix` is the suffix the Python modules are
++# actually linked with, including the version derived from `$PYTHON_VERSION`.
++usdPythonLib = "boost_python" + boostPythonLibSuffix
+ pxrVersionHeader = env.FindFile( "pxr/pxr.h", dependencyIncludes )
+ if pxrVersionHeader is not None and "#define PXR_USE_INTERNAL_BOOST_PYTHON\n" in open( str( pxrVersionHeader ) ) :
+-	usdPythonLib = usdEnv["USD_LIB_PREFIX"] + "python"
++	# Recent versions of `pxr.h` define `PXR_USE_INTERNAL_BOOST_PYTHON`
++	# unconditionally, so the presence of the macro doesn't mean the internal
++	# library exists - USD can be built without Python support at all. Only
++	# use it if we can see it.
++	internalPythonLib = usdEnv["USD_LIB_PREFIX"] + "python"
++	usdLibPath = usdEnv.subst( "$USD_LIB_PATH" )
++	if not usdLibPath or usdEnv.FindFile( usdEnv.subst( "${SHLIBPREFIX}" + internalPythonLib + "${SHLIBSUFFIX}" ), [ usdLibPath ] ) :
++		usdPythonLib = internalPythonLib
+ 
+ usdLibs.append( usdPythonLib )
+ 
+@@ -2210,10 +2247,13 @@
+ 			usdEnv.Append(
+ 				LIBS = [
+ 					os.path.basename( vdbEnv.subst( "$INSTALL_LIB_NAME" ) ),
+-					"${USD_LIB_PREFIX}usdVol",
+ 				],
+ 				CPPDEFINES = [ "IECOREUSD_WITH_OPENVDB" ]
+ 			)
++			if not usdEnv["WITH_USD_MONOLITHIC"] :
++				# A monolithic USD has usdVol in `usd_ms` already, and no
++				# separate library to link against.
++				usdEnv.Append( LIBS = [ "${USD_LIB_PREFIX}usdVol" ] )
+ 		else :
+ 			usdSources = [ f for f in usdSources if os.path.basename( f ) != "VolumeAlgo.cpp" ]
+ 
