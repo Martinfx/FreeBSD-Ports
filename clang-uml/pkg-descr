@@ -1,0 +1,4 @@
+clang-uml is an automatic C++ to UML class, sequence, package and include diagram generator,
+driven by YAML configuration files. The main idea behind the project is to easily maintain
+up-to-date diagrams within a code-base or document legacy code. The configuration file or
+files for clang-uml define the types and contents of each generated diagram.
