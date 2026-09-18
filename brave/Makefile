@@ -153,51 +153,59 @@ GN_BOOTSTRAP_FLAGS=	--no-clean --no-rebuild --skip-generate-buildfiles
 # be built first, into its own output directory.
 REDIRECT_CC_DIR=	${BUILD_WRKSRC}/out/redirect_cc
 
-GN_ARGS+=	import("//brave/build/args/brave_defaults.gni") \
+# Arguments that describe the platform and the toolchain.  Both output
+# directories need them: without them the small redirect_cc build falls back to
+# the Chromium defaults and pulls in things FreeBSD cannot build, such as the
+# allocator shim, whose malloc overrides clash with the declarations in libc.
+GN_BASE_ARGS=	target_os="freebsd" \
+		target_cpu="${GN_CPU}" \
+		clang_use_chrome_plugins=false \
+		enable_backup_ref_ptr_support=false \
+		enable_rust=true \
+		fatal_linker_warnings=false \
+		is_clang=true \
+		rust_sysroot_absolute="${LOCALBASE}" \
+		treat_warnings_as_errors=false \
+		use_allocator_shim=false \
+		use_custom_libcxx=true \
+		use_custom_libunwind=true \
+		use_lld=true \
+		use_partition_alloc=true \
+		use_partition_alloc_as_malloc=false \
+		use_reclient=false \
+		use_remoteexec=false \
+		use_siso=false \
+		use_sysroot=false \
+		use_udev=false \
+		extra_cxxflags="${CXXFLAGS} -I${LOCALBASE}/include/libepoll-shim" \
+		extra_ldflags="${LDFLAGS}"
+
+GN_ARGS+=	${GN_BASE_ARGS} \
+		import("//brave/build/args/brave_defaults.gni") \
 		import("//brave/build/args/blink_platform_defaults.gni") \
 		import("//brave/build/args/desktop_defaults.gni") \
-		target_os="freebsd" \
-		target_cpu="${GN_CPU}" \
 		brave_channel="" \
 		cc_wrapper="${REDIRECT_CC_DIR}/redirect_cc" \
-		clang_use_chrome_plugins=false \
 		chrome_pgo_phase=0 \
-		enable_backup_ref_ptr_support=false \
 		enable_cdm_host_verification=false \
 		enable_hangout_services_extension=false \
 		enable_remoting=false \
 		enable_updater=false \
 		enable_update_notifications=false \
 		enable_widevine=false \
-		fatal_linker_warnings=false \
 		icu_use_data_file=true \
-		is_clang=true \
 		is_component_build=false \
 		is_official_build=false \
 		optimize_webui=true \
 		skip_signing=true \
 		toolkit_views=true \
-		treat_warnings_as_errors=false \
-		use_allocator_shim=false \
 		use_aura=true \
-		use_custom_libcxx=true \
-		use_custom_libunwind=true \
-		use_lld=true \
-		use_partition_alloc=true \
-		use_partition_alloc_as_malloc=false \
 		use_qt5=false \
 		use_qt6=false \
-		use_reclient=false \
-		use_remoteexec=false \
-		use_siso=false \
-		use_sysroot=false \
 		use_system_freetype=false \
 		use_system_harfbuzz=true \
 		use_system_libffi=true \
 		use_system_libjpeg=true \
-		use_udev=false \
-		extra_cxxflags="${CXXFLAGS} -I${LOCALBASE}/include/libepoll-shim" \
-		extra_ldflags="${LDFLAGS}" \
 		ffmpeg_branding="${FFMPEG_BRAND}"
 
 # redirect_cc is a small host tool, it must not be wrapped by itself.  Its
@@ -206,17 +214,7 @@ GN_ARGS+=	import("//brave/build/args/brave_defaults.gni") \
 # driver passes it.
 GN_REDIRECT_CC_ARGS=	import("//brave/tools/redirect_cc/args.gni") \
 			real_rewrapper="${BUILD_WRKSRC}/buildtools/reclient/rewrapper" \
-			enable_rust=true \
-			rust_sysroot_absolute="${LOCALBASE}" \
-			target_os="freebsd" \
-			target_cpu="${GN_CPU}" \
-			clang_use_chrome_plugins=false \
-			is_clang=true \
-			treat_warnings_as_errors=false \
-			use_reclient=false \
-			use_remoteexec=false \
-			use_siso=false \
-			use_sysroot=false
+			${GN_BASE_ARGS}
 
 OPTIONS_DEFINE=		CODECS DEBUG LTO
 OPTIONS_DEFAULT=	CODECS ALSA PULSEAUDIO SNDIO
@@ -297,9 +295,6 @@ MAKE_ENV+=	C_INCLUDE_PATH=${LOCALBASE}/include \
 		GOCACHE=${WRKDIR}/go-cache \
 		RUSTC_BOOTSTRAP=1
 CONFIGURE_ENV+=	${MAKE_ENV}
-
-GN_ARGS+=	enable_rust=true \
-		rust_sysroot_absolute="${LOCALBASE}"
 
 pre-everything::
 	@${ECHO_MSG}
