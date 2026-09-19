@@ -312,9 +312,21 @@ PLIST_SUB+=	NOT_AARCH64=""
 FFMPEG_BDIR=	${BUILD_WRKSRC}/third_party/ffmpeg/build.${FFMPEG_TARGET}.freebsd/${FFMPEG_BRAND}
 FFMPEG_CDIR=	${BUILD_WRKSRC}/third_party/ffmpeg/chromium/config/${FFMPEG_BRAND}/freebsd/${FFMPEG_TARGET}
 
+# brave-core patches 41 of Chromium's python build scripts to end in an import
+# of brave_chromium_utils, which is how it hooks chromium_src/ overrides into
+# them.  That module lives in //brave/script and is only importable because
+# Brave's build driver puts it on PYTHONPATH; driving ninja directly, as this
+# port does, leaves the first such script failing on ModuleNotFoundError.  The
+# list is the one from src/brave/build/commands/lib/config.ts, without the
+# three directories a gclient checkout has and this tree does not (they hold
+# requests, cryptography and macholib, none of which a FreeBSD build reaches).
+_PYTHONPATH=	${BUILD_WRKSRC}/brave/script:${BUILD_WRKSRC}/tools/grit/grit/extern:${BUILD_WRKSRC}/build:${BUILD_WRKSRC}/third_party/depot_tools
+
 MAKE_ENV+=	C_INCLUDE_PATH=${LOCALBASE}/include \
 		CPLUS_INCLUDE_PATH=${LOCALBASE}/include \
 		GOCACHE=${WRKDIR}/go-cache \
+		PYTHONPATH=${_PYTHONPATH} \
+		PYTHONUNBUFFERED=1 \
 		RUSTC_BOOTSTRAP=1
 CONFIGURE_ENV+=	${MAKE_ENV}
 
