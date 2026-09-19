@@ -369,6 +369,14 @@ pre-configure:
 	libavcodec libavformat libavutil
 	-${CP} -pR ${FFMPEG_BDIR}/${_e} ${FFMPEG_CDIR}
 .endfor
+	# The copies above ignore errors because not every branding produces every
+	# one of those directories, which would also swallow a failed FFmpeg
+	# configure.  The generated config is a build input, so check for it.
+	@if [ ! -f ${FFMPEG_CDIR}/config.asm ]; then \
+		${ECHO_MSG} "===>  FFmpeg produced no config in ${FFMPEG_BDIR}"; \
+		${ECHO_MSG} "      The build needs ${FFMPEG_CDIR}/config.asm."; \
+		${FALSE}; \
+	fi
 	@${REINPLACE_CMD} -e 's|$${LOCALBASE}|${LOCALBASE}|;s|$${MODCLANG_VERSION}|${LLVM_DEFAULT}|' \
 		${BUILD_WRKSRC}/build/linux/strip_binary.gni \
 		${BUILD_WRKSRC}/build/rust/rust_bindgen.gni \
@@ -424,9 +432,13 @@ do-configure:
 	@${MKDIR} ${BUILD_WRKSRC}/third_party/node/freebsd/node-freebsd/bin
 	${LN} -sf ${LOCALBASE}/bin/node \
 		${BUILD_WRKSRC}/third_party/node/freebsd/node-freebsd/bin/node
+	# Brave builds its wasm crates with cargo, out of this directory and with
+	# it first in PATH, so both binaries have to be here.
 	@${MKDIR} ${BUILD_WRKSRC}/third_party/rust-toolchain/bin
 	${LN} -sf ${LOCALBASE}/bin/rustc \
 		${BUILD_WRKSRC}/third_party/rust-toolchain/bin/rustc
+	${LN} -sf ${LOCALBASE}/bin/cargo \
+		${BUILD_WRKSRC}/third_party/rust-toolchain/bin/cargo
 	${LN} -sf ${LOCALBASE}/bin/gperf \
 		${BUILD_WRKSRC}/third_party/gperf/cipd/bin/gperf
 	@${MKDIR} ${BUILD_WRKSRC}/buildtools/freebsd
