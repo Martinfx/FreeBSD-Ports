@@ -336,6 +336,11 @@ pre-everything::
 	@${ECHO_MSG} "- ${WANTMEM} of memory"
 	@${ECHO_MSG} "- ${WANTSPACE} of free disk space"
 	@${ECHO_MSG}
+	@${ECHO_MSG} "This build will use ${MAKE_JOBS_NUMBER} parallel job(s)."
+	@${ECHO_MSG} "Linking takes over a gigabyte per job, so on a machine with"
+	@${ECHO_MSG} "more cores than memory set MAKE_JOBS_NUMBER_LIMIT in"
+	@${ECHO_MSG} "/etc/make.conf rather than letting every core link at once."
+	@${ECHO_MSG}
 
 # The official Chromium tarball is unpacked next to brave-core, which gclient
 # would otherwise check out as src/brave.  ${FIND} is used instead of a glob so
@@ -479,7 +484,8 @@ do-configure:
 	# gn itself is built from the Chromium tree, no prebuilt binary is fetched
 	cd ${BUILD_WRKSRC} && ${SETENV} ${CONFIGURE_ENV} CC=${CC} CXX=${CXX} \
 		LD=${CXX} READELF=${READELF} AR=${AR} NM=${NM} ${PYTHON_CMD} \
-		./tools/gn/bootstrap/bootstrap.py ${GN_BOOTSTRAP_FLAGS}
+		./tools/gn/bootstrap/bootstrap.py -j${MAKE_JOBS_NUMBER} \
+		${GN_BOOTSTRAP_FLAGS}
 
 	# Dependencies Chromium normally expects below third_party/
 	@${MKDIR} ${BUILD_WRKSRC}/third_party/node/freebsd/node-freebsd/bin
@@ -504,8 +510,8 @@ do-configure:
 	cd ${BUILD_WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${GN} gen \
 		--root-target=//brave/tools/redirect_cc \
 		--args='${GN_REDIRECT_CC_ARGS}' out/redirect_cc
-	cd ${BUILD_WRKSRC} && ${SETENV} ${MAKE_ENV} ${NINJA_CMD} -C out/redirect_cc \
-		brave/tools/redirect_cc
+	cd ${BUILD_WRKSRC} && ${SETENV} ${MAKE_ENV} ${NINJA_CMD} \
+		-j${MAKE_JOBS_NUMBER} -C out/redirect_cc brave/tools/redirect_cc
 
 	cd ${BUILD_WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${GN} gen \
 		--args='${GN_ARGS}' out/${BUILDTYPE}
