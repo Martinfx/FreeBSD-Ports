@@ -422,6 +422,12 @@ pre-configure:
 	# Not --ignore-scripts: @brave/leo generates the Skia colour ids and the
 	# icons the browser compiles against from its own prepare script, and
 	# pnpm-workspace.yaml already limits which packages may run one.
+	#
+	# Some of the ~1700 tarballs are tens of megabytes and pnpm restarts a
+	# slow one from the beginning, so on a link that cannot hold a connection
+	# that long the install never finishes.  files/npm-fetch-proxy.py serves
+	# the tarballs from a local cache and resumes them across as many attempts
+	# as it takes; see the comment at the top of it.
 	@if [ ! -d ${WRKSRC}/src/brave/node_modules ]; then \
 		cd ${WRKSRC}/src/brave && ${SETENV} ${CONFIGURE_ENV} \
 		    ${LOCALBASE}/bin/corepack pnpm install --frozen-lockfile; \
