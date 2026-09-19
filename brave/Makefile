@@ -348,8 +348,9 @@ pre-configure:
 	if [ -n "$${_dup}" ]; then \
 		${ECHO_MSG} "===>  More than one rlib per crate in ${LOCALBASE}/lib/rustlib/${RUST_ABI_TARGET}/lib:"; \
 		${ECHO_MSG} "      $${_dup}"; \
-		${ECHO_MSG} "      Only one Rust toolchain may be installed there."; \
-		${ECHO_MSG} "      Find the owners with pkg which and remove the stale one."; \
+		${ECHO_MSG} "      Usually these are leftovers from an earlier Rust,"; \
+		${ECHO_MSG} "      owned by no package.  Compare the directory against"; \
+		${ECHO_MSG} "      pkg info -ql rust and delete what is not listed."; \
 		${FALSE}; \
 	fi
 	cd ${BUILD_WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${PYTHON_CMD} \
