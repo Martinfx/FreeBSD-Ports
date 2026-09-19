@@ -277,12 +277,14 @@ BINARY_ALIAS+=	cpp=${LOCALBASE}/bin/clang-cpp${LLVM_DEFAULT} \
 
 .if ${ARCH} == aarch64
 GN_CPU=		arm64
+RUST_ABI_TARGET=aarch64-unknown-freebsd
 FFMPEG_TARGET=	arm64
 # swiftshader/lib/{libEGL.so,libGLESv2.so} is x86 only
 PLIST_SUB+=	NOT_AARCH64="@comment "
 .else
 BUILD_DEPENDS+=	nasm:devel/nasm
 GN_CPU=		x64
+RUST_ABI_TARGET=x86_64-unknown-freebsd
 FFMPEG_TARGET=	x64
 PLIST_SUB+=	NOT_AARCH64=""
 .endif
@@ -334,6 +336,22 @@ pre-patch:
 	done
 
 pre-configure:
+	# Chromium picks the Rust standard library out of the sysroot by crate
+	# name, and where a crate is present more than once it takes whichever
+	# sorts first.  Two toolchains installed side by side therefore end up
+	# mixing rlibs from different builds, and since Rust puts a per-build hash
+	# into every symbol name, the link fails much later on undefined core
+	# symbols.  Say so now instead.
+	@_dup=$$(${LS} ${LOCALBASE}/lib/rustlib/${RUST_ABI_TARGET}/lib/*.rlib \
+	    2>/dev/null | ${SED} -e 's|.*/lib||' -e 's|-[0-9a-f]*\.rlib$$||' \
+	    | ${SORT} | uniq -d); \
+	if [ -n "$${_dup}" ]; then \
+		${ECHO_MSG} "===>  More than one rlib per crate in ${LOCALBASE}/lib/rustlib/${RUST_ABI_TARGET}/lib:"; \
+		${ECHO_MSG} "      $${_dup}"; \
+		${ECHO_MSG} "      Only one Rust toolchain may be installed there."; \
+		${ECHO_MSG} "      Find the owners with pkg which and remove the stale one."; \
+		${FALSE}; \
+	fi
 	cd ${BUILD_WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${PYTHON_CMD} \
 		./build/linux/unbundle/replace_gn_files.py --system-libraries \
 		dav1d flac fontconfig harfbuzz libdrm libpng \
