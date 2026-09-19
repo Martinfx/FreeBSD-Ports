@@ -396,10 +396,12 @@ pre-configure:
 	# brave-core is a pnpm workspace, which corepack provides.  This is the
 	# only step that still wants network access, so it is skipped when the
 	# modules have been staged into the work directory beforehand.
+	# Not --ignore-scripts: @brave/leo generates the Skia colour ids and the
+	# icons the browser compiles against from its own prepare script, and
+	# pnpm-workspace.yaml already limits which packages may run one.
 	@if [ ! -d ${WRKSRC}/src/brave/node_modules ]; then \
 		cd ${WRKSRC}/src/brave && ${SETENV} ${CONFIGURE_ENV} \
-		    ${LOCALBASE}/bin/corepack pnpm install --frozen-lockfile \
-		    --ignore-scripts; \
+		    ${LOCALBASE}/bin/corepack pnpm install --frozen-lockfile; \
 	fi
 
 pre-build:
