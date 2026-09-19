@@ -191,6 +191,16 @@ GN_BASE_ARGS=	target_os="freebsd" \
 		extra_cxxflags="${CXXFLAGS} -I${LOCALBASE}/include/libepoll-shim" \
 		extra_ldflags="${LDFLAGS}"
 
+# enable_web_discovery_native, not enable_web_discovery: the first is the one
+# that gates the C++ Web Discovery implementation under
+# //brave/components/web_discovery, the second only gates the extension that
+# drives it and the preference names that go with it.  Turning the second off
+# as well is not a configuration brave-core builds: it leaves
+# kWebDiscoveryEnabled undeclared while rewards_page_handler.cc goes on using
+# it.  With just the first off, enable_web_discovery falls back to
+# enable_extensions, which is how brave-core builds for every platform not on
+# its native list.
+
 # Chromium turns dcheck_always_on on by itself whenever is_official_build is
 # off, which is how Brave builds outside its own release pipeline.  It compiles
 # every DCHECK in the tree plus V8's verification machinery into the binary --
@@ -213,7 +223,6 @@ GN_ARGS+=	${GN_BASE_ARGS} \
 		enable_remoting=false \
 		enable_updater=false \
 		enable_update_notifications=false \
-		enable_web_discovery=false \
 		enable_web_discovery_native=false \
 		enable_widevine=false \
 		icu_use_data_file=true \
