@@ -191,6 +191,15 @@ GN_BASE_ARGS=	target_os="freebsd" \
 		extra_cxxflags="${CXXFLAGS} -I${LOCALBASE}/include/libepoll-shim" \
 		extra_ldflags="${LDFLAGS}"
 
+# Chromium turns dcheck_always_on on by itself whenever is_official_build is
+# off, which is how Brave builds outside its own release pipeline.  It compiles
+# every DCHECK in the tree plus V8's verification machinery into the binary --
+# on the V8 files alone that is thirteen extra defines, among them
+# V8_VERIFY_WRITE_BARRIERS, CPPGC_VERIFY_HEAP and V8_ENABLE_DEBUG_CODE -- and
+# those checks abort the browser when they fire.  That is what upstream wants
+# from a development build and not what a package wants, so turn it off: the
+# build graph keeps the same ~58500 steps, but 45000 of them are compiles and
+# every one of them gets cheaper.
 GN_ARGS+=	${GN_BASE_ARGS} \
 		import("//brave/build/args/brave_defaults.gni") \
 		import("//brave/build/args/blink_platform_defaults.gni") \
@@ -198,6 +207,7 @@ GN_ARGS+=	${GN_BASE_ARGS} \
 		brave_channel="" \
 		cc_wrapper="${REDIRECT_CC_DIR}/redirect_cc" \
 		chrome_pgo_phase=0 \
+		dcheck_always_on=false \
 		enable_cdm_host_verification=false \
 		enable_hangout_services_extension=false \
 		enable_remoting=false \
