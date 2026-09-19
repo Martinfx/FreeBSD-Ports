@@ -1,0 +1,14 @@
+--- src/brave/pnpm-workspace.yaml.orig	2026-06-01 00:00:00 UTC
++++ src/brave/pnpm-workspace.yaml
+@@ -20,7 +20,10 @@
+   svelte-preprocess: true
+   tiny-secp256k1: true
+   unrs-resolver: true
+-  usb: true
++  # usb builds a native addon against libusb-1.0, but on FreeBSD node-gyp finds
++  # the base system's /usr/include/libusb.h, which has no libusb_set_option.
++  # Nothing needs the addon here: usb is pulled in by @trezor/transport for its
++  # Node backend, and only its JavaScript ends up in the browser bundles.
+   utf-8-validate: true
+ 
+ # HTTP fetch timeout in milliseconds (5 minutes).
