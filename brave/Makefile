@@ -344,7 +344,7 @@ pre-configure:
 	# symbols.  Say so now instead.
 	@_dup=$$(${LS} ${LOCALBASE}/lib/rustlib/${RUST_ABI_TARGET}/lib/*.rlib \
 	    2>/dev/null | ${SED} -e 's|.*/lib||' -e 's|-[0-9a-f]*\.rlib$$||' \
-	    | ${SORT} | uniq -d); \
+	    | ${SORT} | uniq -d | ${TR} '\n' ' '); \
 	if [ -n "$${_dup}" ]; then \
 		${ECHO_MSG} "===>  More than one rlib per crate in ${LOCALBASE}/lib/rustlib/${RUST_ABI_TARGET}/lib:"; \
 		${ECHO_MSG} "      $${_dup}"; \
