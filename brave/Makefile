@@ -469,6 +469,22 @@ pre-configure:
 		${ECHO_MSG} "      or delete that node_modules and ${WRKDIR}/pnpm and install again."; \
 		${FALSE}; \
 	fi
+	# Brave's build driver runs a branding step before it starts ninja: it
+	# copies brave-core's strings, translations, themes, icons and branded grd
+	# files over the matching files in the Chromium tree.  Driving ninja
+	# directly skips it, and the build then fails the first time grit is asked
+	# for one of the thirteen locales Brave adds to the desktop set but
+	# Chromium's locale_settings_linux.grd only lists for Android:
+	#
+	#   Asserted file list does not match.
+	#   Missing output files: ... platform_locale_settings_si.pak ...
+	#
+	# None of what it writes is a file this port patches, and it only copies
+	# what differs, so running it again on an already configured tree is free.
+	cd ${BUILD_WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${LOCALBASE}/bin/node \
+		${FILESDIR}/update-branding.mjs \
+		${WRKSRC}/src/brave/build/commands
+
 	# Two of the Brave resource bundles are Rust crates compiled to wasm, and
 	# brave-core vendors what they need under third_party/wasm/vendor.  Cargo
 	# picks its config up from the working directory's ancestors, and the one
