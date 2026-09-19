@@ -1,4 +1,4 @@
-TIMESTAMP = 1789813975
+TIMESTAMP = 1789814410
 SHA256 (chromium-152.0.7977.76-lite.tar.xz) = 7343e418612f7235415086da1b0f5588d037a85440c131d905d3a57a13d04de3
 SIZE (chromium-152.0.7977.76-lite.tar.xz) = 1774867700
 SHA256 (rust/crates/ahash-0.8.12.crate) = 5a15f179cd60c4584b8a8c596927aadc462e27f2ca70c04e0071964a73ba7a75
@@ -231,8 +231,8 @@ SHA256 (rust/crates/regex-automata-0.4.14.crate) = 6e1dd4122fc1595e8162618945476
 SIZE (rust/crates/regex-automata-0.4.14.crate) = 618012
 SHA256 (rust/crates/regex-syntax-0.8.10.crate) = dc897dd8d9e8bd1ed8cdad82b5966c3e0ecae09fb1907d58efaa013543185d0a
 SIZE (rust/crates/regex-syntax-0.8.10.crate) = 358781
-SHA256 (rust/crates/regress-0.10.5.crate) = 69792b0afb1acaa993c6b6d386a8e3a4587d2f7adc6d818c6d122a75666023a5
-SIZE (rust/crates/regress-0.10.5.crate) = 51620
+SHA256 (rust/crates/regress-0.10.5.crate) = 2057b2325e68a893284d1538021ab90279adac1139957ca2a74426c6f118fb48
+SIZE (rust/crates/regress-0.10.5.crate) = 346868
 SHA256 (rust/crates/rustc-hash-2.1.2.crate) = 94300abf3f1ae2e2b8ffb7b58043de3d399c73fa6f4b73826402a5c457614dbe
 SIZE (rust/crates/rustc-hash-2.1.2.crate) = 14754
 SHA256 (rust/crates/rustversion-1.0.22.crate) = b39cdef0fa800fc44525c84ccb54a029961a8215f9619753635a9c0d2538d46d
