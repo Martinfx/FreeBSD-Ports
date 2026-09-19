@@ -459,6 +459,26 @@ pre-configure:
 		${ECHO_MSG} "      or delete that node_modules and ${WRKDIR}/pnpm and install again."; \
 		${FALSE}; \
 	fi
+	# Two of the Brave resource bundles are Rust crates compiled to wasm, and
+	# brave-core vendors what they need under third_party/wasm/vendor.  Cargo
+	# picks its config up from the working directory's ancestors, and the one
+	# USES=cargo writes in ${WRKDIR} for the rollup binding points crates-io at
+	# a vendor directory that holds only the rollup crates.  The GN rule does
+	# pass the package's own config, but wasm-pack runs `cargo metadata` before
+	# that reaches cargo, so the lookup lands in the wrong directory:
+	#
+	#   error: no matching package named `argon2` found
+	#   location searched: directory source `${WRKSRC}/cargo-crates`
+	#
+	# A config next to the Chromium root is nearer than ${WRKDIR} and so wins
+	# for everything ninja runs, while the explicit --config of the crates that
+	# have one still overrides it.
+	@${MKDIR} ${BUILD_WRKSRC}/.cargo
+	@${ECHO_CMD} "[source.crates-io]" > ${BUILD_WRKSRC}/.cargo/config.toml
+	@${ECHO_CMD} "replace-with = 'brave-wasm'" >> ${BUILD_WRKSRC}/.cargo/config.toml
+	@${ECHO_CMD} "" >> ${BUILD_WRKSRC}/.cargo/config.toml
+	@${ECHO_CMD} "[source.brave-wasm]" >> ${BUILD_WRKSRC}/.cargo/config.toml
+	@${ECHO_CMD} "directory = '${BUILD_WRKSRC}/brave/third_party/wasm/vendor'" >> ${BUILD_WRKSRC}/.cargo/config.toml
 
 pre-build:
 	# The rollup plugin devtools-frontend loads is a native node module
