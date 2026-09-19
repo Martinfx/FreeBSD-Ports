@@ -9,23 +9,21 @@
  #define MAP_ANONYMOUS MAP_ANON
  #endif
  
-@@ -359,8 +359,15 @@ void OS::SetRandomMmapSeed(int64_t seed) {
+@@ -359,6 +359,13 @@
    }
  }
  
 +#if V8_OS_OPENBSD
 +// Allow OpenBSD's mmap to select a random address on OpenBSD 
- // static
- void* OS::GetRandomMmapAddr() {
++// static
++void* OS::GetRandomMmapAddr() {
 +  return nullptr;
 +}
 +#else
-+// static
-+void* OS::GetRandomMmapAddr() {
+ // static
+ void* OS::GetRandomMmapAddr() {
    uintptr_t raw_addr;
-   {
-     MutexGuard guard(rng_mutex.Pointer());
-@@ -457,6 +464,7 @@ void* OS::GetRandomMmapAddr() {
+@@ -457,6 +464,7 @@
  #endif
    return reinterpret_cast<void*>(raw_addr);
  }
@@ -33,7 +31,7 @@
  
  // TODO(bbudge) Move Cygwin and Fuchsia stuff into platform-specific files.
  #if !V8_OS_CYGWIN && !V8_OS_FUCHSIA
-@@ -772,7 +780,7 @@ void OS::DestroySharedMemoryHandle(SharedMemoryHandle 
+@@ -772,7 +780,7 @@
  #if !V8_OS_ZOS
  // static
  bool OS::HasLazyCommits() {
@@ -42,16 +40,27 @@
    return true;
  #else
    // TODO(bbudge) Return true for all POSIX platforms.
-@@ -1423,7 +1431,7 @@ void Thread::SetThreadLocal(LocalStorageKey key, void*
+@@ -1422,9 +1430,6 @@
+ // pthread_getattr_np used below is non portable (hence the _np suffix). We
  // keep this version in POSIX as most Linux-compatible derivatives will
  // support it. MacOS and FreeBSD are different here.
- #if !defined(V8_OS_FREEBSD) && !defined(V8_OS_DARWIN) && !defined(_AIX) && \
+-#if !defined(V8_OS_FREEBSD) && !defined(V8_OS_DARWIN) && !defined(_AIX) && \
 -    !defined(V8_OS_SOLARIS)
-+    !defined(V8_OS_SOLARIS) && !defined(V8_OS_OPENBSD)
- 
+-
  namespace {
  #if DEBUG
-@@ -1486,21 +1494,20 @@ Stack::StackSlot Stack::ObtainCurrentThreadStackStart(
+ bool MainThreadIsCurrentThread() {
+@@ -1440,6 +1445,9 @@
+ #endif  // DEBUG
+ }  // namespace
+ 
++#if !defined(V8_OS_FREEBSD) && !defined(V8_OS_DARWIN) && !defined(_AIX) && \
++    !defined(V8_OS_SOLARIS) && !defined(V8_OS_OPENBSD)
++
+ // static
+ Stack::StackSlot Stack::ObtainCurrentThreadStackStart() {
+ #if V8_OS_ZOS
+@@ -1486,21 +1494,20 @@
  #endif  // V8_OS_ZOS
  }
  
@@ -80,14 +89,14 @@
    if (error) {
      DCHECK(MainThreadIsCurrentThread());
      return nullptr;
-@@ -1513,10 +1520,6 @@ Stack::StackSlot Stack::ObtainCurrentThreadStackReserv
-   return base;
+@@ -1514,10 +1521,6 @@
  #endif  // V8_OS_ZOS
  }
--
+ 
 -#endif  // !defined(V8_OS_FREEBSD) && !defined(V8_OS_DARWIN) &&
 -        // !defined(_AIX) && !defined(V8_OS_SOLARIS)
 -
- 
+-
  
  // static
+ void Stack::SetCurrentThreadStackBounds(uintptr_t, uintptr_t) { UNREACHABLE(); }
