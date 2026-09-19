@@ -153,6 +153,8 @@ GN_BOOTSTRAP_FLAGS=	--no-clean --no-rebuild --skip-generate-buildfiles
 # be built first, into its own output directory.
 REDIRECT_CC_DIR=	${BUILD_WRKSRC}/out/redirect_cc
 
+_LEO=		${WRKSRC}/src/brave/node_modules/@brave/leo
+
 # Arguments that describe the platform and the toolchain.  Both output
 # directories need them: without them the small redirect_cc build falls back to
 # the Chromium defaults and pulls in things FreeBSD cannot build, such as the
@@ -402,6 +404,16 @@ pre-configure:
 	@if [ ! -d ${WRKSRC}/src/brave/node_modules ]; then \
 		cd ${WRKSRC}/src/brave && ${SETENV} ${CONFIGURE_ENV} \
 		    ${LOCALBASE}/bin/corepack pnpm install --frozen-lockfile; \
+	fi
+	# @brave/leo writes these from its prepare script, and the browser is
+	# compiled against them.  pnpm reuses an already unpacked copy from its
+	# store, so an install that once ran with --ignore-scripts leaves them out
+	# and the failure only shows up as a missing include, thousands of steps in.
+	@if [ ! -f ${_LEO}/tokens/skia/nala_color_id.h ]; then \
+		${ECHO_MSG} "===>  @brave/leo has not been built: no ${_LEO}/tokens/skia/nala_color_id.h"; \
+		${ECHO_MSG} "      Run 'corepack pnpm rebuild @brave/leo' in ${WRKSRC}/src/brave,"; \
+		${ECHO_MSG} "      or delete that node_modules and ${WRKDIR}/pnpm and install again."; \
+		${FALSE}; \
 	fi
 
 pre-build:
