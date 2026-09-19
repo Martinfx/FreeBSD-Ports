@@ -2,8 +2,17 @@ PORTNAME=	brave
 DISTVERSIONPREFIX=	v
 DISTVERSION=	1.94.120
 CATEGORIES=	www
-MASTER_SITES=	https://commondatastorage.googleapis.com/chromium-browser-official/:chromium
+MASTER_SITES=	https://commondatastorage.googleapis.com/chromium-browser-official/:chromium \
+		${NODE_MODULES_SITE}:nodemods
 DISTFILES=	chromium-${CHROME_VERSION}-lite.tar.xz:chromium
+
+# The Node modules the Brave UI is built from.  Upstream installs them with
+# pnpm, which is the one step of this build that wants the network, so a build
+# in a sandbox without one (poudriere, above all) needs them as a distfile
+# instead.  It is not something upstream publishes: the maintainer produces it
+# with "make gen-node-modules" and uploads it, see the NODEMODS option below.
+NODE_MODULES_DIST=	brave-node-modules-${DISTVERSION}.tar.xz
+NODE_MODULES_SITE?=	https://github.com/Martinfx/FreeBSD-Ports/releases/download/brave-${DISTVERSION}/
 
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Brave web browser based on Chromium
@@ -220,13 +229,14 @@ GN_REDIRECT_CC_ARGS=	import("//brave/tools/redirect_cc/args.gni") \
 			real_rewrapper="${BUILD_WRKSRC}/buildtools/reclient/rewrapper" \
 			${GN_BASE_ARGS}
 
-OPTIONS_DEFINE=		CODECS DEBUG LTO
+OPTIONS_DEFINE=		CODECS DEBUG LTO NODEMODS
 OPTIONS_DEFAULT=	CODECS ALSA PULSEAUDIO SNDIO
 OPTIONS_EXCLUDE_aarch64=LTO
 OPTIONS_GROUP=		AUDIO
 OPTIONS_GROUP_AUDIO=	ALSA PULSEAUDIO SNDIO
 OPTIONS_SUB=		yes
 CODECS_DESC=		Compile and enable patented codecs like H.264
+NODEMODS_DESC=		Fetch the Node modules as a distfile instead of running pnpm
 
 ALSA_LIB_DEPENDS=	libasound.so:audio/alsa-lib
 ALSA_VARS=		GN_ARGS+=use_alsa=true
@@ -253,6 +263,12 @@ DEBUG_VARS_OFF=		BUILDTYPE=Release \
 LTO_VARS=		GN_ARGS+=use_thin_lto=true \
 			GN_ARGS+=thin_lto_enable_optimizations=true
 LTO_VARS_OFF=		GN_ARGS+=use_thin_lto=false
+
+# Without this the modules are installed by pre-configure, which needs the
+# network.  Turn it on for poudriere and for any other build that has none;
+# the distfile has to be regenerated whenever brave-core's pnpm-lock.yaml
+# changes, so it carries the Brave version in its name.
+NODEMODS_DISTFILES=	${NODE_MODULES_DIST}:nodemods
 
 PULSEAUDIO_LIB_DEPENDS=	libpulse.so:audio/pulseaudio
 PULSEAUDIO_VARS=	GN_ARGS+=use_pulseaudio=true
@@ -317,6 +333,11 @@ post-extract:
 	@cd ${WRKDIR}/chromium-${CHROME_VERSION} && ${FIND} . -mindepth 1 \
 		-maxdepth 1 -exec ${MV} {} ${WRKSRC}/src/ \;
 	@${RMDIR} ${WRKDIR}/chromium-${CHROME_VERSION}
+	# With NODEMODS the Node modules come from a distfile, which unpacks into
+	# the work directory like every other one.  They belong to brave-core.
+	@if [ -d ${WRKDIR}/node_modules ]; then \
+		${MV} ${WRKDIR}/node_modules ${WRKSRC}/src/brave/node_modules; \
+	fi
 
 # brave-core carries its own patches for the Chromium tree and they are written
 # against pristine Chromium, so they have to go in before the FreeBSD patches
@@ -470,6 +491,27 @@ do-configure:
 
 	cd ${BUILD_WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${GN} gen \
 		--args='${GN_ARGS}' out/${BUILDTYPE}
+
+# Builds the NODEMODS distfile.  It has to be made from a finished install and
+# not from the lockfile alone: @brave/leo runs its own npm install and then
+# generates the Skia colour ids and the icon headers the browser is compiled
+# against, so only a complete node_modules is usable offline.  Run this with
+# NODEMODS off (the modules are installed by pre-configure), then upload the
+# tarball to NODE_MODULES_SITE and run "make makesum" with NODEMODS on.
+gen-node-modules: patch
+	@if [ ! -d ${WRKSRC}/src/brave/node_modules ]; then \
+		cd ${WRKSRC}/src/brave && ${SETENV} ${CONFIGURE_ENV} \
+		    ${LOCALBASE}/bin/corepack pnpm install --frozen-lockfile; \
+	fi
+	@if [ ! -f ${_LEO}/tokens/skia/nala_color_id.h ]; then \
+		${ECHO_MSG} "===>  @brave/leo has not been built, refusing to pack"; \
+		${ECHO_MSG} "      an incomplete ${NODE_MODULES_DIST}."; \
+		${FALSE}; \
+	fi
+	@${ECHO_MSG} "===>  Packing ${NODE_MODULES_DIST}"
+	@cd ${WRKSRC}/src/brave && ${TAR} -c -J -f ${WRKDIR}/${NODE_MODULES_DIST} \
+		node_modules
+	@${ECHO_MSG} "===>  ${WRKDIR}/${NODE_MODULES_DIST}"
 
 do-install:
 	@${MKDIR} ${STAGEDIR}${DATADIR}
