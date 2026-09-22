@@ -1,0 +1,8 @@
+--- vita3k/codec/CMakeLists.txt.orig	2025-04-23 19:43:02 UTC
++++ vita3k/codec/CMakeLists.txt
+@@ -14,4 +14,4 @@ target_include_directories(codec PUBLIC include)
+ )
+ 
+ target_include_directories(codec PUBLIC include)
+-target_link_libraries(codec PRIVATE ffmpeg libatrac9 util) 
++target_link_libraries(codec PRIVATE libatrac9 util ${AVCODEC_LIBRARY} ${AVFORMAT_LIBRARY} ${AVUTIL_LIBRARY} ${AVDEVICE_LIBRARY} ${SWSCALE_LIBRARY} ${SWRESAMPLE_LIBRARY})
