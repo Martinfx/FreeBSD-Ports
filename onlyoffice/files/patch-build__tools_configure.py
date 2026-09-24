@@ -1,6 +1,6 @@
---- build_tools/configure.py.orig	2025-09-24 14:12:03 UTC
+--- build_tools/configure.py.orig	2026-09-24 21:58:50 UTC
 +++ build_tools/configure.py
-@@ -14,7 +14,7 @@ parser.add_option("--beta", action="store", type="stri
+@@ -14,7 +14,7 @@ parser.add_option("--clean", action="sto
  parser.add_option("--module", action="store", type="string", dest="module", default="builder", help="defines what modules to build. You can specify several of them, e.g. --module 'core desktop builder server mobile'")
  parser.add_option("--develop", action="store", type="string", dest="develop", default="0", help="defines develop mode")
  parser.add_option("--beta", action="store", type="string", dest="beta", default="0", help="defines beta mode")

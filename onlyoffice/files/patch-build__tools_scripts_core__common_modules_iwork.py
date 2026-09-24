@@ -1,4 +1,4 @@
---- build_tools/scripts/core_common/modules/iwork.py.orig	2025-08-05 15:06:08 UTC
+--- build_tools/scripts/core_common/modules/iwork.py.orig	2026-09-24 21:58:50 UTC
 +++ build_tools/scripts/core_common/modules/iwork.py
 @@ -30,9 +30,9 @@ def make(use_gperf = True):
    if use_gperf:

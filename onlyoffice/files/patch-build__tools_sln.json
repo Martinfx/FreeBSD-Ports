@@ -1,5 +1,14 @@
---- build_tools/sln.json.orig	2025-09-23 22:50:09 UTC
+--- build_tools/sln.json.orig	2026-09-24 21:58:50 UTC
 +++ build_tools/sln.json
+@@ -2,7 +2,7 @@
+   "root" : "../",
+ 
+   "spell" : [
+-    "[win,linux,mac]core/Common/3dParty/hunspell/qt/hunspell.pro"
++    "[win,linux,freebsd,mac]core/Common/3dParty/hunspell/qt/hunspell.pro"
+   ],
+ 
+   "core" : [
 @@ -48,14 +48,14 @@
  
      "[!no_x2t]core/X2tConverter/build/Qt/X2tConverter.pro",
@@ -20,6 +29,26 @@
  
      "spell",
  
+@@ -77,7 +77,7 @@
+   ],
+ 
+   "multimedia" : [
+-    "[win,linux]desktop-sdk/ChromiumBasedEditors/videoplayerlib/videoplayerlib.pro"
++    "[win,linux,freebsd]desktop-sdk/ChromiumBasedEditors/videoplayerlib/videoplayerlib.pro"
+   ],
+   
+   "desktop" : [
+@@ -89,8 +89,8 @@
+     "desktop-sdk/ChromiumBasedEditors/lib/ascdocumentscore.pro",
+     "desktop-sdk/ChromiumBasedEditors/lib/ascdocumentscore_helper.pro",
+ 
+-    "[win,linux]desktop-sdk/ChromiumBasedEditors/lib/qt_wrapper/qtascdocumentscore.pro",
+-    "[win,linux]desktop-apps/win-linux/ASCDocumentEditor.pro",
++    "[win,linux,freebsd]desktop-sdk/ChromiumBasedEditors/lib/qt_wrapper/qtascdocumentscore.pro",
++    "[win,linux,freebsd]desktop-apps/win-linux/ASCDocumentEditor.pro",
+     
+     "[win]desktop-apps/win-linux/extras/projicons/ProjIcons.pro",
+     "[win,!win_xp]desktop-apps/win-linux/extras/update-daemon/UpdateDaemon.pro",
 @@ -102,6 +102,6 @@
    ],
  

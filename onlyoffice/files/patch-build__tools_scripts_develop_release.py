@@ -1,6 +1,6 @@
---- build_tools/scripts/develop/release.py.orig	2025-09-23 22:50:09 UTC
+--- build_tools/scripts/develop/release.py.orig	2026-09-24 21:58:50 UTC
 +++ build_tools/scripts/develop/release.py
-@@ -42,7 +42,7 @@ repositories['core-ext'] = [True, False]
+@@ -42,7 +42,7 @@ repositories = base.get_repositories()
  # Add other repositories
  repositories['core-ext'] = [True, False]
  

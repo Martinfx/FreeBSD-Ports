@@ -1,6 +1,6 @@
---- build_tools/scripts/core_common/make_common.py.orig	2025-09-24 14:52:58 UTC
+--- build_tools/scripts/core_common/make_common.py.orig	2026-09-24 21:58:50 UTC
 +++ build_tools/scripts/core_common/make_common.py
-@@ -8,22 +8,22 @@ import glob
+@@ -8,22 +8,22 @@ import config
  import base
  import glob
  

@@ -1,4 +1,4 @@
---- build_tools/scripts/sln.py.orig	2025-09-23 22:50:09 UTC
+--- build_tools/scripts/sln.py.orig	2026-09-24 21:58:50 UTC
 +++ build_tools/scripts/sln.py
 @@ -30,6 +30,7 @@ def adjust_project_params(params):
    all_windows = []
@@ -29,7 +29,7 @@
    if is_exist_in_array(params, "mac"):
      ret_params += all_mac
    if is_exist_in_array(params, "!mac"):
-@@ -127,7 +135,7 @@ def get_projects(pro_json_path, platform):
+@@ -127,7 +135,7 @@ def get_projects(pro_json_path, platform
  
        platform_records = []
        platform_records += config.platforms

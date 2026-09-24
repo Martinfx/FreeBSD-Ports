@@ -1,6 +1,6 @@
---- core/X2tConverter/build/Qt/X2tConverter.pri.orig	2021-09-30 12:13:32 UTC
+--- core/X2tConverter/build/Qt/X2tConverter.pri.orig	2026-09-24 21:59:09 UTC
 +++ core/X2tConverter/build/Qt/X2tConverter.pri
-@@ -111,5 +111,9 @@ core_windows {
+@@ -145,5 +145,9 @@ include($$PWD/../../../Common/3dParty/bo
  core_windows {
      LIBS += -lAdvapi32
  }

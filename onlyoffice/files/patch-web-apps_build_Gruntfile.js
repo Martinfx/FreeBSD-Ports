@@ -1,6 +1,6 @@
---- web-apps/build/Gruntfile.js.orig	2021-12-12 18:46:22 UTC
+--- web-apps/build/Gruntfile.js.orig	2026-09-24 21:59:09 UTC
 +++ web-apps/build/Gruntfile.js
-@@ -192,17 +192,6 @@ module.exports = function(grunt) {
+@@ -241,17 +241,6 @@ module.exports = function(grunt) {
      }
  
      grunt.initConfig({

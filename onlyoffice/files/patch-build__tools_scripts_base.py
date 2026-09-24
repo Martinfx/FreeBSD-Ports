@@ -1,6 +1,33 @@
---- build_tools/scripts/base.py.orig	2025-09-23 22:50:09 UTC
+--- build_tools/scripts/base.py.orig	2026-09-24 21:58:50 UTC
 +++ build_tools/scripts/base.py
-@@ -1449,9 +1449,15 @@ def support_old_versions_plugins(out_dir):
+@@ -853,6 +853,8 @@ def qt_config_as_param(value):
+   return ret_params
+ 
+ def qt_copy_lib(lib, dir):
++  if ("freebsd" == host_platform()):
++    return # the system Qt is used
+   qt_dir = get_env("QT_DEPLOY")
+   if ("windows" == host_platform()):
+     if ("" == qt_dst_postfix()):
+@@ -886,6 +888,8 @@ def _check_icu_common(dir, out):
+   return isExist
+ 
+ def qt_copy_icu(out):
++  if ("freebsd" == host_platform()):
++    return # the system Qt is used
+   tests = [get_env("QT_DEPLOY") + "/../lib", "/lib", "/lib/x86_64-linux-gnu", "/lib64", "/lib64/x86_64-linux-gnu"]
+   tests += ["/usr/lib", "/usr/lib/x86_64-linux-gnu", "/usr/lib64", "/usr/lib64/x86_64-linux-gnu"]
+   tests += ["/lib/i386-linux-gnu", "/usr/lib/i386-linux-gnu"]
+@@ -897,6 +901,8 @@ def qt_copy_icu(out):
+   return False
+ 
+ def qt_copy_plugin(name, out):
++  if ("freebsd" == host_platform()):
++    return # the system Qt is used
+   src = get_env("QT_DEPLOY") + "/../plugins/" + name
+   if not is_dir(src):
+     return
+@@ -1449,9 +1455,15 @@ def copy_sdkjs_plugins_server(dst_dir, i
  def support_old_versions_plugins(out_dir):
    if is_file(out_dir + "/pluginBase.js"):
      return
@@ -19,7 +46,7 @@
    content_plugin_base = ""
    with open(get_path(out_dir + "/plugins.js"), "r") as file:
      content_plugin_base += file.read()
-@@ -1595,7 +1601,7 @@ def clone_marketplace_plugin(out_dir, is_name_as_guid=
+@@ -1595,7 +1607,7 @@ def copy_v8_files(core_dir, deploy_dir,
  def clone_marketplace_plugin(out_dir, is_name_as_guid=False, is_replace_paths=False, is_delete_git_dir=True, git_owner=""):  
    old_cur = os.getcwd()
    os.chdir(out_dir)

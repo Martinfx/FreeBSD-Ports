@@ -1,4 +1,4 @@
---- build_tools/scripts/core_common/modules/html2.py.orig	2025-04-14 10:11:35 UTC
+--- build_tools/scripts/core_common/modules/html2.py.orig	2026-09-24 21:58:50 UTC
 +++ build_tools/scripts/core_common/modules/html2.py
 @@ -17,13 +17,13 @@ def clear_module():
  def make():

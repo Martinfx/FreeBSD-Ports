@@ -1,4 +1,4 @@
---- build_tools/scripts/core_common/modules/v8.py.orig	2025-08-05 15:06:08 UTC
+--- build_tools/scripts/core_common/modules/v8.py.orig	2026-09-24 21:58:50 UTC
 +++ build_tools/scripts/core_common/modules/v8.py
 @@ -9,6 +9,7 @@ import subprocess
  import v8_89
@@ -62,14 +62,14 @@
  
        if base.is_dir("v8/third_party/binutils/Linux_x64/Release/bin"):
          for file in os.listdir("v8/third_party/binutils/Linux_x64/Release/bin"):
-@@ -167,6 +155,10 @@ def make():
- 
+@@ -168,6 +156,10 @@ def make():
    base_args64 = "target_cpu=\\\"x64\\\" v8_target_cpu=\\\"x64\\\" v8_static_library=true is_component_build=false v8_use_snapshot=false"
    base_args32 = "target_cpu=\\\"x86\\\" v8_target_cpu=\\\"x86\\\" v8_static_library=true is_component_build=false v8_use_snapshot=false"
-+
+ 
 +  if config.check_option("platform", "freebsd_64"):
 +    base.cmd2("gn", ["gen", "out.gn/freebsd_64", "--args=\"v8_monolithic=true is_debug=false v8_static_library=true is_component_build=false is_clang=true use_sysroot=false treat_warnings_as_errors=false clang_use_chrome_plugins=false  use_lld=true use_custom_libcxx=false v8_use_external_startup_data=false is_component_build=false\""])
 +    base.cmd("ninja", ["-C", "out.gn/freebsd_64"])
- 
++
    if config.check_option("platform", "linux_64"):
      base.cmd2("gn", ["gen", "out.gn/linux_64", "--args=\"is_debug=false " + base_args64 + " is_clang=" + is_use_clang() + " use_sysroot=false treat_warnings_as_errors=false\""])
+     base.cmd("ninja", ["-C", "out.gn/linux_64"])
