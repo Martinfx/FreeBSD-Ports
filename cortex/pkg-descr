@@ -1,0 +1,7 @@
+Cortex is a collection of open source libraries providing a level of
+common infrastructure for the development of visual effects software.
+It provides data types, image and scene representations, IO for
+geometry, images and scene caches (including USD, Alembic and OpenVDB),
+an OpenGL renderer, and complete Python bindings.
+
+Cortex is the foundation of the Gaffer node based VFX application.

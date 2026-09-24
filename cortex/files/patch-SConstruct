@@ -1,0 +1,66 @@
+--- SConstruct.orig	2026-09-24 18:05:26 UTC
++++ SConstruct
+@@ -1118,7 +1118,9 @@ if doConfigure :
+ 		]
+ 	)
+ 
+-	if int( env["BOOST_MINOR_VERSION"] ) >=35 :
++	# Boost.System has been header-only since 1.69, and the stub library
++	# was removed entirely in 1.89.
++	if int( env["BOOST_MINOR_VERSION"] ) >=35 and int( env["BOOST_MINOR_VERSION"] ) < 89 :
+ 		env.Append( LIBS = [ "boost_system" + env["BOOST_LIB_SUFFIX"] ] )
+ 
+ 	c = configureSharedLibrary( env )
+@@ -2142,8 +2144,13 @@ usdPythonLib = env.subst( "boost_python$
+ pxrVersionHeader = env.FindFile( "pxr/pxr.h", dependencyIncludes )
+ if pxrVersionHeader is not None and "#define PXR_USE_INTERNAL_BOOST_PYTHON\n" in open( str( pxrVersionHeader ) ) :
+ 	usdPythonLib = usdEnv["USD_LIB_PREFIX"] + "python"
++	# USD's internal copy of `boost::python` is part of the monolithic
++	# library, and is not built at all when USD's Python support is disabled.
++	if usdEnv["WITH_USD_MONOLITHIC"] or not re.search( r"^#if 1\s*\n#define PXR_PYTHON_SUPPORT_ENABLED$", open( str( pxrVersionHeader ) ).read(), re.MULTILINE ) :
++		usdPythonLib = None
+ 
+-usdLibs.append( usdPythonLib )
++if usdPythonLib :
++	usdLibs.append( usdPythonLib )
+ 
+ usdEnvAppends = {
+ 	"CXXFLAGS" : [
+@@ -2210,8 +2217,10 @@ if doConfigure :
+ 			usdEnv.Append(
+ 				LIBS = [
+ 					os.path.basename( vdbEnv.subst( "$INSTALL_LIB_NAME" ) ),
+-					"${USD_LIB_PREFIX}usdVol",
+-				],
++				] + (
++					# `usdVol` is part of the monolithic library.
++					[] if usdEnv["WITH_USD_MONOLITHIC"] else [ "${USD_LIB_PREFIX}usdVol" ]
++				),
+ 				CPPDEFINES = [ "IECOREUSD_WITH_OPENVDB" ]
+ 			)
+ 		else :
+@@ -2236,12 +2245,12 @@ if doConfigure :
+ 
+ 		# resources
+ 		usdResourceInstall = usdEnv.Substfile(
+-			"$INSTALL_USD_RESOURCE_DIR/IECoreUSD/plugInfo.json",
++			"$INSTALL_USD_RESOURCE_DIR/IECoreUSD/resources/plugInfo.json",
+ 			"contrib/IECoreUSD/resources/plugInfo.json",
+ 			SUBST_DICT = {
+ 				"!IECOREUSD_RELATIVE_LIB_FOLDER!" : os.path.relpath(
+ 					usdLibraryInstall[0].get_path(),
+-					os.path.dirname( usdEnv.subst( "$INSTALL_USD_RESOURCE_DIR/IECoreUSD/plugInfo.json" ) )
++					os.path.dirname( usdEnv.subst( "$INSTALL_USD_RESOURCE_DIR/IECoreUSD/resources/plugInfo.json" ) )
+ 				).replace( "\\", "\\\\" ),
+ 			}
+ 		)
+@@ -2318,9 +2327,6 @@ alembicEnvPrepends = {
+ 		"$ALEMBIC_LIB_PATH",
+ 		"$HDF5_LIB_PATH",
+ 	],
+-	"LIBS" : [
+-		"hdf5$HDF5_LIB_SUFFIX",
+-	],
+ }
+ 
+ alembicEnv.Prepend( **alembicEnvPrepends )
