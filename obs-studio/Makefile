@@ -77,16 +77,24 @@ WRKSRC=		${WRKDIR}/${PORTNAME}-${PORTVERSION}-sources
 
 OPTIONS_DEFINE=		BROWSER NVENC PIPEWIRE VLC VST WAYLAND
 OPTIONS_DEFAULT=	PIPEWIRE VLC VST WAYLAND
-OPTIONS_DEFAULT_amd64=	NVENC
+OPTIONS_DEFAULT_amd64=	BROWSER NVENC
+# www/cef (Chromium) is only available on amd64 and aarch64
+.for _arch in armv7 i386 powerpc powerpc64 powerpc64le riscv64
+OPTIONS_EXCLUDE_${_arch}=	BROWSER
+.endfor
 OPTIONS_MULTI=		AUDIO
 OPTIONS_MULTI_AUDIO=	JACK PULSEAUDIO SNDIO
 OPTIONS_DEFAULT+=	${OPTIONS_MULTI_AUDIO}
 OPTIONS_SUB=		yes
 AUDIO_DESC=		Audio backends
 
-BROWSER_DESC=		Build OSB browser
-BROWSER_CMAKE_BOOL=	BUILD_BROWSER # this also requires an additional git submodule
-BROWSER_BROKEN=		Needs CEF (Chromium Embedded Framework) which isn't yet ported
+BROWSER_DESC=		Browser source and docks (Chromium Embedded Framework)
+BROWSER_LIB_DEPENDS=	libcef.so:www/cef
+BROWSER_CMAKE_BOOL=	ENABLE_BROWSER
+# The What's New dialog has no FreeBSD code path (see
+# frontend/cmake/feature-whatsnew.cmake).
+BROWSER_CMAKE_ON=	-DCEF_ROOT_DIR:PATH=${LOCALBASE}/lib/cef \
+			-DENABLE_WHATSNEW:BOOL=OFF
 
 JACK_LIB_DEPENDS=	libjack.so:audio/jack
 JACK_CMAKE_ON=		-DENABLE_JACK=TRUE
