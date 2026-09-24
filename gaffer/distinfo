@@ -1,3 +1,7 @@
-TIMESTAMP = 1786678831
-SHA256 (GafferHQ-gaffer-1.7.0.0_GH0.tar.gz) = 58354977c4a5786c0ff22ae4b494d84a59af658e8e4378389a3f1738dd0463c7
-SIZE (GafferHQ-gaffer-1.7.0.0_GH0.tar.gz) = 22536978
+TIMESTAMP = 1790276378
+SHA256 (GafferHQ-gaffer-1.7.3.0_GH0.tar.gz) = 3bcbe4c6e9c20e4a5e5afef78d6872dd13373345b959678cbbc5b5a9b46642d1
+SIZE (GafferHQ-gaffer-1.7.3.0_GH0.tar.gz) = 22572017
+SHA256 (GafferHQ-resources-0.54.2.0_GH0.tar.gz) = f6d5cad812f8360980da1000d436953ebc2d31e293f4287f3be5cbe11da58b30
+SIZE (GafferHQ-resources-0.54.2.0_GH0.tar.gz) = 17499897
+SHA256 (mottosso-Qt.py-1.4.6_GH0.tar.gz) = d5791b0791d54f36c644884b9518177072ddea27fa17e35188d54c4d0a66276b
+SIZE (mottosso-Qt.py-1.4.6_GH0.tar.gz) = 71615

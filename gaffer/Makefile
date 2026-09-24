@@ -1,82 +1,113 @@
 PORTNAME=	gaffer
-DISTVERSION=	1.7.0.0
+DISTVERSION=	1.7.3.0
 CATEGORIES=	graphics
 
 MAINTAINER=	freebsd@sysctl.cz
-COMMENT=	Gaffer is a node-based application for lookdev, lighting and automation.
-WWW=		http://www.gafferhq.org/
+COMMENT=	Node based application for lookdev, lighting and automation
+WWW=		https://www.gafferhq.org/
 
 LICENSE=	BSD3CLAUSE
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
-BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}Jinja2>0:devel/py-Jinja2@${PY_FLAVOR} \
-		${PYTHON_PKGNAMEPREFIX}psutil>0:sysutils/py-psutil@${PY_FLAVOR} \
-		${PYTHON_PKGNAMEPREFIX}PyOpenGL>0:graphics/py-PyOpenGL@${PY_FLAVOR} \
-		${PYTHON_PKGNAMEPREFIX}pyside2>0:devel/pyside2@${PY_FLAVOR} \
-		${PYTHON_PKGNAMEPREFIX}QtPy>0:devel/py-QtPy@${PY_FLAVOR} \
-		bitstream-vera>0:x11-fonts/bitstream-vera \
-		boost-libs>=1.87.0:devel/boost-libs \
-		c-blosc2>0:archivers/c-blosc2 \
-		cmark>0:textproc/cmark \
-		cortex>0:graphics/cortex \
-		cycles>0:graphics/cycles \
-		embree>0:graphics/embree \
-		expat>0:textproc/expat2 \
-		freetype2>0:print/freetype2 \
-		glew>0:graphics/glew \
-		hdf5>0:science/hdf5 \
-		Imath>0:math/Imath \
+ONLY_FOR_ARCHS=		aarch64 amd64
+ONLY_FOR_ARCHS_REASON=	depends on graphics/cortex and graphics/openusd
+
+BUILD_DEPENDS=	${GAFFER_PY_DEPENDS} \
+		bash:shells/bash \
 		inkscape:graphics/inkscape \
-		libffi>0:devel/libffi \
-		libfmt>0:devel/libfmt \
-		libjpeg-turbo>0:graphics/libjpeg-turbo \
-		liblz4>0:archivers/liblz4 \
-		libraw>0:graphics/libraw \
-		minizip-ng>0:archivers/minizip-ng \
-		materialx>0:graphics/materialx \
-		onetbb>0:devel/onetbb \
-		openexr>0:graphics/openexr \
-		openimageio>0:graphics/openimageio \
-		openjpeg>0:graphics/openjpeg \
-		openpgl>0:graphics/openpgl \
-		openshadinglanguage>0:graphics/openshadinglanguage \
-		opensubdiv>0:graphics/opensubdiv \
-		openvdb>0:misc/openvdb \
-		partio>0:graphics/partio \
-		pcg-cpp>0:devel/pcg-cpp \
-		png>0:graphics/png \
-		pugixml>0:textproc/pugixml \
-		python>0:lang/python \
-		pybind11>0:devel/pybind11 \
-		pystring>0:devel/pystring \
-		webp>0:graphics/webp \
-		yaml-cpp>0:devel/yaml-cpp \
-		zlib-ng>0:archivers/zlib-ng \
-		zstd>0:archivers/zstd \
-		openusd>0:graphics/openusd
+		${LOCALBASE}/include/pcg_random.hpp:devel/pcg-cpp \
+		${LOCALBASE}/include/pybind11/pybind11.h:devel/pybind11
+LIB_DEPENDS=	libboost_regex.so:devel/boost-libs \
+		libfmt.so:devel/libfmt \
+		libfreetype.so:print/freetype2 \
+		libGLEW.so:graphics/glew \
+		libIECore.so:graphics/cortex \
+		libImath.so:math/Imath \
+		libOpenColorIO.so:graphics/opencolorio \
+		libOpenEXR.so:graphics/openexr \
+		libOpenImageIO.so:graphics/openimageio \
+		libopenvdb.so:misc/openvdb \
+		libosdCPU.so:graphics/opensubdiv \
+		liboslexec.so:graphics/openshadinglanguage \
+		libtbb.so:devel/onetbb \
+		libusd_ms.so:graphics/openusd \
+		${PY_BOOST}
+RUN_DEPENDS=	${GAFFER_PY_DEPENDS} \
+		${LOCALBASE}/lib/libcmark-gfm.so:textproc/cmark-gfm \
+		${LOCALBASE}/share/fonts/bitstream-vera/Vera.ttf:x11-fonts/bitstream-vera \
+		${PYTHON_PKGNAMEPREFIX}PyOpenGL>0:graphics/py-PyOpenGL@${PY_FLAVOR} \
+		${PYTHON_PKGNAMEPREFIX}pyside6>0:devel/pyside6@${PY_FLAVOR} \
+		bash:shells/bash
 
-RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}qt6-pyqt>0:devel/py-qt6-pyqt@${PY_FLAVOR} \
-		${PYTHON_PKGNAMEPREFIX}pyside2>0:devel/pyside2@${PY_FLAVOR}
+# Python modules that Gaffer imports at startup, which the build itself also
+# does to export the nodes implemented as Boxes.
+GAFFER_PY_DEPENDS=	${PYTHON_PKGNAMEPREFIX}opencolorio>0:graphics/py-opencolorio@${PY_FLAVOR} \
+			${PYTHON_PKGNAMEPREFIX}openimageio>0:graphics/py-openimageio@${PY_FLAVOR} \
+			${PYTHON_PKGNAMEPREFIX}psutil>0:sysutils/py-psutil@${PY_FLAVOR}
 
-USES=		compiler:c++17-lang llvm:min=16,build,run localbase python:3.11+,env qt:5 scons
-USE_QT=		core buildtools
+USES=		compiler:c++17-lang gl python qt:6 scons shebangfix
 USE_GITHUB=	yes
 GH_ACCOUNT=	GafferHQ
-GH_PROJECT=	gaffer
-#GH_TAGNAME=	42814c534b9ba3e6aca6e03bcd29ec0435743c8e
+GH_TUPLE=	GafferHQ:resources:0.54.2.0:resources \
+		mottosso:Qt.py:1.4.6:qtpy
+USE_GL=		gl
+USE_QT=		base
 
-SCONS_ARGS=	LOCATE_DEPENDENCY_LIBPATH=${LOCALBASE}/lib \
-		LOCATE_DEPENDENCY_SYSTEMPATH=${LOCALBASE}/include \
-		BOOST_LIB_SUFFIX=" " \
-		SPHINX=${LOCALBASE}/bin/sphinx-build \
-		INKSCAPE=${LOCALBASE}/bin/inkscape \
-		WARNINGS_AS_ERRORS=0 \
-		CYCLES_ROOT=${LOCALBASE}/bin \
-		OSLHOME=${LOCALBASE}/share/openshadinglanguage/shaders
+SHEBANG_FILES=	bin/gaffer
+
+BINARY_ALIAS=	moc=${MOC} \
+		rcc=${RCC}
+
+DESKTOP_ENTRIES="Gaffer" \
+		"${COMMENT}" \
+		"${PREFIX}/lib/gaffer/graphics/GafferLogoMini.png" \
+		"gaffer" \
+		"Graphics;3DGraphics;" \
+		false
+
+SUB_FILES=	gaffer.options pkg-message
+SUB_LIST=	CXX="${CXX}" \
+		CXXFLAGS="${CXXFLAGS}" \
+		LDFLAGS="${LDFLAGS}" \
+		QT_INCDIR="${QT_INCDIR}" \
+		STAGEDIR="${STAGEDIR}" \
+		WRKDIR="${WRKDIR}" \
+		WRKSRC_resources="${WRKSRC_resources}"
+
+# The SConstruct refuses to run unless Python uses UTF-8 for file IO, oslc
+# needs to be told where the OSL port installs stdosl.h, and running Gaffer
+# during the build must not leave bytecode behind in the installed tree.
+MAKE_ENV+=	OSL_ROOT=${LOCALBASE}/share/openshadinglanguage \
+		PYTHONDONTWRITEBYTECODE=1 \
+		PYTHONUTF8=1
+
+GAFFER_ROOT=	${PREFIX}/lib/gaffer
+# USES=scons passes CXXFLAGS and LINKFLAGS as single strings, which the
+# SConstruct turns into a single (invalid) compiler argument, so all build
+# settings are passed through an options file instead.
+GAFFER_SCONS=	${SETENV} ${MAKE_ENV} ${SCONS} ${_MAKE_JOBS} \
+		OPTIONS=${WRKDIR}/gaffer.options
+
+post-patch:
+	@${REINPLACE_CMD} -e 's|%%LOCALBASE%%|${LOCALBASE}|g' \
+		-e 's|%%PYTHON_SITELIBDIR%%|${PYTHON_SITELIBDIR}|g' \
+		${WRKSRC}/bin/__private/_gaffer.py
+
+do-build:
+# The build runs Gaffer itself (to export the nodes implemented as
+# Boxes), and the launcher expects to find Python alongside it.
+	@${MKDIR} ${WRKDIR}/build/bin
+	${LN} -sf ${PYTHON_CMD} ${WRKDIR}/build/bin/python
+	@cd ${WRKSRC} && ${GAFFER_SCONS} build
 
 do-install:
-	${INSTALL_LIB} ${WRKSRC}/lib/*.so ${STAGEDIR}${PREFIX}/lib/
+	@cd ${WRKSRC} && ${GAFFER_SCONS} ${INSTALL_TARGET}
+	${INSTALL_DATA} ${WRKSRC_qtpy}/Qt.py ${STAGEDIR}${GAFFER_ROOT}/python
+	${RLN} ${STAGEDIR}${GAFFER_ROOT}/bin/gaffer ${STAGEDIR}${PREFIX}/bin/gaffer
+	${FIND} ${STAGEDIR}${GAFFER_ROOT} -name '*.so' -type f \
+		-exec ${STRIP_CMD} {} +
+	${STRIP_CMD} ${STAGEDIR}${GAFFER_ROOT}/bin/__private/gaffer
+	${PYTHON_CMD} -m compileall -q -d ${GAFFER_ROOT}/python \
+		${STAGEDIR}${GAFFER_ROOT}/python
 
-.include <bsd.port.pre.mk>
-MAKE_ARGS+=		${SCONS_ARGS}
-.include <bsd.port.post.mk>
+.include <bsd.port.mk>

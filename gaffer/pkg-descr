@@ -1,3 +1,11 @@
-[description of the port]
+Gaffer is a VFX application that enables look developers, lighters and
+compositors to easily build, tweak, iterate and render scenes. It is a
+node-based application, supporting in-application scripting in Python
+and OSL, so VFX artists and technical directors can design shaders,
+automate processes, and build production workflows.
 
-WWW: http://example.com
+It provides scene generation and processing (including USD, Alembic and
+OpenVDB support via the Cortex libraries), image processing and
+compositing, OpenShadingLanguage shading, and a task dispatch framework.
+This port does not include support for the commercial Arnold, RenderMan
+and 3Delight renderers, nor for Cycles.
