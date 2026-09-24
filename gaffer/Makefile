@@ -69,7 +69,8 @@ SUB_FILES=	gaffer.options pkg-message
 SUB_LIST=	CXX="${CXX}" \
 		CXXFLAGS="${CXXFLAGS}" \
 		LDFLAGS="${LDFLAGS}" \
-		QT_INCDIR="${QT_INCDIR}" \
+		QT_INCDIR="${LOCALBASE}/${QT_INCDIR_REL}" \
+		QT_LIBDIR="${LOCALBASE}/${QT_LIBDIR_REL}" \
 		STAGEDIR="${STAGEDIR}" \
 		WRKDIR="${WRKDIR}" \
 		WRKSRC_resources="${WRKSRC_resources}"

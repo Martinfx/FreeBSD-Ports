@@ -24,7 +24,11 @@ LOCATE_DEPENDENCY_SYSTEMPATH = [
 	"%%QT_INCDIR%%",
 	"%%PYTHON_INCLUDEDIR%%",
 ]
-LOCATE_DEPENDENCY_LIBPATH = "%%LOCALBASE%%/lib"
+# Qt 6 installs its libraries in a directory of their own.
+LOCATE_DEPENDENCY_LIBPATH = [
+	"%%LOCALBASE%%/lib",
+	"%%QT_LIBDIR%%",
+]
 LOCATE_DEPENDENCY_PYTHONPATH = "%%PYTHON_SITELIBDIR%%:%%LOCALBASE%%/lib/python"
 LOCATE_DEPENDENCY_RESOURCESPATH = "%%WRKSRC_resources%%/resources"
 
