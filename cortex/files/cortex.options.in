@@ -10,7 +10,8 @@ LINKFLAGS = "%%LDFLAGS%%".split() + [ "-Wl,-soname,${TARGET.file}" ]
 CXXSTD = "c++17"
 BUILD_TYPE = "RELEASE"
 WARNINGS_AS_ERRORS = False
-ENV_VARS_TO_IMPORT = "PATH TERM"
+# CCACHE_DIR lets the compiler find the cache when WITH_CCACHE_BUILD is set.
+ENV_VARS_TO_IMPORT = "PATH TERM CCACHE_DIR"
 
 PYTHON = "%%PYTHON_CMD%%"
 PYTHON_CONFIG = "%%PYTHON_CMD%%-config"
