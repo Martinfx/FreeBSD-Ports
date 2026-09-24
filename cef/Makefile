@@ -308,18 +308,23 @@ pre-everything::
 # before the FreeBSD patches in files/, which the regular patch phase applies
 # right after this target.  Those FreeBSD patches are the ones from
 # www/chromium, and the few of them that touch the same lines as CEF have been
-# rewritten to apply on top of the CEF changes.  patch.cfg is the list the
-# CEF patcher (cef/tools/patcher.py) works from; it is a Python file.
+# rewritten to apply on top of the CEF changes.
+#
+# cef/patch/patch.cfg lists the CEF patches (it is what cef/tools/patcher.py
+# works from).  It is read with awk: Python is only a build dependency and is
+# not installed yet in this phase.
 pre-patch:
 	@${ECHO_MSG} "===>  Applying CEF patches to the Chromium tree"
-	@cd ${WRKSRC}/cef/patch && ${PYTHON_CMD} -c \
-	    'exec(open("patch.cfg").read()); \
-	     [print(p["name"], p.get("path", ".")) for p in patches \
-	      if "condition" not in p]' | \
-	while read _name _path; do \
+	@${AWK} -f ${FILESDIR}/cef-patches.awk ${WRKSRC}/cef/patch/patch.cfg \
+		> ${WRKDIR}/cef-patches
+	@if [ ! -s ${WRKDIR}/cef-patches ]; then \
+		${ECHO_MSG} "===>  No patches found in cef/patch/patch.cfg"; \
+		${FALSE}; \
+	fi
+	@while read _name _path; do \
 		${PATCH} -s -E -p0 -V none --forward -d ${WRKSRC}/$${_path} \
-		    -i ${WRKSRC}/cef/patch/patches/$${_name}.patch || ${FALSE}; \
-	done
+		    -i ${WRKSRC}/cef/patch/patches/$${_name}.patch || exit 1; \
+	done < ${WRKDIR}/cef-patches
 
 pre-configure:
 	cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${PYTHON_CMD} \
