@@ -112,8 +112,9 @@ post-install:
 
 # The tests refer to ${PREFIX} (tests, tools, PYTHONPATH=${PREFIX}/lib/python)
 # and the binaries have ${PREFIX}/lib in their RUNPATH, so point all of that at
-# the staged build.  The imaging tests need an X display with GL, e.g. Xvfb
-# from x11-servers/xorg-server@xvfb.
+# the staged build, but not the Python and CMake that run the tests.  The
+# imaging tests need an X display with GL, e.g. Xvfb from
+# x11-servers/xorg-server@xvfb.
 TEST_ENV=	${MAKE_ENV} \
 		DISPLAY=${DISPLAY} \
 		XAUTHORITY=${XAUTHORITY} \
@@ -136,8 +137,10 @@ do-test: # tests are expected to be installed, see https://github.com/PixarAnima
 		${SETENV} ${MAKE_ENV} ${MAKE_CMD} ${MAKE_ARGS} ${ALL_TARGET} install && \
 		${FIND} ${BUILD_WRKSRC} -name CTestTestfile.cmake -type f -exec \
 			${REINPLACE_CMD} -e 's|${PREFIX}/bin/python|@PYTHON@|g' \
+				-e 's|${CMAKE_BIN}|@CMAKE@|g' \
 				-e 's|${PREFIX}/bin|${STAGEDIR}${PREFIX}/bin|g' \
 				-e 's|@PYTHON@|${PREFIX}/bin/python|g' \
+				-e 's|@CMAKE@|${CMAKE_BIN}|g' \
 				-e 's|${PREFIX}/lib/python|${STAGEDIR}${PREFIX}/lib/python|g' \
 				-e 's|${PREFIX}/share/usd|${STAGEDIR}${PREFIX}/share/usd|g' \
 				-e 's|${PREFIX}/tests|${STAGEDIR}${PREFIX}/tests|g' {} + && \
