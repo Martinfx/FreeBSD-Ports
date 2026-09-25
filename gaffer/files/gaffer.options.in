@@ -41,8 +41,11 @@ PYBIND11 = "%%LOCALBASE%%"
 USD_LIB_PREFIX = ""
 USD_MONOLITHIC = True
 
+# Cycles is graphics/cycles, with its headers and (static) libraries in
+# %%LOCALBASE%%; empty without the CYCLES option.
+CYCLES_ROOT = "%%CYCLES_ROOT%%"
+
 # Renderers and ML support that are not available on FreeBSD.
-CYCLES_ROOT = ""
 ARNOLD_ROOT = ""
 DELIGHT_ROOT = ""
 RENDERMAN_ROOT = ""

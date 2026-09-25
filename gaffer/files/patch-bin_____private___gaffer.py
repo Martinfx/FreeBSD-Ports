@@ -41,7 +41,17 @@
  # Core Gaffer Setup
  # =================
  
-@@ -375,6 +400,8 @@ setUp3rdPartyExtensions()
+@@ -183,6 +208,9 @@ def setUpCycles() :
+ 		cyclesRoot = pathlib.Path( os.environ["CYCLES_ROOT"] )
+ 	else :
+ 		cyclesRoot = gafferRoot / "cycles"
++		# On FreeBSD, the resources of Cycles are installed by graphics/cycles.
++		if sys.platform.startswith( "freebsd" ) and ( gafferRoot / "python" / "GafferCycles" ).is_dir() :
++			cyclesRoot = pathlib.Path( "%%LOCALBASE%%/share/cycles" )
+ 		if not cyclesRoot.exists() :
+ 			return
+ 		os.environ["CYCLES_ROOT"] = str( cyclesRoot )
+@@ -375,6 +403,8 @@ setUp3rdPartyExtensions()
  
  # Enable scoped enum shortcuts to preserve compatibility with PySide2.
  os.environ["PYSIDE63_OPTION_PYTHON_ENUM"] = "0x08" # ENOPT_SCOPED_SHORTCUT

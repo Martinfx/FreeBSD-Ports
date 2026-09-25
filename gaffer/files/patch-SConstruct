@@ -10,7 +10,25 @@
  
  		env.Append(
  			CXXFLAGS = [ "-Wno-unused-local-typedef" ],
-@@ -1061,6 +1062,10 @@ if env["GAFFERUSD"] :
+@@ -1039,6 +1040,17 @@ cyclesDefines = [
+ 	( "WITH_SSE2NEON" ),
+ ]
+ 
++# FreeBSD : graphics/cycles records the definitions it was built with, which
++# depend on its options and on the architecture (Embree is only available on
++# amd64 for instance), so use those instead.
++cyclesDefinitionsFile = env.subst( "$CYCLES_ROOT/share/cycles/cycles_definitions.txt" )
++if sys.platform.startswith( "freebsd" ) and env["CYCLES_ROOT"] and os.path.exists( cyclesDefinitionsFile ) :
++	cyclesDefines = []
++	for line in open( cyclesDefinitionsFile ) :
++		name, separator, value = line.strip().partition( "=" )
++		if name :
++			cyclesDefines.append( ( name, value ) if separator else name )
++
+ 
+ ###############################################################################################
+ # USD configuration
+@@ -1061,6 +1073,10 @@ if env["GAFFERUSD"] :
  
  	if "#define PXR_USE_INTERNAL_BOOST_PYTHON\n" in open( str( pxrVersionHeader ) ) :
  		usdPythonLib = "${USD_LIB_PREFIX}python"
@@ -21,3 +39,25 @@
  
  	usdVersion = None
  	for line in open( str( pxrVersionHeader ) ) :
+@@ -1669,6 +1685,21 @@ else :
+ 	libraries["IECoreRenderMan"]["envAppends"]["LIBS"].extend( [ "dl" ] )
+ 	libraries["GafferCycles"]["envAppends"]["LIBS"].extend( [ "dl" ] )
+ 
++	if sys.platform.startswith( "freebsd" ) :
++		# Link the libraries that go with the features graphics/cycles was
++		# built with (see `cyclesDefines`).
++		cyclesLibs = libraries["GafferCycles"]["envAppends"]["LIBS"]
++		for define, library in ( ( "WITH_EMBREE", "embree4" ), ( "WITH_PATH_GUIDING", "openpgl" ) ) :
++			if define not in cyclesDefines :
++				cyclesLibs.remove( library )
++		for define, library in (
++			( "WITH_HIP", "extern_hipew" ),
++			( "WITH_OPENIMAGEDENOISE", "OpenImageDenoise" ),
++			( "WITH_SYSTEM_PUGIXML", "pugixml" ),
++		) :
++			if define in cyclesDefines :
++				cyclesLibs.append( library )
++
+ # Optionally add vTune requirements
+ 
+ if os.path.exists( env.subst("$VTUNE_ROOT") ):
