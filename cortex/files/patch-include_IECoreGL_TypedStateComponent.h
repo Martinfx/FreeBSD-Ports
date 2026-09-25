@@ -1,4 +1,4 @@
---- include/IECoreGL/TypedStateComponent.h.orig	2026-09-25 05:20:04 UTC
+--- include/IECoreGL/TypedStateComponent.h.orig	2026-09-25 06:01:36 UTC
 +++ include/IECoreGL/TypedStateComponent.h
 @@ -49,8 +49,13 @@ IECORE_POP_DEFAULT_VISIBILITY
  namespace IECoreGL
@@ -26,3 +26,13 @@
  {
  	ForPointsOnly,
  	ForPointsAndDisks,
+@@ -219,7 +226,8 @@ template<>
+ IECOREGL_API void DepthMaskStateComponent::bind() const;
+ 
+ // \todo: implement CurrentSpace, ShaderSpace, CameraSpace, ScreenSpace, RasterSpace and NDCSpace like in Renderman interface.
+-enum RendererSpace
++// Exported for the same reason as GLPointsUsage.
++enum IECOREGL_API RendererSpace
+ {
+ 	ObjectSpace,
+ 	WorldSpace

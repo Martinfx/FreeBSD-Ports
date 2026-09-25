@@ -3,7 +3,11 @@
 # of the variables to be lists.
 
 CXX = "%%CXX%%"
-CXXFLAGS = "%%CXXFLAGS%%".split()
+# FMT_SHARED gives `fmt::format_error` default visibility, as it has in
+# libfmt.so itself. With the build's default hidden visibility the RTTI would
+# differ, and FreeBSD's C++ runtime would not catch the errors thrown by
+# libfmt in `catch( fmt::format_error & )`.
+CXXFLAGS = "%%CXXFLAGS%%".split() + [ "-DFMT_SHARED" ]
 # Upstream builds its libraries without a SONAME, which pkg(8) needs in
 # order to register them as provided by this package.
 LINKFLAGS = "%%LDFLAGS%%".split() + [ "-Wl,-soname,${TARGET.file}" ]
