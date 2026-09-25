@@ -1,0 +1,77 @@
+# Quick FreeBSD reproducer for single openusd test failures: builds only the
+# core monolithic library and the given tests from the patched 26.05 sources
+# and runs them repeatedly under lldb, printing the backtraces of crashes.
+name: openusd FreeBSD debug
+
+on:
+  push:
+    branches:
+      - claude/wizardly-planck-x8qjze
+    paths:
+      - '.github/workflows/openusd-debug.yml'
+
+concurrency:
+  group: openusd-debug-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Keep the VM on the large temporary disk
+        run: |
+          sudo mkdir -p /mnt/vm
+          sudo chown "$(id -u):$(id -g)" /mnt/vm
+
+      - name: Reproduce on FreeBSD 15.1
+        uses: vmactions/freebsd-vm@v1
+        with:
+          release: "15.1"
+          cpu: 4
+          mem: 12288
+          data-dir: /mnt/vm
+          prepare: |
+            set -e
+            mkdir -p /usr/local/etc/pkg/repos
+            echo 'FreeBSD: { url: "pkg+https://pkg.FreeBSD.org/${ABI}/latest" }' \
+              > /usr/local/etc/pkg/repos/FreeBSD.conf
+            env ASSUME_ALWAYS_YES=yes pkg update -f
+            pkg install -y cmake-core ninja onetbb python312
+          run: |
+            set -e
+            R=$PWD
+            freebsd-version -ku; sysctl -n hw.ncpu hw.model
+            mkdir -p /root/usd && cd /root/usd
+            fetch -q -o usd.tar.gz \
+              https://codeload.github.com/PixarAnimationStudios/OpenUSD/tar.gz/refs/tags/v26.05
+            tar -xzf usd.tar.gz
+            cd OpenUSD-26.05
+            for p in $R/openusd/files/patch-*; do patch -p0 -s < $p; done
+            cmake -G Ninja -S . -B build -DCMAKE_BUILD_TYPE=Release \
+              -DPXR_BUILD_MONOLITHIC=ON -DPXR_BUILD_TESTS=ON \
+              -DPXR_BUILD_IMAGING=OFF -DPXR_BUILD_EXEC=OFF \
+              -DPXR_BUILD_USD_VALIDATION=OFF -DPXR_ENABLE_PYTHON_SUPPORT=OFF \
+              -DPXR_BUILD_USD_TOOLS=OFF -DPXR_BUILD_EXAMPLES=OFF \
+              -DPXR_BUILD_TUTORIALS=OFF > /tmp/cmake.log 2>&1 || \
+              { tail -n 50 /tmp/cmake.log; exit 1; }
+            echo "=== $(date) building"
+            ninja -C build testSdfPathThreading > /tmp/build.log 2>&1 || \
+              { grep -E 'error|FAILED' /tmp/build.log | head -n 50; exit 1; }
+            echo "=== $(date) running"
+            T=$PWD/build/pxr/usd/sdf/testSdfPathThreading
+            set +e
+            for n in 4 16 32; do
+              for i in 1 2 3 4 5 6 7 8; do
+                lldb --batch -o "run --numThreads $n" \
+                  -k "thread backtrace all" -k "quit 1" -- $T > /tmp/lldb.txt 2>&1
+                if grep -q 'stop reason' /tmp/lldb.txt; then
+                  echo "=== crash with --numThreads $n (run $i)"
+                  head -n 400 /tmp/lldb.txt
+                  break
+                fi
+                echo "numThreads=$n run=$i: $(grep -E '^Ran ' /tmp/lldb.txt)"
+              done
+            done
