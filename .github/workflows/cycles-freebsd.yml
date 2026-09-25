@@ -104,7 +104,11 @@ jobs:
             make stage-qa 2>&1 | tee $L/stage-qa.log
             make install > $L/install.log 2>&1 || { tail -n 50 $L/install.log; exit 1; }
             cat /usr/local/plugin/usd/hdCycles/resources/plugInfo.json
-            ldd /usr/local/plugin/usd/hdCycles.so | grep -E 'usd|python|cycles' || true
+            # a shared library links even with undefined symbols, so check
+            # that the plugin really depends on USD
+            ldd /usr/local/plugin/usd/hdCycles.so | grep -E 'usd|python' || true
+            ldd /usr/local/plugin/usd/hdCycles.so | grep -q libusd_ms.so || \
+              { echo "hdCycles.so is not linked with libusd_ms.so"; exit 1; }
             cat > /tmp/test.usda <<'EOF'
             #usda 1.0
             (
