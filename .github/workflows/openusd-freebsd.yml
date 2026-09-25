@@ -1,0 +1,87 @@
+# Build graphics/openusd natively in a FreeBSD VM and run its whole test
+# suite ("make test") as a regular user, with Xvfb for the imaging tests.
+name: openusd on FreeBSD
+
+on:
+  push:
+    branches:
+      - claude/wizardly-planck-x8qjze
+    paths:
+      - 'openusd/**'
+      - '.github/workflows/openusd-freebsd.yml'
+
+concurrency:
+  group: openusd-freebsd-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Keep the VM on the large temporary disk
+        run: |
+          df -h / /mnt
+          sudo mkdir -p /mnt/vm
+          sudo chown "$(id -u):$(id -g)" /mnt/vm
+
+      - name: Build and test graphics/openusd on FreeBSD 14.3
+        uses: vmactions/freebsd-vm@v1
+        with:
+          release: "14.3"
+          cpu: 4
+          mem: 12288
+          data-dir: /mnt/vm
+          prepare: |
+            set -e
+            mkdir -p /usr/local/etc/pkg/repos
+            echo 'FreeBSD: { url: "pkg+https://pkg.FreeBSD.org/${ABI}/latest" }' \
+              > /usr/local/etc/pkg/repos/FreeBSD.conf
+            env ASSUME_ALWAYS_YES=yes pkg update -f
+            env ASSUME_ALWAYS_YES=yes pkg upgrade
+            pkg install -y git-lite xorg-vfbserver mesa-dri
+            git clone --depth 1 https://github.com/freebsd/freebsd-ports.git /usr/ports
+          run: |
+            set -e
+            L=$PWD/ci-logs
+            mkdir -p $L
+            uname -a | tee $L/uname.txt
+            df -h / | tee -a $L/uname.txt
+            rm -rf /usr/ports/graphics/openusd
+            cp -R openusd /usr/ports/graphics/openusd
+            cd /usr/ports/graphics/openusd
+            echo "=== $(date) installing dependencies"
+            env BATCH=yes ASSUME_ALWAYS_YES=yes make install-missing-packages \
+              > $L/deps.log 2>&1 || { tail -n 100 $L/deps.log; exit 1; }
+            pkg info -q | sort > $L/packages.txt
+            pw useradd builder -m -s /bin/sh
+            mkdir -p /home/builder/wrk /home/builder/distfiles
+            chown -R builder /home/builder
+            Xvfb :99 -screen 0 1280x1024x24 -ac +extension GLX > $L/xvfb.log 2>&1 &
+            export DISPLAY=:99
+            echo "=== $(date) make test"
+            ( su -m builder -c 'env HOME=/home/builder make BATCH=yes \
+                WRKDIRPREFIX=/home/builder/wrk DISTDIR=/home/builder/distfiles test' \
+                2>&1; echo $? > $L/rc.txt ) | tee $L/test.log | \
+              grep --line-buffered -E '^===>|Built target|tests passed|Test +#' || true
+            rc=$(cat $L/rc.txt)
+            echo "=== $(date) make test finished with $rc"
+            echo "=== errors"
+            grep -n -E ' error: |Error [0-9]+|^FAILED:|CMake Error' $L/test.log | head -n 100 || true
+            echo "=== ctest summary"
+            sed -n '/tests passed, /,$p' $L/test.log | head -n 400
+            echo "=== tail"
+            tail -n 60 $L/test.log
+            find /home/builder/wrk -name LastTest.log -exec cp {} $L/ \; || true
+            chmod -R a+r $L
+            exit $rc
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: openusd-freebsd-logs
+          path: ci-logs/
+          if-no-files-found: ignore
