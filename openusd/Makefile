@@ -75,13 +75,14 @@ post-install:
 
 # The tests refer to ${PREFIX} (tests, tools, PYTHONPATH=${PREFIX}/lib/python)
 # and the binaries have ${PREFIX}/lib in their RUNPATH, so point all of that at
-# the staged build.  Run as a regular user: some tests expect /etc or /var/run
-# not to be writable.  The imaging tests need an X display with GL, e.g. Xvfb
+# the staged build.  The imaging tests need an X display with GL, e.g. Xvfb
 # from x11-servers/xorg-server@xvfb.
 TEST_ENV=	${MAKE_ENV} \
 		DISPLAY=${DISPLAY} \
 		XAUTHORITY=${XAUTHORITY} \
 		LD_LIBRARY_PATH=${STAGEDIR}${PREFIX}/lib:${LOCALBASE}/lib
+# these expect /etc and /var/run not to be writable, so they are skipped as root
+TESTS_FAILING_AS_ROOT=	TfAtomicOfstreamWrapper TfFileUtils TfSafeOutputFile
 
 do-test: # tests are expected to be installed, see https://github.com/PixarAnimationStudios/USD/issues/1707
 	@cd ${BUILD_WRKSRC} && \
@@ -95,6 +96,10 @@ do-test: # tests are expected to be installed, see https://github.com/PixarAnima
 				-e 's|${PREFIX}/lib/python|${STAGEDIR}${PREFIX}/lib/python|g' \
 				-e 's|${PREFIX}/share/usd|${STAGEDIR}${PREFIX}/share/usd|g' \
 				-e 's|${PREFIX}/tests|${STAGEDIR}${PREFIX}/tests|g' {} + && \
-		${SETENV} ${TEST_ENV} ctest -C ${CMAKE_BUILD_TYPE} ${_MAKE_JOBS} --output-on-failure
+		if [ ${UID} -eq 0 ]; then \
+			${ECHO_MSG} "===>   Running as root, skipping ${TESTS_FAILING_AS_ROOT}"; \
+			set -- -E "^(${TESTS_FAILING_AS_ROOT:ts|})$$"; \
+		fi && \
+		${SETENV} ${TEST_ENV} ctest -C ${CMAKE_BUILD_TYPE} ${_MAKE_JOBS} --output-on-failure "$$@"
 
 .include <bsd.port.mk>
