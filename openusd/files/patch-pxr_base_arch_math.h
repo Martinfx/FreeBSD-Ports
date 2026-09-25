@@ -1,6 +1,6 @@
---- pxr/base/arch/math.h.orig	2025-10-24 16:21:56 UTC
+--- pxr/base/arch/math.h.orig	2026-02-23 22:54:59 UTC
 +++ pxr/base/arch/math.h
-@@ -89,7 +89,7 @@ inline double ArchBitPatternToDouble(uint64_t v) {
+@@ -89,7 +89,7 @@ inline double ArchBitPatternToDouble(uin
  #error Unknown system architecture.
  #endif
  

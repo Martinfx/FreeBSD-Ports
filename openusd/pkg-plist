@@ -810,6 +810,7 @@
 %%NO_MONOLITHIC%%lib/libusd_vt.so
 %%NO_MONOLITHIC%%lib/libusd_work.so
 %%NO_MONOLITHIC%%plugin/usd/usdShaders.so
+%%PYTHON_SITELIBDIR%%/openusd.pth
 %%TOOLS%%bin/hdGenSchema
 %%TOOLS%%bin/sdfdump
 %%TOOLS%%bin/sdffilter

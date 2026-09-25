@@ -1,4 +1,4 @@
---- pxr/base/arch/fileSystem.h.orig	2025-10-24 16:21:56 UTC
+--- pxr/base/arch/fileSystem.h.orig	2026-02-23 22:54:59 UTC
 +++ pxr/base/arch/fileSystem.h
 @@ -28,6 +28,9 @@
  #include <unistd.h>

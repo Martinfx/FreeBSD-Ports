@@ -1,11 +1,24 @@
---- pxr/base/arch/symbols.cpp.orig	2025-10-24 16:21:56 UTC
+--- pxr/base/arch/symbols.cpp.orig	2026-02-23 22:54:59 UTC
 +++ pxr/base/arch/symbols.cpp
-@@ -10,7 +10,7 @@
- #include "pxr/base/arch/symbols.h"
- #include "pxr/base/arch/defines.h"
+@@ -12,7 +12,7 @@
  
--#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_WASM_VM)
-+#if defined(ARCH_OS_LINUX) || defined(ARCH_OS_WASM_VM) || defined(ARCH_OS_FREEBSD)
+ #if defined(ARCH_OS_LINUX) || defined(ARCH_OS_WASM_VM)
  #include <dlfcn.h>
- #elif defined(ARCH_OS_DARWIN)
+-#elif defined(ARCH_OS_DARWIN)
++#elif defined(ARCH_OS_DARWIN) || defined(ARCH_OS_FREEBSD)
  #include <dlfcn.h>
+ #elif defined(ARCH_OS_WINDOWS)
+ #include <Windows.h>
+@@ -28,7 +28,11 @@ ArchGetAddressInfo(
+     std::string* objectPath, void** baseAddress,
+     std::string* symbolName, void** symbolAddress)
+ {
+-#if defined(_GNU_SOURCE) || defined(ARCH_OS_DARWIN)
++// dladdr() is also available on FreeBSD, where the compiler does not
++// define _GNU_SOURCE.  Without it the Plug library cannot find its own
++// location and thus the plugins installed next to it.
++#if defined(_GNU_SOURCE) || defined(ARCH_OS_DARWIN) || \
++    defined(ARCH_OS_FREEBSD)
+ 
+     Dl_info info;
+     if (dladdr(address, &info)) {

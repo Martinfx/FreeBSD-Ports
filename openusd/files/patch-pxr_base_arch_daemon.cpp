@@ -1,6 +1,6 @@
---- pxr/base/arch/daemon.cpp.orig	2025-10-24 16:21:56 UTC
+--- pxr/base/arch/daemon.cpp.orig	2026-02-23 22:54:59 UTC
 +++ pxr/base/arch/daemon.cpp
-@@ -28,7 +28,7 @@ ArchCloseAllFiles(int nExcept, const int* exceptFds)
+@@ -28,7 +28,7 @@ PXR_NAMESPACE_OPEN_SCOPE
  int
  ArchCloseAllFiles(int nExcept, const int* exceptFds)
  {

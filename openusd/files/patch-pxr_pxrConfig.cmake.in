@@ -1,0 +1,16 @@
+--- pxr/pxrConfig.cmake.in.orig	2026-02-23 22:54:59 UTC
++++ pxr/pxrConfig.cmake.in
+@@ -90,6 +90,13 @@ if(@PXR_ENABLE_MATERIALX_SUPPORT@)
+     find_dependency(MaterialX)
+ endif()
+ 
++# The exported imaging targets link against OpenGL::GL, so make sure that
++# target is defined for consumers.
++# See https://github.com/PixarAnimationStudios/OpenUSD/issues/3310
++if(@PXR_BUILD_IMAGING@ AND @PXR_ENABLE_GL_SUPPORT@)
++    find_dependency(OpenGL)
++endif()
++
+ # Similar to MaterialX above, we are using Imath's cmake package config, so set
+ # the Imath_DIR accordingly to find the associated import targets which were
+ # used for this USD build. 
