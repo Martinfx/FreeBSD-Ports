@@ -120,6 +120,22 @@ jobs:
               echo "=== backtrace of $c ($exe)"
               lldb --batch -c $c -o bt -- "$exe" 2>&1 | head -n 80
             done
-            echo "=== output of the failed tests"
-            grep -E 'Test +#.*(Failed|Exception|Timeout)' /tmp/ctest.log | head -n 60
+            # the whole state of one crashed test, e.g. whether the main
+            # thread was exiting when a llvmpipe thread crashed
+            c=$(ls /tmp/cores/testHdStBasicDrawin.*.core 2>/dev/null | head -n 1)
+            if [ -n "$c" ]; then
+              echo "=== all threads of $c"
+              lldb --batch -c $c -o 'thread backtrace all' \
+                -- /root/usd/inst/tests/testHdStBasicDrawing 2>&1 | head -n 150
+            fi
+            echo "=== $(date) failed tests again, one at a time"
+            rm -f /tmp/cores/*
+            ctest --rerun-failed -j1 --output-on-failure > /tmp/rerun.log 2>&1
+            sed -n '/tests passed, /,$p' /tmp/rerun.log
+            grep -m 3 -A 30 'testHdStBasicDrawing.*\*\*\*Failed' /tmp/rerun.log
+            grep -A 30 'testHdxPickResolveMode.*\*\*\*Failed' /tmp/rerun.log | head -n 40
+            echo "=== $(date) failed tests again, without llvmpipe threads"
+            env LP_NUM_THREADS=0 ctest --rerun-failed -j1 --output-on-failure \
+              > /tmp/rerun0.log 2>&1
+            sed -n '/tests passed, /,$p' /tmp/rerun0.log
             exit 0
