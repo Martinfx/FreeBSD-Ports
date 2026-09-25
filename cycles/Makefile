@@ -59,7 +59,6 @@ LIB_DEPENDS=	libAlembic.so:graphics/alembic \
 		libpng16.so:graphics/png \
 		libpugixml.so:textproc/pugixml \
 		libpystring.so:devel/pystring \
-		libpython3.11.so:lang/python311 \
 		libtbb.so:devel/onetbb \
 		libyaml-cpp.so:devel/yaml-cpp \
 		libzstd.so:archivers/zstd
@@ -75,22 +74,34 @@ CMAKE_ON=	CMAKE_POSITION_INDEPENDENT_CODE WITH_CYCLES_ALEMBIC \
 		WITH_CYCLES_DEVICE_ONEAPI WITH_CYCLES_LOGGING \
 		WITH_CYCLES_OPENCOLORIO WITH_CYCLES_OPENIMAGEDENOISE \
 		WITH_CYCLES_OPENSUBDIV WITH_CYCLES_OPENVDB WITH_CYCLES_OSL
-CMAKE_OFF=	WITH_CYCLES_DEVICE_OPTIX WITH_CYCLES_NANOVDB WITH_CYCLES_USD \
-		WITH_LIBS_PRECOMPILED
+CMAKE_OFF=	WITH_CYCLES_DEVICE_OPTIX WITH_CYCLES_NANOVDB WITH_LIBS_PRECOMPILED
 
-OPTIONS_DEFINE=		EMBREE
+OPTIONS_DEFINE=		EMBREE USD
 EMBREE_DESC=		Collection of high-performance ray tracing kernels.
+USD_DESC=		Hydra render delegate for USD, rendering of USD files
 EMBREE_BUILD_DEPENDS=	embree>0:graphics/embree
 EMBREE_LIB_DEPENDS=	libembree3.so:graphics/embree
 EMBREE_CMAKE_BOOL=	WITH_CYCLES_EMBREE
 OPTIONS_EXCLUDE=	EMBREE
 OPTIONS_EXCLUDE_amd64=	EMBREE
-OPTIONS_DEFAULT=	EMBREE
-OPTIONS_SUB=		no
+OPTIONS_DEFAULT=	EMBREE USD
+OPTIONS_SUB=		yes
+
+USD_LIB_DEPENDS=	libusd_ms.so:graphics/openusd
+USD_USES=		python
+USD_CMAKE_BOOL=		WITH_CYCLES_HYDRA_RENDER_DELEGATE WITH_CYCLES_USD
+USD_CMAKE_ON=		-DPXR_ROOT:PATH=${LOCALBASE} \
+			-DPYTHON_VERSION:STRING=${PYTHON_VER}
 
 post-patch:
 	@${REINPLACE_CMD} -e 's|%%BUILD_WRKSRC%%|${BUILD_WRKSRC}|g' \
 		${WRKSRC}/src/app/CMakeLists.txt
+
+# hdCycles is installed into the USD plugin directory, with its resources
+# (the Cycles resource path) in the USD layout.
+post-patch-USD-on:
+	@${REINPLACE_CMD} -e 's|@PLUG_INFO_RESOURCE_PATH@|resources|' \
+		${WRKSRC}/src/hydra/resources/plugInfo.json
 
 do-install:
 	${INSTALL_PROGRAM} ${BUILD_WRKSRC}/bin/cycles ${STAGEDIR}${PREFIX}/bin
@@ -105,5 +116,12 @@ do-install:
 	(cd ${WRKSRC}/third_party/atomic/ && ${COPYTREE_SHARE} *.h ${STAGEDIR}${PREFIX}/include/third_party/atomic/)
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/third_party/atomic/intern
 	(cd ${WRKSRC}/third_party/atomic/intern && ${COPYTREE_SHARE} "*.h" ${STAGEDIR}${PREFIX}/include/third_party/atomic/intern)
+
+do-install-USD-on:
+	${MKDIR} ${STAGEDIR}${PREFIX}/plugin/usd/hdCycles/resources
+	${INSTALL_LIB} ${BUILD_WRKSRC}/src/hydra/hdCycles.so \
+		${STAGEDIR}${PREFIX}/plugin/usd
+	${INSTALL_DATA} ${BUILD_WRKSRC}/src/hydra/resources/plugInfo.json \
+		${STAGEDIR}${PREFIX}/plugin/usd/hdCycles/resources
 
 .include <bsd.port.mk>

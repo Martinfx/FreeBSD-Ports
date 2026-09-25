@@ -492,6 +492,7 @@ include/util/xml.h
 lib/libcycles_bvh.a
 lib/libcycles_device.a
 lib/libcycles_graph.a
+%%USD%%lib/libcycles_hydra.a
 lib/libcycles_integrator.a
 lib/libcycles_kernel.a
 lib/libcycles_kernel_osl.a
@@ -503,3 +504,5 @@ lib/libextern_cuew.a
 lib/libextern_hipew.a
 lib/libextern_libc_compat.a
 lib/libextern_sky.a
+%%USD%%plugin/usd/hdCycles.so
+%%USD%%plugin/usd/hdCycles/resources/plugInfo.json
