@@ -1,0 +1,23 @@
+--- SConstruct.orig	2026-09-24 19:41:12 UTC
++++ SConstruct
+@@ -470,7 +470,8 @@ if env["PLATFORM"] != "win32" :
+ 
+ 	# Compiler-specific config
+ 
+-	if "clang++" in os.path.basename( env["CXX"] ) :
++	# On FreeBSD, the base system `c++` and `CC` are Clang.
++	if "clang++" in os.path.basename( env["CXX"] ) or ( sys.platform.startswith( "freebsd" ) and os.path.basename( env["CXX"] ) in ( "c++", "CC" ) ) :
+ 
+ 		env.Append(
+ 			CXXFLAGS = [ "-Wno-unused-local-typedef" ],
+@@ -1061,6 +1062,10 @@ if env["GAFFERUSD"] :
+ 
+ 	if "#define PXR_USE_INTERNAL_BOOST_PYTHON\n" in open( str( pxrVersionHeader ) ) :
+ 		usdPythonLib = "${USD_LIB_PREFIX}python"
++		# USD's internal copy of `boost::python` is part of the monolithic
++		# library, and is not built at all when USD's Python support is disabled.
++		if env["USD_MONOLITHIC"] or not re.search( r"^#if 1\s*\n#define PXR_PYTHON_SUPPORT_ENABLED$", open( str( pxrVersionHeader ) ).read(), re.MULTILINE ) :
++			usdPythonLib = basePythonEnv.subst( "boost_python$BOOST_PYTHON_LIB_SUFFIX" )
+ 
+ 	usdVersion = None
+ 	for line in open( str( pxrVersionHeader ) ) :

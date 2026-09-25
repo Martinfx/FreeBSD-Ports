@@ -1,0 +1,52 @@
+# SCons options used to build Gaffer. These are given in an options file
+# rather than on the command line because the SConstruct expects several
+# of the variables to be lists.
+
+CXX = "%%CXX%%"
+# FMT_SHARED gives `fmt::format_error` default visibility, as it has in
+# libfmt.so itself. With the build's default hidden visibility the RTTI would
+# differ, and FreeBSD's C++ runtime would not catch the errors thrown by
+# libfmt in `catch( fmt::format_error & )`.
+CXXFLAGS = "%%CXXFLAGS%%".split() + [ "-DFMT_SHARED" ]
+# Upstream builds its libraries without a SONAME, which pkg(8) needs in
+# order to register them as provided by this package.
+LINKFLAGS = "%%LDFLAGS%%".split() + [ "-Wl,-soname,${TARGET.file}" ]
+CXXSTD = "c++17"
+BUILD_TYPE = "RELEASE"
+WARNINGS_AS_ERRORS = False
+
+BUILD_DIR = "%%WRKDIR%%/build"
+INSTALL_DIR = "%%STAGEDIR%%%%PREFIX%%/lib/gaffer"
+# CCACHE_DIR lets the compiler find the cache when WITH_CCACHE_BUILD is set.
+ENV_VARS_TO_IMPORT = "PATH HOME TERM OSL_ROOT PYTHONDONTWRITEBYTECODE PYTHONUTF8 CCACHE_DIR"
+
+LOCATE_DEPENDENCY_SYSTEMPATH = [
+	"%%LOCALBASE%%/include",
+	"%%LOCALBASE%%/include/Imath",
+	"%%LOCALBASE%%/include/OpenEXR",
+	"%%LOCALBASE%%/include/freetype2",
+	"%%QT_INCDIR%%",
+	"%%PYTHON_INCLUDEDIR%%",
+]
+# Qt 6 installs its libraries in a directory of their own.
+LOCATE_DEPENDENCY_LIBPATH = [
+	"%%LOCALBASE%%/lib",
+	"%%QT_LIBDIR%%",
+]
+LOCATE_DEPENDENCY_PYTHONPATH = "%%PYTHON_SITELIBDIR%%:%%LOCALBASE%%/lib/python"
+LOCATE_DEPENDENCY_RESOURCESPATH = "%%WRKSRC_resources%%/resources"
+
+OSLHOME = "%%LOCALBASE%%"
+PYBIND11 = "%%LOCALBASE%%"
+USD_LIB_PREFIX = ""
+USD_MONOLITHIC = True
+
+# Renderers and ML support that are not available on FreeBSD.
+CYCLES_ROOT = ""
+ARNOLD_ROOT = ""
+DELIGHT_ROOT = ""
+RENDERMAN_ROOT = ""
+ONNX_ROOT = ""
+
+INKSCAPE = "%%LOCALBASE%%/bin/inkscape"
+SPHINX = "/nonexistent"
