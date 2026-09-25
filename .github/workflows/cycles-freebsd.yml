@@ -1,0 +1,185 @@
+# Build graphics/cycles of the "works" branch with the USD option (Hydra
+# render delegate) in a FreeBSD 15.1 VM, check its plist, and render a USD
+# scene with the cycles program and with usdrecord through hdCycles.
+name: cycles on FreeBSD
+
+on:
+  push:
+    branches:
+      - claude/wizardly-planck-x8qjze
+    paths:
+      - '.github/workflows/cycles-freebsd.yml'
+
+concurrency:
+  group: cycles-freebsd-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+    strategy:
+      fail-fast: false
+      matrix:
+        # pkg: openusd from the FreeBSD packages (no Python)
+        # port: openusd built from graphics/openusd of this repository
+        usd: [pkg, port]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: works
+
+      - name: Keep the VM on the large temporary disk
+        run: |
+          sudo mkdir -p /mnt/vm
+          sudo chown "$(id -u):$(id -g)" /mnt/vm
+          git log --oneline -3
+
+      - name: Build and test graphics/cycles (openusd from ${{ matrix.usd }})
+        uses: vmactions/freebsd-vm@v1
+        env:
+          USD_FROM: ${{ matrix.usd }}
+        with:
+          release: "15.1"
+          cpu: 4
+          mem: 12288
+          data-dir: /mnt/vm
+          envs: 'USD_FROM'
+          prepare: |
+            set -e
+            # use the latest packages; the repository is "FreeBSD" on 14.x and
+            # "FreeBSD-ports" on 15.x
+            R=FreeBSD
+            grep -q '^FreeBSD-ports:' /etc/pkg/FreeBSD.conf && R=FreeBSD-ports
+            mkdir -p /usr/local/etc/pkg/repos
+            echo "$R: { url: \"pkg+https://pkg.FreeBSD.org/\${ABI}/latest\", mirror_type: \"srv\" }" \
+              > /usr/local/etc/pkg/repos/$R.conf
+            env ASSUME_ALWAYS_YES=yes pkg update -f
+            env ASSUME_ALWAYS_YES=yes pkg upgrade
+            pkg install -y git-lite xorg-vfbserver mesa-dri
+            git clone --depth 1 https://github.com/freebsd/freebsd-ports.git /usr/ports
+          run: |
+            set -e
+            L=$PWD/ci-logs
+            mkdir -p $L
+            echo "=== openusd from $USD_FROM"
+            for p in openusd cycles; do
+              rm -rf /usr/ports/graphics/$p
+              cp -R $p /usr/ports/graphics/$p
+            done
+            # only the options needed by cycles, to save time
+            USD_OPTS="OPTIONS_UNSET=DRACO EMBREE OCIO OIIO OPENVDB OSL PTEX"
+            # direct dependencies only; pkg pulls in their run dependencies
+            deps() {
+              make -C /usr/ports/graphics/$1 "$USD_OPTS" DEPENDS_SHOW_FLAVOR=yes \
+                build-depends-list run-depends-list | sed 's|^/usr/ports/||' | \
+                grep -v '^graphics/openusd$' | sort -u
+            }
+            if [ "$USD_FROM" = pkg ]; then
+              pkg install -y openusd
+            else
+              deps openusd > $L/openusd-deps.txt
+              pkg install -y $(cat $L/openusd-deps.txt) > $L/openusd-deps.log 2>&1 || \
+                { tail -n 50 $L/openusd-deps.log; exit 1; }
+              echo "=== $(date) building openusd"
+              make -C /usr/ports/graphics/openusd BATCH=yes "$USD_OPTS" install \
+                > $L/openusd.log 2>&1 || \
+                { grep -n -E ' error: |Error [0-9]+|^FAILED:|CMake Error' $L/openusd.log | head -n 50; \
+                  tail -n 50 $L/openusd.log; exit 1; }
+            fi
+            pkg info openusd
+            deps cycles > $L/cycles-deps.txt
+            cat $L/cycles-deps.txt
+            pkg install -y $(cat $L/cycles-deps.txt) > $L/cycles-deps.log 2>&1 || \
+              { tail -n 50 $L/cycles-deps.log; exit 1; }
+            cd /usr/ports/graphics/cycles
+            make -V PORT_OPTIONS -V PYTHON_VER
+            echo "=== $(date) building cycles"
+            make BATCH=yes stage > $L/cycles.log 2>&1 || \
+              { grep -n -E ' error: |Error [0-9]+|^FAILED:|CMake (Error|Warning)' $L/cycles.log | head -n 80; \
+                tail -n 80 $L/cycles.log; exit 1; }
+            grep -i -E 'usd|hydra|python|pxr' $L/cycles.log | grep -E '^--|CMake' | head -n 30 || true
+            echo "=== $(date) check-plist and stage-qa"
+            make check-plist 2>&1 | tee $L/check-plist.log
+            make stage-qa 2>&1 | tee $L/stage-qa.log
+            make install > $L/install.log 2>&1 || { tail -n 50 $L/install.log; exit 1; }
+            cat /usr/local/plugin/usd/hdCycles/resources/plugInfo.json
+            ldd /usr/local/plugin/usd/hdCycles.so | grep -E 'usd|python|cycles' || true
+            cat > /tmp/test.usda <<'EOF'
+            #usda 1.0
+            (
+                upAxis = "Y"
+            )
+
+            def Xform "World"
+            {
+                def Camera "cam"
+                {
+                    float focalLength = 35
+                    double3 xformOp:translate = (0, 0, 8)
+                    uniform token[] xformOpOrder = ["xformOp:translate"]
+                }
+
+                def Sphere "ball" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    double radius = 2
+                    rel material:binding = </World/red>
+                }
+
+                def Material "red"
+                {
+                    token outputs:surface.connect = </World/red/pbr.outputs:surface>
+
+                    def Shader "pbr"
+                    {
+                        uniform token info:id = "UsdPreviewSurface"
+                        color3f inputs:diffuseColor = (0.8, 0.05, 0.05)
+                        token outputs:surface
+                    }
+                }
+
+                def DistantLight "sun"
+                {
+                    float inputs:intensity = 3
+                    float3 xformOp:rotateXYZ = (-30, 20, 0)
+                    uniform token[] xformOpOrder = ["xformOp:rotateXYZ"]
+                }
+            }
+            EOF
+            # the sphere is red only if its material got through
+            red() {
+              oiiotool "$1" --printstats | tee -a $L/stats.txt | \
+                awk '/Stats Avg/ { print ($3 > 2 * $4 && $3 > 0.02) ? "RED" : "NOT RED" }'
+            }
+            set +e
+            rc=0
+            echo "=== $(date) cycles program"
+            cycles --background --samples 16 --width 320 --height 240 \
+              --output /tmp/standalone.png /tmp/test.usda > $L/standalone.log 2>&1
+            echo "rc=$?"; tail -n 20 $L/standalone.log
+            r=$(red /tmp/standalone.png); echo "standalone: $r"; [ "$r" = RED ] || rc=1
+            if [ "$USD_FROM" = port ]; then
+              Xvfb :99 -screen 0 1280x1024x24 -ac +extension GLX > $L/xvfb.log 2>&1 &
+              export DISPLAY=:99
+              sleep 5
+              echo "=== $(date) usdrecord with hdCycles"
+              $(make -V PYTHON_CMD) -c \
+                'from pxr import UsdImagingGL; print(UsdImagingGL.Engine.GetRendererPlugins())'
+              usdrecord --disableGpu --renderer Cycles --camera /World/cam \
+                --imageWidth 320 /tmp/test.usda /tmp/usdrecord.png > $L/usdrecord.log 2>&1
+              echo "rc=$?"; tail -n 20 $L/usdrecord.log
+              r=$(red /tmp/usdrecord.png); echo "usdrecord: $r"; [ "$r" = RED ] || rc=1
+            fi
+            cp /tmp/*.png $L/ 2>/dev/null
+            chmod -R a+r $L
+            exit $rc
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cycles-freebsd-${{ matrix.usd }}-logs
+          path: ci-logs/
+          if-no-files-found: ignore
