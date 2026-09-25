@@ -1,4 +1,4 @@
---- pxr/base/arch/daemon.cpp.orig	2026-02-23 22:54:59 UTC
+--- pxr/base/arch/daemon.cpp.orig	2026-04-24 18:55:54 UTC
 +++ pxr/base/arch/daemon.cpp
 @@ -28,7 +28,7 @@ PXR_NAMESPACE_OPEN_SCOPE
  int

@@ -1,4 +1,4 @@
---- pxr/usd/usd/clip.cpp.orig	2026-02-23 22:54:59 UTC
+--- pxr/usd/usd/clip.cpp.orig	2026-04-24 18:55:54 UTC
 +++ pxr/usd/usd/clip.cpp
 @@ -29,6 +29,7 @@
  #include "pxr/base/vt/array.h"

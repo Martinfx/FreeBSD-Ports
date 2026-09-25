@@ -1,4 +1,4 @@
---- pxr/pxrConfig.cmake.in.orig	2026-02-23 22:54:59 UTC
+--- pxr/pxrConfig.cmake.in.orig	2026-04-24 18:55:54 UTC
 +++ pxr/pxrConfig.cmake.in
 @@ -90,6 +90,13 @@ if(@PXR_ENABLE_MATERIALX_SUPPORT@)
      find_dependency(MaterialX)

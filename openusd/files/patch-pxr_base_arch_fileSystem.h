@@ -1,6 +1,6 @@
---- pxr/base/arch/fileSystem.h.orig	2026-02-23 22:54:59 UTC
+--- pxr/base/arch/fileSystem.h.orig	2026-04-24 18:55:54 UTC
 +++ pxr/base/arch/fileSystem.h
-@@ -28,6 +28,9 @@
+@@ -29,6 +29,9 @@
  #include <unistd.h>
  #include <sys/statfs.h>
  #include <glob.h>

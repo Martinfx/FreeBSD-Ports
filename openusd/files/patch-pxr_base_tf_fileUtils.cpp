@@ -1,4 +1,4 @@
---- pxr/base/tf/fileUtils.cpp.orig	2026-02-23 22:54:59 UTC
+--- pxr/base/tf/fileUtils.cpp.orig	2026-04-24 18:55:54 UTC
 +++ pxr/base/tf/fileUtils.cpp
 @@ -230,7 +230,7 @@ TfIsLink(string const& path)
  bool

@@ -1,4 +1,4 @@
---- pxr/base/arch/defines.h.orig	2026-02-23 22:54:59 UTC
+--- pxr/base/arch/defines.h.orig	2026-04-24 18:55:54 UTC
 +++ pxr/base/arch/defines.h
 @@ -14,6 +14,8 @@
  #define ARCH_OS_WASM_VM

@@ -1,4 +1,4 @@
---- pxr/imaging/garch/glApi.cpp.orig	2026-02-23 22:54:59 UTC
+--- pxr/imaging/garch/glApi.cpp.orig	2026-04-24 18:55:54 UTC
 +++ pxr/imaging/garch/glApi.cpp
 @@ -3137,7 +3137,7 @@ static bool loadLibrary()
      libGetProcAddress = (PFNGETPROCADDRESS) ArchLibraryGetSymbolAddress(libHandle, "wglGetProcAddress");

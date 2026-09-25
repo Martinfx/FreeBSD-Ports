@@ -1,4 +1,4 @@
---- pxr/base/tf/diagnosticHelper.h.orig	2026-02-23 22:54:59 UTC
+--- pxr/base/tf/diagnosticHelper.h.orig	2026-04-24 18:55:54 UTC
 +++ pxr/base/tf/diagnosticHelper.h
 @@ -21,7 +21,7 @@
  

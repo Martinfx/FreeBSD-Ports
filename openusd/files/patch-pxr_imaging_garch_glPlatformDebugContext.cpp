@@ -1,4 +1,4 @@
---- pxr/imaging/garch/glPlatformDebugContext.cpp.orig	2026-02-23 22:54:59 UTC
+--- pxr/imaging/garch/glPlatformDebugContext.cpp.orig	2026-04-24 18:55:54 UTC
 +++ pxr/imaging/garch/glPlatformDebugContext.cpp
 @@ -34,7 +34,7 @@ GarchGLPlatformDebugContext::IsEnabledCo
  PXR_NAMESPACE_CLOSE_SCOPE

@@ -1,4 +1,4 @@
---- pxr/base/arch/assumptions.cpp.orig	2026-02-23 22:54:59 UTC
+--- pxr/base/arch/assumptions.cpp.orig	2026-04-24 18:55:54 UTC
 +++ pxr/base/arch/assumptions.cpp
 @@ -20,6 +20,8 @@
  

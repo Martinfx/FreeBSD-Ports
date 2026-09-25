@@ -1,4 +1,4 @@
---- pxr/imaging/garch/glPlatformContext.h.orig	2026-02-23 22:54:59 UTC
+--- pxr/imaging/garch/glPlatformContext.h.orig	2026-04-24 18:55:54 UTC
 +++ pxr/imaging/garch/glPlatformContext.h
 @@ -15,7 +15,7 @@
  #include <cstddef>

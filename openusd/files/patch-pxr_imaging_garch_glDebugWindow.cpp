@@ -1,4 +1,4 @@
---- pxr/imaging/garch/glDebugWindow.cpp.orig	2026-02-23 22:54:59 UTC
+--- pxr/imaging/garch/glDebugWindow.cpp.orig	2026-04-24 18:55:54 UTC
 +++ pxr/imaging/garch/glDebugWindow.cpp
 @@ -9,7 +9,7 @@
  #include "pxr/imaging/garch/glPlatformDebugContext.h"

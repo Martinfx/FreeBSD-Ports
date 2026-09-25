@@ -1,4 +1,4 @@
---- cmake/defaults/Packages.cmake.orig	2026-02-23 22:54:59 UTC
+--- cmake/defaults/Packages.cmake.orig	2026-04-24 18:55:54 UTC
 +++ cmake/defaults/Packages.cmake
 @@ -253,7 +253,8 @@ if (PXR_BUILD_IMAGING)
          add_definitions(-DPXR_OPENVDB_SUPPORT_ENABLED)

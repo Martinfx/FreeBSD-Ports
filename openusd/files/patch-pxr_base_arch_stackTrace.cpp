@@ -1,4 +1,4 @@
---- pxr/base/arch/stackTrace.cpp.orig	2026-02-23 22:54:59 UTC
+--- pxr/base/arch/stackTrace.cpp.orig	2026-04-24 18:55:54 UTC
 +++ pxr/base/arch/stackTrace.cpp
 @@ -62,7 +62,8 @@
  #include <ucontext.h>
@@ -19,7 +19,7 @@
      (ForkFunc)dlsym(RTLD_DEFAULT, "_Fork");
  #elif defined(ARCH_OS_DARWIN) || defined(ARCH_OS_WASM_VM)
      NULL;
-@@ -1392,7 +1393,8 @@ ArchGetStackFrames(size_t maxDepth, size
+@@ -1404,7 +1405,8 @@ ArchGetStackFrames(size_t maxDepth, size
      frames->resize(ArchGetStackFrames(maxDepth, skip, frames->data()));
  }
  

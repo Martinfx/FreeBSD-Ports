@@ -1,4 +1,4 @@
---- pxr/base/work/workTBB/dispatcher_impl.h.orig	2026-02-23 22:54:59 UTC
+--- pxr/base/work/workTBB/dispatcher_impl.h.orig	2026-04-24 18:55:54 UTC
 +++ pxr/base/work/workTBB/dispatcher_impl.h
 @@ -13,6 +13,11 @@
  // Blocked range is not used in this file, but this header happens to pull in
