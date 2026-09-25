@@ -118,6 +118,11 @@ TEST_ENV=	${MAKE_ENV} \
 		DISPLAY=${DISPLAY} \
 		XAUTHORITY=${XAUTHORITY} \
 		LD_LIBRARY_PATH=${STAGEDIR}${PREFIX}/lib:${LOCALBASE}/lib
+# The imaging tests compare their renders with baselines made on Pixar's
+# reference GPU, which other GPUs and drivers do not match exactly.  The
+# comparisons are only done with IMAGE_DIFF_TOOL set, e.g. to
+# ${LOCALBASE}/bin/idiff from graphics/openimageio.
+IMAGE_DIFF_TOOL?=
 # these expect write-protected files and directories (e.g. /etc) not to be
 # writable, which is never the case for root, so they are skipped as root
 TESTS_FAILING_AS_ROOT=	TfAtomicOfstreamWrapper TfFileUtils TfSafeOutputFile \
@@ -126,7 +131,8 @@ TESTS_FAILING_AS_ROOT=	TfAtomicOfstreamWrapper TfFileUtils TfSafeOutputFile \
 do-test: # tests are expected to be installed, see https://github.com/PixarAnimationStudios/USD/issues/1707
 	@cd ${BUILD_WRKSRC} && \
 		${SETENV} ${CONFIGURE_ENV} ${CMAKE_BIN} ${CMAKE_ARGS} \
-			-DPXR_BUILD_TESTS=ON -DPYTHON_EXECUTABLE=${PYTHON_CMD} ${CMAKE_SOURCE_PATH} && \
+			-DPXR_BUILD_TESTS=ON -DPYTHON_EXECUTABLE=${PYTHON_CMD} \
+			-DIMAGE_DIFF_TOOL:STRING=${IMAGE_DIFF_TOOL} ${CMAKE_SOURCE_PATH} && \
 		${SETENV} ${MAKE_ENV} ${MAKE_CMD} ${MAKE_ARGS} ${ALL_TARGET} install && \
 		${FIND} ${BUILD_WRKSRC} -name CTestTestfile.cmake -type f -exec \
 			${REINPLACE_CMD} -e 's|${PREFIX}/bin/python|@PYTHON@|g' \
