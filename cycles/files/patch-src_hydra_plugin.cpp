@@ -1,6 +1,6 @@
---- src/hydra/plugin.cpp.orig	2025-10-18 14:00:18 UTC
+--- src/hydra/plugin.cpp.orig	2026-03-30 21:43:11 UTC
 +++ src/hydra/plugin.cpp
-@@ -44,6 +44,13 @@ bool HdCyclesPlugin::IsSupported() const
+@@ -39,6 +39,13 @@ bool HdCyclesPlugin::IsSupported() const
    return true;
  }
  #else

@@ -1,0 +1,14 @@
+--- src/CMakeLists.txt.orig	2026-03-30 21:43:11 UTC
++++ src/CMakeLists.txt
+@@ -454,3 +454,11 @@ if(NOT WITH_BLENDER)
+     delayed_do_install(${CMAKE_BINARY_DIR}/bin)
+   endif()
+ endif()
++
++# Record the definitions of this build: the public headers depend on them
++# (e.g. WITH_EMBREE or WITH_OSL change the layout of classes), and they are
++# needed by applications that link the Cycles libraries, like Gaffer.
++get_directory_property(_cycles_definitions COMPILE_DEFINITIONS)
++list(FILTER _cycles_definitions EXCLUDE REGEX "[<>]")
++list(JOIN _cycles_definitions "\n" _cycles_definitions)
++file(WRITE ${CMAKE_BINARY_DIR}/cycles_definitions.txt "${_cycles_definitions}\n")

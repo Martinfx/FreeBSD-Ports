@@ -1,4 +1,4 @@
---- src/cmake/Modules/FindUSDPixar.cmake.orig	2025-10-18 14:00:18 UTC
+--- src/cmake/Modules/FindUSDPixar.cmake.orig	2026-03-30 21:43:11 UTC
 +++ src/cmake/Modules/FindUSDPixar.cmake
 @@ -11,9 +11,21 @@ if(pxr_FOUND)
    set(USD_FOUND ON)

@@ -1,10 +1,10 @@
---- src/app/CMakeLists.txt.orig	2025-10-18 14:00:18 UTC
+--- src/app/CMakeLists.txt.orig	2026-03-30 21:43:11 UTC
 +++ src/app/CMakeLists.txt
-@@ -146,7 +146,7 @@ if(WITH_CYCLES_STANDALONE)
+@@ -144,7 +144,7 @@ if(WITH_CYCLES_STANDALONE)
  
    add_test(
      NAME cycles_version
--    COMMAND ${CMAKE_INSTALL_PREFIX}/$<TARGET_FILE_NAME:cycles> --version)
+-    COMMAND ${app_install_dir}/$<TARGET_FILE_NAME:cycles> --version)
 +    COMMAND %%BUILD_WRKSRC%%/bin/$<TARGET_FILE_NAME:cycles> --version)
  endif()
  

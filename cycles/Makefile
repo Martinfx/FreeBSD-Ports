@@ -1,6 +1,6 @@
 PORTNAME=	cycles
 DISTVERSIONPREFIX=	v
-DISTVERSION=	4.5.0
+DISTVERSION=	5.1.0
 CATEGORIES=	graphics
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -36,8 +36,6 @@ LIB_DEPENDS=	libAlembic.so:graphics/alembic \
 		libboost_thread.so:devel/boost-libs \
 		libboost_wave.so:devel/boost-libs \
 		libexpat.so:textproc/expat2 \
-		libgflags.so:devel/gflags \
-		libglog.so:devel/glog \
 		libIex.so:graphics/openexr \
 		libIlmThread.so:graphics/openexr \
 		libImath.so:math/Imath \
@@ -71,19 +69,16 @@ GH_PROJECT=	cycles
 CMAKE_ARGS=	-DOSL_SHADER_DIR:STRING="${LOCALBASE}/share/openshadinglanguage/shaders"
 
 CMAKE_ON=	CMAKE_POSITION_INDEPENDENT_CODE WITH_CYCLES_ALEMBIC \
-		WITH_CYCLES_DEVICE_ONEAPI WITH_CYCLES_LOGGING \
-		WITH_CYCLES_OPENCOLORIO WITH_CYCLES_OPENIMAGEDENOISE \
+		WITH_CYCLES_DEVICE_ONEAPI WITH_CYCLES_OPENCOLORIO WITH_CYCLES_OPENIMAGEDENOISE \
 		WITH_CYCLES_OPENSUBDIV WITH_CYCLES_OPENVDB WITH_CYCLES_OSL
 CMAKE_OFF=	WITH_CYCLES_DEVICE_OPTIX WITH_CYCLES_NANOVDB WITH_LIBS_PRECOMPILED
 
 OPTIONS_DEFINE=		EMBREE USD
 EMBREE_DESC=		Collection of high-performance ray tracing kernels.
 USD_DESC=		Hydra render delegate for USD, rendering of USD files
-EMBREE_BUILD_DEPENDS=	embree>0:graphics/embree
-EMBREE_LIB_DEPENDS=	libembree3.so:graphics/embree
+EMBREE_LIB_DEPENDS=	libembree4.so:graphics/embree
 EMBREE_CMAKE_BOOL=	WITH_CYCLES_EMBREE
-OPTIONS_EXCLUDE=	EMBREE
-OPTIONS_EXCLUDE_amd64=	EMBREE
+OPTIONS_EXCLUDE_aarch64=	EMBREE # graphics/embree is amd64/i386 only
 OPTIONS_DEFAULT=	EMBREE USD
 OPTIONS_SUB=		yes
 
@@ -98,10 +93,10 @@ post-patch:
 	@${REINPLACE_CMD} -e 's|%%BUILD_WRKSRC%%|${BUILD_WRKSRC}|g' \
 		${WRKSRC}/src/app/CMakeLists.txt
 
-# hdCycles is installed into the USD plugin directory, with its resources
-# (the Cycles resource path) in the USD layout.
+# hdCycles is installed into the USD plugin directory, and its resources
+# (the Cycles resource path) are those in ${DATADIR}.
 post-patch-USD-on:
-	@${REINPLACE_CMD} -e 's|@PLUG_INFO_RESOURCE_PATH@|resources|' \
+	@${REINPLACE_CMD} -e 's|@PLUG_INFO_RESOURCE_PATH@|../../../share/cycles|' \
 		${WRKSRC}/src/hydra/resources/plugInfo.json
 
 do-install:
@@ -117,6 +112,14 @@ do-install:
 	(cd ${WRKSRC}/third_party/atomic/ && ${COPYTREE_SHARE} *.h ${STAGEDIR}${PREFIX}/include/third_party/atomic/)
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/third_party/atomic/intern
 	(cd ${WRKSRC}/third_party/atomic/intern && ${COPYTREE_SHARE} "*.h" ${STAGEDIR}${PREFIX}/include/third_party/atomic/intern)
+# The Cycles resource path, which also holds the definitions this build used,
+# for applications that link the libraries (graphics/gaffer).  The kernel
+# sources that applications look for are the installed headers.
+	@${MKDIR} ${STAGEDIR}${DATADIR}/shader
+	${INSTALL_DATA} ${BUILD_WRKSRC}/cycles_definitions.txt ${STAGEDIR}${DATADIR}
+	${INSTALL_DATA} ${BUILD_WRKSRC}/src/kernel/osl/shaders/*.oso \
+		${WRKSRC}/src/kernel/osl/shaders/*.h ${STAGEDIR}${DATADIR}/shader
+	${RLN} ${STAGEDIR}${PREFIX}/include ${STAGEDIR}${DATADIR}/source
 
 do-install-USD-on:
 	${MKDIR} ${STAGEDIR}${PREFIX}/plugin/usd/hdCycles/resources

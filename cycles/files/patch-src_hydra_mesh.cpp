@@ -1,4 +1,4 @@
---- src/hydra/mesh.cpp.orig	2025-10-18 14:00:18 UTC
+--- src/hydra/mesh.cpp.orig	2026-03-30 21:43:11 UTC
 +++ src/hydra/mesh.cpp
 @@ -55,7 +55,11 @@ VtValue ComputeTriangulatedFaceVaryingPr
                                                HdMeshUtil &meshUtil)
