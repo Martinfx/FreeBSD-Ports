@@ -1,4 +1,4 @@
-# Build graphics/openusd natively in a FreeBSD 14 VM (the newest 14.x) and run its whole test
+# Build graphics/openusd natively in FreeBSD VMs and run its whole test
 # suite ("make test") as a regular user, with Xvfb for the imaging tests.
 name: openusd on FreeBSD
 
@@ -18,6 +18,11 @@ jobs:
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 355
+    strategy:
+      fail-fast: false
+      matrix:
+        # 15.1 is what the port is used on; "14" is the newest 14.x
+        release: ["15.1", "14"]
     steps:
       - uses: actions/checkout@v4
 
@@ -27,10 +32,10 @@ jobs:
           sudo mkdir -p /mnt/vm
           sudo chown "$(id -u):$(id -g)" /mnt/vm
 
-      - name: Build and test graphics/openusd on FreeBSD 14
+      - name: Build and test graphics/openusd on FreeBSD ${{ matrix.release }}
         uses: vmactions/freebsd-vm@v1
         with:
-          release: "14"
+          release: ${{ matrix.release }}
           cpu: 4
           mem: 12288
           data-dir: /mnt/vm
@@ -105,6 +110,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: openusd-freebsd-logs
+          name: openusd-freebsd-${{ matrix.release }}-logs
           path: ci-logs/
           if-no-files-found: ignore
