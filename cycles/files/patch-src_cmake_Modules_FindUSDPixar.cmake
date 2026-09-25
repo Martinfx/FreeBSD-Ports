@@ -1,6 +1,16 @@
 --- src/cmake/Modules/FindUSDPixar.cmake.orig	2025-10-18 14:00:18 UTC
 +++ src/cmake/Modules/FindUSDPixar.cmake
-@@ -14,6 +14,11 @@ if(pxr_FOUND)
+@@ -11,9 +11,21 @@ if(pxr_FOUND)
+   set(USD_FOUND ON)
+   set(_pxr_library_dir ${PXR_CMAKE_DIR}/lib)
+ 
++  # The MaterialX libraries of USD link OpenGL::GL, X11::X11 and X11::Xt,
++  # but its CMake package does not look for them.
++  if(UNIX AND NOT APPLE)
++    find_package(OpenGL)
++    find_package(X11)
++  endif()
++
    # USD
    set(USD_INCLUDE_DIRS ${PXR_INCLUDE_DIRS})
    set(USD_LIBRARIES hd hgi hgiGL usd usdImaging usdGeom)
