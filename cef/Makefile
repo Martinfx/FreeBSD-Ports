@@ -109,6 +109,10 @@ CARGO_TARGET_DIR=	${WRKSRC}/rollup/rust/target
 CARGO_INSTALL=		No
 CARGO_BUILD=		No
 CARGO_TEST=		No
+# MAKE_ENV carries DESTDIR=${STAGEDIR}; the cmake install run by the
+# libmimalloc-sys2 build script honours it and would drop its OUT_DIR
+# (headers, libmimalloc.a, cmake/pkgconfig files) into the stage directory.
+CARGO_ENV+=		DESTDIR=
 
 USE_GL=		gbm gl
 USE_GNOME=	atk dconf gdkpixbuf glib20 gtk30 libxml2 libxslt
