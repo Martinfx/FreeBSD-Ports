@@ -1,4 +1,4 @@
-# Build graphics/cycles of the "works" branch with the USD option (Hydra
+# Build graphics/cycles (5.x) of the "works" branch with the USD option (Hydra
 # render delegate) in a FreeBSD 15.1 VM, check its plist, and render a USD
 # scene with the cycles program and with usdrecord through hdCycles.
 name: cycles on FreeBSD
@@ -104,6 +104,11 @@ jobs:
             make stage-qa 2>&1 | tee $L/stage-qa.log
             make install > $L/install.log 2>&1 || { tail -n 50 $L/install.log; exit 1; }
             cat /usr/local/plugin/usd/hdCycles/resources/plugInfo.json
+            # the resource path, as used by hdCycles and Gaffer
+            cat /usr/local/share/cycles/cycles_definitions.txt
+            ls /usr/local/share/cycles /usr/local/share/cycles/shader | head -n 20
+            test -f /usr/local/share/cycles/source/kernel/types.h || \
+              { echo "share/cycles/source/kernel/types.h is missing"; exit 1; }
             # a shared library links even with undefined symbols, so check
             # that the plugin really depends on USD
             ldd /usr/local/plugin/usd/hdCycles.so | grep -E 'usd|python' || true
