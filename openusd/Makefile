@@ -73,13 +73,23 @@ post-install:
 	${MKDIR} ${STAGEDIR}${PYTHON_SITELIBDIR}
 	${ECHO_CMD} ${PREFIX}/lib/python > ${STAGEDIR}${PYTHON_SITELIBDIR}/openusd.pth
 
-do-test: # tests are expected to be installed, see https://github.com/PixarAnimationStudios/USD/issues/1707
+# The tests use absolute ${PREFIX} paths (e.g. PYTHONPATH=${PREFIX}/lib/python)
+# and the binaries have ${PREFIX}/lib in their RPATH, so the package has to be
+# installed and the staged libraries have to take precedence.  The imaging
+# tests need an X display with GL, e.g. Xvfb from x11-servers/xorg-server@xvfb.
+TEST_ENV=	${MAKE_ENV} \
+		DISPLAY=${DISPLAY} \
+		XAUTHORITY=${XAUTHORITY} \
+		LD_LIBRARY_PATH=${STAGEDIR}${PREFIX}/lib:${LOCALBASE}/lib \
+		PXR_PLUGINPATH_NAME=${STAGEDIR}${PREFIX}/plugin/usd:${STAGEDIR}${PREFIX}/lib/usd
+
+do-test: install # tests are expected to be installed, see https://github.com/PixarAnimationStudios/USD/issues/1707
 	@cd ${BUILD_WRKSRC} && \
 		${SETENV} ${CONFIGURE_ENV} ${CMAKE_BIN} ${CMAKE_ARGS} \
 			-DPXR_BUILD_TESTS=ON -DPYTHON_EXECUTABLE=${PYTHON_CMD} ${CMAKE_SOURCE_PATH} && \
 		${SETENV} ${MAKE_ENV} ${MAKE_CMD} ${MAKE_ARGS} ${ALL_TARGET} install && \
 		${FIND} ${BUILD_WRKSRC} -name CTestTestfile.cmake -type f -exec \
 			${REINPLACE_CMD} -e 's|${PREFIX}/tests|${STAGEDIR}${PREFIX}/tests|g' {} + && \
-		ctest -C ${CMAKE_BUILD_TYPE} ${WRKSRC} --output-on-failure
+		${SETENV} ${TEST_ENV} ctest -C ${CMAKE_BUILD_TYPE} ${_MAKE_JOBS} --output-on-failure
 
 .include <bsd.port.mk>
