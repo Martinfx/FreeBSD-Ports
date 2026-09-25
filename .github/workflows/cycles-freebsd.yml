@@ -96,7 +96,7 @@ jobs:
             make -V PORT_OPTIONS -V PYTHON_VER
             echo "=== $(date) building cycles"
             make BATCH=yes stage > $L/cycles.log 2>&1 || \
-              { grep -n -E ' error: |Error [0-9]+|^FAILED:|CMake (Error|Warning)' $L/cycles.log | head -n 80; \
+              { grep -n -A6 -E ' error: |Error [0-9]+|^FAILED:|CMake (Error|Warning)' $L/cycles.log | head -n 120; \
                 tail -n 80 $L/cycles.log; exit 1; }
             grep -i -E 'usd|hydra|python|pxr' $L/cycles.log | grep -E '^--|CMake' | head -n 30 || true
             echo "=== $(date) check-plist and stage-qa"
