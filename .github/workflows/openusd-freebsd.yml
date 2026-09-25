@@ -81,6 +81,10 @@ jobs:
             sysctl kern.corefile=/tmp/cores/%N.%P.core
             Xvfb :99 -screen 0 1280x1024x24 -ac +extension GLX > $L/xvfb.log 2>&1 &
             export DISPLAY=:99
+            # Mesa's llvmpipe (the GL of Xvfb) can crash in its worker threads
+            # when a process exits, while its libraries are finalized, which
+            # fails random GL tests; render without the worker threads
+            export LP_NUM_THREADS=0
             echo "=== $(date) make test"
             set +e
             ( su -m builder -c 'ulimit -c unlimited; env HOME=/home/builder make BATCH=yes \
@@ -94,22 +98,27 @@ jobs:
             echo "=== errors"
             grep -n -E ' error: |Error [0-9]+|^FAILED:|CMake Error' $L/test.log | head -n 100 || true
             echo "=== ctest summary"
-            sed -n '/tests passed, /,$p' $L/test.log | head -n 400
+            sed -n '/tests passed, /,$p' $L/test.log | head -n 1500
+            echo "=== output of the failed tests (start)"
+            awk '/\*\*\*(Failed|Exception|Timeout)/ { n = 12 } n-- > 0' $L/test.log | \
+              head -n 4000
             echo "=== tail"
             tail -n 60 $L/test.log
             echo "=== core dumps"
             ls -l /tmp/cores
-            for c in $(ls /tmp/cores/*.core 2>/dev/null | head -n 20); do
-              n=$(basename $c | sed -E 's/\.[0-9]+\.core$//')
-              exe=$(find /home/builder/wrk -path '*/stage/usr/local/tests/*' \
-                -type f -name "$n*" 2>/dev/null | head -n 1)
-              [ -n "$exe" ] || exe=$(command -v "$n" || echo /usr/local/bin/$n)
-              echo "=== backtrace of $c ($exe)"
+            # one backtrace per program; the name in the core file name is
+            # cut to 19 characters, so ask procstat for the executable
+            for n in $(ls /tmp/cores | sed -E 's/\.[0-9]+\.core$//' | sort -u | head -n 40); do
+              c=$(ls /tmp/cores/$n.*.core | head -n 1)
+              exe=$(procstat binary $c 2>/dev/null | awk 'NR == 2 { print $NF }')
+              echo "=== backtrace of $c ($exe, $(ls /tmp/cores/$n.*.core | wc -l) core files)"
               lldb --batch -c $c -o 'thread backtrace all' -- "$exe" 2>&1 | head -n 200
             done
             find /home/builder/wrk -name LastTest.log -exec cp {} $L/ \; || true
             chmod -R a+r $L
-            exit $rc
+            # the logs are only copied out of the VM when this succeeds; the
+            # result of make test is checked in a later step
+            exit 0
 
       - name: Upload logs
         if: always()
@@ -118,3 +127,9 @@ jobs:
           name: openusd-freebsd-${{ matrix.release }}-logs
           path: ci-logs/
           if-no-files-found: ignore
+
+      - name: Result of make test
+        run: |
+          rc=$(cat ci-logs/rc.txt 2>/dev/null || echo 1)
+          echo "make test finished with $rc"
+          exit $rc
