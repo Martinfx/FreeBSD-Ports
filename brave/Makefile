@@ -255,7 +255,6 @@ GN_ARGS+=	${GN_BASE_ARGS} \
 		toolkit_views=true \
 		use_aura=true \
 		use_qt5=false \
-		use_qt6=false \
 		use_system_freetype=false \
 		use_system_harfbuzz=true \
 		use_system_libffi=true \
@@ -272,10 +271,10 @@ GN_REDIRECT_CC_ARGS=	import("//brave/tools/redirect_cc/args.gni") \
 			real_rewrapper="${BUILD_WRKSRC}/buildtools/reclient/rewrapper" \
 			${GN_BASE_ARGS}
 
-OPTIONS_DEFINE=		CODECS CUPS DEBUG KERBEROS LTO NODEMODS PIPEWIRE \
+OPTIONS_DEFINE=		CODECS CUPS DEBUG KERBEROS LTO NODEMODS PIPEWIRE QT6 \
 			WIDEVINE
 OPTIONS_DEFAULT=	ALSA CODECS CUPS KERBEROS NODEMODS PIPEWIRE PULSEAUDIO \
-			SNDIO WIDEVINE
+			QT6 SNDIO WIDEVINE
 OPTIONS_EXCLUDE_aarch64=	LTO
 OPTIONS_GROUP=		AUDIO
 OPTIONS_GROUP_AUDIO=	ALSA PULSEAUDIO SNDIO
@@ -341,6 +340,18 @@ PULSEAUDIO_LIB_DEPENDS=	libpulse.so:audio/pulseaudio
 PULSEAUDIO_VARS=	GN_ARGS+=use_pulseaudio=true
 PULSEAUDIO_VARS_OFF=	GN_ARGS+=use_pulseaudio=false
 
+# Qt integration: libqt6_shim.so, which Brave dlopen()s from beside its own
+# binary (DIR_MODULE, see ui/qt/qt_ui.cc) when the Qt toolkit is picked.
+# Chromium runs moc itself, and without a path it looks the tool up in PATH,
+# where Qt 6 does not put it: moc lives in QT_TOOLDIR (libexec/qt6).  The
+# FreeBSD patch to ui/qt/moc_wrapper.py takes the path to the binary itself,
+# not to its directory.
+QT6_USES=		qt:6
+QT6_USE=		QT=base
+QT6_VARS=		GN_ARGS+=use_qt6=true \
+			GN_ARGS+=moc_qt6_path="${QT_TOOLDIR}/moc"
+QT6_VARS_OFF=		GN_ARGS+=use_qt6=false
+
 SNDIO_LIB_DEPENDS=	libsndio.so:audio/sndio
 SNDIO_VARS=		GN_ARGS+=use_sndio=true
 SNDIO_VARS_OFF=		GN_ARGS+=use_sndio=false
@@ -364,6 +375,10 @@ WIDEVINE_VARS_OFF=	GN_ARGS+=enable_widevine=false
 post-install-WIDEVINE-on:
 	${LN} -sfh ${LOCALBASE}/share/chromium/WidevineCdm \
 		${STAGEDIR}${DATADIR}/WidevineCdm
+
+post-install-QT6-on:
+	${INSTALL_LIB} ${BUILD_WRKSRC}/out/${BUILDTYPE}/libqt6_shim.so \
+		${STAGEDIR}${DATADIR}
 
 SUB_FILES=	brave brave-browser.desktop pkg-message
 SUB_LIST=	COMMENT="${COMMENT}"

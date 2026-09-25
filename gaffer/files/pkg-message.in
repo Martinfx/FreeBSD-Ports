@@ -1,0 +1,16 @@
+[
+{ type: install
+  message: <<EOM
+Gaffer is installed in %%PREFIX%%/lib/gaffer and is started with the
+`gaffer` command.
+
+This package does not include the Arnold, RenderMan, 3Delight and Cycles
+renderer integrations, nor GafferML.
+
+Gaffer uses USD's Python bindings (the `pxr` module) to provide parameter
+metadata for USD shaders and lights, and to select by USD kind in the
+Viewer. graphics/openusd does not install them by default, in which case
+these features are not available.
+EOM
+}
+]
