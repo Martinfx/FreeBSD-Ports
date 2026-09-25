@@ -1,0 +1,14 @@
+--- src/hydra/resources/linux_symbols.map.orig	2026-03-30 21:43:11 UTC
++++ src/hydra/resources/linux_symbols.map
+@@ -3,6 +3,11 @@
+ {
+ global:
+   PXR*;
++  /* FreeBSD's libc++ compares type_info by address, so the type_info of the
++   * types shared with USD (e.g. HdMaterialNetworkMap or SdfAssetPath held
++   * in VtValue) must bind to the ones of USD instead of local copies. */
++  _ZTI*;
++  _ZTS*;
+ local:
+   *;
+ };

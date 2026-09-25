@@ -65,6 +65,23 @@ DESKTOP_ENTRIES="Gaffer" \
 		"Graphics;3DGraphics;" \
 		false
 
+OPTIONS_DEFINE=		CYCLES
+OPTIONS_DEFAULT=	CYCLES
+OPTIONS_SUB=		yes
+
+CYCLES_DESC=		Cycles renderer (GafferCycles)
+# GafferCycles links the static libraries of Cycles and the libraries these
+# use, and Cycles needs its resource path in ${LOCALBASE}/share/cycles.
+CYCLES_BUILD_DEPENDS=	${LOCALBASE}/share/cycles/cycles_definitions.txt:graphics/cycles
+CYCLES_LIB_DEPENDS=	libAlembic.so:graphics/alembic \
+			libOpenImageDenoise.so:graphics/oidn \
+			libopenpgl.so:graphics/openpgl \
+			libpugixml.so:textproc/pugixml \
+			libzstd.so:archivers/zstd
+CYCLES_RUN_DEPENDS=	${LOCALBASE}/share/cycles/cycles_definitions.txt:graphics/cycles
+CYCLES_SUB_LIST=	CYCLES_ROOT="${LOCALBASE}"
+CYCLES_SUB_LIST_OFF=	CYCLES_ROOT=""
+
 SUB_FILES=	gaffer.options pkg-message
 SUB_LIST=	CXX="${CXX}" \
 		CXXFLAGS="${CXXFLAGS}" \
@@ -92,6 +109,13 @@ GAFFER_ROOT=	${PREFIX}/lib/gaffer
 # settings are passed through an options file instead.
 GAFFER_SCONS=	${SETENV} ${MAKE_ENV} ${SCONS} ${_MAKE_JOBS} \
 		OPTIONS=${WRKDIR}/gaffer.options
+
+.include <bsd.port.options.mk>
+
+# graphics/cycles uses Embree on amd64 only (graphics/embree)
+.if ${PORT_OPTIONS:MCYCLES} && ${ARCH} == amd64
+LIB_DEPENDS+=	libembree4.so:graphics/embree
+.endif
 
 post-patch:
 	@${REINPLACE_CMD} -e 's|%%LOCALBASE%%|${LOCALBASE}|g' \
