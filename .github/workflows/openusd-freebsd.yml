@@ -1,4 +1,4 @@
-# Build graphics/openusd natively in a FreeBSD VM and run its whole test
+# Build graphics/openusd natively in a FreeBSD 14 VM (the newest 14.x) and run its whole test
 # suite ("make test") as a regular user, with Xvfb for the imaging tests.
 name: openusd on FreeBSD
 
@@ -27,10 +27,10 @@ jobs:
           sudo mkdir -p /mnt/vm
           sudo chown "$(id -u):$(id -g)" /mnt/vm
 
-      - name: Build and test graphics/openusd on FreeBSD 14.3
+      - name: Build and test graphics/openusd on FreeBSD 14
         uses: vmactions/freebsd-vm@v1
         with:
-          release: "14.3"
+          release: "14"
           cpu: 4
           mem: 12288
           data-dir: /mnt/vm
