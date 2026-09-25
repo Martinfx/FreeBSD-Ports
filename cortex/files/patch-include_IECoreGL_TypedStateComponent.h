@@ -1,6 +1,6 @@
---- include/IECoreGL/TypedStateComponent.h.orig	2026-09-10 21:49:58 UTC
+--- include/IECoreGL/TypedStateComponent.h.orig	2026-09-25 05:20:04 UTC
 +++ include/IECoreGL/TypedStateComponent.h
-@@ -49,8 +49,13 @@
+@@ -49,8 +49,13 @@ IECORE_POP_DEFAULT_VISIBILITY
  namespace IECoreGL
  {
  
@@ -15,3 +15,14 @@
  {
  	public :
  
+@@ -139,7 +144,9 @@ typedef TypedStateComponent<Imath::Color
+ /// Specifies the color to draw points in
+ typedef TypedStateComponent<Imath::Color4f, PointColorStateComponentTypeId> PointColorStateComponent;
+ 
+-enum GLPointsUsage
++// Exported for the same reason as TypedStateComponent : instantiations
++// inherit the hidden visibility of their template arguments.
++enum IECOREGL_API GLPointsUsage
+ {
+ 	ForPointsOnly,
+ 	ForPointsAndDisks,
