@@ -1,6 +1,7 @@
-# Quick FreeBSD reproducer for single openusd test failures: builds only the
-# core monolithic library and the given tests from the patched 26.05 sources
-# and runs them repeatedly under lldb, printing the backtraces of crashes.
+# Quick FreeBSD reproducer for single openusd test failures: builds the
+# monolithic library with imaging and the tests from the 26.05 sources with
+# the patches of the "works" branch, and runs the failing tests under lldb,
+# printing the backtraces of crashes.
 name: openusd FreeBSD debug
 
 on:
@@ -17,14 +18,17 @@ concurrency:
 jobs:
   debug:
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    timeout-minutes: 240
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: works
 
       - name: Keep the VM on the large temporary disk
         run: |
           sudo mkdir -p /mnt/vm
           sudo chown "$(id -u):$(id -g)" /mnt/vm
+          git log --oneline -3
 
       - name: Reproduce on FreeBSD 15.1
         uses: vmactions/freebsd-vm@v1
@@ -44,7 +48,8 @@ jobs:
               > /usr/local/etc/pkg/repos/$R.conf
             cat /usr/local/etc/pkg/repos/$R.conf
             env ASSUME_ALWAYS_YES=yes pkg update -f
-            pkg install -y cmake-core ninja onetbb python312
+            pkg install -y cmake-core ninja onetbb python312 opensubdiv \
+              libglvnd mesa-libs mesa-dri libX11 libXext libXt xorg-vfbserver
           run: |
             set -e
             R=$PWD
@@ -55,18 +60,25 @@ jobs:
             tar -xzf usd.tar.gz
             cd OpenUSD-26.05
             for p in $R/openusd/files/patch-*; do patch -p0 -s < $p; done
+            # -g1: line numbers in the backtraces
             cmake -G Ninja -S . -B build -DCMAKE_BUILD_TYPE=Release \
+              -DCMAKE_INSTALL_PREFIX=/root/usd/inst \
+              "-DCMAKE_CXX_FLAGS_RELEASE=-O2 -g1 -DNDEBUG" \
+              "-DCMAKE_C_FLAGS_RELEASE=-O2 -g1 -DNDEBUG" \
               -DPXR_BUILD_MONOLITHIC=ON -DPXR_BUILD_TESTS=ON \
-              -DPXR_BUILD_IMAGING=OFF -DPXR_BUILD_EXEC=OFF \
-              -DPXR_BUILD_USD_VALIDATION=OFF -DPXR_ENABLE_PYTHON_SUPPORT=OFF \
+              -DPXR_BUILD_IMAGING=ON -DPXR_BUILD_USD_IMAGING=OFF \
+              -DPXR_BUILD_EXEC=OFF -DPXR_BUILD_USD_VALIDATION=OFF \
+              -DPXR_ENABLE_PYTHON_SUPPORT=OFF \
+              -DPYTHON_EXECUTABLE=/usr/local/bin/python3.12 \
+              -DPXR_ENABLE_MATERIALX_SUPPORT=OFF -DPXR_ENABLE_PTEX_SUPPORT=OFF \
               -DPXR_BUILD_USD_TOOLS=OFF -DPXR_BUILD_EXAMPLES=OFF \
               -DPXR_BUILD_TUTORIALS=OFF > /tmp/cmake.log 2>&1 || \
               { tail -n 50 /tmp/cmake.log; exit 1; }
             echo "=== $(date) building"
-            ninja -C build testSdfPathThreading > /tmp/build.log 2>&1 || \
+            ninja -C build install > /tmp/build.log 2>&1 || \
               { grep -E 'error|FAILED' /tmp/build.log | head -n 50; exit 1; }
-            echo "=== $(date) running"
-            T=$PWD/build/pxr/usd/sdf/testSdfPathThreading
+            echo "=== $(date) testSdfPathThreading"
+            T=/root/usd/inst/tests/testSdfPathThreading
             set +e
             for n in 4 16 32; do
               for i in 1 2 3 4 5 6 7 8; do
@@ -74,9 +86,40 @@ jobs:
                   -k "thread backtrace all" -k "quit 1" -- $T > /tmp/lldb.txt 2>&1
                 if grep -q 'stop reason' /tmp/lldb.txt; then
                   echo "=== crash with --numThreads $n (run $i)"
-                  head -n 400 /tmp/lldb.txt
+                  head -n 60 /tmp/lldb.txt
                   break
                 fi
                 echo "numThreads=$n run=$i: $(grep -E '^Ran ' /tmp/lldb.txt)"
               done
             done
+            echo "=== $(date) testHdStBasicDrawing"
+            mkdir -p /tmp/cores && chmod 1777 /tmp/cores
+            sysctl kern.corefile=/tmp/cores/%N.%P.core
+            ulimit -c unlimited
+            Xvfb :99 -screen 0 1280x1024x24 -ac +extension GLX > /tmp/xvfb.log 2>&1 &
+            export DISPLAY=:99
+            sleep 5
+            mkdir -p /tmp/hdst && cd /tmp/hdst
+            for args in "--offscreen --repr hull --write hull.png" \
+                "--offscreen --lighting --repr refined --refineLevel 1 --write refined.png"; do
+              echo "=== testHdStBasicDrawing $args"
+              env TF_DEBUG=HD_SAFE_MODE HD_ENABLE_OPENSUBDIV3_ADAPTIVE=1 \
+                lldb --batch -o "run $args" -k "bt" -k "quit 1" \
+                -- /root/usd/inst/tests/testHdStBasicDrawing 2>&1 | head -n 150
+            done
+            echo "=== $(date) ctest of the Hd tests"
+            cd /root/usd/OpenUSD-26.05/build
+            ctest -R '^testHd' -j4 --timeout 600 > /tmp/ctest.log 2>&1
+            sed -n '/tests passed, /,$p' /tmp/ctest.log
+            echo "=== backtraces of the crashed tests"
+            ls /tmp/cores
+            for n in $(ls /tmp/cores | sed -E 's/\.[0-9]+\.core$//' | sort -u); do
+              c=$(ls /tmp/cores/$n.*.core | head -n 1)
+              exe=/root/usd/inst/tests/$n
+              [ -x "$exe" ] || exe=$(find /root/usd/inst -type f -name "$n*" | head -n 1)
+              echo "=== backtrace of $c ($exe)"
+              lldb --batch -c $c -o bt -- "$exe" 2>&1 | head -n 80
+            done
+            echo "=== output of the failed tests"
+            grep -E 'Test +#.*(Failed|Exception|Timeout)' /tmp/ctest.log | head -n 60
+            exit 0
