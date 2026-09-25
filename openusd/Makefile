@@ -118,8 +118,10 @@ TEST_ENV=	${MAKE_ENV} \
 		DISPLAY=${DISPLAY} \
 		XAUTHORITY=${XAUTHORITY} \
 		LD_LIBRARY_PATH=${STAGEDIR}${PREFIX}/lib:${LOCALBASE}/lib
-# these expect /etc and /var/run not to be writable, so they are skipped as root
-TESTS_FAILING_AS_ROOT=	TfAtomicOfstreamWrapper TfFileUtils TfSafeOutputFile
+# these expect write-protected files and directories (e.g. /etc) not to be
+# writable, which is never the case for root, so they are skipped as root
+TESTS_FAILING_AS_ROOT=	TfAtomicOfstreamWrapper TfFileUtils TfSafeOutputFile \
+			testUsdUtilsStitchClips
 
 do-test: # tests are expected to be installed, see https://github.com/PixarAnimationStudios/USD/issues/1707
 	@cd ${BUILD_WRKSRC} && \
