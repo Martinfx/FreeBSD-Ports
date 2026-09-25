@@ -35,9 +35,14 @@ jobs:
           data-dir: /mnt/vm
           prepare: |
             set -e
+            # use the latest packages; the repository is "FreeBSD" on 14.x and
+            # "FreeBSD-ports" on 15.x
+            R=FreeBSD
+            grep -q '^FreeBSD-ports:' /etc/pkg/FreeBSD.conf && R=FreeBSD-ports
             mkdir -p /usr/local/etc/pkg/repos
-            echo 'FreeBSD: { url: "pkg+https://pkg.FreeBSD.org/${ABI}/latest" }' \
-              > /usr/local/etc/pkg/repos/FreeBSD.conf
+            echo "$R: { url: \"pkg+https://pkg.FreeBSD.org/\${ABI}/latest\", mirror_type: \"srv\" }" \
+              > /usr/local/etc/pkg/repos/$R.conf
+            cat /usr/local/etc/pkg/repos/$R.conf
             env ASSUME_ALWAYS_YES=yes pkg update -f
             pkg install -y cmake-core ninja onetbb python312
           run: |
