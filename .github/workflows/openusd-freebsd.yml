@@ -53,8 +53,12 @@ jobs:
             cp -R openusd /usr/ports/graphics/openusd
             cd /usr/ports/graphics/openusd
             echo "=== $(date) installing dependencies"
-            env BATCH=yes ASSUME_ALWAYS_YES=yes make install-missing-packages \
-              > $L/deps.log 2>&1 || { tail -n 100 $L/deps.log; exit 1; }
+            # direct dependencies only; pkg pulls in their own run dependencies
+            make DEPENDS_SHOW_FLAVOR=yes build-depends-list run-depends-list \
+              test-depends-list | sed 's|^/usr/ports/||' | sort -u > $L/deps.txt
+            cat $L/deps.txt
+            pkg install -y $(cat $L/deps.txt) > $L/deps.log 2>&1 || \
+              { tail -n 100 $L/deps.log; exit 1; }
             pkg info -q | sort > $L/packages.txt
             pw useradd builder -m -s /bin/sh
             mkdir -p /home/builder/wrk /home/builder/distfiles
