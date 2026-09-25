@@ -1,4 +1,4 @@
---- src/GafferScene/IECoreScenePreview/PrimitiveAlgo.cpp.orig	2026-09-25 06:15:48 UTC
+--- src/GafferScene/IECoreScenePreview/PrimitiveAlgo.cpp.orig	2026-09-25 07:03:08 UTC
 +++ src/GafferScene/IECoreScenePreview/PrimitiveAlgo.cpp
 @@ -250,11 +250,14 @@ inline void copyElements( const Data *so
  				assert( typedSource.size() >= sourceIndex + num );
@@ -93,7 +93,18 @@
  		Canceller::check( canceller );
  		for( int j = 0; j < numUniform; j++ )
  		{
-@@ -1297,7 +1304,7 @@ IECoreScene::PrimitivePtr mergePrimitive
+@@ -1195,7 +1202,9 @@ IECoreScene::PrimitivePtr mergePrimitive
+ 		for( unsigned int i = 0; i < primitives.size(); i++ )
+ 		{
+ 			countInterpolation[interpolation].push_back( primitives[i].first->variableSize( ((PrimitiveVariable::Interpolation)interpolation) ) );
+-			accumInterpolation[interpolation][i] = accum;
++			// `push_back()` because `accumInterpolation` was only reserved, so assigning by
++			// index was out of range ( and aborts with a hardened C++ standard library ).
++			accumInterpolation[interpolation].push_back( accum );
+ 			accum += countInterpolation[interpolation].back();
+ 		}
+ 		totalInterpolation[interpolation] = accum;
+@@ -1297,7 +1306,7 @@ IECoreScene::PrimitivePtr mergePrimitive
  
  						// We always leave one data element for primitives that don't have the relevant
  						// primvar, so just write out all indices pointing to that element.
@@ -102,7 +113,7 @@
  						for( size_t j = 0; j < numIndices; j++ )
  						{
  							*(destIndices++) = dataStart;
-@@ -1313,7 +1320,7 @@ IECoreScene::PrimitivePtr mergePrimitive
+@@ -1313,7 +1322,7 @@ IECoreScene::PrimitivePtr mergePrimitive
  						if( varInfo.indexed )
  						{
  							Canceller::check( canceller );
