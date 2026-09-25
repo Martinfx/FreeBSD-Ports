@@ -63,15 +63,21 @@ jobs:
             pw useradd builder -m -s /bin/sh
             mkdir -p /home/builder/wrk /home/builder/distfiles
             chown -R builder /home/builder
+            echo "=== make as builder"
+            su -m builder -c 'id; env HOME=/home/builder make \
+                WRKDIRPREFIX=/home/builder/wrk -V PKGNAME -V WRKDIR -V PORT_OPTIONS'
             Xvfb :99 -screen 0 1280x1024x24 -ac +extension GLX > $L/xvfb.log 2>&1 &
             export DISPLAY=:99
             echo "=== $(date) make test"
+            set +e
             ( su -m builder -c 'env HOME=/home/builder make BATCH=yes \
                 WRKDIRPREFIX=/home/builder/wrk DISTDIR=/home/builder/distfiles test' \
                 2>&1; echo $? > $L/rc.txt ) | tee $L/test.log | \
-              grep --line-buffered -E '^===>|Built target|tests passed|Test +#' || true
-            rc=$(cat $L/rc.txt)
+              grep --line-buffered -E '^===>|Built target|tests passed|Test +#'
+            rc=$(cat $L/rc.txt 2>/dev/null || echo 99)
             echo "=== $(date) make test finished with $rc"
+            echo "=== head"
+            head -n 40 $L/test.log
             echo "=== errors"
             grep -n -E ' error: |Error [0-9]+|^FAILED:|CMake Error' $L/test.log | head -n 100 || true
             echo "=== ctest summary"
