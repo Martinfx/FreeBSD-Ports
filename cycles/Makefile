@@ -89,6 +89,15 @@ USD_CMAKE_BOOL=		WITH_CYCLES_HYDRA_RENDER_DELEGATE WITH_CYCLES_USD
 USD_CMAKE_ON=		-DPXR_ROOT:PATH=${LOCALBASE} \
 			-DPYTHON_VERSION:STRING=${PYTHON_VER}
 
+.include <bsd.port.options.mk>
+
+# On aarch64, the SIMD code of Cycles, also in its headers, is its SSE code
+# translated by sse2neon.
+.if ${ARCH} == aarch64
+BUILD_DEPENDS+=	${LOCALBASE}/include/sse2neon.h:devel/sse2neon
+RUN_DEPENDS+=	${LOCALBASE}/include/sse2neon.h:devel/sse2neon
+.endif
+
 post-patch:
 	@${REINPLACE_CMD} -e 's|%%BUILD_WRKSRC%%|${BUILD_WRKSRC}|g' \
 		${WRKSRC}/src/app/CMakeLists.txt
@@ -108,6 +117,11 @@ do-install:
 	(cd ${WRKSRC}/src/ && ${COPYTREE_SHARE} device ${STAGEDIR}${PREFIX}/include/ "-name *.h")
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/
 	(cd ${WRKSRC}/src/ && ${COPYTREE_SHARE} . ${STAGEDIR}${PREFIX}/include/ "-name *.h" )
+# util/atomic.h includes atomic_ops.h of third_party/atomic by its name only,
+# which is also that of a header of devel/libatomic_ops.
+	${SED} -e 's|"atomic_ops.h"|"../third_party/atomic/atomic_ops.h"|' \
+		${WRKSRC}/src/util/atomic.h > ${WRKDIR}/atomic.h
+	${INSTALL_DATA} ${WRKDIR}/atomic.h ${STAGEDIR}${PREFIX}/include/util
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/third_party/atomic
 	(cd ${WRKSRC}/third_party/atomic/ && ${COPYTREE_SHARE} *.h ${STAGEDIR}${PREFIX}/include/third_party/atomic/)
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/third_party/atomic/intern
