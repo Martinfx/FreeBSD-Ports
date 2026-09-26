@@ -42,7 +42,6 @@ OPTIONS_DEFINE=		\
 	QUADRIFLOW	\
 	RUBBERBAND	\
 	SDL		\
-	SIMD		\
 	SNDFILE		\
 	TBB		\
 	THUMBNAILER	\
@@ -92,20 +91,38 @@ OPTIONS_DEFAULT=	\
 	WEBP		\
 	XINPUT
 
+# amd64 selects the x86-64 instruction set level, other architectures only
+# toggle SIMD (NEON through sse2neon on aarch64).
+CPUISA_OPTIONS=			SSE2 SSE42 AVX2 AVX512 NATIVE
+OPTIONS_SINGLE=			CPUISA
+OPTIONS_SINGLE_CPUISA=		${CPUISA_OPTIONS}
+OPTIONS_DEFINE_aarch64=		SIMD
+OPTIONS_DEFINE_powerpc64=	SIMD
+OPTIONS_DEFINE_powerpc64le=	SIMD
+OPTIONS_DEFINE_riscv64=		SIMD
+OPTIONS_EXCLUDE_aarch64=	${CPUISA_OPTIONS}
+OPTIONS_EXCLUDE_powerpc64=	${CPUISA_OPTIONS}
+OPTIONS_EXCLUDE_powerpc64le=	${CPUISA_OPTIONS}
+OPTIONS_EXCLUDE_riscv64=	${CPUISA_OPTIONS}
+
 # CAMERATRACK: libunwind only supports i386/amd64/aarch64/powerpc64/powerpc64le
 # CYCLES_CUDA: libc6-shim (nv-sglrun) only supports amd64
 # CYCLES_EMBR: embree only supports amd64 and i386
 # OPENIMAGEDN: oidn only supports amd64
 # OPENPGL:     requires supported SIMD ISA - i386/amd64/aarch64/armv6/armv7
 OPTIONS_DEFAULT_aarch64=	CAMERATRACK OPENPGL SIMD
-OPTIONS_DEFAULT_amd64=		CAMERATRACK CYCLES_CUDA CYCLES_EMBR OPENIMAGEDN OPENPGL
+OPTIONS_DEFAULT_amd64=		CAMERATRACK CYCLES_CUDA CYCLES_EMBR OPENIMAGEDN OPENPGL \
+				SSE2
 OPTIONS_DEFAULT_powerpc64=	CAMERATRACK
 OPTIONS_DEFAULT_powerpc64le=	CAMERATRACK
 
 ALEMBIC_DESC=		Enable Alembic file support
+AVX2_DESC=		x86-64-v3: AVX, AVX2, FMA (Haswell, Zen and newer)
+AVX512_DESC=		x86-64-v4: AVX-512 (Skylake-X, Zen 4 and newer)
 BULLET_DESC=		Bullet physics engine
 CAMERATRACK_DESC=	Camera tracking support (amd64/aarch64/powerpc64/powerpc64le only)
 CINEON_DESC=		CINEON and DPX graphics format support
+CPUISA_DESC=		x86-64 instruction set level
 CYCLES_DESC=		Cycles render engine support
 CYCLES_CUDA_DESC=	NVIDIA CUDA rendering in Cycles via libc6-shim (amd64 only)
 CYCLES_EMBR_DESC=	Embree support (amd64 only)
@@ -127,6 +144,7 @@ MENU_DESC=		Install desktop menu
 MOD_FLUID_DESC=		Fluid simulation support
 MOD_OCEANSIM_DESC=	Ocean simulation support
 MOD_REMESH_DESC=	Remesh modifier support
+NATIVE_DESC=		Optimize for the build machine only (-march=native)
 OPENCOLORIO_DESC=	OpenColorIO-based color management support
 OPENIMAGEDN_DESC=	OpenImageDenoise support (amd64 only)
 OPENJPEG_DESC=		Enhanced JPEG (JPEG 2000) graphics support
@@ -140,7 +158,9 @@ PUGIXML_DESC=		Enable pugixml support
 QUADRIFLOW_DESC=	Enable quadriflow remesher
 RUBBERBAND_DESC=	Use Rubber Band for audio time-stretching and pitch-scaling
 SDL_DESC=		Audio support using SDL
-SIMD_DESC=		Use SIMD optimized routines (on amd64 require x86-64-v2 support)
+SIMD_DESC=		Use SIMD optimized routines
+SSE2_DESC=		Baseline x86-64 (SSE2), runs on any amd64 CPU
+SSE42_DESC=		x86-64-v2: SSE4.2, POPCNT (upstream Blender minimum)
 TBB_DESC=		Enable use of Intel's tbb
 THUMBNAILER_DESC=	Build blender thumbnailer
 TRACE_DESC=		Enable tracing image to GP stroke
