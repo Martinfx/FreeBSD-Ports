@@ -1,6 +1,7 @@
 # Build graphics/cycles (5.x) of the "works" branch with the USD option (Hydra
-# render delegate) in a FreeBSD 15.1 VM, check its plist, and render a USD
-# scene with the cycles program and with usdrecord through hdCycles.
+# render delegate) in a FreeBSD 15.1 VM, check its plist, render a USD scene
+# with the cycles program and with usdrecord through hdCycles, and compile
+# GafferCycles (graphics/gaffer) with it.
 name: cycles on FreeBSD
 
 on:
@@ -60,6 +61,7 @@ jobs:
             git clone --depth 1 https://github.com/freebsd/freebsd-ports.git /usr/ports
           run: |
             set -e
+            W=$PWD
             L=$PWD/ci-logs
             mkdir -p $L
             echo "=== openusd from $USD_FROM"
@@ -199,6 +201,54 @@ jobs:
               r=$(red /tmp/usdrecord.png); echo "usdrecord: $r"; [ "$r" = RED ] || rc=1
             fi
             cp /tmp/*.png $L/ 2>/dev/null
+            echo "=== $(date) compile GafferCycles"
+            # the sources of GafferCycles with the installed Cycles, as
+            # graphics/gaffer builds them; its other dependencies are only
+            # needed as headers (graphics/cortex is not in the ports tree)
+            pkg install -y libfmt > $L/gaffercycles-deps.log 2>&1
+            version() { sed -n 's/^DISTVERSION=[[:space:]]*//p' $W/$1/Makefile; }
+            G=/tmp/gaffer
+            C=/tmp/cortex
+            git clone -q --depth 1 --branch $(version gaffer) \
+              https://github.com/GafferHQ/gaffer.git $G
+            git clone -q --depth 1 --branch $(version cortex) \
+              https://github.com/ImageEngine/cortex.git $C
+            (cd $G && for p in $W/gaffer/files/patch-*; do patch -s -p0 < $p; done)
+            (cd $C && for p in $W/cortex/files/patch-*; do patch -s -p0 < $p; done)
+            sed -e 's/!GAFFER_[A-Z]*_VERSION!/0/; s/!GAFFER_VERSION_SUFFIX!//' \
+              $G/include/Gaffer/Version.h.in > $G/include/Gaffer/Version.h
+            sed -i '' -e 's/IE_CORE_[A-Z]*VERSION/0/' $C/include/IECore/Version.h
+            PYINC=$(make -C /usr/ports/graphics/cycles -V PYTHON_INCLUDEDIR)
+            cat /usr/local/share/cycles/cycles_definitions.txt
+            gc() {
+              f=$1
+              (
+                # the definitions Cycles was built with, one argument each
+                IFS='
+            '
+                set -- $(sed -e 's/^/-D/' /usr/local/share/cycles/cycles_definitions.txt)
+                unset IFS
+                exec c++ -std=c++17 -O2 -pipe -fPIC -fvisibility=hidden -c -o /dev/null \
+                  -DBOOST_FILESYSTEM_VERSION=3 -DBOOST_FILESYSTEM_NO_DEPRECATED \
+                  -DFMT_DEPRECATED= -DFMT_SHARED -DNDEBUG -DBOOST_DISABLE_ASSERTS \
+                  -DBOOST_BIND_GLOBAL_PLACEHOLDERS -DBOOST_PYTHON_MAX_ARITY=20 \
+                  -DGafferCycles_EXPORTS "$@" \
+                  -I$G/include -isystem $C/include -isystem /usr/local/include \
+                  -isystem /usr/local/include/Imath -isystem /usr/local/include/OpenEXR \
+                  -isystem $PYINC $G/$f
+              )
+            }
+            gcfail=0
+            for f in $(cd $G && ls src/GafferCycles/*.cpp \
+                src/GafferCycles/IECoreCyclesPreview/*.cpp src/GafferCyclesModule/*.cpp); do
+              if gc $f > /tmp/gc.log 2>&1; then
+                echo "ok $f"
+              else
+                echo "FAILED $f"; grep -m 10 'error' /tmp/gc.log; gcfail=1
+                cat /tmp/gc.log >> $L/gaffercycles.log
+              fi
+            done
+            [ $gcfail = 0 ] || rc=1
             echo $rc > $L/rc.txt
             chmod -R a+r $L
             # the logs are only copied out of the VM when this succeeds; the
