@@ -63,6 +63,16 @@ jobs:
             L=$PWD/ci-logs
             mkdir -p $L
             echo "=== openusd from $USD_FROM"
+            sysctl -n hw.ncpu hw.physmem; swapinfo -h
+            # memory and swap once a minute, to see whether the build swaps
+            ( while :; do echo "$(date +%T) free=$(sysctl -n vm.stats.vm.v_free_count) \
+                $(swapinfo -h | tail -n 1)"; sleep 60; done ) > $L/mem.log 2>&1 &
+            # progress of a build: the port stages, and the kernels and links
+            # of ninja
+            progress() {
+              grep --line-buffered -E '^===>|^\[[0-9]+/[0-9]+\] (Linking|Building CXX object src/kernel/)|^\[[0-9]*00/' | \
+                while read -r l; do echo "$(date +%T) $l"; done
+            }
             for p in openusd cycles; do
               rm -rf /usr/ports/graphics/$p
               cp -R $p /usr/ports/graphics/$p
@@ -82,8 +92,11 @@ jobs:
               pkg install -y $(cat $L/openusd-deps.txt) > $L/openusd-deps.log 2>&1 || \
                 { tail -n 50 $L/openusd-deps.log; exit 1; }
               echo "=== $(date) building openusd"
-              make -C /usr/ports/graphics/openusd BATCH=yes "$USD_OPTS" install \
-                > $L/openusd.log 2>&1 || \
+              # (with set -e, only a && || list gets to record the status)
+              ( make -C /usr/ports/graphics/openusd BATCH=yes "$USD_OPTS" install \
+                  2>&1 && echo 0 > $L/openusd.rc || echo $? > $L/openusd.rc ) | \
+                tee $L/openusd.log | progress
+              [ "$(cat $L/openusd.rc)" = 0 ] || \
                 { grep -n -E ' error: |Error [0-9]+|^FAILED:|CMake Error' $L/openusd.log | head -n 50; \
                   tail -n 50 $L/openusd.log; exit 1; }
             fi
@@ -95,9 +108,13 @@ jobs:
             cd /usr/ports/graphics/cycles
             make -V PORT_OPTIONS -V PYTHON_VER
             echo "=== $(date) building cycles"
-            make BATCH=yes stage > $L/cycles.log 2>&1 || \
+            # the kernels of Cycles need a lot of memory each
+            ( make BATCH=yes MAKE_JOBS_NUMBER=3 stage 2>&1 && echo 0 > $L/cycles.rc || \
+                echo $? > $L/cycles.rc ) | tee $L/cycles.log | progress
+            [ "$(cat $L/cycles.rc)" = 0 ] || \
               { grep -n -A6 -E ' error: |Error [0-9]+|^FAILED:|CMake (Error|Warning)' $L/cycles.log | head -n 120; \
-                tail -n 80 $L/cycles.log; exit 1; }
+                tail -n 80 $L/cycles.log; tail -n 30 $L/mem.log; exit 1; }
+            tail -n 5 $L/mem.log
             grep -i -E 'usd|hydra|python|pxr' $L/cycles.log | grep -E '^--|CMake' | head -n 30 || true
             echo "=== $(date) check-plist and stage-qa"
             make check-plist 2>&1 | tee $L/check-plist.log
@@ -165,7 +182,7 @@ jobs:
             set +e
             rc=0
             echo "=== $(date) cycles program"
-            cycles --background --samples 16 --width 320 --height 240 \
+            timeout 900 cycles --background --samples 16 --width 320 --height 240 \
               --output /tmp/standalone.png /tmp/test.usda > $L/standalone.log 2>&1
             echo "rc=$?"; tail -n 20 $L/standalone.log
             r=$(red /tmp/standalone.png); echo "standalone: $r"; [ "$r" = RED ] || rc=1
@@ -176,14 +193,17 @@ jobs:
               echo "=== $(date) usdrecord with hdCycles"
               $(make -V PYTHON_CMD) -c \
                 'from pxr import UsdImagingGL; print(UsdImagingGL.Engine.GetRendererPlugins())'
-              usdrecord --disableGpu --renderer Cycles --camera /World/cam \
+              timeout 900 usdrecord --disableGpu --renderer Cycles --camera /World/cam \
                 --imageWidth 320 /tmp/test.usda /tmp/usdrecord.png > $L/usdrecord.log 2>&1
               echo "rc=$?"; tail -n 20 $L/usdrecord.log
               r=$(red /tmp/usdrecord.png); echo "usdrecord: $r"; [ "$r" = RED ] || rc=1
             fi
             cp /tmp/*.png $L/ 2>/dev/null
+            echo $rc > $L/rc.txt
             chmod -R a+r $L
-            exit $rc
+            # the logs are only copied out of the VM when this succeeds; the
+            # result is checked in a later step
+            exit 0
 
       - name: Upload logs
         if: always()
@@ -192,3 +212,9 @@ jobs:
           name: cycles-freebsd-${{ matrix.usd }}-logs
           path: ci-logs/
           if-no-files-found: ignore
+
+      - name: Result
+        run: |
+          rc=$(cat ci-logs/rc.txt 2>/dev/null || echo 1)
+          echo "the renders finished with $rc"
+          exit $rc
