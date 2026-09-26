@@ -1,0 +1,22 @@
+[
+{ type: install
+  message: <<EOM
+NVIDIA CUDA rendering in Cycles (CYCLES_CUDA option)
+
+FreeBSD's nvidia-driver has no native CUDA library, so the blender wrapper
+loads the Linux one through nv-sglrun (emulators/libc6-shim).  This needs
+the Linux NVIDIA libraries of exactly the same version as the loaded kernel
+module (see `sysctl hw.nvidia.version`):
+
+  GeForce GTX 9xx/10xx (Maxwell, Pascal) and Volta:
+    x11/nvidia-driver-580 + x11/linux-nvidia-libs-580
+  Newer GPUs:
+    x11/nvidia-driver + x11/linux-nvidia-libs
+
+Then select the GPU in Edit > Preferences > System > Cycles Render Devices
+> CUDA.  OptiX is not available on FreeBSD.
+
+Set BLENDER_NO_NV_SGLRUN=1 to start blender without nv-sglrun.
+EOM
+}
+]

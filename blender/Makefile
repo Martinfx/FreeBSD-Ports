@@ -1,11 +1,13 @@
 PORTNAME=	blender
 DISTVERSION=	5.0.1
-PORTREVISION=	3
+PORTREVISION=	4
 PORTEPOCH=	1
 CATEGORIES=	graphics multimedia
 MASTER_SITES=	http://download.blender.org/source/ \
 		http://mirror.cs.umn.edu/blender.org/source/ \
 		http://public.planetmirror.com/pub/blender/source/
+DISTFILES=	${DISTNAME}${EXTRACT_SUFX}
+EXTRACT_ONLY=	${DISTNAME}${EXTRACT_SUFX}
 
 MAINTAINER=	FreeBSD@Shaneware.biz
 COMMENT=	3D modeling/rendering/animation package
@@ -57,6 +59,10 @@ SUB_FILES=	blender
 PLIST_SUB+=	VER=${DISTVERSION:R}
 OPTIONS_SUB=	yes
 
+# Cycles CUDA kernels (CYCLES_CUDA option), must match DISTVERSION
+CUDA_KERNELS_WHL=	bpy-${DISTVERSION}-cp311-cp311-manylinux_2_28_x86_64.whl
+CUDA_KERNELS_DIR=	bpy/${DISTVERSION:R}/scripts/addons_core/cycles/lib
+
 .include "${.CURDIR}/Makefile.options"
 
 ALEMBIC_CMAKE_BOOL=		WITH_ALEMBIC
@@ -70,6 +76,18 @@ CYCLES_CMAKE_BOOL=		WITH_CYCLES
 CYCLES_IMPLIES=			TBB
 CYCLES_LDFLAGS=			-L${LOCALBASE}/lib -lgflags
 CYCLES_LIB_DEPENDS=		libgflags.so:devel/gflags
+# FreeBSD has neither nvcc nor a native libcuda.so, and Cycles lists CUDA
+# devices only when precompiled kernels exist.  Take the kernels the Blender
+# Foundation built for this exact release from the official bpy wheel, and
+# let the blender wrapper load the Linux libcuda through nv-sglrun.
+CYCLES_CUDA_CMAKE_ON=		-DWITH_CYCLES_DEVICE_CUDA:BOOL=ON \
+				-DWITH_CUDA_DYNLOAD:BOOL=ON \
+				-DWITH_CYCLES_CUDA_BINARIES:BOOL=OFF
+CYCLES_CUDA_DISTFILES=		${CUDA_KERNELS_WHL}:cudakernels
+CYCLES_CUDA_IMPLIES=		CYCLES
+CYCLES_CUDA_MASTER_SITES=	https://files.pythonhosted.org/packages/cp311/b/bpy/:cudakernels
+CYCLES_CUDA_RUN_DEPENDS=	nv-sglrun:emulators/libc6-shim
+CYCLES_CUDA_SUB_FILES=		pkg-message
 CYCLES_EMBR_CMAKE_BOOL=		WITH_CYCLES_EMBREE
 CYCLES_EMBR_IMPLIES=		CYCLES
 CYCLES_EMBR_LIB_DEPENDS=	libembree4.so:graphics/embree
@@ -197,6 +215,11 @@ WEBP_LIB_DEPENDS=		libwebp.so:graphics/webp
 XINPUT_CMAKE_BOOL=		WITH_X11_XINPUT
 XINPUT_USE=			XORG=xi
 
+post-extract-CYCLES_CUDA-on:
+	@cd ${WRKDIR} && ${TAR} -xf ${DISTDIR}/${CUDA_KERNELS_WHL} \
+		'${CUDA_KERNELS_DIR}/kernel_sm_*.cubin.zst' \
+		'${CUDA_KERNELS_DIR}/kernel_compute_*.ptx.zst'
+
 post-patch:
 	${REINPLACE_CMD} -e 's|%%LLVM_VER%%|${LLVM_VERSION}|g' \
 		${WRKSRC}/intern/cycles/kernel/osl/CMakeLists.txt
@@ -213,6 +236,11 @@ post-install:
 	${MV} ${STAGEDIR}/${PREFIX}/bin/blender ${STAGEDIR}/${PREFIX}/bin/blender-bin
 	${REINPLACE_CMD} -e 's|%%PYTHON_SITELIBDIR%%|${PYTHON_SITELIBDIR}|g' ${WRKDIR}/blender
 	${INSTALL_SCRIPT} ${WRKDIR}/blender ${STAGEDIR}/${PREFIX}/bin/blender
+
+post-install-CYCLES_CUDA-on:
+	@${MKDIR} ${STAGEDIR}${DATADIR}/${DISTVERSION:R}/scripts/addons_core/cycles/lib
+	${INSTALL_DATA} ${WRKDIR}/${CUDA_KERNELS_DIR}/kernel_*.zst \
+		${STAGEDIR}${DATADIR}/${DISTVERSION:R}/scripts/addons_core/cycles/lib
 
 post-install-DRACO-on:
 	# move draco pylib into site-packages

@@ -4,6 +4,7 @@ OPTIONS_DEFINE=		\
 	CAMERATRACK	\
 	CINEON		\
 	CYCLES		\
+	CYCLES_CUDA	\
 	CYCLES_EMBR	\
 	CYCLES_ONEAPI	\
 	CYCLES_OSL	\
@@ -92,11 +93,12 @@ OPTIONS_DEFAULT=	\
 	XINPUT
 
 # CAMERATRACK: libunwind only supports i386/amd64/aarch64/powerpc64/powerpc64le
+# CYCLES_CUDA: libc6-shim (nv-sglrun) only supports amd64
 # CYCLES_EMBR: embree only supports amd64 and i386
 # OPENIMAGEDN: oidn only supports amd64
 # OPENPGL:     requires supported SIMD ISA - i386/amd64/aarch64/armv6/armv7
 OPTIONS_DEFAULT_aarch64=	CAMERATRACK OPENPGL SIMD
-OPTIONS_DEFAULT_amd64=		CAMERATRACK CYCLES_EMBR OPENIMAGEDN OPENPGL
+OPTIONS_DEFAULT_amd64=		CAMERATRACK CYCLES_CUDA CYCLES_EMBR OPENIMAGEDN OPENPGL
 OPTIONS_DEFAULT_powerpc64=	CAMERATRACK
 OPTIONS_DEFAULT_powerpc64le=	CAMERATRACK
 
@@ -105,6 +107,7 @@ BULLET_DESC=		Bullet physics engine
 CAMERATRACK_DESC=	Camera tracking support (amd64/aarch64/powerpc64/powerpc64le only)
 CINEON_DESC=		CINEON and DPX graphics format support
 CYCLES_DESC=		Cycles render engine support
+CYCLES_CUDA_DESC=	NVIDIA CUDA rendering in Cycles via libc6-shim (amd64 only)
 CYCLES_EMBR_DESC=	Embree support (amd64 only)
 CYCLES_ONEAPI_DESC=	Enable Cycles oneAPI compute support
 CYCLES_OSL_DESC=	Shading support for the cycles render engine
