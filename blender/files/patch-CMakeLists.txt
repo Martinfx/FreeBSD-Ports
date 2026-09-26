@@ -1,11 +1,12 @@
---- CMakeLists.txt.orig	2025-10-09 16:52:29 UTC
+--- CMakeLists.txt.orig	2026-09-26 12:00:00 UTC
 +++ CMakeLists.txt
-@@ -2593,7 +2593,7 @@ if(WITH_PYTHON)
+@@ -2592,9 +2592,6 @@ if(WITH_PYTHON)
+   elseif((WITH_PYTHON_INSTALL AND WITH_PYTHON_INSTALL_NUMPY) OR WITH_PYTHON_NUMPY)
      if(("${PYTHON_NUMPY_PATH}" STREQUAL "") OR (${PYTHON_NUMPY_PATH} MATCHES NOTFOUND))
        set(_numpy_include "_core/include")
-       if(PYTHON_VERSION VERSION_LESS "3.13")
+-      if(PYTHON_VERSION VERSION_LESS "3.13")
 -        set(_numpy_include "core/include")
-+#        set(_numpy_include "core/include")
-       endif()
+-      endif()
        find_python_package(numpy "${_numpy_include}")
        unset(_numpy_include)
+     endif()

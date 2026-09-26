@@ -19,7 +19,7 @@ LICENSE_FILE=	${WRKSRC}/doc/license/GPL3-license.txt
 ONLY_FOR_ARCHS=		aarch64 amd64 powerpc64le riscv64
 ONLY_FOR_ARCHS_REASON=	static_assert(sizeof(unsigned long long) == sizeof(struct hipArray*))
 
-BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}numpy>=1.16:math/py-numpy@${PY_FLAVOR}
+BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}numpy>=2.0:math/py-numpy@${PY_FLAVOR}
 LIB_DEPENDS=	libfreetype.so:print/freetype2 \
 		libepoxy.so:graphics/libepoxy \
 		libOpenImageIO.so:graphics/openimageio \
