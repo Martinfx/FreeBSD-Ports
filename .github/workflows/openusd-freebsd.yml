@@ -97,7 +97,11 @@ jobs:
             # keep core dumps of crashing tests for backtraces
             mkdir -p /tmp/cores && chmod 1777 /tmp/cores
             sysctl kern.corefile=/tmp/cores/%N.%P.core
-            Xvfb :99 -screen 0 1280x1024x24 -ac +extension GLX > $L/xvfb.log 2>&1 &
+            # -noreset: the X server resets when its last client disconnects,
+            # and closes the connections of the clients that are connecting
+            # then, so XOpenDisplay() failed now and then with the tests
+            # running in parallel (in run 11, in 4 tests on 15.1 and 5 on 14)
+            Xvfb :99 -screen 0 1280x1024x24 -ac -noreset +extension GLX > $L/xvfb.log 2>&1 &
             export DISPLAY=:99
             # Mesa's llvmpipe (the GL of Xvfb) renders without its worker
             # threads: they crash when a process exits while its libraries
@@ -139,7 +143,7 @@ jobs:
             rc=$(cat $L/rc.txt 2>/dev/null || echo 99)
             echo "=== $(date) make test finished with $rc"
             # run the failed tests once more, which tells the failures that
-            # come and go (e.g. XOpenDisplay() failing) from the others
+            # come and go from the others
             if [ "$rc" != 0 ] && grep -q ' tests failed out of ' $L/test.log; then
               echo "=== $(date) failed tests again"
               ( timeout -k 2m 30m su -m builder -c \
