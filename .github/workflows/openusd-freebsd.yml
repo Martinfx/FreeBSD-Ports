@@ -107,24 +107,43 @@ jobs:
             # "make test" slower (on 15.1 it did not finish in 280 minutes,
             # instead of 3 hours without them)
             export LP_NUM_THREADS=0
+            # make test as builder, which then ends the processes that the
+            # tests left running (listed as "left running:"): timeout(1)
+            # waits until all the processes started under it have exited,
+            # and in run 10 it waited for them until its time limit (on
+            # 15.1 two hours after the last test)
+            cat > /home/builder/make-test.sh <<'EOF'
+            ulimit -c unlimited
+            env HOME=/home/builder make BATCH=yes WRKDIRPREFIX=/home/builder/wrk \
+              DISTDIR=/home/builder/distfiles test "$@"
+            rc=$?
+            # all processes of builder except this shell (pgrep leaves out
+            # its ancestors)
+            p=$(pgrep -U builder)
+            if [ -n "$p" ]; then
+              ps -ww -o pid,ppid,etime,args -p "$(echo $p | tr ' ' ,)" | \
+                sed 's/^/left running: /'
+              kill $p
+              sleep 5
+              kill -9 $p
+            fi 2>/dev/null
+            exit $rc
+            EOF
             echo "=== $(date) make test"
             set +e
             # stop in time to copy the logs out of the VM before the job's
             # time limit
-            ( timeout -k 2m 280m su -m builder -c 'ulimit -c unlimited; \
-                env HOME=/home/builder make BATCH=yes \
-                WRKDIRPREFIX=/home/builder/wrk DISTDIR=/home/builder/distfiles test' \
+            ( timeout -k 2m 300m su -m builder -c 'sh /home/builder/make-test.sh' \
                 2>&1; echo $? > $L/rc.txt ) | tee $L/test.log | \
-              grep --line-buffered -E '^===>|Built target|tests passed|Test +#'
+              grep --line-buffered -E '^===>|Built target|tests passed|Test +#|^left running'
             rc=$(cat $L/rc.txt 2>/dev/null || echo 99)
             echo "=== $(date) make test finished with $rc"
             # run the failed tests once more, which tells the failures that
             # come and go (e.g. XOpenDisplay() failing) from the others
             if [ "$rc" != 0 ] && grep -q ' tests failed out of ' $L/test.log; then
               echo "=== $(date) failed tests again"
-              ( timeout -k 2m 40m su -m builder -c 'ulimit -c unlimited; env HOME=/home/builder \
-                  make BATCH=yes WRKDIRPREFIX=/home/builder/wrk \
-                  DISTDIR=/home/builder/distfiles test CTEST_ARGS=--rerun-failed' \
+              ( timeout -k 2m 30m su -m builder -c \
+                  'sh /home/builder/make-test.sh CTEST_ARGS=--rerun-failed' \
                   2>&1; echo $? > $L/rc.txt ) > $L/rerun.log
               echo "=== $(date) rerun finished with $(cat $L/rc.txt)"
               sed -n '/tests passed, /,$p' $L/rerun.log | head -n 300
