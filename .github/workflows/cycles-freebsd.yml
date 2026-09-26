@@ -138,8 +138,13 @@ jobs:
             tail -n 5 $L/mem.log
             grep -i -E 'usd|hydra|python|pxr' $L/cycles.log | grep -E '^--|CMake' | head -n 30 || true
             echo "=== $(date) check-plist and stage-qa"
-            make check-plist 2>&1 | tee $L/check-plist.log
-            make stage-qa 2>&1 | tee $L/stage-qa.log
+            # their problems, and the warnings of stage-qa about the
+            # dependencies, fail the job at the end
+            qa=0
+            make check-plist > $L/check-plist.log 2>&1 || qa=1
+            make stage-qa > $L/stage-qa.log 2>&1 || qa=1
+            cat $L/check-plist.log $L/stage-qa.log
+            if grep -q -E '^(Error|Warning):' $L/stage-qa.log; then qa=1; fi
             make install > $L/install.log 2>&1 || { tail -n 50 $L/install.log; exit 1; }
             cat /usr/local/plugin/usd/hdCycles/resources/plugInfo.json
             # the resource path, as used by hdCycles and Gaffer
@@ -210,6 +215,7 @@ jobs:
             }
             set +e
             rc=0
+            [ $qa = 0 ] || { echo "check-plist or stage-qa: see above"; rc=1; }
             if [ "$USD_FROM" = pkg ]; then
               # openusd 26.05_3 of the ports tree does not find its plugins
               # on FreeBSD (no dladdr() in ArchGetAddressInfo(), and the path
