@@ -1,6 +1,7 @@
 PORTNAME=	cycles
 DISTVERSIONPREFIX=	v
 DISTVERSION=	5.1.0
+PORTREVISION=	1
 CATEGORIES=	graphics
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -10,43 +11,16 @@ WWW=		https://github.com/blender/cycles
 LICENSE=	APACHE20
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
-BUILD_DEPENDS=	alembic>0:graphics/alembic \
-		boost-libs>=1.85.0:devel/boost-libs \
-		libepoxy>0:graphics/libepoxy \
-		oidn>0:graphics/oidn \
-		onetbb>0:devel/onetbb \
-		openexr>0:graphics/openexr \
-		openimageio>0:graphics/openimageio \
-		openjpeg>0:graphics/openjpeg \
-		openpgl>0:graphics/openpgl \
-		openshadinglanguage>0:graphics/openshadinglanguage \
-		opensubdiv>0:graphics/opensubdiv \
-		openvdb>0:misc/openvdb \
-		webp>0:graphics/webp \
-		zstd>0:archivers/zstd
+# CMake requires OpenEXR, but nothing in Cycles uses it.
+BUILD_DEPENDS=	openexr>0:graphics/openexr
 
-LIB_DEPENDS=	libAlembic.so:graphics/alembic \
-		libboost_atomic.so:devel/boost-libs \
-		libboost_chrono.so:devel/boost-libs \
-		libboost_date_time.so:devel/boost-libs \
-		libboost_filesystem.so:devel/boost-libs \
-		libboost_iostreams.so:devel/boost-libs \
-		libboost_regex.so:devel/boost-libs \
-		libboost_serialization.so:devel/boost-libs \
-		libboost_thread.so:devel/boost-libs \
-		libboost_wave.so:devel/boost-libs \
-		libexpat.so:textproc/expat2 \
-		libIex.so:graphics/openexr \
-		libIlmThread.so:graphics/openexr \
-		libImath.so:math/Imath \
-		libminizip.so:archivers/minizip \
+LIB_DEPENDS=	libImath.so:math/Imath \
 		libOpenColorIO.so:graphics/opencolorio \
-		libOpenEXR.so:graphics/openexr \
-		libOpenEXRCore.so:graphics/openexr \
 		libOpenImageDenoise.so:graphics/oidn \
 		libOpenImageIO.so:graphics/openimageio \
 		libOpenImageIO_Util.so:graphics/openimageio \
 		libopenjp2.so:graphics/openjpeg \
+		libopenpgl.so:graphics/openpgl \
 		libopenvdb.so:misc/openvdb \
 		libosdCPU.so:graphics/opensubdiv \
 		libosdGPU.so:graphics/opensubdiv \
@@ -56,9 +30,7 @@ LIB_DEPENDS=	libAlembic.so:graphics/alembic \
 		liboslquery.so:graphics/openshadinglanguage \
 		libpng16.so:graphics/png \
 		libpugixml.so:textproc/pugixml \
-		libpystring.so:devel/pystring \
 		libtbb.so:devel/onetbb \
-		libyaml-cpp.so:devel/yaml-cpp \
 		libzstd.so:archivers/zstd
 
 USES=		cmake:testing jpeg
@@ -67,11 +39,20 @@ GH_ACCOUNT=	blender
 GH_PROJECT=	cycles
 
 CMAKE_ARGS=	-DOSL_SHADER_DIR:STRING="${LOCALBASE}/share/openshadinglanguage/shaders"
+# Only link the libraries that are used: the CMake targets of graphics/openusd
+# also pass on its own libraries (e.g. Alembic and MaterialX, depending on its
+# options).
+LDFLAGS+=	-Wl,--as-needed
 
-CMAKE_ON=	CMAKE_POSITION_INDEPENDENT_CODE WITH_CYCLES_ALEMBIC \
+# Path guiding (OpenPGL) is only built when asked for, unlike in Blender.
+CMAKE_ON=	CMAKE_POSITION_INDEPENDENT_CODE \
 		WITH_CYCLES_DEVICE_ONEAPI WITH_CYCLES_OPENCOLORIO WITH_CYCLES_OPENIMAGEDENOISE \
-		WITH_CYCLES_OPENSUBDIV WITH_CYCLES_OPENVDB WITH_CYCLES_OSL
-CMAKE_OFF=	WITH_CYCLES_DEVICE_OPTIX WITH_CYCLES_NANOVDB WITH_LIBS_PRECOMPILED
+		WITH_CYCLES_OPENSUBDIV WITH_CYCLES_OPENVDB WITH_CYCLES_OSL \
+		WITH_CYCLES_PATH_GUIDING
+# Nothing in Cycles uses Alembic any more, but CMake requires it with the
+# default WITH_CYCLES_ALEMBIC.
+CMAKE_OFF=	WITH_CYCLES_ALEMBIC WITH_CYCLES_DEVICE_OPTIX WITH_CYCLES_NANOVDB \
+		WITH_LIBS_PRECOMPILED
 
 OPTIONS_DEFINE=		EMBREE USD
 EMBREE_DESC=		Collection of high-performance ray tracing kernels.
@@ -82,7 +63,8 @@ OPTIONS_EXCLUDE_aarch64=	EMBREE # graphics/embree is amd64/i386 only
 OPTIONS_DEFAULT=	EMBREE USD
 OPTIONS_SUB=		yes
 
-USD_LIB_DEPENDS=	libusd_ms.so:graphics/openusd
+USD_LIB_DEPENDS=	libepoxy.so:graphics/libepoxy \
+			libusd_ms.so:graphics/openusd
 USD_USES=		gl python xorg
 USD_USE=		GL=gl XORG=ice,sm,x11,xext,xt
 USD_CMAKE_BOOL=		WITH_CYCLES_HYDRA_RENDER_DELEGATE WITH_CYCLES_USD
