@@ -11,29 +11,29 @@ WWW=		https://github.com/blender/cycles
 LICENSE=	APACHE20
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
-# CMake requires OpenEXR, but nothing in Cycles uses it.
-BUILD_DEPENDS=	openexr>0:graphics/openexr
+# CMake requires these, but Cycles does not use them itself (OpenImageIO
+# does), or only their headers (Imath).
+BUILD_DEPENDS=	Imath>0:math/Imath \
+		openexr>0:graphics/openexr \
+		openjpeg>0:graphics/openjpeg \
+		png>0:graphics/png \
+		tiff>0:graphics/tiff
 
-LIB_DEPENDS=	libImath.so:math/Imath \
-		libOpenColorIO.so:graphics/opencolorio \
+LIB_DEPENDS=	libOpenColorIO.so:graphics/opencolorio \
 		libOpenImageDenoise.so:graphics/oidn \
 		libOpenImageIO.so:graphics/openimageio \
 		libOpenImageIO_Util.so:graphics/openimageio \
-		libopenjp2.so:graphics/openjpeg \
 		libopenpgl.so:graphics/openpgl \
 		libopenvdb.so:misc/openvdb \
 		libosdCPU.so:graphics/opensubdiv \
-		libosdGPU.so:graphics/opensubdiv \
 		liboslcomp.so:graphics/openshadinglanguage \
 		liboslexec.so:graphics/openshadinglanguage \
-		liboslnoise.so:graphics/openshadinglanguage \
 		liboslquery.so:graphics/openshadinglanguage \
-		libpng16.so:graphics/png \
 		libpugixml.so:textproc/pugixml \
 		libtbb.so:devel/onetbb \
 		libzstd.so:archivers/zstd
 
-USES=		cmake:testing jpeg
+USES=		cmake:testing jpeg:build
 USE_GITHUB=	yes
 GH_ACCOUNT=	blender
 GH_PROJECT=	cycles
@@ -63,8 +63,9 @@ OPTIONS_EXCLUDE_aarch64=	EMBREE # graphics/embree is amd64/i386 only
 OPTIONS_DEFAULT=	EMBREE USD
 OPTIONS_SUB=		yes
 
-USD_LIB_DEPENDS=	libepoxy.so:graphics/libepoxy \
-			libusd_ms.so:graphics/openusd
+# CMake requires libepoxy with the Hydra render delegate.
+USD_BUILD_DEPENDS=	libepoxy>0:graphics/libepoxy
+USD_LIB_DEPENDS=	libusd_ms.so:graphics/openusd
 USD_USES=		gl python xorg
 USD_USE=		GL=gl XORG=ice,sm,x11,xext,xt
 USD_CMAKE_BOOL=		WITH_CYCLES_HYDRA_RENDER_DELEGATE WITH_CYCLES_USD
