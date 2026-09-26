@@ -156,7 +156,7 @@ jobs:
             # intensity of a DistantLight is the radiance of its disk (hence
             # the default of 50000 for the sun), and 3 lit the sphere so little
             # that Cycles rendered it black; with normalize it is about the
-            # irradiance, and Storm, which ignores normalize, renders the same.
+            # irradiance.
             cat > /tmp/test.usda <<'EOF'
             #usda 1.0
             (
