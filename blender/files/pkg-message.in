@@ -16,7 +16,10 @@ module (see `sysctl hw.nvidia.version`):
 Then select the GPU in Edit > Preferences > System > Cycles Render Devices
 > CUDA.  OptiX is not available on FreeBSD.
 
-Set BLENDER_NO_NV_SGLRUN=1 to start blender without nv-sglrun.
+Set BLENDER_NO_NV_SGLRUN=1 to start blender without nv-sglrun.  If no GPU is
+listed, start it from a terminal to see why:
+
+  BLENDER_NV_DEBUG=1 blender --debug-cycles --log-level info
 EOM
 }
 ]

@@ -5,16 +5,32 @@ export BLENDER_EXTERN_DRACO_LIBRARY_PATH=%%PYTHON_SITELIBDIR%%/libextern_draco.s
 %%CYCLES_CUDA%%# FreeBSD's nvidia-driver has no native libcuda.so, so Cycles cannot see
 %%CYCLES_CUDA%%# NVIDIA GPUs on its own.  When the Linux NVIDIA libraries matching the loaded
 %%CYCLES_CUDA%%# kernel module are installed, run through nv-sglrun (emulators/libc6-shim),
-%%CYCLES_CUDA%%# which loads them into this native process.  BLENDER_NO_NV_SGLRUN=1 disables.
-%%CYCLES_CUDA%%if [ -z "${BLENDER_NO_NV_SGLRUN}" ] && [ -x %%LOCALBASE%%/bin/nv-sglrun ]; then
-%%CYCLES_CUDA%%	nv_libdir=${NVIDIA_LIB64_DIR:-/compat/linux/usr/lib64}
-%%CYCLES_CUDA%%	nv_version=$(/sbin/sysctl -n hw.nvidia.version 2>/dev/null | \
-%%CYCLES_CUDA%%	    /usr/bin/sed -n 's/^NVIDIA UNIX x86_64 Kernel Module  \([0-9.]*\).*/\1/p')
-%%CYCLES_CUDA%%	if [ -n "${nv_version}" ] && \
-%%CYCLES_CUDA%%	    [ -e "${nv_libdir}/libcuda.so.${nv_version}" ] && \
-%%CYCLES_CUDA%%	    [ -e "${nv_libdir}/libGLX_nvidia.so.${nv_version}" ]; then
-%%CYCLES_CUDA%%		exec %%LOCALBASE%%/bin/nv-sglrun %%PREFIX%%/bin/blender-bin "$@"
-%%CYCLES_CUDA%%	fi
+%%CYCLES_CUDA%%# which loads them into this native process.  BLENDER_NO_NV_SGLRUN=1 disables
+%%CYCLES_CUDA%%# this, BLENDER_NV_DEBUG=1 reports why nv-sglrun is (not) used.
+%%CYCLES_CUDA%%nv_log() {
+%%CYCLES_CUDA%%	[ -n "${BLENDER_NV_DEBUG}" ] && echo "blender: $*" >&2
+%%CYCLES_CUDA%%	return 0
+%%CYCLES_CUDA%%}
+%%CYCLES_CUDA%%nv_libdir=${NVIDIA_LIB64_DIR:-/compat/linux/usr/lib64}
+%%CYCLES_CUDA%%nv_sysctl=$(/sbin/sysctl -n hw.nvidia.version 2>/dev/null)
+%%CYCLES_CUDA%%nv_version=$(echo "${nv_sysctl}" | \
+%%CYCLES_CUDA%%    /usr/bin/sed -n 's/^NVIDIA UNIX x86_64 Kernel Module  \([0-9.]*\).*/\1/p')
+%%CYCLES_CUDA%%if [ -n "${BLENDER_NO_NV_SGLRUN}" ]; then
+%%CYCLES_CUDA%%	nv_log "not using nv-sglrun: BLENDER_NO_NV_SGLRUN is set"
+%%CYCLES_CUDA%%elif [ ! -x %%LOCALBASE%%/bin/nv-sglrun ]; then
+%%CYCLES_CUDA%%	nv_log "not using nv-sglrun: emulators/libc6-shim is not installed"
+%%CYCLES_CUDA%%elif [ -z "${nv_sysctl}" ]; then
+%%CYCLES_CUDA%%	nv_log "not using nv-sglrun: the nvidia kernel module is not loaded"
+%%CYCLES_CUDA%%elif [ -z "${nv_version}" ]; then
+%%CYCLES_CUDA%%	echo "blender: CUDA disabled, unrecognized hw.nvidia.version: ${nv_sysctl}" >&2
+%%CYCLES_CUDA%%elif [ ! -e "${nv_libdir}/libcuda.so.${nv_version}" ] || \
+%%CYCLES_CUDA%%    [ ! -e "${nv_libdir}/libGLX_nvidia.so.${nv_version}" ]; then
+%%CYCLES_CUDA%%	echo "blender: CUDA disabled, Linux NVIDIA libraries ${nv_version} not found in" \
+%%CYCLES_CUDA%%	    "${nv_libdir} (install the linux-nvidia-libs matching nvidia-driver" \
+%%CYCLES_CUDA%%	    "${nv_version})" >&2
+%%CYCLES_CUDA%%else
+%%CYCLES_CUDA%%	nv_log "using nv-sglrun with NVIDIA ${nv_version} libraries from ${nv_libdir}"
+%%CYCLES_CUDA%%	exec %%LOCALBASE%%/bin/nv-sglrun %%PREFIX%%/bin/blender-bin "$@"
 %%CYCLES_CUDA%%fi
 %%CYCLES_CUDA%%
 exec %%PREFIX%%/bin/blender-bin "$@"
