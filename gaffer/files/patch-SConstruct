@@ -1,4 +1,4 @@
---- SConstruct.orig	2026-09-24 19:41:12 UTC
+--- SConstruct.orig	2026-09-26 22:42:14 UTC
 +++ SConstruct
 @@ -470,7 +470,8 @@ if env["PLATFORM"] != "win32" :
  
@@ -39,7 +39,24 @@
  
  	usdVersion = None
  	for line in open( str( pxrVersionHeader ) ) :
-@@ -1669,6 +1685,21 @@ else :
+@@ -1210,12 +1226,14 @@ libraries = {
+ 
+ 	"GafferML" : {
+ 		"envAppends" : {
+-			"CPPPATH" : [ "$ONNX_ROOT/include" ],
++			# FreeBSD : misc/onnxruntime installs the headers in `include/onnxruntime`,
++			# as the CMake install of ONNX Runtime does.
++			"CPPPATH" : [ "$ONNX_ROOT/include", "$ONNX_ROOT/include/onnxruntime" ],
+ 			"LIBPATH" : [ "$ONNX_ROOT/lib" ],
+ 			"LIBS" : [ "Gaffer", "GafferImage", "onnxruntime", "GafferScene", "IECoreScene$CORTEX_LIB_SUFFIX" ],
+ 		},
+ 		"pythonEnvAppends" : {
+-			"CPPPATH" : [ "$ONNX_ROOT/include" ],
++			"CPPPATH" : [ "$ONNX_ROOT/include", "$ONNX_ROOT/include/onnxruntime" ],
+ 			"LIBPATH" : [ "$ONNX_ROOT/lib" ],
+ 			"LIBS" : [ "GafferBindings", "GafferImage", "GafferML", "onnxruntime", "GafferScene", "IECoreScene$CORTEX_LIB_SUFFIX" ],
+ 		},
+@@ -1669,6 +1687,21 @@ else :
  	libraries["IECoreRenderMan"]["envAppends"]["LIBS"].extend( [ "dl" ] )
  	libraries["GafferCycles"]["envAppends"]["LIBS"].extend( [ "dl" ] )
  

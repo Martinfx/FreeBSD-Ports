@@ -44,12 +44,14 @@ USD_MONOLITHIC = True
 # Cycles is graphics/cycles, with its headers and (static) libraries in
 # %%LOCALBASE%%; empty without the CYCLES option.
 CYCLES_ROOT = "%%CYCLES_ROOT%%"
+# ONNX Runtime is misc/onnxruntime, used by GafferML; empty without the ML
+# option.
+ONNX_ROOT = "%%ONNX_ROOT%%"
 
-# Renderers and ML support that are not available on FreeBSD.
+# Renderers that are not available on FreeBSD.
 ARNOLD_ROOT = ""
 DELIGHT_ROOT = ""
 RENDERMAN_ROOT = ""
-ONNX_ROOT = ""
 
 INKSCAPE = "%%LOCALBASE%%/bin/inkscape"
 SPHINX = "/nonexistent"

@@ -65,8 +65,8 @@ DESKTOP_ENTRIES="Gaffer" \
 		"Graphics;3DGraphics;" \
 		false
 
-OPTIONS_DEFINE=		CYCLES
-OPTIONS_DEFAULT=	CYCLES
+OPTIONS_DEFINE=		CYCLES ML
+OPTIONS_DEFAULT=	CYCLES ML
 OPTIONS_SUB=		yes
 
 CYCLES_DESC=		Cycles renderer (GafferCycles)
@@ -81,6 +81,11 @@ CYCLES_LIB_DEPENDS=	libAlembic.so:graphics/alembic \
 CYCLES_RUN_DEPENDS=	${LOCALBASE}/share/cycles/cycles_definitions.txt:graphics/cycles
 CYCLES_SUB_LIST=	CYCLES_ROOT="${LOCALBASE}"
 CYCLES_SUB_LIST_OFF=	CYCLES_ROOT=""
+
+ML_DESC=		Machine learning inference with ONNX Runtime (GafferML)
+ML_LIB_DEPENDS=		libonnxruntime.so:misc/onnxruntime
+ML_SUB_LIST=		ONNX_ROOT="${LOCALBASE}"
+ML_SUB_LIST_OFF=	ONNX_ROOT=""
 
 SUB_FILES=	gaffer.options pkg-message
 SUB_LIST=	CXX="${CXX}" \

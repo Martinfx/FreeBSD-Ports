@@ -1,4 +1,4 @@
---- bin/__private/_gaffer.py.orig	2026-09-25 08:10:28 UTC
+--- bin/__private/_gaffer.py.orig	2026-09-26 22:42:14 UTC
 +++ bin/__private/_gaffer.py
 @@ -48,7 +48,7 @@ libraryPath = {
  	"linux" : "LD_LIBRARY_PATH",
@@ -51,7 +51,19 @@
  		if not cyclesRoot.exists() :
  			return
  		os.environ["CYCLES_ROOT"] = str( cyclesRoot )
-@@ -375,6 +403,8 @@ setUp3rdPartyExtensions()
+@@ -272,6 +300,11 @@ setUp3Delight()
+ def setUpONNX() :
+ 
+ 	if "ONNX_ROOT" not in os.environ :
++		# On FreeBSD, GafferML is only installed along with misc/onnxruntime,
++		# whose library the dynamic linker finds by itself. But the node menu
++		# only lists the GafferML nodes when `ONNX_ROOT` is set.
++		if sys.platform.startswith( "freebsd" ) and ( gafferRoot / "python" / "GafferML" ).is_dir() :
++			os.environ["ONNX_ROOT"] = "%%LOCALBASE%%"
+ 		return
+ 
+ 	onnxRoot = pathlib.Path( os.environ.get( "ONNX_ROOT" ) )
+@@ -375,6 +408,8 @@ setUp3rdPartyExtensions()
  
  # Enable scoped enum shortcuts to preserve compatibility with PySide2.
  os.environ["PYSIDE63_OPTION_PYTHON_ENUM"] = "0x08" # ENOPT_SCOPED_SHORTCUT
