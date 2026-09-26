@@ -1,6 +1,6 @@
 --- src/cmake/Modules/FindUSDPixar.cmake.orig	2026-03-30 21:43:11 UTC
 +++ src/cmake/Modules/FindUSDPixar.cmake
-@@ -11,9 +11,21 @@ if(pxr_FOUND)
+@@ -11,9 +11,24 @@ if(pxr_FOUND)
    set(USD_FOUND ON)
    set(_pxr_library_dir ${PXR_CMAKE_DIR}/lib)
  
@@ -10,6 +10,9 @@
 +    find_package(OpenGL)
 +    find_package(X11)
 +  endif()
++  # Nor for Ptex, which hdSt links as Ptex::Ptex_dynamic when USD is built
++  # with Ptex support.
++  find_package(PTex CONFIG QUIET)
 +
    # USD
    set(USD_INCLUDE_DIRS ${PXR_INCLUDE_DIRS})
