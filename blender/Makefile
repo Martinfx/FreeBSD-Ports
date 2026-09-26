@@ -71,6 +71,8 @@ ALEMBIC_LIB_DEPENDS=		libAlembic.so:graphics/alembic
 # CPUISA (amd64): the -march level reaches test_sse_support() through
 # BLENDER_X86_MARCH.  SUPPORT_SSE42_BUILD skips its run check, the build host
 # must support the chosen level anyway as build tools run during the build.
+AVX_CMAKE_ON=			-DWITH_CPU_SIMD:BOOL=ON -DSUPPORT_SSE42_BUILD:BOOL=ON \
+				-DBLENDER_X86_MARCH:STRING="x86-64-v2 -mavx"
 AVX2_CMAKE_ON=			-DWITH_CPU_SIMD:BOOL=ON -DSUPPORT_SSE42_BUILD:BOOL=ON \
 				-DBLENDER_X86_MARCH:STRING=x86-64-v3
 AVX512_CMAKE_ON=		-DWITH_CPU_SIMD:BOOL=ON -DSUPPORT_SSE42_BUILD:BOOL=ON \
