@@ -13,6 +13,11 @@ module (see `sysctl hw.nvidia.version`):
   Newer GPUs:
     x11/nvidia-driver + x11/linux-nvidia-libs
 
+The linux-nvidia-libs packages conflict with each other, remove the one that
+does not match first.  libc6-shim also needs the Linux compatibility layer:
+
+  sysrc linux_enable=YES && service linux start
+
 Then select the GPU in Edit > Preferences > System > Cycles Render Devices
 > CUDA.  OptiX is not available on FreeBSD.
 

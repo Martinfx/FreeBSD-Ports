@@ -25,9 +25,16 @@ export BLENDER_EXTERN_DRACO_LIBRARY_PATH=%%PYTHON_SITELIBDIR%%/libextern_draco.s
 %%CYCLES_CUDA%%	echo "blender: CUDA disabled, unrecognized hw.nvidia.version: ${nv_sysctl}" >&2
 %%CYCLES_CUDA%%elif [ ! -e "${nv_libdir}/libcuda.so.${nv_version}" ] || \
 %%CYCLES_CUDA%%    [ ! -e "${nv_libdir}/libGLX_nvidia.so.${nv_version}" ]; then
-%%CYCLES_CUDA%%	echo "blender: CUDA disabled, Linux NVIDIA libraries ${nv_version} not found in" \
-%%CYCLES_CUDA%%	    "${nv_libdir} (install the linux-nvidia-libs matching nvidia-driver" \
-%%CYCLES_CUDA%%	    "${nv_version})" >&2
+%%CYCLES_CUDA%%	nv_found=$(cd "${nv_libdir}" 2>/dev/null && ls libcuda.so.*.* 2>/dev/null | \
+%%CYCLES_CUDA%%	    /usr/bin/sed -n '1s/^libcuda\.so\.//p')
+%%CYCLES_CUDA%%	nv_branch=$(echo "${nv_version}" | /usr/bin/cut -d. -f1)
+%%CYCLES_CUDA%%	echo "blender: CUDA disabled, the nvidia kernel module is ${nv_version} but" \
+%%CYCLES_CUDA%%	    "the Linux NVIDIA libraries in ${nv_libdir} are ${nv_found:-missing};" \
+%%CYCLES_CUDA%%	    "install linux-nvidia-libs ${nv_version} (package" \
+%%CYCLES_CUDA%%	    "linux-nvidia-libs-${nv_branch} for the ${nv_branch} driver branch)" >&2
+%%CYCLES_CUDA%%elif ! /sbin/sysctl -n compat.linux.emul_path >/dev/null 2>&1; then
+%%CYCLES_CUDA%%	echo "blender: CUDA disabled, Linux compatibility is not loaded" \
+%%CYCLES_CUDA%%	    "(sysrc linux_enable=YES && service linux start)" >&2
 %%CYCLES_CUDA%%else
 %%CYCLES_CUDA%%	nv_log "using nv-sglrun with NVIDIA ${nv_version} libraries from ${nv_libdir}"
 %%CYCLES_CUDA%%	exec %%LOCALBASE%%/bin/nv-sglrun %%PREFIX%%/bin/blender-bin "$@"
