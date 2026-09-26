@@ -230,6 +230,10 @@ jobs:
               --output /tmp/standalone.png /tmp/test.usda > $L/standalone.log 2>&1
             echo "rc=$?"; tail -n 20 $L/standalone.log
             r=$(red /tmp/standalone.png); echo "standalone: $r"; [ "$r" = RED ] || rc=1
+            # hdCycles warns about the material parameters it has no input
+            # for (with USD 25.05 and later, the "typeName:" of each input
+            # before files/patch-src_hydra_material.cpp)
+            if grep 'Could not find parameter' $L/standalone.log; then rc=1; fi
             # when the sphere is not red: Cycles itself on one of its example
             # scenes, and the scene without its material (grey if the light
             # works; with the lights Cycles counts) and with a dome light
