@@ -13,7 +13,8 @@ LICENSE_FILE=	${WRKSRC}/LICENSE.txt
 ONLY_FOR_ARCHS=	aarch64 amd64
 ONLY_FOR_ARCHS_REASON=	CMakeLists.txt fails for non-64-bit architectures: Compiler does not support 64-bit builds; also: pxr/base/arch/defines.h:69:2: error: "Unsupported architecture.  x86_64 or ARM64 required."
 
-BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}Jinja2>0:devel/py-Jinja2@${PY_FLAVOR}
+BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}Jinja2>0:devel/py-Jinja2@${PY_FLAVOR} \
+		${MATERIALX_STDLIB_DIR}/targets/genglsl.mtlx:graphics/materialx
 LIB_DEPENDS=	libAlembic.so:graphics/alembic \
 		libtbb.so:devel/onetbb \
 		libImath-3_2.so:math/Imath \
@@ -25,7 +26,8 @@ LIB_DEPENDS=	libAlembic.so:graphics/alembic \
 		libMaterialXGenShader.so:graphics/materialx \
 		libMaterialXFormat.so:graphics/materialx \
 		libMaterialXCore.so:graphics/materialx
-RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}Jinja2>0:devel/py-Jinja2@${PY_FLAVOR}
+RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}Jinja2>0:devel/py-Jinja2@${PY_FLAVOR} \
+		${MATERIALX_STDLIB_DIR}/targets/genglsl.mtlx:graphics/materialx
 
 USES=		cmake python
 USE_XORG=	xt
@@ -34,8 +36,12 @@ GH_ACCOUNT=	PixarAnimationStudios
 GH_PROJECT=	OpenUSD
 USE_LDCONFIG=	yes
 
+# The MaterialX data libraries (with the source code of the shader
+# generators), which USD uses from there.
+MATERIALX_STDLIB_DIR=	${LOCALBASE}/share/MaterialX/libraries
+
 CMAKE_ARGS=	-DMaterialX_DIR:STRING=${LOCALBASE}/lib/cmake/MaterialX \
-		-DMATERIALX_STDLIB_DIR:STRING=${LOCALBASE}/share/MaterialX \
+		-DMATERIALX_STDLIB_DIR:STRING=${MATERIALX_STDLIB_DIR} \
 		-DMATERIALX_PYTHON_DIR:STRING=${PYTHON_SITELIBDIR}/MaterialX
 CMAKE_ON=	PXR_ENABLE_PYTHON_SUPPORT PXR_ENABLE_MATERIALX_SUPPORT \
 		PXR_BUILD_ALEMBIC_PLUGIN
