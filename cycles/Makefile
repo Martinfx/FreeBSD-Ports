@@ -39,6 +39,10 @@ GH_ACCOUNT=	blender
 GH_PROJECT=	cycles
 
 CMAKE_ARGS=	-DOSL_SHADER_DIR:STRING="${LOCALBASE}/share/openshadinglanguage/shaders"
+# Only link the libraries that are used: the CMake targets of graphics/openusd
+# also pass on its own libraries (e.g. Alembic and MaterialX, depending on its
+# options).
+LDFLAGS+=	-Wl,--as-needed
 
 # Path guiding (OpenPGL) is only built when asked for, unlike in Blender.
 CMAKE_ON=	CMAKE_POSITION_INDEPENDENT_CODE \
