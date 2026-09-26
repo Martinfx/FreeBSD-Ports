@@ -63,11 +63,14 @@ OPTIONS_EXCLUDE_aarch64=	EMBREE # graphics/embree is amd64/i386 only
 OPTIONS_DEFAULT=	EMBREE USD
 OPTIONS_SUB=		yes
 
-# CMake requires libepoxy with the Hydra render delegate.
-USD_BUILD_DEPENDS=	libepoxy>0:graphics/libepoxy
+# CMake requires libepoxy with the Hydra render delegate, and OpenGL and X11
+# for the CMake targets of USD (see patch-src_cmake_Modules_FindUSDPixar.cmake),
+# but Cycles does not link them.
+USD_BUILD_DEPENDS=	libepoxy>0:graphics/libepoxy \
+			libglvnd>0:graphics/libglvnd
 USD_LIB_DEPENDS=	libusd_ms.so:graphics/openusd
-USD_USES=		gl python xorg
-USD_USE=		GL=gl XORG=ice,sm,x11,xext,xt
+USD_USES=		python xorg
+USD_USE=		XORG=ice,sm,x11,xext,xorgproto,xt
 USD_CMAKE_BOOL=		WITH_CYCLES_HYDRA_RENDER_DELEGATE WITH_CYCLES_USD
 USD_CMAKE_ON=		-DPXR_ROOT:PATH=${LOCALBASE} \
 			-DPYTHON_VERSION:STRING=${PYTHON_VER}
