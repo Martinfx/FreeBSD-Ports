@@ -130,6 +130,9 @@ TEST_ENV=	${MAKE_ENV} \
 # comparisons are only done with IMAGE_DIFF_TOOL set, e.g. to
 # ${LOCALBASE}/bin/idiff from graphics/openimageio.
 IMAGE_DIFF_TOOL?=
+# More arguments for ctest, e.g. "-R <regex>" to run some of the tests, or
+# --rerun-failed to run the tests that failed the last time again.
+CTEST_ARGS?=
 # these expect write-protected files and directories (e.g. /etc) not to be
 # writable, which is never the case for root, so they are skipped as root
 TESTS_FAILING_AS_ROOT=	TfAtomicOfstreamWrapper TfFileUtils TfSafeOutputFile \
@@ -154,6 +157,7 @@ do-test: # tests are expected to be installed, see https://github.com/PixarAnima
 			${ECHO_MSG} "===>   Running as root, skipping ${TESTS_FAILING_AS_ROOT:u}"; \
 			set -- -E "^(${TESTS_FAILING_AS_ROOT:ts|})$$"; \
 		fi && \
-		${SETENV} ${TEST_ENV} ctest -C ${CMAKE_BUILD_TYPE} ${_MAKE_JOBS} --output-on-failure "$$@"
+		${SETENV} ${TEST_ENV} ctest -C ${CMAKE_BUILD_TYPE} ${_MAKE_JOBS} \
+			--output-on-failure ${CTEST_ARGS} "$$@"
 
 .include <bsd.port.mk>
