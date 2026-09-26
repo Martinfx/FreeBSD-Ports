@@ -152,6 +152,11 @@ jobs:
             ldd /usr/local/plugin/usd/hdCycles.so | grep -E 'usd|python' || true
             ldd /usr/local/plugin/usd/hdCycles.so | grep -q libusd_ms.so || \
               { echo "hdCycles.so is not linked with libusd_ms.so"; exit 1; }
+            # A red sphere lit by a distant light.  Without normalize, the
+            # intensity of a DistantLight is the radiance of its disk (hence
+            # the default of 50000 for the sun), and 3 lit the sphere so little
+            # that Cycles rendered it black; with normalize it is about the
+            # irradiance, and Storm, which ignores normalize, renders the same.
             cat > /tmp/test.usda <<'EOF'
             #usda 1.0
             (
@@ -190,6 +195,7 @@ jobs:
                 def DistantLight "sun"
                 {
                     float inputs:intensity = 3
+                    bool inputs:normalize = true
                     float3 xformOp:rotateXYZ = (-30, 20, 0)
                     uniform token[] xformOpOrder = ["xformOp:rotateXYZ"]
                 }
@@ -220,10 +226,7 @@ jobs:
             r=$(red /tmp/standalone.png); echo "standalone: $r"; [ "$r" = RED ] || rc=1
             # when the sphere is not red: Cycles itself on one of its example
             # scenes, and the scene without its material (grey if the light
-            # works; with the lights Cycles counts), with a dome light, with
-            # metersPerUnit = 1 (hdCycles scales everything by it, 0.01 when
-            # unset), with a larger angle of the distant light, and with a
-            # sphere light instead
+            # works; with the lights Cycles counts) and with a dome light
             if [ "$r" != RED ]; then
               echo "=== $(date) diagnostic renders"
               ex=$(make -C /usr/ports/graphics/cycles -V WRKSRC)/examples
@@ -232,15 +235,7 @@ jobs:
               echo "cube (no USD): rc=$? $(red /tmp/cube.png)"
               sed -e '/rel material:binding/d' /tmp/test.usda > /tmp/nomat.usda
               sed -e 's/def DistantLight "sun"/def DomeLight "sky"/' /tmp/test.usda > /tmp/dome.usda
-              awk '{ print } /upAxis/ { print "    metersPerUnit = 1" }' \
-                /tmp/nomat.usda > /tmp/mpu1.usda
-              awk '{ print } /inputs:intensity/ { print "        float inputs:angle = 5" }' \
-                /tmp/nomat.usda > /tmp/angle5.usda
-              sed -e 's/def DistantLight "sun"/def SphereLight "lamp"/' \
-                -e 's/inputs:intensity = 3/inputs:intensity = 300/' \
-                -e 's/float3 xformOp:rotateXYZ = (-30, 20, 0)/double3 xformOp:translate = (3, 3, 6)/' \
-                -e 's/"xformOp:rotateXYZ"/"xformOp:translate"/' /tmp/nomat.usda > /tmp/sphere.usda
-              for s in nomat dome mpu1 angle5 sphere; do
+              for s in nomat dome; do
                 timeout 600 cycles --background --samples 16 --width 320 --height 240 \
                   --log-level info --output /tmp/$s.png /tmp/$s.usda > $L/$s.log 2>&1
                 echo "$s: rc=$? $(red /tmp/$s.png)"
