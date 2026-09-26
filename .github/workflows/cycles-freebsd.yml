@@ -61,6 +61,9 @@ jobs:
             git clone --depth 1 https://github.com/freebsd/freebsd-ports.git /usr/ports
           run: |
             set -e
+            # no options dialogs: "make check-plist" waited for one until the
+            # job was killed
+            export BATCH=yes
             W=$PWD
             L=$PWD/ci-logs
             mkdir -p $L
@@ -82,8 +85,12 @@ jobs:
             # only the options needed by cycles, to save time
             USD_OPTS="OPTIONS_UNSET=DRACO EMBREE OCIO OIIO OPENVDB OSL PTEX"
             # direct dependencies only; pkg pulls in their run dependencies
+            # (the options of openusd only for openusd: with EMBREE unset, the
+            # list of cycles lacked graphics/embree, which its build then built
+            # with ispc and llvm20 for 4.5 hours)
             deps() {
-              make -C /usr/ports/graphics/$1 "$USD_OPTS" DEPENDS_SHOW_FLAVOR=yes \
+              p=$1; shift
+              make -C /usr/ports/graphics/$p "$@" DEPENDS_SHOW_FLAVOR=yes \
                 build-depends-list run-depends-list | sed 's|^/usr/ports/||' | \
                 grep -v -E '^graphics/(materialx|openusd)$' | sort -u
             }
@@ -102,7 +109,7 @@ jobs:
               [ "$(cat $L/materialx.rc)" = 0 ] || \
                 { grep -n -E ' error: |Error [0-9]+|^FAILED:|CMake Error' $L/materialx.log | head -n 50; \
                   tail -n 50 $L/materialx.log; exit 1; }
-              deps openusd > $L/openusd-deps.txt
+              deps openusd "$USD_OPTS" > $L/openusd-deps.txt
               pkg install -y $(cat $L/openusd-deps.txt) > $L/openusd-deps.log 2>&1 || \
                 { tail -n 50 $L/openusd-deps.log; exit 1; }
               echo "=== $(date) building openusd"
@@ -123,7 +130,7 @@ jobs:
             make -V PORT_OPTIONS -V PYTHON_VER
             echo "=== $(date) building cycles"
             # the kernels of Cycles need a lot of memory each
-            ( make BATCH=yes MAKE_JOBS_NUMBER=3 stage 2>&1 && echo 0 > $L/cycles.rc || \
+            ( timeout -k 2m 120m make MAKE_JOBS_NUMBER=3 stage 2>&1 && echo 0 > $L/cycles.rc || \
                 echo $? > $L/cycles.rc ) | tee $L/cycles.log | progress
             [ "$(cat $L/cycles.rc)" = 0 ] || \
               { grep -n -A6 -E ' error: |Error [0-9]+|^FAILED:|CMake (Error|Warning)' $L/cycles.log | head -n 120; \
