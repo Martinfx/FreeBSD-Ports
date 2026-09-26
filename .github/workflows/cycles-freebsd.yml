@@ -75,7 +75,7 @@ jobs:
               grep --line-buffered -E '^===>|^\[[0-9]+/[0-9]+\] (Linking|Building CXX object src/kernel/)|^\[[0-9]*00/' | \
                 while read -r l; do echo "$(date +%T) $l"; done
             }
-            for p in openusd cycles; do
+            for p in materialx openusd cycles; do
               rm -rf /usr/ports/graphics/$p
               cp -R $p /usr/ports/graphics/$p
             done
@@ -85,11 +85,23 @@ jobs:
             deps() {
               make -C /usr/ports/graphics/$1 "$USD_OPTS" DEPENDS_SHOW_FLAVOR=yes \
                 build-depends-list run-depends-list | sed 's|^/usr/ports/||' | \
-                grep -v '^graphics/openusd$' | sort -u
+                grep -v -E '^graphics/(materialx|openusd)$' | sort -u
             }
             if [ "$USD_FROM" = pkg ]; then
               pkg install -y openusd
             else
+              # graphics/openusd of this repository needs the data libraries
+              # of graphics/materialx of this repository
+              deps materialx > $L/materialx-deps.txt
+              pkg install -y $(cat $L/materialx-deps.txt) > $L/materialx-deps.log 2>&1 || \
+                { tail -n 50 $L/materialx-deps.log; exit 1; }
+              echo "=== $(date) building materialx"
+              ( make -C /usr/ports/graphics/materialx BATCH=yes install \
+                  2>&1 && echo 0 > $L/materialx.rc || echo $? > $L/materialx.rc ) | \
+                tee $L/materialx.log | progress
+              [ "$(cat $L/materialx.rc)" = 0 ] || \
+                { grep -n -E ' error: |Error [0-9]+|^FAILED:|CMake Error' $L/materialx.log | head -n 50; \
+                  tail -n 50 $L/materialx.log; exit 1; }
               deps openusd > $L/openusd-deps.txt
               pkg install -y $(cat $L/openusd-deps.txt) > $L/openusd-deps.log 2>&1 || \
                 { tail -n 50 $L/openusd-deps.log; exit 1; }

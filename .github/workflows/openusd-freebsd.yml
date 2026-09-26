@@ -59,13 +59,31 @@ jobs:
             mkdir -p $L
             uname -a | tee $L/uname.txt
             df -h / | tee -a $L/uname.txt
-            rm -rf /usr/ports/graphics/openusd
-            cp -R openusd /usr/ports/graphics/openusd
+            for p in materialx openusd; do
+              rm -rf /usr/ports/graphics/$p
+              cp -R $p /usr/ports/graphics/$p
+            done
+            # graphics/materialx of this repository, which installs the data
+            # libraries USD needs (the shader source code)
+            echo "=== $(date) building materialx"
+            cd /usr/ports/graphics/materialx
+            make DEPENDS_SHOW_FLAVOR=yes build-depends-list run-depends-list | \
+              sed 's|^/usr/ports/||' | sort -u > $L/materialx-deps.txt
+            pkg install -y $(cat $L/materialx-deps.txt) > $L/materialx-deps.log 2>&1 || \
+              { tail -n 100 $L/materialx-deps.log; exit 1; }
+            make BATCH=yes stage > $L/materialx.log 2>&1 || \
+              { grep -n -E ' error: |Error [0-9]+|CMake Error' $L/materialx.log | head -n 50; \
+                tail -n 50 $L/materialx.log; exit 1; }
+            make check-plist 2>&1 | tail -n 30
+            make install > $L/materialx-install.log 2>&1 || \
+              { tail -n 50 $L/materialx-install.log; exit 1; }
+            ls /usr/local/share/MaterialX /usr/local/share/MaterialX/libraries
             cd /usr/ports/graphics/openusd
             echo "=== $(date) installing dependencies"
             # direct dependencies only; pkg pulls in their own run dependencies
             make DEPENDS_SHOW_FLAVOR=yes build-depends-list run-depends-list \
-              test-depends-list | sed 's|^/usr/ports/||' | sort -u > $L/deps.txt
+              test-depends-list | sed 's|^/usr/ports/||' | \
+              grep -v '^graphics/materialx$' | sort -u > $L/deps.txt
             cat $L/deps.txt
             pkg install -y $(cat $L/deps.txt) > $L/deps.log 2>&1 || \
               { tail -n 100 $L/deps.log; exit 1; }
@@ -81,18 +99,33 @@ jobs:
             sysctl kern.corefile=/tmp/cores/%N.%P.core
             Xvfb :99 -screen 0 1280x1024x24 -ac +extension GLX > $L/xvfb.log 2>&1 &
             export DISPLAY=:99
-            # Mesa's llvmpipe (the GL of Xvfb) can crash in its worker threads
-            # when a process exits, while its libraries are finalized, which
-            # fails random GL tests; render without the worker threads
-            export LP_NUM_THREADS=0
             echo "=== $(date) make test"
             set +e
-            ( su -m builder -c 'ulimit -c unlimited; env HOME=/home/builder make BATCH=yes \
+            # stop in time to copy the logs out of the VM before the job's
+            # time limit
+            ( timeout -k 2m 280m su -m builder -c 'ulimit -c unlimited; \
+                env HOME=/home/builder make BATCH=yes \
                 WRKDIRPREFIX=/home/builder/wrk DISTDIR=/home/builder/distfiles test' \
                 2>&1; echo $? > $L/rc.txt ) | tee $L/test.log | \
               grep --line-buffered -E '^===>|Built target|tests passed|Test +#'
             rc=$(cat $L/rc.txt 2>/dev/null || echo 99)
             echo "=== $(date) make test finished with $rc"
+            # Mesa's llvmpipe (the GL of Xvfb) can crash in its worker threads
+            # when a process exits, while its libraries are finalized, which
+            # fails random GL tests: run the failed tests again without the
+            # worker threads (which makes the GL tests much slower)
+            if [ "$rc" != 0 ] && grep -q ' tests failed out of ' $L/test.log; then
+              echo "=== $(date) failed tests again, without llvmpipe threads"
+              ( timeout -k 2m 40m su -m builder -c 'ulimit -c unlimited; env HOME=/home/builder \
+                  LP_NUM_THREADS=0 make BATCH=yes WRKDIRPREFIX=/home/builder/wrk \
+                  DISTDIR=/home/builder/distfiles test CTEST_ARGS=--rerun-failed' \
+                  2>&1; echo $? > $L/rc.txt ) > $L/rerun.log
+              echo "=== $(date) rerun finished with $(cat $L/rc.txt)"
+              sed -n '/tests passed, /,$p' $L/rerun.log | head -n 300
+              echo "=== output of the tests that failed again (start)"
+              awk '/\*\*\*(Failed|Exception|Timeout)/ { n = 40 } n-- > 0' $L/rerun.log | \
+                head -n 6000
+            fi
             echo "=== head"
             head -n 40 $L/test.log
             echo "=== errors"
@@ -100,10 +133,13 @@ jobs:
             echo "=== ctest summary"
             sed -n '/tests passed, /,$p' $L/test.log | head -n 1500
             echo "=== output of the failed tests (start)"
-            awk '/\*\*\*(Failed|Exception|Timeout)/ { n = 12 } n-- > 0' $L/test.log | \
-              head -n 4000
+            awk '/\*\*\*(Failed|Exception|Timeout)/ { n = 40 } n-- > 0' $L/test.log | \
+              head -n 6000
             echo "=== tail"
             tail -n 60 $L/test.log
+            echo "=== Xvfb"
+            pgrep -l Xvfb
+            tail -n 40 $L/xvfb.log
             echo "=== core dumps"
             ls -l /tmp/cores
             # one backtrace per program; the name in the core file name is
