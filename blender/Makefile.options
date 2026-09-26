@@ -25,6 +25,7 @@ OPTIONS_DEFINE=		\
 	MOD_FLUID	\
 	MOD_OCEANSIM	\
 	MOD_REMESH	\
+	NANOVDB		\
 	NLS		\
 	OPENAL		\
 	OPENCOLORIO	\
@@ -73,6 +74,7 @@ OPTIONS_DEFAULT=	\
 	MOD_FLUID	\
 	MOD_OCEANSIM	\
 	MOD_REMESH	\
+	NANOVDB		\
 	OPENAL		\
 	OPENCOLORIO	\
 	OPENEXR		\
@@ -145,6 +147,7 @@ MENU_DESC=		Install desktop menu
 MOD_FLUID_DESC=		Fluid simulation support
 MOD_OCEANSIM_DESC=	Ocean simulation support
 MOD_REMESH_DESC=	Remesh modifier support
+NANOVDB_DESC=		NanoVDB volumes in Cycles (less memory, mainly on GPU)
 NATIVE_DESC=		Optimize for the build machine only (-march=native)
 OPENCOLORIO_DESC=	OpenColorIO-based color management support
 OPENIMAGEDN_DESC=	OpenImageDenoise support (amd64 only)

@@ -48,7 +48,7 @@ CMAKE_ON=	WITH_AUDASPACE WITH_BOOST WITH_CLANG WITH_GHOST_X11 WITH_GHOST_XDND \
 		WITH_SYSTEM_FREETYPE WITH_X11_XINPUT WITH_X11_XFIXES
 CMAKE_OFF=	WITH_GHOST_SDL WITH_INSTALL_PORTABLE WITH_LIBS_PRECOMPILED \
 		LLVM_STATIC WITH_MEM_JEMALLOC WITH_MEM_VALGRIND \
-		WITH_NANOVDB WITH_PYTHON_INSTALL WITH_PYTHON_INSTALL_NUMPY
+		WITH_PYTHON_INSTALL WITH_PYTHON_INSTALL_NUMPY
 
 CFLAGS+=	${CFLAGS_${CHOSEN_COMPILER_TYPE}}
 CFLAGS_gcc=	-Wno-float-conversion
@@ -62,6 +62,10 @@ OPTIONS_SUB=	yes
 # Cycles CUDA kernels (CYCLES_CUDA option), must match DISTVERSION
 CUDA_KERNELS_WHL=	bpy-${DISTVERSION}-cp311-cp311-manylinux_2_28_x86_64.whl
 CUDA_KERNELS_DIR=	bpy/${DISTVERSION:R}/scripts/addons_core/cycles/lib
+# NanoVDB headers (NANOVDB option), taken from the misc/openvdb distfile, so
+# keep this at the misc/openvdb version
+NANOVDB_SRC_VER=	13.1.0
+NANOVDB_SRC_DISTFILE=	AcademySoftwareFoundation-openvdb-v${NANOVDB_SRC_VER}_GH0.tar.gz
 
 .include "${.CURDIR}/Makefile.options"
 
@@ -146,6 +150,11 @@ MOD_FLUID_IMPLIES=		TBB
 MOD_OCEANSIM_CMAKE_BOOL=	WITH_MOD_OCEANSIM
 MOD_OCEANSIM_IMPLIES=		FFTW3
 MOD_REMESH_CMAKE_BOOL=		WITH_MOD_REMESH
+NANOVDB_CMAKE_BOOL=		WITH_NANOVDB
+NANOVDB_CMAKE_ON=		-DNANOVDB_INCLUDE_DIR:PATH=${WRKDIR}/openvdb-${NANOVDB_SRC_VER}/nanovdb
+NANOVDB_DISTFILES=		${NANOVDB_SRC_DISTFILE}:nanovdb
+NANOVDB_IMPLIES=		OPENVDB
+NANOVDB_MASTER_SITES=		https://codeload.github.com/AcademySoftwareFoundation/openvdb/tar.gz/v${NANOVDB_SRC_VER}?dummy=/:nanovdb
 NATIVE_CMAKE_ON=		-DWITH_CPU_SIMD:BOOL=ON -DSUPPORT_SSE42_BUILD:BOOL=ON \
 				-DBLENDER_X86_MARCH:STRING=native \
 				-DWITH_CYCLES_NATIVE_ONLY:BOOL=ON
@@ -236,9 +245,22 @@ post-extract-CYCLES_CUDA-on:
 		'${CUDA_KERNELS_DIR}/kernel_sm_*.cubin.zst' \
 		'${CUDA_KERNELS_DIR}/kernel_compute_*.ptx.zst'
 
+post-extract-NANOVDB-on:
+	@cd ${WRKDIR} && ${TAR} -xf ${DISTDIR}/${NANOVDB_SRC_DISTFILE} \
+		openvdb-${NANOVDB_SRC_VER}/nanovdb/nanovdb
+
 post-patch:
 	${REINPLACE_CMD} -e 's|%%LLVM_VER%%|${LLVM_VERSION}|g' \
 		${WRKSRC}/intern/cycles/kernel/osl/CMakeLists.txt
+
+pre-configure-NANOVDB-on:
+	@vdb=$$(${AWK} '/define OPENVDB_LIBRARY_(MAJOR|MINOR)_VERSION_NUMBER/ \
+		{ printf "%s%s", sep, $$3; sep = "." }' \
+		${LOCALBASE}/include/openvdb/version.h); \
+	if [ "$${vdb}" != "${NANOVDB_SRC_VER:R}" ]; then \
+		${ECHO_MSG} "===> NanoVDB headers are from OpenVDB ${NANOVDB_SRC_VER} but OpenVDB $${vdb} is installed, update NANOVDB_SRC_VER and distinfo or disable NANOVDB"; \
+		${FALSE}; \
+	fi
 
 post-build:
 	@(cd ${WRKSRC}/doc/manpage && \

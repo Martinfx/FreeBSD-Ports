@@ -3,3 +3,5 @@ SHA256 (blender-5.0.1.tar.xz) = 0077a41f59843433154fdf2d8aeb6c43f6bf6951cd469873
 SIZE (blender-5.0.1.tar.xz) = 88926056
 SHA256 (bpy-5.0.1-cp311-cp311-manylinux_2_28_x86_64.whl) = 79c6e421f53ea24a5961d86eefb8141798eee708682415eb4f5a952c2abdeb8b
 SIZE (bpy-5.0.1-cp311-cp311-manylinux_2_28_x86_64.whl) = 374257847
+SHA256 (AcademySoftwareFoundation-openvdb-v13.1.0_GH0.tar.gz) = 21659ef2330a06805519dd8d4369375f181a0dfee205b0180da69b4edd3329ae
+SIZE (AcademySoftwareFoundation-openvdb-v13.1.0_GH0.tar.gz) = 5607291
