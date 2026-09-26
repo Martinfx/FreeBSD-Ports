@@ -195,13 +195,24 @@ jobs:
                 }
             }
             EOF
-            # the sphere is red only if its material got through
+            # the sphere is red only if its material got through (the
+            # statistics go to the log, the artifacts cannot always be read)
             red() {
               oiiotool "$1" --printstats | tee -a $L/stats.txt | \
-                awk '/Stats Avg/ { print ($3 > 2 * $4 && $3 > 0.02) ? "RED" : "NOT RED" }'
+                awk '/Stats (Min|Max|Avg)/ { print "  " $0 > "/dev/stderr" }
+                     /Stats Avg/ { print ($3 > 2 * $4 && $3 > 0.02) ? "RED" : "NOT RED" }'
             }
             set +e
             rc=0
+            if [ "$USD_FROM" = pkg ]; then
+              # openusd 26.05_3 of the ports tree does not find its plugins
+              # on FreeBSD (no dladdr() in ArchGetAddressInfo(), and the path
+              # of the executable comes from procfs), so opening a USD file
+              # fails with "Failed to find the plugInfo.json file that
+              # declares the plugin for ArDefaultResolver"; the openusd port
+              # of this repository fixes that
+              export PXR_PLUGINPATH_NAME=/usr/local/lib/usd:/usr/local/plugin/usd
+            fi
             echo "=== $(date) cycles program"
             timeout 900 cycles --background --samples 16 --width 320 --height 240 \
               --output /tmp/standalone.png /tmp/test.usda > $L/standalone.log 2>&1
@@ -211,6 +222,14 @@ jobs:
               Xvfb :99 -screen 0 1280x1024x24 -ac +extension GLX > $L/xvfb.log 2>&1 &
               export DISPLAY=:99
               sleep 5
+              # the same scene with Storm, to check the scene and the test
+              # (llvmpipe without its worker threads, which can crash when
+              # the process exits)
+              echo "=== $(date) usdrecord with Storm"
+              LP_NUM_THREADS=0 timeout 900 usdrecord --camera /World/cam \
+                --imageWidth 320 /tmp/test.usda /tmp/storm.png > $L/storm.log 2>&1
+              echo "rc=$?"; tail -n 10 $L/storm.log
+              echo "storm: $(red /tmp/storm.png)"
               echo "=== $(date) usdrecord with hdCycles"
               $(make -V PYTHON_CMD) -c \
                 'from pxr import UsdImagingGL; print(UsdImagingGL.Engine.GetRendererPlugins())'

@@ -99,6 +99,14 @@ jobs:
             sysctl kern.corefile=/tmp/cores/%N.%P.core
             Xvfb :99 -screen 0 1280x1024x24 -ac +extension GLX > $L/xvfb.log 2>&1 &
             export DISPLAY=:99
+            # Mesa's llvmpipe (the GL of Xvfb) renders without its worker
+            # threads: they crash when a process exits while its libraries
+            # are finalized (SIGSEGV in llvmpipe-N while exit() runs the
+            # destructors, in the backtraces of all 12 GL test programs that
+            # dumped core in run 9), and with the parallel tests they made
+            # "make test" slower (on 15.1 it did not finish in 280 minutes,
+            # instead of 3 hours without them)
+            export LP_NUM_THREADS=0
             echo "=== $(date) make test"
             set +e
             # stop in time to copy the logs out of the VM before the job's
@@ -110,14 +118,12 @@ jobs:
               grep --line-buffered -E '^===>|Built target|tests passed|Test +#'
             rc=$(cat $L/rc.txt 2>/dev/null || echo 99)
             echo "=== $(date) make test finished with $rc"
-            # Mesa's llvmpipe (the GL of Xvfb) can crash in its worker threads
-            # when a process exits, while its libraries are finalized, which
-            # fails random GL tests: run the failed tests again without the
-            # worker threads (which makes the GL tests much slower)
+            # run the failed tests once more, which tells the failures that
+            # come and go (e.g. XOpenDisplay() failing) from the others
             if [ "$rc" != 0 ] && grep -q ' tests failed out of ' $L/test.log; then
-              echo "=== $(date) failed tests again, without llvmpipe threads"
+              echo "=== $(date) failed tests again"
               ( timeout -k 2m 40m su -m builder -c 'ulimit -c unlimited; env HOME=/home/builder \
-                  LP_NUM_THREADS=0 make BATCH=yes WRKDIRPREFIX=/home/builder/wrk \
+                  make BATCH=yes WRKDIRPREFIX=/home/builder/wrk \
                   DISTDIR=/home/builder/distfiles test CTEST_ARGS=--rerun-failed' \
                   2>&1; echo $? > $L/rc.txt ) > $L/rerun.log
               echo "=== $(date) rerun finished with $(cat $L/rc.txt)"
