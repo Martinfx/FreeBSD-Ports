@@ -218,15 +218,34 @@ jobs:
               --output /tmp/standalone.png /tmp/test.usda > $L/standalone.log 2>&1
             echo "rc=$?"; tail -n 20 $L/standalone.log
             r=$(red /tmp/standalone.png); echo "standalone: $r"; [ "$r" = RED ] || rc=1
+            # when the sphere is not red: Cycles itself on one of its example
+            # scenes, the scene without its material (grey if the light
+            # works), and with a dome light instead of the distant light
+            if [ "$r" != RED ]; then
+              echo "=== $(date) diagnostic renders"
+              ex=$(make -C /usr/ports/graphics/cycles -V WRKSRC)/examples
+              timeout 600 cycles --background --samples 16 --width 320 --height 200 \
+                --output /tmp/cube.png $ex/scene_cube_surface.xml > $L/cube.log 2>&1
+              echo "cube (no USD): rc=$? $(red /tmp/cube.png)"
+              sed -e '/rel material:binding/d' /tmp/test.usda > /tmp/nomat.usda
+              sed -e 's/def DistantLight "sun"/def DomeLight "sky"/' /tmp/test.usda > /tmp/dome.usda
+              for s in nomat dome; do
+                timeout 600 cycles --background --samples 16 --width 320 --height 240 \
+                  --output /tmp/$s.png /tmp/$s.usda > $L/$s.log 2>&1
+                echo "$s: rc=$? $(red /tmp/$s.png)"
+                grep -i -E 'warn|error' $L/$s.log | head -n 5
+              done
+            fi
             if [ "$USD_FROM" = port ]; then
               Xvfb :99 -screen 0 1280x1024x24 -ac +extension GLX > $L/xvfb.log 2>&1 &
               export DISPLAY=:99
               sleep 5
-              # the same scene with Storm, to check the scene and the test
-              # (llvmpipe without its worker threads, which can crash when
-              # the process exits)
+              # the same scene with Storm ("GL"; without --renderer usdrecord
+              # takes hdCycles), to check the scene and the test (llvmpipe
+              # without its worker threads, which can crash when the process
+              # exits)
               echo "=== $(date) usdrecord with Storm"
-              LP_NUM_THREADS=0 timeout 900 usdrecord --camera /World/cam \
+              LP_NUM_THREADS=0 timeout 900 usdrecord --renderer GL --camera /World/cam \
                 --imageWidth 320 /tmp/test.usda /tmp/storm.png > $L/storm.log 2>&1
               echo "rc=$?"; tail -n 10 $L/storm.log
               echo "storm: $(red /tmp/storm.png)"
