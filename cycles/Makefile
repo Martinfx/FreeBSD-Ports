@@ -1,7 +1,7 @@
 PORTNAME=	cycles
 DISTVERSIONPREFIX=	v
 DISTVERSION=	5.1.0
-PORTREVISION=	2
+PORTREVISION=	3
 CATEGORIES=	graphics
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -97,7 +97,9 @@ post-patch-USD-on:
 
 do-install:
 	${INSTALL_PROGRAM} ${BUILD_WRKSRC}/bin/cycles ${STAGEDIR}${PREFIX}/bin
-	${INSTALL_LIB} ${BUILD_WRKSRC}/lib/*.a ${STAGEDIR}${PREFIX}/lib
+# Not INSTALL_LIB, which strips: the strip(1) of LLVM (the default since
+# FreeBSD 15.0) leaves static libraries without any symbols.
+	${INSTALL_DATA} ${BUILD_WRKSRC}/lib/*.a ${STAGEDIR}${PREFIX}/lib
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/app/opengl
 	(cd ${WRKSRC}/src/app/opengl && ${COPYTREE_SHARE} "*.h" ${STAGEDIR}${PREFIX}/include/app/opengl)
 	${MKDIR} ${STAGEDIR}${PREFIX}/include/device
