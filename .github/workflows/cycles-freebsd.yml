@@ -219,8 +219,11 @@ jobs:
             echo "rc=$?"; tail -n 20 $L/standalone.log
             r=$(red /tmp/standalone.png); echo "standalone: $r"; [ "$r" = RED ] || rc=1
             # when the sphere is not red: Cycles itself on one of its example
-            # scenes, the scene without its material (grey if the light
-            # works), and with a dome light instead of the distant light
+            # scenes, and the scene without its material (grey if the light
+            # works; with the lights Cycles counts), with a dome light, with
+            # metersPerUnit = 1 (hdCycles scales everything by it, 0.01 when
+            # unset), with a larger angle of the distant light, and with a
+            # sphere light instead
             if [ "$r" != RED ]; then
               echo "=== $(date) diagnostic renders"
               ex=$(make -C /usr/ports/graphics/cycles -V WRKSRC)/examples
@@ -229,11 +232,20 @@ jobs:
               echo "cube (no USD): rc=$? $(red /tmp/cube.png)"
               sed -e '/rel material:binding/d' /tmp/test.usda > /tmp/nomat.usda
               sed -e 's/def DistantLight "sun"/def DomeLight "sky"/' /tmp/test.usda > /tmp/dome.usda
-              for s in nomat dome; do
+              awk '{ print } /upAxis/ { print "    metersPerUnit = 1" }' \
+                /tmp/nomat.usda > /tmp/mpu1.usda
+              awk '{ print } /inputs:intensity/ { print "        float inputs:angle = 5" }' \
+                /tmp/nomat.usda > /tmp/angle5.usda
+              sed -e 's/def DistantLight "sun"/def SphereLight "lamp"/' \
+                -e 's/inputs:intensity = 3/inputs:intensity = 300/' \
+                -e 's/float3 xformOp:rotateXYZ = (-30, 20, 0)/double3 xformOp:translate = (3, 3, 6)/' \
+                -e 's/"xformOp:rotateXYZ"/"xformOp:translate"/' /tmp/nomat.usda > /tmp/sphere.usda
+              for s in nomat dome mpu1 angle5 sphere; do
                 timeout 600 cycles --background --samples 16 --width 320 --height 240 \
-                  --output /tmp/$s.png /tmp/$s.usda > $L/$s.log 2>&1
+                  --log-level info --output /tmp/$s.png /tmp/$s.usda > $L/$s.log 2>&1
                 echo "$s: rc=$? $(red /tmp/$s.png)"
-                grep -i -E 'warn|error' $L/$s.log | head -n 5
+                grep -i -E 'warn|error|light' $L/$s.log | grep -v -i 'unable to read' | \
+                  head -n 12
               done
             fi
             if [ "$USD_FROM" = port ]; then
