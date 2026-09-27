@@ -1,0 +1,67 @@
+#!/bin/sh
+
+export BLENDER_EXTERN_DRACO_LIBRARY_PATH=%%PYTHON_SITELIBDIR%%/libextern_draco.so
+
+# NVIDIA CUDA rendering in Cycles (CYCLES_CUDA option).  FreeBSD's
+# nvidia-driver has no native libcuda.so, so Cycles cannot see NVIDIA GPUs on
+# its own.  When the Linux NVIDIA libraries matching the loaded kernel module
+# are installed, run through nv-sglrun (emulators/libc6-shim), which loads them
+# into this native process.  Without the nvidia kernel module (AMD or Intel
+# graphics) blender starts directly and Cycles renders on the CPU.
+# BLENDER_NO_NV_SGLRUN=1 disables this, BLENDER_NV_DEBUG=1 reports why
+# nv-sglrun is (not) used.
+nv_log() {
+	[ -n "${BLENDER_NV_DEBUG}" ] && echo "blender: $*" >&2
+	return 0
+}
+
+nv_sglrun() {
+	nv_libdir=${NVIDIA_LIB64_DIR:-/compat/linux/usr/lib64}
+	nv_sysctl=$(/sbin/sysctl -n hw.nvidia.version 2>/dev/null)
+	nv_version=$(echo "${nv_sysctl}" | \
+	    /usr/bin/sed -n 's/^NVIDIA UNIX x86_64 Kernel Module  \([0-9.]*\).*/\1/p')
+	if [ -n "${BLENDER_NO_NV_SGLRUN}" ]; then
+		nv_log "not using nv-sglrun: BLENDER_NO_NV_SGLRUN is set"
+	elif [ -z "${nv_sysctl}" ]; then
+		nv_log "not using nv-sglrun: the nvidia kernel module is not loaded" \
+		    "(no NVIDIA GPU), Cycles renders on the CPU"
+	elif [ -z "${nv_version}" ]; then
+		echo "blender: CUDA disabled, unrecognized hw.nvidia.version: ${nv_sysctl}" >&2
+	elif [ ! -x %%LOCALBASE%%/bin/nv-sglrun ]; then
+		echo "blender: CUDA disabled, emulators/libc6-shim is not installed" \
+		    "(pkg install libc6-shim)" >&2
+	elif [ ! -e "${nv_libdir}/libcuda.so.${nv_version}" ] || \
+	    [ ! -e "${nv_libdir}/libGLX_nvidia.so.${nv_version}" ]; then
+		nv_found=$(cd "${nv_libdir}" 2>/dev/null && ls libcuda.so.*.* 2>/dev/null | \
+		    /usr/bin/sed -n '1s/^libcuda\.so\.//p')
+		nv_branch=$(echo "${nv_version}" | /usr/bin/cut -d. -f1)
+		echo "blender: CUDA disabled, the nvidia kernel module is ${nv_version} but" \
+		    "the Linux NVIDIA libraries in ${nv_libdir} are ${nv_found:-missing};" \
+		    "install linux-nvidia-libs ${nv_version} (package" \
+		    "linux-nvidia-libs-${nv_branch} for the ${nv_branch} driver branch)" >&2
+	elif ! /sbin/sysctl -n compat.linux.emul_path >/dev/null 2>&1; then
+		echo "blender: CUDA disabled, Linux compatibility is not loaded" \
+		    "(sysrc linux_enable=YES && service linux start)" >&2
+	else
+		# nv-sglrun also forces OpenGL and Vulkan onto the NVIDIA driver,
+		# which breaks the GUI when an AMD or Intel GPU drives the display
+		# next to the NVIDIA one.  Keep the display GPU's Mesa drivers then
+		# (and any selection made by the user) and use NVIDIA for CUDA only.
+		for nv_kmod in amdgpu radeonkms i915kms; do
+			/sbin/kldstat -q -n ${nv_kmod} || continue
+			nv_log "using nv-sglrun with NVIDIA ${nv_version} libraries" \
+			    "from ${nv_libdir} for CUDA only, ${nv_kmod} is loaded"
+			exec %%LOCALBASE%%/bin/nv-sglrun /usr/bin/env \
+			    -u __GLX_VENDOR_LIBRARY_NAME -u VK_ICD_FILENAMES \
+			    ${__GLX_VENDOR_LIBRARY_NAME+"__GLX_VENDOR_LIBRARY_NAME=${__GLX_VENDOR_LIBRARY_NAME}"} \
+			    ${VK_ICD_FILENAMES+"VK_ICD_FILENAMES=${VK_ICD_FILENAMES}"} \
+			    %%PREFIX%%/bin/blender-bin "$@"
+		done
+		nv_log "using nv-sglrun with NVIDIA ${nv_version} libraries from ${nv_libdir}"
+		exec %%LOCALBASE%%/bin/nv-sglrun %%PREFIX%%/bin/blender-bin "$@"
+	fi
+}
+
+[ "%%NV_SGLRUN%%" = yes ] && nv_sglrun "$@"
+
+exec %%PREFIX%%/bin/blender-bin "$@"
