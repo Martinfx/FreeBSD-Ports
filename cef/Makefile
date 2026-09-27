@@ -402,6 +402,20 @@ do-configure:
 		--args='${GN_ARGS}' out/${BUILDTYPE}
 
 post-build:
+# The www/chromium patches drop -z defs on BSD, so libcef.so links even when it
+# still refers to code that the FreeBSD build leaves out.  It then fails to
+# load (OBS opens its plugins with RTLD_NOW) and the loader names only the
+# first missing symbol.  libcef.so carries its own libc++, so every C++ symbol
+# it refers to has to be defined in it: list all that are not.
+	@${LOCALBASE}/bin/llvm-nm${LLVM_DEFAULT} -D --undefined-only \
+		${WRKSRC}/out/${BUILDTYPE}/libcef.so | \
+		${AWK} '$$1 == "U" && $$2 ~ /^_Z/ { print $$2 }' \
+		> ${WRKDIR}/libcef-undefined
+	@if [ -s ${WRKDIR}/libcef-undefined ]; then \
+		${ECHO_MSG} "===>  libcef.so refers to C++ symbols it does not define:"; \
+		c++filt < ${WRKDIR}/libcef-undefined; \
+		${FALSE}; \
+	fi
 # Lay the build out as a CEF binary distribution: the headers (including the
 # generated ones), the sources and CMake files of libcef_dll_wrapper, and the
 # binaries and resources.  --allow-partial because there is no Debug build.
