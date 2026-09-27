@@ -1,0 +1,80 @@
+Backport of "Fix: Cycles: Incorrect BVH2 asserts" (Blender commit
+e3043ef2e116918d1dff3ff27ad3ef594045fcc5), which goes with the motion
+blur fix in patch-blender-motion-blur-even-steps.
+
+--- src/kernel/bvh/local.h.orig	2026-03-30 21:43:11 UTC
++++ src/kernel/bvh/local.h
+@@ -137,7 +137,8 @@ ccl_device_inline
+           case PRIMITIVE_TRIANGLE: {
+             /* intersect ray against primitive */
+             for (; prim_addr < prim_addr2; prim_addr++) {
+-              kernel_assert(kernel_data_fetch(prim_type, prim_addr) == type);
++              kernel_assert((kernel_data_fetch(prim_type, prim_addr) & PRIMITIVE_ALL) ==
++                          (type & PRIMITIVE_ALL));
+ 
+               /* Only intersect with matching object, for instanced objects we
+                * already know we are only intersecting the right object. */
+@@ -173,7 +174,8 @@ ccl_device_inline
+           case PRIMITIVE_MOTION_TRIANGLE: {
+             /* intersect ray against primitive */
+             for (; prim_addr < prim_addr2; prim_addr++) {
+-              kernel_assert(kernel_data_fetch(prim_type, prim_addr) == type);
++              kernel_assert((kernel_data_fetch(prim_type, prim_addr) & PRIMITIVE_ALL) ==
++                          (type & PRIMITIVE_ALL));
+ 
+               /* Only intersect with matching object, for instanced objects we
+                * already know we are only intersecting the right object. */
+--- src/kernel/bvh/traversal.h.orig	2026-03-30 21:43:11 UTC
++++ src/kernel/bvh/traversal.h
+@@ -121,7 +121,6 @@ ccl_device_noinline bool BVH_FUNCTION_FULL_NAME(BVH)(KernelGlobals kg,
+ 
+           /* primitive intersection */
+           for (; prim_addr < prim_addr2; prim_addr++) {
+-            kernel_assert(kernel_data_fetch(prim_type, prim_addr) == type);
+ 
+             const int prim_object = (object == OBJECT_NONE) ?
+                                         kernel_data_fetch(prim_object, prim_addr) :
+--- src/kernel/bvh/volume.h.orig	2026-03-30 21:43:11 UTC
++++ src/kernel/bvh/volume.h
+@@ -126,7 +126,8 @@ ccl_device_inline
+             case PRIMITIVE_TRIANGLE: {
+               /* intersect ray against primitive */
+               for (; prim_addr < prim_addr2; prim_addr++) {
+-                kernel_assert(kernel_data_fetch(prim_type, prim_addr) == type);
++                kernel_assert((kernel_data_fetch(prim_type, prim_addr) & PRIMITIVE_ALL) ==
++                          (type & PRIMITIVE_ALL));
+                 /* only primitives from volume object */
+                 const int prim_object = (object == OBJECT_NONE) ?
+                                             kernel_data_fetch(prim_object, prim_addr) :
+@@ -147,7 +148,8 @@ ccl_device_inline
+             case PRIMITIVE_MOTION_TRIANGLE: {
+               /* intersect ray against primitive */
+               for (; prim_addr < prim_addr2; prim_addr++) {
+-                kernel_assert(kernel_data_fetch(prim_type, prim_addr) == type);
++                kernel_assert((kernel_data_fetch(prim_type, prim_addr) & PRIMITIVE_ALL) ==
++                          (type & PRIMITIVE_ALL));
+                 /* only primitives from volume object */
+                 const int prim_object = (object == OBJECT_NONE) ?
+                                             kernel_data_fetch(prim_object, prim_addr) :
+--- src/kernel/bvh/volume_all.h.orig	2026-03-30 21:43:11 UTC
++++ src/kernel/bvh/volume_all.h
+@@ -126,7 +126,8 @@ ccl_device_inline
+             case PRIMITIVE_TRIANGLE: {
+               /* intersect ray against primitive */
+               for (; prim_addr < prim_addr2; prim_addr++) {
+-                kernel_assert(kernel_data_fetch(prim_type, prim_addr) == type);
++                kernel_assert((kernel_data_fetch(prim_type, prim_addr) & PRIMITIVE_ALL) ==
++                          (type & PRIMITIVE_ALL));
+                 /* only primitives from volume object */
+                 const int prim_object = (object == OBJECT_NONE) ?
+                                             kernel_data_fetch(prim_object, prim_addr) :
+@@ -163,7 +164,8 @@ ccl_device_inline
+             case PRIMITIVE_MOTION_TRIANGLE: {
+               /* intersect ray against primitive */
+               for (; prim_addr < prim_addr2; prim_addr++) {
+-                kernel_assert(kernel_data_fetch(prim_type, prim_addr) == type);
++                kernel_assert((kernel_data_fetch(prim_type, prim_addr) & PRIMITIVE_ALL) ==
++                          (type & PRIMITIVE_ALL));
+                 /* only primitives from volume object */
+                 const int prim_object = (object == OBJECT_NONE) ?
+                                             kernel_data_fetch(prim_object, prim_addr) :

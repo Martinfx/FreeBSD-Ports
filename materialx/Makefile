@@ -1,7 +1,7 @@
 PORTNAME=	materialx
 DISTVERSIONPREFIX=	v
 DISTVERSION=	1.39.4
-PORTREVISION=	4
+PORTREVISION=	5
 CATEGORIES=	graphics
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -50,14 +50,20 @@ CMAKE_ON=	MATERIALX_BUILD_GRAPH_EDITOR \
 		MATERIALX_BUILD_VIEWER
 post-patch:
 	${REINPLACE_CMD} 's|%%PREFIX%%|${PREFIX}|' \
-		${WRKSRC}/cmake/modules/MaterialXConfig.cmake.in
+		${WRKSRC}/cmake/modules/MaterialXConfig.cmake.in \
+		${WRKSRC}/source/MaterialXFormat/Util.cpp
 
 do-install:
 	${INSTALL_PROGRAM} ${WRKDIR}/.build/bin/MaterialXGraphEditor \
 		${WRKDIR}/.build/bin/MaterialXView ${STAGEDIR}${PREFIX}/bin
 	${INSTALL_LIB} ${BUILD_WRKSRC}/lib/*.so* ${STAGEDIR}${PREFIX}/lib
+# The data libraries and the resources, as MaterialX installs them in its
+# prefix: the shader generators need all of the libraries (their source
+# code), and the default data search path is share/MaterialX.
+	(cd ${WRKSRC}/libraries && ${COPYTREE_SHARE} . \
+		${STAGEDIR}${PREFIX}/share/MaterialX/libraries "! -name CMakeLists.txt")
 	(cd ${WRKSRC}/resources && ${COPYTREE_SHARE} . \
-		${STAGEDIR}${PREFIX}/share/MaterialX)
+		${STAGEDIR}${PREFIX}/share/MaterialX/resources "! -name CMakeLists.txt")
 	(cd ${WRKSRC}/source && ${COPYTREE_SHARE} . \
 		${STAGEDIR}${PREFIX}/include "-name *.h")
 	${INSTALL_DATA} ${BUILD_WRKSRC}/source/MaterialXCore/Generated.h \
@@ -68,8 +74,9 @@ do-install:
 		${STAGEDIR}${PREFIX}/share/MaterialX/examples)
 	(cd ${WRKSRC}/python/MaterialX && ${COPYTREE_SHARE} . \
 		${STAGEDIR}${PYTHONPREFIX_SITELIBDIR}/MaterialX)
-	(cd ${WRKSRC}/libraries && ${COPYTREE_SHARE} . \
-		${STAGEDIR}${PREFIX}/share/MaterialX/stdlib "-name *.mtlx")
+# The Python module looks for the libraries in its own directory.
+	${RLN} ${STAGEDIR}${PREFIX}/share/MaterialX/libraries \
+		${STAGEDIR}${PYTHONPREFIX_SITELIBDIR}/MaterialX/libraries
 	${MKDIR} ${STAGEDIR}${PREFIX}/lib/cmake/MaterialX
 	${INSTALL_DATA} ${WRKDIR}/.build/cmake/*.cmake \
 		${BUILD_WRKSRC}/CMakeFiles/Export/6ec30f313a190b6699aad53a4a5af714/MaterialXTargets.cmake \

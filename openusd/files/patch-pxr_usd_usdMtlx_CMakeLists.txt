@@ -1,0 +1,14 @@
+--- pxr/usd/usdMtlx/CMakeLists.txt.orig	2026-04-24 18:55:54 UTC
++++ pxr/usd/usdMtlx/CMakeLists.txt
+@@ -4,7 +4,11 @@ set(PXR_PACKAGE usdMtlx)
+ set(MATERIALX_STDLIB_RESOURCES "")
+ if (MATERIALX_STDLIB_DIR)
+     add_definitions(-DPXR_MATERIALX_STDLIB_DIR="${MATERIALX_STDLIB_DIR}")
++endif()
+ 
++# FreeBSD: USD uses the standard library of graphics/materialx from
++# MATERIALX_STDLIB_DIR, and needs no copy of it.
++if (FALSE)
+     # We copy the MaterialX standard library files out of the MaterialX 
+     # build as a fallback in case the MaterialX standard library directory 
+     # cannot be found at runtime.
