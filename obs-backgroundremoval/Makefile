@@ -1,5 +1,6 @@
 PORTNAME=	obs-backgroundremoval
 DISTVERSION=	1.4.0
+PORTREVISION=	1
 CATEGORIES=	multimedia
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -29,12 +30,13 @@ post-patch:
 do-install:
 	${MKDIR} \
 		${STAGEDIR}${PREFIX}/lib/obs-plugins \
-		${STAGEDIR}${PREFIX}/share/obs/obs-plugins/${PORTNAME}/locale
+		${STAGEDIR}${PREFIX}/share/obs/obs-plugins/${PORTNAME}
 	${INSTALL_LIB} \
 		${BUILD_WRKSRC}/${PORTNAME}.so \
 		${STAGEDIR}${PREFIX}/lib/obs-plugins
-	${INSTALL_DATA} \
-	${WRKSRC}/data/locale/*.ini \
-		${STAGEDIR}${PREFIX}/share/obs/obs-plugins/${PORTNAME}/locale
+# The filters load their shaders (effects/) and ONNX models (models/) from the
+# plugin data directory at run time, so install all of data/ like upstream.
+	cd ${WRKSRC}/data && ${COPYTREE_SHARE} . \
+		${STAGEDIR}${PREFIX}/share/obs/obs-plugins/${PORTNAME}
 
 .include <bsd.port.mk>
