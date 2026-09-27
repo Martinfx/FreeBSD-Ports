@@ -1,0 +1,67 @@
+--- pxr/imaging/hd/unitTestDelegate.cpp.orig	2026-04-24 18:55:54 UTC
++++ pxr/imaging/hd/unitTestDelegate.cpp
+@@ -1498,9 +1498,9 @@ HdUnitTestDelegate::AddGrid(SdfPath cons
+ 
+     AddMesh(id,
+             transform,
+-            _BuildArray(&points[0], points.size()),
+-            _BuildArray(&numVerts[0], numVerts.size()),
+-            _BuildArray(&verts[0], verts.size()),
++            _BuildArray(points.data(), points.size()),
++            _BuildArray(numVerts.data(), numVerts.size()),
++            _BuildArray(verts.data(), verts.size()),
+             false,
+             instancerId,
+             PxOsdOpenSubdivTokens->catmullClark,
+@@ -1526,9 +1526,9 @@ HdUnitTestDelegate::AddGridWithCustomCol
+ 
+     AddMesh(id,
+             transform,
+-            _BuildArray(&points[0], points.size()),
+-            _BuildArray(&numVerts[0], numVerts.size()),
+-            _BuildArray(&verts[0], verts.size()),
++            _BuildArray(points.data(), points.size()),
++            _BuildArray(numVerts.data(), numVerts.size()),
++            _BuildArray(verts.data(), verts.size()),
+             holes,
+             subdivTags,
+             color,
+@@ -1564,9 +1564,9 @@ HdUnitTestDelegate::AddGridWithFaceColor
+ 
+     AddMesh(id,
+             transform,
+-            _BuildArray(&points[0], points.size()),
+-            _BuildArray(&numVerts[0], numVerts.size()),
+-            _BuildArray(&verts[0], verts.size()),
++            _BuildArray(points.data(), points.size()),
++            _BuildArray(numVerts.data(), numVerts.size()),
++            _BuildArray(verts.data(), verts.size()),
+             holes,
+             subdivTags,
+             VtValue(colorArray),
+@@ -1602,9 +1602,9 @@ HdUnitTestDelegate::AddGridWithVertexCol
+ 
+     AddMesh(id,
+             transform,
+-            _BuildArray(&points[0], points.size()),
+-            _BuildArray(&numVerts[0], numVerts.size()),
+-            _BuildArray(&verts[0], verts.size()),
++            _BuildArray(points.data(), points.size()),
++            _BuildArray(numVerts.data(), numVerts.size()),
++            _BuildArray(verts.data(), verts.size()),
+             holes,
+             subdivTags,
+             VtValue(colorArray),
+@@ -1640,9 +1640,9 @@ HdUnitTestDelegate::AddGridWithFaceVaryi
+ 
+     AddMesh(id,
+             transform,
+-            _BuildArray(&points[0], points.size()),
+-            _BuildArray(&numVerts[0], numVerts.size()),
+-            _BuildArray(&verts[0], verts.size()),
++            _BuildArray(points.data(), points.size()),
++            _BuildArray(numVerts.data(), numVerts.size()),
++            _BuildArray(verts.data(), verts.size()),
+             holes,
+             subdivTags,
+             VtValue(colorArray),
