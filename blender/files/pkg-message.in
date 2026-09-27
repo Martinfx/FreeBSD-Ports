@@ -1,0 +1,41 @@
+[
+{ type: install
+  message: <<EOM
+GPU rendering in Cycles
+
+Without an NVIDIA GPU (AMD or Intel graphics) there is nothing to set up:
+blender starts normally, the viewport and EEVEE use the GPU through Mesa and
+Cycles renders on the CPU.  AMD HIP (ROCm) and Intel oneAPI (SYCL) are not
+available on FreeBSD.  The rest of this message is for NVIDIA GPUs only.
+
+NVIDIA CUDA rendering in Cycles (CYCLES_CUDA option)
+
+FreeBSD's nvidia-driver has no native CUDA library, so the blender wrapper
+loads the Linux one through nv-sglrun from emulators/libc6-shim.  Install
+libc6-shim and the Linux NVIDIA libraries of exactly the same version as the
+loaded kernel module (see `sysctl hw.nvidia.version`):
+
+  All GPUs:
+    emulators/libc6-shim
+  GeForce GTX 9xx/10xx (Maxwell, Pascal) and Volta:
+    x11/nvidia-driver-580 + x11/linux-nvidia-libs-580
+  Newer GPUs:
+    x11/nvidia-driver + x11/linux-nvidia-libs
+
+The linux-nvidia-libs packages conflict with each other, remove the one that
+does not match first.  libc6-shim also needs the Linux compatibility layer:
+
+  sysrc linux_enable=YES && service linux start
+
+Then select the GPU in Edit > Preferences > System > Cycles Render Devices
+> CUDA.  OptiX is not available on FreeBSD.  When an AMD or Intel GPU drives
+the display (amdgpu, radeonkms or i915kms loaded), OpenGL and Vulkan stay on
+it and the NVIDIA GPU is used for CUDA only.
+
+Set BLENDER_NO_NV_SGLRUN=1 to start blender without nv-sglrun.  If no GPU is
+listed, start it from a terminal to see why:
+
+  BLENDER_NV_DEBUG=1 blender --debug-cycles --log-level info
+EOM
+}
+]
