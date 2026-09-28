@@ -1,4 +1,4 @@
---- desktop-apps/win-linux/src/windows/cmainwindow.cpp.orig	2026-09-28 08:45:35 UTC
+--- desktop-apps/win-linux/src/windows/cmainwindow.cpp.orig	2026-09-28 08:52:10 UTC
 +++ desktop-apps/win-linux/src/windows/cmainwindow.cpp
 @@ -82,7 +82,7 @@ CMainWindow::CMainWindow(const QRect &re
      m_pMainPanel = createMainPanel(this);
@@ -27,6 +27,17 @@
  void CMainWindow::dragEnterEvent(QDragEnterEvent *event)
  {
      QList<QUrl> urls = event->mimeData()->urls();
+@@ -501,8 +501,8 @@ QWidget* CMainWindow::createMainPanel(QW
+     connect(pTabBar, SIGNAL(tabBarClicked(int)), this, SLOT(onTabClicked(int)), Qt::QueuedConnection);
+     connect(pTabBar, SIGNAL(tabCloseRequested(int)), this, SLOT(onTabCloseRequest(int)));
+     connect(pTabBar, &CTabBar::tabMenuRequested, this, &CMainWindow::setTabMenu);
+-    connect(m_pTabs, &CAscTabWidget::editorInserted, bind(&CMainWindow::onTabsCountChanged, this, _2, _1, 1));
+-    connect(m_pTabs, &CAscTabWidget::editorRemoved, bind(&CMainWindow::onTabsCountChanged, this, _2, _1, -1));
++    connect(m_pTabs, &CAscTabWidget::editorInserted, std::bind(&CMainWindow::onTabsCountChanged, this, _2, _1, 1));
++    connect(m_pTabs, &CAscTabWidget::editorRemoved, std::bind(&CMainWindow::onTabsCountChanged, this, _2, _1, -1));
+     m_pTabs->setPalette(palette);
+     m_pTabs->setCustomWindowParams(isCustomWindowStyle());
+     return mainPanel;
 @@ -511,7 +511,7 @@ QWidget* CMainWindow::createMainPanel(QW
  void CMainWindow::attachStartPanel(QCefView * const view)
  {
