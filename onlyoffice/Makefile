@@ -2,7 +2,11 @@ PORTNAME=	onlyoffice
 DISTVERSIONPREFIX=	v
 DISTVERSION=	9.0.4
 CATEGORIES=	editors
+# The v8 archive is the one of www/onlyoffice-documentserver.  It is gone
+# from LOCAL/mikael, the copy of the package builders is on distcache, in
+# the distfiles backup without a subdirectory.
 MASTER_SITES=	LOCAL/mikael/v8/:v8 \
+		http://distcache.FreeBSD.org/ports-distfiles/:v8 \
 		https://registry.npmjs.org/:npm
 DISTFILES=	v8-8.9.255.25_all.tar.gz:v8 \
 		${_NPM_DISTFILES:S/$/:npm/}
