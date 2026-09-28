@@ -1,4 +1,4 @@
---- desktop-apps/win-linux/src/windows/cmainwindow.cpp.orig	2026-09-24 21:58:50 UTC
+--- desktop-apps/win-linux/src/windows/cmainwindow.cpp.orig	2026-09-28 08:45:35 UTC
 +++ desktop-apps/win-linux/src/windows/cmainwindow.cpp
 @@ -82,7 +82,7 @@ CMainWindow::CMainWindow(const QRect &re
      m_pMainPanel = createMainPanel(this);
@@ -27,6 +27,24 @@
  void CMainWindow::dragEnterEvent(QDragEnterEvent *event)
  {
      QList<QUrl> urls = event->mimeData()->urls();
+@@ -511,7 +511,7 @@ QWidget* CMainWindow::createMainPanel(QW
+ void CMainWindow::attachStartPanel(QCefView * const view)
+ {
+     m_pMainWidget = qobject_cast<QWidget *>(view);
+-#ifdef __linux
++#if defined(__linux) || defined(__FreeBSD__)
+     view->setMouseTracking(m_pButtonMain->hasMouseTracking());
+ #endif
+     m_pMainWidget->setParent(m_pMainPanel);
+@@ -524,7 +524,7 @@ void CMainWindow::attachStartPanel(QCefV
+         m_pMainWidget->show();
+ }
+ 
+-#ifdef __linux
++#if defined(__linux) || defined(__FreeBSD__)
+ void CMainWindow::setMouseTracking(bool enable)
+ {
+     QWidget::setMouseTracking(enable);
 @@ -628,7 +628,7 @@ void CMainWindow::onEditorAllowedClose(i
  void CMainWindow::onTabChanged(int index)
  {

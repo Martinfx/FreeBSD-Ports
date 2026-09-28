@@ -1,4 +1,4 @@
---- desktop-apps/win-linux/src/cascapplicationmanagerwrapper.cpp.orig	2026-09-24 21:58:50 UTC
+--- desktop-apps/win-linux/src/cascapplicationmanagerwrapper.cpp.orig	2026-09-28 08:45:35 UTC
 +++ desktop-apps/win-linux/src/cascapplicationmanagerwrapper.cpp
 @@ -361,7 +361,7 @@ bool CAscApplicationManagerWrapper::proc
                      gotoMainWindow();
@@ -9,6 +9,24 @@
                  mainWindow()->bringToTop();
  #endif
                  return true;
+@@ -500,7 +500,7 @@ bool CAscApplicationManagerWrapper::proc
+ 
+     case ASC_MENU_EVENT_TYPE_REPORTER_CREATE: {
+         CPresenterWindow * reporterWindow = createReporterWindow(event->m_pData, event->get_SenderId());
+-#ifdef __linux
++#if defined(__linux) || defined(__FreeBSD__)
+         reporterWindow->show(false);
+ #else
+         reporterWindow->show(false);
+@@ -1143,7 +1143,7 @@ void CAscApplicationManagerWrapper::star
+ #if 0
+     CMainWindow * _window = createMainWindow(_start_rect);
+ 
+-#ifdef __linux
++#if defined(__linux) || defined(__FreeBSD__)
+     _window->show();
+     if ( _is_maximized )
+         _window->slot_windowChangeState(Qt::WindowMaximized);
 @@ -1288,7 +1288,7 @@ void CAscApplicationManagerWrapper::init
  
      // TODO: merge stylesheets and apply for the whole app
