@@ -1,7 +1,7 @@
 # CEF for FreeBSD.
 #
 # www/cef installs a CEF binary distribution in %%LOCALBASE%%/lib/cef: the
-# headers (including the generated ones), the prebuilt libcef_dll_wrapper and
+# headers (including the generated ones), the sources of libcef_dll_wrapper and
 # libcef.so with its resources in Release/.  The cefclient code the editors are
 # built on comes from the sources of the same CEF release, in src/cef/freebsd.
 
@@ -26,7 +26,12 @@ QMAKE_CXXFLAGS += -Wno-register
 # Linux (X11 and GTK) implementation, which is what FreeBSD uses.
 DEFINES += OS_LINUX=1
 
-LIBS += $$CEF_ROOT_PATH/libcef_dll_wrapper/libcef_dll_wrapper.a
+# The C++ wrapper of the libcef C API is compiled in, as upstream does.  The
+# prebuilt libcef_dll_wrapper.a of www/cef is built without RTTI, and classes
+# of the editors derive from wrapper classes like CefStreamResourceHandler,
+# so they need its type information.
+SOURCES += $$files($$CEF_ROOT_PATH/libcef_dll/*.cc, true)
+
 LIBS += -L$$CEF_ROOT_PATH/Release -lcef
 QMAKE_LFLAGS += -Wl,-rpath,$$CEF_ROOT_PATH/Release
 
