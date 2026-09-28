@@ -36,12 +36,14 @@ LIB_DEPENDS=	libepoxy.so:graphics/libepoxy \
 		libzstd.so:archivers/zstd
 RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}numpy>=1.16:math/py-numpy@${PY_FLAVOR}
 
-# Python 3.13 is the minimum since blender 5.1: on a ports tree that defaults to
-# an older python, build with DEFAULT_VERSIONS+=python=3.13 (or set
-# BUILD_ALL_PYTHON_FLAVORS) so that the py313 flavor of py-numpy exists.
+# Python 3.13 is the minimum since blender 5.1.  While the ports tree defaults to
+# an older python, math/py-numpy only has a flavor for that default one:
+# DEPENDS_ARGS lets "make" build its py313 flavor, poudriere needs
+# DEFAULT_VERSIONS+=python=3.13 (or BUILD_ALL_PYTHON_FLAVORS=yes) in make.conf.
 USES=		cmake:noninja compiler:c++20-lang cpe eigen:3 jpeg \
 		llvm:build,run minizip pkgconfig python:3.13+ shebangfix \
 		tar:xz xorg
+DEPENDS_ARGS+=	BUILD_ALL_PYTHON_FLAVORS=yes
 USE_XORG=	x11 xext xfixes xmu xrender
 
 SHEBANG_FILES=	scripts/modules/blend_render_info.py
@@ -218,6 +220,8 @@ THUMBNAILER_CMAKE_BOOL=		WITH_BLENDER_THUMBNAILER
 TRACE_CMAKE_BOOL=		WITH_POTRACE
 TRACE_LIB_DEPENDS=		libpotrace.so:graphics/libpotrace
 #USD_BROKEN=			does not build with current USD port
+# openusd with python support links the default python, build it with
+# DEFAULT_VERSIONS+=python=3.13 too, or blender loads two libpython versions.
 USD_CMAKE_BOOL=			WITH_USD
 USD_IMPLIES=			TBB
 USD_LIB_DEPENDS=		libusd_ms.so:graphics/openusd
