@@ -1,6 +1,6 @@
 --- build_tools/tools/freebsd/automate.py.orig	2026-09-24 21:58:50 UTC
 +++ build_tools/tools/freebsd/automate.py
-@@ -0,0 +1,49 @@
+@@ -0,0 +1,52 @@
 +#!/usr/bin/env python
 +
 +import sys
@@ -42,9 +42,12 @@
 +print("build modules: " + modules)
 +print("---------------------------------------------")
 +
++# Do not clean the projects before building them, so that a build that is
++# started again goes on where it stopped
 +build_tools_params = ["--branch", branch,
 +                      "--module", modules,
 +                      "--update", "0",
++                      "--clean", "0",
 +                      "--platform", "freebsd_64",
 +                      "--qt-dir", os.getcwd() + "/" + qt_root]
 +
