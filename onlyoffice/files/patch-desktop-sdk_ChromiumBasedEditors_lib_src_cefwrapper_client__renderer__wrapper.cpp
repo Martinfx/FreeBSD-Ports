@@ -1,4 +1,4 @@
---- desktop-sdk/ChromiumBasedEditors/lib/src/cefwrapper/client_renderer_wrapper.cpp.orig	2026-09-24 21:58:50 UTC
+--- desktop-sdk/ChromiumBasedEditors/lib/src/cefwrapper/client_renderer_wrapper.cpp.orig	2026-09-28 08:32:43 UTC
 +++ desktop-sdk/ChromiumBasedEditors/lib/src/cefwrapper/client_renderer_wrapper.cpp
 @@ -849,7 +849,7 @@ namespace asc_client_renderer
  
@@ -27,6 +27,20 @@
  				CefRefPtr<CefProcessMessage> message = CefProcessMessage::Create("spell_check_task");
  				message->GetArgumentList()->SetInt(0, (int)m_nEditorId);
  				message->GetArgumentList()->SetString(1, arguments[0]->GetStringValue());
+@@ -1942,10 +1942,10 @@ if (main.DisableVersionHistory) main.Dis
+ 
+ 				std::wstring sRequestPath = arguments[0]->GetStringValue();
+ 
+-				boost::filesystem::wpath current_path = m_sLocalFileSrc;
+-				boost::filesystem::wpath request_path = sRequestPath;
++				boost::filesystem::path current_path = m_sLocalFileSrc;
++				boost::filesystem::path request_path = sRequestPath;
+ 
+-				boost::filesystem::wpath relativePath = boost::filesystem::relative(request_path, current_path.parent_path());
++				boost::filesystem::path relativePath = boost::filesystem::relative(request_path, current_path.parent_path());
+ 				std::wstring sRelativePath = relativePath.wstring();
+ 
+ 				if (sRelativePath.empty())
 @@ -2510,7 +2510,7 @@ window.AscDesktopEditor.LocalFileTemplat
  
  				// send to editor
@@ -180,6 +194,20 @@
  				message->GetArgumentList()->SetInt(1, nCounter);
  				message->GetArgumentList()->SetString(2, sUrl);
  				message->GetArgumentList()->SetString(3, sMethod);
+@@ -4273,10 +4273,10 @@ window.AscDesktopEditor.CallInFrame(\""
+ 					if (!NSFileDownloader::IsNeedDownload(sRequestPath) &&
+ 						!NSFile::CFileBinary::Exists(sRequestPath))
+ 					{
+-						boost::filesystem::wpath current_path = m_sLocalFileSrc;
+-						boost::filesystem::wpath request_path = sRequestPath;
++						boost::filesystem::path current_path = m_sLocalFileSrc;
++						boost::filesystem::path request_path = sRequestPath;
+ 
+-						boost::filesystem::wpath absolute_path = boost::filesystem::absolute(request_path, current_path.parent_path());
++						boost::filesystem::path absolute_path = boost::filesystem::absolute(request_path, current_path.parent_path());
+ 						sRequestPath = absolute_path.wstring();
+ 
+ 						if (!NSFile::CFileBinary::Exists(sRequestPath))
 @@ -5384,11 +5384,11 @@ return this.split(str).join(newStr);\
  				std::string sCode = "window[\"asc_current_keyboard_layout\"] = " + sLayout + ";";
  
