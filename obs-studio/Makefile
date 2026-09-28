@@ -52,7 +52,7 @@ LIB_DEPENDS=	libasound.so:audio/alsa-lib \
 		libuuid.so:misc/libuuid \
 		libva.so:multimedia/libva
 
-USES=		cmake compiler:c++17-lang desktop-file-utils gl gnome kde:6 lua luajit \
+USES=		cmake compiler:c++17-lang desktop-file-utils localbase gl gnome kde:6 lua luajit \
 		pkgconfig python qt:6 xorg
 USE_QT=		base svg tools:build
 USE_KDE=	ecm:build
