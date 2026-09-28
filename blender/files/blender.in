@@ -1,7 +1,5 @@
 #!/bin/sh
 
-export BLENDER_EXTERN_DRACO_LIBRARY_PATH=%%PYTHON_SITELIBDIR%%/libextern_draco.so
-
 # NVIDIA CUDA rendering in Cycles (CYCLES_CUDA option).  FreeBSD's
 # nvidia-driver has no native libcuda.so, so Cycles cannot see NVIDIA GPUs on
 # its own.  When the Linux NVIDIA libraries matching the loaded kernel module
