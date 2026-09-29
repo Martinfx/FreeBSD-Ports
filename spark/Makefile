@@ -1,5 +1,5 @@
 PORTNAME=	spark
-PORTVERSION=	4.1.1
+PORTVERSION=	4.2.0
 CATEGORIES=	devel java
 MASTER_SITES=	https://archive.apache.org/dist/${PORTNAME}/${PORTNAME}-${PORTVERSION}/ # \
 #		LOCAL/vvd:deps
@@ -26,7 +26,7 @@ RUN_DEPENDS=	bash:shells/bash
 
 USES=		cpe java python shebangfix tar:tgz
 CPE_VENDOR=	apache
-JAVA_VERSION=	8 11 17
+JAVA_VERSION=	17+
 
 USE_RC_SUBR=	spark_master spark_worker
 SHEBANG_FILES=	bin/sparkR
@@ -60,7 +60,7 @@ JAVA_ARCH=	${ARCH}
 .endif
 
 # Update spark-*-dist.tgz if the hadoop version is changed!
-HADOOP_VERSION=	3.4.2
+HADOOP_VERSION=	3.5.0
 # Comment out next line for download m2 and update ${PORTNAME}-${PORTVERSION}-deps.tgz
 #OFFLINE=	-o
 
