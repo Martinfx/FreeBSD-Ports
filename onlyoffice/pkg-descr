@@ -1,0 +1,11 @@
+ONLYOFFICE Desktop Editors is an office suite with editors for text
+documents, spreadsheets, presentations, fillable forms and PDF files,
+highly compatible with the Microsoft Office formats (DOCX, XLSX, PPTX)
+and also working with OpenDocument, RTF, TXT, CSV and others.
+
+The editors can work with local files or connect to cloud platforms such
+as ONLYOFFICE DocSpace, Nextcloud, ownCloud and Seafile to collaborate
+on documents.
+
+This port builds the editors natively and uses the Chromium Embedded
+Framework from www/cef.
