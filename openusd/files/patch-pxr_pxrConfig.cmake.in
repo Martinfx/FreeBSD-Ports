@@ -1,6 +1,17 @@
 --- pxr/pxrConfig.cmake.in.orig	2026-04-24 18:55:54 UTC
 +++ pxr/pxrConfig.cmake.in
-@@ -90,6 +90,19 @@ if(@PXR_ENABLE_MATERIALX_SUPPORT@)
+@@ -9,7 +9,9 @@
+ # PXR_foo_LIBRARY   - Absolute path to individual libraries.
+ # The preprocessor definition PXR_STATIC will be defined if appropriate
+ 
+-get_filename_component(PXR_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
++# pxrConfig.cmake is installed into lib/cmake/pxr, PXR_CMAKE_DIR is the
++# installation prefix.
++get_filename_component(PXR_CMAKE_DIR "${CMAKE_CURRENT_LIST_DIR}/../../.." ABSOLUTE)
+ 
+ set(PXR_MAJOR_VERSION "@PXR_MAJOR_VERSION@")
+ set(PXR_MINOR_VERSION "@PXR_MINOR_VERSION@")
+@@ -90,6 +92,19 @@ if(@PXR_ENABLE_MATERIALX_SUPPORT@)
      find_dependency(MaterialX)
  endif()
  
@@ -20,3 +31,12 @@
  # Similar to MaterialX above, we are using Imath's cmake package config, so set
  # the Imath_DIR accordingly to find the associated import targets which were
  # used for this USD build. 
+@@ -115,7 +130,7 @@ if(NOT "@PXR_WORK_IMPL_PACKAGE@" STREQUA
+     find_dependency(@PXR_WORK_IMPL_PACKAGE@)
+ endif()
+ 
+-include("${PXR_CMAKE_DIR}/cmake/pxrTargets.cmake")
++include("${CMAKE_CURRENT_LIST_DIR}/pxrTargets.cmake")
+ if (TARGET usd_m)
+     set(libs "usd_m")
+ else()
