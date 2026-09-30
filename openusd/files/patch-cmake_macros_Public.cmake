@@ -16,3 +16,12 @@
      target_include_directories(${TEST_NAME}
          PRIVATE $<TARGET_PROPERTY:${PXR_PACKAGE},INCLUDE_DIRECTORIES>
      )
+@@ -1077,7 +1086,7 @@ function(pxr_setup_plugins)
+          "${plugInfoContents}")
+     install(
+         FILES "${CMAKE_CURRENT_BINARY_DIR}/usd_plugInfo.json"
+-        DESTINATION plugin/usd
++        DESTINATION lib/usd/plugin
+         RENAME "plugInfo.json"
+     )
+ 
