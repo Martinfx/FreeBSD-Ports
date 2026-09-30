@@ -333,7 +333,15 @@
  name = "fon"
  version = "0.6.0"
  source = "registry+https://github.com/rust-lang/crates.io-index"
-@@ -3338,6 +3567,17 @@
+@@ -3002,6 +3231,7 @@
+  "memchr",
+  "nix 0.29.0",
+  "page_size",
++ "pkg-config",
+  "smallvec",
+  "zerocopy 0.8.26",
+ ]
+@@ -3338,6 +3568,17 @@
  ]
  
  [[package]]
@@ -351,7 +359,7 @@
  name = "glib"
  version = "0.10.3"
  source = "registry+https://github.com/rust-lang/crates.io-index"
-@@ -3436,6 +3676,84 @@
+@@ -3436,6 +3677,84 @@
  checksum = "d2fabcfbdc87f4758337ca535fb41a6d701b65693ce38287d856d1674551ec9b"
  
  [[package]]
@@ -436,7 +444,7 @@
  name = "gobject-sys"
  version = "0.10.0"
  source = "registry+https://github.com/rust-lang/crates.io-index"
-@@ -3458,6 +3776,45 @@
+@@ -3458,6 +3777,45 @@
  ]
  
  [[package]]
@@ -482,7 +490,7 @@
  name = "group"
  version = "0.13.0"
  source = "registry+https://github.com/rust-lang/crates.io-index"
-@@ -3683,6 +4040,9 @@
+@@ -3683,6 +4041,9 @@
  version = "0.15.4"
  source = "registry+https://github.com/rust-lang/crates.io-index"
  checksum = "5971ac85611da7067dbfcabef3c70ebb5606018acd9e2a3903a0da507521e0d5"
@@ -492,7 +500,7 @@
  
  [[package]]
  name = "hbb_common"
-@@ -3799,6 +4159,12 @@
+@@ -3799,6 +4160,12 @@
  checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
  
  [[package]]
@@ -505,7 +513,7 @@
  name = "hkdf"
  version = "0.12.4"
  source = "registry+https://github.com/rust-lang/crates.io-index"
-@@ -4333,6 +4699,23 @@
+@@ -4333,6 +4700,23 @@
  ]
  
  [[package]]
@@ -529,7 +537,7 @@
  name = "kurbo"
  version = "0.9.5"
  source = "registry+https://github.com/rust-lang/crates.io-index"
-@@ -4427,7 +4810,7 @@
+@@ -4427,7 +4811,7 @@
  checksum = "e310b3a6b5907f99202fcdb4960ff45b93735d7c7d96b760fcff8db2dc0e103d"
  dependencies = [
   "cfg-if 1.0.0",
@@ -538,7 +546,7 @@
  ]
  
  [[package]]
-@@ -4575,6 +4958,12 @@
+@@ -4575,6 +4959,12 @@
  checksum = "df1d3c3b53da64cf5760482273a98e575c651a67eec7f77df96b5b642de8f039"
  
  [[package]]
@@ -551,7 +559,7 @@
  name = "lock_api"
  version = "0.4.12"
  source = "registry+https://github.com/rust-lang/crates.io-index"
-@@ -4730,6 +5119,21 @@
+@@ -4730,6 +5120,21 @@
  ]
  
  [[package]]
@@ -573,7 +581,7 @@
  name = "minimal-lexical"
  version = "0.2.1"
  source = "registry+https://github.com/rust-lang/crates.io-index"
-@@ -4831,6 +5235,28 @@
+@@ -4831,6 +5236,28 @@
  checksum = "0419348c027fa7be448d2ae7ea0e4e04c2334c31dc4e74ab29f00a2a7ca69204"
  
  [[package]]
@@ -602,7 +610,7 @@
  name = "nanorand"
  version = "0.7.0"
  source = "registry+https://github.com/rust-lang/crates.io-index"
-@@ -5068,6 +5494,12 @@
+@@ -5068,6 +5495,12 @@
  ]
  
  [[package]]
@@ -615,7 +623,7 @@
  name = "nokhwa"
  version = "0.10.7"
  source = "git+https://github.com/rustdesk-org/nokhwa.git?branch=fix_from_raw_parts#c2f74662b6ce117f7f94301693fdfadc0b1ec91a"
-@@ -5392,6 +5824,7 @@
+@@ -5392,6 +5825,7 @@
   "bitflags 2.9.1",
   "objc2 0.6.4",
   "objc2-core-foundation",
@@ -623,7 +631,7 @@
   "objc2-foundation 0.3.2",
  ]
  
-@@ -5449,7 +5882,10 @@
+@@ -5449,7 +5883,10 @@
  checksum = "e022c9d066895efa1345f8e33e584b9f958da2fd4cd116792e15e07e4720a807"
  dependencies = [
   "bitflags 2.9.1",
@@ -634,7 +642,7 @@
  ]
  
  [[package]]
-@@ -5517,6 +5953,17 @@
+@@ -5517,6 +5954,17 @@
  ]
  
  [[package]]
@@ -652,7 +660,7 @@
  name = "objc2-link-presentation"
  version = "0.2.2"
  source = "registry+https://github.com/rust-lang/crates.io-index"
-@@ -5669,9 +6116,9 @@
+@@ -5669,9 +6117,9 @@
  
  [[package]]
  name = "once_cell"
@@ -664,7 +672,7 @@
  
  [[package]]
  name = "opaque-debug"
-@@ -5749,6 +6196,15 @@
+@@ -5749,6 +6197,15 @@
  ]
  
  [[package]]
@@ -680,7 +688,7 @@
  name = "ordered-multimap"
  version = "0.4.3"
  source = "registry+https://github.com/rust-lang/crates.io-index"
-@@ -6356,6 +6812,12 @@
+@@ -6356,6 +6813,12 @@
  ]
  
  [[package]]
@@ -693,7 +701,7 @@
  name = "protobuf"
  version = "3.7.2"
  source = "registry+https://github.com/rust-lang/crates.io-index"
-@@ -6890,6 +7352,12 @@
+@@ -6890,6 +7353,12 @@
  ]
  
  [[package]]
@@ -706,7 +714,7 @@
  name = "repng"
  version = "0.2.2"
  source = "registry+https://github.com/rust-lang/crates.io-index"
-@@ -7091,7 +7559,7 @@
+@@ -7091,7 +7560,7 @@
  dependencies = [
   "android-wakelock",
   "android_logger",
@@ -715,7 +723,7 @@
   "async-process",
   "async-trait",
   "base",
-@@ -7115,6 +7583,7 @@
+@@ -7115,6 +7584,7 @@
   "default-net",
   "dispatch",
   "docopt",
@@ -723,7 +731,7 @@
   "enigo",
   "errno",
   "evdev",
-@@ -7857,6 +8326,17 @@
+@@ -7857,6 +8327,17 @@
  ]
  
  [[package]]
@@ -741,7 +749,7 @@
  name = "smol_str"
  version = "0.2.2"
  source = "registry+https://github.com/rust-lang/crates.io-index"
-@@ -7951,6 +8431,15 @@
+@@ -7951,6 +8432,15 @@
  ]
  
  [[package]]
@@ -757,7 +765,7 @@
  name = "spki"
  version = "0.7.3"
  source = "registry+https://github.com/rust-lang/crates.io-index"
-@@ -8009,6 +8498,15 @@
+@@ -8009,6 +8499,15 @@
  checksum = "063e6045c0e62079840579a7e47a355ae92f60eb74daaf156fb1e84ba164e63f"
  
  [[package]]
@@ -773,7 +781,7 @@
  name = "strum_macros"
  version = "0.18.0"
  source = "registry+https://github.com/rust-lang/crates.io-index"
-@@ -8034,6 +8532,19 @@
+@@ -8034,6 +8533,19 @@
  ]
  
  [[package]]
@@ -793,7 +801,7 @@
  name = "stun"
  version = "0.8.0"
  source = "git+https://github.com/rustdesk-org/webrtc?rev=49c89bd8d30e6e62e4c1a96cee38fdc11f79ef63#49c89bd8d30e6e62e4c1a96cee38fdc11f79ef63"
-@@ -8933,6 +9444,15 @@
+@@ -8933,6 +9445,15 @@
  ]
  
  [[package]]
@@ -809,7 +817,7 @@
  name = "typenum"
  version = "1.17.0"
  source = "registry+https://github.com/rust-lang/crates.io-index"
-@@ -9090,9 +9610,9 @@
+@@ -9090,9 +9611,9 @@
  
  [[package]]
  name = "unicode-xid"
@@ -821,7 +829,7 @@
  
  [[package]]
  name = "universal-hash"
-@@ -9527,6 +10047,22 @@
+@@ -9527,6 +10048,22 @@
  ]
  
  [[package]]
@@ -844,7 +852,7 @@
  name = "webm"
  version = "1.1.0"
  source = "git+https://github.com/rustdesk-org/rust-webm#d2c4d3ac133c7b0e4c0f656da710b48391981e64"
-@@ -9777,6 +10313,109 @@
+@@ -9777,6 +10314,109 @@
  checksum = "53a85b86a771b1c87058196170769dd264f66c0782acf1ae6cc51bfd64b39082"
  
  [[package]]
@@ -954,7 +962,7 @@
  name = "which"
  version = "4.4.2"
  source = "registry+https://github.com/rust-lang/crates.io-index"
-@@ -9959,6 +10598,16 @@
+@@ -9959,6 +10599,16 @@
  
  [[package]]
  name = "windows"
@@ -971,7 +979,7 @@
  version = "0.61.1"
  source = "registry+https://github.com/rust-lang/crates.io-index"
  checksum = "c5ee8f3d025738cb02bad7868bbb5f8a6327501e870bf51f1b455b0a2454a419"
-@@ -10009,6 +10658,19 @@
+@@ -10009,6 +10659,19 @@
  
  [[package]]
  name = "windows-core"
@@ -991,7 +999,7 @@
  version = "0.61.0"
  source = "registry+https://github.com/rust-lang/crates.io-index"
  checksum = "4763c1de310c86d75a878046489e2e5ba02c649d185f21c67d4cf8a56d098980"
-@@ -10043,6 +10705,17 @@
+@@ -10043,6 +10706,17 @@
  
  [[package]]
  name = "windows-implement"
@@ -1009,7 +1017,7 @@
  version = "0.60.0"
  source = "registry+https://github.com/rust-lang/crates.io-index"
  checksum = "a47fddd13af08290e67f4acabf4b459f647552718f683a7b415d290ac744a836"
-@@ -10065,6 +10738,17 @@
+@@ -10065,6 +10739,17 @@
  
  [[package]]
  name = "windows-interface"
@@ -1027,7 +1035,7 @@
  version = "0.59.1"
  source = "registry+https://github.com/rust-lang/crates.io-index"
  checksum = "bd9211b69f8dcdfa817bfd14bf1c97c9188afa36f4750130fcdf3f400eca9fa8"
-@@ -10107,6 +10791,15 @@
+@@ -10107,6 +10792,15 @@
  
  [[package]]
  name = "windows-result"
@@ -1043,7 +1051,7 @@
  version = "0.3.2"
  source = "registry+https://github.com/rust-lang/crates.io-index"
  checksum = "c64fd11a4fd95df68efcfee5f44a294fe71b8bc6a91993e2791938abcc712252"
-@@ -10127,6 +10820,16 @@
+@@ -10127,6 +10821,16 @@
  
  [[package]]
  name = "windows-strings"
@@ -1060,7 +1068,7 @@
  version = "0.3.1"
  source = "registry+https://github.com/rust-lang/crates.io-index"
  checksum = "87fa48cc5d406560701792be122a10132491cff9d0aeb23583cc2dcafc847319"
-@@ -10172,6 +10875,15 @@
+@@ -10172,6 +10876,15 @@
  
  [[package]]
  name = "windows-sys"
@@ -1076,7 +1084,7 @@
  version = "0.60.2"
  source = "registry+https://github.com/rust-lang/crates.io-index"
  checksum = "f2f500e4d28234f72040990ec9d39e3a6b950f9f22d3dba18416c35882612bcb"
-@@ -10808,6 +11520,12 @@
+@@ -10808,6 +11521,12 @@
  checksum = "b9cc00251562a284751c9973bace760d86c0276c471b4be569fe6b068ee97a56"
  
  [[package]]

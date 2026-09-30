@@ -1,13 +1,23 @@
-use super::{run_window, t};
+use super::{
+    run_window,
+    svg::IconCache,
+    t, theme,
+    widgets::{self, format_id, paint_glyph, Glyph},
+};
 use crate::{
     client::*,
     common::input::*,
     ui_session_interface::{InvokeUiSession, Session},
 };
-use eframe::egui;
+use eframe::egui::{
+    self, vec2, Align2, Color32, CornerRadius, Margin, Rect, Sense, Stroke, StrokeKind,
+};
 use base::message_proto::*;
 use hbb_common::rendezvous_proto::ConnType;
-use std::sync::{Arc, Mutex, RwLock};
+use std::{
+    sync::{Arc, Mutex, RwLock},
+    time::{Duration, Instant},
+};
 
 #[derive(Default)]
 struct Frame {
@@ -250,8 +260,13 @@ impl InvokeUiSession for EguiHandler {
 struct RemoteWindow {
     session: Session<EguiHandler>,
     handler: EguiHandler,
+    icons: IconCache,
+    id: String,
     texture: Option<egui::TextureHandle>,
     fit: bool,
+    pinned: bool,
+    collapsed: bool,
+    last_toolbar_use: Instant,
     password: String,
     remember: bool,
     code_2fa: String,
@@ -282,15 +297,21 @@ pub fn run(args: &mut [String]) {
         None,
         None,
     );
-    run_window(&id, [1280., 800.], move |ctx| {
+    let title = id.clone();
+    run_window(&title, [1280., 800.], [480., 320.], move |ctx| {
         *handler.ctx.lock().unwrap() = Some(ctx.clone());
         handler.msgbox("connecting", "Connecting...", "Connection in progress. Please wait.", "", false);
         session.reconnect(false);
         RemoteWindow {
             session,
             handler,
+            icons: IconCache::default(),
+            id,
             texture: None,
             fit: true,
+            pinned: true,
+            collapsed: false,
+            last_toolbar_use: Instant::now(),
             password: String::new(),
             remember: false,
             code_2fa: String::new(),
@@ -299,40 +320,137 @@ pub fn run(args: &mut [String]) {
     });
 }
 
+enum ToolbarColor {
+    Blue,
+    Inactive,
+    Red,
+}
+
 impl RemoteWindow {
-    fn toolbar(&mut self, ui: &mut egui::Ui) {
-        let (peer, displays, current) = {
-            let s = self.handler.state.lock().unwrap();
-            (s.peer.clone(), s.displays.len(), s.current_display)
+    // A 32x32 toolbar button of the Flutter remote toolbar.
+    fn toolbar_button(
+        &mut self,
+        ui: &mut egui::Ui,
+        icon: &'static str,
+        color: ToolbarColor,
+        tooltip: &str,
+    ) -> egui::Response {
+        let (rect, resp) = ui.allocate_exact_size(vec2(32., 32.), Sense::click());
+        let fill = match (color, resp.hovered()) {
+            (ToolbarColor::Blue, false) => theme::BUTTON,
+            (ToolbarColor::Blue, true) => theme::BLUE_HOVER,
+            (ToolbarColor::Inactive, false) => theme::INACTIVE,
+            (ToolbarColor::Inactive, true) => Color32::from_rgb(0x30, 0x30, 0x30),
+            (ToolbarColor::Red, false) => theme::RED,
+            (ToolbarColor::Red, true) => theme::RED_HOVER,
         };
-        ui.horizontal(|ui| {
-            ui.label(&peer);
-            ui.separator();
-            if displays > 1 {
-                for i in 0..displays as i32 {
-                    if ui
-                        .selectable_label(i == current, format!("{} {}", t("Display"), i + 1))
-                        .clicked()
-                    {
-                        self.session.switch_display(i);
-                    }
+        ui.painter().rect_filled(rect, CornerRadius::same(8), fill);
+        self.icons.paint(ui, rect, icon, Some(Color32::WHITE));
+        resp.on_hover_text(tooltip)
+    }
+
+    fn menu_item(ui: &mut egui::Ui, text: &str) -> bool {
+        ui.add(egui::Button::new(text).frame(false).min_size(vec2(180., 26.)))
+            .clicked()
+    }
+
+    fn toolbar(&mut self, ctx: &egui::Context) {
+        let (displays, current) = {
+            let s = self.handler.state.lock().unwrap();
+            (s.displays.len(), s.current_display)
+        };
+        // Unpinned toolbars collapse after 5 s without use, like upstream.
+        if !self.pinned && !self.collapsed && self.last_toolbar_use.elapsed() > Duration::from_secs(5) {
+            self.collapsed = true;
+        }
+        let top = widgets::TITLE_BAR_HEIGHT;
+        egui::Area::new(egui::Id::new("remote_toolbar"))
+            .anchor(Align2::CENTER_TOP, [0., top])
+            .order(egui::Order::Foreground)
+            .show(ctx, |ui| {
+                if ui.rect_contains_pointer(ui.max_rect()) {
+                    self.last_toolbar_use = Instant::now();
                 }
-                ui.separator();
-            }
-            ui.checkbox(&mut self.fit, t("Scale adaptive"));
-            if ui.button(t("Refresh")).clicked() {
-                self.session.refresh_video(current);
-            }
-            if ui.button(t("Insert Ctrl + Alt + Del")).clicked() {
-                self.session.ctrl_alt_del();
-            }
-            if ui.button(t("Insert Lock")).clicked() {
-                self.session.lock_screen();
-            }
-            if ui.button(t("Close")).clicked() {
-                ui.ctx().send_viewport_cmd(egui::ViewportCommand::Close);
-            }
-        });
+                ui.vertical_centered(|ui| {
+                    ui.spacing_mut().item_spacing = vec2(0., 0.);
+                    if !self.collapsed {
+                        egui::Frame::NONE
+                            .fill(Color32::WHITE)
+                            .stroke(Stroke::new(1., theme::BORDER3))
+                            .corner_radius(CornerRadius::same(4))
+                            .shadow(egui::Shadow { offset: [0, 1], blur: 6, spread: 0, color: Color32::from_black_alpha(40) })
+                            .inner_margin(Margin::symmetric(4, 0))
+                            .show(ui, |ui| {
+                                ui.horizontal(|ui| {
+                                    ui.spacing_mut().item_spacing.x = 4.;
+                                    ui.add_space(0.);
+                                    let pin = if self.pinned { "pinned" } else { "unpinned" };
+                                    let pin_color = if self.pinned { ToolbarColor::Blue } else { ToolbarColor::Inactive };
+                                    let tip = if self.pinned { t("Unpin Toolbar") } else { t("Pin Toolbar") };
+                                    ui.add_space(2.);
+                                    if self.toolbar_button(ui, pin, pin_color, &tip).clicked() {
+                                        self.pinned = !self.pinned;
+                                    }
+                                    if displays > 1 {
+                                        let resp = self.toolbar_button(ui, "screen", ToolbarColor::Blue, &t("Select Monitor"));
+                                        menu(ui, &resp, "monitor_menu", |ui| {
+                                            for i in 0..displays as i32 {
+                                                if ui.radio(i == current, format!("{} {}", t("Display"), i + 1)).clicked() {
+                                                    self.session.switch_display(i);
+                                                }
+                                            }
+                                        });
+                                    }
+                                    let resp = self.toolbar_button(ui, "actions", ToolbarColor::Blue, &t("Control Actions"));
+                                    menu(ui, &resp, "actions_menu", |ui| {
+                                        if Self::menu_item(ui, &t("Insert Ctrl + Alt + Del")) {
+                                            self.session.ctrl_alt_del();
+                                        }
+                                        if Self::menu_item(ui, &t("Insert Lock")) {
+                                            self.session.lock_screen();
+                                        }
+                                        if Self::menu_item(ui, &t("Refresh")) {
+                                            self.session.refresh_video(current);
+                                        }
+                                    });
+                                    let resp = self.toolbar_button(ui, "display", ToolbarColor::Blue, &t("Display Settings"));
+                                    menu(ui, &resp, "display_menu", |ui| {
+                                        if ui.radio(!self.fit, t("Scale original")).clicked() {
+                                            self.fit = false;
+                                        }
+                                        if ui.radio(self.fit, t("Scale adaptive")).clicked() {
+                                            self.fit = true;
+                                        }
+                                    });
+                                    if self.toolbar_button(ui, "close", ToolbarColor::Red, &t("Close")).clicked() {
+                                        ctx.send_viewport_cmd(egui::ViewportCommand::Close);
+                                    }
+                                    ui.add_space(2.);
+                                });
+                                ui.add_space(0.);
+                            });
+                    }
+                    // The collapse handle below the toolbar.
+                    let (r, resp) = ui.allocate_exact_size(vec2(36., 20.), Sense::click());
+                    ui.painter().rect_filled(
+                        r,
+                        CornerRadius { nw: 0, ne: 0, sw: 5, se: 5 },
+                        if resp.hovered() { Color32::from_rgb(0xDB, 0xEA, 0xFF) } else { Color32::WHITE },
+                    );
+                    ui.painter().rect_stroke(
+                        r,
+                        CornerRadius { nw: 0, ne: 0, sw: 5, se: 5 },
+                        Stroke::new(1., theme::BORDER3),
+                        StrokeKind::Inside,
+                    );
+                    let g = if self.collapsed { Glyph::ExpandMore } else { Glyph::ExpandLess };
+                    paint_glyph(ui, &mut self.icons, Rect::from_center_size(r.center(), vec2(20., 20.)), g, theme::INACTIVE);
+                    if resp.clicked() {
+                        self.collapsed = !self.collapsed;
+                        self.last_toolbar_use = Instant::now();
+                    }
+                });
+            });
     }
 
     fn msgbox(&mut self, ctx: &egui::Context) -> bool {
@@ -341,75 +459,85 @@ impl RemoteWindow {
         };
         let mut close = false;
         let mut quit = false;
-        egui::Window::new(t(&m.title))
-            .collapsible(false)
-            .resizable(false)
-            .anchor(egui::Align2::CENTER_CENTER, [0., 0.])
-            .show(ctx, |ui| {
-                if !m.text.is_empty() {
-                    ui.label(t(&m.text));
-                }
-                if !m.link.is_empty() {
-                    ui.hyperlink(&m.link);
-                }
-                match m.msgtype.as_str() {
-                    "connecting" => {
+        let title = match m.msgtype.as_str() {
+            "input-password" | "re-input-password" => t("Password Required"),
+            _ => t(&m.title),
+        };
+        widgets::dialog(ctx, &title, |ui| {
+            if !m.text.is_empty() && m.msgtype != "input-password" {
+                ui.label(t(&m.text));
+                ui.add_space(8.);
+            }
+            if !m.link.is_empty() {
+                ui.hyperlink(&m.link);
+            }
+            let enter = ui.input(|i| i.key_pressed(egui::Key::Enter));
+            match m.msgtype.as_str() {
+                "connecting" => {
+                    ui.horizontal(|ui| {
                         ui.spinner();
-                    }
-                    "input-password" | "re-input-password" => {
-                        let edit = ui.add(
-                            egui::TextEdit::singleline(&mut self.password)
-                                .password(true)
-                                .hint_text(t("Password")),
-                        );
-                        edit.request_focus();
-                        ui.checkbox(&mut self.remember, t("Remember password"));
-                        let enter = ui.input(|i| i.key_pressed(egui::Key::Enter));
-                        ui.horizontal(|ui| {
-                            if ui.button(t("OK")).clicked() || enter {
-                                self.session.login(
-                                    String::new(),
-                                    String::new(),
-                                    std::mem::take(&mut self.password),
-                                    self.remember,
-                                );
-                                close = true;
-                            }
-                            if ui.button(t("Cancel")).clicked() {
-                                quit = true;
-                            }
-                        });
-                    }
-                    "input-2fa" => {
-                        ui.text_edit_singleline(&mut self.code_2fa);
-                        ui.horizontal(|ui| {
-                            if ui.button(t("OK")).clicked() {
-                                self.session
-                                    .send2fa(std::mem::take(&mut self.code_2fa), false);
-                                close = true;
-                            }
-                            if ui.button(t("Cancel")).clicked() {
-                                quit = true;
-                            }
-                        });
-                    }
-                    _ => {
-                        ui.horizontal(|ui| {
-                            if m.retry && ui.button(t("Retry")).clicked() {
-                                self.session.reconnect(false);
-                                close = true;
-                            }
-                            if m.msgtype.contains("error") || m.msgtype.contains("nook") {
-                                if ui.button(t("Close")).clicked() {
-                                    quit = true;
-                                }
-                            } else if ui.button(t("OK")).clicked() {
-                                close = true;
-                            }
-                        });
-                    }
+                        ui.label(t("Connecting..."));
+                    });
+                    ui.add_space(16.);
+                    widgets::button_row(ui, |ui| {
+                        if widgets::outlined_button(ui, &t("Cancel"), 80.).clicked() {
+                            quit = true;
+                        }
+                    });
                 }
-            });
+                "input-password" | "re-input-password" => {
+                    let edit = widgets::text_input(ui, &mut self.password, &t("Password"), true, 340.);
+                    edit.request_focus();
+                    ui.add_space(6.);
+                    widgets::checkbox(ui, &mut self.remember, &t("Remember password"));
+                    ui.add_space(16.);
+                    widgets::button_row(ui, |ui| {
+                        if widgets::primary_button(ui, &t("OK"), theme::ACCENT, 80.).clicked() || enter {
+                            self.session.login(
+                                String::new(),
+                                String::new(),
+                                std::mem::take(&mut self.password),
+                                self.remember,
+                            );
+                            close = true;
+                        }
+                        if widgets::outlined_button(ui, &t("Cancel"), 80.).clicked() {
+                            quit = true;
+                        }
+                    });
+                }
+                "input-2fa" => {
+                    widgets::text_input(ui, &mut self.code_2fa, &t("Verification code"), false, 340.)
+                        .request_focus();
+                    ui.add_space(16.);
+                    widgets::button_row(ui, |ui| {
+                        if widgets::primary_button(ui, &t("OK"), theme::ACCENT, 80.).clicked() || enter {
+                            self.session.send2fa(std::mem::take(&mut self.code_2fa), false);
+                            close = true;
+                        }
+                        if widgets::outlined_button(ui, &t("Cancel"), 80.).clicked() {
+                            quit = true;
+                        }
+                    });
+                }
+                _ => {
+                    ui.add_space(8.);
+                    widgets::button_row(ui, |ui| {
+                        if m.msgtype.contains("error") || m.msgtype.contains("nook") {
+                            if widgets::outlined_button(ui, &t("Close"), 80.).clicked() {
+                                quit = true;
+                            }
+                        } else if widgets::primary_button(ui, &t("OK"), theme::ACCENT, 80.).clicked() {
+                            close = true;
+                        }
+                        if m.retry && widgets::primary_button(ui, &t("Retry"), theme::ACCENT, 80.).clicked() {
+                            self.session.reconnect(false);
+                            close = true;
+                        }
+                    });
+                }
+            }
+        });
         if quit {
             ctx.send_viewport_cmd(egui::ViewportCommand::Close);
         }
@@ -449,10 +577,17 @@ impl RemoteWindow {
                 ((pos.y - rect.min.y) / scale) as i32 + display.1,
             )
         };
+        // Ignore pointer events over the toolbar, menus and dialogs.
+        let ctx = ui.ctx().clone();
+        let over_ui = |p: egui::Pos2| {
+            ctx.layer_id_at(p)
+                .map(|l| l.order != egui::Order::Background)
+                .unwrap_or(false)
+        };
         let events = ui.input(|i| i.events.clone());
         for event in events {
             match event {
-                egui::Event::PointerMoved(pos) if rect.contains(pos) => {
+                egui::Event::PointerMoved(pos) if rect.contains(pos) && !over_ui(pos) => {
                     let p = to_remote(pos);
                     if self.last_pos != Some(p) {
                         self.last_pos = Some(p);
@@ -464,7 +599,7 @@ impl RemoteWindow {
                     button,
                     pressed,
                     modifiers,
-                } if rect.contains(pos) || !pressed => {
+                } if (rect.contains(pos) && !over_ui(pos)) || !pressed => {
                     let buttons = match button {
                         egui::PointerButton::Primary => MOUSE_BUTTON_LEFT,
                         egui::PointerButton::Secondary => MOUSE_BUTTON_RIGHT,
@@ -538,11 +673,23 @@ impl RemoteWindow {
 
 impl eframe::App for RemoteWindow {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
+        widgets::resize_handles(ctx);
         self.update_texture(ctx);
-        egui::TopBottomPanel::top("toolbar").show(ctx, |ui| self.toolbar(ui));
+        let tabs = [widgets::Tab { label: format_id(&self.id), glyph: None, closable: true }];
+        if let Some(widgets::TitleBarEvent::CloseTab) =
+            widgets::title_bar(ctx, &mut self.icons, &tabs, 0, false, true)
+        {
+            ctx.send_viewport_cmd(egui::ViewportCommand::Close);
+        }
         let dialog = self.msgbox(ctx);
+        if self.texture.is_some() {
+            self.toolbar(ctx);
+        }
+        if !self.pinned && !self.collapsed {
+            ctx.request_repaint_after(Duration::from_millis(500));
+        }
         egui::CentralPanel::default()
-            .frame(egui::Frame::NONE.fill(egui::Color32::BLACK))
+            .frame(egui::Frame::NONE.fill(Color32::BLACK))
             .show(ctx, |ui| {
                 let Some(tex) = self.texture.as_ref() else {
                     return;
@@ -572,6 +719,17 @@ impl eframe::App for RemoteWindow {
     fn on_exit(&mut self, _gl: Option<&eframe::glow::Context>) {
         self.session.close();
     }
+}
+
+fn menu(ui: &mut egui::Ui, resp: &egui::Response, id: &str, add: impl FnOnce(&mut egui::Ui)) {
+    let popup = ui.id().with(id);
+    if resp.clicked() {
+        ui.memory_mut(|m| m.toggle_popup(popup));
+    }
+    egui::popup::popup_below_widget(ui, popup, resp, egui::PopupCloseBehavior::CloseOnClick, |ui| {
+        ui.set_min_width(180.);
+        add(ui);
+    });
 }
 
 // egui key -> RustDesk legacy key name, and whether it produces text.
