@@ -1,5 +1,5 @@
 PORTNAME=	rustdesk
-DISTVERSION=	1.4.3
+DISTVERSION=	1.5.0
 CATEGORIES=	net deskutils
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -19,15 +19,16 @@ LIB_DEPENDS=	libaom.so:multimedia/aom \
 		libpulse.so:audio/pulseaudio \
 		libsodium.so:security/libsodium \
 		libvpx.so:multimedia/libvpx \
-		libxdo.so:x11/xdotool \
 		libxkbcommon.so:x11/libxkbcommon \
 		libyuv.so:graphics/libyuv
+# libxdo is loaded at runtime
+RUN_DEPENDS=	xdotool:x11/xdotool
 
-USES=		cargo gl gnome gstreamer llvm:build pkgconfig xorg
+USES=		cargo gl gnome gstreamer llvm:build pkgconfig ssl xorg
 USE_GITHUB=	yes
-GH_TUPLE=	rustdesk:hbb_common:5ed0afde0841659e2fb37ae7acaddc005fa1a8d3:hbb/libs/hbb_common \
+GH_TUPLE=	rustdesk:hbb_common:229b904508364c8997aad0fb5af57effac859f60:hbb/libs/hbb_common \
 		webmproject:libwebm:d411c8668dc226d9a3c7433c560dedfcc46fc69c:libwebm \
-		skywind3000:kcp:7f9805887b0909c52c825925f123e7a84da37167:kcp
+		skywind3000:kcp:32da082e529a26730aea3eb19922f80634ee6dea:kcp
 USE_GL=		egl gl
 USE_GNOME=	cairo gdkpixbuf glib20 gtk30
 USE_XORG=	x11 xcb xfixes xtst
@@ -36,7 +37,10 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		ab_glyph_rasterizer-0.1.10 \
 		addr2line-0.22.0 \
 		adler-1.0.2 \
+		adler2-2.0.1 \
+		aead-0.5.2 \
 		aes-0.8.4 \
+		aes-gcm-0.10.3 \
 		ahash-0.7.8 \
 		ahash-0.8.12 \
 		aho-corasick-1.1.3 \
@@ -53,20 +57,24 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		android_system_properties-0.1.5 \
 		ansi_term-0.12.1 \
 		anstream-0.6.14 \
-		anstyle-1.0.7 \
+		anstyle-1.0.13 \
 		anstyle-parse-0.2.4 \
 		anstyle-query-1.1.0 \
 		anstyle-wincon-3.0.3 \
 		anyhow-1.0.98 \
-		arboard-3.4.1 \
+		arboard-3.6.1 \
+		arc-swap-1.7.1 \
 		arrayref-0.3.9 \
 		arrayvec-0.7.6 \
 		as-raw-xcb-connection-1.0.1 \
 		ash-0.38.0+1.3.281 \
+		asn1-rs-0.6.2 \
+		asn1-rs-derive-0.5.1 \
+		asn1-rs-impl-0.2.0 \
 		associative-cache-1.0.1 \
 		async-broadcast-0.5.1 \
 		async-channel-2.3.1 \
-		async-compression-0.4.11 \
+		async-compression-0.4.32 \
 		async-executor-1.12.0 \
 		async-fs-1.6.0 \
 		async-io-1.13.0 \
@@ -87,14 +95,16 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		autocfg-0.1.8 \
 		autocfg-1.3.0 \
 		backtrace-0.3.73 \
+		base16ct-0.2.0 \
 		base32-0.4.0 \
 		base64-0.21.7 \
 		base64-0.22.1 \
 		base64ct-1.6.0 \
+		bincode-1.3.3 \
 		bindgen-0.59.2 \
 		bindgen-0.65.1 \
 		bindgen-0.69.4 \
-		bindgen-0.71.1 \
+		bindgen-0.72.1 \
 		bit-set-0.8.0 \
 		bit-vec-0.8.0 \
 		bit_field-0.10.2 \
@@ -104,9 +114,11 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		bitvec-1.0.1 \
 		block-0.1.6 \
 		block-buffer-0.10.4 \
+		block-padding-0.3.3 \
 		block-sys-0.1.0-beta.1 \
 		block2-0.2.0-alpha.6 \
 		block2-0.5.1 \
+		block2-0.6.2 \
 		blocking-1.6.1 \
 		brotli-3.5.0 \
 		brotli-decompressor-2.5.1 \
@@ -116,16 +128,16 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		bytemuck-1.23.2 \
 		bytemuck_derive-1.10.1 \
 		byteorder-1.5.0 \
-		bytes-1.10.1 \
-		bzip2-0.4.4 \
-		bzip2-sys-0.1.11+1.0.8 \
+		bytes-1.11.1 \
 		cairo-rs-0.18.5 \
 		cairo-sys-rs-0.18.2 \
 		calloop-0.13.0 \
-		calloop-0.14.4 \
+		calloop-0.14.3 \
 		calloop-wayland-source-0.3.0 \
 		calloop-wayland-source-0.4.1 \
+		cbc-0.1.2 \
 		cc-1.2.13 \
+		ccm-0.5.0 \
 		cesu8-1.1.0 \
 		cexpr-0.6.0 \
 		cfg-expr-0.15.8 \
@@ -139,9 +151,9 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		cipher-0.4.4 \
 		clang-sys-1.8.1 \
 		clap-2.34.0 \
-		clap-4.5.8 \
-		clap_builder-4.5.8 \
-		clap_lex-0.7.1 \
+		clap-4.5.53 \
+		clap_builder-4.5.53 \
+		clap_lex-0.7.6 \
 		clipboard-win-5.4.0 \
 		cloudabi-0.0.3 \
 		cmake-0.1.50 \
@@ -153,12 +165,14 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		color_quant-1.1.0 \
 		colorchoice-1.0.1 \
 		combine-4.6.7 \
+		compression-codecs-0.4.31 \
+		compression-core-0.4.29 \
 		concurrent-queue-2.5.0 \
 		console_error_panic_hook-0.1.7 \
+		const-oid-0.9.6 \
 		const_fn-0.4.10 \
 		const_format-0.2.32 \
 		const_format_proc_macros-0.2.32 \
-		constant_time_eq-0.1.5 \
 		constant_time_eq-0.2.6 \
 		core-foundation-0.7.0 \
 		core-foundation-0.9.4 \
@@ -181,14 +195,18 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		crc32fast-1.4.2 \
 		crossbeam-channel-0.5.13 \
 		crossbeam-deque-0.8.5 \
-		crossbeam-epoch-0.9.18 \
+		crossbeam-epoch-0.9.20 \
 		crossbeam-queue-0.3.11 \
 		crossbeam-utils-0.8.20 \
 		crunchy-0.2.2 \
+		crypto-bigint-0.5.5 \
 		crypto-common-0.1.6 \
 		ctor-lite-0.1.0 \
+		ctr-0.9.2 \
 		ctrlc-3.4.4 \
 		cursor-icon-1.2.0 \
+		curve25519-dalek-4.1.3 \
+		curve25519-dalek-derive-0.1.1 \
 		dart-sys-4.1.5 \
 		dashmap-5.5.3 \
 		dashmap-6.1.0 \
@@ -208,6 +226,8 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		dbus-crossroads-0.5.2 \
 		debug-helper-0.3.13 \
 		default-net-0.14.1 \
+		der-0.7.10 \
+		der-parser-9.0.0 \
 		deranged-0.3.11 \
 		derivative-2.2.0 \
 		digest-0.10.7 \
@@ -215,12 +235,16 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		dirs-2.0.2 \
 		dirs-4.0.0 \
 		dirs-5.0.1 \
+		dirs-6.0.0 \
 		dirs-next-2.0.0 \
 		dirs-sys-0.3.7 \
 		dirs-sys-0.4.1 \
+		dirs-sys-0.5.0 \
 		dirs-sys-next-0.1.2 \
 		dispatch-0.2.0 \
-		dlib-0.5.3 \
+		dispatch2-0.3.1 \
+		displaydoc-0.2.5 \
+		dlib-0.5.2 \
 		dlopen-0.1.8 \
 		dlopen2-0.4.1 \
 		dlopen2_derive-0.2.0 \
@@ -236,6 +260,7 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		drm-sys-0.7.0 \
 		dtoa-0.4.8 \
 		dunce-1.0.5 \
+		ecdsa-0.16.9 \
 		ecolor-0.31.1 \
 		ed25519-1.5.3 \
 		eframe-0.31.1 \
@@ -244,6 +269,7 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		egui-winit-0.31.1 \
 		egui_glow-0.31.1 \
 		either-1.13.0 \
+		elliptic-curve-0.13.8 \
 		emath-0.31.1 \
 		enquote-1.1.0 \
 		enum-map-2.7.3 \
@@ -268,10 +294,12 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		fastrand-1.9.0 \
 		fastrand-2.1.0 \
 		fdeflate-0.3.4 \
+		ff-0.13.1 \
+		fiat-crypto-0.2.9 \
 		field-offset-0.3.6 \
 		filetime-0.2.23 \
 		fixedbitset-0.4.2 \
-		flate2-1.0.30 \
+		flate2-1.1.9 \
 		flexi_logger-0.27.4 \
 		flume-0.11.0 \
 		flutter_rust_bridge-1.80.1 \
@@ -292,7 +320,6 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		fsevent-sys-4.1.0 \
 		fuchsia-cprng-0.1.1 \
 		funty-2.0.0 \
-		fuser-0.15.1 \
 		futures-0.3.30 \
 		futures-channel-0.3.31 \
 		futures-core-0.3.31 \
@@ -315,6 +342,7 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		gethostname-0.4.3 \
 		getrandom-0.2.15 \
 		getrandom-0.3.2 \
+		ghash-0.5.1 \
 		gif-0.13.1 \
 		gimli-0.29.0 \
 		gio-0.18.4 \
@@ -329,7 +357,7 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		glib-sys-0.18.1 \
 		glob-0.3.1 \
 		glow-0.16.0 \
-		glutin-0.32.2 \
+		glutin-0.32.3 \
 		glutin-winit-0.5.0 \
 		glutin_egl_sys-0.7.1 \
 		glutin_glx_sys-0.6.1 \
@@ -340,6 +368,7 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		gpu-alloc-types-0.3.1 \
 		gpu-descriptor-0.3.2 \
 		gpu-descriptor-types-0.2.0 \
+		group-0.13.0 \
 		gstreamer-0.16.7 \
 		gstreamer-app-0.16.5 \
 		gstreamer-app-sys-0.9.1 \
@@ -364,6 +393,7 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		hermit-abi-0.5.0 \
 		hex-0.4.3 \
 		hexf-parse-0.2.1 \
+		hkdf-0.12.4 \
 		hmac-0.12.1 \
 		home-0.5.9 \
 		hound-3.5.1 \
@@ -373,10 +403,10 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		http-body-util-0.1.3 \
 		httparse-1.10.1 \
 		humantime-2.1.0 \
-		hyper-1.6.0 \
-		hyper-rustls-0.27.6 \
+		hyper-1.7.0 \
+		hyper-rustls-0.27.7 \
 		hyper-tls-0.6.0 \
-		hyper-util-0.1.12 \
+		hyper-util-0.1.17 \
 		iana-time-zone-0.1.60 \
 		iana-time-zone-haiku-0.1.2 \
 		idna-0.5.0 \
@@ -391,7 +421,8 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		instant-0.1.13 \
 		io-lifetimes-1.0.11 \
 		ioctl-rs-0.1.6 \
-		ipnet-2.9.0 \
+		ipnet-2.11.0 \
+		iri-string-0.7.8 \
 		is-terminal-0.4.16 \
 		is_debug-1.0.1 \
 		is_terminal_polyfill-1.70.0 \
@@ -414,7 +445,7 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		lebe-0.5.2 \
 		libappindicator-0.9.0 \
 		libappindicator-sys-0.9.0 \
-		libc-0.2.189 \
+		libc-0.2.171 \
 		libdbus-sys-0.2.5 \
 		libgit2-sys-0.14.2+1.5.1 \
 		libloading-0.7.4 \
@@ -428,13 +459,12 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		libsamplerate-sys-0.1.12 \
 		libsodium-sys-0.2.7 \
 		libxdo-0.6.0 \
-		libxdo-sys-0.11.0 \
 		libz-sys-1.1.18 \
 		line-wrap-0.2.0 \
 		linux-raw-sys-0.3.8 \
 		linux-raw-sys-0.4.14 \
 		linux-raw-sys-0.6.5 \
-		linux-raw-sys-0.12.1 \
+		linux-raw-sys-0.11.0 \
 		litrs-1.0.0 \
 		lock_api-0.4.12 \
 		log-0.4.22 \
@@ -443,6 +473,7 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		mach2-0.4.2 \
 		malloc_buf-0.0.6 \
 		matches-0.1.10 \
+		md-5-0.10.6 \
 		md5-0.7.0 \
 		memalloc-0.1.0 \
 		memchr-2.7.4 \
@@ -452,14 +483,14 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		memoffset-0.9.1 \
 		metal-0.18.0 \
 		metal-0.31.0 \
-		mime-0.3.17 \
 		minimal-lexical-0.2.1 \
 		miniz_oxide-0.7.4 \
+		miniz_oxide-0.8.9 \
 		mio-0.8.11 \
 		mio-1.0.3 \
 		mozjpeg-0.10.11 \
 		mozjpeg-sys-2.2.2 \
-		muda-0.13.5 \
+		muda-0.17.1 \
 		muldiv-0.2.1 \
 		naga-24.0.0 \
 		nanorand-0.7.0 \
@@ -485,7 +516,6 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		nohash-hasher-0.2.0 \
 		nom-7.1.3 \
 		ntapi-0.4.1 \
-		nu-ansi-term-0.46.0 \
 		nu-ansi-term-0.49.0 \
 		num-bigint-0.4.6 \
 		num-complex-0.4.6 \
@@ -508,15 +538,21 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		objc-sys-0.3.5 \
 		objc2-0.3.0-beta.2 \
 		objc2-0.5.2 \
+		objc2-0.6.4 \
 		objc2-app-kit-0.2.2 \
+		objc2-app-kit-0.3.2 \
 		objc2-cloud-kit-0.2.2 \
 		objc2-contacts-0.2.2 \
 		objc2-core-data-0.2.2 \
+		objc2-core-foundation-0.3.2 \
+		objc2-core-graphics-0.3.2 \
 		objc2-core-image-0.2.2 \
 		objc2-core-location-0.2.2 \
 		objc2-encode-2.0.0-pre.2 \
-		objc2-encode-4.0.3 \
+		objc2-encode-4.1.0 \
 		objc2-foundation-0.2.2 \
+		objc2-foundation-0.3.2 \
+		objc2-io-surface-0.3.2 \
 		objc2-link-presentation-0.2.2 \
 		objc2-metal-0.2.2 \
 		objc2-quartz-core-0.2.2 \
@@ -529,10 +565,13 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		object-0.36.1 \
 		oboe-0.6.1 \
 		oboe-sys-0.6.1 \
+		oid-registry-0.7.1 \
 		once_cell-1.21.4 \
+		opaque-debug-0.3.1 \
 		openssl-0.10.68 \
 		openssl-macros-0.1.1 \
 		openssl-probe-0.1.5 \
+		openssl-src-300.5.3+3.5.4 \
 		openssl-sys-0.9.104 \
 		option-ext-0.2.0 \
 		orbclient-0.3.48 \
@@ -543,19 +582,19 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		os_info-3.8.2 \
 		os_pipe-1.2.0 \
 		osascript-0.3.0 \
-		overload-0.1.1 \
 		owned_ttf_parser-0.25.1 \
+		p256-0.13.2 \
+		p384-0.13.1 \
 		page_size-0.6.0 \
-		pam-macros-0.0.3 \
 		pango-0.18.3 \
 		pango-sys-0.18.0 \
 		parking-2.2.0 \
 		parking_lot-0.12.3 \
 		parking_lot_core-0.9.10 \
-		password-hash-0.4.2 \
 		paste-1.0.15 \
-		pbkdf2-0.11.0 \
 		peeking_take_while-0.1.2 \
+		pem-3.0.6 \
+		pem-rfc7468-0.7.0 \
 		percent-encoding-2.3.1 \
 		petgraph-0.6.5 \
 		phf-0.7.24 \
@@ -573,16 +612,21 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		pin-project-lite-0.2.14 \
 		pin-utils-0.1.0 \
 		piper-0.2.3 \
+		pkcs8-0.10.2 \
 		pkg-config-0.3.30 \
 		plist-1.6.1 \
 		png-0.17.13 \
+		png-0.18.1 \
 		polling-2.8.0 \
 		polling-3.7.2 \
+		polyval-0.6.2 \
+		portable-atomic-1.11.1 \
 		powerfmt-0.2.0 \
 		ppv-lite86-0.2.17 \
 		pretty-hex-0.2.1 \
 		prettyplease-0.2.20 \
 		primal-check-0.3.4 \
+		primeorder-0.13.6 \
 		proc-macro-crate-0.1.5 \
 		proc-macro-crate-1.3.1 \
 		proc-macro-crate-2.0.2 \
@@ -601,17 +645,17 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		quest-0.3.0 \
 		quick-xml-0.30.0 \
 		quick-xml-0.31.0 \
-		quick-xml-0.41.0 \
-		quinn-0.11.8 \
-		quinn-proto-0.11.12 \
-		quinn-udp-0.5.12 \
+		quick-xml-0.37.5 \
+		quinn-0.11.9 \
+		quinn-proto-0.11.15 \
+		quinn-udp-0.5.14 \
 		quote-0.6.13 \
 		quote-1.0.36 \
 		r-efi-5.2.0 \
 		radium-0.7.0 \
 		rand-0.6.5 \
 		rand-0.8.5 \
-		rand-0.9.0 \
+		rand-0.9.2 \
 		rand_chacha-0.1.1 \
 		rand_chacha-0.3.1 \
 		rand_chacha-0.9.0 \
@@ -629,41 +673,42 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		raw-window-handle-0.6.2 \
 		rayon-1.10.0 \
 		rayon-core-1.12.1 \
+		rcgen-0.13.2 \
 		rdrand-0.4.0 \
 		realfft-3.3.0 \
 		redox_syscall-0.4.1 \
 		redox_syscall-0.5.2 \
 		redox_users-0.4.5 \
+		redox_users-0.5.2 \
 		regex-1.11.1 \
 		regex-automata-0.4.9 \
 		regex-syntax-0.8.5 \
 		renderdoc-sys-1.1.0 \
 		repng-0.2.2 \
+		reqwest-0.12.24 \
+		rfc6979-0.4.0 \
 		rgb-0.8.50 \
 		ring-0.17.14 \
 		ringbuf-0.3.3 \
 		roxmltree-0.20.0 \
 		rpassword-2.1.0 \
-		rpassword-7.3.1 \
-		rtoolbox-0.0.2 \
 		rubato-0.12.0 \
-		runas-1.2.0 \
 		rust-ini-0.18.0 \
 		rustc-demangle-0.1.24 \
 		rustc-hash-1.1.0 \
 		rustc-hash-2.1.1 \
 		rustc_version-0.4.0 \
 		rustfft-6.2.0 \
+		rusticata-macros-4.1.0 \
 		rustix-0.37.27 \
 		rustix-0.38.34 \
-		rustix-1.1.5 \
-		rustls-0.23.26 \
+		rustix-1.1.2 \
+		rustls-0.23.28 \
 		rustls-native-certs-0.8.1 \
-		rustls-pemfile-2.2.0 \
 		rustls-pki-types-1.11.0 \
-		rustls-platform-verifier-0.5.1 \
-		rustls-platform-verifier-android-0.1.0 \
-		rustls-webpki-0.103.1 \
+		rustls-platform-verifier-0.6.2 \
+		rustls-platform-verifier-android-0.1.1 \
+		rustls-webpki-0.103.3 \
 		rustversion-1.0.17 \
 		ryu-1.0.18 \
 		same-file-1.0.6 \
@@ -672,13 +717,15 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		scoped-tls-1.0.1 \
 		scopeguard-1.2.0 \
 		sctk-adwaita-0.10.1 \
+		sec1-0.7.3 \
 		security-framework-2.10.0 \
-		security-framework-3.2.0 \
-		security-framework-sys-2.14.0 \
+		security-framework-3.5.1 \
+		security-framework-sys-2.15.0 \
 		semver-1.0.23 \
 		serde-0.9.15 \
-		serde-1.0.203 \
-		serde_derive-1.0.203 \
+		serde-1.0.228 \
+		serde_core-1.0.228 \
+		serde_derive-1.0.228 \
 		serde_json-0.9.10 \
 		serde_json-1.0.118 \
 		serde_repr-0.1.19 \
@@ -691,7 +738,6 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		sha1-0.10.6 \
 		sha2-0.10.8 \
 		shadow-rs-0.21.0 \
-		sharded-slab-0.1.7 \
 		shared_library-0.1.9 \
 		shared_memory-0.12.4 \
 		shell-words-1.1.0 \
@@ -699,6 +745,7 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		shutdown_hooks-0.1.0 \
 		signal-hook-registry-1.4.2 \
 		signature-1.6.4 \
+		signature-2.2.0 \
 		simd-adler32-0.3.7 \
 		siphasher-0.2.3 \
 		siphasher-1.0.1 \
@@ -716,6 +763,7 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		softbuffer-0.4.5 \
 		spin-0.9.8 \
 		spirv-0.3.0+sdk-1.3.268.0 \
+		spki-0.7.3 \
 		static_assertions-1.1.0 \
 		strength_reduce-0.2.4 \
 		strict-num-0.1.1 \
@@ -730,12 +778,13 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		strum_macros-0.26.4 \
 		stun_codec-0.3.5 \
 		stunclient-0.4.1 \
+		substring-1.4.5 \
 		subtle-2.6.1 \
 		syn-0.15.44 \
 		syn-1.0.109 \
 		syn-2.0.98 \
-		syn-3.0.6 \
 		sync_wrapper-1.0.2 \
+		synstructure-0.13.2 \
 		sys-locale-0.3.1 \
 		system-configuration-0.5.1 \
 		system-configuration-sys-0.5.0 \
@@ -753,10 +802,9 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		termios-0.3.3 \
 		textwrap-0.11.0 \
 		thiserror-1.0.61 \
-		thiserror-2.0.21 \
+		thiserror-2.0.17 \
 		thiserror-impl-1.0.61 \
-		thiserror-impl-2.0.21 \
-		thread_local-1.1.8 \
+		thiserror-impl-2.0.17 \
 		threadpool-1.8.1 \
 		tiff-0.9.1 \
 		time-0.1.45 \
@@ -772,8 +820,6 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		tokio-macros-2.5.0 \
 		tokio-native-tls-0.3.1 \
 		tokio-rustls-0.26.0 \
-		tokio-socks-0.5.2 \
-		tokio-tungstenite-0.26.2 \
 		tokio-util-0.7.15 \
 		toml-0.5.11 \
 		toml-0.7.8 \
@@ -783,13 +829,12 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		toml_edit-0.20.2 \
 		totp-rs-5.5.1 \
 		tower-0.5.2 \
+		tower-http-0.6.6 \
 		tower-layer-0.3.3 \
 		tower-service-0.3.3 \
 		tracing-0.1.41 \
 		tracing-attributes-0.1.29 \
 		tracing-core-0.1.34 \
-		tracing-log-0.2.0 \
-		tracing-subscriber-0.3.19 \
 		trackable-0.2.24 \
 		trackable-1.3.0 \
 		trackable_derive-1.0.0 \
@@ -797,7 +842,6 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		tree_magic_mini-3.1.5 \
 		try-lock-0.2.5 \
 		ttf-parser-0.25.1 \
-		tungstenite-0.26.2 \
 		type-map-0.5.1 \
 		typenum-1.17.0 \
 		tz-rs-0.6.14 \
@@ -819,24 +863,23 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		unicode-width-0.1.13 \
 		unicode-xid-0.1.0 \
 		unicode-xid-0.2.6 \
+		universal-hash-0.5.1 \
 		untrusted-0.9.0 \
 		url-2.5.2 \
 		urlencoding-2.1.3 \
-		users-0.10.0 \
 		users-0.11.0 \
-		utf-8-0.7.6 \
 		utf16string-0.2.0 \
 		utf8-width-0.1.7 \
 		utf8parse-0.2.2 \
 		uuid-1.16.0 \
 		v4l-0.14.0 \
 		v4l2-sys-mit-0.3.0 \
-		valuable-0.1.1 \
 		vcpkg-0.2.15 \
 		vec_map-0.8.2 \
 		version-compare-0.0.10 \
 		version-compare-0.2.0 \
 		version_check-0.9.4 \
+		waitgroup-0.1.2 \
 		waker-fn-1.2.0 \
 		walkdir-2.5.0 \
 		want-0.3.1 \
@@ -850,23 +893,23 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		wasm-bindgen-macro-0.2.100 \
 		wasm-bindgen-macro-support-0.2.100 \
 		wasm-bindgen-shared-0.2.100 \
-		wayland-backend-0.3.17 \
-		wayland-client-0.31.15 \
+		wayland-backend-0.3.11 \
+		wayland-client-0.31.11 \
 		wayland-csd-frame-0.3.0 \
 		wayland-cursor-0.31.5 \
-		wayland-protocols-0.32.13 \
+		wayland-protocols-0.32.9 \
 		wayland-protocols-experimental-20250721.0.1 \
-		wayland-protocols-misc-0.3.12 \
+		wayland-protocols-misc-0.3.9 \
 		wayland-protocols-plasma-0.3.3 \
-		wayland-protocols-wlr-0.3.3 \
-		wayland-scanner-0.31.11 \
-		wayland-sys-0.31.11 \
+		wayland-protocols-wlr-0.3.9 \
+		wayland-scanner-0.31.7 \
+		wayland-sys-0.31.7 \
 		web-sys-0.3.77 \
 		web-time-1.1.0 \
-		webbrowser-1.0.3 \
-		webpki-root-certs-0.26.8 \
-		webpki-roots-0.26.9 \
-		webpki-roots-1.0.0 \
+		webbrowser-1.0.6 \
+		webpki-root-certs-1.0.3 \
+		webpki-roots-0.26.11 \
+		webpki-roots-1.0.9 \
 		weezl-0.1.8 \
 		wgpu-24.0.5 \
 		wgpu-core-24.0.5 \
@@ -907,8 +950,8 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		windows-interface-0.58.0 \
 		windows-interface-0.59.1 \
 		windows-link-0.1.1 \
+		windows-link-0.2.1 \
 		windows-numerics-0.2.0 \
-		windows-registry-0.4.0 \
 		windows-result-0.1.2 \
 		windows-result-0.2.0 \
 		windows-result-0.3.2 \
@@ -920,59 +963,61 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		windows-sys-0.48.0 \
 		windows-sys-0.52.0 \
 		windows-sys-0.59.0 \
+		windows-sys-0.60.2 \
+		windows-sys-0.61.2 \
 		windows-targets-0.42.2 \
 		windows-targets-0.48.5 \
 		windows-targets-0.52.6 \
-		windows-targets-0.53.0 \
+		windows-targets-0.53.5 \
 		windows-version-0.1.1 \
 		windows-win-3.0.0 \
 		windows_aarch64_gnullvm-0.42.2 \
 		windows_aarch64_gnullvm-0.48.5 \
 		windows_aarch64_gnullvm-0.52.6 \
-		windows_aarch64_gnullvm-0.53.0 \
+		windows_aarch64_gnullvm-0.53.1 \
 		windows_aarch64_msvc-0.32.0 \
 		windows_aarch64_msvc-0.34.0 \
 		windows_aarch64_msvc-0.42.2 \
 		windows_aarch64_msvc-0.48.5 \
 		windows_aarch64_msvc-0.52.6 \
-		windows_aarch64_msvc-0.53.0 \
+		windows_aarch64_msvc-0.53.1 \
 		windows_i686_gnu-0.32.0 \
 		windows_i686_gnu-0.34.0 \
 		windows_i686_gnu-0.42.2 \
 		windows_i686_gnu-0.48.5 \
 		windows_i686_gnu-0.52.6 \
-		windows_i686_gnu-0.53.0 \
+		windows_i686_gnu-0.53.1 \
 		windows_i686_gnullvm-0.52.6 \
-		windows_i686_gnullvm-0.53.0 \
+		windows_i686_gnullvm-0.53.1 \
 		windows_i686_msvc-0.32.0 \
 		windows_i686_msvc-0.34.0 \
 		windows_i686_msvc-0.42.2 \
 		windows_i686_msvc-0.48.5 \
 		windows_i686_msvc-0.52.6 \
-		windows_i686_msvc-0.53.0 \
+		windows_i686_msvc-0.53.1 \
 		windows_x86_64_gnu-0.32.0 \
 		windows_x86_64_gnu-0.34.0 \
 		windows_x86_64_gnu-0.42.2 \
 		windows_x86_64_gnu-0.48.5 \
 		windows_x86_64_gnu-0.52.6 \
-		windows_x86_64_gnu-0.53.0 \
+		windows_x86_64_gnu-0.53.1 \
 		windows_x86_64_gnullvm-0.42.2 \
 		windows_x86_64_gnullvm-0.48.5 \
 		windows_x86_64_gnullvm-0.52.6 \
-		windows_x86_64_gnullvm-0.53.0 \
+		windows_x86_64_gnullvm-0.53.1 \
 		windows_x86_64_msvc-0.32.0 \
 		windows_x86_64_msvc-0.34.0 \
 		windows_x86_64_msvc-0.42.2 \
 		windows_x86_64_msvc-0.48.5 \
 		windows_x86_64_msvc-0.52.6 \
-		windows_x86_64_msvc-0.53.0 \
+		windows_x86_64_msvc-0.53.1 \
 		winit-0.30.9 \
 		winnow-0.5.40 \
 		winreg-0.10.1 \
 		winreg-0.11.0 \
 		winres-0.1.12 \
 		wit-bindgen-rt-0.39.0 \
-		wl-clipboard-rs-0.9.0 \
+		wl-clipboard-rs-0.9.3 \
 		wol-rs-1.0.1 \
 		wyz-0.5.1 \
 		x11-2.21.0 \
@@ -982,12 +1027,16 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		x11rb-0.13.1 \
 		x11rb-protocol-0.12.0 \
 		x11rb-protocol-0.13.1 \
+		x25519-dalek-2.0.1 \
+		x509-parser-0.16.0 \
 		xattr-1.4.0 \
 		xcursor-0.3.10 \
 		xdg-home-1.2.0 \
 		xkbcommon-dl-0.4.2 \
 		xkeysym-0.2.1 \
 		xml-rs-0.8.29 \
+		xxhash-rust-0.8.18 \
+		yasna-0.5.2 \
 		zbus-3.15.2 \
 		zbus_macros-3.15.2 \
 		zbus_names-2.6.1 \
@@ -996,54 +1045,54 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 		zerocopy-derive-0.7.34 \
 		zerocopy-derive-0.8.26 \
 		zeroize-1.8.1 \
-		zip-0.6.6 \
-		zstd-0.11.2+zstd.1.5.2 \
+		zeroize_derive-1.4.2 \
 		zstd-0.13.1 \
-		zstd-safe-5.0.2+zstd.1.5.2 \
 		zstd-safe-7.1.0 \
 		zstd-sys-2.0.11+zstd.1.5.6 \
 		zune-inflate-0.2.54 \
 		zvariant-3.15.2 \
 		zvariant_derive-3.15.2 \
 		zvariant_utils-1.0.1 \
-		hwcodec@git+https://github.com/rustdesk-org/hwcodec\#17c1dbb38450fe4a64aeba78fb50bec32f364a16 \
 		machine-uid@git+https://github.com/rustdesk-org/machine-uid\#381ff579c1dc3a6c54db9dfec47c44bcb0246542 \
 		wallpaper@git+https://github.com/rustdesk-org/wallpaper.rs\#ce4a0cd3f58327c7cc44d15a63706fb0c022bacf \
-		tray-icon@git+https://github.com/tauri-apps/tray-icon\#d4078696edba67b0ab42cef67e6a421a0332c96f \
-		pam-sys@git+https://github.com/rustdesk-org/pam-sys?branch=fix/v1.0.0-alpha4_gnuc_va_list\#3337c9bb9a9c68d7497ec8c93cad2368c26091b7 \
+		tokio-tungstenite@git+https://github.com/rustdesk-org/tokio-tungstenite?rev=c241b11b03de4881faf1ecd2fe6e867c92f3013b\#c241b11b03de4881faf1ecd2fe6e867c92f3013b \
 		cidre,cidre-macros@git+https://github.com/yury/cidre.git?rev=f05c428\#f05c4288f9870c9fab53272ddafd6ec01c7b2dbf \
+		arboard@git+https://github.com/rustdesk-org/arboard\#c7d5781f563176df9efd8df6287e823fb1b9bed5 \
 		impersonate_system@git+https://github.com/rustdesk-org/impersonate-system\#2f429010a5a10b1fe5eceb553c6672fd53d20167 \
 		filedescriptor,portable-pty@git+https://github.com/rustdesk-org/wezterm?branch=rustdesk/pty_based_0.8.1\#80174f8009f41565f0fa8c66dab90d4f9211ae16 \
 		x11-clipboard@git+https://github.com/clslaid/x11-clipboard?branch=feat/store-batch\#5fc2e73bc01ada3681159b34cf3ea8f0d14cd904 \
 		sciter-rs@git+https://github.com/rustdesk-org/rust-sciter?branch=dyn\#5322f3a755a0e6bf999fbc60d1efc35246c0f821 \
-		rdev@git+https://github.com/rustdesk-org/rdev\#f9b60b1dd0f3300a1b797d7a74c116683cd232c8 \
 		x11@git+https://github.com/bjornsnoen/x11-rs\#c2e9bfaa7b196938f8700245564d8ac5d447786a \
+		rdev@git+https://github.com/rustdesk-org/rdev\#a361d86a8b0245f3618a9efb375c149530a6b599 \
 		nokhwa,nokhwa-bindings-linux,nokhwa-bindings-macos,nokhwa-bindings-windows,nokhwa-core@git+https://github.com/rustdesk-org/nokhwa.git?branch=fix_from_raw_parts\#c2f74662b6ce117f7f94301693fdfadc0b1ec91a \
-		cpal@git+https://github.com/rustdesk-org/cpal?branch=osx-screencapturekit\#6b374bcaed076750ca8fce6da518ab39b882e14a \
 		tfc@git+https://github.com/rustdesk-org/The-Fat-Controller?branch=history/rebase_upstream_20240722\#78bb80a8e596e4c14ae57c8448f5fca75f91f2b0 \
-		kcp-sys@git+https://github.com/rustdesk-org/kcp-sys\#32a6c09fc6223f54aea83981a6aa8995931d29be \
-		parity-tokio-ipc@git+https://github.com/rustdesk-org/parity-tokio-ipc\#c8c8bbcbabf9be1201c53afb0269b92b9b02d291 \
+		magnum-opus@git+https://github.com/rustdesk-org/magnum-opus\#588c6e1f9ed50c3a01fa64f3bd3e7cdb0378a114 \
 		tokio-socks@git+https://github.com/rustdesk-org/tokio-socks\#bdb9aa3de5bac41602d0742b8ef6bbc6bfebd127 \
-		reqwest@git+https://github.com/rustdesk-org/reqwest\#9e859438203a71eb86ddc294fbebfde14cba7f7c \
+		clipboard-master@git+https://github.com/rustdesk-org/clipboard-master\#522fafb65edfe7939cf63fa797f916569ecab595 \
 		core-foundation,core-foundation-sys,core-graphics,core-graphics-types@git+https://github.com/madsmtm/core-foundation-rs.git?rev=7d593d016175755e492a92ef89edca68ac3bd5cd\#7d593d016175755e492a92ef89edca68ac3bd5cd \
 		cacao@git+https://github.com/clslaid/cacao?branch=feat/set-file-urls\#05e1536b0b43aaae308ec72c0eed703e875b7b95 \
 		android-wakelock@git+https://github.com/rustdesk-org/android-wakelock\#d0292e5a367e627c4fa6f1ca6bdfad005dca7d90 \
 		tao,tao-macros@git+https://github.com/rustdesk-org/tao?branch=dev\#288c219cb0527e509590c2b2d8e7072aa9feb2d3 \
-		clipboard-master@git+https://github.com/rustdesk-org/clipboard-master\#ddc39f00a6211959489ae683aa6ae6eedf03a809 \
+		tungstenite@git+https://github.com/rustdesk-org/tungstenite-rs?rev=efce47e5364f00a63302cf07ab1fb13ded478914\#efce47e5364f00a63302cf07ab1fb13ded478914 \
 		rust-pulsectl@git+https://github.com/rustdesk-org/pulsectl\#aa34dde499aa912a3abc5289cc0b547bd07dd6e2 \
 		confy@git+https://github.com/rustdesk-org/confy\#83db9ec19a2f97e9718aef69e4fc5611bb382479 \
-		arboard@git+https://github.com/rustdesk-org/arboard\#4e16bad260ea05dd7dcdb68cc7549dad3920b940 \
+		hwcodec@git+https://github.com/rustdesk-org/hwcodec\#778df1f99597722473b29443bac22ae6c23946fe \
 		sysinfo@git+https://github.com/rustdesk-org/sysinfo?branch=rlim_max\#90b1705d909a4902dbbbdea37ee64db17841077d \
-		magnum-opus@git+https://github.com/rustdesk-org/magnum-opus\#5cd2bf989c148662fa3a2d9d539a71d71fd1d256 \
+		cpal@git+https://github.com/rustdesk-org/cpal?branch=osx-screencapturekit\#96d4da121b7d949677ac5b6887413a9185fd7f39 \
+		interceptor,rtcp,rtp,sdp,stun,turn,webrtc,webrtc-data,webrtc-dtls,webrtc-ice,webrtc-mdns,webrtc-media,webrtc-sctp,webrtc-srtp,webrtc-util@git+https://github.com/rustdesk-org/webrtc?rev=49c89bd8d30e6e62e4c1a96cee38fdc11f79ef63\#49c89bd8d30e6e62e4c1a96cee38fdc11f79ef63 \
+		fuser@git+https://github.com/rustdesk-org/fuser?branch=refact/tag-0.16.0-cargo-1.75.0\#a3c0babe4a533f8dbcff5bce59ae7f2424b8d877 \
 		default_net@git+https://github.com/rustdesk-org/default_net\#78f8f70cd85151a3a2c4a3230d80d5272703c02e \
+		parity-tokio-ipc@git+https://github.com/rustdesk-org/parity-tokio-ipc\#d0ae39bffe5d5a3e8d82a1b6bcb1ca5a9b2f1c01 \
+		kcp-sys@git+https://github.com/rustdesk-org/kcp-sys?branch=rustdesk-patches\#938eda3e5e9757a612385503af7a6cb1189b2cdd \
 		evdev@git+https://github.com/rustdesk-org/evdev\#cec616e37790293d2cd2aa54a96601ed6b1b35a9 \
-		pam@git+https://github.com/rustdesk-org/pam\#7bfd25510202cd269292cbdd7c71f3977a6fd762 \
+		tray-icon@git+https://github.com/tauri-apps/tray-icon\#0a5835b0e6828e37a1f781de9c2d671ae7a939e6 \
 		keepawake@git+https://github.com/rustdesk-org/keepawake-rs\#64d568586dd16551d02120e19668d2b0fec8e3c9 \
 		webm,webm-sys@git+https://github.com/rustdesk-org/rust-webm\#d2c4d3ac133c7b0e4c0f656da710b48391981e64
 
 # Native egui user interface, there is no Sciter or Flutter for FreeBSD.
 CARGO_FEATURES=	egui linux-pkg-config
 CARGO_ENV+=	LIBCLANG_PATH=${LLVM_PREFIX}/lib \
+		OPENSSL_NO_VENDOR=1 \
 		SODIUM_USE_PKG_CONFIG=1
 CARGO_INSTALL=	no
 # Cargo git sources are built as path dependencies, so their lints are
@@ -1057,29 +1106,29 @@ FILECOPY_VARS=		CARGO_FEATURES+=unix-file-copy-paste
 
 # Git submodules missing in the GitHub tarballs of the cargo git sources
 _WEBM_DIR=	${WRKDIR}/rust-webm-d2c4d3ac133c7b0e4c0f656da710b48391981e64
-_KCP_DIR=	${WRKDIR}/kcp-sys-32a6c09fc6223f54aea83981a6aa8995931d29be
+_KCP_DIR=	${WRKDIR}/kcp-sys-938eda3e5e9757a612385503af7a6cb1189b2cdd
 # Cargo git sources which only know about Linux
-_LINUX_GIT_DIRS=	arboard-4e16bad260ea05dd7dcdb68cc7549dad3920b940 \
+_LINUX_GIT_DIRS=	arboard-c7d5781f563176df9efd8df6287e823fb1b9bed5 \
 			default_net-78f8f70cd85151a3a2c4a3230d80d5272703c02e \
 			keepawake-rs-64d568586dd16551d02120e19668d2b0fec8e3c9 \
-			magnum-opus-5cd2bf989c148662fa3a2d9d539a71d71fd1d256 \
-			rdev-f9b60b1dd0f3300a1b797d7a74c116683cd232c8 \
+			magnum-opus-588c6e1f9ed50c3a01fa64f3bd3e7cdb0378a114 \
+			rdev-a361d86a8b0245f3618a9efb375c149530a6b599 \
 			rust-sciter-5322f3a755a0e6bf999fbc60d1efc35246c0f821 \
 			The-Fat-Controller-78bb80a8e596e4c14ae57c8448f5fca75f91f2b0 \
-			tray-icon-d4078696edba67b0ab42cef67e6a421a0332c96f
+			tray-icon-0a5835b0e6828e37a1f781de9c2d671ae7a939e6
 _ICON_SIZES=	32 64 128
 
 post-extract:
 	@${RM} -r ${_WEBM_DIR}/src/sys/libwebm ${_KCP_DIR}/kcp
 	@${MV} ${WRKDIR}/libwebm-d411c8668dc226d9a3c7433c560dedfcc46fc69c \
 		${_WEBM_DIR}/src/sys/libwebm
-	@${MV} ${WRKDIR}/kcp-7f9805887b0909c52c825925f123e7a84da37167 \
+	@${MV} ${WRKDIR}/kcp-32da082e529a26730aea3eb19922f80634ee6dea \
 		${_KCP_DIR}/kcp
 
 # Treat FreeBSD like Linux (X11, PulseAudio, GTK) everywhere in the code.
 pre-patch:
 	@${FIND} ${WRKSRC}/Cargo.toml ${WRKSRC}/src ${WRKSRC}/libs \
-		${CARGO_VENDOR_DIR}/muda-0.13.5 ${_LINUX_GIT_DIRS:S|^|${WRKDIR}/|} \
+		${CARGO_VENDOR_DIR}/muda-0.17.1 ${_LINUX_GIT_DIRS:S|^|${WRKDIR}/|} \
 		\( -name '*.rs' -o -name Cargo.toml \) -print0 | \
 		${XARGS} -0 ${GREP} -lE 'target_os *= *\\?"linux' | \
 		${XARGS} ${REINPLACE_CMD} -E \
@@ -1087,7 +1136,7 @@ pre-patch:
 		-e 's/target_os *= *\\"linux\\"/any(target_os = \\"linux\\", target_os = \\"freebsd\\")/g'
 # epoll and inotify are unused by rdev
 	@${REINPLACE_CMD} -e '/^epoll = /d' -e '/^inotify = /d' \
-		${WRKDIR}/rdev-f9b60b1dd0f3300a1b797d7a74c116683cd232c8/Cargo.toml
+		${WRKDIR}/rdev-a361d86a8b0245f3618a9efb375c149530a6b599/Cargo.toml
 
 post-patch:
 	@${CP} -R ${FILESDIR}/ui_egui ${WRKSRC}/src/

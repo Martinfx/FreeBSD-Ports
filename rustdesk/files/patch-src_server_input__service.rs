@@ -6,7 +6,19 @@
  use super::rdp_input::client::{RdpInputKeyboard, RdpInputMouse};
  use super::*;
  use crate::input::*;
-@@ -567,7 +567,7 @@
+@@ -112,8 +112,10 @@
+ const KEY_CHAR_START: u64 = 9999;
+ 
+ // XKB keycode for Insert key (evdev KEY_INSERT code 110 + 8 for XKB offset)
+-#[cfg(any(target_os = "linux", target_os = "freebsd"))]
++#[cfg(target_os = "linux")]
+ const XKB_KEY_INSERT: u16 = evdev::Key::KEY_INSERT.code() + 8;
++#[cfg(target_os = "freebsd")]
++const XKB_KEY_INSERT: u16 = 110 + 8;
+ 
+ #[derive(Clone, Default)]
+ pub struct MouseCursorSub {
+@@ -749,7 +751,7 @@
  // First call set_uinput() will create keyboard and mouse clients.
  // The clients are ipc connections that must live shorter than tokio runtime.
  // Thus this function must not be called in a temporary runtime.
@@ -15,7 +27,7 @@
  pub async fn setup_uinput(minx: i32, maxx: i32, miny: i32, maxy: i32) -> ResultType<()> {
      // Keyboard and mouse both open /dev/uinput
      // TODO: Make sure there's no race
-@@ -586,7 +586,7 @@
+@@ -771,7 +773,7 @@
      Ok(())
  }
  
@@ -23,8 +35,8 @@
 +#[cfg(target_os = "linux")]
  pub async fn setup_rdp_input() -> ResultType<(), Box<dyn std::error::Error>> {
      let mut en = ENIGO.lock()?;
-     let rdp_info_lock = RDP_SESSION_INFO.lock()?;
-@@ -615,7 +615,7 @@
+     // Same as `setup_uinput`: the caller is gated on `wayland_use_rdp_input()`.
+@@ -802,7 +804,7 @@
      Ok(())
  }
  
@@ -33,8 +45,8 @@
  pub async fn update_mouse_resolution(minx: i32, maxx: i32, miny: i32, maxy: i32) -> ResultType<()> {
      set_uinput_resolution(minx, maxx, miny, maxy).await?;
  
-@@ -635,7 +635,7 @@
-     Ok(())
+@@ -824,7 +826,7 @@
+     .await?
  }
  
 -#[cfg(any(target_os = "linux", target_os = "freebsd"))]
@@ -42,9 +54,9 @@
  async fn set_uinput_resolution(minx: i32, maxx: i32, miny: i32, maxy: i32) -> ResultType<()> {
      super::uinput::client::set_resolution(minx, maxx, miny, maxy).await
  }
-@@ -1937,3 +1937,19 @@
-         (ControlKey::Delete, true),
-     ].iter().map(|(a, b)| (a.value(), b.clone())).collect();
+@@ -2864,3 +2866,19 @@
+         assert_eq!(last_peer_abs_sample(), None, "the move of this process came last");
+     }
  }
 +
 +// FreeBSD: no uinput (evdev crate) support yet.

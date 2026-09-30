@@ -1,6 +1,6 @@
 --- Cargo.toml.orig
 +++ Cargo.toml
-@@ -27,6 +27,7 @@
+@@ -26,6 +26,7 @@
  use_rubato = ["rubato"]
  use_dasp = ["dasp"]
  flutter = ["flutter_rust_bridge"]
@@ -8,10 +8,10 @@
  default = ["use_dasp"]
  hwcodec = ["scrap/hwcodec"]
  vram = ["scrap/vram"]
-@@ -173,14 +174,13 @@
- reqwest = { git = "https://github.com/rustdesk-org/reqwest", features = ["blocking", "socks", "json", "rustls-tls", "rustls-tls-native-roots", "gzip"], default-features=false }
+@@ -186,11 +187,11 @@
  
  [target.'cfg(any(target_os = "linux", target_os = "freebsd"))'.dependencies]
+ libxdo-sys = "0.11"
 +eframe = { version = "0.31", default-features = false, features = ["glow", "x11", "wayland", "default_fonts"], optional = true }
  psimple = { package = "libpulse-simple-binding", version = "2.27" }
  pulse = { package = "libpulse-binding", version = "2.27" }
@@ -20,17 +20,13 @@
 -evdev = { git="https://github.com/rustdesk-org/evdev" }
  dbus = "0.9"
  dbus-crossroads = "0.5"
--pam = { git="https://github.com/rustdesk-org/pam" }
- users = { version = "0.11" }
  x11-clipboard = {git="https://github.com/clslaid/x11-clipboard", branch = "feat/store-batch", optional = true}
- x11rb =  {version = "0.12", features = ["all-extensions"], optional = true}
-@@ -192,6 +192,10 @@
- terminfo = "0.8"
- winit = "0.30"
+@@ -206,6 +207,9 @@
+ [target.'cfg(any(any(target_os = "linux", target_os = "freebsd"), target_os = "android"))'.dependencies]
+ openssl = { version = "0.10", features = ["vendored"] }
  
 +[target.'cfg(target_os = "linux")'.dependencies]
 +evdev = { git="https://github.com/rustdesk-org/evdev" }
-+pam = { git="https://github.com/rustdesk-org/pam" }
 +
  [target.'cfg(target_os = "android")'.dependencies]
  android_logger = "0.13"

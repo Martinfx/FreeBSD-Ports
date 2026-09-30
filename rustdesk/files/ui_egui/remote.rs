@@ -5,7 +5,8 @@ use crate::{
     ui_session_interface::{InvokeUiSession, Session},
 };
 use eframe::egui;
-use hbb_common::{message_proto::*, rendezvous_proto::ConnType};
+use base::message_proto::*;
+use hbb_common::rendezvous_proto::ConnType;
 use std::sync::{Arc, Mutex, RwLock};
 
 #[derive(Default)]
@@ -63,7 +64,7 @@ impl InvokeUiSession for EguiHandler {
 
     fn set_cursor_position(&self, _cp: CursorPosition) {}
 
-    fn set_display(&self, x: i32, y: i32, w: i32, h: i32, _cursor_embedded: bool) {
+    fn set_display(&self, x: i32, y: i32, w: i32, h: i32, _cursor_embedded: bool, _scale: f64) {
         self.update(|s| s.display = (x, y, w, h));
     }
 
@@ -132,7 +133,7 @@ impl InvokeUiSession for EguiHandler {
 
     fn update_transfer_list(&self) {}
 
-    fn load_last_job(&self, _cnt: i32, _job_json: &str) {}
+    fn load_last_job(&self, _cnt: i32, _job_json: &str, _auto_start: bool) {}
 
     fn update_folder_files(
         &self,

@@ -1,6 +1,6 @@
 use super::{run_window, t};
 use crate::ui_interface::{
-    get_connect_status, get_option, new_remote, set_option, set_permanent_password,
+    get_connect_status, get_option, new_remote, set_option, set_permanent_password_with_result,
     temporary_password, update_temporary_password,
 };
 use eframe::egui;
@@ -224,8 +224,10 @@ impl MainWindow {
                 ui.horizontal(|ui| {
                     ui.add(egui::TextEdit::singleline(&mut self.permanent_password).password(true));
                     if ui.button(t("OK")).clicked() {
-                        set_permanent_password(std::mem::take(&mut self.permanent_password));
-                        self.settings_msg = t("Successful");
+                        let ok = set_permanent_password_with_result(std::mem::take(
+                            &mut self.permanent_password,
+                        ));
+                        self.settings_msg = t(if ok { "Successful" } else { "Failed" });
                     }
                 });
                 if !self.settings_msg.is_empty() {

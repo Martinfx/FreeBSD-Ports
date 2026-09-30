@@ -1,6 +1,6 @@
 --- src/platform/linux.rs.orig
 +++ src/platform/linux.rs
-@@ -255,6 +255,11 @@
+@@ -680,6 +680,11 @@
      }
  }
  
@@ -12,7 +12,7 @@
  fn start_uinput_service() {
      use crate::server::uinput::service;
      std::thread::spawn(|| {
-@@ -708,6 +713,9 @@
+@@ -1357,6 +1362,9 @@
          return false;
      }
      let name = get_active_username();

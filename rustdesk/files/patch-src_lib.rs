@@ -1,6 +1,6 @@
 --- src/lib.rs.orig
 +++ src/lib.rs
-@@ -27,6 +27,8 @@
+@@ -29,6 +29,8 @@
      feature = "flutter"
  )))]
  pub mod ui;
