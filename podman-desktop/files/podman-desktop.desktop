@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Podman Desktop
+GenericName=Container management
+Comment=Manage containers, images and pods with Podman
+Exec=podman-desktop %U
+Icon=podman-desktop
+Terminal=false
+Type=Application
+Categories=Development;System;
+MimeType=x-scheme-handler/podman-desktop;
+StartupWMClass=Podman Desktop

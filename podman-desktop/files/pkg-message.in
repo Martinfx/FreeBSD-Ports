@@ -1,0 +1,24 @@
+[
+{ type: install
+  message: <<EOM
+Podman Desktop talks to the rootful podman API socket
+/var/run/podman/podman.sock. Enable and start the podman service:
+
+  # sysrc podman_service_enable=YES
+  # service podman_service start
+
+The socket is only accessible to root by default. To use Podman Desktop as a
+regular user, give your user access to /var/run/podman/podman.sock, for
+example with a dedicated group, after the service has started:
+
+  # pw groupadd podman
+  # pw groupmod podman -m <user>
+  # chgrp podman /var/run/podman/podman.sock
+  # chmod 660 /var/run/podman/podman.sock
+
+Containers on FreeBSD are jails managed by sysutils/ocijail, see
+https://podman.io/docs/installation#installing-on-freebsd-140 for the
+required pf(4)/ZFS setup. Podman machine (VM) features are not available.
+EOM
+}
+]
