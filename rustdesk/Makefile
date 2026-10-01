@@ -1091,7 +1091,10 @@ CARGO_CRATES=	ab_glyph-0.2.31 \
 
 # Native egui user interface, there is no Sciter or Flutter for FreeBSD.
 CARGO_FEATURES=	egui linux-pkg-config
-CARGO_ENV+=	LIBCLANG_PATH=${LLVM_PREFIX}/lib \
+# libclang does not search ${LOCALBASE}/include, needed by bindgen for
+# headers like <opus/opus_multistream.h>.
+CARGO_ENV+=	BINDGEN_EXTRA_CLANG_ARGS="-I${LOCALBASE}/include" \
+		LIBCLANG_PATH=${LLVM_PREFIX}/lib \
 		OPENSSL_NO_VENDOR=1 \
 		SODIUM_USE_PKG_CONFIG=1
 CARGO_INSTALL=	no
