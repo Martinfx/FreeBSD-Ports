@@ -13,16 +13,17 @@ ONLY_FOR_ARCHS=	aarch64 amd64
 ONLY_FOR_ARCHS_REASON=	not tested on other architectures
 
 LIB_DEPENDS=	libaom.so:multimedia/aom \
-		libayatana-appindicator3.so:devel/libayatana-appindicator \
 		libdbus-1.so:devel/dbus \
 		libopus.so:audio/opus \
 		libpulse.so:audio/pulseaudio \
 		libsodium.so:security/libsodium \
 		libvpx.so:multimedia/libvpx \
 		libxkbcommon.so:x11/libxkbcommon \
-		libyuv.so:graphics/libyuv
-# libxdo is loaded at runtime
-RUN_DEPENDS=	xdotool:x11/xdotool
+		libyuv.so:graphics/libyuv \
+		libzstd.so:archivers/zstd
+# libayatana-appindicator3 (tray icon) and libxdo are loaded at runtime
+RUN_DEPENDS=	${LOCALBASE}/lib/libayatana-appindicator3.so.1:devel/libayatana-appindicator \
+		xdotool:x11/xdotool
 
 USES=		cargo gl gnome gstreamer llvm:build pkgconfig ssl xorg
 USE_GITHUB=	yes
