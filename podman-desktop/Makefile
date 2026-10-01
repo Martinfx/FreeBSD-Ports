@@ -3,9 +3,10 @@ PORTNAME=	podman-desktop
 PORTVERSION=	1.30.99.20261001
 CATEGORIES=	sysutils
 MASTER_SITES=	https://github.com/Martinfx/podman-desktop/archive/:source \
-		https://github.com/Martinfx/podman-desktop/releases/download/freebsd-${PORTVERSION}/:nodemodules
+		https://raw.githubusercontent.com/Martinfx/FreeBSD-Ports/podman-desktop-distfiles/podman-desktop/:nodemodules
 DISTFILES=	${PD_COMMIT}.tar.gz:source \
-		${PORTNAME}-${PORTVERSION}-node-modules.tar.xz:nodemodules
+		${_PD_NODE_MODULES}.00:nodemodules \
+		${_PD_NODE_MODULES}.01:nodemodules
 DIST_SUBDIR=	${PORTNAME}
 EXTRACT_ONLY=	${PD_COMMIT}.tar.gz
 
@@ -34,6 +35,8 @@ USES=		desktop-file-utils nodejs:24,build
 PD_COMMIT=	5686e83151678419b6cba9ec4a8b65965d4f0cb5
 ELECTRON_VER=	42
 ELECTRON_DIR=	${LOCALBASE}/share/electron${ELECTRON_VER}
+# split in parts below the GitHub file size limit
+_PD_NODE_MODULES=	${PORTNAME}-${PORTVERSION}-node-modules.tar.xz
 
 WRKSRC=		${WRKDIR}/${PORTNAME}-${PD_COMMIT}
 
@@ -46,16 +49,47 @@ SUB_LIST=	DATADIR=${DATADIR}
 
 APP_DIR=	${DATADIR}/resources/app
 
+# pnpm >= 11 is distributed as a native binary that does not exist for
+# FreeBSD, so the steps of the "build" script of package.json are run
+# directly with the tools of the prefetched node_modules
+_PD_ENV=	${MAKE_ENV} PATH=${WRKSRC}/node_modules/.bin:${PATH}
+_PD_PACKAGES=	api main preload preload-docker-extension preload-webview
+_PD_PRELOAD_TYPES=	preload:exposedInMainWorld \
+			preload-docker-extension:exposedInDockerExtension \
+			preload-webview:exposedInWebview
+# scripts/download.ts of the extensions is not run on purpose: it fetches
+# Linux, macOS and Windows binaries (podman installers, kind) from GitHub
+_PD_EXTENSIONS=	compose docker/packages/extension podman-docker-context lima \
+		podman/packages/extension kube-context kind registries kubectl-cli
+
 PLIST_FILES=	bin/podman-desktop \
 		share/applications/podman-desktop.desktop \
 		share/pixmaps/podman-desktop.png
 
 post-extract:
-	@${TAR} -xf ${DISTDIR}/${DIST_SUBDIR}/${PORTNAME}-${PORTVERSION}-node-modules.tar.xz \
-		-C ${WRKSRC}
+	@${CAT} ${DISTDIR}/${DIST_SUBDIR}/${_PD_NODE_MODULES}.0[0-9] | \
+		${TAR} -xf - -C ${WRKSRC}
 
 do-build:
-	@cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} ${SH} ${FILESDIR}/build.sh
+.for p in ${_PD_PACKAGES}
+	@cd ${WRKSRC}/packages/${p} && ${SETENV} ${_PD_ENV} vite build
+.endfor
+.for t in ${_PD_PRELOAD_TYPES}
+	@cd ${WRKSRC} && ${SETENV} ${_PD_ENV} dts-cb \
+		-i packages/${t:C/:.*//}/tsconfig.json \
+		-o packages/${t:C/:.*//}/${t:C/.*://}.d.ts
+.endfor
+	@cd ${WRKSRC}/packages/ui && ${SETENV} ${_PD_ENV} svelte-package
+	@cd ${WRKSRC} && ${SETENV} ${_PD_ENV} NODE_OPTIONS=--max-old-space-size=4096 \
+		vite -c packages/renderer/vite.config.ts build
+.for e in ${_PD_EXTENSIONS}
+	@cd ${WRKSRC}/extensions/${e} && ${SETENV} ${_PD_ENV} vite build && \
+		if [ -f scripts/build.cjs ]; then \
+			${SETENV} ${_PD_ENV} node ./scripts/build.cjs; \
+		else \
+			${SETENV} ${_PD_ENV} node ./scripts/build.js; \
+		fi
+.endfor
 
 do-install:
 	# private copy of electron, so process.resourcesPath points to our resources

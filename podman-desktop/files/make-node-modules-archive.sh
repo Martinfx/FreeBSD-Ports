@@ -10,8 +10,10 @@
 #
 # usage: make-node-modules-archive.sh <podman-desktop source dir> <output .tar.xz>
 #
-# Upload the result as a release asset of the podman-desktop fork, see
-# MASTER_SITES in the port Makefile, then run "make makesum".
+# The archive is split in parts below the GitHub file size limit (<output>.00,
+# <output>.01, ...).  Commit the parts to the podman-desktop-distfiles branch
+# of the FreeBSD-Ports repository, see MASTER_SITES in the port Makefile, and
+# run "make makesum".
 
 set -eu
 
@@ -47,4 +49,6 @@ find . -name .pnpm-store -prune -o -name node_modules -prune -type d -print | so
 # reproducible archive (GNU tar)
 tar --sort=name --mtime=@0 --owner=0 --group=0 --numeric-owner \
 	-cJf "${OUT}" -T "${WORK}/.list"
-echo "created ${OUT}"
+split -b 90m -d -a 2 "${OUT}" "${OUT}."
+echo "created ${OUT} and its parts:"
+ls "${OUT}".*
