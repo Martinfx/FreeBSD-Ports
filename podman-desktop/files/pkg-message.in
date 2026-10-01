@@ -18,7 +18,8 @@ regular user, give a dedicated group access to the socket:
 
   # pw groupadd podman
   # pw groupmod podman -m <user>
-  # chgrp podman /var/run/podman/podman.sock
+  # chgrp podman /var/run/podman /var/run/podman/podman.sock
+  # chmod 750 /var/run/podman
   # chmod 660 /var/run/podman/podman.sock
 
 Log out and back in for the group membership to take effect. The socket is
