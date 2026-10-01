@@ -66,7 +66,9 @@ PLIST_FILES=	bin/podman-desktop \
 		share/applications/podman-desktop.desktop \
 		share/pixmaps/podman-desktop.png
 
-post-extract:
+# extracted after the extract phase on purpose: extract-fixup-modes runs a
+# recursive chmod(1) over WRKDIR which fails on the ~110k node_modules entries
+post-patch:
 	@${CAT} ${DISTDIR}/${DIST_SUBDIR}/${_PD_NODE_MODULES}.0[0-9] | \
 		${TAR} -xf - -C ${WRKSRC}
 
