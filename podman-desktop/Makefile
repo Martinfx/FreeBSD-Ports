@@ -20,14 +20,40 @@ LICENSE_FILE=	${WRKSRC}/LICENSE
 ONLY_FOR_ARCHS=	amd64
 ONLY_FOR_ARCHS_REASON=	prefetched native node modules (esbuild, rolldown, lightningcss, tailwindcss) are only built for freebsd-x64
 
-# electron is copied into DATADIR at install time and its shared library
-# dependencies are needed at run time
+# electron is copied into DATADIR at install time, the shared libraries it
+# links to are declared below
 BUILD_DEPENDS=	${ELECTRON_DIR}/electron:devel/electron${ELECTRON_VER}
-RUN_DEPENDS=	${ELECTRON_DIR}/electron:devel/electron${ELECTRON_VER} \
-		podman:sysutils/podman \
+LIB_DEPENDS=	libasound.so:audio/alsa-lib \
+		libatk-bridge-2.0.so:accessibility/at-spi2-core \
+		libatspi.so:accessibility/at-spi2-core \
+		libcups.so:print/cups \
+		libdav1d.so:multimedia/dav1d \
+		libdbus-1.so:devel/dbus \
+		libdrm.so:graphics/libdrm \
+		libepoll-shim.so:devel/libepoll-shim \
+		libexpat.so:textproc/expat2 \
+		libffi.so:devel/libffi \
+		libFLAC.so:audio/flac \
+		libfontconfig.so:x11-fonts/fontconfig \
+		libharfbuzz.so:print/harfbuzz \
+		libnspr4.so:devel/nspr \
+		libnss3.so:security/nss \
+		libopenh264.so:multimedia/openh264 \
+		libopus.so:audio/opus \
+		libpci.so:devel/libpci \
+		libpipewire-0.3.so:multimedia/pipewire \
+		libsndio.so:audio/sndio \
+		libwebp.so:graphics/webp \
+		libxkbcommon.so:x11/libxkbcommon \
+		libxshmfence.so:x11/libxshmfence
+RUN_DEPENDS=	podman:sysutils/podman \
 		xdg-open:devel/xdg-utils
 
-USES=		desktop-file-utils nodejs:24,build
+USES=		desktop-file-utils gettext-runtime gl gnome jpeg nodejs:24,build \
+		xorg
+USE_GL=		gbm gl
+USE_GNOME=	cairo gdkpixbuf glib20 gtk30 libxml2 libxslt pango
+USE_XORG=	x11 xcb xcomposite xdamage xext xfixes xi xrandr xrender xtst
 
 # commit of https://github.com/Martinfx/podman-desktop carrying the FreeBSD
 # support, regenerate the node_modules distfile when it changes, see
