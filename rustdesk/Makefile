@@ -1110,6 +1110,7 @@ FILECOPY_VARS=		CARGO_FEATURES+=unix-file-copy-paste
 # Git submodules missing in the GitHub tarballs of the cargo git sources
 _WEBM_DIR=	${WRKDIR}/rust-webm-d2c4d3ac133c7b0e4c0f656da710b48391981e64
 _KCP_DIR=	${WRKDIR}/kcp-sys-938eda3e5e9757a612385503af7a6cb1189b2cdd
+_SYSINFO_DIR=	${WRKDIR}/sysinfo-90b1705d909a4902dbbbdea37ee64db17841077d
 # Cargo git sources which only know about Linux
 _LINUX_GIT_DIRS=	arboard-c7d5781f563176df9efd8df6287e823fb1b9bed5 \
 			default_net-78f8f70cd85151a3a2c4a3230d80d5272703c02e \
@@ -1137,6 +1138,13 @@ pre-patch:
 		${XARGS} ${REINPLACE_CMD} -E \
 		-e 's/target_os *= *"linux"/any(target_os = "linux", target_os = "freebsd")/g' \
 		-e 's/target_os *= *\\"linux\\"/any(target_os = \\"linux\\", target_os = \\"freebsd\\")/g'
+# RustDesk never reads the cwd, root or environment of other processes,
+# but sysinfo fetches them with procstat_getfiles() and kvm_getenvv()
+# for every process on each scan. This makes the startup slow and prints
+# "kinfo_getfile(): No such process" for processes that exit meanwhile.
+	@${REINPLACE_CMD} -e '/self\.system_info\.get_proc_missing_info(kproc, proc_inner);/d' \
+		-e '/proc_inner\.environ = from_cstr_array(libc::kvm_getenvv/d' \
+		${_SYSINFO_DIR}/src/unix/freebsd/system.rs
 # epoll and inotify are unused by rdev
 	@${REINPLACE_CMD} -e '/^epoll = /d' -e '/^inotify = /d' \
 		${WRKDIR}/rdev-a361d86a8b0245f3618a9efb375c149530a6b599/Cargo.toml
