@@ -1,0 +1,8 @@
+Podman Desktop is a graphical application for working with containers and
+Kubernetes. It lets you manage containers, images, pods and volumes, inspect
+logs and open a terminal into running containers, build images, and work with
+Kubernetes contexts and YAML, using the native FreeBSD podman (jails through
+ocijail) as the container engine.
+
+This port is based on a snapshot of the Podman Desktop sources with FreeBSD
+support and runs on the Electron framework provided by the ports collection.

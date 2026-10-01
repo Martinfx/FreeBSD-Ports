@@ -1,0 +1,46 @@
+[
+{ type: install
+  message: <<EOM
+Podman Desktop uses the rootful podman API socket
+/var/run/podman/podman.sock, so the podman service has to be running.
+Enable and start it:
+
+  # sysrc podman_service_enable=YES
+  # service podman_service start
+
+Podman Desktop checks the socket every 5 seconds, the engine switches to
+"running" once the service is up, a restart of the application is not needed.
+
+Access as a regular user
+------------------------
+The socket is only accessible to root by default. To use Podman Desktop as a
+regular user, give a dedicated group access to the socket:
+
+  # pw groupadd podman
+  # pw groupmod podman -m <user>
+  # chgrp podman /var/run/podman /var/run/podman/podman.sock
+  # chmod 750 /var/run/podman
+  # chmod 660 /var/run/podman/podman.sock
+
+Log out and back in for the group membership to take effect. The socket is
+recreated with the default permissions whenever the podman service restarts,
+so repeat chgrp/chmod after each restart (or after a reboot).
+
+Containers on FreeBSD
+---------------------
+Containers on FreeBSD are jails managed by sysutils/ocijail. See the podman
+pkg-message and https://podman.io/docs/installation#installing-on-freebsd-140
+for the required pf(4) and ZFS setup.
+
+Limitations
+-----------
+- Podman machines (VMs) and Lima are not available, Podman Desktop only
+  manages the native podman engine.
+- The "Install" buttons of the Compose, Kind and kubectl extensions download
+  Linux binaries that do not run on FreeBSD. Install these tools from
+  packages instead, they are detected from PATH (see pkg search
+  podman-compose, docker-compose, kubectl or kind).
+- Automatic updates are disabled, Podman Desktop is updated with pkg(8).
+EOM
+}
+]
