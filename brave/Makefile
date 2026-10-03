@@ -3,10 +3,10 @@ DISTVERSIONPREFIX=	v
 DISTVERSION=	1.96.61
 TSV=		7.0.2
 CATEGORIES=	www
-MASTER_SITES=	https://commondatastorage.googleapis.com/chromium-browser-official/:chromium \
+MASTER_SITES=	https://github.com/chromium-linux-tarballs/chromium-tarballs/releases/download/${CHROME_VERSION}/:chromium \
 		https://nerd.hu/distfiles/:external \
 		${NODE_MODULES_SITE}:nodemods
-DISTFILES=	chromium-${CHROME_VERSION}-lite.tar.xz:chromium \
+DISTFILES=	chromium-${CHROME_VERSION}-linux.tar.xz:chromium \
 		TypeScript-${TSV}-vendor.tar.gz:external
 
 NODE_MODULES_DIST=	brave-node-modules-${DISTVERSION}.tar.xz
@@ -24,9 +24,15 @@ ONLY_FOR_ARCHS_REASON=	the Chromium build is only supported on amd64 and aarch64
 
 # Chromium release the pinned brave-core revision is built against, see
 # "config.projects.chrome.tag" in src/brave/package.json.  Brave 1.96.61 is
-# the current release; www/chromium is on the same branch (154.0.8037.57 there,
-# .98 here), so that port's FreeBSD patches apply to this tree as well.
-CHROME_VERSION=	154.0.8037.98
+# the current release; www/chromium is on the same branch (154.0.8037.57 there),
+# so that port's FreeBSD patches apply to this tree as well.
+#
+# Brave 1.96.61 pins 154.0.8037.98, but Google has published no tarball for it
+# (nor for .97), so this takes .97, the closest one there is, from the same
+# chromium-linux-tarballs project www/chromium 154 fetches from.  Every
+# brave-core 1.96.61 patch and every patch in files/ applies to it without
+# fuzz.  Move to .98 once its tarball appears.
+CHROME_VERSION=	154.0.8037.97
 
 # The FreeBSD patches for the Chromium tree in files/ are the ones from
 # www/chromium 154.0.8037.57, rewritten for the src/ prefix this port unpacks
@@ -288,7 +294,10 @@ GN_REDIRECT_CC_ARGS=	import("//brave/tools/redirect_cc/args.gni") \
 
 OPTIONS_DEFINE=		CODECS CUPS DEBUG KERBEROS LTO NODEMODS PIPEWIRE QT6 \
 			WIDEVINE
-OPTIONS_DEFAULT=	ALSA CODECS CUPS KERBEROS NODEMODS PIPEWIRE PULSEAUDIO \
+# NODEMODS is off by default until brave-node-modules-${DISTVERSION}.tar.xz
+# is uploaded to NODE_MODULES_SITE: pre-configure runs pnpm then, which needs
+# the network.
+OPTIONS_DEFAULT=	ALSA CODECS CUPS KERBEROS PIPEWIRE PULSEAUDIO \
 			QT6 SNDIO WIDEVINE
 OPTIONS_EXCLUDE_aarch64=	LTO
 OPTIONS_GROUP=		AUDIO
