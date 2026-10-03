@@ -40,8 +40,8 @@ CHROME_VERSION=	154.0.8037.97
 # redirect_cc build below needs, are regenerated against the patched tree.
 #
 # This port builds natively: depot_tools, gclient, cipd, siso and reclient are
-# not used at all.  Everything is taken from the official Chromium release
-# tarball (which, unlike a git checkout, already contains all DEPS-managed
+# not used at all.  Everything is taken from a Chromium release tarball
+# (which, unlike a git checkout, already contains all DEPS-managed
 # third-party code), from brave-core and from the ports tree.  The parts that
 # gclient would normally fetch for brave-core are listed in GH_TUPLE below and
 # match the "deps" section of src/brave/DEPS.
@@ -480,6 +480,19 @@ post-extract:
 # the work directory like every other one.  They belong to brave-core.
 	@if [ -d ${WRKDIR}/node_modules ]; then \
 		${MV} ${WRKDIR}/node_modules ${WRKSRC}/src/brave/node_modules; \
+	fi
+# The Go modules tsgo is built with.  www/chromium relies on the vendor
+# tarball unpacking straight into the TypeScript checkout; this port moves that
+# checkout to a different place, so look for the vendor directory wherever it
+# landed and put it beside tsc/go.mod.
+	@if [ ! -f ${WRKSRC}/src/typescript/tsc/vendor/modules.txt ]; then \
+		_v=$$(${FIND} ${WRKDIR} -path ${WRKSRC} -prune -o \
+		    -path '*/tsc/vendor/modules.txt' -print | ${HEAD} -1); \
+		if [ -z "$${_v}" ]; then \
+			${ECHO_MSG} "===>  No tsc/vendor in TypeScript-${TSV}-vendor.tar.gz"; \
+			${FALSE}; \
+		fi; \
+		${MV} $${_v%/modules.txt} ${WRKSRC}/src/typescript/tsc/vendor; \
 	fi
 
 # brave-core carries its own patches for the Chromium tree and they are written
