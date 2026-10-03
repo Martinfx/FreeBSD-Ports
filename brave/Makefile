@@ -1,11 +1,13 @@
 PORTNAME=	brave
 DISTVERSIONPREFIX=	v
-DISTVERSION=	1.94.120
-PORTREVISION=	1
+DISTVERSION=	1.96.61
+TSV=		7.0.2
 CATEGORIES=	www
 MASTER_SITES=	https://commondatastorage.googleapis.com/chromium-browser-official/:chromium \
+		https://nerd.hu/distfiles/:external \
 		${NODE_MODULES_SITE}:nodemods
-DISTFILES=	chromium-${CHROME_VERSION}-lite.tar.xz:chromium
+DISTFILES=	chromium-${CHROME_VERSION}-lite.tar.xz:chromium \
+		TypeScript-${TSV}-vendor.tar.gz:external
 
 NODE_MODULES_DIST=	brave-node-modules-${DISTVERSION}.tar.xz
 NODE_MODULES_SITE?=	https://github.com/Martinfx/FreeBSD-Ports/releases/download/brave-${DISTVERSION}/
@@ -21,14 +23,15 @@ ONLY_FOR_ARCHS=	aarch64 amd64
 ONLY_FOR_ARCHS_REASON=	the Chromium build is only supported on amd64 and aarch64
 
 # Chromium release the pinned brave-core revision is built against, see
-# "config.projects.chrome.tag" in src/brave/package.json.  Brave 1.94.120 is
-# the release that comes closest to the Chromium in www/chromium (152.0.7977.75
-# there, .76 here), so that port's FreeBSD patches apply to this tree as well.
-CHROME_VERSION=	152.0.7977.76
+# "config.projects.chrome.tag" in src/brave/package.json.  Brave 1.96.61 is
+# the current release; www/chromium is on the same branch (154.0.8037.57 there,
+# .98 here), so that port's FreeBSD patches apply to this tree as well.
+CHROME_VERSION=	154.0.8037.98
 
 # The FreeBSD patches for the Chromium tree in files/ are the ones from
-# www/chromium 152.0.7977.75, rewritten for the src/ prefix this port unpacks
-# Chromium into.
+# www/chromium 154.0.8037.57, rewritten for the src/ prefix this port unpacks
+# Chromium into.  The few that overlap with a brave-core patch, or that the
+# redirect_cc build below needs, are regenerated against the patched tree.
 #
 # This port builds natively: depot_tools, gclient, cipd, siso and reclient are
 # not used at all.  Everything is taken from the official Chromium release
@@ -43,7 +46,7 @@ GH_PROJECT=	brave-browser
 GH_TUPLE=	brave:brave-core:v${DISTVERSION}:core/src/brave \
 		brave-intl:bat-native-tweetnacl:8b424ccf29957fe01c88c36076fd32006a357887:tweetnacl/src/brave/vendor/bat-native-tweetnacl \
 		brave:gn-project-generators:b76e14b162aa0ce40f11920ec94bfc12da29e5d0:gnprojgen/src/brave/vendor/gn-project-generators \
-		brave:web-discovery-project:ae82a1b7510f4035d13df47b87a1a7fe5b6471ac:wdp/src/brave/vendor/web-discovery-project \
+		brave:web-discovery-project:eac9e31daef742bdcd557e6031f8659f247282b2:wdp/src/brave/vendor/web-discovery-project \
 		brave-intl:bat-native-bip39wally-core:547a7810333d821e29b8f55126aba031aa0d5fcd:bip39wally/src/brave/third_party/bip39wally-core-native \
 		chfast:ethash:e4a15c3d76dc09392c7efd3e30d84ee3b871e9ce:ethash/src/brave/third_party/ethash/src \
 		bitcoin:bitcoin:8105bce5b384c72cf08b25b7c5343622754e7337:bitcoincore/src/brave/third_party/bitcoin-core/src \
@@ -52,12 +55,21 @@ GH_TUPLE=	brave:brave-core:v${DISTVERSION}:core/src/brave \
 		brave-intl:futures-retry:2aaaafbc3d394661534d4dbd14159d164243c20e:futuresretry/src/brave/third_party/rust/futures_retry/v0_5/crate \
 		brave:librustzcash:f01f50d64214278552edbe4a34b9049244ce03c1:librustzcash/src/brave/components/brave_wallet/browser/zcash/rust/librustzcash/src \
 		rollup:rollup:v4.60.4:rollup/src/rollup \
-		evanw:esbuild:v${_ESBUILD_VERSION:sh}:esbuild/src/esbuild
+		evanw:esbuild:v${_ESBUILD_VERSION:sh}:esbuild/src/esbuild \
+		microsoft:TypeScript:v${TSV}:typescript/src/typescript
 
 # Chromium builds devtools-frontend with rollup and esbuild.  Neither ships a
 # FreeBSD binary, so the rollup native binding is built from source (like
 # www/chromium does, hence the shared Makefile.crates) and esbuild is taken
 # from ports.
+#
+# Since 154 devtools-frontend also compiles its TypeScript with tsgo, the
+# native TypeScript compiler, which Chromium gets from CIPD as a Linux binary
+# (third_party/typescript/linux-amd64/src/lib/tsc).  It is built from the
+# TypeScript sources instead, with the Go modules it needs from a vendor
+# tarball, the same way www/chromium does it.  Chromium's own WebUI keeps
+# using the TypeScript in node_modules (use_typescript_go=false), and the
+# tsc that its Python helpers look up in PATH comes from lang/typescript-go.
 _ESBUILD_VERSION=	${MAKE} -C ${PORTSDIR}/devel/esbuild -V DISTVERSION
 
 BUILD_DEPENDS=	${LOCALBASE}/include/linux/videodev2.h:multimedia/v4l_compat \
@@ -74,6 +86,7 @@ BUILD_DEPENDS=	${LOCALBASE}/include/linux/videodev2.h:multimedia/v4l_compat \
 		gperf:devel/gperf \
 		libva>0:multimedia/libva \
 		rustc:lang/rust \
+		tsc:lang/typescript-go \
 		xcb-proto>0:x11/xcb-proto
 
 LIB_DEPENDS=	libatk-bridge-2.0.so:accessibility/at-spi2-core \
@@ -260,6 +273,7 @@ GN_ARGS+=	${GN_BASE_ARGS} \
 		use_system_harfbuzz=true \
 		use_system_libffi=true \
 		use_system_libjpeg=true \
+		use_typescript_go=false \
 		ffmpeg_branding="${FFMPEG_BRAND}" \
 		brave_google_api_key="AIzaSyAREPLACEWITHYOUROWNGOOGLEAPIKEY2Q" \
 		brave_google_api_endpoint="https://www.googleapis.com/geolocation/v1/geolocate?key="
@@ -522,6 +536,11 @@ pre-configure:
 		${BUILD_WRKSRC}/build/linux/strip_binary.gni \
 		${BUILD_WRKSRC}/build/rust/rust_bindgen.gni \
 		${BUILD_WRKSRC}/build/rust/rust_bindgen_generator.gni
+# Chromium's own change to the TypeScript library files, see
+# third_party/typescript/README.chromium.  The CIPD package has it applied
+# already; the tsgo built from source in pre-build has to get it here.
+	${PATCH} -d ${BUILD_WRKSRC}/typescript/tsc/internal/bundled/libs -Ep2 < \
+		${BUILD_WRKSRC}/third_party/typescript/linux-amd64/3pp/patches/typescript_native_preview.patch
 
 	${CP} ${BUILD_WRKSRC}/chrome/VERSION ${BUILD_WRKSRC}/chrome/VERSION.chromium
 	@${REINPLACE_CMD} -e 's|^MINOR=.*|MINOR=${BRAVE_VERSION_MAJOR}|' \
@@ -555,6 +574,12 @@ pre-configure:
 	@${ECHO_CMD} "directory = '${BUILD_WRKSRC}/brave/third_party/wasm/vendor'" >> ${BUILD_WRKSRC}/.cargo/config.toml
 
 pre-build:
+# tsgo for devtools-frontend, in place of the Linux binary from CIPD.  The
+# library files next to it are the ones from the CIPD package in the tarball.
+	cd ${BUILD_WRKSRC}/typescript/tsc && \
+		${SETENV} ${MAKE_ENV} go build -v -p ${MAKE_JOBS_NUMBER} -mod=vendor ./cmd/tsgo && \
+		${LN} -sf ${BUILD_WRKSRC}/typescript/tsc/tsgo \
+		${BUILD_WRKSRC}/third_party/typescript/linux-amd64/src/lib/tsc
 # The rollup plugin devtools-frontend loads is a native node module
 	@${CARGO_CARGO_RUN} build --manifest-path ${CARGO_CARGOTOML} \
 		${CARGO_BUILD_ARGS}

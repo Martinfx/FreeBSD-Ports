@@ -1,4 +1,4 @@
---- src/chrome/browser/first_run/first_run.h.orig	2026-08-31 10:59:09 UTC
+--- src/chrome/browser/first_run/first_run.h.orig	2026-09-25 15:26:43 UTC
 +++ src/chrome/browser/first_run/first_run.h
 @@ -73,7 +73,7 @@
  #if BUILDFLAG(IS_MAC)

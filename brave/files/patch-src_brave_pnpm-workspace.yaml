@@ -14,4 +14,4 @@
 +  usb: false
    utf-8-validate: true
  
- # HTTP fetch timeout in milliseconds (5 minutes).
+ catalog:
