@@ -1,0 +1,5 @@
+Official Qt launcher for the shadPS4 PlayStation 4 emulator. It manages
+the game library, per-game settings, controller mappings, patches and
+cheats, and starts games with the shadps4 emulator binary.
+
+The emulator installed by emulators/shadps4 is offered and used by default.
