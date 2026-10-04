@@ -188,6 +188,25 @@ REDIRECT_CC_DIR=	${BUILD_WRKSRC}/out/redirect_cc
 
 _LEO=		${WRKSRC}/src/brave/node_modules/@brave/leo
 
+# brave-core takes @brave/leo straight from git, and pnpm prepares such a
+# package by running a "pnpm install" of its own in it and then its "prepare"
+# script, "pnpm run build", which runs further pnpm commands.  pnpm starts all
+# of those through the shell, by name, but corepack only offers pnpm as
+# "corepack pnpm": without a pnpm in PATH the install fails with
+# ERR_PNPM_PREPARE_PACKAGE.  So put one first in PATH, in BINARY_LINKDIR,
+# that is just that.  Like corepack, it follows the packageManager field of
+# the directory it runs in, leo's included.
+#
+# The install runs until leo is built rather than only while node_modules is
+# missing, so that a run that failed half way is picked up again instead of
+# leaving a partial node_modules behind for good.
+_PNPM_INSTALL=	${MKDIR} ${BINARY_LINKDIR} && \
+		${PRINTF} '\043!/bin/sh\nexec ${LOCALBASE}/bin/corepack pnpm "$$@"\n' \
+		    > ${BINARY_LINKDIR}/pnpm && \
+		${CHMOD} 755 ${BINARY_LINKDIR}/pnpm && \
+		cd ${WRKSRC}/src/brave && ${SETENV} ${CONFIGURE_ENV} \
+		    ${BINARY_LINKDIR}/pnpm install --frozen-lockfile
+
 # Arguments that describe the platform and the toolchain.  Both output
 # directories need them: without them the small redirect_cc build falls back to
 # the Chromium defaults and pulls in things FreeBSD cannot build, such as the
@@ -572,9 +591,8 @@ pre-configure:
 	cd ${WRKSRC}/src/brave && ${SETENV} ${CONFIGURE_ENV} ${PYTHON_CMD} \
 		build/util/version.py gen ../chrome/VERSION
 
-	@if [ ! -d ${WRKSRC}/src/brave/node_modules ]; then \
-		cd ${WRKSRC}/src/brave && ${SETENV} ${CONFIGURE_ENV} \
-		    ${LOCALBASE}/bin/corepack pnpm install --frozen-lockfile; \
+	@if [ ! -f ${_LEO}/tokens/skia/nala_color_id.h ]; then \
+		${_PNPM_INSTALL}; \
 	fi
 
 	@if [ ! -f ${_LEO}/tokens/skia/nala_color_id.h ]; then \
@@ -664,9 +682,8 @@ do-configure:
 # NODEMODS off (the modules are installed by pre-configure), then upload the
 # tarball to NODE_MODULES_SITE and run "make makesum" with NODEMODS on.
 gen-node-modules: patch
-	@if [ ! -d ${WRKSRC}/src/brave/node_modules ]; then \
-		cd ${WRKSRC}/src/brave && ${SETENV} ${CONFIGURE_ENV} \
-		    ${LOCALBASE}/bin/corepack pnpm install --frozen-lockfile; \
+	@if [ ! -f ${_LEO}/tokens/skia/nala_color_id.h ]; then \
+		${_PNPM_INSTALL}; \
 	fi
 	@if [ ! -f ${_LEO}/tokens/skia/nala_color_id.h ]; then \
 		${ECHO_MSG} "===>  @brave/leo has not been built, refusing to pack"; \
