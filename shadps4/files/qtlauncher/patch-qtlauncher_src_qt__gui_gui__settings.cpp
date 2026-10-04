@@ -1,5 +1,5 @@
---- src/qt_gui/gui_settings.cpp.orig	2026-10-02 19:05:42 UTC
-+++ src/qt_gui/gui_settings.cpp
+--- qtlauncher/src/qt_gui/gui_settings.cpp.orig	2026-10-02 19:05:42 UTC
++++ qtlauncher/src/qt_gui/gui_settings.cpp
 @@ -19,7 +19,7 @@
      exeName = "shadPS4.exe";
  #elif defined(Q_OS_LINUX)

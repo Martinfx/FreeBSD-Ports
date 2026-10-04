@@ -1,5 +1,5 @@
---- src/qt_gui/main_window.cpp.orig	2026-10-02 19:05:42 UTC
-+++ src/qt_gui/main_window.cpp
+--- qtlauncher/src/qt_gui/main_window.cpp.orig	2026-10-02 19:05:42 UTC
++++ qtlauncher/src/qt_gui/main_window.cpp
 @@ -1426,6 +1426,13 @@
      }
  

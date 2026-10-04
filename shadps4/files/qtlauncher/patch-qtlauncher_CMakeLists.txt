@@ -1,5 +1,5 @@
---- CMakeLists.txt.orig	2026-10-02 19:05:42 UTC
-+++ CMakeLists.txt
+--- qtlauncher/CMakeLists.txt.orig	2026-10-02 19:05:42 UTC
++++ qtlauncher/CMakeLists.txt
 @@ -410,6 +410,10 @@
  if (ENABLE_UPDATER)
      add_definitions(-DENABLE_UPDATER)

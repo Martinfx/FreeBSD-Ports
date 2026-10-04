@@ -1,1 +1,6 @@
-PlayStation 4 emulator written C++.
+shadPS4 is a PlayStation 4 emulator written in C++.
+
+With the QT option the official Qt launcher (shadPS4QtLauncher) is built
+as well. It manages the game library, per-game settings, controller
+mappings, patches and cheats, and starts games with the shadps4 binary
+from this package.

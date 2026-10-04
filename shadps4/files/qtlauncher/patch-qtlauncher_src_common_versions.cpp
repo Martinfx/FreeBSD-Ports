@@ -1,5 +1,5 @@
---- src/common/versions.cpp.orig	2026-10-02 19:05:42 UTC
-+++ src/common/versions.cpp
+--- qtlauncher/src/common/versions.cpp.orig	2026-10-02 19:05:42 UTC
++++ qtlauncher/src/common/versions.cpp
 @@ -67,6 +67,22 @@
          versions.push_back(std::move(v));
      }

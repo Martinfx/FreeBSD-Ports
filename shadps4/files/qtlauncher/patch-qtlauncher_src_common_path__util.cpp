@@ -1,5 +1,5 @@
---- src/common/path_util.cpp.orig	2026-10-02 19:05:42 UTC
-+++ src/common/path_util.cpp
+--- qtlauncher/src/common/path_util.cpp.orig	2026-10-02 19:05:42 UTC
++++ qtlauncher/src/common/path_util.cpp
 @@ -98,7 +98,7 @@
  #ifdef __APPLE__
          user_dir =

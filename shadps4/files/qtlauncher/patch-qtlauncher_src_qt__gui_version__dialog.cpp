@@ -1,5 +1,5 @@
---- src/qt_gui/version_dialog.cpp.orig	2026-10-02 19:05:42 UTC
-+++ src/qt_gui/version_dialog.cpp
+--- qtlauncher/src/qt_gui/version_dialog.cpp.orig	2026-10-02 19:05:42 UTC
++++ qtlauncher/src/qt_gui/version_dialog.cpp
 @@ -94,7 +94,7 @@
  #ifdef Q_OS_WIN
          exePath = QFileDialog::getOpenFileName(this, tr("Select executable"), QDir::rootPath(),

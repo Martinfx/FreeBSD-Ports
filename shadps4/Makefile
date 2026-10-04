@@ -1,6 +1,7 @@
 PORTNAME=	shadps4
 DISTVERSIONPREFIX=	v.
 DISTVERSION=	0.19.0
+PORTREVISION=	1
 CATEGORIES=	emulators
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -82,6 +83,32 @@ CMAKE_ARGS=	-DFETCHCONTENT_FULLY_DISCONNECTED=ON \
 		-DPython3_EXECUTABLE=${PYTHON_CMD}
 CMAKE_OFF=	ENABLE_UPDATER
 
+OPTIONS_DEFINE=	QT
+OPTIONS_DEFAULT=	QT
+QT_DESC=	Build the Qt launcher (shadps4-qtlauncher)
+
+# The Qt GUI lives in its own repository upstream (snapshot of 2026-10-02),
+# build it in a second CMake tree. fmt, SDL3, toml11, Vulkan-Headers and
+# OpenAL come from the system; spdlog, zstd and ZArchive are shared with the
+# emulator sources.
+QT_GH_TUPLE=	shadps4-emu:shadps4-qtlauncher:4c4e1090ea53dc1ec956fa9954acbf143d104b2e:qtlauncher/qtlauncher \
+		nlohmann:json:54be9b04f0ec65d0bcfe0da54e7f01ea86fbfc3e:ql_json/qtlauncher/externals/json \
+		zeux:volk:e51c647181c7a8101454e69446079bc34100a320:ql_volk/qtlauncher/externals/volk
+QT_BUILD_DEPENDS=	toml11>0:devel/toml11 \
+			vulkan-headers>0:graphics/vulkan-headers
+QT_LIB_DEPENDS=	libfmt.so:devel/libfmt \
+		libopenal.so:audio/openal-soft \
+		libSDL3.so:devel/sdl3
+QT_USES=	qt:6
+QT_USE=		QT=base,multimedia,tools:build
+QT_EXTRA_PATCHES=	${PATCHDIR}/qtlauncher
+QT_PLIST_FILES=	bin/shadPS4QtLauncher \
+		share/applications/net.shadps4.shadps4-qtlauncher.desktop \
+		share/icons/hicolor/512x512/apps/net.shadps4.shadPS4.png \
+		share/metainfo/net.shadps4.shadps4-qtlauncher.metainfo.xml
+
+QTLAUNCHER_BUILD=	${WRKDIR}/.build-qtlauncher
+
 # The PS4 address space (0x400000 - 0xfffffffffff) is reserved with MAP_FIXED,
 # which requires a deterministic memory layout: disable ASLR. Patched guest
 # code and trampolines also need W+X mappings.
@@ -99,5 +126,32 @@ do-install:
 	${MKDIR} ${STAGEDIR}${PREFIX}/share/icons/hicolor/scalable/apps
 	${INSTALL_DATA} ${WRKSRC}/src/dist/net.shadps4.shadPS4.svg \
 		${STAGEDIR}${PREFIX}/share/icons/hicolor/scalable/apps
+
+pre-patch-QT-on:
+.for d in spdlog zstd zarchive
+	@${RMDIR} ${WRKSRC}/qtlauncher/externals/${d} 2>/dev/null || :
+	${LN} -s ../../externals/${d} ${WRKSRC}/qtlauncher/externals/${d}
+.endfor
+
+post-configure-QT-on:
+	@${MKDIR} ${QTLAUNCHER_BUILD}
+	cd ${QTLAUNCHER_BUILD} && ${SETENVI} ${WRK_ENV} ${CONFIGURE_ENV} ${CMAKE_BIN} \
+		${CMAKE_ARGS} -DSHADPS4_SYSTEM_EXECUTABLE=${PREFIX}/bin/shadps4 \
+		${WRKSRC}/qtlauncher
+
+post-build-QT-on:
+	cd ${QTLAUNCHER_BUILD} && ${SETENVI} ${WRK_ENV} ${MAKE_ENV} ${CMAKE_BIN} \
+		--build . --target shadPS4QtLauncher --parallel ${MAKE_JOBS_NUMBER}
+
+post-install-QT-on:
+	${INSTALL_PROGRAM} ${QTLAUNCHER_BUILD}/shadPS4QtLauncher ${STAGEDIR}${PREFIX}/bin
+	${INSTALL_DATA} ${WRKSRC}/qtlauncher/dist/net.shadps4.shadps4-qtlauncher.desktop \
+		${STAGEDIR}${DESKTOPDIR}
+	${MKDIR} ${STAGEDIR}${PREFIX}/share/icons/hicolor/512x512/apps
+	${INSTALL_DATA} ${WRKSRC}/qtlauncher/.github/shadps4.png \
+		${STAGEDIR}${PREFIX}/share/icons/hicolor/512x512/apps/net.shadps4.shadPS4.png
+	${MKDIR} ${STAGEDIR}${PREFIX}/share/metainfo
+	${INSTALL_DATA} ${WRKSRC}/qtlauncher/dist/net.shadps4.shadps4-qtlauncher.metainfo.xml \
+		${STAGEDIR}${PREFIX}/share/metainfo
 
 .include <bsd.port.mk>
