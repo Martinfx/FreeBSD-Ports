@@ -712,6 +712,8 @@ do-configure:
 # against, so only a complete node_modules is usable offline.  Run this with
 # NODEMODS off (the modules are installed by pre-configure), then upload the
 # tarball to NODE_MODULES_SITE and run "make makesum" with NODEMODS on.
+# .github/workflows/brave-node-modules.yml does the same in a FreeBSD VM on
+# GitHub and uploads the result to the brave-${DISTVERSION} release.
 gen-node-modules: patch
 	@if [ ! -f ${_LEO}/tokens/skia/nala_color_id.h ]; then \
 		${_PNPM_INSTALL}; \
