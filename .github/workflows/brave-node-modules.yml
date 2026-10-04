@@ -1,0 +1,136 @@
+# Build the NODEMODS distfile of brave (brave-node-modules-<version>.tar.xz)
+# natively in a FreeBSD 15.1 VM, the way "make gen-node-modules" builds it, and
+# upload it to the brave-<version> release, where NODE_MODULES_SITE looks for
+# it.  The native addons and the platform packages (esbuild, rollup,
+# unrs-resolver) in it are the FreeBSD ones.
+name: brave node modules
+
+on:
+  push:
+    branches:
+      - claude/hopeful-goldberg-qfo1u0
+    paths:
+      - '.github/workflows/brave-node-modules.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: brave-node-modules-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  node-modules:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Version and VM disk
+        run: |
+          sudo mkdir -p /mnt/vm
+          sudo chown "$(id -u):$(id -g)" /mnt/vm
+          V=$(awk '$1 == "DISTVERSION=" { print $2 }' brave/Makefile)
+          echo "BRAVE_VERSION=$V" >> "$GITHUB_ENV"
+          echo "brave $V"
+
+      - name: Install the Node modules on FreeBSD
+        uses: vmactions/freebsd-vm@v1
+        with:
+          release: "15.1"
+          usesh: true
+          cpu: 4
+          mem: 12288
+          data-dir: /mnt/vm
+          envs: 'BRAVE_VERSION'
+          prepare: |
+            set -e
+            # the latest packages, for a corepack whose default pnpm satisfies
+            # brave-core (pnpm >= 11.11); the repository is "FreeBSD-ports"
+            # on 15.x
+            R=FreeBSD
+            grep -q '^FreeBSD-ports:' /etc/pkg/FreeBSD.conf && R=FreeBSD-ports
+            mkdir -p /usr/local/etc/pkg/repos
+            echo "$R: { url: \"pkg+https://pkg.FreeBSD.org/\${ABI}/latest\", mirror_type: \"srv\" }" \
+              > /usr/local/etc/pkg/repos/$R.conf
+            env ASSUME_ALWAYS_YES=yes pkg update -f
+            env ASSUME_ALWAYS_YES=yes pkg upgrade
+            # node-gyp builds the native addons with gmake and python3
+            pkg install -y node24 corepack gmake python3 pkgconf
+          run: |
+            set -e
+            W=$PWD
+            V=$BRAVE_VERSION
+            N=brave-node-modules-$V.tar.xz
+            mkdir -p $W/out
+            freebsd-version; node --version; corepack --version
+
+            # brave-core from the same tarball the port fetches, checked
+            # against the port's distinfo
+            T=brave-brave-core-v${V}_GH0.tar.gz
+            fetch -o /tmp/$T https://codeload.github.com/brave/brave-core/tar.gz/v$V
+            want=$(awk -v f="($T)" '$1 == "SHA256" && $2 == f { print $4 }' brave/distinfo)
+            got=$(sha256 -q /tmp/$T)
+            echo "brave-core sha256 $got (distinfo $want)"
+            [ "$got" = "$want" ]
+            mkdir -p /tmp/work/src
+            tar -xzf /tmp/$T -C /tmp/work/src
+            mv /tmp/work/src/brave-core-$V /tmp/work/src/brave
+
+            # the port's patches for brave-core (pnpm-workspace.yaml among
+            # them), applied like the patch phase does
+            for p in brave/files/patch-src_brave_*; do
+              patch -d /tmp/work -E -p0 -V simple --quiet < $p
+            done
+
+            # what the port's _PNPM_INSTALL does: a pnpm in PATH for the
+            # prepare script of @brave/leo, then the install itself
+            mkdir -p /tmp/bin
+            printf '#!/bin/sh\nexec /usr/local/bin/corepack pnpm "$@"\n' > /tmp/bin/pnpm
+            chmod 755 /tmp/bin/pnpm
+            export PATH=/tmp/bin:$PATH COREPACK_ENABLE_DOWNLOAD_PROMPT=0
+            cd /tmp/work/src/brave
+            pnpm --version
+            # (with set -e, a pipeline would hide the status of pnpm)
+            pnpm install --frozen-lockfile > $W/out/pnpm-install.log 2>&1 || \
+              { grep -v '^Progress:' $W/out/pnpm-install.log | tail -n 200; exit 1; }
+            grep -v '^Progress:' $W/out/pnpm-install.log | tail -n 40
+            test -f node_modules/@brave/leo/tokens/skia/nala_color_id.h
+
+            # the same archive gen-node-modules packs
+            tar -c -J --options xz:threads=4 -f $W/out/$N node_modules
+            cd $W/out
+            printf 'SHA256 (%s) = %s\nSIZE (%s) = %s\n' \
+              $N "$(sha256 -q $N)" $N "$(stat -f %z $N)" > $N.distinfo
+            cat $N.distinfo
+            find /tmp/work/src/brave/node_modules -name '*.node' -type f | \
+              xargs file > native-addons.txt || true
+            cat native-addons.txt
+
+      - name: Upload to the brave-${{ env.BRAVE_VERSION }} release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          V=$BRAVE_VERSION
+          N=out/brave-node-modules-$V.tar.xz
+          ls -l $N
+          cat $N.distinfo >> "$GITHUB_STEP_SUMMARY"
+          if gh release view brave-$V >/dev/null 2>&1; then
+            gh release upload brave-$V $N --clobber
+          else
+            gh release create brave-$V $N --target "$GITHUB_SHA" \
+              --title "brave $V node modules" \
+              --notes "NODEMODS distfile for www/brave $V, built on FreeBSD 15.1 amd64 by .github/workflows/brave-node-modules.yml."
+          fi
+
+      - name: Logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: brave-node-modules-logs
+          path: |
+            out/*.log
+            out/*.distinfo
+            out/native-addons.txt
+          if-no-files-found: ignore
