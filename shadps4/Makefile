@@ -1,7 +1,6 @@
 PORTNAME=	shadps4
 DISTVERSIONPREFIX=	v.
-DISTVERSION=	0.16.0
-PORTREVISION=	1
+DISTVERSION=	0.19.0
 CATEGORIES=	emulators
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -14,74 +13,74 @@ LICENSE_FILE=	${WRKSRC}/LICENSE
 ONLY_FOR_ARCHS=	amd64
 ONLY_FOR_ARCHS_REASON=	runs PS4 x86-64 code natively
 
-BUILD_DEPENDS=	alsa-lib>0:audio/alsa-lib \
-		cryptopp>0:security/cryptopp \
-		date>0:devel/date \
-		ffmpeg>0:multimedia/ffmpeg \
-		rapidjson>0:devel/rapidjson \
-		sndio>0:audio/sndio \
-		tracy>0:devel/tracy \
-		vulkan-headers>0:graphics/vulkan-headers
-
+BUILD_DEPENDS=	wayland-protocols>0:graphics/wayland-protocols
 LIB_DEPENDS=	libavcodec.so:multimedia/ffmpeg \
 		libavfilter.so:multimedia/ffmpeg \
 		libavformat.so:multimedia/ffmpeg \
 		libavutil.so:multimedia/ffmpeg \
-		libcryptopp.so:security/cryptopp \
-		libdate-tz.so:devel/date \
-		libfmt.so:devel/libfmt \
-		libinotify.so:devel/libinotify \
-		libpng16.so:graphics/png \
-		libpugixml.so:textproc/pugixml \
 		libswresample.so:multimedia/ffmpeg \
 		libswscale.so:multimedia/ffmpeg \
 		libuuid.so:misc/libuuid \
-		libxxhash.so:devel/xxhash \
-		libZycore.so:devel/zycore-c
+		libwayland-client.so:graphics/wayland \
+		libxkbcommon.so:x11/libxkbcommon
+RUN_DEPENDS=	vulkan-loader>0:graphics/vulkan-loader
 
-USES=		cmake:noninja compiler:c++23-lang elfctl gmake llvm:min=19 \
-		localbase pkgconfig qt:6 ssl
-USE_GL=		gl opengl
-USE_QT=		base multimedia tools translations
+USES=		cmake:noninja compiler:c++23-lang elfctl gl gmake llvm:min=19 \
+		localbase:ldflags pkgconfig python:build ssl xorg
+USE_GL=		egl gl
+USE_XORG=	x11 xcursor xext xfixes xi xrandr xscrnsaver xtst
 USE_GITHUB=	yes
 GH_ACCOUNT=	shadps4-emu
 GH_PROJECT=	shadPS4
-GH_TUPLE=	shadexternals:CLI11:12ba4ac4dbaa6489cb07e01be796e2bc074ef4f4:cl/externals/CLI11 \
-		shadexternals:ImGuiFileDialog:6e3ddeb485e8804beefae6e6d690b7709084bacd:img/externals/ImGuiFileDialog \
-		shadps4-emu:ext-LibAtrac9:ec8899dadf393f655f2871a94e0fe4b3d6220c9a:libatrac/externals/LibAtrac9 \
-		gabime:spdlog:b8944a4bcd478ee03375c9c50dc8d6c741f43f7b:spdlog/externals/spdlog \
-		HowardHinnant:date:a45ea7c:date/externals/date \
-		shadps4-emu:ext-imgui:f4d9359:imgui/externals/dear_imgui \
-		shadps4-emu:ext-discord-rpc:19f66e6:discord/externals/discord-rpc \
-		shadps4-emu:ext-boost:ca6f230e67be7cc45fc919057f07b2aee64dadc1:boost/externals/ext-boost \
-		shadps4-emu:ext-fmt:8ee89546ffcf046309d1f0d38c0393f02fde56c8:fmt/externals/fmt \
-		KhronosGroup:glslang:ba16404:glslang/externals/glslang \
+GH_TUPLE=	shadexternals:CLI11:12ba4ac4dbaa6489cb07e01be796e2bc074ef4f4:cli11/externals/CLI11 \
+		shadexternals:ImGuiFileDialog:57a1c6a6d44bd99e844e3642d27851f6c065af62:imguifiledialog/externals/ImGuiFileDialog \
+		shadps4-emu:ext-LibAtrac9:946e05a9212976626a9f5e52f29c0a7202871f29:libatrac9/externals/LibAtrac9 \
+		mstorsjo:fdk-aac:ee76460efbdb147e26d804c798949c23f174460b:fdk_aac/externals/aacdec/fdk-aac \
+		abseil:abseil-cpp:76bb24329e8bf5f39704eb10d21b9a80befa7c81:abseil_cpp/externals/abseil-cpp \
+		shadexternals:cpp-httplib:28f8264d134a576422cd0f99f19719c2749d9e47:cpp_httplib/externals/cpp-httplib \
+		HowardHinnant:date:a45ea7c17b4a7f320e199b71436074bd624c9e15:date/externals/date \
+		shadps4-emu:ext-discord-rpc:19f66e6dcabb2268965f453db9e5774ede43238f:discord_rpc/externals/discord-rpc \
+		jiixyj:epoll-shim:18159584bb3d17e601b9315a7398ace018251bdc:epoll_shim/externals/epoll-shim \
+		shadps4-emu:ext-boost:ca6f230e67be7cc45fc919057f07b2aee64dadc1:ext_boost/externals/ext-boost \
+		shadps4-emu:ext-fmt:ec73fb72477d80926c758894a3ab2cb3994fd051:fmt/externals/fmt \
+		freetype:freetype:b91f75bd02db43b06d634591eb286d3eb0ce3b65:freetype/externals/freetype \
+		KhronosGroup:glslang:ba1640446f3826a518721d1f083f3a8cca1120c3:glslang/externals/glslang \
 		ROCm:half:1ddada225144cac0de8f6b5c0dd9acffd99a2e68:half/externals/half \
-		pnggroup:libpng:c1cc0f3f4c3d4abd11ca68c59446a29ff6f95003:libpng/externals/libpng \
-		libusb:libusb-cmake:8f0b4a38fc3eefa2b26a99dff89e1c12bf37afd4:libusb/externals/libusb \
-		Neargye:magic_enum:1a1824df7ac798177a521eed952720681b0bf482:magic/externals/magic_enum \
-		zeux:pugixml:4bc14418d12d289dd9978fdce9490a45deeb653e:pugixml/externals/pugixml \
-		Tessil:robin-map:fe845fd7852ef541c5479ae23b3d36b57f8608ee:robin/externals/robin-map \
-		shadexternals:sdl3:d5af35e3fbb5bb6555ed00e69740d52af2a4e877:sdl/externals/sdl3 \
-		shadps4-emu:sirit:6b45070:sirit/externals/sirit \
-		KhronosGroup:SPIRV-Headers:2acb319:spirv/externals/sirit/externals/SPIRV-Headers \
-		ToruNiina:toml11:7f6c574ff5aa1053534e7e19c0a4f22bf4c6aaca:toml/externals/toml11 \
-		GPUOpen-LibrariesAndSDKs:VulkanMemoryAllocator:5a53a198945ba8260fbc58fadb788745ce6aa263:vma/externals/vma \
-		Cyan4973:xxHash:2bf8313b934633b2a5b7e8fd239645b85e10c852:xxhash/externals/xxhash \
-		shadps4-emu:winpthreads:f00c973a6ab2a23573708568b8ef4acc20a9d36b:winpthreads/externals/winpthreads \
-		herumi:xbyak:4e44f4614ddbf038f2a6296f5b906d5c72691e0f:xbyak/externals/xbyak \
-		shadps4-emu:ext-zlib-ng:d54e3769be0c522015b784eca2af258b1c026107:zlib/externals/zlib-ng \
-		zyantific:zydis:bffbb610cfea643b98e87658b9058382f7522807:zybis/externals/zydis \
-		shadps4-emu:ext-cryptopp-cmake:2c384c28265a93358a2455e610e76393358794df:cmake/externals/cryptopp-cmake \
-		shadps4-emu:ext-cryptopp:effed0d0b865afc23ed67e0916f83734e4b9b3b7:cryptopp/externals/cryptopp \
-		zyantific:zycore-c:0b2432ced0884fd152b471d97ecf0258ff4d859f:zycore/externals/zydis/dependencies/zycore \
 		shadps4-emu:ext-hwinfo:8660006e0ca4aae5dda7a29e585968b50b0273b7:hwinfo/externals/hwinfo \
+		shadexternals:imgui:7e1b65d26d52e9dd199d889c148c72184de647b4:imgui/externals/imgui \
+		nlohmann:json:55f93686c01528224f448c19128836e7df245f72:json/externals/json \
+		pnggroup:libpng:c1cc0f3f4c3d4abd11ca68c59446a29ff6f95003:libpng/externals/libpng \
+		Neargye:magic_enum:a413fcc9c46a020a746907136a384c227f3cd095:magic_enum/externals/magic_enum \
+		lieff:minimp3:7b590fdcfa5a79c033e76eacc05d0c3e4c79f536:minimp3/externals/minimp3 \
+		miniupnp:miniupnp:bf4215a7574f88aa55859db9db00e3ae58cf42d6:miniupnp/externals/miniupnp \
 		richgel999:miniz:174573d60290f447c13a2b1b3405de2b96e27d6c:miniz/externals/miniz \
-		shadexternals:libressl:b0504086dbbc186724b0cc92e6ba1832c245de0b:libressl/externals/libressl \
-		shadps4-emu:ext-wepoll:d3bb81035304a0dc6a5ca48ebf0f8cee1fe269e4:epoll/externals/epoll-shim
+		shadexternals:openal-soft:83ea7236c6f23fc98e2b62eb9c5b3abfd4b2be86:openal_soft/externals/openal-soft \
+		shadexternals:protobuf:5917ee224a7e47383a78acc129628511fe210dff:protobuf/externals/protobuf \
+		zeux:pugixml:caade5a28aad86b92a4b5337a9dc70c4ba73c5eb:pugixml/externals/pugixml \
+		Tessil:robin-map:4ec1bf19c6a96125ea22062f38c2cf5b958e448e:robin_map/externals/robin-map \
+		shadexternals:sdl3:d5af35e3fbb5bb6555ed00e69740d52af2a4e877:sdl3/externals/sdl3 \
+		shadps4-emu:sirit:c58f4d441cfdb6905d011a906704716833485486:sirit/externals/sirit \
+		gabime:spdlog:b8944a4bcd478ee03375c9c50dc8d6c741f43f7b:spdlog/externals/spdlog \
+		ToruNiina:toml11:a01fe3b4c14c6d7b99ee3f07c9e80058c6403097:toml11/externals/toml11 \
+		shadps4-emu:tracy:143a53d1985b8e52a7590a0daca30a0a7c653b42:tracy/externals/tracy \
+		GPUOpen-LibrariesAndSDKs:VulkanMemoryAllocator:f378e7b3f18f6e2b06b957f6ba7b1c7207d2a536:vma/externals/vma \
+		KhronosGroup:Vulkan-Headers:ee3b5caaa7e372715873c7b9c390ee1c3ca5db25:vulkan_headers/externals/vulkan-headers \
+		herumi:xbyak:44a72f369268f7d552650891b296693e91db86bb:xbyak/externals/xbyak \
+		Cyan4973:xxHash:953a09abc39096da9e216b6eb0002c681cdc1199:xxhash/externals/xxhash \
+		shadexternals:ZArchive:965b66c8d67b6b7e30fd63b3b75aa91a99ff303b:zarchive/externals/zarchive \
+		shadps4-emu:ext-zlib-ng:fd0d263cedab1a136f40d65199987e3eaeecfcbd:zlib_ng/externals/zlib-ng \
+		shadexternals:zstd:5c7b7bad26808e6b40ac3b3d0075466e27738a9d:zstd/externals/zstd \
+		zyantific:zydis:120e0e705f8e3b507dc49377ac2879979f0d545c:zydis/externals/zydis \
+		Tencent:rapidjson:d621dc9e9c77f81e5c8a35b8dcc16dcd63351321:rapidjson/externals/discord-rpc/thirdparty/rapidjson \
+		KhronosGroup:SPIRV-Headers:2acb319af38d43be3ea76bfabf3998e5281d8d12:spirv_headers/externals/sirit/externals/SPIRV-Headers \
+		zyantific:zycore-c:38d4f0285e6157ee840ea82a9b90aba71c8a705d:zycore/externals/zydis/dependencies/zycore
 
-LDFLAGS=	-L${LOCALBASE}/lib -ldate-tz -I/usr/include -L/usr/lib -lusb
-CMAKE_ON=	ENABLE_QT_GUI
+# Everything else is bundled. spdlog would download its own copy of fmt,
+# point it to the bundled one and forbid any network access during the build.
+CMAKE_ARGS=	-DFETCHCONTENT_FULLY_DISCONNECTED=ON \
+		-DFETCHCONTENT_SOURCE_DIR_FMT=${WRKSRC}/externals/fmt \
+		-DPython3_EXECUTABLE=${PYTHON_CMD}
+CMAKE_OFF=	ENABLE_UPDATER
 
 # The PS4 address space (0x400000 - 0xfffffffffff) is reserved with MAP_FIXED,
 # which requires a deterministic memory layout: disable ASLR. Patched guest
@@ -91,18 +90,14 @@ ELF_FEATURES=	+noaslr:${PORTNAME} \
 
 PLIST_FILES=	bin/shadps4 \
 		share/applications/net.shadps4.shadPS4.desktop \
-		share/icons/hicolor/scalable/apps/net.shadps4.shadPS4.svg \
-		share/metainfo/net.shadps4.shadPS4.metainfo.xml
+		share/icons/hicolor/scalable/apps/net.shadps4.shadPS4.svg
 
 do-install:
 	${INSTALL_PROGRAM} ${BUILD_WRKSRC}/${PORTNAME} ${STAGEDIR}${PREFIX}/bin
-	${INSTALL_DATA} ${WRKSRC}/dist/net.shadps4.shadPS4.desktop \
-			${STAGEDIR}${DESKTOPDIR}
+	${INSTALL_DATA} ${WRKSRC}/src/dist/net.shadps4.shadPS4.desktop \
+		${STAGEDIR}${DESKTOPDIR}
 	${MKDIR} ${STAGEDIR}${PREFIX}/share/icons/hicolor/scalable/apps
-	${INSTALL_DATA} ${WRKSRC}/src/images/net.shadps4.shadPS4.svg \
-			${STAGEDIR}${PREFIX}/share/icons/hicolor/scalable/apps
-	${MKDIR} ${STAGEDIR}${PREFIX}/share/metainfo
-	${INSTALL_DATA} ${WRKSRC}/dist/net.shadps4.shadPS4.metainfo.xml \
-			${STAGEDIR}${PREFIX}/share/metainfo
+	${INSTALL_DATA} ${WRKSRC}/src/dist/net.shadps4.shadPS4.svg \
+		${STAGEDIR}${PREFIX}/share/icons/hicolor/scalable/apps
 
 .include <bsd.port.mk>
