@@ -1,6 +1,7 @@
 PORTNAME=	shadps4
 DISTVERSIONPREFIX=	v.
 DISTVERSION=	0.16.0
+PORTREVISION=	1
 CATEGORIES=	emulators
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -9,6 +10,9 @@ WWW=		https://github.com/shadps4-emu/shadPS4
 
 LICENSE=	GPLv2
 LICENSE_FILE=	${WRKSRC}/LICENSE
+
+ONLY_FOR_ARCHS=	amd64
+ONLY_FOR_ARCHS_REASON=	runs PS4 x86-64 code natively
 
 BUILD_DEPENDS=	alsa-lib>0:audio/alsa-lib \
 		cryptopp>0:security/cryptopp \
@@ -35,8 +39,8 @@ LIB_DEPENDS=	libavcodec.so:multimedia/ffmpeg \
 		libxxhash.so:devel/xxhash \
 		libZycore.so:devel/zycore-c
 
-USES=		cmake:noninja compiler:c++23-lang gmake llvm:min=19 localbase \
-		pkgconfig qt:6 ssl
+USES=		cmake:noninja compiler:c++23-lang elfctl gmake llvm:min=19 \
+		localbase pkgconfig qt:6 ssl
 USE_GL=		gl opengl
 USE_QT=		base multimedia tools translations
 USE_GITHUB=	yes
@@ -78,6 +82,12 @@ GH_TUPLE=	shadexternals:CLI11:12ba4ac4dbaa6489cb07e01be796e2bc074ef4f4:cl/extern
 
 LDFLAGS=	-L${LOCALBASE}/lib -ldate-tz -I/usr/include -L/usr/lib -lusb
 CMAKE_ON=	ENABLE_QT_GUI
+
+# The PS4 address space (0x400000 - 0xfffffffffff) is reserved with MAP_FIXED,
+# which requires a deterministic memory layout: disable ASLR. Patched guest
+# code and trampolines also need W+X mappings.
+ELF_FEATURES=	+noaslr:${PORTNAME} \
+		+wxneeded:${PORTNAME}
 
 PLIST_FILES=	bin/shadps4 \
 		share/applications/net.shadps4.shadPS4.desktop \
