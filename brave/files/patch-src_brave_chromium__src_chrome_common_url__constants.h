@@ -1,6 +1,6 @@
 --- src/brave/chromium_src/chrome/common/url_constants.h.orig	2026-06-01 00:00:00 UTC
 +++ src/brave/chromium_src/chrome/common/url_constants.h
-@@ -670,7 +670,7 @@
+@@ -683,7 +683,7 @@
      "360018163151-How-do-I-manage-Flash-audio-video-";
  #endif
  

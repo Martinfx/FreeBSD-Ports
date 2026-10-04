@@ -1,6 +1,6 @@
 --- src/brave/browser/ui/webui/settings/brave_settings_localized_strings_provider.cc.orig	2026-06-01 00:00:00 UTC
 +++ src/brave/browser/ui/webui/settings/brave_settings_localized_strings_provider.cc
-@@ -244,7 +244,12 @@
+@@ -259,7 +259,12 @@
         IDS_SETTINGS_BRAVE_ORIGIN_ONBOARDING_RESTORE_PURCHASE},
        {"braveOriginOnboardingLearnMore",
         IDS_SETTINGS_BRAVE_ORIGIN_ONBOARDING_LEARN_MORE},

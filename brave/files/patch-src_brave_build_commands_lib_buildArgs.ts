@@ -1,6 +1,6 @@
 --- src/brave/build/commands/lib/buildArgs.ts.orig	2026-06-01 00:00:00 UTC
 +++ src/brave/build/commands/lib/buildArgs.ts
-@@ -36,6 +36,13 @@
+@@ -35,6 +35,13 @@
    'is_brave_origin_branded',
  ]
  
@@ -14,7 +14,7 @@
  export function getBuildArgs(config: Config) {
    let args: Record<string, any> = {
      'import("//brave/build/args/brave_defaults.gni")': null,
-@@ -178,7 +185,7 @@
+@@ -177,7 +184,7 @@
    // 3. On Android Release x64/arm64, debug sections exceed 4GiB causing
    //    "relocation R_X86_64_32 out of range" linker errors.
    if (
@@ -23,7 +23,7 @@
        && (config.targetArch === 'x86'
          || (!config.isDebug()
            && !config.isComponentBuild()
-@@ -199,7 +206,7 @@
+@@ -198,7 +205,7 @@
    // For Linux Release builds, upstream doesn't want to use symbol_level = 2
    // unless use_debug_fission is set. However, they don't set it when a
    // cc_wrapper is used. Since we use cc_wrapper we need to set it manually.
@@ -32,7 +32,7 @@
      // use_debug_fission requires symbol_level >= 1
      args.symbol_level = 1
      args.use_debug_fission = true
-@@ -231,6 +238,21 @@
+@@ -230,6 +237,21 @@
      }
    }
  

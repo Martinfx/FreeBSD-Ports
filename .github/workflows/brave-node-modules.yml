@@ -56,15 +56,16 @@ jobs:
               > /usr/local/etc/pkg/repos/$R.conf
             env ASSUME_ALWAYS_YES=yes pkg update -f
             env ASSUME_ALWAYS_YES=yes pkg upgrade
-            # node-gyp builds the native addons with gmake and python3
-            pkg install -y node24 corepack gmake python3 pkgconf
+            # node-gyp builds the native addons with gmake and python3; npm
+            # prepares figma-api-exporter, a git dependency of @brave/leo
+            pkg install -y node24 npm-node24 corepack gmake python3 pkgconf
           run: |
             set -e
             W=$PWD
             V=$BRAVE_VERSION
             N=brave-node-modules-$V.tar.xz
             mkdir -p $W/out
-            freebsd-version; node --version; corepack --version
+            freebsd-version; node --version; npm --version; corepack --version
 
             # brave-core from the same tarball the port fetches, checked
             # against the port's distinfo

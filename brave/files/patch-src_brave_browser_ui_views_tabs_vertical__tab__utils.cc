@@ -1,6 +1,6 @@
 --- src/brave/browser/ui/views/tabs/vertical_tab_utils.cc.orig	2026-06-01 00:00:00 UTC
 +++ src/brave/browser/ui/views/tabs/vertical_tab_utils.cc
-@@ -101,7 +101,8 @@
+@@ -23,7 +23,8 @@
    // On Mac, frame_view->GetBrowserLayoutParams() gives more wider width than
    // we want.
    return {80, 0};

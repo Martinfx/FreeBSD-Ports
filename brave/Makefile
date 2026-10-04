@@ -104,6 +104,7 @@ BUILD_DEPENDS=	${LOCALBASE}/include/linux/videodev2.h:multimedia/v4l_compat \
 		flock:sysutils/flock \
 		gperf:devel/gperf \
 		libva>0:multimedia/libva \
+		npm${NODEJS_SUFFIX}>0:www/npm${NODEJS_SUFFIX} \
 		rustc:lang/rust \
 		tsc:lang/typescript-go \
 		xcb-proto>0:x11/xcb-proto
@@ -208,7 +209,9 @@ _LEO=		${WRKSRC}/src/brave/node_modules/@brave/leo
 # "corepack pnpm": without a pnpm in PATH the install fails with
 # ERR_PNPM_PREPARE_PACKAGE.  So put one first in PATH, in BINARY_LINKDIR,
 # that is just that.  Like corepack, it follows the packageManager field of
-# the directory it runs in, leo's included.
+# the directory it runs in, leo's included.  leo in turn takes
+# figma-api-exporter from git, which has a package-lock.json, so pnpm
+# prepares that one with "npm install": hence npm in BUILD_DEPENDS.
 #
 # The install runs until leo is built rather than only while node_modules is
 # missing, so that a run that failed half way is picked up again instead of

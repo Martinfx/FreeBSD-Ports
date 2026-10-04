@@ -1,6 +1,6 @@
 --- src/brave/browser/ui/views/brave_tooltips/brave_tooltip_popup.cc.orig	2026-06-01 00:00:00 UTC
 +++ src/brave/browser/ui/views/brave_tooltips/brave_tooltip_popup.cc
-@@ -54,7 +54,8 @@
+@@ -55,7 +55,8 @@
  constexpr int kCornerRadius = 0;
  #elif BUILDFLAG(IS_MAC)
  constexpr int kCornerRadius = 7;
