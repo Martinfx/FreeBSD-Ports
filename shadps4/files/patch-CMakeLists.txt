@@ -22,7 +22,7 @@
  add_subdirectory(externals)
  include_directories(src)
  
-@@ -1299,7 +1314,9 @@
+@@ -1299,7 +1314,12 @@
  
  if (${CMAKE_SYSTEM_NAME} STREQUAL "FreeBSD")
      target_link_libraries(shadps4 PRIVATE "/usr/lib/libusb.so")
@@ -30,10 +30,13 @@
 +    target_link_libraries(shadps4 PRIVATE ${UUID_LIBRARY})
 +    target_compile_options(shadps4 PRIVATE "SHELL:-idirafter ${UUID_INCLUDE_DIR}"
 +                           "SHELL:-idirafter ${FFMPEG_libavcodec_INCLUDEDIR}")
++    # std::jthread and std::stop_token are still marked experimental in the libc++
++    # shipped with FreeBSD 14 (they are header-only, no extra library is needed).
++    target_compile_definitions(shadps4 PRIVATE _LIBCPP_ENABLE_EXPERIMENTAL)
  else()
      target_link_libraries(shadps4 PRIVATE libusb::usb)
  endif()
-@@ -1355,6 +1372,12 @@
+@@ -1355,6 +1375,12 @@
      target_link_options(shadps4 PRIVATE LINKER:-sectcreate,__TEXT,__info_plist,${INFO_PLIST_PATH})
  elseif (${CMAKE_SYSTEM_NAME} STREQUAL "FreeBSD")
      target_link_libraries(shadps4 PRIVATE date::date-tz epoll-shim)
