@@ -22,12 +22,15 @@
  add_subdirectory(externals)
  include_directories(src)
  
-@@ -1299,7 +1314,12 @@
+@@ -1299,7 +1314,15 @@
  
  if (${CMAKE_SYSTEM_NAME} STREQUAL "FreeBSD")
      target_link_libraries(shadps4 PRIVATE "/usr/lib/libusb.so")
 -    target_link_libraries(shadps4 PRIVATE "/usr/local/lib/libuuid.so")
 +    target_link_libraries(shadps4 PRIVATE ${UUID_LIBRARY})
++    # The bundled static OpenAL uses C11 <threads.h> (tss_*), which lives in
++    # libstdthreads on FreeBSD; openal-soft only links Threads::Threads.
++    target_link_libraries(shadps4 PRIVATE stdthreads)
 +    target_compile_options(shadps4 PRIVATE "SHELL:-idirafter ${UUID_INCLUDE_DIR}"
 +                           "SHELL:-idirafter ${FFMPEG_libavcodec_INCLUDEDIR}")
 +    # std::jthread and std::stop_token are still marked experimental in the libc++
@@ -36,7 +39,7 @@
  else()
      target_link_libraries(shadps4 PRIVATE libusb::usb)
  endif()
-@@ -1355,6 +1375,12 @@
+@@ -1355,6 +1378,12 @@
      target_link_options(shadps4 PRIVATE LINKER:-sectcreate,__TEXT,__info_plist,${INFO_PLIST_PATH})
  elseif (${CMAKE_SYSTEM_NAME} STREQUAL "FreeBSD")
      target_link_libraries(shadps4 PRIVATE date::date-tz epoll-shim)
