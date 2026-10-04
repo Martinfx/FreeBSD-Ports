@@ -4,10 +4,23 @@ DISTVERSION=	1.96.61
 TSV=		7.0.2
 CATEGORIES=	www
 MASTER_SITES=	https://github.com/chromium-linux-tarballs/chromium-tarballs/releases/download/${CHROME_VERSION}/:chromium \
+		https://codeload.github.com/microsoft/TypeScript/tar.gz/v${TSV}?dummy=/:typescript \
 		https://nerd.hu/distfiles/:external \
 		${NODE_MODULES_SITE}:nodemods
-DISTFILES=	chromium-${CHROME_VERSION}-linux.tar.xz:chromium \
-		TypeScript-${TSV}-vendor.tar.gz:external
+DISTFILES=	${_CHROMIUM_DIST}:chromium \
+		${_TS_DIST}:typescript \
+		${_TS_VENDOR_DIST}:external
+
+_CHROMIUM_DIST=		chromium-${CHROME_VERSION}-linux.tar.xz
+_TS_DIST=		microsoft-TypeScript-v${TSV}_GH0.tar.gz
+_TS_VENDOR_DIST=	TypeScript-${TSV}-vendor.tar.gz
+
+# The extract phase ends with extract-fixup-modes, a recursive chmod(1) over
+# all of WRKDIR, which fails on trees this large (the same problem
+# podman-desktop works around).  So Chromium (675,000 entries), the TypeScript
+# sources (140,000) and the Node modules (110,000) are left out of it and
+# unpacked by pre-patch instead; their modes need no fixing.
+EXTRACT_ONLY=	${DISTFILES:C/:[^:]+$//:N${_CHROMIUM_DIST}:N${_TS_DIST}:N${_TS_VENDOR_DIST}:N${NODE_MODULES_DIST}}
 
 NODE_MODULES_DIST=	brave-node-modules-${DISTVERSION}.tar.xz
 NODE_MODULES_SITE?=	https://github.com/Martinfx/FreeBSD-Ports/releases/download/brave-${DISTVERSION}/
@@ -61,8 +74,7 @@ GH_TUPLE=	brave:brave-core:v${DISTVERSION}:core/src/brave \
 		brave-intl:futures-retry:2aaaafbc3d394661534d4dbd14159d164243c20e:futuresretry/src/brave/third_party/rust/futures_retry/v0_5/crate \
 		brave:librustzcash:f01f50d64214278552edbe4a34b9049244ce03c1:librustzcash/src/brave/components/brave_wallet/browser/zcash/rust/librustzcash/src \
 		rollup:rollup:v4.60.4:rollup/src/rollup \
-		evanw:esbuild:v${_ESBUILD_VERSION:sh}:esbuild/src/esbuild \
-		microsoft:TypeScript:v${TSV}:typescript/src/typescript
+		evanw:esbuild:v${_ESBUILD_VERSION:sh}:esbuild/src/esbuild
 
 # Chromium builds devtools-frontend with rollup and esbuild.  Neither ships a
 # FreeBSD binary, so the rollup native binding is built from source (like
@@ -72,8 +84,9 @@ GH_TUPLE=	brave:brave-core:v${DISTVERSION}:core/src/brave \
 # Since 154 devtools-frontend also compiles its TypeScript with tsgo, the
 # native TypeScript compiler, which Chromium gets from CIPD as a Linux binary
 # (third_party/typescript/linux-amd64/src/lib/tsc).  It is built from the
-# TypeScript sources instead, with the Go modules it needs from a vendor
-# tarball, the same way www/chromium does it.  Chromium's own WebUI keeps
+# TypeScript sources instead (only tsc/, the Go implementation, is unpacked),
+# with the Go modules it needs from a vendor tarball, the same way
+# www/chromium does it.  Chromium's own WebUI keeps
 # using the TypeScript in node_modules (use_typescript_go=false), and the
 # tsc that its Python helpers look up in PATH comes from lang/typescript-go.
 _ESBUILD_VERSION=	${MAKE} -C ${PORTSDIR}/devel/esbuild -V DISTVERSION
@@ -490,40 +503,58 @@ pre-everything::
 # The official Chromium tarball is unpacked next to brave-core, which gclient
 # would otherwise check out as src/brave.  ${FIND} is used instead of a glob so
 # that the dotfiles in the Chromium root (.gn above all) are moved as well.
-post-extract:
-	@${MKDIR} ${WRKSRC}/src
-	@cd ${WRKDIR}/chromium-${CHROME_VERSION} && ${FIND} . -mindepth 1 \
-		-maxdepth 1 -exec ${MV} {} ${WRKSRC}/src/ \;
-	@${RMDIR} ${WRKDIR}/chromium-${CHROME_VERSION}
-# With NODEMODS the Node modules come from a distfile, which unpacks into
-# the work directory like every other one.  They belong to brave-core.
-	@if [ -d ${WRKDIR}/node_modules ]; then \
-		${MV} ${WRKDIR}/node_modules ${WRKSRC}/src/brave/node_modules; \
-	fi
-# The Go modules tsgo is built with.  www/chromium relies on the vendor
-# tarball unpacking straight into the TypeScript checkout; this port moves that
-# checkout to a different place, so look for the vendor directory wherever it
-# landed and put it beside tsc/go.mod.
-	@if [ ! -f ${WRKSRC}/src/typescript/tsc/vendor/modules.txt ]; then \
-		_v=$$(${FIND} ${WRKDIR} -path ${WRKSRC} -prune -o \
-		    -path '*/tsc/vendor/modules.txt' -print | ${HEAD} -1); \
-		if [ -z "$${_v}" ]; then \
-			${ECHO_MSG} "===>  No tsc/vendor in TypeScript-${TSV}-vendor.tar.gz"; \
-			${FALSE}; \
-		fi; \
-		${MV} $${_v%/modules.txt} ${WRKSRC}/src/typescript/tsc/vendor; \
-	fi
-
 # brave-core carries its own patches for the Chromium tree and they are written
 # against pristine Chromium, so they have to go in before the FreeBSD patches
 # in files/, which the regular patch phase applies right after this target.
 # The layout below patches/ mirrors the Chromium tree.
 #
-# Roughly fifty of them are for Android and iOS files that the -lite tarball
+# Roughly fifty of them are for Android and iOS files that the release tarball
 # does not ship.  None of brave-core's patches creates a file, so a patch whose
 # target is missing is one for a platform this port does not build, and it is
 # skipped; everything else has to apply.
 pre-patch:
+# Unpacked here and not in the extract phase, see EXTRACT_ONLY.  The Chromium
+# tarball is moved next to brave-core, which gclient would otherwise
+# check out as src/brave.  ${FIND} is used instead of a glob so that the
+# dotfiles in the Chromium root (.gn above all) are moved as well.
+	@if [ ! -f ${WRKSRC}/src/chrome/VERSION ]; then \
+		${ECHO_MSG} "===>  Extracting ${_CHROMIUM_DIST}"; \
+		${MKDIR} ${WRKSRC}/src && \
+		${TAR} -xf ${_DISTDIR}/${_CHROMIUM_DIST} -C ${WRKDIR} && \
+		cd ${WRKDIR}/chromium-${CHROME_VERSION} && ${FIND} . -mindepth 1 \
+		    -maxdepth 1 -exec ${MV} {} ${WRKSRC}/src/ \; && \
+		${RMDIR} ${WRKDIR}/chromium-${CHROME_VERSION}; \
+	fi
+# tsgo needs tsc/ only, and not its 50,000 test files.  The Go modules from
+# the vendor tarball go beside tsc/go.mod: www/chromium relies on the tarball
+# unpacking straight into the TypeScript checkout, so look for the vendor
+# directory wherever it landed if it is not there.
+	@if [ ! -f ${WRKSRC}/src/typescript/tsc/go.mod ]; then \
+		${ECHO_MSG} "===>  Extracting tsc from ${_TS_DIST}"; \
+		${TAR} -x -C ${WRKDIR} -f ${_DISTDIR}/${_TS_DIST} \
+		    --exclude 'TypeScript-${TSV}/tsc/testdata' \
+		    'TypeScript-${TSV}/tsc' && \
+		${TAR} -x -C ${WRKDIR} -f ${_DISTDIR}/${_TS_VENDOR_DIST} && \
+		${MKDIR} ${WRKSRC}/src/typescript && \
+		${MV} ${WRKDIR}/TypeScript-${TSV}/tsc ${WRKSRC}/src/typescript/tsc; \
+	fi
+	@if [ ! -f ${WRKSRC}/src/typescript/tsc/vendor/modules.txt ]; then \
+		_v=$$(${FIND} ${WRKDIR} -path ${WRKSRC} -prune -o \
+		    -path '*/tsc/vendor/modules.txt' -print | ${HEAD} -1); \
+		if [ -z "$${_v}" ]; then \
+			${ECHO_MSG} "===>  No tsc/vendor in ${_TS_VENDOR_DIST}"; \
+			${FALSE}; \
+		fi; \
+		${MV} $${_v%/modules.txt} ${WRKSRC}/src/typescript/tsc/vendor; \
+	fi
+.if ${PORT_OPTIONS:MNODEMODS}
+# With NODEMODS the Node modules come from a distfile.  They belong to
+# brave-core.
+	@if [ ! -d ${WRKSRC}/src/brave/node_modules ]; then \
+		${ECHO_MSG} "===>  Extracting ${NODE_MODULES_DIST}"; \
+		${TAR} -xf ${_DISTDIR}/${NODE_MODULES_DIST} -C ${WRKSRC}/src/brave; \
+	fi
+.endif
 	@${ECHO_MSG} "===>  Applying brave-core patches to the Chromium tree"
 	@cd ${WRKSRC}/src/brave/patches && ${FIND} . -name '*.patch' | sort | \
 	while read _p; do \
