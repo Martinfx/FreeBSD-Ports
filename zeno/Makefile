@@ -1,5 +1,6 @@
 PORTNAME=	zeno
 DISTVERSION=	2024.10.1
+PORTREVISION=	1
 CATEGORIES=	graphics
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -20,6 +21,7 @@ BUILD_DEPENDS=	alembic>0:graphics/alembic \
 		qwt6-qt5>0:x11-toolkits/qwt6
 
 LIB_DEPENDS=	libAlembic.so:graphics/alembic \
+		libBulletCollision.so:devel/bullet \
 		libcryptopp.so:security/cryptopp \
 		libImath-3_1.so:math/Imath \
 		libtiff.so:graphics/tiff \
@@ -93,6 +95,21 @@ LDFLAGS+=	-Wl,--allow-shlib-undefined -lomp
 PLIST_FILES=	bin/autotest \
 		bin/zenoedit \
 		lib/libzeno.so
+
+# Bundled bullet3 fork is used only for parts devel/bullet does not provide
+# (BulletInverseDynamics *.hpp, BussIK, VHACD, URDFImporter), the rest comes
+# from devel/bullet
+BULLET_FORK=	${WRKSRC}/projects/Rigid/bullet3
+
+post-extract:
+	@cd ${BULLET_FORK} && ${RM} -r HACD src/Bullet3* src/BulletCollision \
+		src/BulletDynamics src/BulletSoftBody src/LinearMath src/clew \
+		src/*.cpp src/*.h
+
+post-patch:
+	@${FIND} ${BULLET_FORK}/src -name '*.[ch]*' -exec ${REINPLACE_CMD} -E \
+		's@#include "(\.\./)+(LinearMath|BulletCollision|BulletDynamics|Bullet3Common|btBullet)@#include "\2@' {} +
+
 pre-configure:
 	${REINPLACE_CMD} -e 's|%%LOCALBASE%%|${LOCALBASE}|g' ${WRKSRC}/ui/zenoui/CMakeLists.txt
 
