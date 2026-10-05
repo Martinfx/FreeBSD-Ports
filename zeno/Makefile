@@ -23,6 +23,7 @@ BUILD_DEPENDS=	alembic>0:graphics/alembic \
 LIB_DEPENDS=	libAlembic.so:graphics/alembic \
 		libBulletCollision.so:devel/bullet \
 		libcryptopp.so:security/cryptopp \
+		libOpenEXR.so:graphics/openexr \
 		libImath-3_1.so:math/Imath \
 		libtiff.so:graphics/tiff \
 		libopencv_highgui.so:graphics/opencv \
@@ -47,16 +48,13 @@ USE_XORG=	xext
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	zenustech
-GH_TUPLE+=	zenustech:openvdb:74a95a74d91e0115be00d7b94391f5607e02d60f:openvdb/projects/zenvdb/openvdb \
-		zenustech:assimp:745fcc9ba0c79feb4edfc71f464d6d4c920ecc06:assimp/projects/FBX/assimp \
-		zenustech:dem-bones-bin:30a39493f0394dfedc5d72ea463405b8f07a446e:dem/projects/FBX/dem-bones-bin \
-		zenustech:libigl:9af4b833cb37c0d4b77ca62b7502284b3a83a47e:libigl/projects/cgmesh/libigl \
-		zenustech:bullet3:aa4931408428cd72057e59627770fc027c5bb0be:bullet/projects/Rigid/bullet3 \
+GH_TUPLE+=	zenustech:bullet3:aa4931408428cd72057e59627770fc027c5bb0be:bullet/projects/Rigid/bullet3 \
 		zenustech:OpenSubdiv:a50680658f9732a41fea8e150310cfb9b147dc3c:opensubdiv/projects/MeshSubdiv/OpenSubdiv
 
 CMAKE_ON=	ZENO_BUILD_EDITOR ZENO_BUILD_SHARED ZENO_IPC_USE_TCP \
 		ZENO_MULTIPROCESS ZENO_NO_WARNING ZENO_USE_CCACHE \
-		ZENOFX_ENABLE_LBVH \
+		ZENO_WITH_ZenoFX \
+		ZENO_WITH_Alembic ZENO_SYSTEM_ALEMBIC \
 		ZENO_WITH_Rigid \
 		ZENO_WITH_oldzenbase \
 		ZENO_WITH_TreeSketch \
@@ -78,8 +76,7 @@ CMAKE_ON=	ZENO_BUILD_EDITOR ZENO_BUILD_SHARED ZENO_IPC_USE_TCP \
 CMAKE_OFF=	ZENO_BUILD_DESIGNER ZENO_BUILD_PLAYER ZENO_INSTALL_TARGET \
 		ZENO_MARCH_NATIVE ZENO_OPTIX_PROC ZENO_USE_FAST_MATH \
 		ZENO_WIN32_RC ZENO_WITH_CUDA \
-		ZENO_WITH_ZenoFX  ZENOFX_ENABLE_OPENVDB \
-		ZENO_WITH_Alembic ZENO_SYSTEM_ALEMBIC
+		ZFX_ENABLE_CUDA
 		#ZENO_WITH_FastFLIP ZENO_WITH_zenvdb # compile zenovdb
 		#ZENO_WITH_Euler ZENO_WITH_zenvdb # compile zenvdb killed gcc
 		#ZENO_WITH_Skinning ZENO_WITH_cgmesh # git download project dependent skinning on cgmesh
@@ -87,6 +84,9 @@ CMAKE_OFF=	ZENO_BUILD_DESIGNER ZENO_BUILD_PLAYER ZENO_INSTALL_TARGET \
 		#ZENO_WITH_DemBones ZENO_WITH_FBX # harcoded folder and libs in CMakefile
 		#ZENO_WITH_SampleModel # error: '_pgmptr' was not declared in this scope
 
+# FBX, DemBones, SampleModel, cgmesh, FEM, Skinning and zenvdb need submodules
+# which are not fetched (assimp, dem-bones-bin, libigl, openvdb), add them to
+# GH_TUPLE when enabling those.
 # ZENO_BUILD_DESIGNER - bug https://github.com/zenustech/zeno/issues/1907
 
 # fix on 14.1: "ld: error: undefined reference due to --no-allow-shlib-undefined:
