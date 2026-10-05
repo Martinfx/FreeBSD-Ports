@@ -1,5 +1,6 @@
 PORTNAME=	obs-backgroundremoval
 DISTVERSION=	1.4.0
+PORTREVISION=	1
 CATEGORIES=	multimedia
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -19,6 +20,8 @@ LIB_DEPENDS=	libcurl.so:ftp/curl \
 		libopencv_core.so:graphics/opencv
 
 USES=		cmake localbase
+DATADIR=	${PREFIX}/share/obs/obs-plugins/${PORTNAME}
+
 USE_GITHUB=	yes
 GH_ACCOUNT=	royshil
 
@@ -29,12 +32,11 @@ post-patch:
 do-install:
 	${MKDIR} \
 		${STAGEDIR}${PREFIX}/lib/obs-plugins \
-		${STAGEDIR}${PREFIX}/share/obs/obs-plugins/${PORTNAME}/locale
+		${STAGEDIR}${DATADIR}
 	${INSTALL_LIB} \
 		${BUILD_WRKSRC}/${PORTNAME}.so \
 		${STAGEDIR}${PREFIX}/lib/obs-plugins
-	${INSTALL_DATA} \
-	${WRKSRC}/data/locale/*.ini \
-		${STAGEDIR}${PREFIX}/share/obs/obs-plugins/${PORTNAME}/locale
+	cd ${WRKSRC}/data && \
+		${COPYTREE_SHARE} "effects locale models" ${STAGEDIR}${DATADIR}
 
 .include <bsd.port.mk>
