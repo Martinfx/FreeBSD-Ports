@@ -1,2 +1,3 @@
-Multistream plugin for OBS Studio.
-This plugin was created to enable simultaneous streaming on multiple sites.
+OBS Studio plugin for portrait background removal, replacement and
+blurring (virtual green screen) using machine learning models
+running on ONNX Runtime. It also provides low-light enhancement filter.
