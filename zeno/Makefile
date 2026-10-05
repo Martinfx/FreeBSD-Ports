@@ -111,6 +111,10 @@ post-patch:
 		's@#include "(\.\./)+(LinearMath|BulletCollision|BulletDynamics|Bullet3Common|btBullet)@#include "\2@' {} +
 
 pre-configure:
+	@if ${GREP} -q BT_USE_DOUBLE_PRECISION ${LOCALBASE}/libdata/pkgconfig/bullet.pc; then \
+		${ECHO_MSG} "===> ${PKGNAME} requires single precision devel/bullet, deinstall bullet-double first"; \
+		${FALSE}; \
+	fi
 	${REINPLACE_CMD} -e 's|%%LOCALBASE%%|${LOCALBASE}|g' ${WRKSRC}/ui/zenoui/CMakeLists.txt
 
 do-install:
