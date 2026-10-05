@@ -1,0 +1,54 @@
+--- CMakeLists.txt.orig	2026-10-02 12:00:00 UTC
++++ CMakeLists.txt
+@@ -268,6 +268,21 @@
+     list(POP_BACK CMAKE_MODULE_PATH)
+ endif()
+ 
++if (${CMAKE_SYSTEM_NAME} STREQUAL "FreeBSD")
++    # ffmpeg-core only ships prebuilt Linux/Windows/macOS binaries, use the system FFmpeg.
++    # Use the base system OpenSSL instead of building the bundled LibreSSL.
++    list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
++    find_package(FFmpeg 5.1.2 MODULE REQUIRED)
++    find_package(OpenSSL 3.0 REQUIRED)
++    list(POP_BACK CMAKE_MODULE_PATH)
++    # pkg-config reports ${LOCALBASE}/include for FFmpeg, which would shadow the bundled
++    # externals (fmt, SDL3, Vulkan-Headers, boost, ...) with whatever is installed there.
++    # Drop it here, the shadps4 target searches it last with -idirafter instead.
++    set_target_properties(PkgConfig::FFMPEG PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "")
++    find_path(UUID_INCLUDE_DIR uuid/uuid.h REQUIRED)
++    find_library(UUID_LIBRARY uuid REQUIRED)
++endif()
++
+ add_subdirectory(externals)
+ include_directories(src)
+ 
+@@ -1299,7 +1314,15 @@
+ 
+ if (${CMAKE_SYSTEM_NAME} STREQUAL "FreeBSD")
+     target_link_libraries(shadps4 PRIVATE "/usr/lib/libusb.so")
+-    target_link_libraries(shadps4 PRIVATE "/usr/local/lib/libuuid.so")
++    target_link_libraries(shadps4 PRIVATE ${UUID_LIBRARY})
++    # The bundled static OpenAL uses C11 <threads.h> (tss_*), which lives in
++    # libstdthreads on FreeBSD; openal-soft only links Threads::Threads.
++    target_link_libraries(shadps4 PRIVATE stdthreads)
++    target_compile_options(shadps4 PRIVATE "SHELL:-idirafter ${UUID_INCLUDE_DIR}"
++                           "SHELL:-idirafter ${FFMPEG_libavcodec_INCLUDEDIR}")
++    # std::jthread and std::stop_token are still marked experimental in the libc++
++    # shipped with FreeBSD 14 (they are header-only, no extra library is needed).
++    target_compile_definitions(shadps4 PRIVATE _LIBCPP_ENABLE_EXPERIMENTAL)
+ else()
+     target_link_libraries(shadps4 PRIVATE libusb::usb)
+ endif()
+@@ -1355,6 +1378,12 @@
+     target_link_options(shadps4 PRIVATE LINKER:-sectcreate,__TEXT,__info_plist,${INFO_PLIST_PATH})
+ elseif (${CMAKE_SYSTEM_NAME} STREQUAL "FreeBSD")
+     target_link_libraries(shadps4 PRIVATE date::date-tz epoll-shim)
++
++    # FreeBSD loads PIE executables low (kern.elf64.pie_base) and places rtld, libc and
++    # all anonymous mappings right after them, which is inside the PS4 address space.
++    # The kernel honours a non-zero base address of an ET_DYN image, so move the
++    # executable (and with it everything the runtime linker maps) above the guest range.
++    target_link_options(shadps4 PRIVATE -Wl,--image-base=0x700000000000)
+ endif()
+ 
+ if (WIN32)
