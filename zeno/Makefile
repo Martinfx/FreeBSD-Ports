@@ -42,7 +42,6 @@ LIB_DEPENDS=	libAlembic.so:graphics/alembic \
 USES=		cmake compiler:c++17-lang eigen:3 localbase:ldflags pkgconfig qt:5
 USE_LDCONFIG=	yes
 USE_QT=		core gui network opengl svg widgets buildtools:build qmake:build
-USE_GCC=	yes
 USE_SDL=	sdl2
 USE_XORG=	xext
 
@@ -88,9 +87,6 @@ CMAKE_OFF=	ZENO_BUILD_DESIGNER ZENO_BUILD_PLAYER ZENO_INSTALL_TARGET \
 # which are not fetched (assimp, dem-bones-bin, libigl, openvdb), add them to
 # GH_TUPLE when enabling those.
 # ZENO_BUILD_DESIGNER - bug https://github.com/zenustech/zeno/issues/1907
-
-# fix on 14.1: "ld: error: undefined reference due to --no-allow-shlib-undefined:
-LDFLAGS+=	-Wl,--allow-shlib-undefined -lomp
 
 PLIST_FILES=	bin/autotest \
 		bin/zenoedit \
