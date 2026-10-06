@@ -1,30 +1,39 @@
 PORTNAME=	vita3k
 DISTVERSION=	G20250828
 CATEGORIES=	emulators
+MASTER_SITES=	https://ffmpeg.org/releases/:ffmpeg
+DISTFILES=	ffmpeg-${FFMPEG_VERSION}.tar.xz:ffmpeg
 
 MAINTAINER=	freebsd@sysctl.cz
-COMMENT=	emulator playstation vita.
+COMMENT=	Experimental PlayStation Vita emulator
+WWW=		https://vita3k.org/
 
 LICENSE=	GPLv2
 LICENSE_FILE=	${WRKSRC}/COPYING.txt
 
-BUILD_DEPENDS=	ffmpeg>0:multimedia/ffmpeg \
-		sndio>0:audio/sndio \
-		zycore-c>0:devel/zycore-c
+ONLY_FOR_ARCHS=	amd64
+ONLY_FOR_ARCHS_REASON=	JIT and guest memory fault handling are only ported to x86_64 on FreeBSD
 
-USES=		cmake compiler:c++20-lang llvm:min=19 localbase pathfix pkgconfig ssl
-USE_GL=		gl opengl
+BUILD_DEPENDS=	gmake:devel/gmake \
+		nasm:devel/nasm
+LIB_DEPENDS=	libboost_filesystem.so:devel/boost-libs \
+		libcurl.so:ftp/curl \
+		libSDL3.so:devel/sdl3
+RUN_DEPENDS=	vulkan-loader>0:graphics/vulkan-loader
+
+USES=		cmake compiler:c++20-lang desktop-file-utils gl localbase:ldflags \
+		pkgconfig ssl
+USE_GL=		gl
 USE_GITHUB=	yes
 GH_ACCOUNT=	Vita3K
 GH_PROJECT=	Vita3K
 GH_TAGNAME=	4e526f0c8057e4eae0e00a323d7d4c58cdee8813
-GH_TUPLE+=	Vita3K:LibAtrac9:82767fe38823c32536726ea798f392b0b49e66b9:libatrac/external/LibAtrac9 \
+GH_TUPLE=	Vita3K:LibAtrac9:82767fe38823c32536726ea798f392b0b49e66b9:libatrac/external/LibAtrac9 \
 		KhronosGroup:SPIRV-Cross:bccaa94db814af33d8ef05c153e7c34d8bd4d685:spirv/external/SPIRV-Cross \
 		YaaZ:VulkanMemoryAllocator-Hpp:2059f0fdd73492b03d60a90c73e5038224b99093:vulkanmemory/external/VulkanMemoryAllocator-Hpp \
 		KhronosGroup:Vulkan-Headers:952f776f6573aafbb62ea717d871cd1d6816c387:header/external/VulkanMemoryAllocator-Hpp/Vulkan-Headers \
 		GPUOpen-LibrariesAndSDKs:VulkanMemoryAllocator:c788c52156f3ef7bc7ab769cb03c110a53ac8fcb:allocator/external/VulkanMemoryAllocator-Hpp/VulkanMemoryAllocator \
 		aantron:better-enums:c35576bed0295689540b39873126129adfa0b4c8:better/external/better-enums \
-		Vita3K:ext-boost:d4c58aa5c6fe08433ffdbe03f7a098342bf8e2e9:boost/external/boost \
 		cameron314:concurrentqueue:6dd38b8a1dbaa7863aa907045f32308a56a6ff5d:concurentqueue/external/concurrentqueue \
 		mozilla:cubeb:f8633c0c9217ed5499fdda391946d416c52e6809:cubeb/external/cubeb \
 		tronkko:dirent:39c1f1bc98ef3326237d03006f35d7dd44620e43:dirent/external/dirent \
@@ -45,8 +54,6 @@ GH_TUPLE+=	Vita3K:LibAtrac9:82767fe38823c32536726ea798f392b0b49e66b9:libatrac/ex
 		Vita3K:psvpfsparser:4094450bcaac2256236d61ae3a730425ae47bd39:parser/external/psvpfstools/psvpfsparser \
 		korewawatchful:zlib:cb210089eb06453199578993566012493f6f7d21:zlib/external/psvpfstools/zlib \
 		zeux:pugixml:ee86beb30e4973f5feffe3ce63bfa4fbadf72f38:pugixml/external/pugixml \
-		libsdl-org:SDL:17656d051b750b945fdd8b4608f9524c7879bc1b:sdl/external/sdl \
-		tcbrindle:sdl2-cmake-scripts:e037fb54f32973343fada6a051d3a3f8adf3a4a0:sdlcmakescripts/external/sdl2-cmake-scripts \
 		gabime:spdlog:48bcf39a661a13be22666ac64db8a7f886f2637e:spdlog/external/spdlog \
 		nothings:stb:f0569113c93ad095470c54bf34a17b36646bbbb5:stb/external/stb \
 		wolfpld:tracy:5d542dc09f3d9378d005092a4ad446bd405f819a:tracy/external/tracy \
@@ -56,7 +63,76 @@ GH_TUPLE+=	Vita3K:LibAtrac9:82767fe38823c32536726ea798f392b0b49e66b9:libatrac/ex
 		Vita3K:unicorn:9c816e02de9a0fd7f68ce94766335a409ffac5e1:unicorn/external/unicorn \
 		aquynh:capstone:accf4df62f1fba6f92cae692985d27063552601c:capstone/external/capstone
 
-LDFLAGS=	-lexecinfo
-CMAKE_OFF=	USE_VITA3K_UPDATE USE_DISCORD_RICH_PRESENCE USE_ALSA TRACY_LIBUNWIND_BACKTRACE
+CMAKE_ARGS=	-DFFMPEG_PREBUILT_LIBDIR:PATH=${FFMPEG_PREFIX}/lib \
+		-DUSE_LTO:STRING=NEVER
+CMAKE_ON=	DYNARMIC_USE_BUNDLED_EXTERNALS VITA3K_FORCE_SYSTEM_BOOST
+CMAKE_OFF=	USE_ALSA USE_DISCORD_RICH_PRESENCE USE_VITA3K_UPDATE
+
+# Keep the build from picking up git metadata of an enclosing ports tree
+CONFIGURE_ENV=	GIT_CEILING_DIRECTORIES=${WRKDIR}
+LDFLAGS+=	-lexecinfo
+
+OPTIONS_SINGLE=		DIALOG
+OPTIONS_SINGLE_DIALOG=	GTK3 PORTAL
+OPTIONS_DEFAULT=	GTK3
+DIALOG_DESC=		File dialog backend
+
+GTK3_DESC=		Native GTK 3 file dialogs
+GTK3_USES=		gnome
+GTK3_USE=		GNOME=gtk30
+
+PORTAL_DESC=		File dialogs through xdg-desktop-portal (D-Bus)
+PORTAL_LIB_DEPENDS=	libdbus-1.so:devel/dbus
+PORTAL_CMAKE_BOOL=	NFD_PORTAL
+
+DESKTOP_ENTRIES=	"Vita3K" "PlayStation Vita emulator" \
+			"${PREFIX}/share/pixmaps/${PORTNAME}.png" "Vita3K" \
+			"Game;Emulator;" false
+
+# Vita3K relies on internals of FFmpeg 5.1 (libavcodec/codec_internal.h),
+# so build the same static FFmpeg as upstream instead of using multimedia/ffmpeg.
+FFMPEG_VERSION=	5.1.2
+FFMPEG_WRKSRC=	${WRKDIR}/ffmpeg-${FFMPEG_VERSION}
+FFMPEG_PREFIX=	${WRKDIR}/ffmpeg-static
+FFMPEG_CONFIGURE_ARGS=	--prefix=${FFMPEG_PREFIX} \
+			--cc="${CC}" \
+			--extra-cflags="${CFLAGS}" \
+			--disable-shared \
+			--enable-static \
+			--enable-pic \
+			--disable-doc \
+			--disable-programs \
+			--disable-debug \
+			--enable-runtime-cpudetect \
+			--disable-autodetect \
+			--disable-everything \
+			--disable-avdevice \
+			--enable-decoder=aac,aac_latm,atrac3,atrac3p,atrac9,mp3,pcm_s16le,pcm_s8,h264,mpeg4,mpeg2video,mjpeg,mjpegb \
+			--enable-encoder=pcm_s16le,ffv1,mpeg4,mjpeg \
+			--enable-muxer=avi \
+			--enable-demuxer=h264,m4v,mp3,mpegvideo,mpegps,mjpeg,mov,avi,aac,pmp,oma,pcm_s16le,pcm_s8,wav \
+			--enable-parser=h264,mpeg4video,mpegaudio,mpegvideo,mjpeg,aac,aac_latm \
+			--enable-protocol=file \
+			--enable-bsf=mjpeg2jpeg
+
+post-patch:
+	@${REINPLACE_CMD} -e 's|%%DATADIR%%|${DATADIR}|g' \
+		${WRKSRC}/vita3k/app/src/app_init.cpp
+
+pre-configure:
+	cd ${FFMPEG_WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${SH} ./configure \
+		${FFMPEG_CONFIGURE_ARGS}
+	cd ${FFMPEG_WRKSRC} && ${SETENV} ${MAKE_ENV} ${LOCALBASE}/bin/gmake \
+		-j${MAKE_JOBS_NUMBER} install
+
+do-install:
+	${INSTALL_PROGRAM} ${BUILD_WRKSRC}/bin/Vita3K ${STAGEDIR}${PREFIX}/bin
+	${RLN} ${STAGEDIR}${PREFIX}/bin/Vita3K ${STAGEDIR}${PREFIX}/bin/${PORTNAME}
+	@${MKDIR} ${STAGEDIR}${DATADIR}
+	cd ${WRKSRC} && ${COPYTREE_SHARE} "data lang" ${STAGEDIR}${DATADIR}
+	cd ${WRKSRC}/vita3k && ${COPYTREE_SHARE} shaders-builtin ${STAGEDIR}${DATADIR}
+	@${MKDIR} ${STAGEDIR}${PREFIX}/share/pixmaps
+	${INSTALL_DATA} ${WRKSRC}/data/image/icon.png \
+		${STAGEDIR}${PREFIX}/share/pixmaps/${PORTNAME}.png
 
 .include <bsd.port.mk>

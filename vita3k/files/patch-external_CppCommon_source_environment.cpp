@@ -1,20 +1,19 @@
---- external/CppCommon/source/environment.cpp.orig	2025-04-23 21:22:30 UTC
+--- external/CppCommon/source/environment.cpp.orig	2026-10-06 04:21:17 UTC
 +++ external/CppCommon/source/environment.cpp
-@@ -12,7 +12,7 @@
- #include <codecvt>
- #include <sstream>
+@@ -53,6 +53,16 @@ std::string Environment::OSVersion() {
+     }
  
--#if defined(__APPLE__)
-+#if defined(__APPLE__) || defined(__FreeBSD__)
- #include <sys/sysctl.h>
- extern char **environ;
- #elif defined(unix) || defined(__unix) || defined(__unix__)
-@@ -34,7 +34,7 @@ std::string Environment::OSVersion() {
- namespace CppCommon {
+     return "<cygwin>";
++#elif defined(__FreeBSD__)
++    struct utsname name;
++    if (uname(&name) == 0) {
++        std::string result(name.sysname);
++        result.append(" ");
++        result.append(name.release);
++        return result;
++    }
++
++    return "<freebsd>";
+ #elif defined(linux) || defined(__linux) || defined(__linux__)
+     static std::regex pattern("DISTRIB_DESCRIPTION=\"(.*)\"");
  
- std::string Environment::OSVersion() {
--#if defined(__APPLE__)
-+#if defined(__APPLE__) || defined(__FreeBSD__)
-     char result[1024];
-     size_t size = sizeof(result);
-     if (sysctlbyname("kern.osrelease", result, &size, nullptr, 0) == 0)

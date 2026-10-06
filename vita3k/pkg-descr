@@ -1,3 +1,5 @@
-[description of the port]
+Vita3K is an experimental PlayStation Vita emulator. It runs homebrew
+and a growing number of commercial games, using a dynamic recompiler
+for the ARM CPU and Vulkan or OpenGL for graphics.
 
-WWW: http://example.com
+Game data and firmware must be dumped from your own console.

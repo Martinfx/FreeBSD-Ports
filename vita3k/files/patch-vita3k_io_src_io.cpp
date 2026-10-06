@@ -1,13 +1,11 @@
---- vita3k/io/src/io.cpp.orig	2025-04-27 08:20:15 UTC
+--- vita3k/io/src/io.cpp.orig	2026-10-06 04:21:17 UTC
 +++ vita3k/io/src/io.cpp
-@@ -41,7 +41,9 @@
+@@ -41,7 +41,7 @@
  #include <iterator>
  #include <string>
  
 -#if defined(__aarch64__) && defined(__APPLE__)
-+#if defined(__aarch64__) && defined(__APPLE__) 
-+#define stat64 stat
-+#else
++#if (defined(__aarch64__) && defined(__APPLE__)) || defined(__FreeBSD__)
  #define stat64 stat
  #endif
  
