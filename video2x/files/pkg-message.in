@@ -1,0 +1,16 @@
+[
+{ type: install
+  message: <<EOM
+Video2X needs a GPU with a working Vulkan driver (for example
+graphics/mesa-dri or the NVIDIA driver). List the usable devices with:
+
+  video2x --list-devices
+
+The libplacebo (Anime4K) processor uses FFmpeg's libplacebo filter, so
+multimedia/ffmpeg has to be built with the LIBPLACEBO and VULKAN options
+(both are on by default).
+
+Models are installed in %%DATADIR%%/models.
+EOM
+}
+]
