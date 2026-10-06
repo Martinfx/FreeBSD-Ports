@@ -119,11 +119,17 @@ post-patch:
 	@${REINPLACE_CMD} -e 's|%%DATADIR%%|${DATADIR}|g' \
 		${WRKSRC}/vita3k/app/src/app_init.cpp
 
+# The ports framework passes ARCH=amd64 and DESTDIR down to sub-makes via
+# MAKEFLAGS/MAKE_ENV. FFmpeg uses ARCH as its arch directory name (x86) and
+# silently skips the x86 SIMD objects otherwise, so reset both.
 pre-configure:
 	cd ${FFMPEG_WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${SH} ./configure \
 		${FFMPEG_CONFIGURE_ARGS}
-	cd ${FFMPEG_WRKSRC} && ${SETENV} ${MAKE_ENV} DESTDIR= ${LOCALBASE}/bin/gmake \
-		-j${MAKE_JOBS_NUMBER} install DESTDIR=
+	cd ${FFMPEG_WRKSRC} && ${SETENV} -u MAKEFLAGS -u MFLAGS -u MAKELEVEL \
+		-u ARCH ${MAKE_ENV} DESTDIR= ${LOCALBASE}/bin/gmake \
+		-j${MAKE_JOBS_NUMBER} install ARCH=x86 DESTDIR=
+	@${TEST} -f ${FFMPEG_WRKSRC}/libavutil/x86/cpu.o || \
+		(${ECHO_MSG} "FFmpeg was built without its x86 code"; ${FALSE})
 	@${TEST} -f ${FFMPEG_PREFIX}/lib/libavformat.a || \
 		(${ECHO_MSG} "FFmpeg was not installed into ${FFMPEG_PREFIX}"; ${FALSE})
 
