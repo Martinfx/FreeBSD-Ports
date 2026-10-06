@@ -1,7 +1,7 @@
---- src/base/memory/platform_shared_memory_region_posix.cc.orig	2026-05-07 17:02:56 UTC
+--- src/base/memory/platform_shared_memory_region_posix.cc.orig	2026-09-25 15:26:43 UTC
 +++ src/base/memory/platform_shared_memory_region_posix.cc
-@@ -9,6 +9,14 @@
- 
+@@ -12,6 +12,14 @@
+ #include <atomic>
  #include <optional>
  
 +#if BUILDFLAG(IS_FREEBSD)
@@ -15,9 +15,9 @@
  #include "base/check_op.h"
  #include "base/files/file.h"
  #include "base/files/file_util.h"
-@@ -56,6 +64,84 @@ std::optional<FDAccessModeError> CheckFD
-   return std::nullopt;
- }
+@@ -148,6 +156,84 @@
+ 
+ #endif  // BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS)
  
 +#if BUILDFLAG(IS_FREEBSD)
 +// FreeBSD has no /dev/shm, so GetShmemTempDir() hands out $TMPDIR or /tmp,
@@ -100,7 +100,7 @@
  }  // namespace
  
  // static
-@@ -171,7 +257,7 @@ bool PlatformSharedMemoryRegion::Convert
+@@ -263,7 +349,7 @@
  // static
  PlatformSharedMemoryRegion PlatformSharedMemoryRegion::Create(Mode mode,
                                                                size_t size
@@ -109,7 +109,7 @@
                                                                ,
                                                                bool executable
  #endif
-@@ -192,11 +278,25 @@ PlatformSharedMemoryRegion PlatformShare
+@@ -295,11 +381,25 @@
    // and be deleted before they ever make it out to disk.
    ScopedAllowBlocking scoped_allow_blocking;
  

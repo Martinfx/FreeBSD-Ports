@@ -1,6 +1,6 @@
 --- src/base/trace_event/memory_infra_background_allowlist.cc.orig	2026-06-01 00:00:00 UTC
 +++ src/base/trace_event/memory_infra_background_allowlist.cc
-@@ -381,9 +381,12 @@
+@@ -384,9 +384,12 @@
  }
  
  bool IsMemoryAllocatorDumpNameInAllowlist(const std::string& name) {

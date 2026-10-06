@@ -1,4 +1,4 @@
---- src/chrome/common/media/cdm_registration.cc.orig	2026-06-04 10:12:25 UTC
+--- src/chrome/common/media/cdm_registration.cc.orig	2026-09-25 15:26:43 UTC
 +++ src/chrome/common/media/cdm_registration.cc
 @@ -33,7 +33,7 @@
  #if BUILDFLAG(ENABLE_WIDEVINE)
@@ -61,7 +61,7 @@
    bundled_widevine = GetBundledWidevine();
  #endif
  
-@@ -437,7 +442,7 @@
+@@ -434,7 +439,7 @@
  }
  
  #if BUILDFLAG(ENABLE_WIDEVINE) && \
