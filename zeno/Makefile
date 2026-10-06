@@ -1,6 +1,6 @@
 PORTNAME=	zeno
 DISTVERSION=	2024.10.1
-PORTREVISION=	2
+PORTREVISION=	3
 CATEGORIES=	graphics
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -16,11 +16,15 @@ BUILD_DEPENDS=	alembic>0:graphics/alembic \
 		openmpi>0:net/openmpi \
 		cgal>=5.0.2:math/cgal \
 		onetbb>0:devel/onetbb \
-		opencv>0:graphics/opencv \
-		sdl2>0:devel/sdl20 \
-		qwt6-qt5>0:x11-toolkits/qwt6
+		opencv>0:graphics/opencv
 
 LIB_DEPENDS=	libAlembic.so:graphics/alembic \
+		libboost_atomic.so:devel/boost-libs \
+		libboost_chrono.so:devel/boost-libs \
+		libboost_thread.so:devel/boost-libs \
+		libminizip.so:archivers/minizip \
+		libpng16.so:graphics/png \
+		libqwt.so:x11-toolkits/qwt6@qt5 \
 		libBulletCollision.so:devel/bullet \
 		libcryptopp.so:security/cryptopp \
 		libgmp.so:math/gmp \
@@ -41,7 +45,8 @@ LIB_DEPENDS=	libAlembic.so:graphics/alembic \
 		libopencv_flann.so:graphics/opencv \
 		libopencv_core.so:graphics/opencv
 
-USES=		blaslapack:netlib cmake compiler:c++17-lang eigen:3 localbase:ldflags pkgconfig qt:5
+USES=		blaslapack:netlib cmake compiler:c++17-lang eigen:3 localbase:ldflags pkgconfig \
+		qt:5 sdl xorg
 USE_LDCONFIG=	yes
 USE_QT=		core gui network opengl svg widgets buildtools:build qmake:build
 USE_SDL=	sdl2
