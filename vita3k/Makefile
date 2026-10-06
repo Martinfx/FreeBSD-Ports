@@ -96,7 +96,7 @@ FFMPEG_WRKSRC=	${WRKDIR}/ffmpeg-${FFMPEG_VERSION}
 FFMPEG_PREFIX=	${WRKDIR}/ffmpeg-static
 FFMPEG_CONFIGURE_ARGS=	--prefix=${FFMPEG_PREFIX} \
 			--cc="${CC}" \
-			--extra-cflags="${CFLAGS}" \
+			--extra-cflags="${CFLAGS:N-isystem:N${LOCALBASE}/include}" \
 			--disable-shared \
 			--enable-static \
 			--enable-pic \
@@ -128,10 +128,12 @@ pre-configure:
 	cd ${FFMPEG_WRKSRC} && ${SETENV} -u MAKEFLAGS -u MFLAGS -u MAKELEVEL \
 		-u ARCH ${MAKE_ENV} DESTDIR= ${LOCALBASE}/bin/gmake \
 		-j${MAKE_JOBS_NUMBER} install ARCH=x86 DESTDIR=
-	@${TEST} -f ${FFMPEG_WRKSRC}/libavutil/x86/cpu.o || \
-		(${ECHO_MSG} "FFmpeg was built without its x86 code"; ${FALSE})
-	@${TEST} -f ${FFMPEG_PREFIX}/lib/libavformat.a || \
-		(${ECHO_MSG} "FFmpeg was not installed into ${FFMPEG_PREFIX}"; ${FALSE})
+	@${TEST} -f ${FFMPEG_PREFIX}/lib/libavutil.a || \
+		(${ECHO_MSG} "===> FFmpeg was not installed into ${FFMPEG_PREFIX}"; ${FALSE})
+	@nm ${FFMPEG_PREFIX}/lib/libavutil.a | ${GREP} -q ' T ff_get_cpu_flags_x86' || \
+		(${ECHO_MSG} "===> FFmpeg was built without its x86 code"; \
+		${GREP} '^ARCH' ${FFMPEG_WRKSRC}/ffbuild/config.mak; ${FALSE})
+	@${ECHO_MSG} "===> Bundled FFmpeg ${FFMPEG_VERSION} built with x86 code"
 
 do-install:
 	${INSTALL_PROGRAM} ${BUILD_WRKSRC}/bin/Vita3K ${STAGEDIR}${PREFIX}/bin
