@@ -1,0 +1,26 @@
+--- CMakeLists.txt.orig	2026-03-07 00:00:00 UTC
++++ CMakeLists.txt
+@@ -40,8 +40,8 @@
+         add_compile_options(/Ox /Ot /GL /DNDEBUG)
+         add_link_options(/LTCG /OPT:REF /OPT:ICF)
+     elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+-        add_compile_options(-O3 -ffunction-sections -fdata-sections)
+-        add_link_options(-Wl,-s -flto -Wl,--gc-sections)
++        add_compile_options(-ffunction-sections -fdata-sections)
++        add_link_options(-Wl,--gc-sections)
+     endif()
+ endif()
+ 
+@@ -309,9 +309,9 @@
+ 
+ # Add Real-ESRGAN, Real-CUGAN, and RIFE
+ option(USE_SYSTEM_NCNN "" ${VIDEO2X_USE_EXTERNAL_NCNN})
+-add_subdirectory(third_party/librealesrgan_ncnn_vulkan/src)
+-add_subdirectory(third_party/librealcugan_ncnn_vulkan/src)
+-add_subdirectory(third_party/librife_ncnn_vulkan/src)
++add_subdirectory(third_party/librealesrgan_ncnn_vulkan/src EXCLUDE_FROM_ALL)
++add_subdirectory(third_party/librealcugan_ncnn_vulkan/src EXCLUDE_FROM_ALL)
++add_subdirectory(third_party/librife_ncnn_vulkan/src EXCLUDE_FROM_ALL)
+ 
+ # Prevent the min and max macros from causing error C2589 on Windows
+ if(WIN32)

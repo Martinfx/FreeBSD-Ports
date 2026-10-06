@@ -1,0 +1,11 @@
+--- third_party/librealesrgan_ncnn_vulkan/src/CMakeLists.txt.orig	2026-03-07 00:00:00 UTC
++++ third_party/librealesrgan_ncnn_vulkan/src/CMakeLists.txt
+@@ -210,7 +210,7 @@
+ compile_shader(realesrgan_postproc_tta.comp)
+ 
+ # Add the shared library target
+-add_library(librealesrgan-ncnn-vulkan SHARED realesrgan.cpp ${SHADER_SPV_HEX_FILES})
++add_library(librealesrgan-ncnn-vulkan STATIC realesrgan.cpp ${SHADER_SPV_HEX_FILES})
+ target_compile_definitions(librealesrgan-ncnn-vulkan PRIVATE LIBREALESRGAN_EXPORTS)
+ if(WIN32)
+     set_target_properties(librealesrgan-ncnn-vulkan PROPERTIES OUTPUT_NAME librealesrgan-ncnn-vulkan)

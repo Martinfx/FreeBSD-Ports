@@ -1,0 +1,11 @@
+--- third_party/librife_ncnn_vulkan/src/CMakeLists.txt.orig	2026-03-07 00:00:00 UTC
++++ third_party/librife_ncnn_vulkan/src/CMakeLists.txt
+@@ -199,7 +199,7 @@
+ rife_add_shader(warp.comp)
+ rife_add_shader(warp_pack4.comp)
+ 
+-add_library(librife-ncnn-vulkan SHARED rife.cpp warp.cpp ${SHADER_SPV_HEX_FILES})
++add_library(librife-ncnn-vulkan STATIC rife.cpp warp.cpp ${SHADER_SPV_HEX_FILES})
+ target_compile_definitions(librife-ncnn-vulkan PRIVATE LIBRIFE_EXPORTS)
+ if(WIN32)
+     set_target_properties(librife-ncnn-vulkan PROPERTIES OUTPUT_NAME librife-ncnn-vulkan)

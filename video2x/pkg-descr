@@ -1,0 +1,11 @@
+Video2X is a machine learning-based framework for video super resolution
+and frame interpolation. It upscales videos, GIFs and images and
+increases their frame rate using:
+
+- Anime4K v4 GLSL shaders through FFmpeg's libplacebo filter
+- Real-ESRGAN and Real-CUGAN super resolution
+- RIFE frame interpolation
+
+The neural networks run on the GPU through ncnn and Vulkan. The port
+provides the video2x command line tool, the libvideo2x library and all
+bundled models.
