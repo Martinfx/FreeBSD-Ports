@@ -24,7 +24,7 @@ LIB_DEPENDS=	libAlembic.so:graphics/alembic \
 		libBulletCollision.so:devel/bullet \
 		libcryptopp.so:security/cryptopp \
 		libOpenEXR.so:graphics/openexr \
-		libImath-3_1.so:math/Imath \
+		libImath.so:math/Imath \
 		libtiff.so:graphics/tiff \
 		libopencv_highgui.so:graphics/opencv \
 		libopencv_stitching.so:graphics/opencv \
