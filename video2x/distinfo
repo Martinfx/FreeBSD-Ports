@@ -1,0 +1,9 @@
+TIMESTAMP = 1791306931
+SHA256 (k4yt3x-video2x-6.4.0-21-g7db9c18_GH0.tar.gz) = 0a7f1dcfd18b4650c1e3518dd27124184a230014133b7af5b995966f12bbc679
+SIZE (k4yt3x-video2x-6.4.0-21-g7db9c18_GH0.tar.gz) = 556434261
+SHA256 (k4yt3x-librealesrgan-ncnn-vulkan-c1f255524f79566c40866b38e5e65b40adf77eee_GH0.tar.gz) = ac6d8590e0f51b37c6d18dd4a4086c5f0a61dfcefdc3cde83dbd011b8301e346
+SIZE (k4yt3x-librealesrgan-ncnn-vulkan-c1f255524f79566c40866b38e5e65b40adf77eee_GH0.tar.gz) = 108386
+SHA256 (k4yt3x-librealcugan-ncnn-vulkan-d9c5a7eb4c8475af6110496c27c3d1f702f9b96a_GH0.tar.gz) = c0d87ed5248b06f5b08626537c92dcd4485ec049eeed0d0494b189aae9b36d98
+SIZE (k4yt3x-librealcugan-ncnn-vulkan-d9c5a7eb4c8475af6110496c27c3d1f702f9b96a_GH0.tar.gz) = 43800565
+SHA256 (k4yt3x-librife-ncnn-vulkan-f1de3a97c49e1bed4a625aa8eef92586a4871e74_GH0.tar.gz) = 46b4bb7196891ae9ff4efee4c32942b002835747d9c54da1f54962cce3a56dac
+SIZE (k4yt3x-librife-ncnn-vulkan-f1de3a97c49e1bed4a625aa8eef92586a4871e74_GH0.tar.gz) = 459965595

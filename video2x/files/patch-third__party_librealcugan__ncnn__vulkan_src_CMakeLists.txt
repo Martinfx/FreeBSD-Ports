@@ -1,0 +1,11 @@
+--- third_party/librealcugan_ncnn_vulkan/src/CMakeLists.txt.orig	2026-03-07 00:00:00 UTC
++++ third_party/librealcugan_ncnn_vulkan/src/CMakeLists.txt
+@@ -197,7 +197,7 @@
+ realcugan_add_shader(realcugan_postproc_tta.comp)
+ realcugan_add_shader(realcugan_4x_postproc_tta.comp)
+ 
+-add_library(librealcugan-ncnn-vulkan SHARED realcugan.cpp ${SHADER_SPV_HEX_FILES})
++add_library(librealcugan-ncnn-vulkan STATIC realcugan.cpp ${SHADER_SPV_HEX_FILES})
+ target_compile_definitions(librealcugan-ncnn-vulkan PRIVATE LIBREALESRGAN_EXPORTS)
+ if(WIN32)
+     set_target_properties(librealcugan-ncnn-vulkan PROPERTIES OUTPUT_NAME librealcugan-ncnn-vulkan)
