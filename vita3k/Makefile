@@ -122,8 +122,10 @@ post-patch:
 pre-configure:
 	cd ${FFMPEG_WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${SH} ./configure \
 		${FFMPEG_CONFIGURE_ARGS}
-	cd ${FFMPEG_WRKSRC} && ${SETENV} ${MAKE_ENV} ${LOCALBASE}/bin/gmake \
-		-j${MAKE_JOBS_NUMBER} install
+	cd ${FFMPEG_WRKSRC} && ${SETENV} ${MAKE_ENV} DESTDIR= ${LOCALBASE}/bin/gmake \
+		-j${MAKE_JOBS_NUMBER} install DESTDIR=
+	@${TEST} -f ${FFMPEG_PREFIX}/lib/libavformat.a || \
+		(${ECHO_MSG} "FFmpeg was not installed into ${FFMPEG_PREFIX}"; ${FALSE})
 
 do-install:
 	${INSTALL_PROGRAM} ${BUILD_WRKSRC}/bin/Vita3K ${STAGEDIR}${PREFIX}/bin
