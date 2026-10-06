@@ -47,6 +47,9 @@ USE_QT=		core gui network opengl svg widgets buildtools:build qmake:build
 USE_SDL=	sdl2
 USE_XORG=	xext
 
+# bundled OpenNL (meshfix) relies on implicit function declarations
+CFLAGS+=	-Wno-error=implicit-function-declaration
+
 USE_GITHUB=	yes
 GH_ACCOUNT=	zenustech
 GH_TUPLE+=	zenustech:bullet3:aa4931408428cd72057e59627770fc027c5bb0be:bullet/projects/Rigid/bullet3 \
