@@ -1,4 +1,4 @@
---- src/components/update_client/update_query_params.cc.orig	2025-10-30 15:44:36 UTC
+--- src/components/update_client/update_query_params.cc.orig	2026-09-25 15:26:43 UTC
 +++ src/components/update_client/update_query_params.cc
 @@ -33,7 +33,12 @@
      "android";

@@ -1,8 +1,8 @@
 --- src/brave/build/commands/lib/config.ts.orig	2026-06-01 00:00:00 UTC
 +++ src/brave/build/commands/lib/config.ts
-@@ -22,7 +22,14 @@
-   onStdErrLine?: (line: string) => void
- }
+@@ -32,7 +32,14 @@
+     gclient_verbose?: boolean | undefined
+   }
  
 -const validTargetOSValues = ['android', 'ios', 'linux', 'mac', 'win'] as const
 +const validTargetOSValues = [
@@ -16,7 +16,7 @@
  type TargetOS = (typeof validTargetOSValues)[number]
  
  const braveCoreDir = path.join(rootDir, 'src', 'brave')
-@@ -254,7 +261,12 @@
+@@ -264,7 +271,12 @@
      this.braveAndroidPkcs11Alias = ''
      this.nativeRedirectCCDir = path.join(this.srcDir, 'out', 'redirect_cc')
      this.useRemoteExec = envConfig.getBoolean(['use_remoteexec'], false)
@@ -30,7 +30,7 @@
      this.useReclient = envConfig.getBoolean(
        ['use_reclient'],
        this.useRemoteExec && !this.useSiso,
-@@ -327,7 +339,7 @@
+@@ -340,7 +352,7 @@
    enableCDMHostVerification() {
      const enable =
        this.buildConfig === 'Release'
@@ -39,7 +39,7 @@
        && this.sign_widevine_cert !== ''
        && this.sign_widevine_key !== ''
        && this.sign_widevine_passwd !== ''
-@@ -719,22 +731,30 @@
+@@ -737,22 +749,30 @@
  
    get defaultOptions(): ExecOptions {
      let env = Object.assign({}, process.env)
@@ -81,7 +81,7 @@
      if (this.targetOS === 'mac' && process.platform !== 'darwin') {
        const crossCompilePath = path.join(
          this.srcDir,
-@@ -950,6 +970,8 @@
+@@ -968,6 +988,8 @@
          return 'mac'
        case 'linux':
          return 'linux'

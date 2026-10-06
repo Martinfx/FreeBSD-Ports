@@ -1,6 +1,6 @@
 --- src/base/threading/thread_restrictions.h.orig	2026-06-01 00:00:00 UTC
 +++ src/base/threading/thread_restrictions.h
-@@ -752,8 +752,11 @@
+@@ -749,8 +749,11 @@
        const ScopedAllowBaseSyncPrimitives&) = delete;
  
   private:

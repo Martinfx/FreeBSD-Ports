@@ -1,11 +1,26 @@
 PORTNAME=	brave
 DISTVERSIONPREFIX=	v
-DISTVERSION=	1.94.120
-PORTREVISION=	1
+DISTVERSION=	1.96.61
+TSV=		7.0.2
 CATEGORIES=	www
-MASTER_SITES=	https://commondatastorage.googleapis.com/chromium-browser-official/:chromium \
+MASTER_SITES=	https://github.com/chromium-linux-tarballs/chromium-tarballs/releases/download/${CHROME_VERSION}/:chromium \
+		https://codeload.github.com/microsoft/TypeScript/tar.gz/v${TSV}?dummy=/:typescript \
+		https://nerd.hu/distfiles/:external \
 		${NODE_MODULES_SITE}:nodemods
-DISTFILES=	chromium-${CHROME_VERSION}-lite.tar.xz:chromium
+DISTFILES=	${_CHROMIUM_DIST}:chromium \
+		${_TS_DIST}:typescript \
+		${_TS_VENDOR_DIST}:external
+
+_CHROMIUM_DIST=		chromium-${CHROME_VERSION}-linux.tar.xz
+_TS_DIST=		microsoft-TypeScript-v${TSV}_GH0.tar.gz
+_TS_VENDOR_DIST=	TypeScript-${TSV}-vendor.tar.gz
+
+# The extract phase ends with extract-fixup-modes, a recursive chmod(1) over
+# all of WRKDIR, which fails on trees this large (the same problem
+# podman-desktop works around).  So Chromium (675,000 entries), the TypeScript
+# sources (140,000) and the Node modules (110,000) are left out of it and
+# unpacked by pre-patch instead; their modes need no fixing.
+EXTRACT_ONLY=	${DISTFILES:C/:[^:]+$//:N${_CHROMIUM_DIST}:N${_TS_DIST}:N${_TS_VENDOR_DIST}:N${NODE_MODULES_DIST}}
 
 NODE_MODULES_DIST=	brave-node-modules-${DISTVERSION}.tar.xz
 NODE_MODULES_SITE?=	https://github.com/Martinfx/FreeBSD-Ports/releases/download/brave-${DISTVERSION}/
@@ -21,18 +36,25 @@ ONLY_FOR_ARCHS=	aarch64 amd64
 ONLY_FOR_ARCHS_REASON=	the Chromium build is only supported on amd64 and aarch64
 
 # Chromium release the pinned brave-core revision is built against, see
-# "config.projects.chrome.tag" in src/brave/package.json.  Brave 1.94.120 is
-# the release that comes closest to the Chromium in www/chromium (152.0.7977.75
-# there, .76 here), so that port's FreeBSD patches apply to this tree as well.
-CHROME_VERSION=	152.0.7977.76
+# "config.projects.chrome.tag" in src/brave/package.json.  Brave 1.96.61 is
+# the current release; www/chromium is on the same branch (154.0.8037.57 there),
+# so that port's FreeBSD patches apply to this tree as well.
+#
+# Brave 1.96.61 pins 154.0.8037.98, but Google has published no tarball for it
+# (nor for .97), so this takes .97, the closest one there is, from the same
+# chromium-linux-tarballs project www/chromium 154 fetches from.  Every
+# brave-core 1.96.61 patch and every patch in files/ applies to it without
+# fuzz.  Move to .98 once its tarball appears.
+CHROME_VERSION=	154.0.8037.97
 
 # The FreeBSD patches for the Chromium tree in files/ are the ones from
-# www/chromium 152.0.7977.75, rewritten for the src/ prefix this port unpacks
-# Chromium into.
+# www/chromium 154.0.8037.57, rewritten for the src/ prefix this port unpacks
+# Chromium into.  The few that overlap with a brave-core patch, or that the
+# redirect_cc build below needs, are regenerated against the patched tree.
 #
 # This port builds natively: depot_tools, gclient, cipd, siso and reclient are
-# not used at all.  Everything is taken from the official Chromium release
-# tarball (which, unlike a git checkout, already contains all DEPS-managed
+# not used at all.  Everything is taken from a Chromium release tarball
+# (which, unlike a git checkout, already contains all DEPS-managed
 # third-party code), from brave-core and from the ports tree.  The parts that
 # gclient would normally fetch for brave-core are listed in GH_TUPLE below and
 # match the "deps" section of src/brave/DEPS.
@@ -43,7 +65,7 @@ GH_PROJECT=	brave-browser
 GH_TUPLE=	brave:brave-core:v${DISTVERSION}:core/src/brave \
 		brave-intl:bat-native-tweetnacl:8b424ccf29957fe01c88c36076fd32006a357887:tweetnacl/src/brave/vendor/bat-native-tweetnacl \
 		brave:gn-project-generators:b76e14b162aa0ce40f11920ec94bfc12da29e5d0:gnprojgen/src/brave/vendor/gn-project-generators \
-		brave:web-discovery-project:ae82a1b7510f4035d13df47b87a1a7fe5b6471ac:wdp/src/brave/vendor/web-discovery-project \
+		brave:web-discovery-project:eac9e31daef742bdcd557e6031f8659f247282b2:wdp/src/brave/vendor/web-discovery-project \
 		brave-intl:bat-native-bip39wally-core:547a7810333d821e29b8f55126aba031aa0d5fcd:bip39wally/src/brave/third_party/bip39wally-core-native \
 		chfast:ethash:e4a15c3d76dc09392c7efd3e30d84ee3b871e9ce:ethash/src/brave/third_party/ethash/src \
 		bitcoin:bitcoin:8105bce5b384c72cf08b25b7c5343622754e7337:bitcoincore/src/brave/third_party/bitcoin-core/src \
@@ -58,6 +80,15 @@ GH_TUPLE=	brave:brave-core:v${DISTVERSION}:core/src/brave \
 # FreeBSD binary, so the rollup native binding is built from source (like
 # www/chromium does, hence the shared Makefile.crates) and esbuild is taken
 # from ports.
+#
+# Since 154 devtools-frontend also compiles its TypeScript with tsgo, the
+# native TypeScript compiler, which Chromium gets from CIPD as a Linux binary
+# (third_party/typescript/linux-amd64/src/lib/tsc).  It is built from the
+# TypeScript sources instead (only tsc/, the Go implementation, is unpacked),
+# with the Go modules it needs from a vendor tarball, the same way
+# www/chromium does it.  Chromium's own WebUI keeps
+# using the TypeScript in node_modules (use_typescript_go=false), and the
+# tsc that its Python helpers look up in PATH comes from lang/typescript-go.
 _ESBUILD_VERSION=	${MAKE} -C ${PORTSDIR}/devel/esbuild -V DISTVERSION
 
 BUILD_DEPENDS=	${LOCALBASE}/include/linux/videodev2.h:multimedia/v4l_compat \
@@ -74,6 +105,7 @@ BUILD_DEPENDS=	${LOCALBASE}/include/linux/videodev2.h:multimedia/v4l_compat \
 		gperf:devel/gperf \
 		libva>0:multimedia/libva \
 		rustc:lang/rust \
+		tsc:lang/typescript-go \
 		xcb-proto>0:x11/xcb-proto
 
 LIB_DEPENDS=	libatk-bridge-2.0.so:accessibility/at-spi2-core \
@@ -169,6 +201,25 @@ REDIRECT_CC_DIR=	${BUILD_WRKSRC}/out/redirect_cc
 
 _LEO=		${WRKSRC}/src/brave/node_modules/@brave/leo
 
+# brave-core takes @brave/leo straight from git, and pnpm prepares such a
+# package by running a "pnpm install" of its own in it and then its "prepare"
+# script, "pnpm run build", which runs further pnpm commands.  pnpm starts all
+# of those through the shell, by name, but corepack only offers pnpm as
+# "corepack pnpm": without a pnpm in PATH the install fails with
+# ERR_PNPM_PREPARE_PACKAGE.  So put one first in PATH, in BINARY_LINKDIR,
+# that is just that.  Like corepack, it follows the packageManager field of
+# the directory it runs in, leo's included.
+#
+# The install runs until leo is built rather than only while node_modules is
+# missing, so that a run that failed half way is picked up again instead of
+# leaving a partial node_modules behind for good.
+_PNPM_INSTALL=	${MKDIR} ${BINARY_LINKDIR} && \
+		${PRINTF} '\043!/bin/sh\nexec ${LOCALBASE}/bin/corepack pnpm "$$@"\n' \
+		    > ${BINARY_LINKDIR}/pnpm && \
+		${CHMOD} 755 ${BINARY_LINKDIR}/pnpm && \
+		cd ${WRKSRC}/src/brave && ${SETENV} ${CONFIGURE_ENV} \
+		    ${BINARY_LINKDIR}/pnpm install --frozen-lockfile
+
 # Arguments that describe the platform and the toolchain.  Both output
 # directories need them: without them the small redirect_cc build falls back to
 # the Chromium defaults and pulls in things FreeBSD cannot build, such as the
@@ -260,6 +311,7 @@ GN_ARGS+=	${GN_BASE_ARGS} \
 		use_system_harfbuzz=true \
 		use_system_libffi=true \
 		use_system_libjpeg=true \
+		use_typescript_go=false \
 		ffmpeg_branding="${FFMPEG_BRAND}" \
 		brave_google_api_key="AIzaSyAREPLACEWITHYOUROWNGOOGLEAPIKEY2Q" \
 		brave_google_api_endpoint="https://www.googleapis.com/geolocation/v1/geolocate?key="
@@ -274,7 +326,10 @@ GN_REDIRECT_CC_ARGS=	import("//brave/tools/redirect_cc/args.gni") \
 
 OPTIONS_DEFINE=		CODECS CUPS DEBUG KERBEROS LTO NODEMODS PIPEWIRE QT6 \
 			WIDEVINE
-OPTIONS_DEFAULT=	ALSA CODECS CUPS KERBEROS NODEMODS PIPEWIRE PULSEAUDIO \
+# NODEMODS is off by default until brave-node-modules-${DISTVERSION}.tar.xz
+# is uploaded to NODE_MODULES_SITE: pre-configure runs pnpm then, which needs
+# the network.
+OPTIONS_DEFAULT=	ALSA CODECS CUPS KERBEROS PIPEWIRE PULSEAUDIO \
 			QT6 SNDIO WIDEVINE
 OPTIONS_EXCLUDE_aarch64=	LTO
 OPTIONS_GROUP=		AUDIO
@@ -448,27 +503,58 @@ pre-everything::
 # The official Chromium tarball is unpacked next to brave-core, which gclient
 # would otherwise check out as src/brave.  ${FIND} is used instead of a glob so
 # that the dotfiles in the Chromium root (.gn above all) are moved as well.
-post-extract:
-	@${MKDIR} ${WRKSRC}/src
-	@cd ${WRKDIR}/chromium-${CHROME_VERSION} && ${FIND} . -mindepth 1 \
-		-maxdepth 1 -exec ${MV} {} ${WRKSRC}/src/ \;
-	@${RMDIR} ${WRKDIR}/chromium-${CHROME_VERSION}
-# With NODEMODS the Node modules come from a distfile, which unpacks into
-# the work directory like every other one.  They belong to brave-core.
-	@if [ -d ${WRKDIR}/node_modules ]; then \
-		${MV} ${WRKDIR}/node_modules ${WRKSRC}/src/brave/node_modules; \
-	fi
-
 # brave-core carries its own patches for the Chromium tree and they are written
 # against pristine Chromium, so they have to go in before the FreeBSD patches
 # in files/, which the regular patch phase applies right after this target.
 # The layout below patches/ mirrors the Chromium tree.
 #
-# Roughly fifty of them are for Android and iOS files that the -lite tarball
+# Roughly fifty of them are for Android and iOS files that the release tarball
 # does not ship.  None of brave-core's patches creates a file, so a patch whose
 # target is missing is one for a platform this port does not build, and it is
 # skipped; everything else has to apply.
 pre-patch:
+# Unpacked here and not in the extract phase, see EXTRACT_ONLY.  The Chromium
+# tarball is moved next to brave-core, which gclient would otherwise
+# check out as src/brave.  ${FIND} is used instead of a glob so that the
+# dotfiles in the Chromium root (.gn above all) are moved as well.
+	@if [ ! -f ${WRKSRC}/src/chrome/VERSION ]; then \
+		${ECHO_MSG} "===>  Extracting ${_CHROMIUM_DIST}"; \
+		${MKDIR} ${WRKSRC}/src && \
+		${TAR} -xf ${_DISTDIR}/${_CHROMIUM_DIST} -C ${WRKDIR} && \
+		cd ${WRKDIR}/chromium-${CHROME_VERSION} && ${FIND} . -mindepth 1 \
+		    -maxdepth 1 -exec ${MV} {} ${WRKSRC}/src/ \; && \
+		${RMDIR} ${WRKDIR}/chromium-${CHROME_VERSION}; \
+	fi
+# tsgo needs tsc/ only, and not its 50,000 test files.  The Go modules from
+# the vendor tarball go beside tsc/go.mod: www/chromium relies on the tarball
+# unpacking straight into the TypeScript checkout, so look for the vendor
+# directory wherever it landed if it is not there.
+	@if [ ! -f ${WRKSRC}/src/typescript/tsc/go.mod ]; then \
+		${ECHO_MSG} "===>  Extracting tsc from ${_TS_DIST}"; \
+		${TAR} -x -C ${WRKDIR} -f ${_DISTDIR}/${_TS_DIST} \
+		    --exclude 'TypeScript-${TSV}/tsc/testdata' \
+		    'TypeScript-${TSV}/tsc' && \
+		${TAR} -x -C ${WRKDIR} -f ${_DISTDIR}/${_TS_VENDOR_DIST} && \
+		${MKDIR} ${WRKSRC}/src/typescript && \
+		${MV} ${WRKDIR}/TypeScript-${TSV}/tsc ${WRKSRC}/src/typescript/tsc; \
+	fi
+	@if [ ! -f ${WRKSRC}/src/typescript/tsc/vendor/modules.txt ]; then \
+		_v=$$(${FIND} ${WRKDIR} -path ${WRKSRC} -prune -o \
+		    -path '*/tsc/vendor/modules.txt' -print | ${HEAD} -1); \
+		if [ -z "$${_v}" ]; then \
+			${ECHO_MSG} "===>  No tsc/vendor in ${_TS_VENDOR_DIST}"; \
+			${FALSE}; \
+		fi; \
+		${MV} $${_v%/modules.txt} ${WRKSRC}/src/typescript/tsc/vendor; \
+	fi
+.if ${PORT_OPTIONS:MNODEMODS}
+# With NODEMODS the Node modules come from a distfile.  They belong to
+# brave-core.
+	@if [ ! -d ${WRKSRC}/src/brave/node_modules ]; then \
+		${ECHO_MSG} "===>  Extracting ${NODE_MODULES_DIST}"; \
+		${TAR} -xf ${_DISTDIR}/${NODE_MODULES_DIST} -C ${WRKSRC}/src/brave; \
+	fi
+.endif
 	@${ECHO_MSG} "===>  Applying brave-core patches to the Chromium tree"
 	@cd ${WRKSRC}/src/brave/patches && ${FIND} . -name '*.patch' | sort | \
 	while read _p; do \
@@ -522,6 +608,11 @@ pre-configure:
 		${BUILD_WRKSRC}/build/linux/strip_binary.gni \
 		${BUILD_WRKSRC}/build/rust/rust_bindgen.gni \
 		${BUILD_WRKSRC}/build/rust/rust_bindgen_generator.gni
+# Chromium's own change to the TypeScript library files, see
+# third_party/typescript/README.chromium.  The CIPD package has it applied
+# already; the tsgo built from source in pre-build has to get it here.
+	${PATCH} -d ${BUILD_WRKSRC}/typescript/tsc/internal/bundled/libs -Ep2 < \
+		${BUILD_WRKSRC}/third_party/typescript/linux-amd64/3pp/patches/typescript_native_preview.patch
 
 	${CP} ${BUILD_WRKSRC}/chrome/VERSION ${BUILD_WRKSRC}/chrome/VERSION.chromium
 	@${REINPLACE_CMD} -e 's|^MINOR=.*|MINOR=${BRAVE_VERSION_MAJOR}|' \
@@ -531,9 +622,8 @@ pre-configure:
 	cd ${WRKSRC}/src/brave && ${SETENV} ${CONFIGURE_ENV} ${PYTHON_CMD} \
 		build/util/version.py gen ../chrome/VERSION
 
-	@if [ ! -d ${WRKSRC}/src/brave/node_modules ]; then \
-		cd ${WRKSRC}/src/brave && ${SETENV} ${CONFIGURE_ENV} \
-		    ${LOCALBASE}/bin/corepack pnpm install --frozen-lockfile; \
+	@if [ ! -f ${_LEO}/tokens/skia/nala_color_id.h ]; then \
+		${_PNPM_INSTALL}; \
 	fi
 
 	@if [ ! -f ${_LEO}/tokens/skia/nala_color_id.h ]; then \
@@ -555,6 +645,12 @@ pre-configure:
 	@${ECHO_CMD} "directory = '${BUILD_WRKSRC}/brave/third_party/wasm/vendor'" >> ${BUILD_WRKSRC}/.cargo/config.toml
 
 pre-build:
+# tsgo for devtools-frontend, in place of the Linux binary from CIPD.  The
+# library files next to it are the ones from the CIPD package in the tarball.
+	cd ${BUILD_WRKSRC}/typescript/tsc && \
+		${SETENV} ${MAKE_ENV} go build -v -p ${MAKE_JOBS_NUMBER} -mod=vendor ./cmd/tsgo && \
+		${LN} -sf ${BUILD_WRKSRC}/typescript/tsc/tsgo \
+		${BUILD_WRKSRC}/third_party/typescript/linux-amd64/src/lib/tsc
 # The rollup plugin devtools-frontend loads is a native node module
 	@${CARGO_CARGO_RUN} build --manifest-path ${CARGO_CARGOTOML} \
 		${CARGO_BUILD_ARGS}
@@ -617,9 +713,8 @@ do-configure:
 # NODEMODS off (the modules are installed by pre-configure), then upload the
 # tarball to NODE_MODULES_SITE and run "make makesum" with NODEMODS on.
 gen-node-modules: patch
-	@if [ ! -d ${WRKSRC}/src/brave/node_modules ]; then \
-		cd ${WRKSRC}/src/brave && ${SETENV} ${CONFIGURE_ENV} \
-		    ${LOCALBASE}/bin/corepack pnpm install --frozen-lockfile; \
+	@if [ ! -f ${_LEO}/tokens/skia/nala_color_id.h ]; then \
+		${_PNPM_INSTALL}; \
 	fi
 	@if [ ! -f ${_LEO}/tokens/skia/nala_color_id.h ]; then \
 		${ECHO_MSG} "===>  @brave/leo has not been built, refusing to pack"; \
