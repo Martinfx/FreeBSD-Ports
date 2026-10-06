@@ -1,0 +1,30 @@
+--- external/CMakeLists.txt.orig	2026-10-06 04:21:17 UTC
++++ external/CMakeLists.txt
+@@ -28,7 +28,7 @@ function(check_submodules_present)
+ 	endforeach()
+ endfunction()
+ 
+-check_submodules_present()
++#check_submodules_present()
+ 
+ # Set folder for external projects (for project tree in IDE)
+ set(CMAKE_FOLDER externals)
+@@ -91,7 +91,7 @@ target_include_directories(imgui PUBLIC
+ add_library(miniz STATIC miniz/miniz.c miniz/miniz.h)
+ target_include_directories(miniz PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/miniz")
+ 
+-add_subdirectory(sdl)
++find_package(SDL3 REQUIRED CONFIG GLOBAL)
+ 
+ # Cubeb setup, from https://github.com/RPCS3/rpcs3/blob/master/3rdparty/cubeb/CMakeLists.txt
+ set(BUILD_SHARED_LIBS FALSE CACHE BOOL "Don't build shared libs")
+@@ -425,7 +425,8 @@ target_compile_definitions(tracy PUBLIC
+ # target_compile_definitions(tracy PUBLIC TRACY_ENABLE)
+ 
+ # Use XDG desktop portals on Linux
+-set(NFD_PORTAL ON)
++# NFD_PORTAL is set by the FreeBSD port options
++#set(NFD_PORTAL ON)
+ 
+ # nativefiledialog-extended
+ add_subdirectory(nativefiledialog-extended)

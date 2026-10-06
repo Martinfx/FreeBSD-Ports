@@ -1,0 +1,11 @@
+--- external/xxHash/cmake_unofficial/CMakeLists.txt.orig	2026-10-06 04:22:36 UTC
++++ external/xxHash/cmake_unofficial/CMakeLists.txt
+@@ -78,7 +78,7 @@ message(STATUS "Architecture: ${PLATFORM
+ # libxxhash
+ if((DEFINED DISPATCH) AND (DEFINED PLATFORM))
+   # Only support DISPATCH option on x86_64.
+-  if(("${PLATFORM}" STREQUAL "x86_64") OR ("${PLATFORM}" STREQUAL "AMD64"))
++  if(("${PLATFORM}" STREQUAL "x86_64") OR ("${PLATFORM}" STREQUAL "AMD64") OR ("${PLATFORM}" STREQUAL "amd64"))
+     set(XXHSUM_DISPATCH ON)
+     message(STATUS "Enable xxHash dispatch mode")
+     add_library(xxhash "${XXHASH_DIR}/xxh_x86dispatch.c"

@@ -1,0 +1,20 @@
+--- CMakeLists.txt.orig	2026-10-06 04:38:43 UTC
++++ CMakeLists.txt
+@@ -128,7 +128,7 @@ option(VITA3K_FORCE_CUSTOM_BOOST "Force
+ option(VITA3K_FORCE_SYSTEM_BOOST "Force Vita3K build process to use the Boost version in the system and CMake's default paths and ignore the Boost version included with Vita3K" OFF)
+ 
+ # Boost modules to be found by CMake
+-set(BOOST_MODULES_TO_FIND filesystem system)
++set(BOOST_MODULES_TO_FIND filesystem) # Boost.System is header-only since 1.69 and its stub library is gone in 1.89
+ 
+ # If build process isn't set to forcefully use system Boost
+ macro(get_boost)
+@@ -223,7 +223,7 @@ macro(get_boost)
+ 		endif()
+ 	else()
+ 		# Try to find Boost on the system and CMake's default paths
+-		set(Boost_USE_STATIC_LIBS ON)
++		set(Boost_USE_STATIC_LIBS OFF)
+ 		find_package(Boost 1.81 COMPONENTS ${BOOST_MODULES_TO_FIND} REQUIRED)
+ 	endif()
+ endmacro(get_boost)
