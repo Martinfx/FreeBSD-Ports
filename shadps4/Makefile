@@ -95,7 +95,7 @@ QT_DESC=	Build the Qt launcher (shadps4-qtlauncher)
 # recorded in its headers, so the AES classes would have a different
 # layout in the extractor than in the library.
 PKGEXTRACTOR_GH_TUPLE=	AzaharPlus:shadPS4Plus:9d2e76127ce32d13192f9a6ab84a96404677394a:shadps4plus/shadps4plus \
-			shadps4-emu:ext-cryptopp:effed0d0b865afc23ed67e0916f83734e4b9b3b7:cryptopp/shadps4plus/externals/cryptopp
+			shadexternals:cryptopp:effed0d0b865afc23ed67e0916f83734e4b9b3b7:cryptopp/shadps4plus/externals/cryptopp
 PKGEXTRACTOR_EXTRA_PATCHES=	${PATCHDIR}/pkgextractor
 PKGEXTRACTOR_PLIST_FILES=	bin/shadps4-batch-install-pkg \
 			bin/shadps4-install-pkg \

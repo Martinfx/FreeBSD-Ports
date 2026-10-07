@@ -93,5 +93,5 @@ SHA256 (zeux-volk-e51c647181c7a8101454e69446079bc34100a320_GH0.tar.gz) = 643a7c9
 SIZE (zeux-volk-e51c647181c7a8101454e69446079bc34100a320_GH0.tar.gz) = 72556
 SHA256 (AzaharPlus-shadPS4Plus-9d2e76127ce32d13192f9a6ab84a96404677394a_GH0.tar.gz) = 5bd08be48c62cb6559b039dd2ffb53bab3b8fa66ce626d6199d05233ccd4b0d7
 SIZE (AzaharPlus-shadPS4Plus-9d2e76127ce32d13192f9a6ab84a96404677394a_GH0.tar.gz) = 16165753
-SHA256 (shadps4-emu-ext-cryptopp-effed0d0b865afc23ed67e0916f83734e4b9b3b7_GH0.tar.gz) = 89d47cc35e1e6863f1b3a7d9c39e5a7ae1c06d462d5709b4b3ee19cb9b7c3583
-SIZE (shadps4-emu-ext-cryptopp-effed0d0b865afc23ed67e0916f83734e4b9b3b7_GH0.tar.gz) = 9156988
+SHA256 (shadexternals-cryptopp-effed0d0b865afc23ed67e0916f83734e4b9b3b7_GH0.tar.gz) = 2445c9163359b677a152ae5414fe02219bae33b59d6ecdcb9e91506fe49cee4c
+SIZE (shadexternals-cryptopp-effed0d0b865afc23ed67e0916f83734e4b9b3b7_GH0.tar.gz) = 9156660
