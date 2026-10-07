@@ -1,6 +1,7 @@
 PORTNAME=	brave
 DISTVERSIONPREFIX=	v
 DISTVERSION=	1.96.61
+PORTREVISION=	1
 TSV=		7.0.2
 CATEGORIES=	www
 MASTER_SITES=	https://github.com/chromium-linux-tarballs/chromium-tarballs/releases/download/${CHROME_VERSION}/:chromium \
@@ -326,11 +327,12 @@ GN_REDIRECT_CC_ARGS=	import("//brave/tools/redirect_cc/args.gni") \
 
 OPTIONS_DEFINE=		CODECS CUPS DEBUG KERBEROS LTO NODEMODS PIPEWIRE QT6 \
 			WIDEVINE
-# NODEMODS is off by default until brave-node-modules-${DISTVERSION}.tar.xz
-# is uploaded to NODE_MODULES_SITE: pre-configure runs pnpm then, which needs
-# the network.
-OPTIONS_DEFAULT=	ALSA CODECS CUPS KERBEROS PIPEWIRE PULSEAUDIO \
-			QT6 SNDIO WIDEVINE
+# NODEMODS is on by default so that the Node modules are fetched with the
+# other distfiles and the build itself needs no network (poudriere has none).
+# brave-node-modules-${DISTVERSION}.tar.xz has to be on NODE_MODULES_SITE
+# and in distinfo for every version, see gen-node-modules.
+OPTIONS_DEFAULT=	ALSA CODECS CUPS KERBEROS NODEMODS PIPEWIRE \
+			PULSEAUDIO QT6 SNDIO WIDEVINE
 OPTIONS_EXCLUDE_aarch64=	LTO
 OPTIONS_GROUP=		AUDIO
 OPTIONS_GROUP_AUDIO=	ALSA PULSEAUDIO SNDIO
@@ -381,9 +383,9 @@ LTO_VARS=	GN_ARGS+=thin_lto_enable_optimizations=true \
 LTO_VARS_OFF=	GN_ARGS+=use_thin_lto=false
 
 # Without this the modules are installed by pre-configure, which needs the
-# network.  Turn it on for poudriere and for any other build that has none;
-# the distfile has to be regenerated whenever brave-core's pnpm-lock.yaml
-# changes, so it carries the Brave version in its name.
+# network (in poudriere only with ALLOW_NETWORKING_PACKAGES); the distfile
+# has to be regenerated whenever brave-core's pnpm-lock.yaml changes, so it
+# carries the Brave version in its name.
 NODEMODS_DISTFILES=	${NODE_MODULES_DIST}:nodemods
 
 PIPEWIRE_LIB_DEPENDS=	libpipewire-0.3.so:multimedia/pipewire
