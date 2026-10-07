@@ -90,9 +90,12 @@ QT_DESC=	Build the Qt launcher (shadps4-qtlauncher)
 
 # Standalone .pkg extractor (snapshot of 2026-01-22), based on the PKG code
 # that used to live in shadPS4. Built in its own CMake tree against the
-# system Crypto++ instead of the bundled static copy.
-PKGEXTRACTOR_GH_TUPLE=	AzaharPlus:shadPS4Plus:9d2e76127ce32d13192f9a6ab84a96404677394a:shadps4plus/shadps4plus
-PKGEXTRACTOR_LIB_DEPENDS=	libcryptopp.so:security/cryptopp
+# bundled static Crypto++: security/cryptopp is compiled with
+# -DCRYPTOPP_DISABLE_ASM unless its SIMD option is set, and that is not
+# recorded in its headers, so the AES classes would have a different
+# layout in the extractor than in the library.
+PKGEXTRACTOR_GH_TUPLE=	AzaharPlus:shadPS4Plus:9d2e76127ce32d13192f9a6ab84a96404677394a:shadps4plus/shadps4plus \
+			shadps4-emu:ext-cryptopp:effed0d0b865afc23ed67e0916f83734e4b9b3b7:cryptopp/shadps4plus/externals/cryptopp
 PKGEXTRACTOR_EXTRA_PATCHES=	${PATCHDIR}/pkgextractor
 PKGEXTRACTOR_PLIST_FILES=	bin/shadps4-batch-install-pkg \
 			bin/shadps4-install-pkg \
@@ -119,6 +122,7 @@ QT_PLIST_FILES=	bin/shadPS4QtLauncher \
 		share/metainfo/net.shadps4.shadps4-qtlauncher.metainfo.xml
 
 PKGEXTRACTOR_BUILD=	${WRKDIR}/.build-pkgextractor
+PKGEXTRACTOR_CRYPTOPP=	${WRKSRC}/shadps4plus/externals/cryptopp
 QTLAUNCHER_BUILD=	${WRKDIR}/.build-qtlauncher
 
 # The PS4 address space (0x400000 - 0xfffffffffff) is reserved with MAP_FIXED,
@@ -147,9 +151,14 @@ post-patch-PKGEXTRACTOR-on:
 post-configure-PKGEXTRACTOR-on:
 	@${MKDIR} ${PKGEXTRACTOR_BUILD}
 	cd ${PKGEXTRACTOR_BUILD} && ${SETENVI} ${WRK_ENV} ${CONFIGURE_ENV} ${CMAKE_BIN} \
-		${CMAKE_ARGS} ${WRKSRC}/shadps4plus/extractor
+		${CMAKE_ARGS} -DCRYPTOPP_INCLUDE_DIR=${PKGEXTRACTOR_CRYPTOPP:H} \
+		-DCRYPTOPP_LIBRARY=${PKGEXTRACTOR_CRYPTOPP}/libcryptopp.a \
+		${WRKSRC}/shadps4plus/extractor
 
 post-build-PKGEXTRACTOR-on:
+	cd ${PKGEXTRACTOR_CRYPTOPP} && ${SETENVI} ${WRK_ENV} ${MAKE_ENV} ${MAKE_CMD} \
+		-j${MAKE_JOBS_NUMBER} CXX="${CXX}" CXXFLAGS="${CXXFLAGS} -fPIC -DNDEBUG" \
+		static
 	cd ${PKGEXTRACTOR_BUILD} && ${SETENVI} ${WRK_ENV} ${MAKE_ENV} ${CMAKE_BIN} \
 		--build . --target pkg_extractor --parallel ${MAKE_JOBS_NUMBER}
 
