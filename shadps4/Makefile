@@ -1,7 +1,7 @@
 PORTNAME=	shadps4
 DISTVERSIONPREFIX=	v.
 DISTVERSION=	0.19.0
-PORTREVISION=	1
+PORTREVISION=	2
 CATEGORIES=	emulators
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -83,9 +83,20 @@ CMAKE_ARGS=	-DFETCHCONTENT_FULLY_DISCONNECTED=ON \
 		-DPython3_EXECUTABLE=${PYTHON_CMD}
 CMAKE_OFF=	ENABLE_UPDATER
 
-OPTIONS_DEFINE=	QT
-OPTIONS_DEFAULT=	QT
+OPTIONS_DEFINE=	PKGEXTRACTOR QT
+OPTIONS_DEFAULT=	PKGEXTRACTOR QT
+PKGEXTRACTOR_DESC=	Build the PS4 .pkg extractor from shadPS4Plus
 QT_DESC=	Build the Qt launcher (shadps4-qtlauncher)
+
+# Standalone .pkg extractor (snapshot of 2026-01-22), based on the PKG code
+# that used to live in shadPS4. Built in its own CMake tree against the
+# system Crypto++ instead of the bundled static copy.
+PKGEXTRACTOR_GH_TUPLE=	AzaharPlus:shadPS4Plus:9d2e76127ce32d13192f9a6ab84a96404677394a:shadps4plus/shadps4plus
+PKGEXTRACTOR_LIB_DEPENDS=	libcryptopp.so:security/cryptopp
+PKGEXTRACTOR_EXTRA_PATCHES=	${PATCHDIR}/pkgextractor
+PKGEXTRACTOR_PLIST_FILES=	bin/shadps4-batch-install-pkg \
+			bin/shadps4-install-pkg \
+			bin/shadps4-pkg-extractor
 
 # The Qt GUI lives in its own repository upstream (snapshot of 2026-10-02),
 # build it in a second CMake tree. fmt, SDL3, toml11, Vulkan-Headers and
@@ -107,6 +118,7 @@ QT_PLIST_FILES=	bin/shadPS4QtLauncher \
 		share/icons/hicolor/512x512/apps/net.shadps4.shadPS4.png \
 		share/metainfo/net.shadps4.shadps4-qtlauncher.metainfo.xml
 
+PKGEXTRACTOR_BUILD=	${WRKDIR}/.build-pkgextractor
 QTLAUNCHER_BUILD=	${WRKDIR}/.build-qtlauncher
 
 # The PS4 address space (0x400000 - 0xfffffffffff) is reserved with MAP_FIXED,
@@ -126,6 +138,28 @@ do-install:
 	${MKDIR} ${STAGEDIR}${PREFIX}/share/icons/hicolor/scalable/apps
 	${INSTALL_DATA} ${WRKSRC}/src/dist/net.shadps4.shadPS4.svg \
 		${STAGEDIR}${PREFIX}/share/icons/hicolor/scalable/apps
+
+post-patch-PKGEXTRACTOR-on:
+	${REINPLACE_CMD} -e 's|%%PREFIX%%|${PREFIX}|g' \
+		${WRKSRC}/shadps4plus/extractor/batch_install.sh \
+		${WRKSRC}/shadps4plus/extractor/install_pkg.sh
+
+post-configure-PKGEXTRACTOR-on:
+	@${MKDIR} ${PKGEXTRACTOR_BUILD}
+	cd ${PKGEXTRACTOR_BUILD} && ${SETENVI} ${WRK_ENV} ${CONFIGURE_ENV} ${CMAKE_BIN} \
+		${CMAKE_ARGS} ${WRKSRC}/shadps4plus/extractor
+
+post-build-PKGEXTRACTOR-on:
+	cd ${PKGEXTRACTOR_BUILD} && ${SETENVI} ${WRK_ENV} ${MAKE_ENV} ${CMAKE_BIN} \
+		--build . --target pkg_extractor --parallel ${MAKE_JOBS_NUMBER}
+
+post-install-PKGEXTRACTOR-on:
+	${INSTALL_PROGRAM} ${PKGEXTRACTOR_BUILD}/pkg_extractor \
+		${STAGEDIR}${PREFIX}/bin/shadps4-pkg-extractor
+	${INSTALL_SCRIPT} ${WRKSRC}/shadps4plus/extractor/install_pkg.sh \
+		${STAGEDIR}${PREFIX}/bin/shadps4-install-pkg
+	${INSTALL_SCRIPT} ${WRKSRC}/shadps4plus/extractor/batch_install.sh \
+		${STAGEDIR}${PREFIX}/bin/shadps4-batch-install-pkg
 
 pre-patch-QT-on:
 .for d in spdlog zstd zarchive

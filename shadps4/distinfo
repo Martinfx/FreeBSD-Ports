@@ -91,3 +91,5 @@ SHA256 (nlohmann-json-54be9b04f0ec65d0bcfe0da54e7f01ea86fbfc3e_GH0.tar.gz) = 4e9
 SIZE (nlohmann-json-54be9b04f0ec65d0bcfe0da54e7f01ea86fbfc3e_GH0.tar.gz) = 9737218
 SHA256 (zeux-volk-e51c647181c7a8101454e69446079bc34100a320_GH0.tar.gz) = 643a7c97eaadc1a50b960f6dea524c621d2075d10cbab9325a7deb696db89819
 SIZE (zeux-volk-e51c647181c7a8101454e69446079bc34100a320_GH0.tar.gz) = 72556
+SHA256 (AzaharPlus-shadPS4Plus-9d2e76127ce32d13192f9a6ab84a96404677394a_GH0.tar.gz) = 5bd08be48c62cb6559b039dd2ffb53bab3b8fa66ce626d6199d05233ccd4b0d7
+SIZE (AzaharPlus-shadPS4Plus-9d2e76127ce32d13192f9a6ab84a96404677394a_GH0.tar.gz) = 16165753

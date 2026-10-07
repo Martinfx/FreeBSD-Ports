@@ -4,3 +4,11 @@ With the QT option the official Qt launcher (shadPS4QtLauncher) is built
 as well. It manages the game library, per-game settings, controller
 mappings, patches and cheats, and starts games with the shadps4 binary
 from this package.
+
+With the PKGEXTRACTOR option the standalone PS4 .pkg extractor from
+shadPS4Plus is installed as well:
+  shadps4-pkg-extractor <file.pkg> [output dir]
+  shadps4-install-pkg <file.pkg>        (extracts a game, update or DLC
+                                         into $SHADPS4_GAMES_DIR or
+                                         $SHADPS4_ADDONS_DIR)
+  shadps4-batch-install-pkg <directory> (installs every .pkg in it)

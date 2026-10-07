@@ -1,0 +1,31 @@
+--- shadps4plus/extractor/CMakeLists.txt.orig	2026-01-22 18:54:16 UTC
++++ shadps4plus/extractor/CMakeLists.txt
+@@ -5,11 +5,15 @@
+ set(CMAKE_CXX_STANDARD_REQUIRED ON)
+ 
+ find_package(ZLIB 1.3 MODULE)
++find_path(CRYPTOPP_INCLUDE_DIR cryptopp/cryptlib.h REQUIRED)
++find_library(CRYPTOPP_LIBRARY NAMES cryptopp REQUIRED)
+ 
+ include_directories(../src)
+-include_directories(../externals)
++include_directories(${CRYPTOPP_INCLUDE_DIR})
+ 
++if (WIN32)
+ add_definitions(-DNTDDI_VERSION=0x0A000006 -D_WIN32_WINNT=0x0A00 -DWINVER=0x0A00)
++endif()
+ 
+ add_executable(pkg_extractor main.cpp
+ 	../src/core/loader.cpp
+@@ -23,8 +27,5 @@
+ 	../src/common/path_util.cpp
+ 	../src/common/string_util.cpp)
+ 
+-add_library(libcryptopp STATIC IMPORTED)
+-set_property(TARGET libcryptopp PROPERTY IMPORTED_LOCATION "${CMAKE_CURRENT_BINARY_DIR}/cryptopp/cryptopp/libcryptopp.a")
+-
+-target_link_libraries(pkg_extractor PRIVATE libcryptopp)
+-target_link_libraries(pkg_extractor PRIVATE ZLIB::ZLIB)
+\ No newline at end of file
++target_link_libraries(pkg_extractor PRIVATE ${CRYPTOPP_LIBRARY})
++target_link_libraries(pkg_extractor PRIVATE ZLIB::ZLIB)
