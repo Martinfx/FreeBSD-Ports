@@ -1,0 +1,8 @@
+Video2X Qt6 is the graphical user interface for Video2X, the machine
+learning-based video super resolution and frame interpolation framework.
+
+It queues up videos, GIFs and images, lets every task be configured
+separately (processor, model, scaling factor, frame rate multiplier and
+the encoder options) and reports the progress of the running job. The
+processing itself is done by libvideo2x from the video2x port, so the
+same Anime4K, Real-ESRGAN, Real-CUGAN and RIFE models are available.

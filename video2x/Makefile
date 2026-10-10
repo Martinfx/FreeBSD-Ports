@@ -10,9 +10,13 @@ WWW=		https://github.com/k4yt3x/video2x
 LICENSE=	AGPLv3
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
+# graphics/glslang's default flavor installs static libraries only, so there
+# is no libglslang.so to link against: the glslang that the static libncnn.a
+# references, and the glslangValidator that compiles the shaders, are both
+# build dependencies.
 BUILD_DEPENDS=	${LOCALBASE}/include/vulkan/vulkan.h:graphics/vulkan-headers \
-		${LOCALBASE}/lib/libncnn.a:misc/ncnn \
-		glslangValidator:graphics/glslang
+		${LOCALBASE}/lib/libglslang.a:graphics/glslang \
+		${LOCALBASE}/lib/libncnn.a:misc/ncnn
 LIB_DEPENDS=	libavcodec.so:multimedia/ffmpeg \
 		libavfilter.so:multimedia/ffmpeg \
 		libavformat.so:multimedia/ffmpeg \
@@ -20,7 +24,6 @@ LIB_DEPENDS=	libavcodec.so:multimedia/ffmpeg \
 		libswscale.so:multimedia/ffmpeg \
 		libboost_program_options.so:devel/boost-libs \
 		libfmt.so:devel/libfmt \
-		libglslang.so:graphics/glslang \
 		libspdlog.so:devel/spdlog \
 		libvulkan.so:graphics/vulkan-loader
 
