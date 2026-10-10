@@ -1,0 +1,18 @@
+--- src/CMakeLists.txt.orig	2025-01-15 22:13:27 UTC
++++ src/CMakeLists.txt
+@@ -27,7 +27,6 @@ target_compile_options(
+ target_compile_options(
+     clang-umllib
+     PRIVATE $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>:
+-            -Werror
+             -Wall
+             -Wextra
+             -Wno-unused-parameter
+@@ -54,7 +53,6 @@ target_compile_options(
+ target_compile_options(
+     clang-uml
+     PRIVATE $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>:
+-            -Werror
+             -Wall
+             -Wextra
+             -Wno-unused-parameter
