@@ -8,4 +8,5 @@ increases their frame rate using:
 
 The neural networks run on the GPU through ncnn and Vulkan. The port
 provides the video2x command line tool, the libvideo2x library and all
-bundled models.
+bundled models. With the QT6 option it also builds video2x-qt6, the Qt6
+interface that queues up files and configures every task separately.

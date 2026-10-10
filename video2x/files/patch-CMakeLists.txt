@@ -1,6 +1,14 @@
 --- CMakeLists.txt.orig	2026-03-07 00:00:00 UTC
 +++ CMakeLists.txt
-@@ -40,8 +40,8 @@
+@@ -18,6 +18,7 @@
+ # Build options
+ option(BUILD_SHARED_LIBS "Build libvideo2x as a shared library" ON)
+ option(VIDEO2X_BUILD_CLI "Build the video2x command line interface executable" ON)
++option(VIDEO2X_BUILD_QT6 "Build the video2x-qt6 graphical user interface" OFF)
+ 
+ option(VIDEO2X_USE_EXTERNAL_NCNN "Use the system-provided ncnn library" ON)
+ option(VIDEO2X_USE_EXTERNAL_SPDLOG "Use the system-provided spdlog library" ON)
+@@ -40,8 +41,8 @@
          add_compile_options(/Ox /Ot /GL /DNDEBUG)
          add_link_options(/LTCG /OPT:REF /OPT:ICF)
      elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
@@ -11,7 +19,7 @@
      endif()
  endif()
  
-@@ -309,9 +309,9 @@
+@@ -309,9 +310,9 @@
  
  # Add Real-ESRGAN, Real-CUGAN, and RIFE
  option(USE_SYSTEM_NCNN "" ${VIDEO2X_USE_EXTERNAL_NCNN})
@@ -24,3 +32,13 @@
  
  # Prevent the min and max macros from causing error C2589 on Windows
  if(WIN32)
+@@ -493,3 +494,9 @@
+         install(FILES "${boost_dll_path}" DESTINATION "${CMAKE_INSTALL_BINDIR}")
+     endif()
+ endif()
++
++# Build the Qt6 graphical user interface from the video2x-qt6 repository,
++# which the port extracts into gui/
++if(VIDEO2X_BUILD_QT6)
++    add_subdirectory(gui)
++endif()

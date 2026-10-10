@@ -1,0 +1,88 @@
+--- gui/CMakeLists.txt.orig	2026-10-10 00:00:00 UTC
++++ gui/CMakeLists.txt
+@@ -26,8 +26,8 @@
+         add_compile_options(/Ox /Ot /GL /DNDEBUG)
+         add_link_options(/LTCG /OPT:REF /OPT:ICF)
+     elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+-        add_compile_options(-O3 -ffunction-sections -fdata-sections)
+-        add_link_options(-Wl,-s -flto -Wl,--gc-sections)
++        add_compile_options(-ffunction-sections -fdata-sections)
++        add_link_options(-Wl,--gc-sections)
+     endif()
+ endif()
+ 
+@@ -58,6 +58,9 @@
+ 
+ # Find the required Qt6 components
+ find_package(Qt6 REQUIRED COMPONENTS Core Widgets Svg Network LinguistTools)
++if(NOT WIN32)
++    find_package(Qt6 REQUIRED COMPONENTS DBus)
++endif()
+ qt_standard_project_setup()
+ list(APPEND VIDEO2X_QT6_LIBS Qt6::Core Qt6::Widgets Qt6::Svg Qt6::Network)
+ 
+@@ -75,7 +78,7 @@
+ # Find FFmpeg libraries and includes
+ if(WIN32)
+     # Add FFmpeg libraries and headers
+-    set(FFMPEG_BASE_PATH ${CMAKE_SOURCE_DIR}/third_party/ffmpeg-shared)
++    set(FFMPEG_BASE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/third_party/ffmpeg-shared)
+     list(APPEND VIDEO2X_QT6_LIBS
+         ${FFMPEG_BASE_PATH}/lib/avutil.lib
+         ${FFMPEG_BASE_PATH}/lib/avcodec.lib
+@@ -105,12 +108,20 @@
+ list(APPEND VIDEO2X_QT6_LIBS ${SPDLOG_LIB})
+ 
+ # Find the libvideo2x library
+-if(USE_EXTERNAL_VIDEO2X)
++if(TARGET libvideo2x)
++    # Built as a part of the Video2X source tree: link the library the parent
++    # project builds and pick up its headers and the generated version.h
++    list(APPEND VIDEO2X_QT6_LIBS libvideo2x)
++    list(APPEND VIDEO2X_QT6_INCLUDE_DIRS
++        ${CMAKE_SOURCE_DIR}/include
++        ${CMAKE_BINARY_DIR}
++    )
++elseif(USE_EXTERNAL_VIDEO2X)
+     find_package(Video2X REQUIRED)
+     list(APPEND VIDEO2X_QT6_LIBS Video2X::libvideo2x)
+ elseif(USE_SHARED_VIDEO2X)
+     # Add libvideo2x shared libraries and headers
+-    set(LIBVIDEO2X_BASE_PATH ${CMAKE_SOURCE_DIR}/third_party/video2x-install)
++    set(LIBVIDEO2X_BASE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/third_party/video2x-install)
+     list(APPEND VIDEO2X_QT6_LIBS ${LIBVIDEO2X_BASE_PATH}/libvideo2x.lib)
+     list(APPEND VIDEO2X_QT6_INCLUDE_DIRS ${LIBVIDEO2X_BASE_PATH}/include)
+ else()
+@@ -120,7 +131,7 @@
+     # Add libvideo2x as an external project
+     ExternalProject_Add(
+         Video2X
+-        SOURCE_DIR ${CMAKE_SOURCE_DIR}/third_party/video2x
++        SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/third_party/video2x
+         CMAKE_ARGS
+             -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+             -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/video2x-install
+@@ -195,11 +206,11 @@
+ target_include_directories(video2x-qt6 PRIVATE
+     ${spdlog_INCLUDE_DIRS}
+     ${VIDEO2X_QT6_INCLUDE_DIRS}
+-    ${CMAKE_SOURCE_DIR}/src
+-    ${CMAKE_SOURCE_DIR}/third_party/video2x/include
++    ${CMAKE_CURRENT_SOURCE_DIR}/src
++    ${CMAKE_CURRENT_SOURCE_DIR}/third_party/video2x/include
+ )
+ 
+-if(NOT USE_EXTERNAL_VIDEO2X AND NOT USE_SHARED_VIDEO2X)
++if(NOT TARGET libvideo2x AND NOT USE_EXTERNAL_VIDEO2X AND NOT USE_SHARED_VIDEO2X)
+     add_dependencies(video2x-qt6 Video2X)
+     if(WIN32)
+         set(LIBVIDEO2X_LIB ${CMAKE_BINARY_DIR}/video2x-install/libvideo2x.lib)
+@@ -226,7 +237,7 @@
+         NO_UNSUPPORTED_PLATFORM_ERROR
+     )
+     install(SCRIPT ${deploy_script})
+-elseif(LINUX)
++elseif(UNIX AND NOT APPLE)
+     install(FILES resources/video2x-qt6.desktop
+         DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/applications
+     )
