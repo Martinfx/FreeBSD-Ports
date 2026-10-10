@@ -1,6 +1,6 @@
 PORTNAME=	zeno
 DISTVERSION=	2024.10.1
-PORTREVISION=	3
+PORTREVISION=	4
 CATEGORIES=	graphics
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -107,6 +107,14 @@ CMAKE_OFF=	ZENO_BUILD_DESIGNER ZENO_BUILD_PLAYER ZENO_INSTALL_TARGET \
 # DemBones in ${PREFIX}/bin instead.
 # SampleModel and zenvdb need submodules which are not fetched (openvdb), add
 # them to GH_TUPLE when enabling those.
+#
+# The bundled zenustech/libigl fork (projects/cgmesh, also pulled in by FEM and
+# Skinning) dates from 2022 and asks for Eigen 3.3.7 in its own CMake; its
+# diag() and slice_into() use Eigen::DynamicSparseMatrix, which Eigen 5 no
+# longer ships.  The two patches below swap it for Eigen::SparseMatrix, so the
+# igl headers zeno uses compile against math/eigen3 as well as math/eigen5.
+# eigen:3 stays for now: CGAL and the rest of the stack here are still built
+# against Eigen 3.
 # ZENO_BUILD_DESIGNER - bug https://github.com/zenustech/zeno/issues/1907
 
 PLIST_FILES=	bin/autotest \
