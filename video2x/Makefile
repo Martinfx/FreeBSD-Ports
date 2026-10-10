@@ -68,6 +68,7 @@ QT6_USES=		desktop-file-utils qt:6
 QT6_USE=		QT=base,svg,tools:build
 QT6_CMAKE_BOOL=		VIDEO2X_BUILD_QT6
 QT6_EXTRA_PATCHES=	${PATCHDIR}/extra-patch-gui_CMakeLists.txt \
+			${PATCHDIR}/extra-patch-gui_src_mainwindow.cpp \
 			${PATCHDIR}/extra-patch-gui_src_taskconfigdialog.cpp
 
 .include <bsd.port.options.mk>
