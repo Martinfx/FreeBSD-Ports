@@ -472,6 +472,18 @@ PLIST_SUB+=		NOT_AARCH64=""
 FFMPEG_BDIR=	${BUILD_WRKSRC}/third_party/ffmpeg/build.${FFMPEG_TARGET}.freebsd/${FFMPEG_BRAND}
 FFMPEG_CDIR=	${BUILD_WRKSRC}/third_party/ffmpeg/chromium/config/${FFMPEG_BRAND}/freebsd/${FFMPEG_TARGET}
 
+# The config FFmpeg's configure writes, and which the GN build then reads out
+# of FFMPEG_CDIR.  config.asm and config_components.asm come from the x86
+# assembler path only: on arm64 configure never writes them, and the generated
+# source list uses the .S files under libavcodec/aarch64 instead, which need no
+# nasm config.  Upstream's own checked-in configs match, see
+# third_party/ffmpeg/chromium/config/*/linux/arm64.
+FFMPEG_CONFIGS=	config.h config_components.h \
+		libavcodec libavformat libavutil
+.if ${ARCH} != aarch64
+FFMPEG_CONFIGS+=	config.asm config_components.asm
+.endif
+
 # brave-core patches 41 of Chromium's python build scripts to end in an import
 # of brave_chromium_utils, which is how it hooks chromium_src/ overrides into
 # them.  That module lives in //brave/script and is only importable because
@@ -595,17 +607,16 @@ pre-configure:
 		${PYTHON_CMD} scripts/build_ffmpeg.py freebsd ${FFMPEG_TARGET} \
 		--config-only --branding=${FFMPEG_BRAND}
 	cd ${FFMPEG_BDIR} && ${GMAKE} ffversion.h
-	${MKDIR} ${FFMPEG_CDIR}
-.for _e in config.h config.asm config_components.asm config_components.h \
-	libavcodec libavformat libavutil
-	-${CP} -pR ${FFMPEG_BDIR}/${_e} ${FFMPEG_CDIR}
-.endfor
-
-	@if [ ! -f ${FFMPEG_CDIR}/config.asm ]; then \
-		${ECHO_MSG} "===>  FFmpeg produced no config in ${FFMPEG_BDIR}"; \
-		${ECHO_MSG} "      The build needs ${FFMPEG_CDIR}/config.asm."; \
+	@for _e in ${FFMPEG_CONFIGS}; do \
+		if [ -e ${FFMPEG_BDIR}/$${_e} ]; then continue; fi; \
+		${ECHO_MSG} "===>  FFmpeg produced no $${_e} in ${FFMPEG_BDIR}"; \
+		${ECHO_MSG} "      The build needs ${FFMPEG_CDIR}/$${_e}."; \
 		${FALSE}; \
-	fi
+	done
+	${MKDIR} ${FFMPEG_CDIR}
+.for _e in ${FFMPEG_CONFIGS}
+	${CP} -pR ${FFMPEG_BDIR}/${_e} ${FFMPEG_CDIR}
+.endfor
 	@${REINPLACE_CMD} -e 's|$${LOCALBASE}|${LOCALBASE}|;s|$${MODCLANG_VERSION}|${LLVM_DEFAULT}|' \
 		${BUILD_WRKSRC}/build/linux/strip_binary.gni \
 		${BUILD_WRKSRC}/build/rust/rust_bindgen.gni \
