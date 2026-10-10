@@ -1,0 +1,58 @@
+PORTNAME=	mysql-workbench
+DISTVERSION=	8.0.43
+CATEGORIES=	editors
+MASTER_SITES=	https://dev.mysql.com/get/Downloads/MySQLGUITools/:sql \
+		https://www.antlr.org/download/:jar
+DISTFILES=	${PORTNAME}-community-${DISTVERSION}-src.tar.gz:sql \
+		antlr-4.11.1-complete.jar:jar
+EXTRACT_ONLY=	${PORTNAME}-community-${DISTVERSION}-src.tar.gz
+
+MAINTAINER=	maxfx@hades
+COMMENT=	mysql editor
+
+LICENSE=	GPLv2
+
+USES=		cmake gnome pkgconfig mysql:80 localbase:ldflags
+USES_GNOME=	gtk30 cairo
+USE_XORG=	x11
+
+BUILD_DEPENDS=	antlr4>0:devel/antlr4 \
+		boost-all>0:devel/boost-all \
+		libsecret>0:security/libsecret \
+		libssh>0:security/libssh \
+		libzip>0:archivers/libzip \
+		gtk3>0:x11-toolkits/gtk30 \
+		gtkmm30>0:x11-toolkits/gtkmm30 \
+		pcre>0:devel/pcre \
+		libuuid>0:misc/libuuid \
+		mysql-connector-c++>0:databases/mysql-connector-c++ \
+		unixODBC>0:databases/unixODBC \
+		rapidjson>0:devel/rapidjson \
+		gdal>0:graphics/gdal \
+		swig:devel/swig
+
+CPPFLAGS=	-I${LOCALBASE}/include \
+		-I${WRKSRC}/library/forms/gtk/src \
+		-I${LOCALBASE}/include/cairo/ \
+		-I${LOCALBASE}/include `pkg-config --cflags gtk+-3.0`
+LDFLAGS=	-L${LOCALBASE}/lib
+
+CMAKE_ARGS=	-DODBC_INCLUDE_DIRS="${LOCALBASE}/include/" \
+		-DODBC_LIBRARIES="${LOCALBASE}/lib" \
+		-DANTLR_JAR_PATH=${WRKDIR} \
+		-DX11_X11_INCLUDE_PATH="/usr/local/include" \
+		-DX11_X11_LIB="/usr/local/lib" \
+		-DSWIG_EXECUTABLE="${LOCALBASE}/bin/swig" \
+		-DSWIG_DIR="${LOCALBASE}/share/swig/4.1.1" \
+		-DANTLR4_LIBRARY="${LOCALBASE}/lib" \
+		-DANTLR4_INCLUDE_DIR="${LOCALBASE}/include" \
+		-DMySQLCppConn_INCLUDE_DIR="${LOCALBASE}/include/jdbc/" \
+		-DUNIXODBC_INCLUDE_DIRS="${LOCALBASE}/include"
+
+WRKSRC=		${WRKDIR}/${PORTNAME}-community-${DISTVERSION}-src
+
+post-patch:
+#	@${MKDIR} ${WRKSRC}
+	@${CP} ${DISTDIR}/antlr-4.11.1-complete.jar ${WRKDIR}
+
+.include <bsd.port.mk>
