@@ -27,7 +27,7 @@ LIB_DEPENDS=	libavcodec.so:multimedia/ffmpeg \
 		libspdlog.so:devel/spdlog \
 		libvulkan.so:graphics/vulkan-loader
 
-USES=		cmake compiler:c++17-lang localbase:ldflags pkgconfig
+USES=		cmake compiler:c++20-lang localbase:ldflags pkgconfig
 USE_GITHUB=	yes
 GH_ACCOUNT=	k4yt3x
 GH_TUPLE=	k4yt3x:librealesrgan-ncnn-vulkan:c1f255524f79566c40866b38e5e65b40adf77eee:realesrgan/third_party/librealesrgan_ncnn_vulkan \
@@ -53,6 +53,22 @@ CMAKE_ON=	VIDEO2X_BUILD_CLI \
 CMAKE_OFF=	VIDEO2X_ENABLE_NATIVE \
 		VIDEO2X_ENABLE_X86_64_V3 \
 		VIDEO2X_ENABLE_X86_64_V4
+
+OPTIONS_DEFINE=		QT6
+OPTIONS_DEFAULT=	QT6
+OPTIONS_SUB=		yes
+
+QT6_DESC=		Build the video2x-qt6 graphical user interface
+
+# The GUI has a repository of its own. It is extracted into gui/, where the
+# patched top level CMakeLists.txt picks it up, so that the interface links
+# against the libvideo2x built here instead of a second copy of it.
+QT6_GH_TUPLE=		k4yt3x:video2x-qt6:2c70706293c5c6cfe56db0a3a430d4468e3c402c:qt6/gui
+QT6_USES=		desktop-file-utils qt:6
+QT6_USE=		QT=base,svg,tools:build
+QT6_CMAKE_BOOL=		VIDEO2X_BUILD_QT6
+QT6_EXTRA_PATCHES=	${PATCHDIR}/extra-patch-gui_CMakeLists.txt \
+			${PATCHDIR}/extra-patch-gui_src_taskconfigdialog.cpp
 
 .include <bsd.port.options.mk>
 

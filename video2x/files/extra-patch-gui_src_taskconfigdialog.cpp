@@ -1,5 +1,5 @@
---- src/taskconfigdialog.cpp.orig	2026-10-10 00:00:00 UTC
-+++ src/taskconfigdialog.cpp
+--- gui/src/taskconfigdialog.cpp.orig	2026-10-10 00:00:00 UTC
++++ gui/src/taskconfigdialog.cpp
 @@ -475,7 +475,8 @@
  
      // EncoderConfig

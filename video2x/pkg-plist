@@ -1,4 +1,5 @@
 bin/video2x
+%%QT6%%bin/video2x-qt6
 include/libvideo2x/avutils.h
 include/libvideo2x/conversions.h
 include/libvideo2x/decoder.h
@@ -19,6 +20,16 @@ lib/cmake/Video2X/Video2XConfig.cmake
 lib/cmake/Video2X/Video2XTargets-%%CMAKE_BUILD_TYPE%%.cmake
 lib/cmake/Video2X/Video2XTargets.cmake
 lib/libvideo2x.so
+%%QT6%%share/applications/video2x-qt6.desktop
+%%QT6%%share/icons/hicolor/16x16/apps/video2x.png
+%%QT6%%share/icons/hicolor/24x24/apps/video2x.png
+%%QT6%%share/icons/hicolor/32x32/apps/video2x.png
+%%QT6%%share/icons/hicolor/48x48/apps/video2x.png
+%%QT6%%share/icons/hicolor/64x64/apps/video2x.png
+%%QT6%%share/icons/hicolor/128x128/apps/video2x.png
+%%QT6%%share/icons/hicolor/256x256/apps/video2x.png
+%%QT6%%share/icons/hicolor/512x512/apps/video2x.png
+%%QT6%%share/icons/hicolor/1024x1024/apps/video2x.png
 %%DATADIR%%/models/libplacebo/anime4k-v4-a+a.glsl
 %%DATADIR%%/models/libplacebo/anime4k-v4-a.glsl
 %%DATADIR%%/models/libplacebo/anime4k-v4-b+b.glsl
