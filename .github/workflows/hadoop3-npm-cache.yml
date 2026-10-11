@@ -1,0 +1,128 @@
+# Build the npm cache distfile of hadoop3's YARNUI option
+# (hadoop3-npm-cache-<version>.tar.xz) natively in a FreeBSD 15.1 VM and
+# upload it to the hadoop3-<version> release, where the port's MASTER_SITES
+# look for it.  The YARN capacity scheduler UI runs "npm ci" from maven, which
+# always recreates node_modules, so what the port needs is not node_modules
+# but an npm cache it can install from offline.  It holds every package the
+# UI's package-lock.json needs on FreeBSD amd64 and aarch64; the platform
+# packages (esbuild, rollup, tailwind oxide, lightningcss) are the FreeBSD ones.
+name: hadoop3 npm cache
+
+on:
+  push:
+    branches:
+      - claude/awesome-franklin-om5ip5
+    paths:
+      - '.github/workflows/hadoop3-npm-cache.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: hadoop3-npm-cache-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  npm-cache:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Version
+        run: |
+          V=$(awk '$1 == "PORTVERSION=" { print $2 }' hadoop3/Makefile)
+          echo "HADOOP_VERSION=$V" >> "$GITHUB_ENV"
+          echo "hadoop $V"
+
+      - name: Build the npm cache on FreeBSD
+        uses: vmactions/freebsd-vm@v1
+        with:
+          release: "15.1"
+          usesh: true
+          cpu: 4
+          mem: 8192
+          envs: 'HADOOP_VERSION'
+          prepare: |
+            set -e
+            # the same node and npm the port's YARNUI option builds with
+            pkg install -y node22 npm-node22
+          run: |
+            set -e
+            W=$PWD
+            V=$HADOOP_VERSION
+            D=hadoop3-npm-cache-$V
+            N=$D.tar.xz
+            mkdir -p $W/out
+            freebsd-version; node --version; npm --version
+
+            # the Hadoop source the port fetches, checked against distinfo
+            T=hadoop-$V-src.tar.gz
+            fetch -o /tmp/$T https://archive.apache.org/dist/hadoop/common/hadoop-$V/$T
+            want=$(awk -v f="(hadoop/$T)" '$1 == "SHA256" && $2 == f { print $4 }' hadoop3/distinfo)
+            got=$(sha256 -q /tmp/$T)
+            echo "hadoop sha256 $got (distinfo $want)"
+            [ "$got" = "$want" ]
+            UI=hadoop-$V-src/hadoop-yarn-project/hadoop-yarn/hadoop-yarn-capacity-scheduler-ui/src/main/webapp
+            tar -xzf /tmp/$T -C /tmp $UI
+            sha256 /tmp/$UI/package-lock.json
+
+            # fill the cache: native amd64, plus the aarch64 platform packages
+            C=/tmp/$D
+            for cpu in x64 arm64; do
+              rm -rf /tmp/fill && mkdir /tmp/fill
+              cp /tmp/$UI/package.json /tmp/$UI/package-lock.json /tmp/fill/
+              (cd /tmp/fill && npm ci --ignore-scripts --no-audit --no-fund \
+                  --cpu=$cpu --cache=$C)
+            done
+            rm -rf $C/_logs $C/_update-notifier-last-checked
+
+            # what the port does: an offline npm ci from the cache with the
+            # install scripts, then the UI build, with the FreeBSD esbuild,
+            # rollup, tailwind and lightningcss binaries
+            cp -R /tmp/$UI /tmp/ui
+            cd /tmp/ui
+            env npm_config_cache=$C npm_config_offline=true \
+                npm_config_audit=false npm_config_fund=false \
+                npm_config_update_notifier=false npm ci > $W/out/npm-ci.log 2>&1 || \
+              { tail -n 100 $W/out/npm-ci.log; exit 1; }
+            tail -n 5 $W/out/npm-ci.log
+            env NODE_ENV=production node_modules/.bin/react-router build \
+                > $W/out/ui-build.log 2>&1 || { tail -n 100 $W/out/ui-build.log; exit 1; }
+            tail -n 15 $W/out/ui-build.log
+            test -f build/client/index.html
+            rm -rf $C/_logs
+
+            cd /tmp
+            tar -c -J --options xz:threads=4 -f $W/out/$N $D
+            cd $W/out
+            printf 'SHA256 (hadoop/%s) = %s\nSIZE (hadoop/%s) = %s\n' \
+              $N "$(sha256 -q $N)" $N "$(stat -f %z $N)" > $N.distinfo
+            cat $N.distinfo
+
+      - name: Upload to the hadoop3-${{ env.HADOOP_VERSION }} release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          V=$HADOOP_VERSION
+          N=out/hadoop3-npm-cache-$V.tar.xz
+          ls -l $N
+          cat $N.distinfo >> "$GITHUB_STEP_SUMMARY"
+          if gh release view hadoop3-$V >/dev/null 2>&1; then
+            gh release upload hadoop3-$V $N --clobber
+          else
+            gh release create hadoop3-$V $N --target "$GITHUB_SHA" \
+              --title "hadoop3 $V npm cache" \
+              --notes "npm cache distfile for devel/hadoop3 $V (YARNUI option), built on FreeBSD 15.1 amd64 by .github/workflows/hadoop3-npm-cache.yml."
+          fi
+
+      - name: Logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hadoop3-npm-cache-logs
+          path: |
+            out/*.log
+            out/*.distinfo
+          if-no-files-found: ignore

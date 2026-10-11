@@ -1,0 +1,115 @@
+# Build the vendor distfile of hadoop3 (hadoop3-catalog-vendor-<version>.tar.xz)
+# in a FreeBSD 15.1 VM and upload it to the hadoop3-<version> release, where
+# the port's HADOOP_DISTFILES_SITE looks for it.  The YARN application catalog
+# webapp has frontend-maven-plugin download a Linux node 12 and run
+# "yarn install", only to get jquery, angular and bootstrap into
+# target/generated-sources/vendor for its war.  On FreeBSD the port skips that
+# and unpacks this instead: the same yarn install, done once, from the
+# webapp's yarn.lock.
+name: hadoop3 catalog vendor
+
+on:
+  push:
+    branches:
+      - claude/awesome-franklin-om5ip5
+    paths:
+      - '.github/workflows/hadoop3-catalog-vendor.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: hadoop3-catalog-vendor-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  catalog-vendor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Version
+        run: |
+          V=$(awk '$1 == "PORTVERSION=" { print $2 }' hadoop3/Makefile)
+          echo "HADOOP_VERSION=$V" >> "$GITHUB_ENV"
+          echo "hadoop $V"
+
+      - name: Run yarn install on FreeBSD
+        uses: vmactions/freebsd-vm@v1
+        with:
+          release: "15.1"
+          cpu: 2
+          mem: 4096
+          envs: 'HADOOP_VERSION'
+          prepare: |
+            set -e
+            pkg install -y www/node22 www/yarn-node22
+          run: |
+            set -e
+            W=$PWD
+            V=$HADOOP_VERSION
+            D=hadoop3-catalog-vendor-$V
+            N=$D.tar.xz
+            mkdir -p $W/out
+            freebsd-version; node --version; yarn --version
+
+            T=hadoop-$V-src.tar.gz
+            fetch -o /tmp/$T https://archive.apache.org/dist/hadoop/common/hadoop-$V/$T
+            want=$(awk -v f="(hadoop/$T)" '$1 == "SHA256" && $2 == f { print $4 }' hadoop3/distinfo)
+            got=$(sha256 -q /tmp/$T)
+            echo "hadoop sha256 $got (distinfo $want)"
+            [ "$got" = "$want" ]
+            C=hadoop-$V-src/hadoop-yarn-project/hadoop-yarn/hadoop-yarn-applications/hadoop-yarn-applications-catalog/hadoop-yarn-applications-catalog-webapp
+            tar -xzf /tmp/$T -C /tmp $C/package.json $C/yarn.lock $C/.yarnrc
+            cat /tmp/$C/.yarnrc
+            sha256 /tmp/$C/yarn.lock
+
+            # what the webapp's "yarn install" does; its .yarnrc puts the
+            # modules in target/generated-sources/vendor
+            cd /tmp/$C
+            yarn install --frozen-lockfile --ignore-scripts --non-interactive \
+              > $W/out/yarn-install.log 2>&1 || { tail -n 100 $W/out/yarn-install.log; exit 1; }
+            tail -n 10 $W/out/yarn-install.log
+            # the files the war and the js compression take from it
+            for f in jquery/dist/jquery.js angular/angular.min.js \
+                angular-route/angular-route.min.js bootstrap \
+                roboto-fontface/fonts/roboto/Roboto-Regular.woff; do
+              test -e target/generated-sources/vendor/$f
+            done
+
+            mkdir /tmp/$D
+            mv target/generated-sources/vendor /tmp/$D/
+            cd /tmp
+            tar -c -J --options xz:threads=0 -f $W/out/$N $D
+            cd $W/out
+            printf 'SHA256 (hadoop/%s) = %s\nSIZE (hadoop/%s) = %s\n' \
+              $N "$(sha256 -q $N)" $N "$(stat -f %z $N)" > $N.distinfo
+            cat $N.distinfo
+
+      - name: Upload to the hadoop3-${{ env.HADOOP_VERSION }} release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          V=$HADOOP_VERSION
+          N=out/hadoop3-catalog-vendor-$V.tar.xz
+          ls -l $N
+          cat $N.distinfo >> "$GITHUB_STEP_SUMMARY"
+          if gh release view hadoop3-$V >/dev/null 2>&1; then
+            gh release upload hadoop3-$V $N --clobber
+          else
+            gh release create hadoop3-$V $N --target "$GITHUB_SHA" \
+              --title "hadoop3 $V distfiles" \
+              --notes "Distfiles for devel/hadoop3 $V, built on FreeBSD 15.1 amd64 by .github/workflows/."
+          fi
+
+      - name: Logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hadoop3-catalog-vendor-logs
+          path: |
+            out/*.log
+            out/*.distinfo
+          if-no-files-found: ignore

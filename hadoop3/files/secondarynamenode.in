@@ -1,32 +1,84 @@
 #!/bin/sh
 #
-# $FreeBSD$
-#
 # PROVIDE: secondarynamenode
 # REQUIRE: LOGIN
 # KEYWORD: shutdown
 #
-# secondarynamenode_enable (bool):     Set to NO by default.
-#                                Set it to YES to enable secondarynamenode.
+# secondarynamenode_enable (bool):		Set to NO by default.
+#				Set it to YES to enable secondarynamenode.
+# secondarynamenode_user (str):		User to run secondarynamenode as.
+#				Default: hdfs
+# secondarynamenode_conf_dir (str):	Hadoop configuration directory.
+#				Default: %%ETCDIR%%
+# secondarynamenode_ident (str):		HADOOP_IDENT_STRING, i.e. the `hadoop-<ident>-secondarynamenode'
+#				part of the log and pid file names.
+#				Default: hdfs
 
 . /etc/rc.subr
 
-export PATH=${PATH}:%%LOCALBASE%%/bin
 name=secondarynamenode
 rcvar=secondarynamenode_enable
 
 load_rc_config "${name}"
 
-: ${secondarynamenode_enable:=NO}
-: ${secondarynamenode_user:=%%HDFS_USER%%}
+: ${secondarynamenode_enable:="NO"}
+: ${secondarynamenode_user:="hdfs"}
+: ${secondarynamenode_conf_dir:="%%ETCDIR%%"}
+: ${secondarynamenode_ident:="hdfs"}
 
-command="%%PREFIX%%/sbin/hadoop-daemon.sh"
-command_args='--config %%ETCDIR%% start secondarynamenode'
+# `hdfs --daemon' forks, writes its own pid file and execs java, so rc.subr
+# cannot track it through ${command} -- drive it through the helpers below.
+hadoop_command="%%PREFIX%%/bin/hdfs"
+hadoop_subcmd="secondarynamenode"
+procname="%%JAVA_HOME%%/bin/java"
+pidfile="%%HADOOP_RUNDIR%%/hadoop-${secondarynamenode_ident}-${hadoop_subcmd}.pid"
 
-stop_cmd=secondarynamenode_stop
+start_cmd="secondarynamenode_start"
+stop_cmd="secondarynamenode_stop"
+status_cmd="secondarynamenode_status"
 
-secondarynamenode_stop () {
-  su -m ${secondarynamenode_user} -c "${command} --config %%ETCDIR%% stop secondarynamenode"
+hadoop_doit()
+{
+	# Same quoting dance rc.subr itself uses for ${name}_user, so that the
+	# target account's login shell is not required to understand -c.
+	su -m "${secondarynamenode_user}" -c "sh -c '\
+	    PATH=\"\${PATH}:%%LOCALBASE%%/bin\" \
+	    HADOOP_IDENT_STRING=\"${secondarynamenode_ident}\" \
+	    ${hadoop_command} --config \"${secondarynamenode_conf_dir}\" \
+	    --daemon $1 ${hadoop_subcmd}'"
+}
+
+secondarynamenode_start()
+{
+	rc_pid=$(check_pidfile "${pidfile}" "${procname}")
+	if [ -n "${rc_pid}" ]; then
+		echo "${name} already running? (pid=${rc_pid})."
+		return 1
+	fi
+	echo "Starting ${name}."
+	hadoop_doit start || return 1
+}
+
+secondarynamenode_stop()
+{
+	rc_pid=$(check_pidfile "${pidfile}" "${procname}")
+	if [ -z "${rc_pid}" ]; then
+		echo "${name} not running? (check ${pidfile})."
+		return 1
+	fi
+	echo "Stopping ${name}."
+	hadoop_doit stop
+}
+
+secondarynamenode_status()
+{
+	rc_pid=$(check_pidfile "${pidfile}" "${procname}")
+	if [ -n "${rc_pid}" ]; then
+		echo "${name} is running as pid ${rc_pid}."
+	else
+		echo "${name} is not running."
+		return 1
+	fi
 }
 
 run_rc_command "$1"

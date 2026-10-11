@@ -1,5 +1,11 @@
-TIMESTAMP = 1663525778
-SHA256 (hadoop/hadoop-3.2.0-src.tar.gz) = c30d448d3712b518e892efdc189e7b3f81c4ce4b6532ebb981515f016f735568
-SIZE (hadoop/hadoop-3.2.0-src.tar.gz) = 30751465
-SHA256 (hadoop/apache-tomcat-10.1.0-M17.tar.gz) = 8d3ada5a826aa35074289469f4f1d4e02dfd8c344ee8e018d9bea5b262e2f785
-SIZE (hadoop/apache-tomcat-10.1.0-M17.tar.gz) = 11848876
+TIMESTAMP = 1791709466
+SHA256 (hadoop/hadoop-3.5.0-src.tar.gz) = 45328a7e5a8fb29ca8503f33e5f0269f8fbbce8824ec9127426aad6d1d9af023
+SIZE (hadoop/hadoop-3.5.0-src.tar.gz) = 40742698
+SHA256 (hadoop/protobuf-25.5.tar.gz) = 3cf7d5b17c4ff04fe9f038104e9d0cae6da09b8ce271c13e44f8ac69f51e4e0f
+SIZE (hadoop/protobuf-25.5.tar.gz) = 5877036
+SHA256 (hadoop/grpc-grpc-java-v1.69.0_GH0.tar.gz) = 5c3178f118190d73f52460d671c7b6fc42249b7b5890d228ce422f2ca20b1a68
+SIZE (hadoop/grpc-grpc-java-v1.69.0_GH0.tar.gz) = 3185049
+SHA256 (hadoop/hadoop3-npm-cache-3.5.0.tar.xz) = 23bd3212786e32bf38082feadcd5b1b1625d17f2af989422cbac2599c41190ee
+SIZE (hadoop/hadoop3-npm-cache-3.5.0.tar.xz) = 52132864
+SHA256 (hadoop/hadoop3-catalog-vendor-3.5.0.tar.xz) = e69b558e4adcb49e49f052fd294d3a76b4b9abda1704890d433f83252b61c24c
+SIZE (hadoop/hadoop3-catalog-vendor-3.5.0.tar.xz) = 5271632

@@ -1,0 +1,23 @@
+--- hadoop-hdfs-project/hadoop-hdfs-native-client/src/CMakeLists.txt.orig	2026-02-24 00:10:13 UTC
++++ hadoop-hdfs-project/hadoop-hdfs-native-client/src/CMakeLists.txt
+@@ -191,6 +191,9 @@
+     }"
+     THREAD_LOCAL_SUPPORTED)
+ if (THREAD_LOCAL_SUPPORTED)
++    # Library only: the tests, examples and tools need googletest, which
++    # libhdfs++ would download at configure time.
++    set(HDFSPP_LIBRARY_ONLY ON)
+     add_subdirectory(main/native/libhdfspp)
+ else()
+     message(WARNING
+@@ -203,8 +206,8 @@
+     add_subdirectory(contrib/libwebhdfs)
+ endif()
+ 
+-# Find Linux FUSE
+-if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
++# Find Linux FUSE (or FreeBSD's fusefs-libs, which provides the same API)
++if(${CMAKE_SYSTEM_NAME} MATCHES "Linux|FreeBSD")
+     find_package(PkgConfig REQUIRED)
+     pkg_check_modules(FUSE fuse)
+     if(FUSE_FOUND)

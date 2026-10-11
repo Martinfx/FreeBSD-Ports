@@ -1,37 +1,52 @@
 PORTNAME=	hadoop
-PORTVERSION=	3.2.0
+PORTVERSION=	3.5.0
 CATEGORIES=	devel java
 MASTER_SITES=	https://archive.apache.org/dist/${PORTNAME}/common/${PORTNAME}-${PORTVERSION}/ \
-		http://archive.apache.org/dist/tomcat/tomcat-10/v${TOMCAT_VERSION}/bin/:tomcat
-
+		https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_VERSION}/:protobuf \
+		${HADOOP_DISTFILES_SITE}:hadoopsite
 PKGNAMESUFFIX=	3
 DISTNAME=	${PORTNAME}-${PORTVERSION}-src
 DISTFILES=	${DISTNAME}${EXTRACT_SUFX} \
-		apache-tomcat-${TOMCAT_VERSION}.tar.gz:tomcat
+		protobuf-${PROTOBUF_VERSION}${EXTRACT_SUFX}:protobuf \
+		${CATALOG_VENDOR_DIST}:hadoopsite
+# Set to yes once ${MAVEN_REPO_DIST} is on HADOOP_DISTFILES_SITE and in
+# distinfo; until then Maven builds online.
+MAVEN_REPO_PUBLISHED=	no
+.if ${MAVEN_REPO_PUBLISHED} != yes
+MAVEN_ONLINE=	yes
+.endif
+.if !defined(MAVEN_ONLINE)
+DISTFILES+=	${MAVEN_REPO_DIST}:hadoopsite
+.endif
 DIST_SUBDIR=	hadoop
-EXTRACT_ONLY=	${DISTNAME}${EXTRACT_SUFX}
 
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Apache Map/Reduce framework
+WWW=		https://hadoop.apache.org/
 
 LICENSE=	APACHE20
+LICENSE_FILE=	${WRKSRC}/LICENSE.txt
 
-BUILD_DEPENDS=	ant:devel/apache-ant \
-		bash:shells/bash \
-		cmake:devel/cmake \
-		mvn:devel/maven \
-		protobuf25>0:devel/protobuf25
-LIB_DEPENDS=	libprotobuf.so:devel/protobuf25 \
+# The ascopes protobuf-maven-plugin (YARN CSI) needs Maven >= 3.9.6, and
+# devel/maven defaults to 3.8.  Depend on the package rather than on mvn,
+# which the maven wrapper provides for any installed Maven.
+BUILD_DEPENDS=	bash:shells/bash \
+		maven39>=3.9.6:devel/maven39
+LIB_DEPENDS=	libabsl_base.so:devel/abseil \
+		libboost_date_time.so:devel/boost-libs \
+		libprotobuf.so:devel/protobuf \
 		libsasl2.so:security/cyrus-sasl2 \
 		libsnappy.so:archivers/snappy \
 		libzstd.so:archivers/zstd
 RUN_DEPENDS=	bash:shells/bash \
 		setsid:sysutils/setsid
 
-USES=		compiler:c++11-lang cpe pkgconfig shebangfix ssl
+USES=		cmake:indirect compiler:c++17-lang cpe java pkgconfig \
+		shebangfix ssl
+USE_GITHUB=	nodefault
+GH_TUPLE=	grpc:grpc-java:v${GRPC_JAVA_VERSION}:grpcjava
 CPE_VENDOR=	apache
-USE_JAVA=	yes
-JAVA_VERSION=	1.7+
+JAVA_VERSION=	17
 USE_LDCONFIG=	yes
 
 SHEBANG_FILES=	hadoop-common-project/hadoop-kms/src/main/conf/kms-env.sh \
@@ -41,16 +56,112 @@ SHEBANG_FILES=	hadoop-common-project/hadoop-kms/src/main/conf/kms-env.sh \
 		hadoop-tools/hadoop-sls/src/main/bin/rumen2sls.sh \
 		hadoop-tools/hadoop-sls/src/main/bin/slsrun.sh
 
-CONFLICTS_INSTAL=	yarn
+CONFLICTS_INSTALL=	yarn
 
-MAKE_ENV+=	HADOOP_PROTOC_PATH=${LOCALBASE}/protobuf25/bin/protoc \
+# The maven build normally downloads two code generators from Maven Central
+# as prebuilt executables, and neither exists for FreeBSD:
+#  - protoc ${PROTOBUF_VERSION}: Hadoop's Java protobuf code must come from
+#    exactly this release to match the protobuf-java runtime it shades;
+#    devel/protobuf is much newer and emits code that runtime rejects.
+#  - protoc-gen-grpc-java, for the YARN CSI adaptor.
+# Build both from source against devel/abseil (files/protoc-tools.cmake).
+# The native libhdfs++ client, on the other hand, uses devel/protobuf.
+PROTOBUF_VERSION=	25.5
+GRPC_JAVA_VERSION=	1.69.0
+PROTOC_TOOLS_SRC=	${WRKDIR}/protoc-tools
+PROTOC_TOOLS_BUILD=	${WRKDIR}/protoc-tools-build
+PROTOC=			${PROTOC_TOOLS_BUILD}/protobuf/protoc-${PROTOBUF_VERSION}.0
+# Only the grpc plugin goes on PATH: a protoc there would shadow devel/protobuf's
+# when CMake looks for one to build libhdfs++.
+GRPC_PLUGIN_DIR=	${WRKDIR}/grpc-plugin-bin
+
+MAKE_ENV+=	HADOOP_PROTOC_PATH=${PROTOC} \
 		JAVA_HOME=${JAVA_HOME}
-MAKE_ARGS+=	CXXFLAGS="${CXXFLAGS} -fPIC"
 
-OPTIONS_DEFINE=	EXAMPLES
+MAVEN_PROFILES=	dist native
+# Maven runs offline, from a local repository holding everything the build
+# needs: hadoop3-maven-repo-<version>.tar.xz on HADOOP_DISTFILES_SITE, built on
+# FreeBSD by .github/workflows/hadoop3-maven-repo.yml.  To regenerate it, build
+# with MAVEN_ONLINE defined and all options on, then run "make gen-maven-repo".
+MAVEN_REPO_DIST=	hadoop3-maven-repo-${PORTVERSION}.tar.xz
+MAVEN_REPO_WRKDIR=	${WRKDIR}/hadoop3-maven-repo-${PORTVERSION}
 
-TOMCAT_VERSION=	10.1.0-M17
+# Helpers for local development; nothing that builds packages sets them.
+#  MAVEN_REPO=<dir>		keep the Maven repository across "make clean"
+#				(online builds only; offline ones always use
+#				the one unpacked from ${MAVEN_REPO_DIST})
+#  MAVEN_RESUME_FROM=<module>	after a failed build, rerun "make" and resume
+#				at that module (mvn -rf) instead of rebuilding
+#				everything, e.g. hadoop-hdfs-native-client
+#  MAVEN_THREADS=<n>		build up to n modules in parallel (mvn -T);
+#				Hadoop does not officially support this
+# -DskipShade is refused: it leaves the hadoop-client jars unshaded, which
+# upstream allows for development builds only.
+.if defined(MAVEN_ONLINE)
+MAVEN_REPO?=		${MAVEN_REPO_WRKDIR}
+.else
+MAVEN_REPO=		${MAVEN_REPO_WRKDIR}
+.endif
+MAVEN_ARGS=	-Dmaven.javadoc.skip=true -Dmaven.clean.skip=true \
+		-Dmaven.repo.local=${MAVEN_REPO} -DskipTests \
+		-DprotocExecutable=${PROTOC} \
+		-Dprotobuf.compiler.version=file://${PROTOC} \
+		-Drequire.bzip2 \
+		-Drequire.snappy -Dsnappy.prefix=${LOCALBASE} \
+		-Drequire.zstd -Dzstd.prefix=${LOCALBASE} \
+		-Drequire.openssl -Dopenssl.prefix=${OPENSSLBASE}
+.if !defined(MAVEN_ONLINE)
+MAVEN_ARGS+=	--offline
+.endif
+.if defined(MAVEN_RESUME_FROM) && !empty(MAVEN_RESUME_FROM)
+MAVEN_ARGS+=	-rf :${MAVEN_RESUME_FROM}
+.endif
+.if defined(MAVEN_THREADS) && !empty(MAVEN_THREADS)
+MAVEN_ARGS+=	-T ${MAVEN_THREADS}
+.endif
+
+OPTIONS_DEFINE=		EXAMPLES FUSE YARNUI
+OPTIONS_DEFINE_aarch64=	ISAL
+OPTIONS_DEFINE_amd64=	ISAL
+OPTIONS_DEFAULT=	FUSE
+OPTIONS_DEFAULT_aarch64=	ISAL
+OPTIONS_DEFAULT_amd64=	ISAL
+OPTIONS_SUB=		yes
+
+FUSE_DESC=	Build fuse_dfs to mount HDFS via FUSE
+ISAL_DESC=	Use Intel ISA-L to accelerate erasure coding
+YARNUI_DESC=	YARN Capacity Scheduler web UI (needs Node.js)
+
+FUSE_USES=		fuse
+FUSE_VARS=		MAVEN_ARGS+=-Drequire.fuse=true
+ISAL_LIB_DEPENDS=	libisal.so:devel/isa-l
+ISAL_VARS=		MAVEN_ARGS+="-Drequire.isal -Disal.prefix=${LOCALBASE}"
+YARNUI_BUILD_DEPENDS=	npm:www/npm-node22
+YARNUI_USES=		nodejs:22,build
+# The scheduler UI build runs "npm ci", which cannot reach the registry in
+# poudriere.  It runs offline instead, from an npm cache of every package the
+# UI's lockfile needs on FreeBSD amd64 and aarch64.  The cache is built on
+# FreeBSD by .github/workflows/hadoop3-npm-cache.yml and published on
+# HADOOP_DISTFILES_SITE; regenerate it on every update.
+YARNUI_DISTFILES=	${NPM_CACHE_DIST}:hadoopsite
+YARNUI_MAKE_ENV=	npm_config_cache=${WRKDIR}/hadoop3-npm-cache-${PORTVERSION} \
+			npm_config_offline=true \
+			npm_config_audit=false \
+			npm_config_fund=false \
+			npm_config_update_notifier=false
+YARNUI_VARS=		MAVEN_PROFILES+=yarn-ui
+
+NPM_CACHE_DIST=	hadoop3-npm-cache-${PORTVERSION}.tar.xz
+# The YARN application catalog webapp would download a Linux node to run
+# "yarn install" for its jquery/angular/bootstrap; the patched pom skips that
+# on FreeBSD and the result of that install comes from this distfile, built by
+# .github/workflows/hadoop3-catalog-vendor.yml.
+CATALOG_VENDOR_DIST=	hadoop3-catalog-vendor-${PORTVERSION}.tar.xz
+CATALOG_WEBAPP=		${WRKSRC}/hadoop-yarn-project/hadoop-yarn/hadoop-yarn-applications/hadoop-yarn-applications-catalog/hadoop-yarn-applications-catalog-webapp
+HADOOP_DISTFILES_SITE?=	https://github.com/Martinfx/FreeBSD-Ports/releases/download/hadoop3-${PORTVERSION}/
+
 HADOOP_DIST=	${WRKSRC}/hadoop-dist/target/hadoop-${PORTVERSION}
+HDFS_NATIVE=	${WRKSRC}/hadoop-hdfs-project/hadoop-hdfs-native-client
 
 HADOOP_LOGDIR=	/var/log/hadoop
 HADOOP_RUNDIR=	/var/run/hadoop
@@ -61,7 +172,7 @@ HADOOP_GROUP=	hadoop
 USERS=		${HDFS_USER} ${MAPRED_USER}
 GROUPS=		${HADOOP_GROUP}
 
-SUB_FILES=	hadoop-layout.sh httpfs-env.sh kms-env.sh
+SUB_FILES=	hadoop-layout.sh httpfs-env.sh kms-env.sh pkg-message
 
 USE_RC_SUBR=	historyserver nodemanager resourcemanager webappproxyserver \
 		datanode namenode secondarynamenode journalnode zkfc
@@ -80,42 +191,108 @@ SUB_LIST=	HADOOP_GROUP="${HADOOP_GROUP}" \
 		MAPRED_USER="${MAPRED_USER}"
 
 post-patch:
-	${REINPLACE_CMD} -e "s#/bin/bash#${LOCALBASE}/bin/bash#" ${WRKSRC}/hadoop-yarn-project/hadoop-yarn/hadoop-yarn-server/hadoop-yarn-server-nodemanager/src/main/java/org/apache/hadoop/yarn/server/nodemanager/DefaultContainerExecutor.java ${WRKSRC}/hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-core/src/main/java/org/apache/hadoop/mapreduce/MRJobConfig.java ${WRKSRC}/hadoop-yarn-project/hadoop-yarn/hadoop-yarn-server/hadoop-yarn-server-nodemanager/src/main/java/org/apache/hadoop/yarn/server/nodemanager/containermanager/launcher/ContainerLaunch.java ${WRKSRC}/hadoop-common-project/hadoop-common/src/main/java/org/apache/hadoop/util/Shell.java ${WRKSRC}/hadoop-common-project/hadoop-common/src/main/bin/hadoop-daemon.sh
-	${RM} ${WRKSRC}/hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-nativetask/src/main/native/src/lib/primitives.h
+# FreeBSD has no /bin/bash; the scripts Hadoop generates at runtime and the
+# shell it runs tasks under have to point at ${LOCALBASE}/bin/bash.
+	@${REINPLACE_CMD} -e 's|/bin/bash|${LOCALBASE}/bin/bash|' \
+		${WRKSRC}/hadoop-yarn-project/hadoop-yarn/hadoop-yarn-server/hadoop-yarn-server-nodemanager/src/main/java/org/apache/hadoop/yarn/server/nodemanager/DefaultContainerExecutor.java \
+		${WRKSRC}/hadoop-yarn-project/hadoop-yarn/hadoop-yarn-server/hadoop-yarn-server-nodemanager/src/main/java/org/apache/hadoop/yarn/server/nodemanager/containermanager/launcher/ContainerLaunch.java \
+		${WRKSRC}/hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-core/src/main/java/org/apache/hadoop/mapreduce/MRJobConfig.java \
+		${WRKSRC}/hadoop-tools/hadoop-archive-logs/src/main/java/org/apache/hadoop/tools/HadoopArchiveLogs.java
+# Replaced by the likely()/unlikely() definitions the commons.h patch adds.
+	@${RM} ${WRKSRC}/hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-nativetask/src/main/native/src/lib/primitives.h
+
+pre-build:
+	${MKDIR} ${PROTOC_TOOLS_SRC} ${PROTOC_TOOLS_BUILD} ${GRPC_PLUGIN_DIR}
+	${INSTALL_DATA} ${FILESDIR}/protoc-tools.cmake ${PROTOC_TOOLS_SRC}/CMakeLists.txt
+	cd ${PROTOC_TOOLS_BUILD} && ${SETENV} ${CONFIGURE_ENV} ${CMAKE_BIN} \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_COMPILER="${CC}" -DCMAKE_CXX_COMPILER="${CXX}" \
+		-DCMAKE_PREFIX_PATH="${LOCALBASE}" \
+		-DPROTOBUF_SRC=${WRKDIR}/protobuf-${PROTOBUF_VERSION} \
+		-DGRPC_JAVA_SRC=${WRKDIR}/grpc-java-${GRPC_JAVA_VERSION} \
+		${PROTOC_TOOLS_SRC}
+	${CMAKE_BIN} --build ${PROTOC_TOOLS_BUILD} \
+		--target protoc protoc-gen-grpc-java --parallel ${MAKE_JOBS_NUMBER}
+	${LN} -sf ${PROTOC_TOOLS_BUILD}/protoc-gen-grpc-java ${GRPC_PLUGIN_DIR}/
+	${MKDIR} ${CATALOG_WEBAPP}/target/generated-sources
+	${CP} -R ${WRKDIR}/hadoop3-catalog-vendor-${PORTVERSION}/vendor \
+		${CATALOG_WEBAPP}/target/generated-sources/
+
+# frontend-maven-plugin cannot download node for FreeBSD; the patched pom
+# skips that step and expects node and npm where it would have put them.
+pre-build-YARNUI-on:
+	${MKDIR} ${WRKSRC}/hadoop-yarn-project/hadoop-yarn/hadoop-yarn-capacity-scheduler-ui/target/webapp/node/node_modules
+	${LN} -sf ${LOCALBASE}/bin/node \
+		${WRKSRC}/hadoop-yarn-project/hadoop-yarn/hadoop-yarn-capacity-scheduler-ui/target/webapp/node/node
+	${LN} -sf ${LOCALBASE}/lib/node_modules/npm \
+		${WRKSRC}/hadoop-yarn-project/hadoop-yarn/hadoop-yarn-capacity-scheduler-ui/target/webapp/node/node_modules/npm
 
 do-build:
-	${MKDIR} ${WRKSRC}/hadoop-hdfs-project/hadoop-hdfs-httpfs/downloads
-	${MKDIR} ${WRKSRC}/hadoop-common-project/hadoop-kms/downloads
-	${CP} ${DISTDIR}/${DIST_SUBDIR}/apache-tomcat-${TOMCAT_VERSION}.tar.gz ${WRKSRC}/hadoop-common-project/hadoop-kms/downloads/
-	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} ${LOCALBASE}/bin/mvn  -Dmaven.javadoc.skip=true -Dmaven.clean.skip=true -Dmaven.repo.local=${WRKDIR}/m2 package \
-	-Pdist,native -DskipTests -Drequire.snappy -Dsnappy.prefix=${LOCALBASE} -Drequire.openssl -Drequire.zstd -Dzstd.prefix=${LOCALBASE}
+	@case "${MAVEN_ARGS} $${MAVEN_OPTS}" in *-DskipShade*) \
+		${ECHO_MSG} "===>  -DskipShade is not allowed: it leaves the hadoop-client jars unshaded"; \
+		exit 1;; esac
+	${MKDIR} ${MAVEN_REPO}
+	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} PATH=${GRPC_PLUGIN_DIR}:${PATH} \
+		MAVEN_HOME="$$(${CAT} ${LOCALBASE}/etc/maven-wrapper/instances.d/apache-maven-3.9.*)" \
+		${LOCALBASE}/bin/mvn ${MAVEN_ARGS} -P${MAVEN_PROFILES:ts,} package
 
 post-build:
-	${RM} ${HADOOP_DIST}/etc/hadoop/*.cmd
 	${RM} ${HADOOP_DIST}/etc/hadoop/*.cmd
 
 do-install:
 	cd ${HADOOP_DIST}/bin && ${INSTALL_SCRIPT} hadoop hdfs mapred yarn ${STAGEDIR}${PREFIX}/bin/
 	cd ${HADOOP_DIST} && ${COPYTREE_BIN} "libexec sbin" ${STAGEDIR}${PREFIX}/ "! -name *.cmd"
 	cd ${HADOOP_DIST}/include && ${INSTALL_DATA} *h ${STAGEDIR}${PREFIX}/include/
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/hdfspp
+	${INSTALL_DATA} ${HDFS_NATIVE}/src/main/native/libhdfspp/include/hdfspp/*.h \
+		${STAGEDIR}${PREFIX}/include/hdfspp/
 	cd ${HADOOP_DIST}/lib/native && ${INSTALL_DATA} *.a ${STAGEDIR}${PREFIX}/lib/
-	cd ${HADOOP_DIST}/lib/native && ${INSTALL_DATA} libhadoop.so.1.0.0 ${STAGEDIR}${PREFIX}/lib/libhadoop.so.1.0.0
-	${LN} -sf libhadoop.so.1.0.0 ${STAGEDIR}${PREFIX}/lib/libhadoop.so
-	cd ${HADOOP_DIST}/lib/native && ${INSTALL_DATA} libnativetask.so.1.0.0 ${STAGEDIR}${PREFIX}/lib/libnativetask.so.1.0.0
-	${LN} -sf libnativetask.so.1.0.0 ${STAGEDIR}${PREFIX}/lib/libnativetask.so
-	cd ${WRKSRC}/hadoop-hdfs-project/hadoop-hdfs-native-client/target/target/usr/local/lib/ && ${INSTALL_DATA} libhdfs.so.0.0.0 ${STAGEDIR}${PREFIX}/lib/libhdfs.so.0.0.0 && ${LN} -sf libhdfs.so.0.0.0 ${STAGEDIR}${PREFIX}/lib/libhdfs.so
-	cd ${WRKSRC}/hadoop-hdfs-project/hadoop-hdfs-native-client/target/main/native/libhdfspp/ && ${INSTALL_DATA} libhdfspp.so.0.1.0 ${STAGEDIR}${PREFIX}/lib/libhdfspp.so.0.1.0 && ${LN} -sf libhdfspp.so.0.1.0 ${STAGEDIR}${PREFIX}/lib/libhdfspp.so
+.for lib in libhadoop.so.1.0.0 libhdfs.so.0.0.0 libhdfspp.so.0.1.0 libnativetask.so.1.0.0
+	${INSTALL_LIB} ${HADOOP_DIST}/lib/native/${lib} ${STAGEDIR}${PREFIX}/lib/
+	${LN} -sf ${lib} ${STAGEDIR}${PREFIX}/lib/${lib:R:R:R}
+.endfor
 	cd ${HADOOP_DIST}/share/hadoop && ${COPYTREE_SHARE} "*" ${STAGEDIR}${DATADIR}/ "! -name *-sources.jar -and ! -name sources"
-	${MKDIR} ${STAGEDIR}${EXAMPLESDIR}/conf
-	cd ${HADOOP_DIST}/etc/hadoop && ${COPYTREE_SHARE} "*" ${STAGEDIR}${EXAMPLESDIR}/conf/
-	${INSTALL_DATA} ${WRKSRC}/hadoop-hdfs-project/hadoop-hdfs/target/classes/hdfs-default.xml ${WRKSRC}/hadoop-hdfs-project/hadoop-hdfs-httpfs/target/classes/httpfs-default.xml ${WRKSRC}/hadoop-yarn-project/hadoop-yarn/hadoop-yarn-common/target/classes/yarn-default.xml ${WRKSRC}/hadoop-common-project/hadoop-common/target/classes/core-default.xml ${WRKSRC}/hadoop-tools/hadoop-distcp/target/classes/distcp-default.xml ${WRKSRC}/hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-core/target/classes/mapred-default.xml ${STAGEDIR}/${EXAMPLESDIR}/
 	${INSTALL_DATA} ${WRKDIR}/hadoop-layout.sh ${STAGEDIR}${PREFIX}/libexec/
 	${MKDIR} ${STAGEDIR}${ETCDIR}
-	${INSTALL_DATA} ${WRKDIR}/httpfs-env.sh ${STAGEDIR}${ETCDIR}
-	${INSTALL_DATA} ${WRKDIR}/kms-env.sh ${STAGEDIR}${ETCDIR}
-	${INSTALL_DATA} ${HADOOP_DIST}/etc/hadoop/core-site.xml  ${STAGEDIR}${ETCDIR}
-	${INSTALL_DATA} ${HADOOP_DIST}/etc/hadoop/log4j.properties ${STAGEDIR}${ETCDIR}
+	${INSTALL_DATA} ${WRKDIR}/httpfs-env.sh ${STAGEDIR}${ETCDIR}/httpfs-env.sh.sample
+	${INSTALL_DATA} ${WRKDIR}/kms-env.sh ${STAGEDIR}${ETCDIR}/kms-env.sh.sample
+	${INSTALL_DATA} ${HADOOP_DIST}/etc/hadoop/core-site.xml ${STAGEDIR}${ETCDIR}/core-site.xml.sample
+	${INSTALL_DATA} ${HADOOP_DIST}/etc/hadoop/log4j.properties ${STAGEDIR}${ETCDIR}/log4j.properties.sample
 	${MKDIR} ${STAGEDIR}${HADOOP_LOGDIR}
 	${MKDIR} ${STAGEDIR}${HADOOP_RUNDIR}
+
+# The sample configuration is listed in pkg-plist under %%PORTEXAMPLES%%, so it
+# must only be staged when the option is on, or stage-qa trips over the orphans.
+post-install-EXAMPLES-on:
+	${MKDIR} ${STAGEDIR}${EXAMPLESDIR}/conf
+	cd ${HADOOP_DIST}/etc/hadoop && ${COPYTREE_SHARE} "*" ${STAGEDIR}${EXAMPLESDIR}/conf/
+	${INSTALL_DATA} ${WRKSRC}/hadoop-hdfs-project/hadoop-hdfs/target/classes/hdfs-default.xml ${WRKSRC}/hadoop-hdfs-project/hadoop-hdfs-httpfs/target/classes/httpfs-default.xml ${WRKSRC}/hadoop-yarn-project/hadoop-yarn/hadoop-yarn-common/target/classes/yarn-default.xml ${WRKSRC}/hadoop-common-project/hadoop-common/target/classes/core-default.xml ${WRKSRC}/hadoop-tools/hadoop-distcp/target/classes/distcp-default.xml ${WRKSRC}/hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-core/target/classes/mapred-default.xml ${STAGEDIR}${EXAMPLESDIR}/
+
+post-install-FUSE-on:
+	${INSTALL_PROGRAM} ${HDFS_NATIVE}/target/main/native/fuse-dfs/fuse_dfs ${STAGEDIR}${PREFIX}/bin/
+
+# The scheduler UI is a vite build whose asset names carry content hashes that
+# differ between builds, so its files are listed at stage time.
+post-install-YARNUI-on:
+	cd ${STAGEDIR}${PREFIX} && ${FIND} ${DATADIR_REL}/yarn/webapps/scheduler-ui \
+		-type f | ${SORT} >> ${TMPPLIST}
+
+# Packs the Maven repository of a finished MAVEN_ONLINE build into
+# ${MAVEN_REPO_DIST}.  Build it with all options on so that every plugin is
+# in it.  The resolver's bookkeeping is dropped: without _remote.repositories
+# Maven treats the artifacts as locally installed, which is what --offline
+# needs.
+gen-maven-repo:
+.if !defined(MAVEN_ONLINE)
+	@${ECHO_MSG} "===>  gen-maven-repo needs a build with MAVEN_ONLINE defined"; ${FALSE}
+.endif
+	@${TEST} -f ${HADOOP_DIST}/bin/hadoop || \
+		{ ${ECHO_MSG} "===>  Build the port first"; ${FALSE}; }
+	${FIND} ${MAVEN_REPO} \( -name _remote.repositories -o -name '*.lastUpdated' \
+		-o -name resolver-status.properties \) -delete
+	cd ${MAVEN_REPO:H} && ${TAR} -c -J --options xz:threads=0 \
+		-s ',^${MAVEN_REPO:T},${MAVEN_REPO_WRKDIR:T},' \
+		-f ${WRKDIR}/${MAVEN_REPO_DIST} ${MAVEN_REPO:T}
+	@${ECHO_MSG} "===>  ${WRKDIR}/${MAVEN_REPO_DIST}"
 
 .include <bsd.port.mk>

@@ -1,14 +1,19 @@
+# Sourced by libexec/hadoop-config.sh.  Every value is a default only, so that
+# the environment, hadoop-env.sh and the rc.d scripts can still override it.
+#
+# Note that hadoop-config.sh runs `hadoop_deprecate_envvar HADOOP_PREFIX
+# HADOOP_HOME' *before* it sources this file, so HADOOP_PREFIX must not be
+# used here -- it would simply be ignored.
+
 export JAVA_HOME=${JAVA_HOME:-%%JAVA_HOME%%}
-export HADOOP_PREFIX=%%PREFIX%%
-export HADOOP_CONF_DIR=%%ETCDIR%%
-export HADOOP_LOG_DIR=%%HADOOP_LOGDIR%%
-export HADOOP_PID_DIR=%%HADOOP_RUNDIR%%
-export HADOOP_IDENT_STRING=hdfs
+export HADOOP_HOME=${HADOOP_HOME:-%%PREFIX%%}
+export HADOOP_CONF_DIR=${HADOOP_CONF_DIR:-%%ETCDIR%%}
+export HADOOP_LOG_DIR=${HADOOP_LOG_DIR:-%%HADOOP_LOGDIR%%}
+export HADOOP_PID_DIR=${HADOOP_PID_DIR:-%%HADOOP_RUNDIR%%}
 
-export YARN_LOG_DIR=%%HADOOP_LOGDIR%%
-export YARN_PID_DIR=%%HADOOP_RUNDIR%%
-export YARN_IDENT_STRING=yarn
-
-export HADOOP_MAPRED_LOG_DIR=%%HADOOP_LOGDIR%%
-export HADOOP_MAPRED_PID_DIR=%%HADOOP_RUNDIR%%
-export HADOOP_MAPRED_IDENT_STRING=mapred
+# HADOOP_IDENT_STRING is what names the log and pid files.  Hadoop 3 uses the
+# single HADOOP_IDENT_STRING for HDFS, YARN and MapReduce alike (the old
+# YARN_IDENT_STRING / HADOOP_MAPRED_IDENT_STRING only survive as deprecated
+# aliases that overwrite it and warn on every invocation), so it is left to the
+# rc.d scripts to export the right value per daemon.  Upstream's default of
+# ${USER} applies to anything run by hand.
