@@ -1,6 +1,6 @@
 --- hadoop-hdfs-project/hadoop-hdfs-native-client/src/main/native/fuse-dfs/CMakeLists.txt.orig	2026-02-24 00:10:13 UTC
 +++ hadoop-hdfs-project/hadoop-hdfs-native-client/src/main/native/fuse-dfs/CMakeLists.txt
-@@ -71,8 +71,11 @@
+@@ -71,22 +71,28 @@
      fuse_trash.c
      fuse_users.c
  )
@@ -13,7 +13,14 @@
      ${JAVA_JVM_LIBRARY}
      hdfs
      m
-@@ -85,7 +88,7 @@
+     pthread
+     rt
+ )
++# The test mounts through <mntent.h>, which only Linux has.
++if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+ add_executable(test_fuse_dfs
+     test/test_fuse_dfs.c
+     test/fuse_workload.c
      util/posix_util.c
  )
  target_link_libraries(test_fuse_dfs
@@ -22,3 +29,5 @@
      native_mini_dfs
      ${JAVA_JVM_LIBRARY}
      pthread
+ )
++endif()
