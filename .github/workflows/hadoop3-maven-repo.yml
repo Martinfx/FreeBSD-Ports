@@ -1,0 +1,144 @@
+# Build devel/hadoop3 natively in a FreeBSD 15.1 VM with the ports framework
+# and publish the offline Maven repository it needs
+# (hadoop3-maven-repo-<version>.tar.xz) on the hadoop3-<version> release,
+# where the port's HADOOP_DISTFILES_SITE looks for it.
+#
+#  1. check every distfile against distinfo;
+#  2. "make stage" with MAVEN_ONLINE and all options on, so that Maven fills
+#     a repository with everything any option needs, then stage-qa and
+#     check-plist;
+#  3. "make gen-maven-repo" packs that repository;
+#  4. a clean build from the packed repository with Maven --offline, the way
+#     poudriere will build the port, again with check-plist;
+#  5. upload the repository to the release.
+name: hadoop3 maven repo
+
+on:
+  push:
+    branches:
+      - claude/awesome-franklin-om5ip5
+    paths:
+      - '.github/workflows/hadoop3-maven-repo.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: hadoop3-maven-repo-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  maven-repo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Version and VM disk
+        run: |
+          sudo mkdir -p /mnt/vm
+          sudo chown "$(id -u):$(id -g)" /mnt/vm
+          V=$(awk '$1 == "PORTVERSION=" { print $2 }' hadoop3/Makefile)
+          echo "HADOOP_VERSION=$V" >> "$GITHUB_ENV"
+          echo "hadoop $V"
+          df -h / /mnt
+
+      - name: Build hadoop3 on FreeBSD
+        uses: vmactions/freebsd-vm@v1
+        with:
+          release: "15.1"
+          cpu: 4
+          mem: 14336
+          data-dir: /mnt/vm
+          envs: 'HADOOP_VERSION'
+          prepare: |
+            set -e
+            R=FreeBSD
+            grep -q '^FreeBSD-ports:' /etc/pkg/FreeBSD.conf && R=FreeBSD-ports
+            mkdir -p /usr/local/etc/pkg/repos
+            echo "$R: { url: \"pkg+https://pkg.FreeBSD.org/\${ABI}/latest\", mirror_type: \"srv\" }" \
+              > /usr/local/etc/pkg/repos/$R.conf
+            env ASSUME_ALWAYS_YES=yes pkg update -f
+            env ASSUME_ALWAYS_YES=yes pkg upgrade
+            # the port's dependencies with all options on
+            pkg install -y git bash cmake-core pkgconf openjdk17 maven39 \
+              protobuf abseil boost-libs cyrus-sasl2 snappy zstd isa-l \
+              fusefs-libs node22 npm-node22 setsid
+          run: |
+            set -e
+            W=$PWD
+            V=$HADOOP_VERSION
+            N=hadoop3-maven-repo-$V.tar.xz
+            mkdir -p $W/out
+            freebsd-version; df -h /
+
+            # just the framework of the ports tree; the dependencies are
+            # installed from packages
+            git clone -q --depth 1 --filter=blob:none --sparse \
+              https://github.com/freebsd/freebsd-ports.git /usr/ports
+            (cd /usr/ports && git sparse-checkout set Mk Templates Keywords)
+            cp -R $W/hadoop3 /usr/ports/devel/hadoop3
+            P=/usr/ports/devel/hadoop3
+            cat >> /etc/make.conf <<MK
+            BATCH=yes
+            DEVELOPER=yes
+            OPTIONS_SET+=EXAMPLES FUSE ISAL YARNUI
+            MK
+
+            log() { "$@" > $W/out/$LOG 2>&1 || { tail -n 300 $W/out/$LOG; exit 1; }; tail -n 40 $W/out/$LOG; }
+
+            echo "=== 1. distfiles"
+            if ! make -C $P MAVEN_ONLINE=yes checksum > $W/out/checksum.log 2>&1; then
+              tail -n 50 $W/out/checksum.log
+              make -C $P MAVEN_ONLINE=yes makesum; cat $P/distinfo; exit 1
+            fi
+            tail -n 20 $W/out/checksum.log
+
+            echo "=== 2. online build"
+            LOG=build-online.log log make -C $P MAVEN_ONLINE=yes stage
+            LOG=qa-online.log log make -C $P MAVEN_ONLINE=yes stage-qa check-plist
+            df -h /
+
+            echo "=== 3. maven repository"
+            LOG=gen-maven-repo.log log make -C $P MAVEN_ONLINE=yes gen-maven-repo
+            mv $P/work/$N $W/out/
+            ls -l $W/out/$N
+            (cd $W/out && printf 'SHA256 (hadoop/%s) = %s\nSIZE (hadoop/%s) = %s\n' \
+              $N "$(sha256 -q $N)" $N "$(stat -f %z $N)" > $N.distinfo && cat $N.distinfo)
+
+            echo "=== 4. offline build from it"
+            make -C $P MAVEN_ONLINE=yes clean
+            mkdir -p /usr/ports/distfiles/hadoop
+            cp $W/out/$N /usr/ports/distfiles/hadoop/
+            LOG=build-offline.log log make -C $P NO_CHECKSUM=yes stage
+            LOG=qa-offline.log log make -C $P NO_CHECKSUM=yes stage-qa check-plist
+            ls -l $P/work/stage/usr/local/lib/libhdfspp.so* $P/work/stage/usr/local/bin/fuse_dfs
+            make -C $P clean
+            rm -rf /usr/ports/distfiles
+
+      - name: Upload to the hadoop3-${{ env.HADOOP_VERSION }} release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          V=$HADOOP_VERSION
+          N=out/hadoop3-maven-repo-$V.tar.xz
+          ls -l $N
+          cat $N.distinfo >> "$GITHUB_STEP_SUMMARY"
+          if gh release view hadoop3-$V >/dev/null 2>&1; then
+            gh release upload hadoop3-$V $N --clobber
+          else
+            gh release create hadoop3-$V $N --target "$GITHUB_SHA" \
+              --title "hadoop3 $V distfiles" \
+              --notes "Distfiles for devel/hadoop3 $V, built on FreeBSD 15.1 amd64 by .github/workflows/."
+          fi
+
+      - name: Logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hadoop3-maven-repo-logs
+          path: |
+            out/*.log
+            out/*.distinfo
+          if-no-files-found: ignore

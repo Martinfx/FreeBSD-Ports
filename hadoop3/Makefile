@@ -3,11 +3,14 @@ PORTVERSION=	3.5.0
 CATEGORIES=	devel java
 MASTER_SITES=	https://archive.apache.org/dist/${PORTNAME}/common/${PORTNAME}-${PORTVERSION}/ \
 		https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_VERSION}/:protobuf \
-		${NPM_CACHE_SITE}:npmcache
+		${HADOOP_DISTFILES_SITE}:hadoopsite
 PKGNAMESUFFIX=	3
 DISTNAME=	${PORTNAME}-${PORTVERSION}-src
 DISTFILES=	${DISTNAME}${EXTRACT_SUFX} \
 		protobuf-${PROTOBUF_VERSION}${EXTRACT_SUFX}:protobuf
+.if !defined(MAVEN_ONLINE)
+DISTFILES+=	${MAVEN_REPO_DIST}:hadoopsite
+.endif
 DIST_SUBDIR=	hadoop
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -17,8 +20,10 @@ WWW=		https://hadoop.apache.org/
 LICENSE=	APACHE20
 LICENSE_FILE=	${WRKSRC}/LICENSE.txt
 
+# The ascopes protobuf-maven-plugin (YARN CSI) needs Maven >= 3.9.6, and
+# devel/maven defaults to 3.8.
 BUILD_DEPENDS=	bash:shells/bash \
-		mvn:devel/maven
+		mvn:devel/maven39
 LIB_DEPENDS=	libabsl_base.so:devel/abseil \
 		libboost_date_time.so:devel/boost-libs \
 		libprotobuf.so:devel/protobuf \
@@ -66,14 +71,23 @@ MAKE_ENV+=	HADOOP_PROTOC_PATH=${PROTOC} \
 		JAVA_HOME=${JAVA_HOME}
 
 MAVEN_PROFILES=	dist native
+# Maven runs offline, from a local repository holding everything the build
+# needs: hadoop3-maven-repo-<version>.tar.xz on HADOOP_DISTFILES_SITE, built on
+# FreeBSD by .github/workflows/hadoop3-maven-repo.yml.  To regenerate it, build
+# with MAVEN_ONLINE defined and all options on, then run "make gen-maven-repo".
+MAVEN_REPO_DIST=	hadoop3-maven-repo-${PORTVERSION}.tar.xz
+MAVEN_REPO=		${WRKDIR}/hadoop3-maven-repo-${PORTVERSION}
 MAVEN_ARGS=	-Dmaven.javadoc.skip=true -Dmaven.clean.skip=true \
-		-Dmaven.repo.local=${WRKDIR}/m2 -DskipTests \
+		-Dmaven.repo.local=${MAVEN_REPO} -DskipTests \
 		-DprotocExecutable=${PROTOC} \
 		-Dprotobuf.compiler.version=file://${PROTOC} \
 		-Drequire.bzip2 \
 		-Drequire.snappy -Dsnappy.prefix=${LOCALBASE} \
 		-Drequire.zstd -Dzstd.prefix=${LOCALBASE} \
 		-Drequire.openssl -Dopenssl.prefix=${OPENSSLBASE}
+.if !defined(MAVEN_ONLINE)
+MAVEN_ARGS+=	--offline
+.endif
 
 OPTIONS_DEFINE=		EXAMPLES FUSE YARNUI
 OPTIONS_DEFINE_aarch64=	ISAL
@@ -97,8 +111,8 @@ YARNUI_USES=		nodejs:22,build
 # poudriere.  It runs offline instead, from an npm cache of every package the
 # UI's lockfile needs on FreeBSD amd64 and aarch64.  The cache is built on
 # FreeBSD by .github/workflows/hadoop3-npm-cache.yml and published on
-# NPM_CACHE_SITE; regenerate it on every update.
-YARNUI_DISTFILES=	${NPM_CACHE_DIST}:npmcache
+# HADOOP_DISTFILES_SITE; regenerate it on every update.
+YARNUI_DISTFILES=	${NPM_CACHE_DIST}:hadoopsite
 YARNUI_MAKE_ENV=	npm_config_cache=${WRKDIR}/hadoop3-npm-cache-${PORTVERSION} \
 			npm_config_offline=true \
 			npm_config_audit=false \
@@ -107,7 +121,7 @@ YARNUI_MAKE_ENV=	npm_config_cache=${WRKDIR}/hadoop3-npm-cache-${PORTVERSION} \
 YARNUI_VARS=		MAVEN_PROFILES+=yarn-ui
 
 NPM_CACHE_DIST=	hadoop3-npm-cache-${PORTVERSION}.tar.xz
-NPM_CACHE_SITE?=	https://github.com/Martinfx/FreeBSD-Ports/releases/download/hadoop3-${PORTVERSION}/
+HADOOP_DISTFILES_SITE?=	https://github.com/Martinfx/FreeBSD-Ports/releases/download/hadoop3-${PORTVERSION}/
 
 HADOOP_DIST=	${WRKSRC}/hadoop-dist/target/hadoop-${PORTVERSION}
 HDFS_NATIVE=	${WRKSRC}/hadoop-hdfs-project/hadoop-hdfs-native-client
@@ -174,7 +188,9 @@ pre-build-YARNUI-on:
 		${WRKSRC}/hadoop-yarn-project/hadoop-yarn/hadoop-yarn-capacity-scheduler-ui/target/webapp/node/node_modules/npm
 
 do-build:
+	${MKDIR} ${MAVEN_REPO}
 	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} PATH=${GRPC_PLUGIN_DIR}:${PATH} \
+		MAVEN_HOME="$$(${CAT} ${LOCALBASE}/etc/maven-wrapper/instances.d/apache-maven-3.9.*)" \
 		${LOCALBASE}/bin/mvn ${MAVEN_ARGS} -P${MAVEN_PROFILES:ts,} package
 
 post-build:
@@ -211,5 +227,22 @@ post-install-EXAMPLES-on:
 
 post-install-FUSE-on:
 	${INSTALL_PROGRAM} ${HDFS_NATIVE}/target/main/native/fuse-dfs/fuse_dfs ${STAGEDIR}${PREFIX}/bin/
+
+# Packs the Maven repository of a finished MAVEN_ONLINE build into
+# ${MAVEN_REPO_DIST}.  Build it with all options on so that every plugin is
+# in it.  The resolver's bookkeeping is dropped: without _remote.repositories
+# Maven treats the artifacts as locally installed, which is what --offline
+# needs.
+gen-maven-repo:
+.if !defined(MAVEN_ONLINE)
+	@${ECHO_MSG} "===>  gen-maven-repo needs a build with MAVEN_ONLINE defined"; ${FALSE}
+.endif
+	@${TEST} -f ${HADOOP_DIST}/bin/hadoop || \
+		{ ${ECHO_MSG} "===>  Build the port first"; ${FALSE}; }
+	${FIND} ${MAVEN_REPO} \( -name _remote.repositories -o -name '*.lastUpdated' \
+		-o -name resolver-status.properties \) -delete
+	cd ${WRKDIR} && ${TAR} -c -J --options xz:threads=0 \
+		-f ${WRKDIR}/${MAVEN_REPO_DIST} ${MAVEN_REPO:T}
+	@${ECHO_MSG} "===>  ${WRKDIR}/${MAVEN_REPO_DIST}"
 
 .include <bsd.port.mk>
