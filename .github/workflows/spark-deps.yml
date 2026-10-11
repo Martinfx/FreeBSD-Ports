@@ -12,6 +12,7 @@ on:
       - claude/serene-gates-hmsxax
     paths:
       - '.github/workflows/spark-deps.yml'
+      - '.github/spark-deps.sh'
   workflow_dispatch:
 
 concurrency:
@@ -56,47 +57,10 @@ jobs:
             env ASSUME_ALWAYS_YES=yes pkg upgrade
             pkg install -y git-lite bash cmake-core maven39 ninja openjdk17 \
               python3 snappyjava
-          run: |
-            set -e
-            W=$PWD
-            V=$SPARK_VERSION
-            D=spark-$V-deps.tgz
-            mkdir -p $W/out
-            freebsd-version; df -h /; sysctl -n hw.physmem hw.ncpu
-            mvn --version
-
-            git clone -q --depth 1 https://git.FreeBSD.org/ports.git /usr/ports
-            rm -rf /usr/ports/devel/spark
-            cp -R spark /usr/ports/devel/spark
-            grep PORTVERSION= /usr/ports/devel/spark/Makefile
-            cd /usr/ports/devel/spark
-            export BATCH=yes
-
-            # online build, which fills ${WRKDIR}/m2
-            make -DMAINTAINER_MODE makesum
-            make -DMAINTAINER_MODE build > $W/out/build-online.log 2>&1 || \
-              { tail -n 300 $W/out/build-online.log; exit 1; }
-            tail -n 60 $W/out/build-online.log
-            make -DMAINTAINER_MODE make-deps
-            cp /usr/ports/distfiles/$D $W/out/
-            ls -l $W/out/$D
-
-            # offline build from the deps tarball, like the package builders
-            make clean
-            make makesum
-            cp distinfo $W/out/distinfo
-            if make stage > $W/out/build-offline.log 2>&1; then
-              tail -n 60 $W/out/build-offline.log
-              (cd work/stage && find -s . -type f -o -type l | sed 's|^\./||') \
-                > $W/out/staged-files.txt
-              echo ok > $W/out/offline-status
-            else
-              tail -n 300 $W/out/build-offline.log
-              echo failed > $W/out/offline-status
-            fi
-            df -h /
+          run: sh .github/spark-deps.sh < /dev/null
 
       - name: Upload to the spark-${{ env.SPARK_VERSION }} release
+        if: always() && hashFiles('out/spark-*-deps.tgz') != ''
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -112,12 +76,17 @@ jobs:
           fi
 
       - name: distinfo and staged files
+        if: always()
         run: |
           echo "== distinfo"
           cat out/distinfo
           echo "== offline build: $(cat out/offline-status)"
-          echo "== staged files"
-          cat out/staged-files.txt || true
+          echo "== staged files vs. pkg-plist (< only staged, > only in pkg-plist)"
+          grep -v '^@' spark/pkg-plist | \
+            sed -e 's|%%DATADIR%%|share/spark|' -e 's|%%SCALA%%|2.13|' \
+              -e "s|%%VER%%|$SPARK_VERSION|" | sort > out/plist-files.txt
+          grep -v '^etc/rc.d/' out/staged-files.txt | sort | \
+            diff - out/plist-files.txt || true
           test "$(cat out/offline-status)" = ok
 
       - name: Logs
