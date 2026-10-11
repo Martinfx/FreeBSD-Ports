@@ -25,7 +25,7 @@ NO_BUILD=	yes
 STUDIO_RELEASE=	rabbit1
 WRKSRC=		${WRKDIR}/${PORTNAME}
 
-SUB_FILES=	android-studio android-studio.desktop pkg-message
+SUB_FILES=	android-studio.desktop android-studio.sh pkg-message
 SUB_LIST=	LINUXBASE=${LINUXBASE}
 
 PLIST_FILES=	bin/android-studio \
@@ -55,7 +55,8 @@ do-install:
 # helper binaries and native tools.
 	cd ${STAGEDIR}${DATADIR} && (cd ${WRKSRC} && \
 		${FIND} . -type f -perm -u+x -print0) | ${XARGS} -0 ${CHMOD} 755
-	${INSTALL_SCRIPT} ${WRKDIR}/android-studio ${STAGEDIR}${PREFIX}/bin
+	${INSTALL_SCRIPT} ${WRKDIR}/android-studio.sh \
+		${STAGEDIR}${PREFIX}/bin/android-studio
 	${MKDIR} ${STAGEDIR}${DESKTOPDIR}
 	${INSTALL_DATA} ${WRKDIR}/android-studio.desktop ${STAGEDIR}${DESKTOPDIR}
 	${MKDIR} ${STAGEDIR}${PREFIX}/share/pixmaps
