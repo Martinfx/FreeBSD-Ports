@@ -80,6 +80,7 @@ jobs:
             git clone -q --depth 1 --filter=blob:none --sparse \
               https://github.com/freebsd/freebsd-ports.git /usr/ports
             (cd /usr/ports && git sparse-checkout set Mk Templates Keywords)
+            mkdir -p /usr/ports/devel
             cp -R $W/hadoop3 /usr/ports/devel/hadoop3
             P=/usr/ports/devel/hadoop3
             cat >> /etc/make.conf <<MK
