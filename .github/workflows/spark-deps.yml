@@ -2,17 +2,14 @@
 # natively in a FreeBSD 15.1 VM, the way "make -DMAINTAINER_MODE build
 # make-deps" builds it, check that the port then builds offline from it, and
 # upload it to the spark-<version> release, where MASTER_SITES:deps looks for
-# it.  The job log ends with the distinfo and the staged file list for
-# pkg-plist.
+# it.  The job log ends with the distinfo and the differences between the
+# staged files and pkg-plist.
+#
+# The tarball is not reproducible, so a new one never replaces one already in
+# the release (that would break distinfo); delete the asset first to rebuild.
 name: spark deps
 
 on:
-  push:
-    branches:
-      - claude/serene-gates-hmsxax
-    paths:
-      - '.github/workflows/spark-deps.yml'
-      - '.github/spark-deps.sh'
   workflow_dispatch:
 
 concurrency:
@@ -67,8 +64,11 @@ jobs:
           V=$SPARK_VERSION
           N=out/spark-$V-deps.tgz
           ls -l $N
-          if gh release view spark-$V >/dev/null 2>&1; then
-            gh release upload spark-$V $N --clobber
+          if gh release view spark-$V --json assets --jq '.assets[].name' | \
+              grep -qx "spark-$V-deps.tgz"; then
+            echo "spark-$V-deps.tgz is already in the release, not replacing it"
+          elif gh release view spark-$V >/dev/null 2>&1; then
+            gh release upload spark-$V $N
           else
             gh release create spark-$V $N --target "$GITHUB_SHA" \
               --title "spark $V maven repository" \
@@ -85,7 +85,8 @@ jobs:
           grep -v '^@' spark/pkg-plist | \
             sed -e 's|%%DATADIR%%|share/spark|' -e 's|%%SCALA%%|2.13|' \
               -e "s|%%VER%%|$SPARK_VERSION|" | sort > out/plist-files.txt
-          grep -v '^etc/rc.d/' out/staged-files.txt | sort | \
+          sed 's|^usr/local/||' out/staged-files.txt | \
+            grep -v -e '^etc/rc.d/' -e '^share/licenses/' | sort | \
             diff - out/plist-files.txt || true
           test "$(cat out/offline-status)" = ok
 
