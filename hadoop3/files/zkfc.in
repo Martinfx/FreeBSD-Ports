@@ -1,38 +1,84 @@
 #!/bin/sh
 #
-# $FreeBSD$
-#
 # PROVIDE: zkfc
 # REQUIRE: LOGIN
 # KEYWORD: shutdown
 #
-# zkfc_enable (bool):            Set to NO by default.
-#                                Set it to YES to enable zkfc.
+# zkfc_enable (bool):		Set to NO by default.
+#				Set it to YES to enable zkfc.
+# zkfc_user (str):		User to run zkfc as.
+#				Default: hdfs
+# zkfc_conf_dir (str):	Hadoop configuration directory.
+#				Default: %%ETCDIR%%
+# zkfc_ident (str):		HADOOP_IDENT_STRING, i.e. the `hadoop-<ident>-zkfc'
+#				part of the log and pid file names.
+#				Default: hdfs
 
 . /etc/rc.subr
 
-export PATH=${PATH}:%%LOCALBASE%%/bin
 name=zkfc
 rcvar=zkfc_enable
 
 load_rc_config "${name}"
 
-: ${zkfc_enable:=NO}
-: ${zkfc_user:=%%HDFS_USER%%}
+: ${zkfc_enable:="NO"}
+: ${zkfc_user:="hdfs"}
+: ${zkfc_conf_dir:="%%ETCDIR%%"}
+: ${zkfc_ident:="hdfs"}
 
-command="%%PREFIX%%/sbin/hadoop-daemon.sh"
-command_interpreter_execution="%%JAVA_HOME%%/bin/java"
-command_args='--config %%ETCDIR%% start zkfc'
+# `hdfs --daemon' forks, writes its own pid file and execs java, so rc.subr
+# cannot track it through ${command} -- drive it through the helpers below.
+hadoop_command="%%PREFIX%%/bin/hdfs"
+hadoop_subcmd="zkfc"
+procname="%%JAVA_HOME%%/bin/java"
+pidfile="%%HADOOP_RUNDIR%%/hadoop-${zkfc_ident}-${hadoop_subcmd}.pid"
 
-stop_cmd=zkfc_stop
-status_precmd=find_pid
+start_cmd="zkfc_start"
+stop_cmd="zkfc_stop"
+status_cmd="zkfc_status"
 
-zkfc_stop () {
-  su -m ${zkfc_user} -c "${command} --config %%ETCDIR%% stop zkfc"
+hadoop_doit()
+{
+	# Same quoting dance rc.subr itself uses for ${name}_user, so that the
+	# target account's login shell is not required to understand -c.
+	su -m "${zkfc_user}" -c "sh -c '\
+	    PATH=\"\${PATH}:%%LOCALBASE%%/bin\" \
+	    HADOOP_IDENT_STRING=\"${zkfc_ident}\" \
+	    ${hadoop_command} --config \"${zkfc_conf_dir}\" \
+	    --daemon $1 ${hadoop_subcmd}'"
 }
 
-find_pid () {
-  rc_pid=$(check_pidfile $pidfile $command_interpreter_execution)
+zkfc_start()
+{
+	rc_pid=$(check_pidfile "${pidfile}" "${procname}")
+	if [ -n "${rc_pid}" ]; then
+		echo "${name} already running? (pid=${rc_pid})."
+		return 1
+	fi
+	echo "Starting ${name}."
+	hadoop_doit start || return 1
+}
+
+zkfc_stop()
+{
+	rc_pid=$(check_pidfile "${pidfile}" "${procname}")
+	if [ -z "${rc_pid}" ]; then
+		echo "${name} not running? (check ${pidfile})."
+		return 1
+	fi
+	echo "Stopping ${name}."
+	hadoop_doit stop
+}
+
+zkfc_status()
+{
+	rc_pid=$(check_pidfile "${pidfile}" "${procname}")
+	if [ -n "${rc_pid}" ]; then
+		echo "${name} is running as pid ${rc_pid}."
+	else
+		echo "${name} is not running."
+		return 1
+	fi
 }
 
 run_rc_command "$1"

@@ -1,4 +1,2 @@
-# $FreeBSD$
-
-export HTTPFS_LOG=/var/log/hadoop
-export HTTPFS_TEMP=/var/tmp
+export HTTPFS_LOG=${HTTPFS_LOG:-%%HADOOP_LOGDIR%%}
+export HTTPFS_TEMP=${HTTPFS_TEMP:-/var/tmp}

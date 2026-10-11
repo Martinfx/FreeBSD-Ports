@@ -1,0 +1,30 @@
+[
+{ type: install
+  message: <<EOM
+Hadoop ships its configuration as sample files.  Before starting any daemon,
+copy the ones you need into %%ETCDIR%% and edit them:
+
+  cd %%ETCDIR%%
+  for f in *.sample; do cp -n "$f" "${f%.sample}"; done
+  cp %%EXAMPLESDIR%%/conf/hdfs-site.xml %%EXAMPLESDIR%%/conf/mapred-site.xml \
+     %%EXAMPLESDIR%%/conf/yarn-site.xml %%ETCDIR%%/
+
+%%EXAMPLESDIR%% also holds the full *-default.xml files for reference.
+
+Format the HDFS metadata once, as the %%HDFS_USER%% user, before the first
+namenode start:
+
+  su -m %%HDFS_USER%% -c 'sh -c "%%PREFIX%%/bin/hdfs --config %%ETCDIR%% namenode -format"'
+
+The daemons run as %%HDFS_USER%% (HDFS) and %%MAPRED_USER%% (YARN/MapReduce)
+and log to %%HADOOP_LOGDIR%%.  Enable the ones you need, for example:
+
+  sysrc namenode_enable=YES datanode_enable=YES
+  service namenode start
+  service datanode start
+
+Available services: namenode datanode secondarynamenode journalnode zkfc
+resourcemanager nodemanager webappproxyserver historyserver
+EOM
+}
+]

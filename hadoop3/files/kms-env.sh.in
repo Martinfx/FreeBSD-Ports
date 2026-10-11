@@ -1,4 +1,2 @@
-# $FreeBSD$
-
-export KMS_LOG=/var/log/hadoop
-export KMS_TEMP=/var/tmp
+export KMS_LOG=${KMS_LOG:-%%HADOOP_LOGDIR%%}
+export KMS_TEMP=${KMS_TEMP:-/var/tmp}

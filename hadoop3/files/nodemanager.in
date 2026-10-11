@@ -1,47 +1,89 @@
 #!/bin/sh
 #
-# $FreeBSD$
-#
 # PROVIDE: nodemanager
 # REQUIRE: LOGIN
 # KEYWORD: shutdown
 #
-# nodemanager_enable (bool):        Set to NO by default.
-#                                   Set it to YES to enable resourcemanager.
+# nodemanager_enable (bool):		Set to NO by default.
+#				Set it to YES to enable nodemanager.
+# nodemanager_user (str):		User to run nodemanager as.
+#				Default: mapred
+# nodemanager_conf_dir (str):	Hadoop configuration directory.
+#				Default: %%ETCDIR%%
+# nodemanager_ident (str):		HADOOP_IDENT_STRING, i.e. the `hadoop-<ident>-nodemanager'
+#				part of the log and pid file names.
+#				Default: yarn
 
 . /etc/rc.subr
 
-export PATH=${PATH}:%%LOCALBASE%%/bin
 name=nodemanager
 rcvar=nodemanager_enable
-pidfile=%%HADOOP_RUNDIR%%/yarn-yarn-${name}.pid
 
 load_rc_config "${name}"
 
-: ${nodemanager_enable:=NO}
-: ${nodemanager_user:=%%MAPRED_USER%%}
+: ${nodemanager_enable:="NO"}
+: ${nodemanager_user:="mapred"}
+: ${nodemanager_conf_dir:="%%ETCDIR%%"}
+: ${nodemanager_ident:="yarn"}
 
-command="%%PREFIX%%/sbin/yarn-daemon.sh"
-command_interpreter_execution="%%JAVA_HOME%%/bin/java"
-command_args='--config %%ETCDIR%% start nodemanager'
+# `yarn --daemon' forks, writes its own pid file and execs java, so rc.subr
+# cannot track it through ${command} -- drive it through the helpers below.
+hadoop_command="%%PREFIX%%/bin/yarn"
+hadoop_subcmd="nodemanager"
+procname="%%JAVA_HOME%%/bin/java"
+pidfile="%%HADOOP_RUNDIR%%/hadoop-${nodemanager_ident}-${hadoop_subcmd}.pid"
 
-start_postcmd="start_postcmd"
-stop_cmd=nodemanager_stop
-status_precmd=find_pid
+start_cmd="nodemanager_start"
+stop_cmd="nodemanager_stop"
+status_cmd="nodemanager_status"
 
-start_postcmd () {
-  rc_pid=$(check_pidfile ${pidfile} %%JAVA_HOME%%/bin/java)
-  if [ -n "$rc_pid" ]; then
-    protect -p $rc_pid
-  fi
+hadoop_doit()
+{
+	# Same quoting dance rc.subr itself uses for ${name}_user, so that the
+	# target account's login shell is not required to understand -c.
+	su -m "${nodemanager_user}" -c "sh -c '\
+	    PATH=\"\${PATH}:%%LOCALBASE%%/bin\" \
+	    HADOOP_IDENT_STRING=\"${nodemanager_ident}\" \
+	    ${hadoop_command} --config \"${nodemanager_conf_dir}\" \
+	    --daemon $1 ${hadoop_subcmd}'"
 }
 
-nodemanager_stop () {
-  su -m ${nodemanager_user} -c "${command} --config %%ETCDIR%% stop nodemanager"
+nodemanager_start()
+{
+	rc_pid=$(check_pidfile "${pidfile}" "${procname}")
+	if [ -n "${rc_pid}" ]; then
+		echo "${name} already running? (pid=${rc_pid})."
+		return 1
+	fi
+	echo "Starting ${name}."
+	hadoop_doit start || return 1
+	# Keep the daemon out of reach of the out-of-swap killer.
+	rc_pid=$(check_pidfile "${pidfile}" "${procname}")
+	if [ -n "${rc_pid}" ]; then
+		protect -p "${rc_pid}"
+	fi
 }
 
-find_pid () {
-  rc_pid=$(check_pidfile $pidfile $command_interpreter_execution)
+nodemanager_stop()
+{
+	rc_pid=$(check_pidfile "${pidfile}" "${procname}")
+	if [ -z "${rc_pid}" ]; then
+		echo "${name} not running? (check ${pidfile})."
+		return 1
+	fi
+	echo "Stopping ${name}."
+	hadoop_doit stop
+}
+
+nodemanager_status()
+{
+	rc_pid=$(check_pidfile "${pidfile}" "${procname}")
+	if [ -n "${rc_pid}" ]; then
+		echo "${name} is running as pid ${rc_pid}."
+	else
+		echo "${name} is not running."
+		return 1
+	fi
 }
 
 run_rc_command "$1"
