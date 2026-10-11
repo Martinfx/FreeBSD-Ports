@@ -68,9 +68,12 @@ MAKE_ENV+=	SPARK_PROTOC_EXEC_PATH=${PROTOC_BUILD}/protobuf/protoc \
 
 .include <bsd.port.pre.mk>
 
-.if ${ARCH:Marmv?} || ${ARCH} == "i386"
+.if ${ARCH:Marmv?} || ${ARCH} == "i386" || ${ARCH} == "powerpc"
 MAKE_ENV+=	MAVEN_OPTS="-Xss64m -Xmx1g -XX:ReservedCodeCacheSize=1g" \
 		JAVA_HOME=${JAVA_HOME}
+# scala-maven-plugin forks scalac with -Xms4g -Xmx4g -Xss128m, which a 32-bit
+# JVM cannot reserve, so it exits right away ("Process exited with an error: 1").
+SCALAC_32BIT=	yes
 .else
 MAKE_ENV+=	MAVEN_OPTS="-Xss64m -Xmx4g -XX:ReservedCodeCacheSize=1g" \
 		JAVA_HOME=${JAVA_HOME}
@@ -97,6 +100,15 @@ MASTER_SITES+=	https://github.com/Martinfx/FreeBSD-Ports/releases/download/spark
 DISTFILES+=	${PORTNAME}-${PORTVERSION}-deps.tgz:deps
 OFFLINE=	-o
 .endif # !defined(MAINTAINER_MODE)
+
+post-patch:
+.if defined(SCALAC_32BIT)
+	${REINPLACE_CMD} -e 's|<jvmArg>-Xss128m</jvmArg>|<jvmArg>-Xss32m</jvmArg>|' \
+		-e 's|<jvmArg>-Xms4g</jvmArg>|<jvmArg>-Xms512m</jvmArg>|' \
+		-e 's|<jvmArg>-Xmx4g</jvmArg>|<jvmArg>-Xmx2g</jvmArg>|' \
+		-e 's|<jvmArg>-XX:MaxMetaspaceSize=2g</jvmArg>|<jvmArg>-XX:MaxMetaspaceSize=512m</jvmArg>|' \
+		${WRKSRC}/pom.xml
+.endif
 
 pre-build:
 	${MKDIR} ${WRKDIR}/protoc-src
