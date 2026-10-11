@@ -9,6 +9,12 @@ DISTNAME=	${PORTNAME}-${PORTVERSION}-src
 DISTFILES=	${DISTNAME}${EXTRACT_SUFX} \
 		protobuf-${PROTOBUF_VERSION}${EXTRACT_SUFX}:protobuf \
 		${CATALOG_VENDOR_DIST}:hadoopsite
+# Set to yes once ${MAVEN_REPO_DIST} is on HADOOP_DISTFILES_SITE and in
+# distinfo; until then Maven builds online.
+MAVEN_REPO_PUBLISHED=	no
+.if ${MAVEN_REPO_PUBLISHED} != yes
+MAVEN_ONLINE=	yes
+.endif
 .if !defined(MAVEN_ONLINE)
 DISTFILES+=	${MAVEN_REPO_DIST}:hadoopsite
 .endif
@@ -22,9 +28,10 @@ LICENSE=	APACHE20
 LICENSE_FILE=	${WRKSRC}/LICENSE.txt
 
 # The ascopes protobuf-maven-plugin (YARN CSI) needs Maven >= 3.9.6, and
-# devel/maven defaults to 3.8.
+# devel/maven defaults to 3.8.  Depend on the package rather than on mvn,
+# which the maven wrapper provides for any installed Maven.
 BUILD_DEPENDS=	bash:shells/bash \
-		mvn:devel/maven39
+		maven39>=3.9.6:devel/maven39
 LIB_DEPENDS=	libabsl_base.so:devel/abseil \
 		libboost_date_time.so:devel/boost-libs \
 		libprotobuf.so:devel/protobuf \

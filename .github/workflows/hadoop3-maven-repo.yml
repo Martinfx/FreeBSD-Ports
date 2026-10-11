@@ -90,12 +90,14 @@ jobs:
             OPTIONS_SET+=EXAMPLES FUSE ISAL YARNUI
             MK
 
-            log() { "$@" > $W/out/$LOG 2>&1 || { tail -n 300 $W/out/$LOG; exit 1; }; tail -n 40 $W/out/$LOG; }
+            # The VM gets this script on stdin, so nothing may read stdin:
+            # make/maven/npm would swallow the rest of the script.
+            log() { "$@" < /dev/null > $W/out/$LOG 2>&1 || { tail -n 300 $W/out/$LOG; exit 1; }; tail -n 40 $W/out/$LOG; }
 
             echo "=== 1. distfiles"
-            if ! make -C $P MAVEN_ONLINE=yes checksum > $W/out/checksum.log 2>&1; then
+            if ! make -C $P MAVEN_ONLINE=yes checksum < /dev/null > $W/out/checksum.log 2>&1; then
               tail -n 50 $W/out/checksum.log
-              make -C $P MAVEN_ONLINE=yes makesum; cat $P/distinfo; exit 1
+              make -C $P MAVEN_ONLINE=yes makesum < /dev/null; cat $P/distinfo; exit 1
             fi
             tail -n 20 $W/out/checksum.log
 
@@ -112,13 +114,13 @@ jobs:
               $N "$(sha256 -q $N)" $N "$(stat -f %z $N)" > $N.distinfo && cat $N.distinfo)
 
             echo "=== 4. offline build from it"
-            make -C $P MAVEN_ONLINE=yes clean
+            make -C $P MAVEN_ONLINE=yes clean < /dev/null
             mkdir -p /usr/ports/distfiles/hadoop
             cp $W/out/$N /usr/ports/distfiles/hadoop/
-            LOG=build-offline.log log make -C $P NO_CHECKSUM=yes stage
-            LOG=qa-offline.log log make -C $P NO_CHECKSUM=yes stage-qa check-plist
+            LOG=build-offline.log log make -C $P MAVEN_REPO_PUBLISHED=yes NO_CHECKSUM=yes stage
+            LOG=qa-offline.log log make -C $P MAVEN_REPO_PUBLISHED=yes NO_CHECKSUM=yes stage-qa check-plist
             ls -l $P/work/stage/usr/local/lib/libhdfspp.so* $P/work/stage/usr/local/bin/fuse_dfs
-            make -C $P clean
+            make -C $P clean < /dev/null
             rm -rf /usr/ports/distfiles
 
       - name: Upload to the hadoop3-${{ env.HADOOP_VERSION }} release
