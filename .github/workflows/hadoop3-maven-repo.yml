@@ -68,6 +68,9 @@ jobs:
               devel/abseil devel/boost-libs security/cyrus-sasl2 \
               archivers/snappy archivers/zstd devel/isa-l \
               filesystems/fusefs-libs www/node22 www/npm-node22 sysutils/setsid
+            # not a dependency: a newer gtest in LOCALBASE must not shadow the
+            # one nativetask bundles
+            pkg install -y devel/googletest
           run: |
             set -e
             W=$PWD
