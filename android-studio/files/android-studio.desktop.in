@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Android Studio
+GenericName=Android IDE
+Comment=Official IDE for Android (Linux binary)
+Exec=%%PREFIX%%/bin/android-studio %f
+Icon=android-studio
+Terminal=false
+Categories=Development;IDE;Java;
+StartupWMClass=jetbrains-studio
+StartupNotify=true
