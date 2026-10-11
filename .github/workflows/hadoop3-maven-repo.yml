@@ -19,6 +19,7 @@ on:
       - claude/awesome-franklin-om5ip5
     paths:
       - '.github/workflows/hadoop3-maven-repo.yml'
+      - 'hadoop3/**'
   workflow_dispatch:
 
 concurrency:
