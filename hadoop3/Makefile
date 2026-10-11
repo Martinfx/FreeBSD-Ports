@@ -7,7 +7,8 @@ MASTER_SITES=	https://archive.apache.org/dist/${PORTNAME}/common/${PORTNAME}-${P
 PKGNAMESUFFIX=	3
 DISTNAME=	${PORTNAME}-${PORTVERSION}-src
 DISTFILES=	${DISTNAME}${EXTRACT_SUFX} \
-		protobuf-${PROTOBUF_VERSION}${EXTRACT_SUFX}:protobuf
+		protobuf-${PROTOBUF_VERSION}${EXTRACT_SUFX}:protobuf \
+		${CATALOG_VENDOR_DIST}:hadoopsite
 .if !defined(MAVEN_ONLINE)
 DISTFILES+=	${MAVEN_REPO_DIST}:hadoopsite
 .endif
@@ -121,6 +122,12 @@ YARNUI_MAKE_ENV=	npm_config_cache=${WRKDIR}/hadoop3-npm-cache-${PORTVERSION} \
 YARNUI_VARS=		MAVEN_PROFILES+=yarn-ui
 
 NPM_CACHE_DIST=	hadoop3-npm-cache-${PORTVERSION}.tar.xz
+# The YARN application catalog webapp would download a Linux node to run
+# "yarn install" for its jquery/angular/bootstrap; the patched pom skips that
+# on FreeBSD and the result of that install comes from this distfile, built by
+# .github/workflows/hadoop3-catalog-vendor.yml.
+CATALOG_VENDOR_DIST=	hadoop3-catalog-vendor-${PORTVERSION}.tar.xz
+CATALOG_WEBAPP=		${WRKSRC}/hadoop-yarn-project/hadoop-yarn/hadoop-yarn-applications/hadoop-yarn-applications-catalog/hadoop-yarn-applications-catalog-webapp
 HADOOP_DISTFILES_SITE?=	https://github.com/Martinfx/FreeBSD-Ports/releases/download/hadoop3-${PORTVERSION}/
 
 HADOOP_DIST=	${WRKSRC}/hadoop-dist/target/hadoop-${PORTVERSION}
@@ -177,6 +184,9 @@ pre-build:
 	${CMAKE_BIN} --build ${PROTOC_TOOLS_BUILD} \
 		--target protoc protoc-gen-grpc-java --parallel ${MAKE_JOBS_NUMBER}
 	${LN} -sf ${PROTOC_TOOLS_BUILD}/protoc-gen-grpc-java ${GRPC_PLUGIN_DIR}/
+	${MKDIR} ${CATALOG_WEBAPP}/target/generated-sources
+	${CP} -R ${WRKDIR}/hadoop3-catalog-vendor-${PORTVERSION}/vendor \
+		${CATALOG_WEBAPP}/target/generated-sources/
 
 # frontend-maven-plugin cannot download node for FreeBSD; the patched pom
 # skips that step and expects node and npm where it would have put them.
