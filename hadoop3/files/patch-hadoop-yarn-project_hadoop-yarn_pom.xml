@@ -1,0 +1,10 @@
+--- hadoop-yarn-project/hadoop-yarn/pom.xml.orig	2026-02-24 00:10:14 UTC
++++ hadoop-yarn-project/hadoop-yarn/pom.xml
+@@ -249,7 +249,6 @@
+     <module>hadoop-yarn-registry</module>
+     <module>hadoop-yarn-ui</module>
+     <module>hadoop-yarn-capacity-scheduler-ui</module>
+-    <module>hadoop-yarn-csi</module>
+   </modules>
+   <!--  -->
+ </project>

@@ -1,0 +1,21 @@
+--- hadoop-yarn-project/pom.xml.orig	2026-02-24 00:10:14 UTC
++++ hadoop-yarn-project/pom.xml
+@@ -126,18 +126,6 @@
+     </dependency>
+     <dependency>
+       <groupId>org.apache.hadoop</groupId>
+-      <artifactId>hadoop-yarn-csi</artifactId>
+-      <version>${project.version}</version>
+-      <scope>provided</scope>
+-      <exclusions>
+-        <exclusion>
+-          <groupId>org.codehaus.mojo</groupId>
+-          <artifactId>animal-sniffer-annotations</artifactId>
+-        </exclusion>
+-      </exclusions>
+-    </dependency>
+-    <dependency>
+-      <groupId>org.apache.hadoop</groupId>
+       <artifactId>hadoop-yarn-server-timelineservice-documentstore</artifactId>
+       <version>${project.version}</version>
+       <scope>provided</scope>

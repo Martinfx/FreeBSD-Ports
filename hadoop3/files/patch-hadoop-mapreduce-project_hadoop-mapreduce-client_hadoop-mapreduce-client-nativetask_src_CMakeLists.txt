@@ -1,14 +1,14 @@
---- hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-nativetask/src/CMakeLists.txt.orig	2018-03-21 17:57:56 UTC
+--- hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-nativetask/src/CMakeLists.txt.orig	2026-02-24 00:10:13 UTC
 +++ hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-nativetask/src/CMakeLists.txt
-@@ -27,6 +27,7 @@ set(GTEST_SRC_DIR ${CMAKE_SOURCE_DIR}/../../../../hado
+@@ -27,6 +27,7 @@
  # Add extra compiler and linker flags.
  # -Wno-sign-compare
  hadoop_add_compiler_flags("-DNDEBUG -DSIMPLE_MEMCPY -fno-strict-aliasing -fsigned-char")
 +hadoop_add_linker_flags("-lexecinfo")
+ set(CMAKE_CXX_STANDARD 11)
  
  # Source location.
- set(SRC main/native)
-@@ -45,7 +46,6 @@ include(CheckIncludeFiles)
+@@ -46,7 +47,6 @@
  
  check_include_files(fcntl.h HAVE_FCNTL_H)
  check_include_files(malloc.h HAVE_MALLOC_H)

@@ -1,6 +1,15 @@
---- hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-nativetask/src/main/native/src/lib/Buffers.h.orig	2018-10-18 18:38:39 UTC
+--- hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-nativetask/src/main/native/src/lib/Buffers.h.orig	2026-02-24 00:10:13 UTC
 +++ hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-nativetask/src/main/native/src/lib/Buffers.h
-@@ -79,11 +79,11 @@ class ReadBuffer { (public)
+@@ -19,6 +19,8 @@
+ #ifndef BUFFERS_H_
+ #define BUFFERS_H_
+ 
++#include <sys/endian.h>
++
+ #include "lib/Streams.h"
+ #include "lib/Compressions.h"
+ #include "lib/Constants.h"
+@@ -79,11 +81,11 @@
    }
  
    /**
@@ -14,7 +23,7 @@
        _remain -= len;
        return;
      }
-@@ -115,7 +115,7 @@ class ReadBuffer { (public)
+@@ -115,7 +117,7 @@
     * read uint32_t big endian
     */
    inline uint32_t read_uint32_be() {
@@ -23,7 +32,7 @@
    }
  };
  
-@@ -181,7 +181,7 @@ class AppendBuffer { (public)
+@@ -181,7 +183,7 @@
  
    inline void write(const void * data, uint32_t len) {
      if (likely(len <= _remain)) { // append directly
@@ -32,7 +41,7 @@
        _remain -= len;
        return;
      }
-@@ -198,7 +198,7 @@ class AppendBuffer { (public)
+@@ -198,7 +200,7 @@
    }
  
    inline void write_uint32_be(uint32_t v) {
@@ -41,7 +50,7 @@
    }
  
    inline void write_uint64_le(uint64_t v) {
-@@ -291,10 +291,10 @@ struct KVBuffer {
+@@ -291,10 +293,10 @@
      valueLength = vallen;
  
      if (keylen > 0) {
@@ -54,7 +63,7 @@
      }
    }
  
-@@ -479,7 +479,7 @@ class FixSizeContainer { (public)
+@@ -479,7 +481,7 @@
      }
      uint32_t remain = _size - _pos;
      uint32_t length = (maxSize < remain) ? maxSize : remain;

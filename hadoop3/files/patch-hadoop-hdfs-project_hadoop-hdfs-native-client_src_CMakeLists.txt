@@ -1,0 +1,18 @@
+--- hadoop-hdfs-project/hadoop-hdfs-native-client/src/CMakeLists.txt.orig	2026-02-24 00:10:13 UTC
++++ hadoop-hdfs-project/hadoop-hdfs-native-client/src/CMakeLists.txt
+@@ -191,7 +191,14 @@
+     }"
+     THREAD_LOCAL_SUPPORTED)
+ if (THREAD_LOCAL_SUPPORTED)
+-    add_subdirectory(main/native/libhdfspp)
++    # libhdfs++ is not built: it is written against boost::asio::io_service,
++    # which Boost 1.87 removed, and would drag protobuf and abseil in at
++    # runtime.  libhdfs (the C/JNI client) still needs the x-platform helpers
++    # that live in the libhdfs++ tree, so build just those.
++    set(CMAKE_CXX_STANDARD 17)
++    set(CMAKE_POSITION_INDEPENDENT_CODE ON)
++    include_directories(${CMAKE_CURRENT_SOURCE_DIR}/main/native/libhdfspp/lib)
++    add_subdirectory(main/native/libhdfspp/lib/x-platform)
+ else()
+     message(WARNING
+     "WARNING: Libhdfs++ library was not built because the required feature thread_local storage \

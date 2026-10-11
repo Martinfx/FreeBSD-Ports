@@ -1,6 +1,6 @@
---- hadoop-yarn-project/hadoop-yarn/hadoop-yarn-server/hadoop-yarn-server-nodemanager/pom.xml.orig	2019-07-27 18:33:18 UTC
+--- hadoop-yarn-project/hadoop-yarn/hadoop-yarn-server/hadoop-yarn-server-nodemanager/pom.xml.orig	2026-03-12 21:52:14 UTC
 +++ hadoop-yarn-project/hadoop-yarn/hadoop-yarn-server/hadoop-yarn-server-nodemanager/pom.xml
-@@ -311,6 +311,27 @@
+@@ -365,6 +365,58 @@
          </plugins>
        </build>
      </profile>
@@ -13,6 +13,37 @@
 +      </activation>
 +      <build>
 +        <plugins>
++          <!-- container-executor, its runc/cgroups modules and oom-listener
++               are Linux-only; FreeBSD runs containers through the
++               DefaultContainerExecutor, so do not build them. -->
++          <plugin>
++            <groupId>org.apache.hadoop</groupId>
++            <artifactId>hadoop-maven-plugins</artifactId>
++            <executions>
++              <execution>
++                <id>cmake-compile</id>
++                <phase>none</phase>
++              </execution>
++              <execution>
++                <id>test-container-executor</id>
++                <phase>none</phase>
++              </execution>
++              <execution>
++                <id>cetest</id>
++                <phase>none</phase>
++              </execution>
++            </executions>
++          </plugin>
++          <plugin>
++            <groupId>org.apache.maven.plugins</groupId>
++            <artifactId>maven-antrun-plugin</artifactId>
++            <executions>
++              <execution>
++                <id>make</id>
++                <phase>none</phase>
++              </execution>
++            </executions>
++          </plugin>
 +          <plugin>
 +            <groupId>org.apache.maven.plugins</groupId>
 +            <artifactId>maven-surefire-plugin</artifactId>

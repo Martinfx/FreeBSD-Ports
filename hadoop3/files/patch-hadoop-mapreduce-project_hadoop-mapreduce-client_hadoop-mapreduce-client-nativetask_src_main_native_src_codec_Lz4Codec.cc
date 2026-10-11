@@ -1,7 +1,7 @@
---- hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-nativetask/src/main/native/src/codec/Lz4Codec.cc.orig	2018-10-18 18:38:39 UTC
+--- hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-nativetask/src/main/native/src/codec/Lz4Codec.cc.orig	2026-02-24 00:10:13 UTC
 +++ hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-nativetask/src/main/native/src/codec/Lz4Codec.cc
-@@ -38,8 +38,8 @@ void Lz4CompressStream::compressOneBlock(const void * 
-   int ret = LZ4_compress((char*)buff, _tempBuffer + 8, length);
+@@ -38,8 +38,8 @@
+   int ret = LZ4_compress_default((char*)buff, _tempBuffer + 8, length, LZ4_compressBound(length));
    if (ret > 0) {
      compressedLength = ret;
 -    ((uint32_t*)_tempBuffer)[0] = bswap(length);
