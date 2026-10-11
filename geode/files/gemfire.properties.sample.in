@@ -1,0 +1,41 @@
+# Apache Geode distributed system properties, read by the geode_locator and
+# geode_server rc.d services (see geode_locator_properties and
+# geode_server_properties in %%PREFIX%%/etc/rc.d/geode_*).
+#
+# Every property is documented, with its default value, in
+# %%DATADIR%%/config/gemfire.properties and at
+# https://geode.apache.org/docs/guide/latest/reference/topics/gemfire_properties.html
+#
+# Settings given on the command line (geode_*_args, "gfsh start ... --J=")
+# take precedence over this file.
+
+# Locators that members of this cluster use to find each other, as
+# host[port] separated by commas.  The default runs a locator and a server
+# on this host; list every locator of the cluster here when there are more.
+# A member with an empty list runs isolated, outside any cluster.
+locators=localhost[10334]
+
+# Address used for communication between members, when the host has more
+# than one.
+#bind-address=
+
+# Locators run the JMX manager, Pulse and the management REST API.  Set the
+# port to 0 to disable the embedded HTTP service.
+#http-service-port=7070
+#http-service-bind-address=
+#jmx-manager-port=1099
+
+# Logging; the log file is <member name>.log in the member's working
+# directory unless log-file is set.
+#log-level=config
+#log-file-size-limit=10
+#log-disk-space-limit=100
+
+# Statistics archive, readable with Visual Statistics Display (VSD).
+#statistic-archive-file=statistics.gfs
+#archive-file-size-limit=10
+#archive-disk-space-limit=100
+
+# Security; see also %%ETCDIR%%/gfsecurity.properties.
+#security-manager=
+#ssl-enabled-components=

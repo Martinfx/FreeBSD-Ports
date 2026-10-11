@@ -1,0 +1,34 @@
+[
+{ type: install
+  message: <<EOM
+Apache Geode %%VERSION%% is installed in %%DATADIR%% (GEODE_HOME); its
+shell is %%PREFIX%%/bin/gfsh.
+
+To run a locator and a server on this host as services:
+
+  sysrc geode_locator_enable=YES geode_server_enable=YES
+  service geode_locator start
+  service geode_server start
+  gfsh -e "connect --locator=localhost[10334]" -e "list members"
+
+Both services read %%ETCDIR%%/gemfire.properties; their working
+directories, with logs and persistent data, are below %%GEODE_DBDIR%%.
+Member names default to locator-<hostname> and server-<hostname>.  The
+remaining settings, among them heap size, ports and bind addresses, are
+described at the top of %%PREFIX%%/etc/rc.d/geode_locator and
+%%PREFIX%%/etc/rc.d/geode_server.
+
+The locator serves Pulse at http://localhost:7070/pulse and the
+management REST API on the same port.  Neither requires a login until a
+security manager is configured: set one before exposing the locator,
+or its JMX (1099) and HTTP (7070) ports, beyond a trusted network.
+
+Jars placed in %%DATADIR%%/extensions are added to the classpath of gfsh,
+of the rc.d services and of the members gfsh starts; a running cluster
+also takes application jars through "gfsh deploy".
+
+Geode %%VERSION%% needs Java 17 or newer; set geode_*_java_home, or
+JAVA_HOME for gfsh, to use a JDK other than %%JAVA_HOME%%.
+EOM
+}
+]

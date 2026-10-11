@@ -1,0 +1,18 @@
+Apache Geode is a data management platform that provides real-time,
+consistent access to data-intensive applications throughout widely
+distributed cloud architectures.  It is the open source core of what was
+commercially known as GemFire.
+
+Geode pools memory, CPU, network resources and optionally local disk across
+multiple processes to manage application objects and behavior.  Data is
+kept in regions, which are replicated or partitioned across the members of
+a cluster for high availability, scalability and fault tolerance.
+Features include:
+
+- in-memory key/value regions with optional persistence and overflow to
+  disk
+- OQL queries, continuous queries and Lucene based full text indexes
+- transactions, event notification and guaranteed message delivery
+- WAN replication between clusters
+- client/server topology with Java and native (C++, .NET) clients
+- gfsh command line shell, Pulse web monitoring and a management REST API
