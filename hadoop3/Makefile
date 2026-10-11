@@ -2,7 +2,8 @@ PORTNAME=	hadoop
 PORTVERSION=	3.5.0
 CATEGORIES=	devel java
 MASTER_SITES=	https://archive.apache.org/dist/${PORTNAME}/common/${PORTNAME}-${PORTVERSION}/ \
-		https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_VERSION}/:protobuf
+		https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_VERSION}/:protobuf \
+		${NPM_CACHE_SITE}:npmcache
 PKGNAMESUFFIX=	3
 DISTNAME=	${PORTNAME}-${PORTVERSION}-src
 DISTFILES=	${DISTNAME}${EXTRACT_SUFX} \
@@ -92,16 +93,21 @@ ISAL_LIB_DEPENDS=	libisal.so:devel/isa-l
 ISAL_VARS=		MAVEN_ARGS+="-Drequire.isal -Disal.prefix=${LOCALBASE}"
 YARNUI_BUILD_DEPENDS=	npm:www/npm-node22
 YARNUI_USES=		nodejs:22,build
-# npm ci runs offline from a cache of every package the UI's lockfile needs on
-# FreeBSD (amd64 and aarch64), published as a tag of the ports repository; see
-# the README in that tag for how it is generated.
-YARNUI_GH_TUPLE=	Martinfx:FreeBSD-Ports:hadoop3-${PORTVERSION}-npm-cache:npmcache
-YARNUI_MAKE_ENV=	npm_config_cache=${WRKDIR}/FreeBSD-Ports-hadoop3-${PORTVERSION}-npm-cache/npm-cache \
+# The scheduler UI build runs "npm ci", which cannot reach the registry in
+# poudriere.  It runs offline instead, from an npm cache of every package the
+# UI's lockfile needs on FreeBSD amd64 and aarch64.  The cache is built on
+# FreeBSD by .github/workflows/hadoop3-npm-cache.yml and published on
+# NPM_CACHE_SITE; regenerate it on every update.
+YARNUI_DISTFILES=	${NPM_CACHE_DIST}:npmcache
+YARNUI_MAKE_ENV=	npm_config_cache=${WRKDIR}/hadoop3-npm-cache-${PORTVERSION} \
 			npm_config_offline=true \
 			npm_config_audit=false \
 			npm_config_fund=false \
 			npm_config_update_notifier=false
 YARNUI_VARS=		MAVEN_PROFILES+=yarn-ui
+
+NPM_CACHE_DIST=	hadoop3-npm-cache-${PORTVERSION}.tar.xz
+NPM_CACHE_SITE?=	https://github.com/Martinfx/FreeBSD-Ports/releases/download/hadoop3-${PORTVERSION}/
 
 HADOOP_DIST=	${WRKSRC}/hadoop-dist/target/hadoop-${PORTVERSION}
 HDFS_NATIVE=	${WRKSRC}/hadoop-hdfs-project/hadoop-hdfs-native-client
