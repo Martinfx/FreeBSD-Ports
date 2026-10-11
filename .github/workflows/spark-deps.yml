@@ -1,0 +1,102 @@
+# Build the maven repository distfile of devel/spark (spark-<version>-deps.tgz)
+# natively in a FreeBSD 15.1 VM, the way "make -DMAINTAINER_MODE build
+# make-deps" builds it, check that the port then builds offline from it, and
+# upload it to the spark-<version> release, where MASTER_SITES:deps looks for
+# it.  The job log ends with the distinfo and the differences between the
+# staged files and pkg-plist.
+#
+# The tarball is not reproducible, so a new one never replaces one already in
+# the release (that would break distinfo); delete the asset first to rebuild.
+name: spark deps
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: spark-deps-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  deps:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Version and VM disk
+        run: |
+          sudo mkdir -p /mnt/vm
+          sudo chown "$(id -u):$(id -g)" /mnt/vm
+          V=$(awk '$1 == "PORTVERSION=" { print $2 }' spark/Makefile)
+          echo "SPARK_VERSION=$V" >> "$GITHUB_ENV"
+          echo "spark $V"
+          df -h / /mnt
+
+      - name: Build the maven repository on FreeBSD
+        uses: vmactions/freebsd-vm@v1
+        with:
+          release: "15.1"
+          cpu: 4
+          mem: 12288
+          data-dir: /mnt/vm
+          envs: 'SPARK_VERSION'
+          prepare: |
+            set -e
+            R=FreeBSD
+            grep -q '^FreeBSD-ports:' /etc/pkg/FreeBSD.conf && R=FreeBSD-ports
+            mkdir -p /usr/local/etc/pkg/repos
+            echo "$R: { url: \"pkg+https://pkg.FreeBSD.org/\${ABI}/latest\", mirror_type: \"srv\" }" \
+              > /usr/local/etc/pkg/repos/$R.conf
+            env ASSUME_ALWAYS_YES=yes pkg update -f
+            env ASSUME_ALWAYS_YES=yes pkg upgrade
+            pkg install -y git-lite bash cmake-core maven39 ninja openjdk17 \
+              python3 snappyjava
+          run: sh .github/spark-deps.sh < /dev/null
+
+      - name: Upload to the spark-${{ env.SPARK_VERSION }} release
+        if: always() && hashFiles('out/spark-*-deps.tgz') != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          V=$SPARK_VERSION
+          N=out/spark-$V-deps.tgz
+          ls -l $N
+          if gh release view spark-$V --json assets --jq '.assets[].name' | \
+              grep -qx "spark-$V-deps.tgz"; then
+            echo "spark-$V-deps.tgz is already in the release, not replacing it"
+          elif gh release view spark-$V >/dev/null 2>&1; then
+            gh release upload spark-$V $N
+          else
+            gh release create spark-$V $N --target "$GITHUB_SHA" \
+              --title "spark $V maven repository" \
+              --notes "Maven repository distfile (spark-$V-deps.tgz) for devel/spark $V, built on FreeBSD 15.1 amd64 by .github/workflows/spark-deps.yml."
+          fi
+
+      - name: distinfo and staged files
+        if: always()
+        run: |
+          echo "== distinfo"
+          cat out/distinfo
+          echo "== offline build: $(cat out/offline-status)"
+          echo "== staged files vs. pkg-plist (< only staged, > only in pkg-plist)"
+          grep -v '^@' spark/pkg-plist | \
+            sed -e 's|%%DATADIR%%|share/spark|' -e 's|%%SCALA%%|2.13|' \
+              -e "s|%%VER%%|$SPARK_VERSION|" | sort > out/plist-files.txt
+          sed 's|^usr/local/||' out/staged-files.txt | \
+            grep -v -e '^etc/rc.d/' -e '^share/licenses/' | sort | \
+            diff - out/plist-files.txt || true
+          test "$(cat out/offline-status)" = ok
+
+      - name: Logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: spark-deps-logs
+          path: |
+            out/*.log
+            out/distinfo
+            out/staged-files.txt
+          if-no-files-found: ignore
