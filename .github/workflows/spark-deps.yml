@@ -54,8 +54,8 @@ jobs:
               > /usr/local/etc/pkg/repos/$R.conf
             env ASSUME_ALWAYS_YES=yes pkg update -f
             env ASSUME_ALWAYS_YES=yes pkg upgrade
-            pkg install -y git-lite bash maven openjdk17 openjdk21 pkgconf \
-              protobuf python3 snappy-java
+            pkg install -y git-lite bash maven39 openjdk17 pkgconf \
+              protobuf python3 snappyjava
           run: |
             set -e
             W=$PWD

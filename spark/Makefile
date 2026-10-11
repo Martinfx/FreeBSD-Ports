@@ -18,7 +18,7 @@ BROKEN_powerpc=	not enough memory on this architecture to build the port
 
 BUILD_DEPENDS=	${LOCALBASE}/lib/libsnappyjava.so:archivers/snappy-java \
 		bash:shells/bash \
-		maven>0:devel/maven \
+		maven39>0:devel/maven39 \
 		protoc:devel/protobuf
 RUN_DEPENDS=	bash:shells/bash
 
