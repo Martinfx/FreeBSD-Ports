@@ -2,9 +2,14 @@ PORTNAME=	geode
 DISTVERSION=	2.0.3
 CATEGORIES=	databases java
 MASTER_SITES=	APACHE/${PORTNAME}/${DISTVERSION} \
-		https://archive.apache.org/dist/${PORTNAME}/${DISTVERSION}/
-DISTNAME=	apache-${PORTNAME}-${DISTVERSION}
-EXTRACT_SUFX=	.tgz
+		https://archive.apache.org/dist/${PORTNAME}/${DISTVERSION}/ \
+		https://services.gradle.org/distributions/:gradle \
+		https://github.com/Martinfx/FreeBSD-Ports/releases/download/${PORTNAME}-${DISTVERSION}-deps/:deps
+DISTFILES=	apache-${PORTNAME}-${DISTVERSION}-src.tgz \
+		gradle-${GRADLE_VERSION}-bin.zip:gradle
+.if !defined(GEODE_MAKE_DEPS)
+DISTFILES+=	${GEODE_DEPS}.tar.gz:deps
+.endif
 
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	In-memory data grid and distributed data management platform
@@ -13,15 +18,35 @@ WWW=		https://geode.apache.org/
 LICENSE=	APACHE20
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
+NOT_FOR_ARCHS=	armv7 i386
+NOT_FOR_ARCHS_REASON=	the Gradle build runs with a 3 GB heap
+
 USES=		cpe java
 CPE_VENDOR=	apache
 
-# Geode 2.x is built for Java 17 (class file version 61) and depends on
-# Spring 6 and Jetty 12, which require Java 17 as well.
-JAVA_VERSION=	17+
+# Geode 2.x targets Java 17, and Gradle ${GRADLE_VERSION}, the version its
+# build is written for, does not run on anything newer.
+JAVA_VERSION=	17
 
 NO_ARCH=	yes
-NO_BUILD=	yes
+
+WRKSRC=		${WRKDIR}/apache-${PORTNAME}-${DISTVERSION}-src
+
+# Gradle resolves dependencies from the network.  They come instead from
+# ${GEODE_DEPS}.tar.gz, a Gradle module cache made with the
+# make-gradle-deps target below, and the build runs offline.
+GRADLE_VERSION=	7.3.3
+GEODE_DEPS=	${PORTNAME}-${DISTVERSION}-gradle-deps
+GRADLE_ENV=	GRADLE_USER_HOME=${WRKDIR}/${GEODE_DEPS} \
+		JAVA_HOME=${JAVA_HOME}
+# -Pversion: a release build; without it the source tree builds
+# ${DISTVERSION}-build.0.
+GRADLE_ARGS=	--no-daemon --no-build-cache --no-watch-fs --console=plain \
+		--max-workers=${MAKE_JOBS_NUMBER} -Duser.home=${WRKDIR} \
+		-Pversion=${DISTVERSION}
+GRADLE_CMD=	${SETENV} ${MAKE_ENV} ${GRADLE_ENV} \
+		${SH} ${WRKDIR}/gradle-${GRADLE_VERSION}/bin/gradle ${GRADLE_ARGS}
+GEODE_DIST=	${WRKSRC}/geode-assembly/build/install/apache-${PORTNAME}
 
 USE_RC_SUBR=	geode_locator geode_server
 
@@ -41,7 +66,7 @@ OPTIONS_DEFINE=	DOCS
 
 PORTDOCS=	NOTICE README.md javadoc
 
-# Named one by one: post-patch leaves gemfire.properties.bak behind.
+# Named one by one: post-build leaves gemfire.properties.bak behind.
 GEODE_CONFIG_FILES=	cache.xml gemfire.properties log4j2.xml \
 			open-all-jdk-packages-linux-openjdk-17
 
@@ -56,13 +81,35 @@ PLIST_SUB=	GEODE_DBDIR=${GEODE_DBDIR} \
 		GEODE_USER=${GEODE_USER} \
 		VERSION=${DISTVERSION}
 
+.include <bsd.port.pre.mk>
+
+# Gradle ships its native integration for FreeBSD on amd64 only.
+.if ${ARCH} != amd64
+GRADLE_ARGS+=	-Dorg.gradle.native=false
+.endif
+
+do-build:
+	cd ${WRKSRC} && ${GRADLE_CMD} --offline :geode-assembly:installDist
+
 # config/gemfire.properties is a dump of every property at its default
-# value, taken on the release manager's machine, so deploy-working-dir
-# records a path from that machine instead of its real default, the
-# member's working directory.
-post-patch:
+# value, generated during the build, so deploy-working-dir records the
+# build directory instead of its real default, the member's working
+# directory.
+post-build:
 	@${REINPLACE_CMD} -e '/^deploy-working-dir=/d' \
-		${WRKSRC}/config/gemfire.properties
+		${GEODE_DIST}/config/gemfire.properties
+
+# Maintainer target: rebuild ${GEODE_DEPS}.tar.gz in ${DISTDIR} by running
+# the build online from a clean tree, then "make makesum".  The archive is
+# published as a release asset of the repository in MASTER_SITES.
+make-gradle-deps:
+	@${MAKE} -C ${.CURDIR} clean
+	@${MAKE} -C ${.CURDIR} GEODE_MAKE_DEPS=yes patch
+	cd ${WRKSRC} && ${GRADLE_CMD} :geode-assembly:installDist
+	cd ${WRKDIR}/${GEODE_DEPS}/caches && ${TAR} -czf \
+		${DISTDIR}/${GEODE_DEPS}.tar.gz --uid 0 --gid 0 \
+		--exclude '*.lock' --exclude gc.properties \
+		-s ',^modules-2,${GEODE_DEPS}/caches/modules-2,' modules-2
 
 # The upstream bin/gfsh is a bash script that guesses GEODE_HOME from $0; it
 # is replaced by files/gfsh.in, installed in ${PREFIX}/bin and linked from
@@ -73,18 +120,19 @@ do-install:
 		${STAGEDIR}${ETCDIR} ${STAGEDIR}${GEODE_DBDIR}
 	${INSTALL_SCRIPT} ${WRKDIR}/gfsh ${STAGEDIR}${PREFIX}/bin/gfsh
 	${RLN} ${STAGEDIR}${PREFIX}/bin/gfsh ${STAGEDIR}${DATADIR}/bin/gfsh
-	cd ${WRKSRC}/config && ${INSTALL_DATA} ${GEODE_CONFIG_FILES} \
+	cd ${GEODE_DIST}/config && ${INSTALL_DATA} ${GEODE_CONFIG_FILES} \
 		${STAGEDIR}${DATADIR}/config
-	${INSTALL_DATA} ${WRKSRC}/lib/* ${STAGEDIR}${DATADIR}/lib
-	cd ${WRKSRC} && ${COPYTREE_SHARE} tools ${STAGEDIR}${DATADIR}
+	${INSTALL_DATA} ${GEODE_DIST}/lib/* ${STAGEDIR}${DATADIR}/lib
+	cd ${GEODE_DIST} && ${COPYTREE_SHARE} tools ${STAGEDIR}${DATADIR}
 	${INSTALL_DATA} ${WRKDIR}/gemfire.properties.sample ${STAGEDIR}${ETCDIR}
 	@${MKDIR} ${STAGEDIR}${PREFIX}/share/bash-completion/completions
-	${INSTALL_DATA} ${WRKSRC}/bin/gfsh-completion.bash \
+	${INSTALL_DATA} ${GEODE_DIST}/bin/gfsh-completion.bash \
 		${STAGEDIR}${PREFIX}/share/bash-completion/completions/gfsh
 
 post-install-DOCS-on:
 	@${MKDIR} ${STAGEDIR}${DOCSDIR}
-	${INSTALL_DATA} ${WRKSRC}/NOTICE ${WRKSRC}/README.md ${STAGEDIR}${DOCSDIR}
-	cd ${WRKSRC} && ${COPYTREE_SHARE} javadoc ${STAGEDIR}${DOCSDIR}
+	${INSTALL_DATA} ${GEODE_DIST}/NOTICE ${GEODE_DIST}/README.md \
+		${STAGEDIR}${DOCSDIR}
+	cd ${GEODE_DIST} && ${COPYTREE_SHARE} javadoc ${STAGEDIR}${DOCSDIR}
 
-.include <bsd.port.mk>
+.include <bsd.port.post.mk>

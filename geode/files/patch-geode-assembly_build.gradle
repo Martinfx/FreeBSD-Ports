@@ -1,0 +1,10 @@
+--- geode-assembly/build.gradle.orig
++++ geode-assembly/build.gradle
+@@ -400,7 +400,6 @@
+   def docsDir = file("$buildDir/javadocs")
+   // Removed -Xwerror to avoid treating HTML5 compatibility warnings as errors
+   options.addStringOption('Xdoclint:none', '-quiet')
+-  options.links("https://docs.oracle.com/en/java/javase/17/docs/api/")
+   options.encoding = 'UTF-8'
+   title = "${productName} ${project.version}"
+   destinationDir = docsDir
