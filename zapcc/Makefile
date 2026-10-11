@@ -10,6 +10,8 @@ WWW=		https://www.zapcc.com/
 LICENSE=	NCSA
 LICENSE_FILE=	${WRKSRC}/LICENSE.TXT
 
+DEPRECATED=		Abandoned upstream, based on an outdated LLVM 5 snapshot from 2018
+EXPIRATION_DATE=	2026-12-31
 BROKEN_riscv64=		fails to build: CMake Error at cmake/config-ix.cmake:407: Unknown architecture riscv64
 
 BUILD_DEPENDS=	googletest>0:devel/googletest
