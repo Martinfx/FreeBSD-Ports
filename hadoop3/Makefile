@@ -92,6 +92,15 @@ ISAL_LIB_DEPENDS=	libisal.so:devel/isa-l
 ISAL_VARS=		MAVEN_ARGS+="-Drequire.isal -Disal.prefix=${LOCALBASE}"
 YARNUI_BUILD_DEPENDS=	npm:www/npm-node22
 YARNUI_USES=		nodejs:22,build
+# npm ci runs offline from a cache of every package the UI's lockfile needs on
+# FreeBSD (amd64 and aarch64), published as a tag of the ports repository; see
+# the README in that tag for how it is generated.
+YARNUI_GH_TUPLE=	Martinfx:FreeBSD-Ports:hadoop3-${PORTVERSION}-npm-cache:npmcache
+YARNUI_MAKE_ENV=	npm_config_cache=${WRKDIR}/FreeBSD-Ports-hadoop3-${PORTVERSION}-npm-cache/npm-cache \
+			npm_config_offline=true \
+			npm_config_audit=false \
+			npm_config_fund=false \
+			npm_config_update_notifier=false
 YARNUI_VARS=		MAVEN_PROFILES+=yarn-ui
 
 HADOOP_DIST=	${WRKSRC}/hadoop-dist/target/hadoop-${PORTVERSION}
