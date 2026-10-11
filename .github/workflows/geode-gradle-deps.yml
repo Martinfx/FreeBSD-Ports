@@ -84,12 +84,15 @@ jobs:
             }
 
             # the port's GRADLE_ARGS; Maven Central rate-limits parallel
-            # downloads, hence two workers and the retries online
+            # downloads, hence two workers and the retries online.  The VM
+            # action feeds this script to sh on standard input, so nothing
+            # run from it may read standard input, or it eats the rest.
             gradle_build() {
               (cd $1/apache-geode-$V-src && env GRADLE_USER_HOME=$2 HOME=$1 \
                 sh $1/gradle-$G/bin/gradle --no-daemon --no-build-cache \
                 --no-watch-fs --console=plain --max-workers=2 \
-                -Duser.home=$1 -Pversion=$V $3 :geode-assembly:installDist)
+                -Duser.home=$1 -Pversion=$V $3 :geode-assembly:installDist \
+                < /dev/null)
             }
 
             # online: populate the module cache
@@ -127,7 +130,7 @@ jobs:
             test -f $D/tools/Pulse/geode-pulse-$V.war
             $JAVA_HOME/bin/java -cp $D/lib/gfsh-dependencies.jar \
               org.apache.geode.management.internal.cli.Launcher version --full \
-              | tee $W/out/version.txt
+              < /dev/null | tee $W/out/version.txt
 
             cd $W/out
             printf 'SHA256 (%s) = %s\nSIZE (%s) = %s\n' \
