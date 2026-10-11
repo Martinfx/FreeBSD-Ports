@@ -1,0 +1,91 @@
+#!/bin/sh
+#
+# Launch Android Studio (Linux binary) through the Linux binary
+# compatibility layer (linuxulator).
+#
+# Environment knobs:
+#   ANDROID_STUDIO_NATIVE_ADB=no   do not replace the SDK adb with native adb
+#   ANDROID_STUDIO_NO_CHECKS=yes   skip the Linux layer sanity checks
+#
+
+STUDIO_HOME="%%DATADIR%%"
+LINUXBASE="%%LINUXBASE%%"
+NATIVE_ADB="%%PREFIX%%/bin/adb"
+
+die()
+{
+	echo "android-studio: $*" >&2
+	exit 1
+}
+
+warn()
+{
+	echo "android-studio: warning: $*" >&2
+}
+
+if [ "${ANDROID_STUDIO_NO_CHECKS}" != "yes" ]; then
+	sysctl -n compat.linux.osrelease >/dev/null 2>&1 || die \
+	    "Linux binary compatibility is not enabled, run as root:" \
+	    "sysrc linux_enable=YES && service linux start"
+	[ -x "${LINUXBASE}/bin/sh" ] || die \
+	    "${LINUXBASE}/bin/sh not found, install emulators/linux_base-rl9"
+	[ -r "${LINUXBASE}/proc/meminfo" ] || die \
+	    "linprocfs is not mounted on ${LINUXBASE}/proc," \
+	    "run as root: service linux restart"
+	[ -d "${LINUXBASE}/sys/devices" ] || warn \
+	    "linsysfs is not mounted on ${LINUXBASE}/sys"
+	[ -d "${LINUXBASE}/dev/shm" ] || warn \
+	    "${LINUXBASE}/dev/shm does not exist (tmpfs for shared memory)"
+fi
+
+# FreeBSD libraries must not leak into Linux processes.
+unset LD_LIBRARY_PATH LD_PRELOAD LD_32_LIBRARY_PATH
+
+# Use the bundled Linux JetBrains Runtime for the IDE and for Gradle.
+# A native FreeBSD JDK cannot run the Android Gradle plugin tools (aapt2, ...).
+export STUDIO_JDK="${STUDIO_HOME}/jbr"
+export JAVA_HOME="${STUDIO_HOME}/jbr"
+unset JDK_HOME
+
+# Fall back to C.UTF-8 when the requested locale is missing in the Linux
+# base, otherwise the JVM uses ASCII for file names.
+_locale="${LC_ALL:-${LC_CTYPE:-${LANG}}}"
+if [ -n "${_locale}" ] && [ "${_locale}" != "C" ] && [ "${_locale}" != "POSIX" ]; then
+	_want=$(echo "${_locale}" | tr 'A-Z' 'a-z' | sed -e 's/utf-8/utf8/')
+	if ! "${LINUXBASE}/usr/bin/locale" -a 2>/dev/null | \
+	    tr 'A-Z' 'a-z' | grep -qxF "${_want}"; then
+		export LC_ALL=C.UTF-8
+	fi
+fi
+unset _locale _want
+
+# The Linux adb from the SDK cannot access USB devices on FreeBSD, use the
+# native one instead.  The SDK Manager may restore the Linux binary when
+# platform-tools are updated, so check on every start.
+if [ "${ANDROID_STUDIO_NATIVE_ADB}" != "no" ] && [ -x "${NATIVE_ADB}" ]; then
+	_sdk="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-${HOME}/Android/Sdk}}"
+	_adb="${_sdk}/platform-tools/adb"
+	if [ -d "${_sdk}/platform-tools" ] && [ ! -L "${_adb}" ]; then
+		[ -e "${_adb}" ] && mv -f "${_adb}" "${_adb}.linux"
+		ln -s "${NATIVE_ADB}" "${_adb}"
+	fi
+	unset _sdk _adb
+fi
+
+# Native file watcher (java/intellij-fsnotifier), the bundled one needs
+# inotify which the Linux layer may not provide.
+if [ -z "${STUDIO_PROPERTIES}" ]; then
+	for _fsn in "%%PREFIX%%/bin/fsnotifier" "%%PREFIX%%/intellij/bin/fsnotifier"; do
+		if [ -x "${_fsn}" ]; then
+			_props="${XDG_CACHE_HOME:-${HOME}/.cache}/android-studio-freebsd"
+			mkdir -p "${_props}" && \
+			    echo "idea.filewatcher.executable.path=${_fsn}" \
+			    > "${_props}/idea.properties" && \
+			    export STUDIO_PROPERTIES="${_props}/idea.properties"
+			break
+		fi
+	done
+	unset _fsn _props
+fi
+
+exec "${LINUXBASE}/bin/sh" "${STUDIO_HOME}/bin/studio.sh" "$@"
