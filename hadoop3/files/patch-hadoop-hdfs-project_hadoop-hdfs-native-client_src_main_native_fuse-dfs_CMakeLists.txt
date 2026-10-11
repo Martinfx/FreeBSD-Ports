@@ -1,0 +1,24 @@
+--- hadoop-hdfs-project/hadoop-hdfs-native-client/src/main/native/fuse-dfs/CMakeLists.txt.orig	2026-02-24 00:10:13 UTC
++++ hadoop-hdfs-project/hadoop-hdfs-native-client/src/main/native/fuse-dfs/CMakeLists.txt
+@@ -71,8 +71,11 @@
+     fuse_trash.c
+     fuse_users.c
+ )
++# FUSE_LIBRARIES is just "fuse"; the -L that pkg-config gives with it never
++# reaches the link (CMAKE_LD_FLAGS above is not a CMake variable), which only
++# works when libfuse is in a default directory.  Link it by full path.
+ target_link_libraries(fuse_dfs
+-    ${FUSE_LIBRARIES}
++    ${FUSE_LINK_LIBRARIES}
+     ${JAVA_JVM_LIBRARY}
+     hdfs
+     m
+@@ -85,7 +88,7 @@
+     util/posix_util.c
+ )
+ target_link_libraries(test_fuse_dfs
+-    ${FUSE_LIBRARIES}
++    ${FUSE_LINK_LIBRARIES}
+     native_mini_dfs
+     ${JAVA_JVM_LIBRARY}
+     pthread
