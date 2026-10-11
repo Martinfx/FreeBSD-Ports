@@ -3,5 +3,3 @@ SHA256 (apache-geode-2.0.3-src.tgz) = 24a9acf957b80eabcfb5bd51ad9c4d1d76b3669191
 SIZE (apache-geode-2.0.3-src.tgz) = 19010937
 SHA256 (gradle-7.3.3-bin.zip) = b586e04868a22fd817c8971330fec37e298f3242eb85c374181b12d637f80302
 SIZE (gradle-7.3.3-bin.zip) = 115768236
-SHA256 (geode-2.0.3-gradle-deps.tar.gz) = db212118d54278bd4d08e3efde5040c7e8c7713e8fa575b019e723c04a8afc99
-SIZE (geode-2.0.3-gradle-deps.tar.gz) = 185173648

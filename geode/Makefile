@@ -3,13 +3,9 @@ DISTVERSION=	2.0.3
 CATEGORIES=	databases java
 MASTER_SITES=	APACHE/${PORTNAME}/${DISTVERSION} \
 		https://archive.apache.org/dist/${PORTNAME}/${DISTVERSION}/ \
-		https://services.gradle.org/distributions/:gradle \
-		https://github.com/Martinfx/FreeBSD-Ports/releases/download/${PORTNAME}-${DISTVERSION}-deps/:deps
+		https://services.gradle.org/distributions/:gradle
 DISTFILES=	apache-${PORTNAME}-${DISTVERSION}-src.tgz \
 		gradle-${GRADLE_VERSION}-bin.zip:gradle
-.if !defined(GEODE_MAKE_DEPS)
-DISTFILES+=	${GEODE_DEPS}.tar.gz:deps
-.endif
 
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	In-memory data grid and distributed data management platform
@@ -32,12 +28,18 @@ NO_ARCH=	yes
 
 WRKSRC=		${WRKDIR}/apache-${PORTNAME}-${DISTVERSION}-src
 
-# Gradle resolves dependencies from the network.  They come instead from
-# ${GEODE_DEPS}.tar.gz, a Gradle module cache made with the
-# make-gradle-deps target below, and the build runs offline.
+# Gradle resolves dependencies from the network.  They come instead from a
+# Gradle module cache, made with the make-gradle-deps target below and kept
+# as the orphan tag ${GEODE_DEPS_TAG} of the repository holding this port,
+# and the build runs offline.
+.if !defined(GEODE_MAKE_DEPS)
+USE_GITHUB=	nodefault
+GH_TUPLE=	Martinfx:FreeBSD-Ports:${GEODE_DEPS_TAG}:deps
+.endif
+GEODE_DEPS_TAG=	${PORTNAME}-${DISTVERSION}-deps
+GEODE_DEPS=	${WRKDIR}/FreeBSD-Ports-${GEODE_DEPS_TAG}
 GRADLE_VERSION=	7.3.3
-GEODE_DEPS=	${PORTNAME}-${DISTVERSION}-gradle-deps
-GRADLE_ENV=	GRADLE_USER_HOME=${WRKDIR}/${GEODE_DEPS} \
+GRADLE_ENV=	GRADLE_USER_HOME=${GEODE_DEPS} \
 		JAVA_HOME=${JAVA_HOME}
 # -Pversion: a release build; without it the source tree builds
 # ${DISTVERSION}-build.0.
@@ -99,17 +101,16 @@ post-build:
 	@${REINPLACE_CMD} -e '/^deploy-working-dir=/d' \
 		${GEODE_DIST}/config/gemfire.properties
 
-# Maintainer target: rebuild ${GEODE_DEPS}.tar.gz in ${DISTDIR} by running
-# the build online from a clean tree, then "make makesum".  The archive is
-# published as a release asset of the repository in MASTER_SITES.
+# Maintainer target: rebuild the Gradle module cache by running the build
+# online from a clean tree.  Commit ${GEODE_DEPS}/caches/modules-2, without
+# its *.lock and gc.properties files, as the orphan tag ${GEODE_DEPS_TAG},
+# push the tag and run "make makesum".
 make-gradle-deps:
 	@${MAKE} -C ${.CURDIR} clean
 	@${MAKE} -C ${.CURDIR} GEODE_MAKE_DEPS=yes patch
 	cd ${WRKSRC} && ${GRADLE_CMD} :geode-assembly:installDist
-	cd ${WRKDIR}/${GEODE_DEPS}/caches && ${TAR} -czf \
-		${DISTDIR}/${GEODE_DEPS}.tar.gz --uid 0 --gid 0 \
-		--exclude '*.lock' --exclude gc.properties \
-		-s ',^modules-2,${GEODE_DEPS}/caches/modules-2,' modules-2
+	${FIND} ${GEODE_DEPS}/caches/modules-2 \
+		\( -name '*.lock' -o -name gc.properties \) -delete
 
 # The upstream bin/gfsh is a bash script that guesses GEODE_HOME from $0; it
 # is replaced by files/gfsh.in, installed in ${PREFIX}/bin and linked from
