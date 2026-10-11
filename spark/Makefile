@@ -43,7 +43,8 @@ SUB_LIST=	SPARK_GROUP=spark \
 USERS=		spark
 GROUPS=		spark
 
-PLIST_SUB=	VER=${PORTVERSION}
+PLIST_SUB=	SCALA=${SCALA_BINARY} \
+		VER=${PORTVERSION}
 
 .include <bsd.port.pre.mk>
 
@@ -65,6 +66,7 @@ JAVA_ARCH=	${ARCH}
 
 # Update ${PORTNAME}-${PORTVERSION}-deps.tgz if the hadoop version is changed!
 HADOOP_VERSION=	3.5.0
+SCALA_BINARY=	2.13
 
 # To create the local maven repository (m2) run: make -DMAINTAINER_MODE build
 # and then: make -DMAINTAINER_MODE make-deps
@@ -100,7 +102,7 @@ do-build:
 		-Pyarn -Phive -Phive-thriftserver -Puser-defined-protoc \
 		-DskipTests \
 		clean package
-	${JAR} uvf ${WRKSRC}/assembly/target/scala*/jars/snappy-java-*.jar \
+	${JAR} uvf ${WRKSRC}/assembly/target/scala-${SCALA_BINARY}/jars/snappy-java-*.jar \
 		-C ${WRKDIR}/snappy org
 
 post-build:
@@ -109,8 +111,12 @@ post-build:
 do-install:
 	${MKDIR} ${STAGEDIR}${DATADIR}/lib ${STAGEDIR}${DATADIR}/examples/jars ${STAGEDIR}${DATADIR}/bin ${STAGEDIR}${DATADIR}/sbin ${STAGEDIR}${DATADIR}/conf
 	${ECHO_CMD} "Spark ${PORTVERSION} built for Hadoop ${HADOOP_VERSION}" > ${STAGEDIR}${DATADIR}/RELEASE
-	(cd  ${WRKSRC}/assembly/target/scala* && ${COPYTREE_SHARE} jars  ${STAGEDIR}${DATADIR})
-	${INSTALL_DATA} ${WRKSRC}/examples/target/scala*/jars/spark-examples*.jar ${STAGEDIR}${DATADIR}/examples/jars
+	(cd ${WRKSRC}/assembly/target/scala-${SCALA_BINARY} && ${COPYTREE_SHARE} jars ${STAGEDIR}${DATADIR})
+	cd ${WRKSRC}/examples/target/scala-${SCALA_BINARY}/jars && \
+		for f in *.jar; do \
+			${TEST} -f ${WRKSRC}/assembly/target/scala-${SCALA_BINARY}/jars/$$f || \
+			${INSTALL_DATA} $$f ${STAGEDIR}${DATADIR}/examples/jars; \
+		done
 	cd ${WRKSRC}/examples && ${COPYTREE_SHARE} src ${STAGEDIR}${DATADIR}/examples
 	cd ${WRKSRC}/bin && ${INSTALL_SCRIPT} * ${STAGEDIR}${DATADIR}/bin/
 	cd ${WRKSRC}/sbin && ${INSTALL_SCRIPT} * ${STAGEDIR}${DATADIR}/sbin/
