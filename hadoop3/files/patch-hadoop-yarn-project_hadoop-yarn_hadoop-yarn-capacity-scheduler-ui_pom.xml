@@ -1,0 +1,37 @@
+--- hadoop-yarn-project/hadoop-yarn/hadoop-yarn-capacity-scheduler-ui/pom.xml.orig	2026-02-24 00:10:14 UTC
++++ hadoop-yarn-project/hadoop-yarn/hadoop-yarn-capacity-scheduler-ui/pom.xml
+@@ -238,6 +238,34 @@
+       </build>
+     </profile>
+ 
++    <!-- FreeBSD: nodejs.org publishes no FreeBSD binaries for
++         frontend-maven-plugin to download.  Use the node and npm from the
++         ports tree instead; the port links them into ${webappDir}/node, which
++         is where the npm goal and ${nodeExecutable} look for them. -->
++    <profile>
++      <id>yarn-ui-system-node</id>
++      <activation>
++        <os>
++          <family>FreeBSD</family>
++        </os>
++      </activation>
++      <build>
++        <plugins>
++          <plugin>
++            <groupId>com.github.eirslett</groupId>
++            <artifactId>frontend-maven-plugin</artifactId>
++            <version>${frontend-maven-plugin.version}</version>
++            <executions>
++              <execution>
++                <id>install node and npm</id>
++                <phase>none</phase>
++              </execution>
++            </executions>
++          </plugin>
++        </plugins>
++      </build>
++    </profile>
++
+     <!-- Development profile with mock data -->
+     <profile>
+       <id>yarn-ui-dev</id>

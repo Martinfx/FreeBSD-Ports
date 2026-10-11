@@ -1,5 +1,7 @@
-TIMESTAMP = 1791699204
+TIMESTAMP = 1791702497
 SHA256 (hadoop/hadoop-3.5.0-src.tar.gz) = 45328a7e5a8fb29ca8503f33e5f0269f8fbbce8824ec9127426aad6d1d9af023
 SIZE (hadoop/hadoop-3.5.0-src.tar.gz) = 40742698
 SHA256 (hadoop/protobuf-25.5.tar.gz) = 3cf7d5b17c4ff04fe9f038104e9d0cae6da09b8ce271c13e44f8ac69f51e4e0f
 SIZE (hadoop/protobuf-25.5.tar.gz) = 5877036
+SHA256 (hadoop/grpc-grpc-java-v1.69.0_GH0.tar.gz) = 93cc90f0ac67a75c0b11fa6c1b53ccc8e4f2a1665350c48ed216d5edb41e3bef
+SIZE (hadoop/grpc-grpc-java-v1.69.0_GH0.tar.gz) = 3185890

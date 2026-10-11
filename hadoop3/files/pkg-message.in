@@ -27,4 +27,14 @@ Available services: namenode datanode secondarynamenode journalnode zkfc
 resourcemanager nodemanager webappproxyserver historyserver
 EOM
 }
+{ type: install
+  message: <<EOM
+If the port was built with the FUSE option, fuse_dfs mounts HDFS as a file
+system.  It embeds a JVM through libhdfs and needs the Hadoop class path:
+
+  kldload fusefs
+  env CLASSPATH="$(%%PREFIX%%/bin/hadoop classpath --glob)" \
+      %%PREFIX%%/bin/fuse_dfs dfs://<namenode>:8020 /mnt/hdfs
+EOM
+}
 ]

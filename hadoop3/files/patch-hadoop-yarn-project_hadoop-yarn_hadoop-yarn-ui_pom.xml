@@ -1,0 +1,14 @@
+--- hadoop-yarn-project/hadoop-yarn/hadoop-yarn-ui/pom.xml.orig	2026-02-24 00:10:14 UTC
++++ hadoop-yarn-project/hadoop-yarn/hadoop-yarn-ui/pom.xml
+@@ -115,7 +115,10 @@
+ 
+   <profiles>
+     <profile>
+-      <id>yarn-ui</id>
++      <!-- FreeBSD: renamed so that -Pyarn-ui only builds the capacity
++           scheduler UI.  UI2 needs node 12, yarn 1 and bower, none of
++           which can be provided on FreeBSD any more. -->
++      <id>yarn-ui2</id>
+ 
+       <activation>
+         <activeByDefault>false</activeByDefault>

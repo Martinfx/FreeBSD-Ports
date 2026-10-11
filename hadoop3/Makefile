@@ -16,16 +16,21 @@ WWW=		https://hadoop.apache.org/
 LICENSE=	APACHE20
 LICENSE_FILE=	${WRKSRC}/LICENSE.txt
 
-BUILD_DEPENDS=	${LOCALBASE}/lib/cmake/absl/abslConfig.cmake:devel/abseil \
-		bash:shells/bash \
+BUILD_DEPENDS=	bash:shells/bash \
 		mvn:devel/maven
-LIB_DEPENDS=	libsnappy.so:archivers/snappy \
+LIB_DEPENDS=	libabsl_base.so:devel/abseil \
+		libboost_date_time.so:devel/boost-libs \
+		libprotobuf.so:devel/protobuf \
+		libsasl2.so:security/cyrus-sasl2 \
+		libsnappy.so:archivers/snappy \
 		libzstd.so:archivers/zstd
 RUN_DEPENDS=	bash:shells/bash \
 		setsid:sysutils/setsid
 
 USES=		cmake:indirect compiler:c++17-lang cpe java pkgconfig \
 		shebangfix ssl
+USE_GITHUB=	nodefault
+GH_TUPLE=	grpc:grpc-java:v${GRPC_JAVA_VERSION}:grpcjava
 CPE_VENDOR=	apache
 JAVA_VERSION=	17
 USE_LDCONFIG=	yes
@@ -39,22 +44,58 @@ SHEBANG_FILES=	hadoop-common-project/hadoop-kms/src/main/conf/kms-env.sh \
 
 CONFLICTS_INSTALL=	yarn
 
-# Hadoop generates its Java protobuf code with protoc ${PROTOBUF_VERSION} and
-# shades the matching protobuf-java runtime.  protoc is normally downloaded
-# from Maven Central as a prebuilt binary, which does not exist for FreeBSD,
-# and devel/protobuf is far too new to produce code that runtime accepts, so
-# build exactly that protoc from source first.
+# The maven build normally downloads two code generators from Maven Central
+# as prebuilt executables, and neither exists for FreeBSD:
+#  - protoc ${PROTOBUF_VERSION}: Hadoop's Java protobuf code must come from
+#    exactly this release to match the protobuf-java runtime it shades;
+#    devel/protobuf is much newer and emits code that runtime rejects.
+#  - protoc-gen-grpc-java, for the YARN CSI adaptor.
+# Build both from source against devel/abseil (files/protoc-tools.cmake).
+# The native libhdfs++ client, on the other hand, uses devel/protobuf.
 PROTOBUF_VERSION=	25.5
-PROTOBUF_WRKSRC=	${WRKDIR}/protobuf-${PROTOBUF_VERSION}
-PROTOC_WRKDIR=		${WRKDIR}/protoc-build
-PROTOC=			${PROTOC_WRKDIR}/protoc
+GRPC_JAVA_VERSION=	1.69.0
+PROTOC_TOOLS_SRC=	${WRKDIR}/protoc-tools
+PROTOC_TOOLS_BUILD=	${WRKDIR}/protoc-tools-build
+PROTOC=			${PROTOC_TOOLS_BUILD}/protobuf/protoc-${PROTOBUF_VERSION}.0
+# Only the grpc plugin goes on PATH: a protoc there would shadow devel/protobuf's
+# when CMake looks for one to build libhdfs++.
+GRPC_PLUGIN_DIR=	${WRKDIR}/grpc-plugin-bin
 
 MAKE_ENV+=	HADOOP_PROTOC_PATH=${PROTOC} \
 		JAVA_HOME=${JAVA_HOME}
 
-OPTIONS_DEFINE=	EXAMPLES
+MAVEN_PROFILES=	dist native
+MAVEN_ARGS=	-Dmaven.javadoc.skip=true -Dmaven.clean.skip=true \
+		-Dmaven.repo.local=${WRKDIR}/m2 -DskipTests \
+		-DprotocExecutable=${PROTOC} \
+		-Dprotobuf.compiler.version=file://${PROTOC} \
+		-Drequire.bzip2 \
+		-Drequire.snappy -Dsnappy.prefix=${LOCALBASE} \
+		-Drequire.zstd -Dzstd.prefix=${LOCALBASE} \
+		-Drequire.openssl -Dopenssl.prefix=${OPENSSLBASE}
+
+OPTIONS_DEFINE=		EXAMPLES FUSE YARNUI
+OPTIONS_DEFINE_aarch64=	ISAL
+OPTIONS_DEFINE_amd64=	ISAL
+OPTIONS_DEFAULT=	FUSE
+OPTIONS_DEFAULT_aarch64=	ISAL
+OPTIONS_DEFAULT_amd64=	ISAL
+OPTIONS_SUB=		yes
+
+FUSE_DESC=	Build fuse_dfs to mount HDFS via FUSE
+ISAL_DESC=	Use Intel ISA-L to accelerate erasure coding
+YARNUI_DESC=	YARN Capacity Scheduler web UI (needs Node.js)
+
+FUSE_USES=		fuse
+FUSE_VARS=		MAVEN_ARGS+=-Drequire.fuse=true
+ISAL_LIB_DEPENDS=	libisal.so:devel/isa-l
+ISAL_VARS=		MAVEN_ARGS+="-Drequire.isal -Disal.prefix=${LOCALBASE}"
+YARNUI_BUILD_DEPENDS=	npm:www/npm-node22
+YARNUI_USES=		nodejs:22,build
+YARNUI_VARS=		MAVEN_PROFILES+=yarn-ui
 
 HADOOP_DIST=	${WRKSRC}/hadoop-dist/target/hadoop-${PORTVERSION}
+HDFS_NATIVE=	${WRKSRC}/hadoop-hdfs-project/hadoop-hdfs-native-client
 
 HADOOP_LOGDIR=	/var/log/hadoop
 HADOOP_RUNDIR=	/var/run/hadoop
@@ -95,31 +136,31 @@ post-patch:
 	@${RM} ${WRKSRC}/hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-nativetask/src/main/native/src/lib/primitives.h
 
 pre-build:
-	${MKDIR} ${PROTOC_WRKDIR}
-	cd ${PROTOC_WRKDIR} && ${SETENV} ${CONFIGURE_ENV} ${CMAKE_BIN} \
+	${MKDIR} ${PROTOC_TOOLS_SRC} ${PROTOC_TOOLS_BUILD} ${GRPC_PLUGIN_DIR}
+	${INSTALL_DATA} ${FILESDIR}/protoc-tools.cmake ${PROTOC_TOOLS_SRC}/CMakeLists.txt
+	cd ${PROTOC_TOOLS_BUILD} && ${SETENV} ${CONFIGURE_ENV} ${CMAKE_BIN} \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_C_COMPILER="${CC}" -DCMAKE_CXX_COMPILER="${CXX}" \
-		-DCMAKE_CXX_STANDARD=17 \
 		-DCMAKE_PREFIX_PATH="${LOCALBASE}" \
-		-Dprotobuf_ABSL_PROVIDER=package \
-		-Dprotobuf_BUILD_LIBUPB=OFF \
-		-Dprotobuf_BUILD_SHARED_LIBS=OFF \
-		-Dprotobuf_BUILD_TESTS=OFF \
-		-Dprotobuf_INSTALL=OFF \
-		-Dprotobuf_WITH_ZLIB=OFF \
-		${PROTOBUF_WRKSRC}
-	${CMAKE_BIN} --build ${PROTOC_WRKDIR} --target protoc \
-		--parallel ${MAKE_JOBS_NUMBER}
+		-DPROTOBUF_SRC=${WRKDIR}/protobuf-${PROTOBUF_VERSION} \
+		-DGRPC_JAVA_SRC=${WRKDIR}/grpc-java-${GRPC_JAVA_VERSION} \
+		${PROTOC_TOOLS_SRC}
+	${CMAKE_BIN} --build ${PROTOC_TOOLS_BUILD} \
+		--target protoc protoc-gen-grpc-java --parallel ${MAKE_JOBS_NUMBER}
+	${LN} -sf ${PROTOC_TOOLS_BUILD}/protoc-gen-grpc-java ${GRPC_PLUGIN_DIR}/
+
+# frontend-maven-plugin cannot download node for FreeBSD; the patched pom
+# skips that step and expects node and npm where it would have put them.
+pre-build-YARNUI-on:
+	${MKDIR} ${WRKSRC}/hadoop-yarn-project/hadoop-yarn/hadoop-yarn-capacity-scheduler-ui/target/webapp/node/node_modules
+	${LN} -sf ${LOCALBASE}/bin/node \
+		${WRKSRC}/hadoop-yarn-project/hadoop-yarn/hadoop-yarn-capacity-scheduler-ui/target/webapp/node/node
+	${LN} -sf ${LOCALBASE}/lib/node_modules/npm \
+		${WRKSRC}/hadoop-yarn-project/hadoop-yarn/hadoop-yarn-capacity-scheduler-ui/target/webapp/node/node_modules/npm
 
 do-build:
-	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} ${LOCALBASE}/bin/mvn \
-		-Dmaven.javadoc.skip=true -Dmaven.clean.skip=true \
-		-Dmaven.repo.local=${WRKDIR}/m2 package -Pdist,native -DskipTests \
-		-DprotocExecutable=${PROTOC} \
-		-Drequire.bzip2 \
-		-Drequire.snappy -Dsnappy.prefix=${LOCALBASE} \
-		-Drequire.zstd -Dzstd.prefix=${LOCALBASE} \
-		-Drequire.openssl -Dopenssl.prefix=${OPENSSLBASE}
+	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} PATH=${GRPC_PLUGIN_DIR}:${PATH} \
+		${LOCALBASE}/bin/mvn ${MAVEN_ARGS} -P${MAVEN_PROFILES:ts,} package
 
 post-build:
 	${RM} ${HADOOP_DIST}/etc/hadoop/*.cmd
@@ -128,8 +169,11 @@ do-install:
 	cd ${HADOOP_DIST}/bin && ${INSTALL_SCRIPT} hadoop hdfs mapred yarn ${STAGEDIR}${PREFIX}/bin/
 	cd ${HADOOP_DIST} && ${COPYTREE_BIN} "libexec sbin" ${STAGEDIR}${PREFIX}/ "! -name *.cmd"
 	cd ${HADOOP_DIST}/include && ${INSTALL_DATA} *h ${STAGEDIR}${PREFIX}/include/
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/hdfspp
+	${INSTALL_DATA} ${HDFS_NATIVE}/src/main/native/libhdfspp/include/hdfspp/*.h \
+		${STAGEDIR}${PREFIX}/include/hdfspp/
 	cd ${HADOOP_DIST}/lib/native && ${INSTALL_DATA} *.a ${STAGEDIR}${PREFIX}/lib/
-.for lib in libhadoop.so.1.0.0 libhdfs.so.0.0.0 libnativetask.so.1.0.0
+.for lib in libhadoop.so.1.0.0 libhdfs.so.0.0.0 libhdfspp.so.0.1.0 libnativetask.so.1.0.0
 	${INSTALL_LIB} ${HADOOP_DIST}/lib/native/${lib} ${STAGEDIR}${PREFIX}/lib/
 	${LN} -sf ${lib} ${STAGEDIR}${PREFIX}/lib/${lib:R:R:R}
 .endfor
@@ -149,5 +193,8 @@ post-install-EXAMPLES-on:
 	${MKDIR} ${STAGEDIR}${EXAMPLESDIR}/conf
 	cd ${HADOOP_DIST}/etc/hadoop && ${COPYTREE_SHARE} "*" ${STAGEDIR}${EXAMPLESDIR}/conf/
 	${INSTALL_DATA} ${WRKSRC}/hadoop-hdfs-project/hadoop-hdfs/target/classes/hdfs-default.xml ${WRKSRC}/hadoop-hdfs-project/hadoop-hdfs-httpfs/target/classes/httpfs-default.xml ${WRKSRC}/hadoop-yarn-project/hadoop-yarn/hadoop-yarn-common/target/classes/yarn-default.xml ${WRKSRC}/hadoop-common-project/hadoop-common/target/classes/core-default.xml ${WRKSRC}/hadoop-tools/hadoop-distcp/target/classes/distcp-default.xml ${WRKSRC}/hadoop-mapreduce-project/hadoop-mapreduce-client/hadoop-mapreduce-client-core/target/classes/mapred-default.xml ${STAGEDIR}${EXAMPLESDIR}/
+
+post-install-FUSE-on:
+	${INSTALL_PROGRAM} ${HDFS_NATIVE}/target/main/native/fuse-dfs/fuse_dfs ${STAGEDIR}${PREFIX}/bin/
 
 .include <bsd.port.mk>

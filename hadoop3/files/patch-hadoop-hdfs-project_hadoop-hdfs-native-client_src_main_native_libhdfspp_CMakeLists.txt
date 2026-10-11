@@ -1,0 +1,32 @@
+--- hadoop-hdfs-project/hadoop-hdfs-native-client/src/main/native/libhdfspp/CMakeLists.txt.orig	2026-02-24 00:10:13 UTC
++++ hadoop-hdfs-project/hadoop-hdfs-native-client/src/main/native/libhdfspp/CMakeLists.txt
+@@ -115,7 +115,8 @@
+ include(CheckSymbolExists)
+ include(FetchContent)
+ 
+-# Install googletest
++# Install googletest (only needed for the tests, and fetched over the network)
++if(NOT HDFSPP_LIBRARY_ONLY)
+ # As per the approach documented in the GoogleTest repo -
+ # https://github.com/google/googletest/blob/e649993a402d96afe25fbf3413749adf0f2947f6/googletest/README.md#incorporating-into-an-existing-cmake-project
+ FetchContent_Declare(
+@@ -127,6 +128,7 @@
+ # For Windows: Prevent overriding the parent project's compiler/linker settings
+ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+ FetchContent_MakeAvailable(googletest)
++endif()
+ 
+ # Check if thread_local is supported
+ unset (THREAD_LOCAL_SUPPORTED CACHE)
+@@ -170,6 +172,11 @@
+   with the same (or compatible) compiler. Normally only the same major versions of the same \
+   compiler are compatible with each other.")
+ endif (NOT PROTOC_IS_COMPATIBLE)
++# Do not leak the protobuf/abseil targets into the checks below: they carry
++# C++ compile features, which breaks the plain C try_compile of
++# check_symbol_exists().
++unset(CMAKE_REQUIRED_INCLUDES)
++unset(CMAKE_REQUIRED_LIBRARIES)
+ 
+ find_program(MEMORYCHECK_COMMAND valgrind HINTS ${VALGRIND_DIR} )
+ set(MEMORYCHECK_COMMAND_OPTIONS "--trace-children=no --leak-check=full --error-exitcode=1 --suppressions=${PROJECT_SOURCE_DIR}/tests/memcheck.supp")
