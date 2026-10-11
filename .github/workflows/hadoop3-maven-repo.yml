@@ -61,10 +61,12 @@ jobs:
               > /usr/local/etc/pkg/repos/$R.conf
             env ASSUME_ALWAYS_YES=yes pkg update -f
             env ASSUME_ALWAYS_YES=yes pkg upgrade
-            # the port's dependencies with all options on
-            pkg install -y git bash cmake-core pkgconf openjdk17 maven39 \
-              protobuf abseil boost-libs cyrus-sasl2 snappy zstd isa-l \
-              fusefs-libs node22 npm-node22 setsid
+            # the port's dependencies with all options on, by origin
+            pkg install -y devel/git shells/bash devel/cmake-core \
+              devel/pkgconf java/openjdk17 devel/maven39 devel/protobuf \
+              devel/abseil devel/boost-libs security/cyrus-sasl2 \
+              archivers/snappy archivers/zstd devel/isa-l \
+              filesystems/fusefs-libs www/node22 www/npm-node22 sysutils/setsid
           run: |
             set -e
             W=$PWD
