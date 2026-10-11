@@ -1,0 +1,163 @@
+# Build the Gradle dependency distfile of databases/geode
+# (geode-<version>-gradle-deps.tar.gz) natively in a FreeBSD 15.1 VM, the way
+# "make make-gradle-deps" builds it, check that Geode then builds offline from
+# it, and upload it to the geode-<version>-deps release, where the port's
+# MASTER_SITES look for it.
+name: geode gradle deps
+
+on:
+  push:
+    branches:
+      - claude/serene-gauss-k166sf
+    paths:
+      - '.github/workflows/geode-gradle-deps.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: geode-gradle-deps-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  gradle-deps:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Version and VM disk
+        run: |
+          sudo mkdir -p /mnt/vm
+          sudo chown "$(id -u):$(id -g)" /mnt/vm
+          V=$(awk '$1 == "DISTVERSION=" { print $2 }' geode/Makefile)
+          G=$(awk '$1 == "GRADLE_VERSION=" { print $2 }' geode/Makefile)
+          echo "GEODE_VERSION=$V" >> "$GITHUB_ENV"
+          echo "GRADLE_VERSION=$G" >> "$GITHUB_ENV"
+          echo "geode $V, gradle $G"
+
+      - name: Build Geode on FreeBSD, online then offline
+        uses: vmactions/freebsd-vm@v1
+        with:
+          release: "15.1"
+          usesh: true
+          cpu: 4
+          mem: 12288
+          data-dir: /mnt/vm
+          envs: 'GEODE_VERSION GRADLE_VERSION'
+          prepare: |
+            set -e
+            env ASSUME_ALWAYS_YES=yes pkg update -f
+            pkg install -y openjdk17
+          run: |
+            set -e
+            W=$PWD
+            V=$GEODE_VERSION
+            G=$GRADLE_VERSION
+            N=geode-$V-gradle-deps
+            export JAVA_HOME=/usr/local/openjdk17
+            mkdir -p $W/out /tmp/dist
+            freebsd-version; $JAVA_HOME/bin/java -version
+
+            # the distfiles the port fetches, checked against its distinfo
+            S=apache-geode-$V-src.tgz
+            Z=gradle-$G-bin.zip
+            fetch -o /tmp/dist/$S https://archive.apache.org/dist/geode/$V/$S
+            fetch -o /tmp/dist/$Z https://services.gradle.org/distributions/$Z
+            for f in $S $Z; do
+              want=$(awk -v f="($f)" '$1 == "SHA256" && $2 == f { print $4 }' geode/distinfo)
+              got=$(sha256 -q /tmp/dist/$f)
+              echo "$f sha256 $got (distinfo $want)"
+              [ "$got" = "$want" ]
+            done
+
+            # extract and patch like the port's extract and patch phases
+            prepare_tree() {
+              rm -rf $1
+              mkdir -p $1
+              tar -xzf /tmp/dist/$S -C $1
+              tar -xf /tmp/dist/$Z -C $1
+              for p in geode/files/patch-*; do
+                patch -d $1/apache-geode-$V-src -E -p0 -V simple --quiet < $p
+              done
+            }
+
+            # the port's GRADLE_ARGS; Maven Central rate-limits parallel
+            # downloads, hence two workers and the retries online
+            gradle_build() {
+              (cd $1/apache-geode-$V-src && env GRADLE_USER_HOME=$2 HOME=$1 \
+                sh $1/gradle-$G/bin/gradle --no-daemon --no-build-cache \
+                --no-watch-fs --console=plain --max-workers=2 \
+                -Duser.home=$1 -Pversion=$V $3 :geode-assembly:installDist)
+            }
+
+            # online: populate the module cache
+            prepare_tree /tmp/online
+            ok=no
+            for i in 1 2 3 4 5; do
+              if gradle_build /tmp/online /tmp/online/$N "" \
+                  > $W/out/online-$i.log 2>&1; then
+                ok=yes
+                break
+              fi
+              tail -n 40 $W/out/online-$i.log
+              sleep 60
+            done
+            [ $ok = yes ]
+            tail -n 5 $W/out/online-$i.log
+
+            # the same archive make-gradle-deps packs
+            cd /tmp/online/$N/caches
+            tar -czf $W/out/$N.tar.gz --uid 0 --gid 0 \
+              --exclude '*.lock' --exclude gc.properties \
+              -s ",^modules-2,$N/caches/modules-2," modules-2
+            cd $W
+
+            # offline: what the port's build phase does with that archive
+            prepare_tree /tmp/offline
+            tar -xzf $W/out/$N.tar.gz -C /tmp/offline
+            gradle_build /tmp/offline /tmp/offline/$N --offline \
+              > $W/out/offline.log 2>&1 || { tail -n 100 $W/out/offline.log; exit 1; }
+            tail -n 5 $W/out/offline.log
+            D=/tmp/offline/apache-geode-$V-src/geode-assembly/build/install/apache-geode
+            (cd $D && find . -path ./javadoc -prune -o -type f -print | sort) \
+              > $W/out/install-files.txt
+            test -f $D/lib/geode-core-$V.jar
+            test -f $D/tools/Pulse/geode-pulse-$V.war
+            $JAVA_HOME/bin/java -cp $D/lib/gfsh-dependencies.jar \
+              org.apache.geode.management.internal.cli.Launcher version --full \
+              | tee $W/out/version.txt
+
+            cd $W/out
+            printf 'SHA256 (%s) = %s\nSIZE (%s) = %s\n' \
+              $N.tar.gz "$(sha256 -q $N.tar.gz)" \
+              $N.tar.gz "$(stat -f %z $N.tar.gz)" > $N.distinfo
+            cat $N.distinfo
+
+      - name: Upload to the geode-${{ env.GEODE_VERSION }}-deps release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          V=$GEODE_VERSION
+          N=out/geode-$V-gradle-deps.tar.gz
+          ls -l $N
+          cat out/geode-$V-gradle-deps.distinfo >> "$GITHUB_STEP_SUMMARY"
+          if gh release view geode-$V-deps >/dev/null 2>&1; then
+            gh release upload geode-$V-deps $N --clobber
+          else
+            gh release create geode-$V-deps $N --target "$GITHUB_SHA" \
+              --title "geode $V gradle deps" \
+              --notes "Gradle dependency distfile for databases/geode $V, built on FreeBSD 15.1 amd64 by .github/workflows/geode-gradle-deps.yml."
+          fi
+
+      - name: Logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: geode-gradle-deps-logs
+          path: |
+            out/*.log
+            out/*.distinfo
+            out/*.txt
+          if-no-files-found: ignore
