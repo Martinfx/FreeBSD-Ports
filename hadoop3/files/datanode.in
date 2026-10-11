@@ -1,47 +1,89 @@
 #!/bin/sh
 #
-# $FreeBSD$
-#
 # PROVIDE: datanode
 # REQUIRE: LOGIN
 # KEYWORD: shutdown
 #
-# datanode_enable (bool):        Set to NO by default.
-#                                Set it to YES to enable datanode.
+# datanode_enable (bool):		Set to NO by default.
+#				Set it to YES to enable datanode.
+# datanode_user (str):		User to run datanode as.
+#				Default: hdfs
+# datanode_conf_dir (str):	Hadoop configuration directory.
+#				Default: %%ETCDIR%%
+# datanode_ident (str):		HADOOP_IDENT_STRING, i.e. the `hadoop-<ident>-datanode'
+#				part of the log and pid file names.
+#				Default: hdfs
 
 . /etc/rc.subr
 
-export PATH=${PATH}:%%LOCALBASE%%/bin
 name=datanode
 rcvar=datanode_enable
-pidfile=%%HADOOP_RUNDIR%%/hadoop-%%HDFS_USER%%-${name}.pid
 
 load_rc_config "${name}"
 
-: ${datanode_enable:=NO}
-: ${datanode_user:=%%HDFS_USER%%}
+: ${datanode_enable:="NO"}
+: ${datanode_user:="hdfs"}
+: ${datanode_conf_dir:="%%ETCDIR%%"}
+: ${datanode_ident:="hdfs"}
 
-command="%%PREFIX%%/sbin/hadoop-daemon.sh"
-command_interpreter_execution="%%JAVA_HOME%%/bin/java"
-command_args='--config %%ETCDIR%% start datanode'
+# `hdfs --daemon' forks, writes its own pid file and execs java, so rc.subr
+# cannot track it through ${command} -- drive it through the helpers below.
+hadoop_command="%%PREFIX%%/bin/hdfs"
+hadoop_subcmd="datanode"
+procname="%%JAVA_HOME%%/bin/java"
+pidfile="%%HADOOP_RUNDIR%%/hadoop-${datanode_ident}-${hadoop_subcmd}.pid"
 
-start_postcmd="start_postcmd"
-stop_cmd=datanode_stop
-status_precmd=find_pid
+start_cmd="datanode_start"
+stop_cmd="datanode_stop"
+status_cmd="datanode_status"
 
-start_postcmd () {
-  rc_pid=$(check_pidfile ${pidfile} %%JAVA_HOME%%/bin/java)
-  if [ -n "$rc_pid" ]; then
-    protect -p $rc_pid
-  fi
+hadoop_doit()
+{
+	# Same quoting dance rc.subr itself uses for ${name}_user, so that the
+	# target account's login shell is not required to understand -c.
+	su -m "${datanode_user}" -c "sh -c '\
+	    PATH=\"\${PATH}:%%LOCALBASE%%/bin\" \
+	    HADOOP_IDENT_STRING=\"${datanode_ident}\" \
+	    ${hadoop_command} --config \"${datanode_conf_dir}\" \
+	    --daemon $1 ${hadoop_subcmd}'"
 }
 
-datanode_stop () {
-  su -m ${datanode_user} -c "${command} --config %%ETCDIR%% stop datanode"
+datanode_start()
+{
+	rc_pid=$(check_pidfile "${pidfile}" "${procname}")
+	if [ -n "${rc_pid}" ]; then
+		echo "${name} already running? (pid=${rc_pid})."
+		return 1
+	fi
+	echo "Starting ${name}."
+	hadoop_doit start || return 1
+	# Keep the daemon out of reach of the out-of-swap killer.
+	rc_pid=$(check_pidfile "${pidfile}" "${procname}")
+	if [ -n "${rc_pid}" ]; then
+		protect -p "${rc_pid}"
+	fi
 }
 
-find_pid () {
-  rc_pid=$(check_pidfile $pidfile $command_interpreter_execution)
+datanode_stop()
+{
+	rc_pid=$(check_pidfile "${pidfile}" "${procname}")
+	if [ -z "${rc_pid}" ]; then
+		echo "${name} not running? (check ${pidfile})."
+		return 1
+	fi
+	echo "Stopping ${name}."
+	hadoop_doit stop
+}
+
+datanode_status()
+{
+	rc_pid=$(check_pidfile "${pidfile}" "${procname}")
+	if [ -n "${rc_pid}" ]; then
+		echo "${name} is running as pid ${rc_pid}."
+	else
+		echo "${name} is not running."
+		return 1
+	fi
 }
 
 run_rc_command "$1"

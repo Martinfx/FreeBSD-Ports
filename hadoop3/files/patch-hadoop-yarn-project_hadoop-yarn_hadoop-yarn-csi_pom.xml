@@ -1,0 +1,24 @@
+--- hadoop-yarn-project/hadoop-yarn/hadoop-yarn-csi/pom.xml.orig	2026-02-24 00:10:14 UTC
++++ hadoop-yarn-project/hadoop-yarn/hadoop-yarn-csi/pom.xml
+@@ -199,13 +199,14 @@
+                 <artifactId>protobuf-maven-plugin</artifactId>
+                 <configuration>
+                     <protocVersion>${hadoop.protobuf.version}</protocVersion>
+-                    <binaryMavenPlugins>
+-                        <binaryMavenPlugin>
+-                            <groupId>io.grpc</groupId>
+-                            <artifactId>protoc-gen-grpc-java</artifactId>
+-                            <version>${genrpc.version}</version>
+-                        </binaryMavenPlugin>
+-                    </binaryMavenPlugins>
++                    <!-- protoc-gen-grpc-java is only published as a prebuilt
++                         binary for Linux, macOS and Windows; use the one the
++                         FreeBSD port builds and puts on $PATH. -->
++                    <plugins>
++                        <plugin kind="path">
++                            <name>protoc-gen-grpc-java</name>
++                        </plugin>
++                    </plugins>
+                 </configuration>
+                 <executions>
+                     <execution>

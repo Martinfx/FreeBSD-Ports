@@ -1,38 +1,84 @@
 #!/bin/sh
 #
-# $FreeBSD$
-#
 # PROVIDE: journalnode
 # REQUIRE: LOGIN
 # KEYWORD: shutdown
 #
-# journalnode_enable (bool):     Set to NO by default.
-#                                Set it to YES to enable journalnode.
+# journalnode_enable (bool):		Set to NO by default.
+#				Set it to YES to enable journalnode.
+# journalnode_user (str):		User to run journalnode as.
+#				Default: hdfs
+# journalnode_conf_dir (str):	Hadoop configuration directory.
+#				Default: %%ETCDIR%%
+# journalnode_ident (str):		HADOOP_IDENT_STRING, i.e. the `hadoop-<ident>-journalnode'
+#				part of the log and pid file names.
+#				Default: hdfs
 
 . /etc/rc.subr
 
-export PATH=${PATH}:%%LOCALBASE%%/bin
 name=journalnode
 rcvar=journalnode_enable
 
 load_rc_config "${name}"
 
-: ${journalnode_enable:=NO}
-: ${journalnode_user:=%%HDFS_USER%%}
+: ${journalnode_enable:="NO"}
+: ${journalnode_user:="hdfs"}
+: ${journalnode_conf_dir:="%%ETCDIR%%"}
+: ${journalnode_ident:="hdfs"}
 
-command="%%PREFIX%%/sbin/hadoop-daemon.sh"
-command_interpreter_execution="%%JAVA_HOME%%/bin/java"
-command_args='--config %%ETCDIR%% start journalnode'
+# `hdfs --daemon' forks, writes its own pid file and execs java, so rc.subr
+# cannot track it through ${command} -- drive it through the helpers below.
+hadoop_command="%%PREFIX%%/bin/hdfs"
+hadoop_subcmd="journalnode"
+procname="%%JAVA_HOME%%/bin/java"
+pidfile="%%HADOOP_RUNDIR%%/hadoop-${journalnode_ident}-${hadoop_subcmd}.pid"
 
-stop_cmd=journalnode_stop
-status_precmd=find_pid
+start_cmd="journalnode_start"
+stop_cmd="journalnode_stop"
+status_cmd="journalnode_status"
 
-journalnode_stop () {
-  su -m ${journalnode_user} -c "${command} --config %%ETCDIR%% stop journalnode"
+hadoop_doit()
+{
+	# Same quoting dance rc.subr itself uses for ${name}_user, so that the
+	# target account's login shell is not required to understand -c.
+	su -m "${journalnode_user}" -c "sh -c '\
+	    PATH=\"\${PATH}:%%LOCALBASE%%/bin\" \
+	    HADOOP_IDENT_STRING=\"${journalnode_ident}\" \
+	    ${hadoop_command} --config \"${journalnode_conf_dir}\" \
+	    --daemon $1 ${hadoop_subcmd}'"
 }
 
-find_pid () {
-  rc_pid=$(check_pidfile $pidfile $command_interpreter_execution)
+journalnode_start()
+{
+	rc_pid=$(check_pidfile "${pidfile}" "${procname}")
+	if [ -n "${rc_pid}" ]; then
+		echo "${name} already running? (pid=${rc_pid})."
+		return 1
+	fi
+	echo "Starting ${name}."
+	hadoop_doit start || return 1
+}
+
+journalnode_stop()
+{
+	rc_pid=$(check_pidfile "${pidfile}" "${procname}")
+	if [ -z "${rc_pid}" ]; then
+		echo "${name} not running? (check ${pidfile})."
+		return 1
+	fi
+	echo "Stopping ${name}."
+	hadoop_doit stop
+}
+
+journalnode_status()
+{
+	rc_pid=$(check_pidfile "${pidfile}" "${procname}")
+	if [ -n "${rc_pid}" ]; then
+		echo "${name} is running as pid ${rc_pid}."
+	else
+		echo "${name} is not running."
+		return 1
+	fi
 }
 
 run_rc_command "$1"

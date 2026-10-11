@@ -1,32 +1,84 @@
 #!/bin/sh
 #
-# $FreeBSD$
-#
 # PROVIDE: historyserver
 # REQUIRE: LOGIN
 # KEYWORD: shutdown
 #
-# historyserver_enable (bool):      Set to NO by default.
-#                                   Set it to YES to enable resourcemanager.
+# historyserver_enable (bool):		Set to NO by default.
+#				Set it to YES to enable historyserver.
+# historyserver_user (str):		User to run historyserver as.
+#				Default: mapred
+# historyserver_conf_dir (str):	Hadoop configuration directory.
+#				Default: %%ETCDIR%%
+# historyserver_ident (str):		HADOOP_IDENT_STRING, i.e. the `hadoop-<ident>-historyserver'
+#				part of the log and pid file names.
+#				Default: mapred
 
 . /etc/rc.subr
 
-export PATH=${PATH}:%%LOCALBASE%%/bin
 name=historyserver
 rcvar=historyserver_enable
 
 load_rc_config "${name}"
 
-: ${historyserver_enable:=NO}
-: ${historyserver_user:=%%MAPRED_USER%%}
+: ${historyserver_enable:="NO"}
+: ${historyserver_user:="mapred"}
+: ${historyserver_conf_dir:="%%ETCDIR%%"}
+: ${historyserver_ident:="mapred"}
 
-command="%%PREFIX%%/sbin/mr-jobhistory-daemon.sh"
-command_args='--config %%ETCDIR%% start historyserver'
+# `mapred --daemon' forks, writes its own pid file and execs java, so rc.subr
+# cannot track it through ${command} -- drive it through the helpers below.
+hadoop_command="%%PREFIX%%/bin/mapred"
+hadoop_subcmd="historyserver"
+procname="%%JAVA_HOME%%/bin/java"
+pidfile="%%HADOOP_RUNDIR%%/hadoop-${historyserver_ident}-${hadoop_subcmd}.pid"
 
-stop_cmd=historyserver_stop
+start_cmd="historyserver_start"
+stop_cmd="historyserver_stop"
+status_cmd="historyserver_status"
 
-historyserver_stop () {
-  su -m ${historyserver_user} -c "${command} --config %%ETCDIR%% stop historyserver"
+hadoop_doit()
+{
+	# Same quoting dance rc.subr itself uses for ${name}_user, so that the
+	# target account's login shell is not required to understand -c.
+	su -m "${historyserver_user}" -c "sh -c '\
+	    PATH=\"\${PATH}:%%LOCALBASE%%/bin\" \
+	    HADOOP_IDENT_STRING=\"${historyserver_ident}\" \
+	    ${hadoop_command} --config \"${historyserver_conf_dir}\" \
+	    --daemon $1 ${hadoop_subcmd}'"
+}
+
+historyserver_start()
+{
+	rc_pid=$(check_pidfile "${pidfile}" "${procname}")
+	if [ -n "${rc_pid}" ]; then
+		echo "${name} already running? (pid=${rc_pid})."
+		return 1
+	fi
+	echo "Starting ${name}."
+	hadoop_doit start || return 1
+}
+
+historyserver_stop()
+{
+	rc_pid=$(check_pidfile "${pidfile}" "${procname}")
+	if [ -z "${rc_pid}" ]; then
+		echo "${name} not running? (check ${pidfile})."
+		return 1
+	fi
+	echo "Stopping ${name}."
+	hadoop_doit stop
+}
+
+historyserver_status()
+{
+	rc_pid=$(check_pidfile "${pidfile}" "${procname}")
+	if [ -n "${rc_pid}" ]; then
+		echo "${name} is running as pid ${rc_pid}."
+	else
+		echo "${name} is not running."
+		return 1
+	fi
 }
 
 run_rc_command "$1"

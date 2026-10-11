@@ -1,0 +1,12 @@
+--- hadoop-yarn-project/pom.xml.orig	2026-02-24 00:10:14 UTC
++++ hadoop-yarn-project/pom.xml
+@@ -152,7 +152,8 @@
+       <groupId>org.apache.hadoop</groupId>
+       <artifactId>hadoop-yarn-ui</artifactId>
+       <version>${project.version}</version>
+-      <type>${yarn.ui.packaging}</type>
++      <!-- FreeBSD: UI2 is never built as a war (see its pom). -->
++      <type>pom</type>
+       <scope>provided</scope>
+     </dependency>
+     <dependency>

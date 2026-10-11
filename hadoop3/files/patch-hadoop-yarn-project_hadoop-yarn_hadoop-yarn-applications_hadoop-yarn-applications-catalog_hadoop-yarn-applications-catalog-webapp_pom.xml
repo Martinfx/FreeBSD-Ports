@@ -1,0 +1,51 @@
+--- hadoop-yarn-project/hadoop-yarn/hadoop-yarn-applications/hadoop-yarn-applications-catalog/hadoop-yarn-applications-catalog-webapp/pom.xml.orig	2026-02-24 00:10:14 UTC
++++ hadoop-yarn-project/hadoop-yarn/hadoop-yarn-applications/hadoop-yarn-applications-catalog/hadoop-yarn-applications-catalog-webapp/pom.xml
+@@ -538,6 +538,48 @@
+     </build>
+ 
+     <profiles>
++      <!-- FreeBSD: nodejs.org has no FreeBSD node for frontend-maven-plugin to
++           download.  The yarn install only fetches jquery, angular and
++           bootstrap into ${vendor.loc}; the port unpacks the result of that
++           install there instead (hadoop3-catalog-vendor distfile).  Nor is
++           there a FreeBSD phantomjs, which is only needed for the jasmine
++           tests. -->
++      <profile>
++        <id>catalog-prebuilt-vendor</id>
++        <activation>
++          <os>
++            <family>FreeBSD</family>
++          </os>
++        </activation>
++        <build>
++          <plugins>
++            <plugin>
++              <groupId>com.github.eirslett</groupId>
++              <artifactId>frontend-maven-plugin</artifactId>
++              <executions>
++                <execution>
++                  <id>install node and yarn</id>
++                  <phase>none</phase>
++                </execution>
++                <execution>
++                  <id>yarn install</id>
++                  <phase>none</phase>
++                </execution>
++              </executions>
++            </plugin>
++            <plugin>
++              <groupId>com.github.klieber</groupId>
++              <artifactId>phantomjs-maven-plugin</artifactId>
++              <executions>
++                <execution>
++                  <id>default</id>
++                  <phase>none</phase>
++                </execution>
++              </executions>
++            </plugin>
++          </plugins>
++        </build>
++      </profile>
+       <profile>
+         <id>parallel-tests</id>
+         <build>

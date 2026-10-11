@@ -1,32 +1,84 @@
 #!/bin/sh
 #
-# $FreeBSD$
-#
 # PROVIDE: webappproxyserver
 # REQUIRE: LOGIN
 # KEYWORD: shutdown
 #
-# webappproxyserver_enable (bool):  Set to NO by default.
-#                                   Set it to YES to enable webappproxyserver.
+# webappproxyserver_enable (bool):		Set to NO by default.
+#				Set it to YES to enable webappproxyserver.
+# webappproxyserver_user (str):		User to run webappproxyserver as.
+#				Default: mapred
+# webappproxyserver_conf_dir (str):	Hadoop configuration directory.
+#				Default: %%ETCDIR%%
+# webappproxyserver_ident (str):		HADOOP_IDENT_STRING, i.e. the `hadoop-<ident>-proxyserver'
+#				part of the log and pid file names.
+#				Default: yarn
 
 . /etc/rc.subr
 
-export PATH=${PATH}:%%LOCALBASE%%/bin
 name=webappproxyserver
 rcvar=webappproxyserver_enable
 
 load_rc_config "${name}"
 
-: ${webappproxyserver_enable:=NO}
-: ${webappproxyserver_user:=%%MAPRED_USER%%}
+: ${webappproxyserver_enable:="NO"}
+: ${webappproxyserver_user:="mapred"}
+: ${webappproxyserver_conf_dir:="%%ETCDIR%%"}
+: ${webappproxyserver_ident:="yarn"}
 
-command="%%PREFIX%%/sbin/yarn-daemon.sh"
-command_args='--config %%ETCDIR%% start proxyserver'
+# `yarn --daemon' forks, writes its own pid file and execs java, so rc.subr
+# cannot track it through ${command} -- drive it through the helpers below.
+hadoop_command="%%PREFIX%%/bin/yarn"
+hadoop_subcmd="proxyserver"
+procname="%%JAVA_HOME%%/bin/java"
+pidfile="%%HADOOP_RUNDIR%%/hadoop-${webappproxyserver_ident}-${hadoop_subcmd}.pid"
 
-stop_cmd=webappproxyserver_stop
+start_cmd="webappproxyserver_start"
+stop_cmd="webappproxyserver_stop"
+status_cmd="webappproxyserver_status"
 
-webappproxyserver_stop () {
-  su -m ${webappproxyserver_user} -c "${command} --config %%ETCDIR%% stop proxyserver"
+hadoop_doit()
+{
+	# Same quoting dance rc.subr itself uses for ${name}_user, so that the
+	# target account's login shell is not required to understand -c.
+	su -m "${webappproxyserver_user}" -c "sh -c '\
+	    PATH=\"\${PATH}:%%LOCALBASE%%/bin\" \
+	    HADOOP_IDENT_STRING=\"${webappproxyserver_ident}\" \
+	    ${hadoop_command} --config \"${webappproxyserver_conf_dir}\" \
+	    --daemon $1 ${hadoop_subcmd}'"
+}
+
+webappproxyserver_start()
+{
+	rc_pid=$(check_pidfile "${pidfile}" "${procname}")
+	if [ -n "${rc_pid}" ]; then
+		echo "${name} already running? (pid=${rc_pid})."
+		return 1
+	fi
+	echo "Starting ${name}."
+	hadoop_doit start || return 1
+}
+
+webappproxyserver_stop()
+{
+	rc_pid=$(check_pidfile "${pidfile}" "${procname}")
+	if [ -z "${rc_pid}" ]; then
+		echo "${name} not running? (check ${pidfile})."
+		return 1
+	fi
+	echo "Stopping ${name}."
+	hadoop_doit stop
+}
+
+webappproxyserver_status()
+{
+	rc_pid=$(check_pidfile "${pidfile}" "${procname}")
+	if [ -n "${rc_pid}" ]; then
+		echo "${name} is running as pid ${rc_pid}."
+	else
+		echo "${name} is not running."
+		return 1
+	fi
 }
 
 run_rc_command "$1"
