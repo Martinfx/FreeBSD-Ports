@@ -84,7 +84,24 @@ MAVEN_PROFILES=	dist native
 # FreeBSD by .github/workflows/hadoop3-maven-repo.yml.  To regenerate it, build
 # with MAVEN_ONLINE defined and all options on, then run "make gen-maven-repo".
 MAVEN_REPO_DIST=	hadoop3-maven-repo-${PORTVERSION}.tar.xz
-MAVEN_REPO=		${WRKDIR}/hadoop3-maven-repo-${PORTVERSION}
+MAVEN_REPO_WRKDIR=	${WRKDIR}/hadoop3-maven-repo-${PORTVERSION}
+
+# Helpers for local development; nothing that builds packages sets them.
+#  MAVEN_REPO=<dir>		keep the Maven repository across "make clean"
+#				(online builds only; offline ones always use
+#				the one unpacked from ${MAVEN_REPO_DIST})
+#  MAVEN_RESUME_FROM=<module>	after a failed build, rerun "make" and resume
+#				at that module (mvn -rf) instead of rebuilding
+#				everything, e.g. hadoop-hdfs-native-client
+#  MAVEN_THREADS=<n>		build up to n modules in parallel (mvn -T);
+#				Hadoop does not officially support this
+# -DskipShade is refused: it leaves the hadoop-client jars unshaded, which
+# upstream allows for development builds only.
+.if defined(MAVEN_ONLINE)
+MAVEN_REPO?=		${MAVEN_REPO_WRKDIR}
+.else
+MAVEN_REPO=		${MAVEN_REPO_WRKDIR}
+.endif
 MAVEN_ARGS=	-Dmaven.javadoc.skip=true -Dmaven.clean.skip=true \
 		-Dmaven.repo.local=${MAVEN_REPO} -DskipTests \
 		-DprotocExecutable=${PROTOC} \
@@ -95,6 +112,12 @@ MAVEN_ARGS=	-Dmaven.javadoc.skip=true -Dmaven.clean.skip=true \
 		-Drequire.openssl -Dopenssl.prefix=${OPENSSLBASE}
 .if !defined(MAVEN_ONLINE)
 MAVEN_ARGS+=	--offline
+.endif
+.if defined(MAVEN_RESUME_FROM) && !empty(MAVEN_RESUME_FROM)
+MAVEN_ARGS+=	-rf :${MAVEN_RESUME_FROM}
+.endif
+.if defined(MAVEN_THREADS) && !empty(MAVEN_THREADS)
+MAVEN_ARGS+=	-T ${MAVEN_THREADS}
 .endif
 
 OPTIONS_DEFINE=		EXAMPLES FUSE YARNUI
@@ -205,6 +228,9 @@ pre-build-YARNUI-on:
 		${WRKSRC}/hadoop-yarn-project/hadoop-yarn/hadoop-yarn-capacity-scheduler-ui/target/webapp/node/node_modules/npm
 
 do-build:
+	@case "${MAVEN_ARGS} $${MAVEN_OPTS}" in *-DskipShade*) \
+		${ECHO_MSG} "===>  -DskipShade is not allowed: it leaves the hadoop-client jars unshaded"; \
+		exit 1;; esac
 	${MKDIR} ${MAVEN_REPO}
 	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} PATH=${GRPC_PLUGIN_DIR}:${PATH} \
 		MAVEN_HOME="$$(${CAT} ${LOCALBASE}/etc/maven-wrapper/instances.d/apache-maven-3.9.*)" \
@@ -258,7 +284,8 @@ gen-maven-repo:
 		{ ${ECHO_MSG} "===>  Build the port first"; ${FALSE}; }
 	${FIND} ${MAVEN_REPO} \( -name _remote.repositories -o -name '*.lastUpdated' \
 		-o -name resolver-status.properties \) -delete
-	cd ${WRKDIR} && ${TAR} -c -J --options xz:threads=0 \
+	cd ${MAVEN_REPO:H} && ${TAR} -c -J --options xz:threads=0 \
+		-s ',^${MAVEN_REPO:T},${MAVEN_REPO_WRKDIR:T},' \
 		-f ${WRKDIR}/${MAVEN_REPO_DIST} ${MAVEN_REPO:T}
 	@${ECHO_MSG} "===>  ${WRKDIR}/${MAVEN_REPO_DIST}"
 
