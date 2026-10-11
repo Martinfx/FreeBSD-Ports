@@ -697,8 +697,12 @@ CARGO_INSTALL=	no
 # FilmCraft relies on unwinding: engine commands, export jobs, the frame
 # workers and the GPU compositor set-up run under catch_unwind, so that a
 # panic is reported (or falls back to the CPU renderer) instead of taking
-# the application, and the unsaved project, down with it.
+# the application, and the unsaved project, down with it.  LTO_UNSAFE adds
+# -C lto=no to RUSTFLAGS, so also turn off the workspace's own thin LTO:
+# otherwise cargo builds the dependencies as LLVM bitcode only and the
+# bitcode reaches the base system linker, whose LLVM cannot read it.
 LTO_UNSAFE=	yes
+CARGO_ENV+=	CARGO_PROFILE_RELEASE_LTO=false
 
 APP_ID=		ai.storyteller.filmcraft
 # Release date of ${DISTVERSION}, for the AppStream metadata.
