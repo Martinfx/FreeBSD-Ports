@@ -1,0 +1,16 @@
+[
+{ type: install
+  message: <<EOM
+FilmCraft opens and saves files through the XDG desktop portal, which
+needs a D-Bus session bus.  If your desktop does not start one, run
+FilmCraft under one, for example with
+
+  dbus-run-session filmcraft
+
+FilmCraft renders with Vulkan when a Vulkan driver is installed and
+falls back to OpenGL ES (EGL) otherwise.  Sound goes through ALSA's OSS
+plugin.  Hardware video decoding is not available on FreeBSD; the
+built-in decoders are used.
+EOM
+}
+]
