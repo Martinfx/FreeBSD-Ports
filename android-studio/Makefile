@@ -1,10 +1,11 @@
 PORTNAME=	android-studio
-DISTVERSION=	2025.1.3.7
+DISTVERSION=	2026.2.1.8
 CATEGORIES=	devel java linux
 MASTER_SITES=	https://dl.google.com/dl/android/studio/ide-zips/${DISTVERSION}/ \
 		https://edgedl.me.gvt1.com/android/studio/ide-zips/${DISTVERSION}/
 PKGNAMEPREFIX=	linux-
-DISTNAME=	${PORTNAME}-${DISTVERSION}-linux
+DISTNAME=	${PORTNAME}-${STUDIO_RELEASE}-linux
+DIST_SUBDIR=	${PORTNAME}/${DISTVERSION}
 
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Official IDE for Android (Linux binary)
@@ -20,6 +21,8 @@ USES=		linux
 USE_LINUX=	alsalib dbuslibs dri expat fontconfig freetype gtk3 xorglibs
 
 NO_BUILD=	yes
+# Upstream names the tarball after the release codename.
+STUDIO_RELEASE=	rabbit1
 WRKSRC=		${WRKDIR}/${PORTNAME}
 
 SUB_FILES=	android-studio android-studio.desktop pkg-message
