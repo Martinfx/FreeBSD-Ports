@@ -271,6 +271,12 @@ post-install-EXAMPLES-on:
 post-install-FUSE-on:
 	${INSTALL_PROGRAM} ${HDFS_NATIVE}/target/main/native/fuse-dfs/fuse_dfs ${STAGEDIR}${PREFIX}/bin/
 
+# The scheduler UI is a vite build whose asset names carry content hashes that
+# differ between builds, so its files are listed at stage time.
+post-install-YARNUI-on:
+	cd ${STAGEDIR}${PREFIX} && ${FIND} ${DATADIR_REL}/yarn/webapps/scheduler-ui \
+		-type f | ${SORT} >> ${TMPPLIST}
+
 # Packs the Maven repository of a finished MAVEN_ONLINE build into
 # ${MAVEN_REPO_DIST}.  Build it with all options on so that every plugin is
 # in it.  The resolver's bookkeeping is dropped: without _remote.repositories
