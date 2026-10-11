@@ -1,0 +1,42 @@
+[
+{ type: install
+  message: <<EOM
+Android Studio runs as a Linux binary on top of the Linux binary
+compatibility layer.  Enable it (as root) before the first start:
+
+  # sysrc linux_enable=YES
+  # service linux start
+
+This loads the Linux modules and mounts linprocfs, linsysfs, devfs,
+fdescfs and tmpfs (/dev/shm) under %%LINUXBASE%%.  Recommended for
+correct rendering of X11 shared memory in Linux applications:
+
+  # sysctl kern.ipc.shm_allow_removed=1
+  # echo kern.ipc.shm_allow_removed=1 >> /etc/sysctl.conf
+
+Start the IDE with "android-studio" or from the desktop menu.  The
+launcher checks the Linux layer and uses the bundled Linux JetBrains
+Runtime for both the IDE and Gradle (JAVA_HOME points to it, so
+./gradlew in the IDE terminal works too).
+
+Devices:
+- The Linux adb from the SDK cannot access USB on FreeBSD.  With the ADB
+  option the launcher replaces <SDK>/platform-tools/adb with a symlink to
+  the native %%PREFIX%%/bin/adb on every start (the original is kept as
+  adb.linux).  Restart the IDE after the first SDK setup or a
+  platform-tools update.  Set ANDROID_STUDIO_NATIVE_ADB=no to disable.
+  Your user needs access to the USB device, see devfs.rules(5).
+- The Android Emulator needs KVM and does not work on FreeBSD.  Use a
+  physical device (USB or "adb connect" over Wi-Fi), or an emulator
+  running on another machine.
+
+File watching: the bundled fsnotifier needs inotify, which the Linux
+layer may not provide.  The IDE then warns that external file changes
+sync may be slow; this is harmless.  With the FSNOTIFIER option the
+launcher uses the native fsnotifier from java/intellij-fsnotifier.
+
+If your locale is not installed in the Linux base, the launcher falls
+back to LC_ALL=C.UTF-8.
+EOM
+}
+]
