@@ -1,0 +1,63 @@
+#!/bin/sh
+#
+# Apache Geode shell (gfsh) launcher.  Generated from files/gfsh.in by the
+# databases/geode port; local changes are lost on upgrade.
+#
+# Environment:
+#   GEODE_HOME  Geode installation (default: %%DATADIR%%); also inherited by
+#               the locators and servers that gfsh starts, which look for
+#               the Pulse and REST web applications under it
+#   GF_JAVA     java executable to use
+#   JAVA_HOME   JDK to use when GF_JAVA is not set
+#               (default: %%JAVA_HOME%%)
+#   JAVA_ARGS   extra arguments for the gfsh JVM, e.g. -Xmx512m
+#   CLASSPATH   additional classpath entries for gfsh
+#
+
+GEODE_HOME="${GEODE_HOME:-%%DATADIR%%}"
+export GEODE_HOME
+
+if [ ! -f "${GEODE_HOME}/lib/gfsh-dependencies.jar" ]; then
+	echo "gfsh: no Geode installation in ${GEODE_HOME}" >&2
+	exit 1
+fi
+
+if [ -z "${GF_JAVA}" ]; then
+	GF_JAVA="${JAVA_HOME:-%%JAVA_HOME%%}/bin/java"
+fi
+if ! command -v "${GF_JAVA}" >/dev/null 2>&1; then
+	echo "gfsh: cannot execute ${GF_JAVA}; set JAVA_HOME or GF_JAVA" >&2
+	exit 1
+fi
+
+_classpath="${GEODE_HOME}/lib/gfsh-dependencies.jar"
+if [ -n "${CLASSPATH}" ]; then
+	_classpath="${_classpath}:${CLASSPATH}"
+fi
+_classpath="${_classpath}:${GEODE_HOME}/extensions/*"
+
+# gfsh sizes its tables from COLUMNS rather than asking the terminal.
+_stty=""
+if [ -t 0 ] && [ -t 1 ]; then
+	_cols="$(tput cols 2>/dev/null)" && [ -n "${_cols}" ] &&
+		COLUMNS="${_cols}" && export COLUMNS
+	_stty="$(stty -g 2>/dev/null)" || _stty=""
+fi
+
+# JAVA_ARGS is split into words on purpose.
+set -- -Dgfsh=true -Dlog4j.configurationFile=classpath:log4j2-cli.xml \
+	-classpath "${_classpath}" ${JAVA_ARGS} \
+	org.apache.geode.management.internal.cli.Launcher "$@"
+
+if [ -z "${_stty}" ]; then
+	exec "${GF_JAVA}" "$@"
+fi
+
+# Interactive session: put the terminal back the way it was should the JVM
+# die without restoring it itself.  A trap with a handler, rather than an
+# ignored signal, keeps SIGINT at its default disposition in the JVM.
+trap ':' INT QUIT
+"${GF_JAVA}" "$@"
+_status=$?
+stty "${_stty}" 2>/dev/null
+exit ${_status}

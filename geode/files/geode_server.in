@@ -1,0 +1,133 @@
+#!/bin/sh
+
+# PROVIDE: geode_server
+# REQUIRE: LOGIN geode_locator
+# KEYWORD: shutdown
+#
+# Add the following lines to /etc/rc.conf to run an Apache Geode server:
+#
+# geode_server_enable (bool):	Set to "YES" to enable.  Default: "NO"
+# geode_server_name (str):	Member name, unique within the cluster.
+#				Default: "server-<short hostname>"
+# geode_server_dir (path):	Working directory: log, pid, statistics and
+#				disk store files.
+#				Default: "%%GEODE_DBDIR%%/server"
+# geode_server_port (int):	Port the cache server listens on for clients.
+#				Default: "40404"
+# geode_server_bind_address (str):
+#				Address the cache server binds to.  Default: all
+# geode_server_properties (path):
+#				gemfire.properties file, used if it exists.
+#				Default: "%%ETCDIR%%/gemfire.properties"
+# geode_server_security_properties (path):
+#				gfsecurity.properties file, used if it exists.
+#				Default: "%%ETCDIR%%/gfsecurity.properties"
+# geode_server_heap (str):	Heap size, used for both -Xms and -Xmx,
+#				e.g. "4g".  Default: the JVM's own choice
+# geode_server_java_opts (str):
+#				Additional JVM options, separated by blanks
+#				and not quoted.  Default: "-XX:+ExitOnOutOfMemoryError"
+# geode_server_args (str):	Additional ServerLauncher options, e.g.
+#				"--critical-heap-percentage=90"
+# geode_server_java_home (path):
+#				JDK to run the server with.
+#				Default: "%%JAVA_HOME%%"
+# geode_server_user (str):	User to run the server as.
+#				Default: "%%GEODE_USER%%"
+# geode_server_group (str):	Group owning the working directory.
+#				Default: "%%GEODE_GROUP%%"
+#
+# Like "gfsh start server", the default geode_server_java_opts makes the JVM
+# exit on an OutOfMemoryError rather than linger in the cluster in an
+# undefined state.
+
+. /etc/rc.subr
+
+name=geode_server
+rcvar=geode_server_enable
+desc="Apache Geode server"
+
+load_rc_config $name
+
+: ${geode_server_enable:="NO"}
+: ${geode_server_name:="server-$(/bin/hostname -s)"}
+: ${geode_server_dir:="%%GEODE_DBDIR%%/server"}
+: ${geode_server_port:="40404"}
+: ${geode_server_bind_address:=""}
+: ${geode_server_properties:="%%ETCDIR%%/gemfire.properties"}
+: ${geode_server_security_properties:="%%ETCDIR%%/gfsecurity.properties"}
+: ${geode_server_heap:=""}
+: ${geode_server_java_opts:="-XX:+ExitOnOutOfMemoryError"}
+: ${geode_server_args:=""}
+: ${geode_server_java_home:="%%JAVA_HOME%%"}
+: ${geode_server_user:="%%GEODE_USER%%"}
+: ${geode_server_group:="%%GEODE_GROUP%%"}
+
+# rc.subr starts daemon(8) as geode_server_user, so the pid file lives in a
+# directory that user can write to.  It is the supervisor's pid: daemon(8)
+# forwards SIGTERM to the JVM, whose shutdown hook leaves the cluster
+# cleanly.  The server also keeps its own vf.gf.server.pid in its working
+# directory, which is what "gfsh status server --dir=..." reads.
+geode_rundir="/var/run/geode"
+pidfile="${geode_rundir}/${name}.pid"
+command="/usr/sbin/daemon"
+start_precmd="${name}_prestart"
+
+# ServerLauncher must be started in its working directory.
+geode_server_chdir="${geode_server_dir}"
+
+# Lets the HTTP service find the Pulse and REST web applications.
+GEODE_HOME="%%DATADIR%%"
+export GEODE_HOME
+
+geode_server_prestart()
+{
+	local _cp _jar _opts
+
+	if [ ! -x "${geode_server_java_home}/bin/java" ]; then
+		warn "no java executable in ${geode_server_java_home}/bin"
+		return 1
+	fi
+
+	install -d -o "${geode_server_user}" -g "${geode_server_group}" -m 755 \
+		"${geode_rundir}" || return 1
+	install -d -o "${geode_server_user}" -g "${geode_server_group}" -m 750 \
+		"${geode_server_dir}" || return 1
+
+	# The classpath and JVM options gfsh uses for the members it starts.
+	_cp="${GEODE_HOME}/lib/geode-core-%%VERSION%%.jar"
+	_cp="${_cp}:${GEODE_HOME}/lib/geode-server-all-%%VERSION%%.jar"
+	for _jar in "${GEODE_HOME}"/extensions/*; do
+		[ -f "${_jar}" ] && _cp="${_cp}:${_jar}"
+	done
+
+	_opts="-server -classpath ${_cp}"
+	_opts="${_opts} --add-exports=java.management/com.sun.jmx.remote.security=ALL-UNNAMED"
+	_opts="${_opts} --add-opens=java.base/java.lang=ALL-UNNAMED"
+	_opts="${_opts} --add-opens=java.base/java.nio=ALL-UNNAMED"
+	_opts="${_opts} -Djava.awt.headless=true"
+	_opts="${_opts} -Dsun.rmi.dgc.server.gcInterval=9223372036854775806"
+	if [ -f "${geode_server_properties}" ]; then
+		_opts="${_opts} -DgemfirePropertyFile=${geode_server_properties}"
+	fi
+	if [ -f "${geode_server_security_properties}" ]; then
+		_opts="${_opts} -DgemfireSecurityPropertyFile=${geode_server_security_properties}"
+	fi
+	if [ -n "${geode_server_heap}" ]; then
+		_opts="${_opts} -Xms${geode_server_heap} -Xmx${geode_server_heap}"
+	fi
+	_opts="${_opts} ${geode_server_java_opts}"
+
+	_opts="${_opts} org.apache.geode.distributed.ServerLauncher start"
+	_opts="${_opts} ${geode_server_name} --server-port=${geode_server_port}"
+	if [ -n "${geode_server_bind_address}" ]; then
+		_opts="${_opts} --server-bind-address=${geode_server_bind_address}"
+	fi
+	_opts="${_opts} ${geode_server_args}"
+
+	command_args="-f -P ${pidfile} -t ${name}"
+	command_args="${command_args} -o ${geode_server_dir}/${geode_server_name}.out"
+	command_args="${command_args} ${geode_server_java_home}/bin/java ${_opts}"
+}
+
+run_rc_command "$1"
