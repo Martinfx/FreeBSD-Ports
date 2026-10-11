@@ -1,9 +1,13 @@
 PORTNAME=	spark
 PORTVERSION=	4.2.0
 CATEGORIES=	devel java
-MASTER_SITES=	https://archive.apache.org/dist/${PORTNAME}/${PORTNAME}-${PORTVERSION}/
+MASTER_SITES=	https://archive.apache.org/dist/${PORTNAME}/${PORTNAME}-${PORTVERSION}/ \
+		https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_VERSION}/:protobuf \
+		https://github.com/abseil/abseil-cpp/releases/download/${ABSEIL_VERSION}/:abseil
 PKGNAMEPREFIX=	apache-
-DISTFILES=	${PORTNAME}-${PORTVERSION}.tgz
+DISTFILES=	${PORTNAME}-${PORTVERSION}.tgz \
+		protobuf-${PROTOBUF_VERSION}.tar.gz:protobuf \
+		abseil-cpp-${ABSEIL_VERSION}.tar.gz:abseil
 
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Fast big data processing engine
@@ -18,17 +22,20 @@ BROKEN_powerpc=	not enough memory on this architecture to build the port
 
 BUILD_DEPENDS=	${LOCALBASE}/lib/libsnappyjava.so:archivers/snappy-java \
 		bash:shells/bash \
-		maven39>0:devel/maven39 \
-		protoc:devel/protobuf
+		maven39>0:devel/maven39
 RUN_DEPENDS=	bash:shells/bash
 
-USES=		compiler:c++17-lang cpe java pkgconfig python shebangfix
+USES=		cmake:indirect compiler:c++17-lang cpe java ninja:build python \
+		shebangfix
 CPE_VENDOR=	apache
 JAVA_VERSION=	17 21
 
-# Maven Central has no protoc and protoc-gen-grpc-java for FreeBSD, so the
-# protobuf sources are compiled with protoc from devel/protobuf and the gRPC
-# stubs of Spark Connect with a protoc-gen-grpc-java built from grpc-java.
+# Maven Central has no protoc and protoc-gen-grpc-java for FreeBSD, so both
+# are built here, linked statically against a libprotoc of the protobuf
+# release below (the shared libprotoc of devel/protobuf does not export the
+# java::ClassName() functions protoc-gen-grpc-java uses).
+PROTOBUF_VERSION=	29.6
+ABSEIL_VERSION=		20250127.1
 USE_GITHUB=	nodefault
 GH_TUPLE=	grpc:grpc-java:v1.76.0:grpcjava
 
@@ -45,6 +52,19 @@ GROUPS=		spark
 
 PLIST_SUB=	SCALA=${SCALA_BINARY} \
 		VER=${PORTVERSION}
+
+PROTOC_BUILD=	${WRKDIR}/protoc-build
+CMAKE_ARGS=	-DPROTOBUF_SOURCE_DIR=${WRKDIR}/protobuf-${PROTOBUF_VERSION} \
+		-DABSL_ROOT_DIR=${WRKDIR}/abseil-cpp-${ABSEIL_VERSION} \
+		-DGRPC_JAVA_SOURCE_DIR=${WRKSRC_grpcjava} \
+		-DCMAKE_CXX_STANDARD=17 \
+		-Dprotobuf_ABSL_PROVIDER=module
+CMAKE_ON=	ABSL_PROPAGATE_CXX_STD
+CMAKE_OFF=	protobuf_BUILD_CONFORMANCE protobuf_BUILD_EXAMPLES \
+		protobuf_BUILD_LIBUPB protobuf_BUILD_SHARED_LIBS \
+		protobuf_BUILD_TESTS protobuf_INSTALL
+MAKE_ENV+=	SPARK_PROTOC_EXEC_PATH=${PROTOC_BUILD}/protobuf/protoc \
+		CONNECT_PLUGIN_EXEC_PATH=${PROTOC_BUILD}/protoc-gen-grpc-java
 
 .include <bsd.port.pre.mk>
 
@@ -78,16 +98,12 @@ DISTFILES+=	${PORTNAME}-${PORTVERSION}-deps.tgz:deps
 OFFLINE=	-o
 .endif # !defined(MAINTAINER_MODE)
 
-MAKE_ENV+=	SPARK_PROTOC_EXEC_PATH=${LOCALBASE}/bin/protoc \
-		CONNECT_PLUGIN_EXEC_PATH=${WRKDIR}/protoc-gen-grpc-java
-
 pre-build:
-	${CXX} ${CXXFLAGS} -std=c++17 \
-		$$(pkg-config --cflags protobuf) \
-		-o ${WRKDIR}/protoc-gen-grpc-java \
-		${WRKSRC_grpcjava}/compiler/src/java_plugin/cpp/java_generator.cpp \
-		${WRKSRC_grpcjava}/compiler/src/java_plugin/cpp/java_plugin.cpp \
-		${LDFLAGS} -lprotoc $$(pkg-config --libs protobuf)
+	${MKDIR} ${WRKDIR}/protoc-src
+	${CP} ${FILESDIR}/protoc-CMakeLists.txt ${WRKDIR}/protoc-src/CMakeLists.txt
+	${CMAKE_BIN} -S ${WRKDIR}/protoc-src -B ${PROTOC_BUILD} -G Ninja \
+		${CMAKE_ARGS}
+	${CMAKE_BIN} --build ${PROTOC_BUILD} -j ${MAKE_JOBS_NUMBER}
 
 do-build:
 	${MKDIR} ${WRKDIR}/snappy/org/xerial/snappy/native/${OPSYS}/${JAVA_ARCH}
