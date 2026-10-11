@@ -16,3 +16,29 @@
  check_include_files(memory.h HAVE_MEMORY_H)
  check_include_files(stddef.h HAVE_STDDEF_H)
  check_include_files(stdint.h HAVE_STDINT_H)
+@@ -88,6 +88,11 @@
+ 
+ configure_file(${CMAKE_SOURCE_DIR}/config.h.cmake ${CMAKE_BINARY_DIR}/config.h)
+ 
++# The bundled gtest has to come before ${SNAPPY_INCLUDE_DIR}: that is
++# ${LOCALBASE}/include, where devel/googletest puts a newer gtest whose
++# headers need C++14 and do not match the bundled gtest-all.cc.  For the
++# same reason it is not also added as a SYSTEM directory, which would move
++# it behind every -I.
+ include_directories(
+     ${GENERATED_JAVAH}
+     ${SRC}/src
+@@ -96,12 +101,10 @@
+     ${SRC}/test
+     ${CMAKE_CURRENT_SOURCE_DIR}
+     ${CMAKE_BINARY_DIR}
++    ${GTEST_SRC_DIR}/include
+     ${JNI_INCLUDE_DIRS}
+     ${SNAPPY_INCLUDE_DIR}
+-    ${GTEST_SRC_DIR}/include
+ )
+-# add gtest as system library to suppress gcc warnings
+-include_directories(SYSTEM ${GTEST_SRC_DIR}/include)
+ 
+ set(CMAKE_MACOSX_RPATH TRUE)
+ set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
