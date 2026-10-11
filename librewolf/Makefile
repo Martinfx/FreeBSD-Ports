@@ -61,6 +61,7 @@ MOZ_OPTIONS=	--enable-application=browser \
 		--disable-updater \
 		--enable-hardening \
 		--enable-optimize \
+		--enable-release \
 		--with-app-name=${MOZILLA} \
 		--with-branding=browser/branding/${MOZILLA} \
 		--with-unsigned-addon-scopes=app,system \
@@ -77,14 +78,6 @@ MOZ_OPTIONS=	--enable-application=browser \
 # is not enabled on i386 by default
 # Fix for error: always_inline function '_mm_setzero_si64' requires target feature 'sse2'
 CFLAGS_i386+=	-msse2
-.endif
-
-.if ${ARCH} == i386
-# --enable-release turns on rust LTO and codegen-units=1 for gkrust, which
-# exhausts the 32-bit address space of rustc
-MOZ_OPTIONS+=	--disable-release
-.else
-MOZ_OPTIONS+=	--enable-release
 .endif
 
 .if ${ARCH} == amd64
