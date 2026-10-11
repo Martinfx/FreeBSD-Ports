@@ -1,0 +1,35 @@
+[
+{ type: install
+  message: <<EOM
+Apache Mahout %%VERSION%% is the Samsara Scala DSL and its Spark bindings.
+The MapReduce engine and the command line drivers of earlier releases
+(kmeans, seqdirectory, spark-itemsimilarity and friends) were removed
+upstream, so "mahout <algorithm>" no longer exists.  Run "mahout help" for
+the commands that do.
+
+The interactive shell needs a Spark 2.4.x installation built for Scala
+2.11:
+
+  export SPARK_HOME=/path/to/spark-2.4.5-bin-hadoop2.7
+  mahout spark-shell
+
+devel/spark in the ports tree is Spark 3.x built for Scala 2.12 and is NOT
+usable here: Mahout %%VERSION%% was only ever published for Scala 2.11, and
+Scala minor releases are not binary compatible.  "mahout spark-shell" tells
+you so instead of failing deep inside the shell.  Fetch a Spark 2.4.x
+binary distribution separately, or use the jars in %%DATADIR%%/lib on a
+Spark 2.4.x cluster of your own.
+
+The jars are equally usable without Spark for in-core linear algebra:
+
+  java -cp "$(mahout classpath)" YourProgram
+
+Mahout %%VERSION%% needs OpenJDK 8; Scala 2.11 does not support JDK 9 or
+newer.
+
+%%ETCDIR%%/log4j.properties is the logging configuration shipped by
+upstream, for a log4j 1.x setup such as Spark's own conf directory.
+Standalone, "mahout classpath" uses slf4j-simple from devel/slf4j.
+EOM
+}
+]

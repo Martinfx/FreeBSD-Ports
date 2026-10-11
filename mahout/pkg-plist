@@ -1,0 +1,14 @@
+bin/mahout
+@sample %%ETCDIR%%/log4j.properties.sample
+%%DATADIR%%/bin/load-shell.scala
+%%DATADIR%%/lib/mahout-core-%%VERSION%%-scala_%%SCALA_VER%%.jar
+%%DATADIR%%/lib/mahout-hdfs-%%VERSION%%.jar
+%%DATADIR%%/lib/mahout-spark-%%VERSION%%-dependency-reduced.jar
+%%DATADIR%%/lib/mahout-spark-%%VERSION%%-scala_%%SCALA_VER%%.jar
+%%PORTDOCS%%%%DOCSDIR%%/NOTICE
+%%PORTEXAMPLES%%%%EXAMPLESDIR%%/SparseSparseDrmTimer.mscala
+%%PORTEXAMPLES%%%%EXAMPLESDIR%%/basicOLS.scala
+%%PORTEXAMPLES%%%%EXAMPLESDIR%%/cco-lastfm.scala
+%%PORTEXAMPLES%%%%EXAMPLESDIR%%/resources/cf-data-purchase.txt
+%%PORTEXAMPLES%%%%EXAMPLESDIR%%/resources/cf-data-view.txt
+%%PORTEXAMPLES%%%%EXAMPLESDIR%%/spark-document-classifier.mscala

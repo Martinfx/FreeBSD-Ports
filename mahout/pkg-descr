@@ -1,0 +1,13 @@
+Apache Mahout is a distributed linear algebra framework.  Its Scala DSL,
+"Samsara", is designed to look like the mathematical notation it implements
+and lets statisticians and data scientists express their own algorithms,
+which Mahout then executes on a distributed back end.
+
+Mahout provides in-core vectors and matrices, distributed row matrices
+(DRMs), decompositions (SSVD, thin QR, eigen-, Cholesky), pre-canned
+algorithms such as naive Bayes and co-occurrence recommenders, and
+automatic optimisation of the algebraic expressions it is given.
+
+This release is used either from its interactive shell or as a library on
+a Spark cluster; the MapReduce algorithms and command line drivers of
+earlier releases have been removed upstream.

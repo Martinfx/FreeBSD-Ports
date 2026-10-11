@@ -1,0 +1,234 @@
+#!/bin/sh
+#
+# Apache Mahout launcher.  Generated from files/mahout.in by the math/mahout
+# port; local changes are lost on upgrade.
+#
+# Environment:
+#   MAHOUT_HOME       installation prefix (default: %%DATADIR%%)
+#   MAHOUT_CONF_DIR   configuration directory (default: %%ETCDIR%%)
+#   MAHOUT_JAVA_HOME  JDK to use, overrides JAVA_HOME
+#   MAHOUT_HEAPSIZE   driver heap in MB (default: Spark's own default)
+#   MAHOUT_OPTS       extra arguments passed to spark-shell/spark-submit
+#   SPARK_HOME        Spark installation, required by spark-shell and
+#                     spark-submit
+#   MAHOUT_SKIP_SPARK_CHECK
+#                     if non-empty, skip the Spark compatibility check
+#
+
+set -u
+
+MAHOUT_VERSION="%%VERSION%%"
+MAHOUT_HOME="${MAHOUT_HOME:-%%DATADIR%%}"
+MAHOUT_CONF_DIR="${MAHOUT_CONF_DIR:-%%ETCDIR%%}"
+
+# The only Spark and Scala binary versions Mahout %%VERSION%% was built for.
+MAHOUT_SPARK_COMPAT="2.4"
+MAHOUT_SCALA_COMPAT="%%SCALA_VER%%"
+
+if [ -n "${MAHOUT_JAVA_HOME:-}" ]; then
+	JAVA_HOME="${MAHOUT_JAVA_HOME}"
+else
+	JAVA_HOME="${JAVA_HOME:-%%JAVA_HOME%%}"
+fi
+export JAVA_HOME
+
+progname="${0##*/}"
+
+err()
+{
+	echo "${progname}: $*" >&2
+}
+
+die()
+{
+	err "$@"
+	exit 1
+}
+
+usage()
+{
+	cat <<USAGE
+Usage: ${progname} <command> [argument ...]
+
+Commands:
+  spark-shell [arg ...]   start the interactive Mahout (Samsara) Scala shell
+  spark-submit [arg ...]  run spark-submit with the Mahout jars attached
+  classpath               print the Mahout classpath
+  version                 print the Mahout version
+  help                    show this message
+
+spark-shell and spark-submit need SPARK_HOME to point at a Spark
+${MAHOUT_SPARK_COMPAT}.x installation built for Scala ${MAHOUT_SCALA_COMPAT}.
+USAGE
+}
+
+# Comma separated list of the Mahout jars, for --jars.
+mahout_jars()
+{
+	_jars=""
+	for _j in "${MAHOUT_HOME}"/lib/*.jar; do
+		[ -f "${_j}" ] || continue
+		if [ -z "${_jars}" ]; then
+			_jars="${_j}"
+		else
+			_jars="${_jars},${_j}"
+		fi
+	done
+	[ -n "${_jars}" ] || die "no Mahout jars found in ${MAHOUT_HOME}/lib"
+	echo "${_jars}"
+}
+
+mahout_classpath()
+{
+	_cp="${MAHOUT_CONF_DIR}"
+	for _j in "${MAHOUT_HOME}"/lib/*.jar; do
+		[ -f "${_j}" ] || continue
+		_cp="${_cp}:${_j}"
+	done
+	if [ -n "${SPARK_HOME:-}" ] && [ -d "${SPARK_HOME}/jars" ]; then
+		# Spark brings its own slf4j and binding along.
+		_cp="${_cp}:${SPARK_HOME}/jars/*"
+	else
+		# The distribution bundles no logging implementation.
+		for _j in %%SLF4J_DIR%%/slf4j-api.jar \
+		    %%SLF4J_DIR%%/slf4j-simple.jar; do
+			if [ -f "${_j}" ]; then
+				_cp="${_cp}:${_j}"
+			fi
+		done
+	fi
+	echo "${_cp}"
+}
+
+# Mahout ${MAHOUT_VERSION} is a Scala 2.11 build.  Scala minor releases are not
+# binary compatible with each other, so running it against the Scala 2.12 or
+# 2.13 jars of a newer Spark fails somewhere inside the shell with a
+# NoSuchMethodError or NoClassDefFoundError.  Say so up front instead.
+check_spark()
+{
+	if [ -z "${SPARK_HOME:-}" ]; then
+		die "SPARK_HOME is not set; it must point at a Spark \
+${MAHOUT_SPARK_COMPAT}.x installation built for Scala ${MAHOUT_SCALA_COMPAT}"
+	fi
+	[ -x "${SPARK_HOME}/bin/spark-shell" ] ||
+		die "no Spark installation under SPARK_HOME (${SPARK_HOME})"
+
+	[ -n "${MAHOUT_SKIP_SPARK_CHECK:-}" ] && return 0
+
+	_core=""
+	for _j in "${SPARK_HOME}"/jars/spark-core_*.jar; do
+		if [ -f "${_j}" ]; then
+			_core="${_j}"
+			break
+		fi
+	done
+	if [ -z "${_core}" ]; then
+		err "cannot determine the Spark version in ${SPARK_HOME}, continuing"
+		return 0
+	fi
+
+	# e.g. spark-core_2.11-2.4.5.jar -> scala 2.11, spark 2.4.5
+	_v="${_core##*/spark-core_}"
+	_v="${_v%.jar}"
+	_scala="${_v%%-*}"
+	_spark="${_v#*-}"
+
+	case "${_scala}-${_spark}" in
+	"${MAHOUT_SCALA_COMPAT}-${MAHOUT_SPARK_COMPAT}" | \
+	"${MAHOUT_SCALA_COMPAT}-${MAHOUT_SPARK_COMPAT}".*)
+		return 0
+		;;
+	esac
+
+	die "incompatible Spark installation in ${SPARK_HOME}
+    found:    Spark ${_spark} for Scala ${_scala}
+    required: Spark ${MAHOUT_SPARK_COMPAT}.x for Scala ${MAHOUT_SCALA_COMPAT}
+Mahout ${MAHOUT_VERSION} was never published for any other Scala or Spark
+version.  Set MAHOUT_SKIP_SPARK_CHECK=1 to try regardless."
+}
+
+cmd_spark_shell()
+{
+	check_spark
+	_jars="$(mahout_jars)" || exit 1
+
+	_stty=""
+	if [ -t 0 ]; then
+		_stty="$(stty -g 2>/dev/null)" || _stty=""
+	fi
+
+	# MAHOUT_HEAPSIZE and MAHOUT_OPTS are split into words on purpose.
+	"${SPARK_HOME}/bin/spark-shell" \
+		--jars "${_jars}" \
+		--conf spark.serializer=org.apache.spark.serializer.KryoSerializer \
+		--conf spark.kryo.registrator=org.apache.mahout.sparkbindings.io.MahoutKryoRegistrator \
+		--conf spark.kryo.referenceTracking=false \
+		--conf spark.kryoserializer.buffer=32k \
+		--conf spark.kryoserializer.buffer.max=600m \
+		${MAHOUT_HEAPSIZE:+--driver-memory ${MAHOUT_HEAPSIZE}m} \
+		${MAHOUT_OPTS:-} \
+		-i "${MAHOUT_HOME}/bin/load-shell.scala" \
+		"$@"
+	_status=$?
+
+	if [ -n "${_stty}" ]; then
+		stty "${_stty}" 2>/dev/null
+	fi
+	exit ${_status}
+}
+
+cmd_spark_submit()
+{
+	check_spark
+	[ -x "${SPARK_HOME}/bin/spark-submit" ] ||
+		die "${SPARK_HOME}/bin/spark-submit is missing or not executable"
+	_jars="$(mahout_jars)" || exit 1
+
+	exec "${SPARK_HOME}/bin/spark-submit" \
+		--jars "${_jars}" \
+		--conf spark.serializer=org.apache.spark.serializer.KryoSerializer \
+		--conf spark.kryo.registrator=org.apache.mahout.sparkbindings.io.MahoutKryoRegistrator \
+		--conf spark.kryo.referenceTracking=false \
+		${MAHOUT_HEAPSIZE:+--driver-memory ${MAHOUT_HEAPSIZE}m} \
+		${MAHOUT_OPTS:-} \
+		"$@"
+}
+
+if [ $# -eq 0 ]; then
+	usage >&2
+	exit 1
+fi
+
+command="$1"
+shift
+
+case "${command}" in
+spark-shell | shell)
+	cmd_spark_shell "$@"
+	;;
+spark-submit)
+	cmd_spark_submit "$@"
+	;;
+classpath)
+	mahout_classpath
+	;;
+version | --version | -v)
+	echo "Apache Mahout ${MAHOUT_VERSION}"
+	;;
+help | --help | -h)
+	usage
+	;;
+*)
+	err "unknown command: ${command}"
+	cat >&2 <<REMOVED
+
+Mahout ${MAHOUT_VERSION} no longer ships the MapReduce engine or the command
+line drivers of earlier releases (kmeans, seqdirectory, spark-itemsimilarity
+and friends); upstream removed them.  What remains is the Samsara Scala DSL,
+used from the interactive shell or as a library on a Spark cluster.
+
+REMOVED
+	usage >&2
+	exit 1
+	;;
+esac
