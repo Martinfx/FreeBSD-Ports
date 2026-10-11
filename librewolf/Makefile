@@ -61,7 +61,6 @@ MOZ_OPTIONS=	--enable-application=browser \
 		--disable-updater \
 		--enable-hardening \
 		--enable-optimize \
-		--enable-release \
 		--with-app-name=${MOZILLA} \
 		--with-branding=browser/branding/${MOZILLA} \
 		--with-unsigned-addon-scopes=app,system \
@@ -74,10 +73,16 @@ MOZ_OPTIONS=	--enable-application=browser \
 
 .include <bsd.port.options.mk>
 
-.if ${ARCH} == i386 && ${MACHINE_CPU:Msse2}
-# is not enabled on i386 by default
+.if ${ARCH} == i386
+# SSE2 is not enabled on i386 by default (MACHINE_CPU is only i486 without
+# CPUTYPE), but gecko requires it.
 # Fix for error: always_inline function '_mm_setzero_si64' requires target feature 'sse2'
 CFLAGS_i386+=	-msse2
+# --enable-release turns on rust LTO and codegen-units=1 for gkrust, which
+# exhausts the 32-bit address space of rustc
+MOZ_OPTIONS+=	--disable-release
+.else
+MOZ_OPTIONS+=	--enable-release
 .endif
 
 .if ${ARCH} == amd64
