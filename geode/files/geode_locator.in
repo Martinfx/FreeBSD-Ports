@@ -1,0 +1,128 @@
+#!/bin/sh
+
+# PROVIDE: geode_locator
+# REQUIRE: LOGIN
+# KEYWORD: shutdown
+#
+# Add the following lines to /etc/rc.conf to run an Apache Geode locator:
+#
+# geode_locator_enable (bool):	Set to "YES" to enable.  Default: "NO"
+# geode_locator_name (str):	Member name, unique within the cluster.
+#				Default: "locator-<short hostname>"
+# geode_locator_dir (path):	Working directory: log, pid, statistics and
+#				cluster configuration files.
+#				Default: "%%GEODE_DBDIR%%/locator"
+# geode_locator_port (int):	Port the locator listens on.  Default: "10334"
+# geode_locator_bind_address (str):
+#				Address the locator binds to.  Default: all
+# geode_locator_properties (path):
+#				gemfire.properties file, used if it exists.
+#				Default: "%%ETCDIR%%/gemfire.properties"
+# geode_locator_security_properties (path):
+#				gfsecurity.properties file, used if it exists.
+#				Default: "%%ETCDIR%%/gfsecurity.properties"
+# geode_locator_heap (str):	Heap size, used for both -Xms and -Xmx,
+#				e.g. "4g".  Default: the JVM's own choice
+# geode_locator_java_opts (str):
+#				Additional JVM options, separated by blanks
+#				and not quoted.  Default: ""
+# geode_locator_args (str):	Additional LocatorLauncher options, e.g.
+#				"--hostname-for-clients=geode.example.org"
+# geode_locator_java_home (path):
+#				JDK to run the locator with.
+#				Default: "%%JAVA_HOME%%"
+# geode_locator_user (str):	User to run the locator as.
+#				Default: "%%GEODE_USER%%"
+# geode_locator_group (str):	Group owning the working directory.
+#				Default: "%%GEODE_GROUP%%"
+
+. /etc/rc.subr
+
+name=geode_locator
+rcvar=geode_locator_enable
+desc="Apache Geode locator"
+
+load_rc_config $name
+
+: ${geode_locator_enable:="NO"}
+: ${geode_locator_name:="locator-$(/bin/hostname -s)"}
+: ${geode_locator_dir:="%%GEODE_DBDIR%%/locator"}
+: ${geode_locator_port:="10334"}
+: ${geode_locator_bind_address:=""}
+: ${geode_locator_properties:="%%ETCDIR%%/gemfire.properties"}
+: ${geode_locator_security_properties:="%%ETCDIR%%/gfsecurity.properties"}
+: ${geode_locator_heap:=""}
+: ${geode_locator_java_opts:=""}
+: ${geode_locator_args:=""}
+: ${geode_locator_java_home:="%%JAVA_HOME%%"}
+: ${geode_locator_user:="%%GEODE_USER%%"}
+: ${geode_locator_group:="%%GEODE_GROUP%%"}
+
+# rc.subr starts daemon(8) as geode_locator_user, so the pid file lives in a
+# directory that user can write to.  It is the supervisor's pid: daemon(8)
+# forwards SIGTERM to the JVM, whose shutdown hook leaves the cluster
+# cleanly.  The locator also keeps its own vf.gf.locator.pid in its working
+# directory, which is what "gfsh status locator --dir=..." reads.
+geode_rundir="/var/run/geode"
+pidfile="${geode_rundir}/${name}.pid"
+command="/usr/sbin/daemon"
+start_precmd="${name}_prestart"
+
+# LocatorLauncher must be started in its working directory.
+geode_locator_chdir="${geode_locator_dir}"
+
+# Lets the HTTP service find the Pulse and REST web applications.
+GEODE_HOME="%%DATADIR%%"
+export GEODE_HOME
+
+geode_locator_prestart()
+{
+	local _cp _jar _opts
+
+	if [ ! -x "${geode_locator_java_home}/bin/java" ]; then
+		warn "no java executable in ${geode_locator_java_home}/bin"
+		return 1
+	fi
+
+	install -d -o "${geode_locator_user}" -g "${geode_locator_group}" -m 755 \
+		"${geode_rundir}" || return 1
+	install -d -o "${geode_locator_user}" -g "${geode_locator_group}" -m 750 \
+		"${geode_locator_dir}" || return 1
+
+	# The classpath and JVM options gfsh uses for the members it starts.
+	_cp="${GEODE_HOME}/lib/geode-core-%%VERSION%%.jar"
+	_cp="${_cp}:${GEODE_HOME}/lib/geode-server-all-%%VERSION%%.jar"
+	for _jar in "${GEODE_HOME}"/extensions/*; do
+		[ -f "${_jar}" ] && _cp="${_cp}:${_jar}"
+	done
+
+	_opts="-server -classpath ${_cp}"
+	_opts="${_opts} --add-exports=java.management/com.sun.jmx.remote.security=ALL-UNNAMED"
+	_opts="${_opts} --add-opens=java.base/java.lang=ALL-UNNAMED"
+	_opts="${_opts} --add-opens=java.base/java.nio=ALL-UNNAMED"
+	_opts="${_opts} -Djava.awt.headless=true"
+	_opts="${_opts} -Dsun.rmi.dgc.server.gcInterval=9223372036854775806"
+	if [ -f "${geode_locator_properties}" ]; then
+		_opts="${_opts} -DgemfirePropertyFile=${geode_locator_properties}"
+	fi
+	if [ -f "${geode_locator_security_properties}" ]; then
+		_opts="${_opts} -DgemfireSecurityPropertyFile=${geode_locator_security_properties}"
+	fi
+	if [ -n "${geode_locator_heap}" ]; then
+		_opts="${_opts} -Xms${geode_locator_heap} -Xmx${geode_locator_heap}"
+	fi
+	_opts="${_opts} ${geode_locator_java_opts}"
+
+	_opts="${_opts} org.apache.geode.distributed.LocatorLauncher start"
+	_opts="${_opts} ${geode_locator_name} --port=${geode_locator_port}"
+	if [ -n "${geode_locator_bind_address}" ]; then
+		_opts="${_opts} --bind-address=${geode_locator_bind_address}"
+	fi
+	_opts="${_opts} ${geode_locator_args}"
+
+	command_args="-f -P ${pidfile} -t ${name}"
+	command_args="${command_args} -o ${geode_locator_dir}/${geode_locator_name}.out"
+	command_args="${command_args} ${geode_locator_java_home}/bin/java ${_opts}"
+}
+
+run_rc_command "$1"
