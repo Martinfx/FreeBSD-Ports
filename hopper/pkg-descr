@@ -1,0 +1,10 @@
+Hopper generates fuzzing test cases for C libraries automatically using
+interpretative fuzzing: it turns library fuzzing into interpreter
+fuzzing, so it explores many API usages without hand-written fuzz
+drivers.
+
+Features:
+- Interpretative API invocation without fuzz drivers
+- Type-aware mutation of arguments
+- Automatic learning of intra- and inter-API constraints
+- Coverage feedback from an LLVM instrumentation pass (hopper-clang)
