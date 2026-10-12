@@ -9,3 +9,8 @@ vivaldi-source/chromium/sandbox/linux/BUILD.gn
 vivaldi-source/chromium/BUILD.gn
 vivaldi-source/chromium/build/config/chrome_build.gni
 vivaldi-source/chromium/chrome/installer/BUILD.gn
+vivaldi-source/chromium/content/browser/zygote_host/zygote_host_impl_linux.*
+vivaldi-source/chromium/content/zygote/*
+vivaldi-source/chromium/content/browser/BUILD.gn
+vivaldi-source/chromium/sandbox/policy/linux/sandbox_linux.*
+vivaldi-source/chromium/sandbox/policy/BUILD.gn
