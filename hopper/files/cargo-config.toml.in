@@ -1,0 +1,9 @@
+# Build fuzzing harnesses offline from the crates vendored by this package.
+[source.crates-io]
+replace-with = "vendored-sources"
+
+[source.vendored-sources]
+directory = "%%DATADIR%%/vendor"
+
+[net]
+offline = true
