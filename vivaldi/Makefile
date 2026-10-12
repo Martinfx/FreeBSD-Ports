@@ -135,7 +135,10 @@ ALL_TARGET=	vivaldi
 BINARY_ALIAS=	python3=${PYTHON_CMD}
 
 # Run "./build/bin/gn args out/${BUILDTYPE} --list" for all variables.
-# The first block matches www/chromium.  Vivaldi patches FFmpeg for the
+# The first block matches www/chromium.  The vivaldi_* ones are those of the
+# args.gn the source tarball comes with, which rungn.py does not read when it
+# is given the arguments; without vivaldi_disable_sparkle the Linux updater
+# would be built.  Vivaldi patches FFmpeg for the
 # proprietary codecs and asserts on ffmpeg_branding == "Chrome", so the
 # codecs cannot be turned off.  The .gn of Vivaldi defaults to a component
 # build, which is not what gets installed.
@@ -178,6 +181,8 @@ GN_ARGS+=	GLOBAL_BUILDNUM="${LINUX_DISTVERSION:E}" \
 		is_official_build=true \
 		symbol_level=0 \
 		target_cpu="x64" \
+		vivaldi_check_translations_list=false \
+		vivaldi_disable_sparkle=true \
 		vivaldi_disable_widevine_verification=true
 
 SUB_FILES=	vivaldi vivaldi.desktop
