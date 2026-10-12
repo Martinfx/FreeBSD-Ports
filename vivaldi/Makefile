@@ -2,10 +2,11 @@ PORTNAME=	vivaldi
 DISTVERSION=	8.2.4133
 CATEGORIES=	www
 MASTER_SITES=	https://source.vivaldi.com/ \
-		${LINUX_BINS_SITE}:linuxbins
+		${LINUX_BINS_SITE}:linuxbins,nodemods
 DISTNAME=	${PORTNAME}-source_${DISTVERSION}
 DISTFILES=	${DISTNAME}${EXTRACT_SUFX} \
-		${LINUX_BINS_DIST}:linuxbins
+		${LINUX_BINS_DIST}:linuxbins \
+		${NODE_MODULES_DIST}:nodemods
 
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Vivaldi web browser based on Chromium
@@ -33,6 +34,12 @@ LINUX_DEB_SITE?=	https://downloads.vivaldi.com/stable/
 LINUX_BINS_DIST=	${PORTNAME}-linux-bins-${LINUX_DISTVERSION}.tar.xz
 LINUX_BINS_SITE?=	https://github.com/Martinfx/FreeBSD-Ports/releases/download/${PORTNAME}-${LINUX_DISTVERSION}/
 LINUX_BINS_WRKSRC=	${WRKDIR}/${PORTNAME}-linux-bins-${LINUX_DISTVERSION}
+
+# The source tarball also comes without chromium/third_party/node/node_modules,
+# which gclient fetches from Google Storage and the WebUI build needs.  The
+# vivaldi-node-modules workflow packs the object chromium/DEPS names below
+# vivaldi-source/, so that it lands in place, and adds it to the same release.
+NODE_MODULES_DIST=	${PORTNAME}-node-modules-${DISTVERSION}.tar.xz
 
 # Vivaldi 8.2 is based on Chromium 152.0.7977.  The FreeBSD patches in files/
 # are the ones of www/chromium 152.0.7977.75 with the paths moved below
