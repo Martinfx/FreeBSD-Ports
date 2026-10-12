@@ -1,0 +1,10 @@
+EffectCraft is an open source motion graphics and visual effects
+compositor, a clean-room reimplementation of the Adobe After Effects
+workflow written in pure Rust by the ArtCraft team.  It has compositions
+with layers, keyframes and a graph editor, masks and shapes, text
+animators, expressions, layer styles, 3D cameras and lights, over 300
+effects and a render queue (H.264, HEVC, AV1, ProRes, WebM and image
+sequences), composited on the GPU through wgpu.
+
+The effectcraft-cli tool renders and runs the same engine commands from
+scripts, and serves them over MCP for agents.
