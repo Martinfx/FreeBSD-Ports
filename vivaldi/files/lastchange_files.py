@@ -46,7 +46,8 @@ def main():
     write(root, 'build/util/LASTCHANGE.committime', str(timestamp))
     for path, define in (('gpu/config/gpu_lists_version.h',
                           'GPU_LISTS_VERSION'),
-                         ('skia/ext/skia_commit_hash.h', 'SKIA_COMMIT_HASH')):
+                         ('skia/ext/skia_commit_hash.h', 'SKIA_COMMIT_HASH'),
+                         ('gpu/webgpu/dawn_commit_hash.h', 'DAWN_COMMIT_HASH')):
         write(root, path, header(path, define, ZERO_REVISION))
     write(root, 'gpu/webgpu/DAWN_VERSION', ZERO_REVISION)
 

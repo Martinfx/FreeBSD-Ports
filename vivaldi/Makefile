@@ -344,6 +344,9 @@ do-configure:
 # and Dawn versions from git; the tarball has none of them.
 	${PYTHON_CMD} ${FILESDIR}/lastchange_files.py ${CHROMIUM_WRKSRC}
 	@${CAT} ${CHROMIUM_WRKSRC}/build/util/LASTCHANGE
+# The load_build_support hook of Vivaldi's DEPS, which writes the files it
+# would otherwise download with their defaults (base/edge_versions.json).
+	cd ${WRKSRC} && ${PYTHON_CMD} scripts/load_net_build_support.py
 
 # rungn.py bootstraps gn from thirdparty/gn (into ${GN}) and generates the
 # ninja files.
