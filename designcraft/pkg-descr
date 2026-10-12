@@ -1,0 +1,9 @@
+DesignCraft is an open source page layout and publishing application, a
+clean-room reimplementation of the Adobe InDesign workflow written in
+pure Rust by the ArtCraft team.  It has spreads and parent pages,
+threaded text frames, paragraph and character styles, swatches, text
+wrap and a Knuth-Plass paragraph composer, imports and exports IDML, and
+exports PNG and PDF (PDF/X-4, PDF/A-2b).
+
+The designcraft-cli tool renders and runs the same engine commands from
+scripts, and serves them over MCP for agents.
