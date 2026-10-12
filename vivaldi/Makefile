@@ -328,37 +328,10 @@ do-configure:
 		generate_location_tags=false
 	@${CAT} ${CHROMIUM_WRKSRC}/build/config/gclient_args.gni
 
-# The lastchange hooks of gclient write these from git, and the tarball has
-# none of them.  They get the zero revision lastchange.py uses outside of
-# git, but LASTCHANGE gets the time chrome/VERSION has in the tarball rather
-# than 0: compute_build_timestamp.py makes the build time of an official
-# build out of it, and the copyright year comes from it as well.
-	@if [ ! -f ${CHROMIUM_WRKSRC}/build/util/LASTCHANGE ]; then \
-		_t=$$(${STAT} -f %m ${CHROMIUM_WRKSRC}/chrome/VERSION); \
-		${PRINTF} 'LASTCHANGE=%s\nLASTCHANGE_YEAR=%s\n' \
-		    0000000000000000000000000000000000000000 \
-		    $$(${DATE} -u -r $${_t} +%Y) \
-		    > ${CHROMIUM_WRKSRC}/build/util/LASTCHANGE; \
-		${ECHO_CMD} $${_t} \
-		    > ${CHROMIUM_WRKSRC}/build/util/LASTCHANGE.committime; \
-	fi
-	@${CAT} ${CHROMIUM_WRKSRC}/build/util/LASTCHANGE \
-		${CHROMIUM_WRKSRC}/build/util/LASTCHANGE.committime
-	@if [ ! -f ${CHROMIUM_WRKSRC}/gpu/config/gpu_lists_version.h ]; then \
-		cd ${CHROMIUM_WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${PYTHON_CMD} \
-		    build/util/lastchange.py -m GPU_LISTS_VERSION \
-		    --revision-id-only --header gpu/config/gpu_lists_version.h; \
-	fi
-	@if [ ! -f ${CHROMIUM_WRKSRC}/skia/ext/skia_commit_hash.h ]; then \
-		cd ${CHROMIUM_WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${PYTHON_CMD} \
-		    build/util/lastchange.py -m SKIA_COMMIT_HASH \
-		    -s third_party/skia --header skia/ext/skia_commit_hash.h; \
-	fi
-	@if [ ! -f ${CHROMIUM_WRKSRC}/gpu/webgpu/DAWN_VERSION ]; then \
-		cd ${CHROMIUM_WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${PYTHON_CMD} \
-		    build/util/lastchange.py -s third_party/dawn \
-		    --revision gpu/webgpu/DAWN_VERSION; \
-	fi
+# The lastchange hooks of gclient write LASTCHANGE and the GPU lists, Skia
+# and Dawn versions from git; the tarball has none of them.
+	${PYTHON_CMD} ${FILESDIR}/lastchange_files.py ${CHROMIUM_WRKSRC}
+	@${CAT} ${CHROMIUM_WRKSRC}/build/util/LASTCHANGE
 
 # rungn.py bootstraps gn from thirdparty/gn (into ${GN}) and generates the
 # ninja files.
