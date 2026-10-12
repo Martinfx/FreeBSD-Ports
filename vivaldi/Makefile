@@ -301,6 +301,8 @@ do-configure:
 		${RM} -r ${CHROMIUM_WRKSRC}/third_party/devtools-frontend/src/node_modules/esbuild && \
 		${LN} -sf ${WRKSRC}/esbuild/npm/esbuild \
 		${CHROMIUM_WRKSRC}/third_party/devtools-frontend/src/node_modules/esbuild)
+# The Vivaldi tarball has no devtools-frontend/src/third_party/esbuild at all
+	@${MKDIR} ${CHROMIUM_WRKSRC}/third_party/devtools-frontend/src/third_party/esbuild
 	${LN} -sf ${LOCALBASE}/bin/esbuild \
 		${CHROMIUM_WRKSRC}/third_party/devtools-frontend/src/third_party/esbuild/esbuild
 
@@ -387,7 +389,7 @@ do-install:
 	fi
 	${INSTALL_SCRIPT} ${CHROMIUM_WRKSRC}/chrome/tools/build/linux/chrome-wrapper \
 		${STAGEDIR}${DATADIR}
-.for s in 16 22 24 32 48 64 128 256
+.for s in 16 24 32 48 64 128 256
 	@${MKDIR} ${STAGEDIR}${PREFIX}/share/icons/hicolor/${s}x${s}/apps
 	${INSTALL_DATA} ${LINUX_BINS_WRKSRC}/product_logo_${s}.png \
 		${STAGEDIR}${PREFIX}/share/icons/hicolor/${s}x${s}/apps/vivaldi.png

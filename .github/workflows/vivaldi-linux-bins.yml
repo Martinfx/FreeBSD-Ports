@@ -96,6 +96,17 @@ jobs:
             $S "$(sha256sum work/$S | cut -d' ' -f1)" \
             $S "$(stat -c %s work/$S)" > out/$S.distinfo
           cat out/$S.distinfo
+          # the layout the port relies on (WRKSRC, gn, devtools node_modules)
+          tar -tJf work/$S > work/source-list
+          echo "top level:"; cut -d/ -f1 work/source-list | sort -u
+          for f in scripts/rungn.py thirdparty/gn/build/gen.py \
+              chromium/tools/gn/bootstrap/bootstrap.py \
+              chromium/build/util/LASTCHANGE chromium/chrome/VERSION \
+              chromium/third_party/devtools-frontend/src/node_modules/@rollup/ \
+              chromium/third_party/devtools-frontend/src/third_party/esbuild/; do
+            if grep -q "^[^/]*/$f" work/source-list; then
+              echo "present: $f"; else echo "MISSING: $f"; fi
+          done
           rm work/$S
 
       - name: Upload to the vivaldi-${{ env.LINUX_VERSION }} release
