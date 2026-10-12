@@ -1,0 +1,10 @@
+LightCraft is an open source photo library and raw developer, a
+clean-room reimplementation of the Adobe Lightroom workflow written in
+pure Rust by the ArtCraft team.  It imports, rates, keywords and
+organizes photos, and develops raw files non-destructively with
+exposure, tone curves, color grading, local masks and presets, processed
+on the GPU through wgpu.  Denoising, face recognition and AI masks use
+models that are downloaded on request.
+
+The lightcraft-cli tool renders and runs the same engine commands from
+scripts, and serves them over MCP for agents.
