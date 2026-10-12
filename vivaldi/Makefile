@@ -168,7 +168,6 @@ GN_ARGS+=	clang_use_chrome_plugins=false \
 		use_partition_alloc=true \
 		use_partition_alloc_as_malloc=false \
 		use_qt5=false \
-		use_qt6=false \
 		use_sysroot=false \
 		use_system_freetype=false \
 		use_system_harfbuzz=true \
@@ -195,11 +194,13 @@ GN_ARGS+=	GLOBAL_BUILDNUM="${LINUX_DISTVERSION:E}" \
 SUB_FILES=	vivaldi vivaldi.desktop
 SUB_LIST+=	COMMENT="${COMMENT}"
 
-OPTIONS_DEFINE=		CUPS KERBEROS LTO PIPEWIRE WIDEVINE
-OPTIONS_DEFAULT=	ALSA CUPS KERBEROS PIPEWIRE PULSEAUDIO SNDIO
+OPTIONS_DEFINE=		CUPS KERBEROS LTO PIPEWIRE QT6 WIDEVINE
+OPTIONS_DEFAULT=	ALSA CUPS KERBEROS PIPEWIRE PULSEAUDIO QT6 SNDIO
+OPTIONS_SUB=		yes
 OPTIONS_GROUP=		AUDIO
 OPTIONS_GROUP_AUDIO=	ALSA PULSEAUDIO SNDIO
 PIPEWIRE_DESC=		Screen capture via PipeWire
+QT6_DESC=		Qt 6 integration (file dialogs, theme)
 WIDEVINE_DESC=		Depend on foreign-cdm to enable playback of DRM content
 
 ALSA_LIB_DEPENDS=	libasound.so:audio/alsa-lib
@@ -226,6 +227,18 @@ PIPEWIRE_VARS=		GN_ARGS+=rtc_link_pipewire=true \
 			GN_ARGS+=rtc_use_pipewire=true
 PIPEWIRE_VARS_OFF=	GN_ARGS+=rtc_link_pipewire=false \
 			GN_ARGS+=rtc_use_pipewire=false
+
+# Qt integration: libqt6_shim.so, which the browser dlopen()s from beside its
+# own binary (DIR_MODULE, see ui/qt/qt_ui.cc) when the Qt toolkit is picked.
+# Chromium runs moc itself, and without a path it looks the tool up in PATH,
+# where Qt 6 does not put it: moc lives in QT_TOOLDIR (libexec/qt6).  The
+# FreeBSD patch to ui/qt/moc_wrapper.py takes the path to the binary itself,
+# not to its directory.  Same as www/brave.
+QT6_USES=		qt:6
+QT6_USE=		QT=base
+QT6_VARS=		GN_ARGS+=use_qt6=true \
+			GN_ARGS+=moc_qt6_path="${QT_TOOLDIR}/moc"
+QT6_VARS_OFF=		GN_ARGS+=use_qt6=false
 
 PULSEAUDIO_LIB_DEPENDS=	libpulse.so:audio/pulseaudio
 PULSEAUDIO_VARS=	GN_ARGS+=use_pulseaudio=true
@@ -429,5 +442,9 @@ do-install:
 	${INSTALL_SCRIPT} ${WRKDIR}/vivaldi ${STAGEDIR}${PREFIX}/bin
 	@${MKDIR} ${STAGEDIR}${DESKTOPDIR}
 	${INSTALL_DATA} ${WRKDIR}/vivaldi.desktop ${STAGEDIR}${DESKTOPDIR}
+
+post-install-QT6-on:
+	${INSTALL_LIB} ${WRKSRC}/out/${BUILDTYPE}/libqt6_shim.so \
+		${STAGEDIR}${DATADIR}
 
 .include <bsd.port.post.mk>
