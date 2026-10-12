@@ -1,0 +1,10 @@
+PdfCraft is an open source PDF workbench, a clean-room reimplementation of
+the Adobe Acrobat workflow written in pure Rust by the ArtCraft team.  It
+reads and renders PDFs, adds threaded comments and markup, fills in and
+creates forms, signs and verifies documents, organizes, combines, splits
+and edits pages, redacts content, protects files with passwords and
+permissions, recognizes text in scanned pages (OCR) and exports PDFs to
+other formats.
+
+The pdfcraft-cli tool inspects, renders and checks PDFs from scripts and
+runs the same engine commands, optionally as an MCP server for agents.
