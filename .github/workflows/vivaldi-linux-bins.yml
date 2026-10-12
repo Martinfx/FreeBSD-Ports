@@ -102,9 +102,14 @@ jobs:
           for f in scripts/rungn.py thirdparty/gn/build/gen.py \
               chromium/tools/gn/bootstrap/bootstrap.py \
               chromium/build/util/LASTCHANGE chromium/chrome/VERSION \
+              chromium/build/util/LASTCHANGE.committime \
+              chromium/build/config/gclient_args.gni \
+              chromium/gpu/config/gpu_lists_version.h \
+              chromium/skia/ext/skia_commit_hash.h \
+              chromium/gpu/webgpu/DAWN_VERSION \
               chromium/third_party/devtools-frontend/src/node_modules/@rollup/ \
               chromium/third_party/devtools-frontend/src/third_party/esbuild/; do
-            if grep -q "^[^/]*/$f" work/source-list; then
+            if grep -qxF "vivaldi-source/$f" work/source-list; then
               echo "present: $f"; else echo "MISSING: $f"; fi
           done
           rm work/$S
