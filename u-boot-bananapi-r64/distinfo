@@ -1,0 +1,5 @@
+TIMESTAMP = 1791796344
+SHA256 (u-boot/u-boot-2026.07.tar.bz2) = 78e8bfc382fe388f9b55aa1daf8c563522a037779b5d4c349d1415e381f1243e
+SIZE (u-boot/u-boot-2026.07.tar.bz2) = 35029463
+SHA256 (u-boot/mtk-openwrt-arm-trusted-firmware-476cf6629f7675c9857b59458851dda64de88343_GH0.tar.gz) = 96979e3df3d25f5346ad377132416a892ffd4a124f3423850e5475c7776da874
+SIZE (u-boot/mtk-openwrt-arm-trusted-firmware-476cf6629f7675c9857b59458851dda64de88343_GH0.tar.gz) = 19387170
