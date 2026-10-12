@@ -6,3 +6,6 @@ vivaldi-source/chromium/chrome/BUILD.gn
 vivaldi-source/chromium/build/config/BUILDCONFIG.gn
 vivaldi-source/chromium/build/util/lastchange.py
 vivaldi-source/chromium/sandbox/linux/BUILD.gn
+vivaldi-source/chromium/BUILD.gn
+vivaldi-source/chromium/build/config/chrome_build.gni
+vivaldi-source/chromium/chrome/installer/BUILD.gn

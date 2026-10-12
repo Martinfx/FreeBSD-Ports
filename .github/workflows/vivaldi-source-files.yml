@@ -48,13 +48,14 @@ jobs:
           set -e
           W=/mnt/w/files
           mkdir -p $W
-          tar -tJf "$SOURCE" | gzip -9 > $W/file-list.txt.gz
+          tar -tJf "$SOURCE" | gzip -9 > /mnt/w/file-list.txt.gz
           tar -xJf "$SOURCE" -C $W \
             --exclude='vivaldi-source/chromium/*' \
             --exclude='vivaldi-source/thirdparty/*'
           grep -v '^#' .github/vivaldi-source-files.txt | grep . > /mnt/w/wanted
           tar -xJf "$SOURCE" -C $W --wildcards -T /mnt/w/wanted
           find $W -type f -size +1M -print -delete
+          cp /mnt/w/file-list.txt.gz $W/
           du -sh $W
 
       - name: Push to the vivaldi-source-files branch
