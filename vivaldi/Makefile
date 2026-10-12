@@ -246,8 +246,11 @@ FFMPEG_CDIR=	${CHROMIUM_WRKSRC}/third_party/ffmpeg/chromium/config/Chrome/freebs
 # scripts/rungn.py builds gn from thirdparty/gn and keeps it here.
 GN=		${WRKSRC}/build/bin/gn
 
+# The work directory may be inside a git checkout (of the ports tree), which
+# the version scripts of the build must not take for the Chromium one.
 MAKE_ENV+=	C_INCLUDE_PATH=${LOCALBASE}/include \
 		CPLUS_INCLUDE_PATH=${LOCALBASE}/include \
+		GIT_CEILING_DIRECTORIES=${WRKDIR} \
 		GOCACHE=${WRKDIR}/go-cache \
 		RUSTC_BOOTSTRAP=1
 CONFIGURE_ENV+=	${MAKE_ENV}
@@ -323,6 +326,30 @@ do-configure:
 		${CHROMIUM_WRKSRC}/build/config/gclient_args.gni \
 		generate_location_tags=false
 	@${CAT} ${CHROMIUM_WRKSRC}/build/config/gclient_args.gni
+
+# The lastchange hooks of gclient write these from git.  The tarball has
+# LASTCHANGE but not its commit time, which is taken from when LASTCHANGE was
+# written; whatever else is missing gets the zero revision lastchange.py
+# uses outside of git.
+	@if [ ! -f ${CHROMIUM_WRKSRC}/build/util/LASTCHANGE.committime ]; then \
+		${STAT} -f %m ${CHROMIUM_WRKSRC}/build/util/LASTCHANGE \
+		    > ${CHROMIUM_WRKSRC}/build/util/LASTCHANGE.committime; \
+	fi
+	@if [ ! -f ${CHROMIUM_WRKSRC}/gpu/config/gpu_lists_version.h ]; then \
+		cd ${CHROMIUM_WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${PYTHON_CMD} \
+		    build/util/lastchange.py -m GPU_LISTS_VERSION \
+		    --revision-id-only --header gpu/config/gpu_lists_version.h; \
+	fi
+	@if [ ! -f ${CHROMIUM_WRKSRC}/skia/ext/skia_commit_hash.h ]; then \
+		cd ${CHROMIUM_WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${PYTHON_CMD} \
+		    build/util/lastchange.py -m SKIA_COMMIT_HASH \
+		    -s third_party/skia --header skia/ext/skia_commit_hash.h; \
+	fi
+	@if [ ! -f ${CHROMIUM_WRKSRC}/gpu/webgpu/DAWN_VERSION ]; then \
+		cd ${CHROMIUM_WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${PYTHON_CMD} \
+		    build/util/lastchange.py -s third_party/dawn \
+		    --revision gpu/webgpu/DAWN_VERSION; \
+	fi
 
 # rungn.py bootstraps gn from thirdparty/gn (into ${GN}) and generates the
 # ninja files.
