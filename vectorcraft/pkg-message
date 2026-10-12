@@ -1,0 +1,16 @@
+[
+{ type: install
+  message: <<EOM
+VectorCraft opens and saves files through the XDG desktop portal, which
+needs a D-Bus session bus.  If your desktop does not start one, run
+VectorCraft under one, for example with
+
+  dbus-run-session vectorcraft
+
+VectorCraft renders with Vulkan when a Vulkan driver is installed and
+falls back to OpenGL ES (EGL) otherwise.
+
+Printing goes through CUPS (lp and lpstat): install print/cups to print.
+EOM
+}
+]
