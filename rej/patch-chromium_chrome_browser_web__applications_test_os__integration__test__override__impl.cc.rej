@@ -1,0 +1,11 @@
+--- chromium/chrome/browser/web_applications/test/os_integration_test_override_impl.cc.orig	2026-08-12 09:02:10 UTC
++++ chromium/chrome/browser/web_applications/test/os_integration_test_override_impl.cc
+@@ -544,7 +544,7 @@ base::FilePath OsIntegrationTestOverrideImpl::GetShort
+       return bundle.bundle_path();
+     }
+   }
+-#elif BUILDFLAG(IS_LINUX)
++#elif BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_BSD)
+   std::string shortcut_filename =
+       "chrome-" + app_id + "-" + profile->GetBaseName().value() + ".desktop";
+   base::i18n::ReplaceIllegalCharactersInPath(&shortcut_filename, '_');

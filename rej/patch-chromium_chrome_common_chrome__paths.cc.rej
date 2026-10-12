@@ -1,0 +1,18 @@
+--- chromium/chrome/common/chrome_paths.cc.orig	2026-08-12 09:02:10 UTC
++++ chromium/chrome/common/chrome_paths.cc
+@@ -405,13 +405,13 @@ bool PathProvider(int key, base::FilePath* result) {
+       break;
+     }
+ #endif
+-#if BUILDFLAG(IS_POSIX) && !BUILDFLAG(IS_MAC) && !BUILDFLAG(IS_OPENBSD)
++#if BUILDFLAG(IS_POSIX) && !BUILDFLAG(IS_MAC)
+     case chrome::DIR_POLICY_FILES: {
+       cur = base::FilePath(policy::kPolicyPath);
+       break;
+     }
+ #endif
+-#if BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_MAC) || \
++#if BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_BSD) || \
+     (BUILDFLAG(IS_LINUX) && BUILDFLAG(CHROMIUM_BRANDING))
+     case chrome::DIR_USER_EXTERNAL_EXTENSIONS: {
+       if (!base::PathService::Get(chrome::DIR_USER_DATA, &cur)) {

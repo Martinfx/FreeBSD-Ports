@@ -1,0 +1,7 @@
+chromium/rollup/rust/bindings_napi/Cargo.toml
+chromium/rollup/rust/bindings_napi/src/lib.rs
+chromium/tools/gn/build/build_linux.ninja.template
+chromium/tools/gn/build/gen.py
+chromium/tools/gn/src/base/files/file_posix.cc
+chromium/tools/gn/src/gn/version.h
+chromium/tools/gn/src/util/exe_path.cc

@@ -1,0 +1,11 @@
+--- chromium/ui/base/accelerators/global_accelerator_listener/global_accelerator_listener_ozone.cc.orig	2026-06-04 10:12:25 UTC
++++ chromium/ui/base/accelerators/global_accelerator_listener/global_accelerator_listener_ozone.cc
+@@ -24,7 +24,7 @@
+ using content::BrowserThread;
+ 
+ namespace {
+-#if BUILDFLAG(IS_LINUX) && BUILDFLAG(USE_DBUS)
++#if (BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_BSD)) && BUILDFLAG(USE_DBUS)
+ BASE_FEATURE(kGlobalShortcutsPortal, base::FEATURE_ENABLED_BY_DEFAULT);
+ 
+ constexpr char kSessionSuffix[] = "_global_shortcuts";

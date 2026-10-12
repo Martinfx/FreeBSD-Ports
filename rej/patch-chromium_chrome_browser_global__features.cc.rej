@@ -1,0 +1,11 @@
+--- chromium/chrome/browser/global_features.cc.orig	2026-08-31 10:59:09 UTC
++++ chromium/chrome/browser/global_features.cc
+@@ -281,7 +281,7 @@ void GlobalFeatures::PostMainMessageLoopRun() {
+ 
+   glass_frame_service_.reset();
+ 
+-#if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX)
++#if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_BSD)
+   DefaultBrowserPromptManager::GetInstance()->CloseAllPrompts(
+       DefaultBrowserPromptManager::CloseReason::kDismiss);
+ #endif
