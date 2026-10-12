@@ -1,0 +1,127 @@
+# Apply the FreeBSD patches of www/vivaldi to the Vivaldi source tarball the
+# way the patch phase does, but go on after a failure, so that all the patches
+# that no longer apply show up at once.  Vivaldi changes a good deal of
+# Chromium, so the www/chromium patches the port carries need rewriting where
+# they touch the same lines.
+#
+# When patches fail, the pristine files they are for and the rejected hunks
+# are pushed to the vivaldi-patch-work branch (orig/, rej/, failed.txt), so
+# that the patches can be rewritten against the Vivaldi tree without fetching
+# the whole tarball.
+name: vivaldi patch check
+
+on:
+  push:
+    branches:
+      - max-vivaldi
+    paths:
+      - '.github/workflows/vivaldi-patch-check.yml'
+      - 'vivaldi/files/patch-*'
+  workflow_dispatch:
+
+concurrency:
+  group: vivaldi-patch-check-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  patch-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch the source tarball
+        run: |
+          set -e
+          V=$(awk '$1 == "DISTVERSION=" { print $2 }' vivaldi/Makefile)
+          S=vivaldi-source_$V.tar.xz
+          echo "VIVALDI_VERSION=$V" >> "$GITHUB_ENV"
+          sudo mkdir -p /mnt/w
+          sudo chown "$(id -u):$(id -g)" /mnt/w
+          curl -fsSL --retry 3 -o /mnt/w/$S "https://source.vivaldi.com/$S"
+          want=$(awk -v f="($S)" '$1 == "SHA256" && $2 == f { print $4 }' vivaldi/distinfo)
+          got=$(sha256sum /mnt/w/$S | cut -d' ' -f1)
+          echo "$S sha256 $got (distinfo $want)"
+          [ "$got" = "$want" ]
+          echo "SOURCE=/mnt/w/$S" >> "$GITHUB_ENV"
+
+      - name: Extract the patched files
+        run: |
+          set -e
+          cd vivaldi/files
+          # every file a patch touches, below the vivaldi-source/ top directory
+          for p in patch-*; do
+            awk '/^\+\+\+ / { sub(/\t.*/, "", $2); print "vivaldi-source/" $2 }' "$p"
+          done | sort -u > /mnt/w/members
+          wc -l < /mnt/w/members
+          mkdir -p /mnt/w/orig
+          # files the patches create are not in the tarball, which is fine
+          tar -xJf "$SOURCE" -C /mnt/w/orig -T /mnt/w/members 2> /mnt/w/tar.err || true
+          grep -v 'Not found in archive\|Exiting with failure' /mnt/w/tar.err || true
+          cp -a /mnt/w/orig/vivaldi-source /mnt/w/src
+
+      - name: Apply the patches
+        run: |
+          cd /mnt/w/src
+          : > /mnt/w/failed.txt
+          ok=0
+          for p in $(cd $GITHUB_WORKSPACE/vivaldi/files && LC_ALL=C ls patch-*); do
+            if patch -s -E -p0 -V none --forward --batch --no-backup-if-mismatch \
+                -r /mnt/w/rej.tmp -i $GITHUB_WORKSPACE/vivaldi/files/$p \
+                < /dev/null > /mnt/w/out.tmp 2>&1; then
+              ok=$((ok + 1))
+            else
+              echo "$p" >> /mnt/w/failed.txt
+              echo "=== $p"; cat /mnt/w/out.tmp
+              mkdir -p /mnt/w/rej
+              [ -s /mnt/w/rej.tmp ] && cp /mnt/w/rej.tmp /mnt/w/rej/$p.rej
+            fi
+            rm -f /mnt/w/rej.tmp
+          done
+          n=$(wc -l < /mnt/w/failed.txt)
+          echo "$ok patches applied, $n failed"
+          echo "FAILED=$n" >> "$GITHUB_ENV"
+          {
+            echo "$ok patches applied, $n failed"
+            echo '```'
+            cat /mnt/w/failed.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Push the files of the failed patches
+        if: env.FAILED != '0'
+        run: |
+          set -e
+          W=/mnt/w/work
+          git init -q $W
+          cd $W
+          cp /mnt/w/failed.txt .
+          cp -a /mnt/w/rej .
+          for p in $(cat failed.txt); do
+            awk '/^\+\+\+ / { sub(/\t.*/, "", $2); print $2 }' \
+              $GITHUB_WORKSPACE/vivaldi/files/$p
+          done | sort -u | while read f; do
+            if [ -f /mnt/w/orig/vivaldi-source/$f ]; then
+              mkdir -p orig/$(dirname $f)
+              cp /mnt/w/orig/vivaldi-source/$f orig/$f
+            else
+              echo "$f" >> missing.txt
+            fi
+          done
+          printf 'Vivaldi %s files the www/vivaldi patches in failed.txt are for.\n' \
+            "$VIVALDI_VERSION" > README
+          git add -A
+          git -c user.name='github-actions[bot]' \
+            -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+            commit -q -m "vivaldi $VIVALDI_VERSION: files of the failed patches ($GITHUB_SHA)"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" \
+            HEAD:refs/heads/vivaldi-patch-work
+          echo "pushed to vivaldi-patch-work"
+
+      - name: Result
+        run: |
+          cat /mnt/w/failed.txt
+          [ "$FAILED" = 0 ]
