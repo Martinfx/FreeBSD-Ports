@@ -15,10 +15,10 @@
  namespace {
 -#if BUILDFLAG(IS_LINUX) && BUILDFLAG(USE_DBUS)
 +#if (BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_BSD)) && BUILDFLAG(USE_DBUS)
- BASE_FEATURE(kGlobalShortcutsPortal, base::FEATURE_ENABLED_BY_DEFAULT);
+ BASE_FEATURE(kGlobalShortcutsPortal, base::FEATURE_DISABLED_BY_DEFAULT); // Vivaldi
  
  constexpr char kSessionSuffix[] = "_global_shortcuts";
-@@ -49,7 +49,7 @@ GlobalAcceleratorListener* GlobalAcceleratorListener::
+@@ -49,7 +49,7 @@ GlobalAcceleratorListener* GlobalAcceler
      return instance->get();
    }
  

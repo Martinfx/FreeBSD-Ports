@@ -9,16 +9,16 @@
  #include "chrome/browser/ui/browser_window/public/browser_window_features.h"
  #include "chrome/browser/ui/browser_window/public/browser_window_interface.h"
  #include "chrome/browser/ui/browser_window/public/profile_browser_collection.h"
-@@ -74,7 +74,7 @@ void SafeBrowsingPrefChangeHandler::
+@@ -76,7 +76,7 @@ void SafeBrowsingPrefChangeHandler::
      MaybeShowEnhancedProtectionSettingChangeNotification(
          content::WebContents* web_contents) {
  #if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_WIN) || \
 -    BUILDFLAG(IS_MAC)
 +    BUILDFLAG(IS_MAC) || BUILDFLAG(IS_BSD)
-   if (!profile_ ||
+   if (!profile_ || vivaldi::IsVivaldiRunning() ||
        !base::FeatureList::IsEnabled(safe_browsing::kEsbAsASyncedSetting)) {
      return;
-@@ -260,7 +260,7 @@ void SafeBrowsingPrefChangeHandler::
+@@ -262,7 +262,7 @@ void SafeBrowsingPrefChangeHandler::
  }
  
  #if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_WIN) || \

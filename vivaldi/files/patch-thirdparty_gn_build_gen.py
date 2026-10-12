@@ -1,5 +1,5 @@
---- chromium/tools/gn/build/gen.py.orig	2026-08-12 09:02:10 UTC
-+++ chromium/tools/gn/build/gen.py
+--- thirdparty/gn/build/gen.py.orig	2026-08-12 09:02:10 UTC
++++ thirdparty/gn/build/gen.py
 @@ -90,6 +90,12 @@ class Platform(object):
    def is_solaris(self):
      return self._platform == 'solaris'

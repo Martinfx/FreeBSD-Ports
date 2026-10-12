@@ -9,7 +9,7 @@
  #include "components/policy/core/common/policy_paths.h"
  #endif
  
-@@ -47,14 +47,14 @@ namespace {
+@@ -52,14 +52,14 @@ namespace {
  
  std::optional<bool> g_override_using_default_data_directory_for_testing;
  
@@ -27,7 +27,7 @@
  #endif  // BUILDFLAG(GOOGLE_CHROME_BRANDING)
  
  #endif  // BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS)
-@@ -175,7 +175,7 @@ bool PathProvider(int key, base::FilePath* result) {
+@@ -180,7 +180,7 @@ bool PathProvider(int key, base::FilePat
        }
        break;
      case chrome::DIR_DEFAULT_DOWNLOADS_SAFE:
@@ -36,14 +36,16 @@
        if (!GetUserDownloadsDirectorySafe(&cur)) {
          return false;
        }
-@@ -405,13 +405,13 @@ bool PathProvider(int key, base::FilePath* result) {
+@@ -410,7 +410,7 @@ bool PathProvider(int key, base::FilePat
        break;
      }
  #endif
 -#if BUILDFLAG(IS_POSIX) && !BUILDFLAG(IS_MAC) && !BUILDFLAG(IS_OPENBSD)
 +#if BUILDFLAG(IS_POSIX) && !BUILDFLAG(IS_MAC)
      case chrome::DIR_POLICY_FILES: {
-       cur = base::FilePath(policy::kPolicyPath);
+ #if defined(OS_LINUX)
+       if (vivaldi::sandbox::FlatpakSandbox::GetInstance()->GetSandboxLevel() >
+@@ -424,7 +424,7 @@ bool PathProvider(int key, base::FilePat
        break;
      }
  #endif
@@ -52,16 +54,16 @@
      (BUILDFLAG(IS_LINUX) && BUILDFLAG(CHROMIUM_BRANDING))
      case chrome::DIR_USER_EXTERNAL_EXTENSIONS: {
        if (!base::PathService::Get(chrome::DIR_USER_DATA, &cur)) {
-@@ -421,7 +421,7 @@ bool PathProvider(int key, base::FilePath* result) {
+@@ -434,7 +434,7 @@ bool PathProvider(int key, base::FilePat
        break;
      }
  #endif
 -#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS)
 +#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_BSD)
      case chrome::DIR_STANDALONE_EXTERNAL_EXTENSIONS: {
-       cur = base::FilePath(kFilepathSinglePrefExtensions);
-       break;
-@@ -448,7 +448,7 @@ bool PathProvider(int key, base::FilePath* result) {
+       if (vivaldi::sandbox::FlatpakSandbox::GetInstance()->GetSandboxLevel() >
+           vivaldi::sandbox::FlatpakSandbox::SandboxLevel::kNone) {
+@@ -467,7 +467,7 @@ bool PathProvider(int key, base::FilePat
  
  #if BUILDFLAG(ENABLE_EXTENSIONS_CORE) &&                                   \
      (BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_MAC) || \
@@ -70,7 +72,7 @@
      case chrome::DIR_NATIVE_MESSAGING:
  #if BUILDFLAG(IS_MAC)
  #if BUILDFLAG(GOOGLE_CHROME_BRANDING)
-@@ -465,6 +465,9 @@ bool PathProvider(int key, base::FilePath* result) {
+@@ -490,6 +490,9 @@ bool PathProvider(int key, base::FilePat
  #if BUILDFLAG(GOOGLE_CHROME_BRANDING)
        cur = base::FilePath(
            FILE_PATH_LITERAL("/etc/opt/chrome/native-messaging-hosts"));

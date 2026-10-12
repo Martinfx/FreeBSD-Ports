@@ -1,5 +1,5 @@
---- chromium/rollup/rust/bindings_napi/Cargo.toml.orig	2026-07-01 06:24:19 UTC
-+++ chromium/rollup/rust/bindings_napi/Cargo.toml
+--- rollup/rust/bindings_napi/Cargo.toml.orig	2026-07-01 06:24:19 UTC
++++ rollup/rust/bindings_napi/Cargo.toml
 @@ -15,7 +15,7 @@ napi-derive = "3.5.5"
  parse_ast = { path = "../parse_ast" }
  xxhash = { path = "../xxhash" }

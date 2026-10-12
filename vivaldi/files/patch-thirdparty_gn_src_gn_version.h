@@ -1,5 +1,5 @@
---- chromium/tools/gn/src/gn/version.h.orig	2021-09-14 02:05:25 UTC
-+++ chromium/tools/gn/src/gn/version.h
+--- thirdparty/gn/src/gn/version.h.orig	2021-09-14 02:05:25 UTC
++++ thirdparty/gn/src/gn/version.h
 @@ -22,9 +22,9 @@ class Version {
  
    static std::optional<Version> FromString(std::string s);

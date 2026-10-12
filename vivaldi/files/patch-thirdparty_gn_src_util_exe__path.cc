@@ -1,5 +1,5 @@
---- chromium/tools/gn/src/util/exe_path.cc.orig	2022-02-07 13:39:41 UTC
-+++ chromium/tools/gn/src/util/exe_path.cc
+--- thirdparty/gn/src/util/exe_path.cc.orig	2022-02-07 13:39:41 UTC
++++ thirdparty/gn/src/util/exe_path.cc
 @@ -15,7 +15,7 @@
  #include <windows.h>
  

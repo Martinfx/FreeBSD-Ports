@@ -61,6 +61,13 @@ jobs:
           # files the patches create are not in the tarball, which is fine
           tar -xJf "$SOURCE" -C /mnt/w/orig -T /mnt/w/members 2> /mnt/w/tar.err || true
           grep -v 'Not found in archive\|Exiting with failure' /mnt/w/tar.err || true
+          # rollup comes from GH_TUPLE and is unpacked to ${WRKSRC}/rollup
+          R=$(sed -n 's/.*rollup:rollup:\([^:]*\):rollup\/rollup.*/\1/p' \
+            $GITHUB_WORKSPACE/vivaldi/Makefile)
+          echo "rollup $R"
+          mkdir -p /mnt/w/orig/vivaldi-source/rollup
+          curl -fsSL "https://codeload.github.com/rollup/rollup/tar.gz/$R" | \
+            tar -xz -C /mnt/w/orig/vivaldi-source/rollup --strip-components 1
           cp -a /mnt/w/orig/vivaldi-source /mnt/w/src
 
       - name: Apply the patches

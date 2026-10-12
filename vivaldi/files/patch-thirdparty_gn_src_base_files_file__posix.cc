@@ -1,5 +1,5 @@
---- chromium/tools/gn/src/base/files/file_posix.cc.orig	2024-10-22 08:31:56 UTC
-+++ chromium/tools/gn/src/base/files/file_posix.cc
+--- thirdparty/gn/src/base/files/file_posix.cc.orig	2024-10-22 08:31:56 UTC
++++ thirdparty/gn/src/base/files/file_posix.cc
 @@ -359,7 +359,7 @@ void File::DoInitialize(const FilePath& path, uint32_t
  bool File::Flush() {
    DCHECK(IsValid());
