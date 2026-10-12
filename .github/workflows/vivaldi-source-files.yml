@@ -1,0 +1,72 @@
+# Push Vivaldi's own sources from the source tarball of www/vivaldi (all but
+# chromium/ and thirdparty/, without files over 1 MB), the Chromium files
+# listed in .github/vivaldi-source-files.txt and a list of everything in the
+# tarball to the vivaldi-source-files branch, so that patches for the Vivaldi
+# tree can be written without fetching the whole tarball.
+name: vivaldi source files
+
+on:
+  push:
+    branches:
+      - max-vivaldi
+    paths:
+      - '.github/workflows/vivaldi-source-files.yml'
+      - '.github/vivaldi-source-files.txt'
+  workflow_dispatch:
+
+concurrency:
+  group: vivaldi-source-files-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  source-files:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch the source tarball
+        run: |
+          set -e
+          V=$(awk '$1 == "DISTVERSION=" { print $2 }' vivaldi/Makefile)
+          S=vivaldi-source_$V.tar.xz
+          echo "VIVALDI_VERSION=$V" >> "$GITHUB_ENV"
+          sudo mkdir -p /mnt/w
+          sudo chown "$(id -u):$(id -g)" /mnt/w
+          curl -fsSL --retry 3 -o /mnt/w/$S "https://source.vivaldi.com/$S"
+          want=$(awk -v f="($S)" '$1 == "SHA256" && $2 == f { print $4 }' vivaldi/distinfo)
+          got=$(sha256sum /mnt/w/$S | cut -d' ' -f1)
+          echo "$S sha256 $got (distinfo $want)"
+          [ "$got" = "$want" ]
+          echo "SOURCE=/mnt/w/$S" >> "$GITHUB_ENV"
+
+      - name: Extract
+        run: |
+          set -e
+          W=/mnt/w/files
+          mkdir -p $W
+          tar -tJf "$SOURCE" | gzip -9 > $W/file-list.txt.gz
+          tar -xJf "$SOURCE" -C $W \
+            --exclude='vivaldi-source/chromium/*' \
+            --exclude='vivaldi-source/thirdparty/*'
+          grep -v '^#' .github/vivaldi-source-files.txt | grep . > /mnt/w/wanted
+          tar -xJf "$SOURCE" -C $W --wildcards -T /mnt/w/wanted
+          find $W -type f -size +1M -print -delete
+          du -sh $W
+
+      - name: Push to the vivaldi-source-files branch
+        run: |
+          set -e
+          cd /mnt/w/files
+          printf 'Files from vivaldi-source_%s.tar.xz, see .github/workflows/vivaldi-source-files.yml.\n' \
+            "$VIVALDI_VERSION" > README
+          git init -q
+          git add -A
+          git -c user.name='github-actions[bot]' \
+            -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+            commit -q -m "vivaldi $VIVALDI_VERSION source files ($GITHUB_SHA)"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" \
+            HEAD:refs/heads/vivaldi-source-files

@@ -1,0 +1,8 @@
+# Files of the Chromium tree in the Vivaldi source tarball (tar wildcards,
+# below vivaldi-source/) that the vivaldi-source-files workflow pushes to the
+# vivaldi-source-files branch, next to Vivaldi's own sources.
+vivaldi-source/chromium/chrome/installer/linux/BUILD.gn
+vivaldi-source/chromium/chrome/BUILD.gn
+vivaldi-source/chromium/build/config/BUILDCONFIG.gn
+vivaldi-source/chromium/build/util/lastchange.py
+vivaldi-source/chromium/sandbox/linux/BUILD.gn
