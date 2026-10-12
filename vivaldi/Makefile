@@ -243,6 +243,8 @@ FFMPEG_TARGET=	x64
 FFMPEG_BDIR=	${CHROMIUM_WRKSRC}/third_party/ffmpeg/build.${FFMPEG_TARGET}.freebsd/Chrome
 FFMPEG_CDIR=	${CHROMIUM_WRKSRC}/third_party/ffmpeg/chromium/config/Chrome/freebsd/${FFMPEG_TARGET}
 
+_ROLLUP_FREEBSD=	${CHROMIUM_WRKSRC}/third_party/devtools-frontend/src/node_modules/@rollup/rollup-freebsd
+
 # scripts/rungn.py builds gn from thirdparty/gn and keeps it here.
 GN=		${WRKSRC}/build/bin/gn
 
@@ -290,12 +292,11 @@ pre-build:
 # The rollup plugin devtools-frontend loads is a native node module
 	@${CARGO_CARGO_RUN} build --manifest-path ${CARGO_CARGOTOML} \
 		${CARGO_BUILD_ARGS}
-	(cd ${CHROMIUM_WRKSRC}/third_party/devtools-frontend/src/node_modules/@rollup && \
-		${MKDIR} rollup-freebsd && \
-		${CP} ${CARGO_TARGET_DIR}/release/libbindings_napi.so \
-			rollup-freebsd/rollup.freebsd.node && \
-		${ECHO_CMD} '{ "main": "./rollup.freebsd.node" }' \
-			> rollup-freebsd/package.json)
+	@${MKDIR} ${_ROLLUP_FREEBSD}
+	${CP} ${CARGO_TARGET_DIR}/release/libbindings_napi.so \
+		${_ROLLUP_FREEBSD}/rollup.freebsd.node
+	${ECHO_CMD} '{ "main": "./rollup.freebsd.node" }' \
+		> ${_ROLLUP_FREEBSD}/package.json
 
 do-configure:
 	(cd ${WRKSRC}/esbuild && \
