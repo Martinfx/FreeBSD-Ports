@@ -1,9 +1,26 @@
 PORTNAME=	vivaldi
 DISTVERSION=    5.3.2679
 CATEGORIES=	www
-MASTER_SITES=   https://source.vivaldi.com/
+MASTER_SITES=   https://source.vivaldi.com/ \
+		${LINUX_BINS_SITE}:linuxbins
 EXTRACT_SUFX=	tar.xz
 DISTNAME=	${PORTNAME}-source_${DISTVERSION}.
+DISTFILES=	${DISTNAME}${EXTRACT_SUFX} \
+		${LINUX_BINS_DIST}:linuxbins
+
+# The Vivaldi UI (resources/vivaldi) is not part of the source tarball, it is
+# only shipped in the official Linux packages.  It is taken from the Linux
+# .deb and packed into a distfile of its own, the same way the Node modules
+# are for www/brave, so that the build needs no network.  The tarball has to
+# be regenerated for every version, see gen-linux-bins, and uploaded to
+# LINUX_BINS_SITE.  LINUX_DISTVERSION is the full version of the Linux
+# release the source tarball belongs to.
+LINUX_DISTVERSION?=	${DISTVERSION}.38
+LINUX_DEB=		${PORTNAME}-stable_${LINUX_DISTVERSION}-1_amd64.deb
+LINUX_DEB_SITE?=	https://downloads.vivaldi.com/stable/
+LINUX_BINS_DIST=	${PORTNAME}-linux-bins-${DISTVERSION}.tar.xz
+LINUX_BINS_SITE?=	https://github.com/Martinfx/FreeBSD-Ports/releases/download/${PORTNAME}-${DISTVERSION}/
+LINUX_BINS_WRKSRC=	${WRKDIR}/${PORTNAME}-linux-bins-${DISTVERSION}
 MAINTAINER=	maintainer@maintainer.com
 COMMENT=
 
@@ -175,7 +192,42 @@ do-configure:
 #	cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${PYTHON_CMD} \
 #	./chromium/third_party/ffmpeg/chromium/scripts/generate_gn.py
 
+# Builds the LINUX_BINS_DIST distfile from the official Linux package.  Only
+# the UI is taken, the Linux executables and libraries are of no use here.
+# Upload ${WRKDIR}/${LINUX_BINS_DIST} to LINUX_BINS_SITE and run "make makesum".
+gen-linux-bins:
+	@${RM} -r ${WRKDIR}/linux-deb ${LINUX_BINS_WRKSRC}
+	@${MKDIR} ${WRKDIR}/linux-deb ${LINUX_BINS_WRKSRC}/resources
+	@${ECHO_MSG} "===>  Fetching ${LINUX_DEB}"
+	@cd ${WRKDIR}/linux-deb && \
+		${FETCH_BINARY} ${FETCH_ARGS} -o ${LINUX_DEB} ${LINUX_DEB_SITE}${LINUX_DEB}
+	@${ECHO_MSG} "===>  Extracting resources/vivaldi from ${LINUX_DEB}"
+	@cd ${WRKDIR}/linux-deb && ${TAR} -xf ${LINUX_DEB} && \
+		${MKDIR} data && ${TAR} -xf data.tar.* -C data
+	@if [ ! -d ${WRKDIR}/linux-deb/data/opt/vivaldi/resources/vivaldi ]; then \
+		${ECHO_MSG} "===>  No opt/vivaldi/resources/vivaldi in ${LINUX_DEB}"; \
+		${FALSE}; \
+	fi
+	@${MV} ${WRKDIR}/linux-deb/data/opt/vivaldi/resources/vivaldi \
+		${LINUX_BINS_WRKSRC}/resources/
+	@${ECHO_MSG} "===>  Packing ${LINUX_BINS_DIST}"
+	@cd ${WRKDIR} && ${TAR} -c -J -f ${WRKDIR}/${LINUX_BINS_DIST} \
+		${LINUX_BINS_WRKSRC:T}
+	@${RM} -r ${WRKDIR}/linux-deb
+	@${ECHO_MSG} "===>  ${WRKDIR}/${LINUX_BINS_DIST}"
+
+# The UI from the Linux package goes next to the browser, as on Linux, so that
+# running it from the build directory works as well.
+post-build:
+	@${MKDIR} ${WRKSRC}/out/Release/resources
+	@${RM} -r ${WRKSRC}/out/Release/resources/vivaldi
+	cd ${LINUX_BINS_WRKSRC}/resources && \
+		${COPYTREE_SHARE} vivaldi ${WRKSRC}/out/Release/resources
+
 do-install:
+	@${MKDIR} ${STAGEDIR}${DATADIR}/resources
+	cd ${LINUX_BINS_WRKSRC}/resources && \
+		${COPYTREE_SHARE} vivaldi ${STAGEDIR}${DATADIR}/resources
 
 
 #@${MKDIR} ${STAGEDIR}${DATADIR}
