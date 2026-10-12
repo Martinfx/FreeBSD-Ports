@@ -313,6 +313,7 @@ do-configure:
 	@${MKDIR} ${CHROMIUM_WRKSRC}/third_party/rust-toolchain/bin
 	${LN} -sf ${LOCALBASE}/bin/rustc \
 		${CHROMIUM_WRKSRC}/third_party/rust-toolchain/bin/rustc
+	@${MKDIR} ${CHROMIUM_WRKSRC}/third_party/gperf/cipd/bin
 	${LN} -sf ${LOCALBASE}/bin/gperf \
 		${CHROMIUM_WRKSRC}/third_party/gperf/cipd/bin/gperf
 
