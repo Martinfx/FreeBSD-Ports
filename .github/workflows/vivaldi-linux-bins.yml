@@ -1,0 +1,124 @@
+# Build the Linux distfile of www/vivaldi (vivaldi-linux-bins-<version>.tar.xz)
+# the way "make gen-linux-bins" builds it: the UI (resources/vivaldi) and the
+# product icons from the official Linux package, which the source tarball does
+# not have.  It is uploaded to the vivaldi-<version> release, where
+# MASTER_SITES:linuxbins looks for it.  The job log and summary end with the
+# distinfo lines of it and of the source tarball.
+#
+# The tarball is not reproducible, so a new one never replaces one already in
+# the release (that would break distinfo); delete the asset first to rebuild.
+name: vivaldi linux bins
+
+on:
+  push:
+    branches:
+      - max-vivaldi
+    paths:
+      - '.github/workflows/vivaldi-linux-bins.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: vivaldi-linux-bins-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  linux-bins:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Version
+        run: |
+          V=$(awk '$1 == "DISTVERSION=" { print $2 }' vivaldi/Makefile)
+          LV=$(awk '$1 == "LINUX_DISTVERSION=" { print $2 }' vivaldi/Makefile)
+          LV=$(echo "$LV" | sed "s/\${DISTVERSION}/$V/")
+          echo "VIVALDI_VERSION=$V" >> "$GITHUB_ENV"
+          echo "LINUX_VERSION=$LV" >> "$GITHUB_ENV"
+          echo "vivaldi $V, Linux package $LV"
+
+      - name: Fetch the Linux package
+        run: |
+          set -e
+          mkdir -p work out
+          P=https://repo.vivaldi.com/stable/deb/dists/stable/main/binary-amd64/Packages
+          curl -fsSL "$P" > work/Packages
+          F=$(awk -v v="$LINUX_VERSION-1" '
+              $1 == "Package:" { p = $2 }
+              $1 == "Version:" { ver = $2 }
+              $1 == "Filename:" && p == "vivaldi-stable" && ver == v { print $2 }
+            ' work/Packages)
+          if [ -z "$F" ]; then
+            echo "vivaldi-stable $LINUX_VERSION-1 is not in the repository, it has:"
+            awk '$1 == "Package:" { p = $2 }
+                 $1 == "Version:" && p == "vivaldi-stable" { print $2 }' work/Packages
+            exit 1
+          fi
+          D=vivaldi-stable_${LINUX_VERSION}-1_amd64.deb
+          curl -fL --retry 3 -o work/$D "https://downloads.vivaldi.com/stable/$D" || \
+            curl -fL --retry 3 -o work/$D "https://repo.vivaldi.com/stable/deb/$F"
+          want=$(awk -v f="$F" '
+              $1 == "Package:" { p = $2 } $1 == "Filename:" { fn = $2 }
+              $1 == "SHA256:" && fn == f { print $2 }' work/Packages)
+          got=$(sha256sum work/$D | cut -d' ' -f1)
+          echo "$D sha256 $got (repository $want)"
+          [ "$got" = "$want" ]
+          echo "LINUX_DEB=$D" >> "$GITHUB_ENV"
+
+      - name: Pack the UI
+        run: |
+          set -e
+          N=vivaldi-linux-bins-$LINUX_VERSION
+          dpkg-deb -x work/$LINUX_DEB work/data
+          ls work/data/opt/vivaldi
+          test -d work/data/opt/vivaldi/resources/vivaldi
+          mkdir -p work/$N/resources
+          mv work/data/opt/vivaldi/resources/vivaldi work/$N/resources/
+          mv work/data/opt/vivaldi/product_logo_*.png work/$N/
+          ls work/$N
+          tar -C work -c -J --owner=0 --group=0 --numeric-owner \
+            -f out/$N.tar.xz $N
+          cd out
+          printf 'SHA256 (%s) = %s\nSIZE (%s) = %s\n' \
+            $N.tar.xz "$(sha256sum $N.tar.xz | cut -d' ' -f1)" \
+            $N.tar.xz "$(stat -c %s $N.tar.xz)" > $N.tar.xz.distinfo
+          cat $N.tar.xz.distinfo
+
+      - name: Source tarball distinfo
+        run: |
+          set -e
+          S=vivaldi-source_$VIVALDI_VERSION.tar.xz
+          curl -fL --retry 3 -o work/$S "https://source.vivaldi.com/$S"
+          printf 'SHA256 (%s) = %s\nSIZE (%s) = %s\n' \
+            $S "$(sha256sum work/$S | cut -d' ' -f1)" \
+            $S "$(stat -c %s work/$S)" > out/$S.distinfo
+          cat out/$S.distinfo
+          rm work/$S
+
+      - name: Upload to the vivaldi-${{ env.LINUX_VERSION }} release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          N=vivaldi-linux-bins-$LINUX_VERSION.tar.xz
+          T=vivaldi-$LINUX_VERSION
+          ls -l out/$N
+          if gh release view $T --json assets --jq '.assets[].name' | \
+              grep -qx "$N"; then
+            echo "$N is already in the release, not replacing it;"
+            echo "its distinfo is not the one below, use make makesum"
+          elif gh release view $T >/dev/null 2>&1; then
+            gh release upload $T out/$N
+          else
+            gh release create $T out/$N --target "$GITHUB_SHA" \
+              --title "vivaldi $LINUX_VERSION Linux UI" \
+              --notes "UI and icons from the official Vivaldi $LINUX_VERSION Linux package for www/vivaldi, packed by .github/workflows/vivaldi-linux-bins.yml."
+          fi
+          {
+            echo '```'
+            cat out/*.distinfo
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          cat out/*.distinfo
