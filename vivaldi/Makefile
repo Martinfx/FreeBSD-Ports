@@ -317,6 +317,13 @@ do-configure:
 	${LN} -sf ${LOCALBASE}/bin/gperf \
 		${CHROMIUM_WRKSRC}/third_party/gperf/cipd/bin/gperf
 
+# gclient writes gclient_args.gni from DEPS, but the Vivaldi tarball comes
+# without it.  generate_location_tags is off as in Vivaldi's own builds.
+	${PYTHON_CMD} ${FILESDIR}/gclient_args.py ${CHROMIUM_WRKSRC}/DEPS \
+		${CHROMIUM_WRKSRC}/build/config/gclient_args.gni \
+		generate_location_tags=false
+	@${CAT} ${CHROMIUM_WRKSRC}/build/config/gclient_args.gni
+
 # rungn.py bootstraps gn from thirdparty/gn (into ${GN}) and generates the
 # ninja files.
 	@${MKDIR} ${CHROMIUM_WRKSRC}/buildtools/freebsd
