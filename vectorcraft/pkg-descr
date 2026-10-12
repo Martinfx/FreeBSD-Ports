@@ -1,0 +1,9 @@
+VectorCraft is an open source vector illustration application, a
+clean-room reimplementation of the Adobe Illustrator workflow written in
+pure Rust by the ArtCraft team.  It has pen, shape and brush tools,
+artboards, type, gradients, swatches, layers, clipping masks, Pathfinder
+operations, Smart Guides and live effects through the Appearance panel,
+and opens and saves SVG and PDF.
+
+The vectorcraft-cli tool runs the same engine commands from scripts for
+headless conversion and batch work, and serves them over MCP for agents.

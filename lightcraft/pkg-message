@@ -1,0 +1,18 @@
+[
+{ type: install
+  message: <<EOM
+LightCraft opens and saves files through the XDG desktop portal, which
+needs a D-Bus session bus.  If your desktop does not start one, run
+LightCraft under one, for example with
+
+  dbus-run-session lightcraft
+
+LightCraft renders with Vulkan when a Vulkan driver is installed and
+falls back to OpenGL ES (EGL) otherwise.
+
+The denoise, face recognition and AI mask models are not part of the
+package: LightCraft downloads them when you ask for them in its settings,
+after showing their terms.
+EOM
+}
+]
