@@ -1,0 +1,29 @@
+U-Boot loader and related files for the Banana Pi BPI-R64 (MediaTek MT7622)
+
+The bootloader boots from the SD card.  BL2 and BL31 come from MediaTek's
+Trusted Firmware-A fork, U-Boot finds the operating system through
+standard boot (EFI/BOOT/bootaa64.efi on the EFI system partition).
+
+  bl2.img     BL2 for the SD card (2x DDR3)
+  fip.bin     FIP with BL31 and U-Boot
+  sdcard.img  First 6 MiB of a bootable SD card: GPT with a hybrid MBR
+              and the bl2, fip and ubootenv partitions
+
+The MT7622 BootROM finds BL2 through the MBR and BL2 finds the FIP through
+the GPT partition named "fip", so the card has to keep this layout.
+
+To install the bootloader on an sdcard (da0) and add partitions for
+FreeBSD after the first 6 MiB:
+
+dd if=/usr/local/share/u-boot/u-boot-bananapi-r64/sdcard.img of=/dev/da0 bs=1m
+gpart recover da0
+gpart add -t efi -b 6m -s 64m da0
+gpart add -t freebsd-ufs da0
+dd if=/usr/local/share/u-boot/u-boot-bananapi-r64/sdcard.img of=/dev/da0 bs=512 count=1
+
+gpart replaces the hybrid MBR with a plain protective MBR, the last dd
+puts it back.  Run it again after any later gpart change on the card.
+
+To update U-Boot on a card that already has this layout:
+
+dd if=/usr/local/share/u-boot/u-boot-bananapi-r64/fip.bin of=/dev/da0p2 bs=1m conv=sync
