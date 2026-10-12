@@ -1,0 +1,5 @@
+#!/bin/sh
+HOPPER_HARNESS_ROOT=%%DATADIR%%/hopper-harness
+HOPPER_CARGO_CONFIG=%%DATADIR%%/cargo-config.toml
+export HOPPER_HARNESS_ROOT HOPPER_CARGO_CONFIG
+exec %%DATADIR%%/hopper "$@"

@@ -1,0 +1,18 @@
+[
+{ type: install
+  message: <<EOM
+Hopper on FreeBSD supports LLVM mode only. Build the target library
+with hopper-clang, then compile and fuzz it:
+
+  CC=hopper-clang CXX=hopper-clang++ ./configure && make
+  hopper compile --header ./foo.h --library ./libfoo.so --output output
+  hopper fuzz output --func-pattern 'foo_*'
+
+"hopper compile" builds a harness with cargo from the sources and
+vendored crates in %%DATADIR%%; it needs no network access.
+
+Hopper exchanges coverage through System V shared memory. Inside a jail,
+start the jail with sysvshm=new.
+EOM
+}
+]
