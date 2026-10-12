@@ -494,9 +494,17 @@ FFMPEG_CONFIGS+=	config.asm config_components.asm
 # requests, cryptography and macholib, none of which a FreeBSD build reaches).
 _PYTHONPATH=	${BUILD_WRKSRC}/brave/script:${BUILD_WRKSRC}/tools/grit/grit/extern:${BUILD_WRKSRC}/build:${BUILD_WRKSRC}/third_party/depot_tools
 
+# Node sizes its default heap from the memory it sees (libuv takes the datasize
+# limit for that where it is set), which has left the webpack bundles of the
+# WebUIs, ai_chat_ui above all, with about 512 MB on aarch64 machines that have
+# 16 GB, and they die of "JavaScript heap out of memory".  Brave's node_action
+# passes the environment through, so a fixed limit here reaches every bundle.
+NODE_HEAP_MB?=	4096
+
 MAKE_ENV+=	C_INCLUDE_PATH=${LOCALBASE}/include \
 		CPLUS_INCLUDE_PATH=${LOCALBASE}/include \
 		GOCACHE=${WRKDIR}/go-cache \
+		NODE_OPTIONS=--max-old-space-size=${NODE_HEAP_MB} \
 		PYTHONPATH=${_PYTHONPATH} \
 		PYTHONUNBUFFERED=1 \
 		RUSTC_BOOTSTRAP=1
