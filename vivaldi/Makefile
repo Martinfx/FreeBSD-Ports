@@ -40,9 +40,9 @@ BUILD_DEPENDS=	bash:shells/bash \
                 ${LOCALBASE}/share/usbids/usb.ids:misc/usbids \
                 ${PYTHON_PKGNAMEPREFIX}html5lib>0:www/py-html5lib@${PY_FLAVOR} \
                 ${LOCALBASE}/include/va/va.h:multimedia/libva \
-                ${LOCALBASE}/libdata/pkgconfig/dri.pc:graphics/mesa-dri
+                ${LOCALBASE}/libdata/pkgconfig/dri.pc:graphics/mesa-libs
 
-LIB_DEPENDS=	libatk-bridge-2.0.so:accessibility/at-spi2-atk \
+LIB_DEPENDS=	libatk-bridge-2.0.so:accessibility/at-spi2-core \
                 libatspi.so:accessibility/at-spi2-core \
                 libspeechd.so:accessibility/speech-dispatcher \
                 libsnappy.so:archivers/snappy \
@@ -83,7 +83,7 @@ USES=		bison compiler:c++17-lang cpe desktop-file-utils gl gnome jpeg localbase:
 #CPE_VENDOR=	vivaldi
 #CPE_PRODUCT=	chrome
 USE_GL=		gbm gl
-USE_GNOME=	atk dconf gdkpixbuf2 glib20 gtk30 libxml2 libxslt
+USE_GNOME=	atk dconf gdkpixbuf glib20 gtk30 libxml2 libxslt
 USE_LDCONFIG=	${DATADIR}
 USE_PERL5=	build
 USE_XORG=	x11 xcb xcomposite xcursor xext xdamage xfixes xi \
