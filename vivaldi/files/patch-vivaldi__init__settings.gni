@@ -1,0 +1,11 @@
+--- vivaldi_init_settings.gni.orig	2026-08-25 00:00:00 UTC
++++ vivaldi_init_settings.gni
+@@ -54,7 +54,7 @@ declare_overrides() {
+ 
+   if (is_linux) {
+     if (!is_component_build) {
+-      enable_linux_installer = is_linux
++      enable_linux_installer = is_linux && !is_bsd
+     }
+ 
+     #    if (is_official_build) {

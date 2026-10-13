@@ -1,0 +1,21 @@
+--- components/source_updates.gni.orig	2026-08-25 00:00:00 UTC
++++ components/source_updates.gni
+@@ -45,7 +45,7 @@ if (!is_ios) {
+       "//vivaldi/content/browser/renderer_host/vivaldi_overscroll_controller.h",
+       "//vivaldi/content/browser/renderer_host/vivaldi_render_widget_host_view_child_frame.cc",
+     ]
+-    if (is_linux && !is_android) {
++    if (is_linux && !is_bsd && !is_android) {
+       sources += [
+         "//vivaldi/content/browser/zygote_host/vivaldi_zygote_host_linux_utils.cc",
+         "//vivaldi/content/browser/zygote_host/vivaldi_zygote_host_linux_utils.h",
+@@ -304,7 +304,8 @@ if (is_win) {
+   }
+ }
+ 
+-if (is_linux && !is_android) {
++# There is no zygote on FreeBSD, and the Flatpak sandbox is Linux only.
++if (is_linux && !is_bsd && !is_android) {
+   update_target("//sandbox/linux:sandbox_services") {
+     sources += [
+       "//vivaldi/sandbox/linux/services/flatpak_pid_map.cc",
