@@ -54,6 +54,20 @@ jobs:
             --exclude='vivaldi-source/thirdparty/*'
           grep -v '^#' .github/vivaldi-source-files.txt | grep . > /mnt/w/wanted
           tar -xJf "$SOURCE" -C $W --wildcards -T /mnt/w/wanted
+          # every source file of the Chromium tree that Vivaldi has changed
+          # (they mention it), for the IS_BSD conditions of its changes
+          mkdir -p /mnt/w/full
+          tar -xJf "$SOURCE" -C /mnt/w/full vivaldi-source/chromium
+          (cd /mnt/w/full && grep -rlIi -e vivaldi \
+            --include='*.cc' --include='*.h' --include='*.mm' \
+            --include='*.gn' --include='*.gni' --include='*.py' \
+            --include='*.mojom' --include='*.json' --include='*.grd' \
+            --include='*.grdp' --include='*.ts' --include='*.js' \
+            vivaldi-source/chromium > /mnt/w/vivaldi-changed || true)
+          wc -l < /mnt/w/vivaldi-changed
+          (cd /mnt/w/full && tar -cf - -T /mnt/w/vivaldi-changed) | tar -xf - -C $W
+          cp /mnt/w/vivaldi-changed $W/vivaldi-changed.txt
+          rm -rf /mnt/w/full
           find $W -type f -size +1M -print -delete
           cp /mnt/w/file-list.txt.gz $W/
           du -sh $W
