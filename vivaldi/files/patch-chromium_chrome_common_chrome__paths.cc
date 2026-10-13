@@ -84,7 +84,18 @@
      case chrome::DIR_NATIVE_MESSAGING:
  #if BUILDFLAG(IS_MAC)
  #if BUILDFLAG(GOOGLE_CHROME_BRANDING)
-@@ -490,6 +494,9 @@ bool PathProvider(int key, base::FilePat
+@@ -481,15 +485,20 @@ bool PathProvider(int key, base::FilePat
+           "/Library/Application Support/Chromium/NativeMessagingHosts"));
+ #endif
+ #else  // BUILDFLAG(IS_MAC)
++#if BUILDFLAG(IS_LINUX)
+       if (vivaldi::sandbox::FlatpakSandbox::GetInstance()->GetSandboxLevel() >
+           vivaldi::sandbox::FlatpakSandbox::SandboxLevel::kNone) {
+         cur = base::FilePath(FILE_PATH_LITERAL(
+             "/app/chromium/extensions/native-messaging-hosts"));
+         break;
+       }
++#endif
  #if BUILDFLAG(GOOGLE_CHROME_BRANDING)
        cur = base::FilePath(
            FILE_PATH_LITERAL("/etc/opt/chrome/native-messaging-hosts"));
