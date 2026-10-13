@@ -409,29 +409,31 @@ post-build:
 
 # Laid out like /opt/vivaldi of the Linux package: the browser is vivaldi-bin
 # and the UI is in resources/vivaldi next to it (copied there by post-build).
+# Vivaldi names the browser executable vivaldi (gn/product_updates.gni).
+# Which of the snapshots, the GL/Vulkan libraries and the FFmpeg component
+# a build has depends on its arguments, so those are installed if they are
+# there; pkg-plist says which ones are.
+_OPT_DATA=	snapshot_blob.bin v8_context_snapshot.bin vk_swiftshader_icd.json
+_OPT_LIBS=	libEGL.so libGLESv2.so libVkICD_mock_icd.so libffmpeg.so \
+		libvk_swiftshader.so
+
 do-install:
 	@${MKDIR} ${STAGEDIR}${DATADIR}
-	${INSTALL_PROGRAM} ${WRKSRC}/out/${BUILDTYPE}/chrome \
+	${INSTALL_PROGRAM} ${WRKSRC}/out/${BUILDTYPE}/vivaldi \
 		${STAGEDIR}${DATADIR}/vivaldi-bin
 	${INSTALL_DATA} ${WRKSRC}/out/${BUILDTYPE}/*.pak ${STAGEDIR}${DATADIR}
-.for f in snapshot_blob.bin v8_context_snapshot.bin
-	${INSTALL_DATA} ${WRKSRC}/out/${BUILDTYPE}/${f} ${STAGEDIR}${DATADIR}
-.endfor
 	cd ${WRKSRC}/out/${BUILDTYPE} && \
 		${COPYTREE_SHARE} "locales resources" ${STAGEDIR}${DATADIR}
-# ANGLE, EGL, Vk, SwiftShader and the FFmpeg that Vivaldi builds as a
-# component on Linux
-.for f in libEGL.so libGLESv2.so libVkICD_mock_icd.so libvk_swiftshader.so
-	${INSTALL_LIB} ${WRKSRC}/out/${BUILDTYPE}/${f} ${STAGEDIR}${DATADIR}
-.endfor
-	${INSTALL_LIB} ${WRKSRC}/out/${BUILDTYPE}/libvulkan.so.1 \
+	cd ${WRKSRC}/out/${BUILDTYPE} && for f in ${_OPT_DATA}; do \
+		[ ! -f $$f ] || ${INSTALL_DATA} $$f ${STAGEDIR}${DATADIR}; \
+	done
+	cd ${WRKSRC}/out/${BUILDTYPE} && for f in ${_OPT_LIBS}; do \
+		[ ! -f $$f ] || ${INSTALL_LIB} $$f ${STAGEDIR}${DATADIR}; \
+	done
+# The Vulkan loader as libvulkan.so, the name the FreeBSD patches load it by
+	[ ! -f ${WRKSRC}/out/${BUILDTYPE}/libvulkan.so.1 ] || \
+		${INSTALL_LIB} ${WRKSRC}/out/${BUILDTYPE}/libvulkan.so.1 \
 		${STAGEDIR}${DATADIR}/libvulkan.so
-	${INSTALL_DATA} ${WRKSRC}/out/${BUILDTYPE}/vk_swiftshader_icd.json \
-		${STAGEDIR}${DATADIR}
-	if [ -f ${WRKSRC}/out/${BUILDTYPE}/libffmpeg.so ]; then \
-		${INSTALL_LIB} ${WRKSRC}/out/${BUILDTYPE}/libffmpeg.so \
-			${STAGEDIR}${DATADIR}; \
-	fi
 	${INSTALL_SCRIPT} ${CHROMIUM_WRKSRC}/chrome/tools/build/linux/chrome-wrapper \
 		${STAGEDIR}${DATADIR}
 .for s in 16 24 32 48 64 128 256
