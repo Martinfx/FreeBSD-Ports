@@ -1,0 +1,147 @@
+# Build the Node modules distfile of www/vivaldi
+# (vivaldi-node-modules-<version>.tar.xz).  The Vivaldi source tarball comes
+# without chromium/third_party/node/node_modules, which gclient fetches from
+# Google Storage and which the WebUI build needs (TypeScript, rollup, lit,
+# Polymer, ...).  This takes the object chromium/DEPS of the tarball names,
+# checks it against the sha256 there and packs it below
+# vivaldi-source/chromium/third_party/node/node_modules, so that it lands in
+# place when it is extracted next to the source tarball.  It is uploaded to
+# the vivaldi-<Linux version> release, where MASTER_SITES:nodemods looks for
+# it.  The job log also lists the other Google Storage and CIPD dependencies
+# of DEPS that are not in the tarball.
+#
+# The tarball is not reproducible, so a new one never replaces one already in
+# the release (that would break distinfo); delete the asset first to rebuild.
+name: vivaldi node modules
+
+on:
+  push:
+    branches:
+      - max-vivaldi
+    paths:
+      - '.github/workflows/vivaldi-node-modules.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: vivaldi-node-modules-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  node-modules:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Version
+        run: |
+          V=$(awk '$1 == "DISTVERSION=" { print $2 }' vivaldi/Makefile)
+          LV=$(awk '$1 == "LINUX_DISTVERSION=" { print $2 }' vivaldi/Makefile)
+          LV=$(echo "$LV" | sed "s/\${DISTVERSION}/$V/")
+          echo "VIVALDI_VERSION=$V" >> "$GITHUB_ENV"
+          echo "LINUX_VERSION=$LV" >> "$GITHUB_ENV"
+          echo "vivaldi $V, release vivaldi-$LV"
+
+      - name: Fetch the source tarball
+        run: |
+          set -e
+          S=vivaldi-source_$VIVALDI_VERSION.tar.xz
+          sudo mkdir -p /mnt/w
+          sudo chown "$(id -u):$(id -g)" /mnt/w
+          curl -fsSL --retry 3 -o /mnt/w/$S "https://source.vivaldi.com/$S"
+          want=$(awk -v f="($S)" '$1 == "SHA256" && $2 == f { print $4 }' vivaldi/distinfo)
+          got=$(sha256sum /mnt/w/$S | cut -d' ' -f1)
+          echo "$S sha256 $got (distinfo $want)"
+          [ "$got" = "$want" ]
+          tar -tJf /mnt/w/$S > /mnt/w/source-list
+          tar -xJf /mnt/w/$S -C /mnt/w vivaldi-source/chromium/DEPS
+          rm /mnt/w/$S
+
+      - name: Dependencies of DEPS missing from the tarball
+        run: |
+          python3 -I - /mnt/w/vivaldi-source/chromium/DEPS /mnt/w/source-list <<'EOF'
+          import sys
+          deps = {'Var': lambda n: '{%s}' % n, 'Str': str}
+          exec(open(sys.argv[1]).read(), deps)
+          have = set()
+          for line in open(sys.argv[2]):
+              parts = line.rstrip('\n').split('/')
+              for i in range(3, len(parts)):
+                  have.add('/'.join(parts[2:i]))
+          for path, dep in sorted(deps.get('deps', {}).items()):
+              if not isinstance(dep, dict) or dep.get('dep_type') not in ('gcs', 'cipd'):
+                  continue
+              rel = path[len('src/'):] if path.startswith('src/') else path
+              state = 'present' if rel in have else 'MISSING'
+              print('%-8s %-5s %-60s %s' % (state, dep['dep_type'], rel,
+                                            dep.get('condition', '')))
+          EOF
+
+      - name: Fetch and pack node_modules
+        run: |
+          set -e
+          python3 -I - /mnt/w/vivaldi-source/chromium/DEPS > /mnt/w/objects <<'EOF'
+          import sys
+          deps = {'Var': lambda n: '{%s}' % n, 'Str': str}
+          exec(open(sys.argv[1]).read(), deps)
+          dep = deps['deps']['src/third_party/node/node_modules']
+          for o in dep['objects']:
+              print(dep['bucket'], o['object_name'], o['sha256sum'])
+          EOF
+          cat /mnt/w/objects
+          N=vivaldi-node-modules-$VIVALDI_VERSION
+          D=/mnt/w/$N/vivaldi-source/chromium/third_party/node
+          mkdir -p $D/node_modules
+          while read bucket object sum; do
+            curl -fsSL --retry 3 -o /mnt/w/$object \
+              "https://storage.googleapis.com/$bucket/$object"
+            got=$(sha256sum /mnt/w/$object | cut -d' ' -f1)
+            echo "$object sha256 $got (DEPS $sum)"
+            [ "$got" = "$sum" ]
+            tar -tzf /mnt/w/$object | head -5
+            # the archive holds node_modules/ itself, or only what is in it
+            if tar -tzf /mnt/w/$object | head -1 | grep -q '^\(\./\)\{0,1\}node_modules/'; then
+              tar -xzf /mnt/w/$object -C $D
+            else
+              tar -xzf /mnt/w/$object -C $D/node_modules
+            fi
+          done < /mnt/w/objects
+          ls $D/node_modules | head -40
+          ls $D/node_modules | wc -l
+          test -d $D/node_modules/typescript
+          mkdir -p out
+          tar -C /mnt/w/$N -c -J --sort=name --owner=0 --group=0 --numeric-owner \
+            -f out/$N.tar.xz vivaldi-source
+          cd out
+          printf 'SHA256 (%s) = %s\nSIZE (%s) = %s\n' \
+            $N.tar.xz "$(sha256sum $N.tar.xz | cut -d' ' -f1)" \
+            $N.tar.xz "$(stat -c %s $N.tar.xz)" > $N.tar.xz.distinfo
+          cat $N.tar.xz.distinfo
+
+      - name: Upload to the vivaldi-${{ env.LINUX_VERSION }} release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          N=vivaldi-node-modules-$VIVALDI_VERSION.tar.xz
+          T=vivaldi-$LINUX_VERSION
+          ls -l out/$N
+          if gh release view $T --json assets --jq '.assets[].name' | \
+              grep -qx "$N"; then
+            echo "$N is already in the release, not replacing it;"
+            echo "its distinfo is not the one below, use make makesum"
+          elif gh release view $T >/dev/null 2>&1; then
+            gh release upload $T out/$N
+          else
+            gh release create $T out/$N --target "$GITHUB_SHA" \
+              --title "vivaldi $LINUX_VERSION distfiles" \
+              --notes "Distfiles for www/vivaldi $LINUX_VERSION."
+          fi
+          {
+            echo '```'
+            cat out/*.distinfo
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          cat out/*.distinfo

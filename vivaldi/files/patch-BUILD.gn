@@ -1,0 +1,58 @@
+--- BUILD.gn.orig	2026-08-25 00:00:00 UTC
++++ BUILD.gn
+@@ -101,7 +101,7 @@ group("All") {
+         "//sandbox/win:sbox_validation_tests",
+       ]
+     }
+-  } else if (!is_ios && (!is_linux || !is_component_build)) {
++  } else if (!is_ios && !is_bsd && (!is_linux || !is_component_build)) {
+     deps += [ "//chrome/installer" ]
+   }
+   if (is_mac) {
+@@ -121,7 +121,9 @@ group("All") {
+     }
+   }
+   if (is_linux) {
+-    deps += [ "//sandbox/linux:chrome_sandbox" ]
++    if (!is_bsd) {
++      deps += [ "//sandbox/linux:chrome_sandbox" ]
++    }
+     if (vivaldi_build_tests) {
+       deps += [ "//sandbox/linux:sandbox_linux_unittests" ]
+       if (use_dbus) {
+@@ -131,7 +133,7 @@ group("All") {
+         ]
+       }
+     }
+-    if (!is_component_build) {
++    if (!is_component_build && !is_bsd) {
+       deps += [
+         ":linux_packages_all",
+         "//chrome/installer/linux",
+@@ -173,7 +175,7 @@ group("All") {
+       deps += [ "//ios/components:all_tests" ]
+     }
+   }
+-  if (is_mac || is_linux) {
++  if (is_mac || (is_linux && !is_bsd)) {
+     deps += [
+       ":copy_symbol_tools",
+       "//third_party/breakpad:dump_syms($host_system_allocator_toolchain)",
+@@ -226,7 +228,7 @@ if (!is_ios) {
+   }
+ }
+ 
+-if (is_mac || is_linux) {
++if (is_mac || (is_linux && !is_bsd)) {
+   copy("copy_symbol_tools") {
+     toolchain_folder =
+         get_label_info("$host_system_allocator_toolchain", "name")
+@@ -266,7 +268,7 @@ copy("standalone") {
+   outputs = [ "$root_build_dir/stp.viv" ]
+ }
+ 
+-if (is_linux && !is_component_build) {
++if (is_linux && !is_bsd && !is_component_build) {
+   group("linux_packages_all") {
+     deps = [ "//chrome/installer/linux" ]
+   }

@@ -1,0 +1,6 @@
+Vivaldi is a web browser based on Chromium, built around customization:
+tab stacking and tiling, side panels, notes, a built-in mail client,
+calendar and feed reader.
+
+The browser is built from the published Vivaldi sources; the UI, which is
+not part of them, is taken from the official Linux package.
