@@ -2,9 +2,12 @@
 Type=Application
 Version=1.0
 Name=Vivaldi
+GenericName=Web Browser
 Comment=%%COMMENT%%
 Icon=vivaldi
-Exec=vivaldi %U
+Exec=%%PREFIX%%/bin/vivaldi %U
+TryExec=%%PREFIX%%/bin/vivaldi
+Terminal=false
 Categories=Network;WebBrowser;
 MimeType=text/html;text/xml;application/xhtml+xml;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp;
 StartupNotify=true

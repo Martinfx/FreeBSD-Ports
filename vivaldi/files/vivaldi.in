@@ -17,9 +17,11 @@ EOMSG
 fi
 ulimit -c 0
 
-# source foreign-cdm environment
-if [ -r %%PREFIX%%/share/foreign-cdm/fcdm-setup-env ] ; then
-	. %%PREFIX%%/share/foreign-cdm/fcdm-setup-env
+# The shim from www/foreign-cdm reads the path of the Widevine module and the
+# path of its own helper binaries, fcdm-jail and fcdm-worker, out of the
+# environment; without them nothing plays.  www/chromium sources the same file.
+if [ -r %%LOCALBASE%%/share/foreign-cdm/fcdm-setup-env ] ; then
+	. %%LOCALBASE%%/share/foreign-cdm/fcdm-setup-env
 fi
 
 exec %%DATADIR%%/vivaldi-bin ${1+"$@"}

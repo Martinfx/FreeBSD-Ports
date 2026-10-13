@@ -18,16 +18,23 @@
  // Create a CdmInfo for a Widevine CDM, using |version|, |cdm_library_path|, and
  // |capability|.
  std::unique_ptr<content::CdmInfo> CreateWidevineCdmInfo(
-@@ -104,7 +104,7 @@ std::unique_ptr<content::CdmInfo> CreateCdmInfoFromWid
+@@ -103,8 +103,13 @@ std::unique_ptr<content::CdmInfo> CreateCdmInfoFromWid
+         // BUILDFLAG(ENABLE_WIDEVINE_CDM_COMPONENT)) && (BUILDFLAG(IS_LINUX) ||
          // BUILDFLAG(IS_CHROMEOS))
  
- #if BUILDFLAG(BUNDLE_WIDEVINE_CDM) && \
+-#if BUILDFLAG(BUNDLE_WIDEVINE_CDM) && \
 -    (BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS))
++// On FreeBSD bundle_widevine_cdm stays false: turning it on would have the
++// build look for the CDM under third_party/widevine/cdm/freebsd/x64, which is
++// not in the tree and is not ours to ship.  www/foreign-cdm installs one at
++// run time instead, in the layout this function reads, so compile it here
++// regardless of the flag.  It returns nullptr when nothing is installed.
++#if (BUILDFLAG(BUNDLE_WIDEVINE_CDM) || BUILDFLAG(IS_BSD)) && \
 +    (BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_BSD))
  // On Linux/ChromeOS we have to preload the CDM since it uses the zygote
  // sandbox. On Windows and Mac, CDM registration is handled by Component
  // Update (as the CDM can be loaded only when needed).
-@@ -128,7 +128,7 @@ std::unique_ptr<content::CdmInfo> GetBundledWidevine()
+@@ -128,7 +133,7 @@ std::unique_ptr<content::CdmInfo> GetBundledWidevine()
          // (BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS))
  
  #if (BUILDFLAG(ENABLE_WIDEVINE_CDM_COMPONENT) && \
@@ -36,7 +43,7 @@
  // This code checks to see if Component Updater picked a version of the Widevine
  // CDM to be used last time it ran. (Component Updater may choose the bundled
  // CDM if there is not a new version available for download.) If there is one
-@@ -170,7 +170,7 @@ void AddSoftwareSecureWidevine(std::vector<content::Cd
+@@ -170,7 +175,7 @@ void AddSoftwareSecureWidevine(std::vector<content::Cd
        /*supports_sub_key_systems=*/false, kWidevineCdmDisplayName,
        kWidevineCdmType, base::FilePath());
  
@@ -45,7 +52,16 @@
    // The Widevine CDM on Linux/ChromeOS needs to be registered (and loaded)
    // before the zygote is locked down. The CDM can be found from the version
    // bundled with Chrome (if BUNDLE_WIDEVINE_CDM = true) and/or the version
-@@ -437,7 +437,7 @@ void RegisterCdmInfo(std::vector<content::CdmInfo>* cd
+@@ -197,7 +202,7 @@ void AddSoftwareSecureWidevine(std::vector<content::Cd
+   // We should still use the version selected by Component Update (except for
+   // case #3 above).
+   std::unique_ptr<content::CdmInfo> bundled_widevine = nullptr;
+-#if BUILDFLAG(BUNDLE_WIDEVINE_CDM)
++#if BUILDFLAG(BUNDLE_WIDEVINE_CDM) || BUILDFLAG(IS_BSD)
+   bundled_widevine = GetBundledWidevine();
+ #endif
+ 
+@@ -437,7 +442,7 @@ void RegisterCdmInfo(std::vector<content::CdmInfo>* cd
  }
  
  #if BUILDFLAG(ENABLE_WIDEVINE) && \

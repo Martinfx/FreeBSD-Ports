@@ -195,11 +195,11 @@ GN_ARGS+=	GLOBAL_BUILDNUM="${LINUX_DISTVERSION:E}" \
 		vivaldi_disable_sparkle=false \
 		vivaldi_disable_widevine_verification=true
 
-SUB_FILES=	vivaldi vivaldi.desktop
+SUB_FILES=	pkg-message vivaldi vivaldi.desktop
 SUB_LIST+=	COMMENT="${COMMENT}"
 
 OPTIONS_DEFINE=		CUPS KERBEROS LTO PIPEWIRE QT6 WIDEVINE
-OPTIONS_DEFAULT=	ALSA CUPS KERBEROS PIPEWIRE PULSEAUDIO QT6 SNDIO
+OPTIONS_DEFAULT=	ALSA CUPS KERBEROS PIPEWIRE PULSEAUDIO QT6 SNDIO WIDEVINE
 OPTIONS_SUB=		yes
 OPTIONS_GROUP=		AUDIO
 OPTIONS_GROUP_AUDIO=	ALSA PULSEAUDIO SNDIO
@@ -252,6 +252,19 @@ SNDIO_LIB_DEPENDS=	libsndio.so:audio/sndio
 SNDIO_VARS=		GN_ARGS+=use_sndio=true
 SNDIO_VARS_OFF=		GN_ARGS+=use_sndio=false
 
+# The Widevine CDM is not built here: enable_widevine, which stays on whatever
+# the option says since the Vivaldi sources are only ever built with it, only
+# compiles the support for it, and www/foreign-cdm supplies the module itself
+# at run time, the same arrangement www/chromium and www/brave use.
+#
+# Vivaldi looks for it beside its own binary, in DIR_ASSETS/WidevineCdm -- see
+# DIR_BUNDLED_WIDEVINE_CDM in chrome/common/chrome_paths.cc -- while
+# foreign-cdm installs into share/chromium, so link the one to the other.  The
+# module itself stays where that port put it and is never copied here.
+#
+# The -h is what keeps a second run of this target inside the stage directory:
+# without it ln follows the link left by the first run and writes another one
+# into foreign-cdm's own directory.
 WIDEVINE_RUN_DEPENDS=	foreign-cdm>0:www/foreign-cdm
 
 .include "Makefile.crates"
@@ -460,6 +473,10 @@ do-install:
 	${INSTALL_SCRIPT} ${WRKDIR}/vivaldi ${STAGEDIR}${PREFIX}/bin
 	@${MKDIR} ${STAGEDIR}${DESKTOPDIR}
 	${INSTALL_DATA} ${WRKDIR}/vivaldi.desktop ${STAGEDIR}${DESKTOPDIR}
+
+post-install-WIDEVINE-on:
+	${LN} -sfh ${LOCALBASE}/share/chromium/WidevineCdm \
+		${STAGEDIR}${DATADIR}/WidevineCdm
 
 post-install-QT6-on:
 	${INSTALL_LIB} ${WRKSRC}/out/${BUILDTYPE}/libqt6_shim.so \
