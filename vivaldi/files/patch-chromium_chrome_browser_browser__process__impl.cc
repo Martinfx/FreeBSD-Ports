@@ -9,8 +9,13 @@
  #include "chrome/browser/browser_features.h"
  #include "components/os_crypt/async/browser/freedesktop_secret_key_provider.h"
  #include "components/os_crypt/async/browser/secret_portal_key_provider.h"
-@@ -290,7 +290,7 @@ void OnLocalStatePrefsLoaded();
- #include "components/os_crypt/async/common/encryptor.h"
+@@ -291,11 +291,11 @@ void OnLocalStatePrefsLoaded();
+ #endif
+ 
+ // Vivaldi: Support for xdg-desktop-portal with different secret compatibility (our implementation).
+-#if BUILDFLAG(IS_LINUX)
++#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_BSD)
+ #include "components/os_crypt/async_secret_portal_key_provider_vivaldi.h"
  #endif
  
 -#if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_LINUX)
@@ -18,7 +23,7 @@
  // How often to check if the persistent instance of Chrome needs to restart
  // to install an update.
  static const int kUpdateCheckIntervalHours = 6;
-@@ -1318,7 +1318,7 @@ void BrowserProcessImpl::RegisterPrefs(PrefRegistrySim
+@@ -1323,7 +1323,7 @@ void BrowserProcessImpl::RegisterPrefs(P
    registry->RegisterBooleanPref(prefs::kDevToolsRemoteDebuggingAllowed, true);
    registry->RegisterBooleanPref(prefs::kDevToolsRemoteDebuggingEnabled, false);
  
@@ -27,7 +32,7 @@
    os_crypt_async::SecretPortalKeyProvider::RegisterLocalPrefs(registry);
  #endif
  }
-@@ -1571,7 +1571,7 @@ void BrowserProcessImpl::PreMainMessageLoopRun() {
+@@ -1572,7 +1572,7 @@ void BrowserProcessImpl::PreMainMessageL
            local_state(), /*force_protection_level=*/std::nullopt)));
  #endif  // BUILDFLAG(IS_WIN)
  
@@ -36,7 +41,7 @@
    base::CommandLine* cmd_line = base::CommandLine::ForCurrentProcess();
    const auto password_store =
        cmd_line->GetSwitchValueASCII(password_manager::kPasswordStore);
-@@ -1912,7 +1912,7 @@ void BrowserProcessImpl::Unpin() {
+@@ -1927,7 +1927,7 @@ void BrowserProcessImpl::Unpin() {
  }
  
  // Mac is currently not supported.

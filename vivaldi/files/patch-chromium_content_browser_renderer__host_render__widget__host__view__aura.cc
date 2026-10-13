@@ -9,7 +9,7 @@
  #include "ui/accessibility/platform/browser_accessibility_auralinux.h"
  #include "ui/base/ime/linux/text_edit_command_auralinux.h"
  #include "ui/base/ime/text_input_flags.h"
-@@ -580,7 +580,7 @@ gfx::NativeViewAccessible RenderWidgetHostViewAura::Ge
+@@ -583,7 +583,7 @@ gfx::NativeViewAccessible RenderWidgetHo
      return ToBrowserAccessibilityWin(manager->GetBrowserAccessibilityRoot())
          ->GetCOM();
  
@@ -18,7 +18,16 @@
    ui::BrowserAccessibilityManager* manager =
        host()->GetOrCreateRootBrowserAccessibilityManager();
    if (manager && manager->GetBrowserAccessibilityRoot())
-@@ -2062,7 +2062,7 @@ bool RenderWidgetHostViewAura::ShouldDoLearning() {
+@@ -1438,7 +1438,7 @@ RenderWidgetHostViewAura::CreateSyntheti
+ 
+ blink::mojom::InputEventResultState RenderWidgetHostViewAura::FilterInputEvent(
+     const blink::WebInputEvent& input_event) {
+-#if BUILDFLAG(IS_LINUX)
++#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_BSD)
+   if (vivaldi::IsVivaldiRunning()) {
+     // The renderer will send a ViewHostMsg_SelectionChanged whenever there has
+     // been a change in the selected text and for whatever reason. The host
+@@ -2079,7 +2079,7 @@ bool RenderWidgetHostViewAura::ShouldDoL
    return host() && host()->delegate() && host()->delegate()->ShouldDoLearning();
  }
  
@@ -27,7 +36,7 @@
  bool RenderWidgetHostViewAura::SetCompositionFromExistingText(
      const gfx::Range& range,
      const std::vector<ui::ImeTextSpan>& ui_ime_text_spans) {
-@@ -3151,7 +3151,7 @@ bool RenderWidgetHostViewAura::NeedsInputGrab() {
+@@ -3168,7 +3168,7 @@ bool RenderWidgetHostViewAura::NeedsInpu
  }
  
  bool RenderWidgetHostViewAura::NeedsMouseCapture() {
@@ -36,7 +45,7 @@
    return NeedsInputGrab();
  #else
    return false;
-@@ -3379,7 +3379,7 @@ void RenderWidgetHostViewAura::ForwardKeyboardEventWit
+@@ -3396,7 +3396,7 @@ void RenderWidgetHostViewAura::ForwardKe
    if (!target_host)
      return;
  
@@ -45,3 +54,12 @@
    auto* linux_ui = ui::LinuxUi::instance();
    if (!event.skip_if_unhandled && linux_ui && event.os_event) {
      const auto command = linux_ui->GetTextEditCommandForEvent(
+@@ -3610,7 +3610,7 @@ void RenderWidgetHostViewAura::OnTextSel
+   if (ui::Clipboard::IsSupportedClipboardBuffer(
+           ui::ClipboardBuffer::kSelection)) {
+     if (vivaldi::IsVivaldiRunning()) {
+-#if BUILDFLAG(IS_LINUX)
++#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_BSD)
+       // Selection changes from both UI (this) and document arrive here. We need
+       // to test for UI and possibly reject a selection change from being
+       // written to the selection buffer further down as a change will happen

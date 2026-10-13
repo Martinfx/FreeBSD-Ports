@@ -9,7 +9,16 @@
  #include "chrome/browser/ui/views/passwords/password_relaunch_chrome_view.h"
  #endif
  
-@@ -158,7 +158,7 @@ PasswordBubbleViewBase* PasswordBubbleViewBase::Create
+@@ -111,7 +111,7 @@ void PasswordBubbleViewBase::ShowBubble(
+       g_manage_passwords_bubble_->AdjustForFullscreen(
+           contents_view->GetBoundsInScreen());
+     } else {
+-#if BUILDFLAG(IS_LINUX)
++#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_BSD)
+       // Workaround for Linux/X11. Wayland does not need this, but use same
+       // behavior.
+       int right = contents_view->GetContentsBounds().right();
+@@ -228,7 +228,7 @@ PasswordBubbleViewBase* PasswordBubbleVi
    } else if (model_state ==
               password_manager::ui::NOTIFY_RECEIVED_SHARED_CREDENTIALS) {
      view = new SharedPasswordsNotificationView(web_contents, anchor_view);

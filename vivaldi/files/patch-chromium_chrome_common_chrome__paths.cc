@@ -54,16 +54,28 @@
      (BUILDFLAG(IS_LINUX) && BUILDFLAG(CHROMIUM_BRANDING))
      case chrome::DIR_USER_EXTERNAL_EXTENSIONS: {
        if (!base::PathService::Get(chrome::DIR_USER_DATA, &cur)) {
-@@ -434,7 +434,7 @@ bool PathProvider(int key, base::FilePat
+@@ -434,15 +434,19 @@ bool PathProvider(int key, base::FilePat
        break;
      }
  #endif
 -#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS)
 +#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_BSD)
      case chrome::DIR_STANDALONE_EXTERNAL_EXTENSIONS: {
++#if BUILDFLAG(IS_LINUX)
        if (vivaldi::sandbox::FlatpakSandbox::GetInstance()->GetSandboxLevel() >
            vivaldi::sandbox::FlatpakSandbox::SandboxLevel::kNone) {
-@@ -467,7 +467,7 @@ bool PathProvider(int key, base::FilePat
+         cur = base::FilePath(
+             FILE_PATH_LITERAL("/app/chromium/extensions/extensions"));
+       } else {
++#endif
+       cur = base::FilePath(kFilepathSinglePrefExtensions);
++#if BUILDFLAG(IS_LINUX)
+       }
++#endif
+       break;
+     }
+ #endif
+@@ -467,7 +471,7 @@ bool PathProvider(int key, base::FilePat
  
  #if BUILDFLAG(ENABLE_EXTENSIONS_CORE) &&                                   \
      (BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_MAC) || \
@@ -72,7 +84,7 @@
      case chrome::DIR_NATIVE_MESSAGING:
  #if BUILDFLAG(IS_MAC)
  #if BUILDFLAG(GOOGLE_CHROME_BRANDING)
-@@ -490,6 +490,9 @@ bool PathProvider(int key, base::FilePat
+@@ -490,6 +494,9 @@ bool PathProvider(int key, base::FilePat
  #if BUILDFLAG(GOOGLE_CHROME_BRANDING)
        cur = base::FilePath(
            FILE_PATH_LITERAL("/etc/opt/chrome/native-messaging-hosts"));
