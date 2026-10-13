@@ -41,9 +41,12 @@ def main():
     year = datetime.datetime.fromtimestamp(timestamp,
                                            datetime.timezone.utc).year
 
-    write(root, 'build/util/LASTCHANGE',
-          'LASTCHANGE=%s\nLASTCHANGE_YEAR=%d\n' % (ZERO_REVISION, year))
-    write(root, 'build/util/LASTCHANGE.committime', str(timestamp))
+    # LASTCHANGE.chromium is the upstream Chromium revision Vivaldi's own
+    # lastchange_chromium hook writes; chromium_git_revision.h is made of it.
+    for name in ('LASTCHANGE', 'LASTCHANGE.chromium'):
+        write(root, 'build/util/' + name,
+              'LASTCHANGE=%s\nLASTCHANGE_YEAR=%d\n' % (ZERO_REVISION, year))
+        write(root, 'build/util/%s.committime' % name, str(timestamp))
     for path, define in (('gpu/config/gpu_lists_version.h',
                           'GPU_LISTS_VERSION'),
                          ('skia/ext/skia_commit_hash.h', 'SKIA_COMMIT_HASH'),
