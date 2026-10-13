@@ -31,7 +31,9 @@ ONLY_FOR_ARCHS_REASON=	the UI is taken from the amd64 Linux package
 LINUX_DISTVERSION=	${DISTVERSION}.84
 LINUX_DEB=		${PORTNAME}-stable_${LINUX_DISTVERSION}-1_amd64.deb
 LINUX_DEB_SITE?=	https://downloads.vivaldi.com/stable/
-LINUX_BINS_DIST=	${PORTNAME}-linux-bins-${LINUX_DISTVERSION}.tar.xz
+# LINUX_BINS_REV counts the changes to what is packed from the same package.
+LINUX_BINS_REV=		1
+LINUX_BINS_DIST=	${PORTNAME}-linux-bins-${LINUX_DISTVERSION}_${LINUX_BINS_REV}.tar.xz
 LINUX_BINS_SITE?=	https://github.com/Martinfx/FreeBSD-Ports/releases/download/${PORTNAME}-${LINUX_DISTVERSION}/
 LINUX_BINS_WRKSRC=	${WRKDIR}/${PORTNAME}-linux-bins-${LINUX_DISTVERSION}
 
@@ -293,6 +295,14 @@ pre-everything::
 	@${ECHO_MSG} "- 1.5 million free inodes"
 	@${ECHO_MSG}
 
+# The source tarball only has a template of the manifest of the UI app,
+# without its version and naming other files than the UI of the Linux
+# package, and the browser does not load the app with it.  The manifest that
+# goes with that UI is taken from the package, see gen-linux-bins.
+post-patch:
+	${CP} ${LINUX_BINS_WRKSRC}/manifest.json \
+		${WRKSRC}/vivapp/src/manifest.template.json
+
 pre-configure:
 	cd ${CHROMIUM_WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${PYTHON_CMD} \
 		./build/linux/unbundle/replace_gn_files.py --system-libraries \
@@ -373,7 +383,8 @@ do-configure:
 	${LN} -sf /usr/bin/strip ${CHROMIUM_WRKSRC}/buildtools/freebsd/strip
 
 # Builds the LINUX_BINS_DIST distfile from the official Linux package.  Only
-# the UI and the product icons are taken, the Linux executables and libraries
+# the UI, the manifest of the UI app (from the .pak files) and the product
+# icons are taken, the Linux executables and libraries
 # are of no use here.  Upload ${WRKDIR}/${LINUX_BINS_DIST} to LINUX_BINS_SITE
 # and run "make makesum".
 gen-linux-bins:
@@ -393,6 +404,9 @@ gen-linux-bins:
 		${LINUX_BINS_WRKSRC}/resources/
 	@${MV} ${WRKDIR}/linux-deb/data/opt/vivaldi/product_logo_*.png \
 		${LINUX_BINS_WRKSRC}/
+	@${PYTHON_CMD} ${FILESDIR}/pak_manifest.py \
+		${WRKDIR}/linux-deb/data/opt/vivaldi/*.pak \
+		> ${LINUX_BINS_WRKSRC}/manifest.json
 	@${ECHO_MSG} "===>  Packing ${LINUX_BINS_DIST}"
 	@cd ${WRKDIR} && ${TAR} -c -J -f ${WRKDIR}/${LINUX_BINS_DIST} \
 		${LINUX_BINS_WRKSRC:T}

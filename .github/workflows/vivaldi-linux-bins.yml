@@ -38,6 +38,8 @@ jobs:
           LV=$(echo "$LV" | sed "s/\${DISTVERSION}/$V/")
           echo "VIVALDI_VERSION=$V" >> "$GITHUB_ENV"
           echo "LINUX_VERSION=$LV" >> "$GITHUB_ENV"
+          R=$(awk '$1 == "LINUX_BINS_REV=" { print $2 }' vivaldi/Makefile)
+          echo "LINUX_BINS_DIST=vivaldi-linux-bins-${LV}_${R}.tar.xz" >> "$GITHUB_ENV"
           echo "vivaldi $V, Linux package $LV"
 
       - name: Fetch the Linux package
@@ -78,14 +80,19 @@ jobs:
           mkdir -p work/$N/resources
           mv work/data/opt/vivaldi/resources/vivaldi work/$N/resources/
           mv work/data/opt/vivaldi/product_logo_*.png work/$N/
+          # the manifest of the UI app is only in the .pak files
+          pip install --quiet brotli
+          python3 vivaldi/files/pak_manifest.py work/data/opt/vivaldi/*.pak \
+            > work/$N/manifest.json
+          cat work/$N/manifest.json
           ls work/$N
           tar -C work -c -J --owner=0 --group=0 --numeric-owner \
-            -f out/$N.tar.xz $N
+            -f out/$LINUX_BINS_DIST $N
           cd out
           printf 'SHA256 (%s) = %s\nSIZE (%s) = %s\n' \
-            $N.tar.xz "$(sha256sum $N.tar.xz | cut -d' ' -f1)" \
-            $N.tar.xz "$(stat -c %s $N.tar.xz)" > $N.tar.xz.distinfo
-          cat $N.tar.xz.distinfo
+            $LINUX_BINS_DIST "$(sha256sum $LINUX_BINS_DIST | cut -d' ' -f1)" \
+            $LINUX_BINS_DIST "$(stat -c %s $LINUX_BINS_DIST)" > $LINUX_BINS_DIST.distinfo
+          cat $LINUX_BINS_DIST.distinfo
 
       - name: Source tarball distinfo
         run: |
@@ -118,7 +125,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          N=vivaldi-linux-bins-$LINUX_VERSION.tar.xz
+          N=$LINUX_BINS_DIST
           T=vivaldi-$LINUX_VERSION
           ls -l out/$N
           if gh release view $T --json assets --jq '.assets[].name' | \
