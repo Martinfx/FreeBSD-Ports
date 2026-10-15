@@ -473,13 +473,16 @@ do-install:
 	${INSTALL_SCRIPT} ${WRKDIR}/vivaldi ${STAGEDIR}${PREFIX}/bin
 	@${MKDIR} ${STAGEDIR}${DESKTOPDIR}
 	${INSTALL_DATA} ${WRKDIR}/vivaldi.desktop ${STAGEDIR}${DESKTOPDIR}
-
-post-install-WIDEVINE-on:
+# Done here rather than in post-install-<opt>-on helpers, so that what
+# pkg-plist lists under %%WIDEVINE%% and %%QT6%% is staged by the same
+# target as everything else.
+.if ${PORT_OPTIONS:MWIDEVINE}
 	${LN} -sfh ${LOCALBASE}/share/chromium/WidevineCdm \
 		${STAGEDIR}${DATADIR}/WidevineCdm
-
-post-install-QT6-on:
+.endif
+.if ${PORT_OPTIONS:MQT6}
 	${INSTALL_LIB} ${WRKSRC}/out/${BUILDTYPE}/libqt6_shim.so \
 		${STAGEDIR}${DATADIR}
+.endif
 
 .include <bsd.port.post.mk>
