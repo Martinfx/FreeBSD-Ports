@@ -1,5 +1,4 @@
 bin/vivaldi
-libdata/ldconfig/vivaldi
 share/applications/vivaldi.desktop
 share/icons/hicolor/128x128/apps/vivaldi.png
 share/icons/hicolor/16x16/apps/vivaldi.png
@@ -14,7 +13,6 @@ share/icons/hicolor/64x64/apps/vivaldi.png
 %%DATADIR%%/libGLESv2.so
 %%DATADIR%%/libVkICD_mock_icd.so
 %%DATADIR%%/libffmpeg.so
-%%DATADIR%%/libqt6_shim.so
 %%DATADIR%%/libvk_swiftshader.so
 %%DATADIR%%/libvulkan.so
 %%DATADIR%%/locales/af.pak
