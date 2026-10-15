@@ -1,7 +1,7 @@
 PORTNAME=	brave
 DISTVERSIONPREFIX=	v
 DISTVERSION=	1.96.61
-PORTREVISION=	1
+PORTREVISION=	2
 TSV=		7.0.2
 CATEGORIES=	www
 MASTER_SITES=	https://github.com/chromium-linux-tarballs/chromium-tarballs/releases/download/${CHROME_VERSION}/:chromium \
