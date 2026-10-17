@@ -5,7 +5,7 @@
  #if defined(_WIN32)
  #define OCL_LIB_NAME "OpenCL.dll"
 -#elif defined(__linux__)
-+#elif defined(__FreeBSD__)
++#elif defined(__linux__) || defined(__FreeBSD__)
  #define OCL_LIB_NAME "libOpenCL.so.1"
  #endif
  

@@ -5,7 +5,7 @@
  #define XPU_ZE_UTILS_HPP
  
 -#if defined(__linux__)
-+#if defined(__FreeBSD__)
++#if defined(__linux__) || defined(__FreeBSD__)
  #include <dlfcn.h>
  #elif defined(_WIN32)
  #include "windows.h"
@@ -14,7 +14,7 @@
  #if defined(_WIN32)
  #define ZE_LIB_NAME "ze_loader.dll"
 -#elif defined(__linux__)
-+#elif defined(__FreeBSD__)
++#elif defined(__linux__) || defined(__FreeBSD__)
  #define ZE_LIB_NAME "libze_loader.so.1"
  #endif
  
