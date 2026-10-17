@@ -1,3 +1,4 @@
+bin/benchmark_app
 include/openvino/c/auto/properties.h
 include/openvino/c/deprecated.h
 include/openvino/c/gpu/gpu_plugin_properties.h
@@ -528,6 +529,9 @@ lib/libopenvino_ir_frontend.so
 lib/libopenvino_ir_frontend.so.2026.4.1
 lib/libopenvino_ir_frontend.so.2641
 lib/libopenvino_itt.a
+lib/libopenvino_jax_frontend.so
+lib/libopenvino_jax_frontend.so.2026.4.1
+lib/libopenvino_jax_frontend.so.2641
 lib/libopenvino_offline_transformations.a
 lib/libopenvino_onednn_cpu.a
 lib/libopenvino_onnx_common.a
@@ -595,6 +599,7 @@ lib/libopenvino_xml_util.a
 %%PYTHON_SITELIBDIR%%/openvino/frontend/jax/__init__.py
 %%PYTHON_SITELIBDIR%%/openvino/frontend/jax/jaxpr_decoder.py
 %%PYTHON_SITELIBDIR%%/openvino/frontend/jax/passes.py
+%%PYTHON_SITELIBDIR%%/openvino/frontend/jax/py_jax_frontend%%PYTHON_EXT_SUFFIX%%.so
 %%PYTHON_SITELIBDIR%%/openvino/frontend/jax/utils.py
 %%PYTHON_SITELIBDIR%%/openvino/frontend/onnx/__init__.py
 %%PYTHON_SITELIBDIR%%/openvino/frontend/onnx/py_onnx_frontend%%PYTHON_EXT_SUFFIX%%.so

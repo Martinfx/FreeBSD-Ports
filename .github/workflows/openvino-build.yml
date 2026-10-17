@@ -1,7 +1,8 @@
 # Build devel/openvino natively in a FreeBSD 15.1 VM against the ports tree
 # of the current quarterly branch, then test the package: regenerate distinfo
-# (make makesum), stage, check-plist, package, install it and run the C++ and
-# Python smoke tests from .github/openvino-smoke on the CPU plugin.
+# (make makesum), stage, check-plist, package, install it and run the C++,
+# benchmark_app and Python smoke tests from .github/openvino-smoke on the CPU
+# plugin.
 #
 # The dependencies come from packages and the port is built with
 # NO_DEPENDS, so a missing package shows up in missing-deps.txt instead of
@@ -143,6 +144,18 @@ jobs:
               echo "C++ smoke test FAILED"; status=1
             fi
             cat $O/smoke-cpp.txt
+            if (cd /tmp/smoke && benchmark_app -m /tmp/smoke/smoke.xml -d CPU \
+                -niter 200 -hint latency) > $O/benchmark-app.txt 2>&1 < /dev/null; then
+              echo "benchmark_app OK"
+            else
+              echo "benchmark_app FAILED"; status=1
+            fi
+            cat $O/benchmark-app.txt
+            # the GPU plugin has to use the system OpenCL ICD loader, which
+            # finds the ICDs in /usr/local/etc/OpenCL/vendors
+            ldd /usr/local/lib/libopenvino_intel_gpu_plugin.so | tee $O/gpu-plugin-ldd.txt
+            grep -q '/usr/local/lib/libOpenCL.so' $O/gpu-plugin-ldd.txt || \
+              { echo "GPU plugin does not use the system libOpenCL"; status=1; }
             PY=$($MK -V PYTHON_CMD < /dev/null)
             if (cd /tmp/smoke && $PY -I $S/smoke.py /tmp/smoke/smoke_py.xml) \
                 > $O/smoke-py.txt 2>&1 < /dev/null; then
@@ -171,7 +184,7 @@ jobs:
         if: always()
         run: |
           {
-            for f in distinfo missing-deps.txt check-plist.txt pkg-plist.diff smoke-cpp.txt smoke-py.txt; do
+            for f in distinfo missing-deps.txt check-plist.txt pkg-plist.diff smoke-cpp.txt benchmark-app.txt gpu-plugin-ldd.txt smoke-py.txt; do
               [ -f out/$f ] || continue
               echo "### $f"; echo '```'; cat out/$f; echo '```'
             done
