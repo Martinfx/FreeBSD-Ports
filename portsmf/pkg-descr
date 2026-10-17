@@ -1,1 +1,4 @@
-Portsmf is "Port Standard MIDI File", a cross-platform, C++ library for reading and writing Standard MIDI Files.
+Portsmf ("Port Standard MIDI File") is a cross-platform C++ library
+for reading and writing Standard MIDI Files and Allegro score files.
+It provides a score data structure (Allegro) used by Audacity and
+Tenacity for note tracks.

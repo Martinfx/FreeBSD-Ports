@@ -1,11 +1,60 @@
---- CMakeLists.txt.orig	2025-10-12 15:38:58 UTC
+--- CMakeLists.txt.orig	2026-10-16 17:51:47 UTC
 +++ CMakeLists.txt
-@@ -412,7 +412,7 @@ endif()
+@@ -439,7 +439,7 @@
      set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<$<CONFIG:Debug,RelWithDebInfo>:Embedded>")
  endif()
  
 -if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "x86_64|AMD64")
-+if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "x86_64|amd64")
++if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "x86_64|AMD64|amd64")
      # Allow AVX2 or AVX512 to be enabled if desired
      option(AVX    "Enable the usage of AVX in builds instead of SSE4.")
      option(AVX2   "Enable the usage of AVX2 in builds instead of SSE4 or AVX." OFF)
+@@ -567,7 +567,33 @@
+ add_subdirectory("lib-src/pffft" EXCLUDE_FROM_ALL)
+ 
+ find_package(PortMidi)
+-find_package(PortSMF)
++if (EXISTS "${CMAKE_SOURCE_DIR}/lib-src/portsmf/CMakeLists.txt")
++    # Build the bundled PortSMF as a static library
++    set(_PORTSMF_DIR "${CMAKE_SOURCE_DIR}/lib-src/portsmf")
++    add_library(portsmf-bundled STATIC
++        ${_PORTSMF_DIR}/src/allegro.cpp
++        ${_PORTSMF_DIR}/src/allegrord.cpp
++        ${_PORTSMF_DIR}/src/allegroserial.cpp
++        ${_PORTSMF_DIR}/src/allegrosmfrd.cpp
++        ${_PORTSMF_DIR}/src/allegrosmfwr.cpp
++        ${_PORTSMF_DIR}/src/allegrowr.cpp
++        ${_PORTSMF_DIR}/src/mfmidi.cpp
++        ${_PORTSMF_DIR}/src/strparse.cpp
++    )
++    # Tenacity includes <portsmf/allegro.h>
++    set(_PORTSMF_PUBDIR "${CMAKE_BINARY_DIR}/portsmf-include")
++    file(MAKE_DIRECTORY "${_PORTSMF_PUBDIR}")
++    file(CREATE_LINK "${_PORTSMF_DIR}/include" "${_PORTSMF_PUBDIR}/portsmf" SYMBOLIC)
++    set_target_properties(portsmf-bundled PROPERTIES POSITION_INDEPENDENT_CODE ON)
++    target_include_directories(portsmf-bundled
++        PRIVATE "${_PORTSMF_DIR}/include"
++        PUBLIC "${_PORTSMF_PUBDIR}")
++    add_library(PortSMF::PortSMF ALIAS portsmf-bundled)
++    set(PortSMF_FOUND TRUE)
++    message(STATUS "Using bundled PortSMF")
++else()
++    find_package(PortSMF)
++endif()
+ cmake_dependent_option(MIDI "MIDI support requires PortMidi and PortSMF." ON "PortMidi_FOUND;PortSMF_FOUND" OFF)
+ if(MIDI)
+     set(USE_MIDI ON)
+@@ -775,13 +801,6 @@
+ if (NYQUIST)
+     set(USE_NYQUIST ON)
+ 
+-    if (NOT GIT_FOUND)
+-        message(FATAL_ERROR "Git not found; cannot initialize the libnyquist submodule. Install git or disable Nyquist with -DNYQUIST=OFF.")
+-    endif()
+-
+-    message(STATUS "Ensuring libnyquist Git submodule is initialized")
+-    execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init lib-src/libnyquist WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
+-
+     if (NOT EXISTS "${CMAKE_SOURCE_DIR}/lib-src/libnyquist/CMakeLists.txt")
+         message(FATAL_ERROR "libnyquist submodule directory is still empty after 'git submodule update --init'. Check your Git configuration and network access.")
+     endif()

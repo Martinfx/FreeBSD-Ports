@@ -1,18 +1,18 @@
-PORTNAME=       portsmf
-DISTVERSION=    239
-CATEGORIES=     multimedia
-MASTER_SITES=   https://codeberg.org/tenacityteam/${PORTNAME}/archive/${DISTVERSIONFULL}${EXTRACT_SUFX}?dummy=/
+PORTNAME=	portsmf
+DISTVERSION=	239
+CATEGORIES=	multimedia audio
 
-MAINTAINER=     root@hades
-COMMENT=        Portsmf is "Port Standard MIDI File". 
-WWW=            https://codeberg.org/tenacityteam/portsmf
+MAINTAINER=	freebsd@sysctl.cz
+COMMENT=	Portable C++ library for reading and writing Standard MIDI Files
+WWW=		https://github.com/portsmf/portsmf
 
-LICENSE_NAME=	unknown
-LICENSE_PERMS=	auto-accept
+LICENSE=	MIT
 LICENSE_FILE=	${WRKSRC}/license.txt
 
 USES=		cmake
+USE_GITHUB=	yes
+USE_LDCONFIG=	yes
 
-WRKSRC=		${WRKDIR}/${PORTNAME}
+CMAKE_OFF=	BUILD_APPS BUILD_TESTING
 
 .include <bsd.port.mk>

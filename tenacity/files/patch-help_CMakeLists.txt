@@ -1,0 +1,15 @@
+--- help/CMakeLists.txt.orig	2026-10-16 17:51:47 UTC
++++ help/CMakeLists.txt
+@@ -39,8 +39,10 @@
+ endif()
+ 
+ if( NOT CMAKE_SYSTEM_NAME MATCHES "Darwin" AND NOT CMAKE_SYSTEM_NAME MATCHES "Windows")
+-   install( DIRECTORY "${MANUAL_PATH}" OPTIONAL
+-            DESTINATION "${_DATADIR}/tenacity/help" )
++   if (PACKAGE_MANUAL)
++      install( DIRECTORY "${MANUAL_PATH}" OPTIONAL
++               DESTINATION "${_DATADIR}/tenacity/help" )
++   endif()
+    install( FILES "${_SRCDIR}/tenacity.1"
+             DESTINATION "${_MANDIR}/man1" )
+    install( FILES "${_INTDIR}/${APP_ID}.metainfo.xml"
