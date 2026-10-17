@@ -75,24 +75,31 @@ cat $O/pkg-plist.diff
 (cd $($MK -V STAGEDIR) && find . -name '*.so*' | sort) > $O/stage-libs.txt
 find $($MK -V WRKSRC)/bin -name '*.so' -path '*python*' | sort
 
-$MK package < /dev/null > $O/package.log 2>&1 || { tail -n 50 $O/package.log; exit 1; }
+# every step after the build gets a time limit, so that a hanging one shows
+# up in the log instead of running into the job time limit
+step() { echo "=== $(date -u +%T) $*"; }
+step package
+timeout 20m $MK package < /dev/null > $O/package.log 2>&1 || { tail -n 50 $O/package.log; exit 1; }
 # make package leaves the package in ${WRKDIR}/pkg without /usr/ports/packages
 ls -l $($MK -V WRKDIR < /dev/null)/pkg/*.pkg
-$MK install < /dev/null > $O/install.log 2>&1 || { tail -n 50 $O/install.log; exit 1; }
+step install
+timeout 20m $MK install < /dev/null > $O/install.log 2>&1 || { tail -n 50 $O/install.log; exit 1; }
 pkg info -x openvino
 
 # smoke tests against the installed package
 S=$W/.github/openvino-smoke
 mkdir -p /tmp/smoke
-if c++ -std=c++17 -O1 -I/usr/local/include $S/smoke.cpp \
+step C++ smoke test
+if timeout 10m c++ -std=c++17 -O1 -I/usr/local/include $S/smoke.cpp \
     -L/usr/local/lib -lopenvino -o /tmp/smoke/smoke > $O/smoke-cpp.txt 2>&1 && \
-  /tmp/smoke/smoke /tmp/smoke/smoke.xml >> $O/smoke-cpp.txt 2>&1 < /dev/null; then
+  timeout 10m /tmp/smoke/smoke /tmp/smoke/smoke.xml >> $O/smoke-cpp.txt 2>&1 < /dev/null; then
   echo "C++ smoke test OK"
 else
   echo "C++ smoke test FAILED"; status=1
 fi
 cat $O/smoke-cpp.txt
-if (cd /tmp/smoke && benchmark_app -m /tmp/smoke/smoke.xml -d CPU \
+step benchmark_app
+if (cd /tmp/smoke && timeout 10m benchmark_app -m /tmp/smoke/smoke.xml -d CPU \
     -niter 200 -hint latency) > $O/benchmark-app.txt 2>&1 < /dev/null; then
   echo "benchmark_app OK"
 else
@@ -105,7 +112,8 @@ ldd /usr/local/lib/libopenvino_intel_gpu_plugin.so | tee $O/gpu-plugin-ldd.txt
 grep -q '/usr/local/lib/libOpenCL.so' $O/gpu-plugin-ldd.txt || \
   { echo "GPU plugin does not use the system libOpenCL"; status=1; }
 PY=$($MK -V PYTHON_CMD < /dev/null)
-if (cd /tmp/smoke && $PY -I $S/smoke.py /tmp/smoke/smoke_py.xml) \
+step Python smoke test
+if (cd /tmp/smoke && timeout 10m $PY -I $S/smoke.py /tmp/smoke/smoke_py.xml) \
     > $O/smoke-py.txt 2>&1 < /dev/null; then
   echo "Python smoke test OK"
 else
