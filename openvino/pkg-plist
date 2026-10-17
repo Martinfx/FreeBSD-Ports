@@ -524,6 +524,7 @@ lib/libopenvino_intel_gpu_graph.a
 lib/libopenvino_intel_gpu_kernels.a
 lib/libopenvino_intel_gpu_plugin.so
 lib/libopenvino_intel_gpu_runtime.a
+lib/libopenvino_intel_npu_plugin.so
 lib/libopenvino_interpreter_backend.a
 lib/libopenvino_ir_frontend.so
 lib/libopenvino_ir_frontend.so.2026.4.1
@@ -532,6 +533,13 @@ lib/libopenvino_itt.a
 lib/libopenvino_jax_frontend.so
 lib/libopenvino_jax_frontend.so.2026.4.1
 lib/libopenvino_jax_frontend.so.2641
+lib/libopenvino_npu_al.a
+lib/libopenvino_npu_common.a
+lib/libopenvino_npu_compiler_adapter.a
+lib/libopenvino_npu_level_zero_backend.a
+lib/libopenvino_npu_logger_utils.a
+lib/libopenvino_npu_ops.a
+lib/libopenvino_npu_zero_utils.a
 lib/libopenvino_offline_transformations.a
 lib/libopenvino_onednn_cpu.a
 lib/libopenvino_onnx_common.a
@@ -560,6 +568,7 @@ lib/libopenvino_tensorflow_lite_frontend.so.2026.4.1
 lib/libopenvino_tensorflow_lite_frontend.so.2641
 lib/libopenvino_util.a
 lib/libopenvino_xml_util.a
+lib/libopenvino_zero_loader.a
 %%PYTHON_SITELIBDIR%%/openvino/__init__.py
 %%PYTHON_SITELIBDIR%%/openvino/__init__.pyi
 %%PYTHON_SITELIBDIR%%/openvino/_offline_transformations/__init__.py
@@ -567,7 +576,7 @@ lib/libopenvino_xml_util.a
 %%PYTHON_SITELIBDIR%%/openvino/_op_base.pyi
 %%PYTHON_SITELIBDIR%%/openvino/_ov_api.py
 %%PYTHON_SITELIBDIR%%/openvino/_ov_api.pyi
-%%PYTHON_SITELIBDIR%%/openvino/_pyopenvino%%PYTHON_EXT_SUFFIX%%.so
+%%PYTHON_SITELIBDIR%%/openvino/_pyopenvino%%PYTHON_TAG%%.so
 %%PYTHON_SITELIBDIR%%/openvino/_pyopenvino/__init__.pyi
 %%PYTHON_SITELIBDIR%%/openvino/_pyopenvino/_offline_transformations.pyi
 %%PYTHON_SITELIBDIR%%/openvino/_pyopenvino/experimental.pyi
@@ -599,12 +608,12 @@ lib/libopenvino_xml_util.a
 %%PYTHON_SITELIBDIR%%/openvino/frontend/jax/__init__.py
 %%PYTHON_SITELIBDIR%%/openvino/frontend/jax/jaxpr_decoder.py
 %%PYTHON_SITELIBDIR%%/openvino/frontend/jax/passes.py
-%%PYTHON_SITELIBDIR%%/openvino/frontend/jax/py_jax_frontend%%PYTHON_EXT_SUFFIX%%.so
+%%PYTHON_SITELIBDIR%%/openvino/frontend/jax/py_jax_frontend%%PYTHON_TAG%%.so
 %%PYTHON_SITELIBDIR%%/openvino/frontend/jax/utils.py
 %%PYTHON_SITELIBDIR%%/openvino/frontend/onnx/__init__.py
-%%PYTHON_SITELIBDIR%%/openvino/frontend/onnx/py_onnx_frontend%%PYTHON_EXT_SUFFIX%%.so
+%%PYTHON_SITELIBDIR%%/openvino/frontend/onnx/py_onnx_frontend%%PYTHON_TAG%%.so
 %%PYTHON_SITELIBDIR%%/openvino/frontend/paddle/__init__.py
-%%PYTHON_SITELIBDIR%%/openvino/frontend/paddle/py_paddle_frontend%%PYTHON_EXT_SUFFIX%%.so
+%%PYTHON_SITELIBDIR%%/openvino/frontend/paddle/py_paddle_frontend%%PYTHON_TAG%%.so
 %%PYTHON_SITELIBDIR%%/openvino/frontend/pytorch/__init__.py
 %%PYTHON_SITELIBDIR%%/openvino/frontend/pytorch/compressed_tensors.py
 %%PYTHON_SITELIBDIR%%/openvino/frontend/pytorch/fx_decoder.py
@@ -614,7 +623,7 @@ lib/libopenvino_xml_util.a
 %%PYTHON_SITELIBDIR%%/openvino/frontend/pytorch/ov_custom_ops.py
 %%PYTHON_SITELIBDIR%%/openvino/frontend/pytorch/patch_functions.py
 %%PYTHON_SITELIBDIR%%/openvino/frontend/pytorch/patch_model.py
-%%PYTHON_SITELIBDIR%%/openvino/frontend/pytorch/py_pytorch_frontend%%PYTHON_EXT_SUFFIX%%.so
+%%PYTHON_SITELIBDIR%%/openvino/frontend/pytorch/py_pytorch_frontend%%PYTHON_TAG%%.so
 %%PYTHON_SITELIBDIR%%/openvino/frontend/pytorch/quantized.py
 %%PYTHON_SITELIBDIR%%/openvino/frontend/pytorch/torchdynamo/backend.py
 %%PYTHON_SITELIBDIR%%/openvino/frontend/pytorch/torchdynamo/backend_utils.py
@@ -630,7 +639,7 @@ lib/libopenvino_xml_util.a
 %%PYTHON_SITELIBDIR%%/openvino/frontend/tensorflow/__init__.pyi
 %%PYTHON_SITELIBDIR%%/openvino/frontend/tensorflow/graph_iterator.py
 %%PYTHON_SITELIBDIR%%/openvino/frontend/tensorflow/node_decoder.py
-%%PYTHON_SITELIBDIR%%/openvino/frontend/tensorflow/py_tensorflow_frontend%%PYTHON_EXT_SUFFIX%%.so
+%%PYTHON_SITELIBDIR%%/openvino/frontend/tensorflow/py_tensorflow_frontend%%PYTHON_TAG%%.so
 %%PYTHON_SITELIBDIR%%/openvino/frontend/tensorflow/py_tensorflow_frontend.pyi
 %%PYTHON_SITELIBDIR%%/openvino/frontend/tensorflow/utils.py
 %%PYTHON_SITELIBDIR%%/openvino/helpers/__init__.py
