@@ -67,6 +67,10 @@ GH_TUPLE=	rust-skia:skia:m153-0.101.2:skia \
 		pkufool:simple-sentencepiece:v0.7:ssp
 
 WRKSRC_SUBDIR=	src
+# sherpa-onnx's source tree would extract to sherpa-onnx-1.13.7, the
+# directory of the sherpa-onnx crate, and be moved into the vendored
+# crates with it: extract it on its own in post-extract.
+EXTRACT_ONLY=	${_DISTFILES:N${DISTFILE_sherpa}}
 
 CARGO_CRATES=	ab_glyph-0.2.32 \
 		ab_glyph_rasterizer-0.1.10 \
@@ -914,6 +918,7 @@ MAKE_ENV+=	GGML_AVX=OFF \
 EIGEN_VERSION=	5.0.1
 
 SHERPA_BUILDDIR=	${WRKDIR}/sherpa-onnx-build
+SHERPA_SRCDIR=	${WRKDIR}/sherpa-onnx-src/${WRKSRC_sherpa:T}
 SHERPA_STAGEDIR=	${WRKDIR}/sherpa-onnx-stage
 # The static libraries the sherpa-onnx crate links, built without the
 # demo programs and the Python, WebSocket and PortAudio parts.  Each
@@ -950,6 +955,9 @@ PLIST_FILES=	bin/concat \
 		${ICON_SIZES:@s@share/icons/hicolor/${s}x${s}/apps/concat.png@}
 
 post-extract:
+	@${MKDIR} ${SHERPA_SRCDIR:H}
+	@${TAR} -xf ${_DISTDIR}/${DISTFILE_sherpa} -C ${SHERPA_SRCDIR:H} \
+		--no-same-owner --no-same-permissions
 	@${MKDIR} ${WRKSRC_skia}/third_party/externals
 	@${LN} -s ${WRKSRC_vma} \
 		${WRKSRC_skia}/third_party/externals/vulkanmemoryallocator
@@ -962,7 +970,7 @@ pre-build:
 	@${MKDIR} ${SHERPA_BUILDDIR}
 	cd ${SHERPA_BUILDDIR} && ${SETENVI} ${WRK_ENV} ${MAKE_ENV} \
 		${LOCALBASE}/bin/cmake -G Ninja ${SHERPA_CMAKE_ARGS} \
-		${WRKSRC_sherpa}
+		${SHERPA_SRCDIR}
 	cd ${SHERPA_BUILDDIR} && ${SETENVI} ${WRK_ENV} ${MAKE_ENV} \
 		${NINJA_CMD} -j${MAKE_JOBS_NUMBER} install
 
