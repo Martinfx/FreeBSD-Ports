@@ -1,6 +1,6 @@
 PORTNAME=	zeno
 DISTVERSION=	2024.10.1
-PORTREVISION=	5
+PORTREVISION=	6
 CATEGORIES=	graphics
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -52,7 +52,7 @@ CMAKE_OFF=	ZENO_BUILD_DESIGNER ZENO_BUILD_PLAYER ZENO_INSTALL_TARGET \
 
 # Every extension below is a set of nodes compiled into libzeno.so, so these
 # options only change what the editor offers - the package always installs the
-# same three files.  Extensions that stay off and why:
+# same files.  Extensions that stay off and why:
 #   zenvdb, FastFLIP	# need the openvdb submodule, add it to GH_TUPLE first
 #   Euler		# needs zenvdb, and compiling it killed gcc
 #   SampleModel		# error: '_pgmptr' was not declared in this scope
@@ -194,9 +194,15 @@ CGMESHTOOLS_IMPLIES=		CGMESH
 FLIPTOOLS_CMAKE_BOOL=		ZENO_WITH_TOOL_FLIPtools
 HERCULESTOOLS_CMAKE_BOOL=	ZENO_WITH_TOOL_HerculesTools
 
+DESKTOP_ENTRIES=	"ZENO" "Node based simulation and rendering engine" \
+			"zeno" "zenoedit" "Graphics;3DGraphics;" false
+
+ICON_SIZES=	64 128 256
+
 PLIST_FILES=	bin/autotest \
 		bin/zenoedit \
-		lib/libzeno.so
+		lib/libzeno.so \
+		${ICON_SIZES:@s@share/icons/hicolor/${s}x${s}/apps/zeno.png@}
 
 BULLET_FORK=	${WRKSRC}/projects/Rigid/bullet3
 
@@ -219,5 +225,10 @@ do-install:
 	${INSTALL_PROGRAM} ${BUILD_WRKSRC}/bin/autotest ${STAGEDIR}${PREFIX}/bin
 	${INSTALL_PROGRAM} ${BUILD_WRKSRC}/bin/zenoedit ${STAGEDIR}${PREFIX}/bin
 	${INSTALL_LIB} ${BUILD_WRKSRC}/bin/libzeno.so ${STAGEDIR}${PREFIX}/lib
+.for s in ${ICON_SIZES}
+	@${MKDIR} ${STAGEDIR}${PREFIX}/share/icons/hicolor/${s}x${s}/apps
+	${INSTALL_DATA} ${WRKSRC}/ui/zenoedit/res/icons/ZENO-logo${s}.png \
+		${STAGEDIR}${PREFIX}/share/icons/hicolor/${s}x${s}/apps/zeno.png
+.endfor
 
 .include <bsd.port.mk>
