@@ -26,7 +26,8 @@ USES=		cmake compiler:c++17-lang desktop-file-utils gettext-runtime \
 		gnome localbase pkgconfig shared-mime-info sqlite
 USE_GITHUB=	yes
 GH_ACCOUNT=	tenacityteam
-GH_TUPLE=	tenacityteam:libnyquist:aaf654f:libnyquist/lib-src/libnyquist
+GH_TUPLE=	portsmf:portsmf:239:portsmf/lib-src/portsmf \
+		tenacityteam:libnyquist:aaf654f:libnyquist/lib-src/libnyquist
 USE_GNOME=	cairo gdkpixbuf glib20 gtk30 pango
 USE_WX=		3.2
 WX_COMPS=	wx
@@ -46,7 +47,7 @@ OPTIONS_DEFAULT=	FFMPEG FLAC ID3TAG LADSPA LV2 MATROSKA MIDI MPG123 \
 			NYQUIST OPUS SWH TWOLAME VAMP VORBIS VST WAVPACK ZAM
 OPTIONS_GROUP=		PLUGINS
 OPTIONS_GROUP_PLUGINS=	CALF CAPS CMT DRAGONFLY LSP MDA NOISEREPELLENT SWH \
-			X42 ZAM
+			TAP X42 ZAM
 OPTIONS_EXCLUDE_i386=	X42
 OPTIONS_EXCLUDE_powerpc=	LSP
 OPTIONS_EXCLUDE_riscv64=	LSP
@@ -76,6 +77,7 @@ LSP_DESC=		Linux Studio Plugins (LV2)
 MDA_DESC=		MDA plugins (LV2)
 NOISEREPELLENT_DESC=	Noise Repellent noise reduction (LV2)
 SWH_DESC=		Steve Harris' plugins (LADSPA)
+TAP_DESC=		Tom's Audio Processing plugins (LADSPA)
 X42_DESC=		x42 plugin collection (LV2)
 ZAM_DESC=		ZamAudio plugins (LV2 and LADSPA)
 
@@ -103,8 +105,8 @@ MATROSKA_LIB_DEPENDS=	libebml.so:textproc/libebml \
 			libmatroska.so:multimedia/libmatroska
 MATROSKA_CMAKE_BOOL=	MATROSKA
 
-MIDI_LIB_DEPENDS=	libportmidi.so:audio/portmidi \
-			libportSMF.so:multimedia/portsmf
+# PortSMF (lib-src/portsmf) is built statically, it is not in the ports tree
+MIDI_LIB_DEPENDS=	libportmidi.so:audio/portmidi
 MIDI_CMAKE_BOOL=	MIDI
 
 MPG123_LIB_DEPENDS=	libmpg123.so:audio/mpg123
@@ -151,6 +153,8 @@ NOISEREPELLENT_IMPLIES=	LV2
 NOISEREPELLENT_RUN_DEPENDS=	noise-repellent-lv2>0:audio/noise-repellent-lv2
 SWH_IMPLIES=		LADSPA
 SWH_RUN_DEPENDS=	swhplugins>0:audio/swhplugins
+TAP_IMPLIES=		LADSPA
+TAP_RUN_DEPENDS=	tap-plugins>0:audio/tap-plugins
 X42_IMPLIES=		LV2
 X42_RUN_DEPENDS=	x42-plugins-lv2>0:audio/x42-plugins-lv2
 ZAM_IMPLIES=		LV2
