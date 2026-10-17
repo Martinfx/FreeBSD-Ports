@@ -9,7 +9,7 @@
  #include <dlfcn.h>
  #elif defined(_WIN32)
  #include "windows.h"
-@@ -97,7 +97,7 @@ status_t ze_initialize();
+@@ -114,7 +114,7 @@ ze_result_t ze_initialize();
  
  #if defined(_WIN32)
  #define ZE_LIB_NAME "ze_loader.dll"

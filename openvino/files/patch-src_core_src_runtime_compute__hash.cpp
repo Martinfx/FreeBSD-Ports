@@ -1,6 +1,6 @@
 --- src/core/src/runtime/compute_hash.cpp.orig	2026-02-14 21:07:41 UTC
 +++ src/core/src/runtime/compute_hash.cpp
-@@ -349,7 +349,7 @@ void ComputeHash<isa>::initialize(const Vmm& v_dst) {
+@@ -352,7 +352,7 @@ void ComputeHash<isa>::initialize(const
      mov(r64_k_ptr, ptr[r64_params + GET_OFF(k_ptr)]);
      mov(r64_work_amount, ptr[r64_params + GET_OFF(work_amount)]);
  
