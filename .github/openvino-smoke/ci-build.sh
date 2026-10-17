@@ -40,7 +40,7 @@ echo "missing dependency packages:"; cat $O/missing-deps.txt
 
 # libraries the port bundles: installed, so that the build shows it uses
 # the bundled copies, as it must on a system that has them
-pkg install -y math/onnx devel/xbyak devel/nlohmann-json devel/flatbuffers \
+pkg install -y math/onnx math/onednn devel/xbyak devel/nlohmann-json devel/flatbuffers \
   < /dev/null >> $O/pkg.log 2>&1 || echo "could not install all bundled libraries"
 
 export CCACHE_DIR=$W/ccache CCACHE_MAXSIZE=8G
