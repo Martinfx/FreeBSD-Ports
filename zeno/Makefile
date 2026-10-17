@@ -1,6 +1,6 @@
 PORTNAME=	zeno
 DISTVERSION=	2024.10.1
-PORTREVISION=	4
+PORTREVISION=	5
 CATEGORIES=	graphics
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -20,16 +20,20 @@ LIB_DEPENDS=	libboost_atomic.so:devel/boost-libs \
 		libboost_thread.so:devel/boost-libs \
 		libcryptopp.so:security/cryptopp \
 		libminizip.so:archivers/minizip \
-		libqwt.so:x11-toolkits/qwt6@qt5
+		libqwt.so:x11-toolkits/qwt6@qt6
 
 USES=		cmake compiler:c++17-lang eigen:3 localbase:ldflags pkgconfig \
-		qt:5
+		qt:6
 USE_LDCONFIG=	yes
-USE_QT=		core gui network opengl svg widgets buildtools:build qmake:build
+USE_QT=		base svg
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	zenustech
 
+# The bundled Qwt is a prebuilt static library for Qt 5, use the Qt 6 flavor
+# of x11-toolkits/qwt6 instead
+CMAKE_ARGS=	-DQWT_INCLUDE_DIR:PATH=${QT_INCDIR}/qwt6 \
+		-DQWT_LIBRARY:FILEPATH=${QT_LIBDIR}/libqwt.so
 CMAKE_ON=	ZENO_BUILD_EDITOR ZENO_BUILD_SHARED ZENO_IPC_USE_TCP \
 		ZENO_MULTIPROCESS ZENO_NO_WARNING ZENO_USE_CCACHE \
 		ZENO_SYSTEM_OPENVDB
@@ -207,9 +211,6 @@ pre-configure-RIGID-on:
 		${ECHO_MSG} "===> ${PKGNAME} requires single precision devel/bullet, deinstall bullet-double first"; \
 		${FALSE}; \
 	fi
-
-pre-configure:
-	${REINPLACE_CMD} -e 's|%%LOCALBASE%%|${LOCALBASE}|g' ${WRKSRC}/ui/zenoui/CMakeLists.txt
 
 do-install:
 	${INSTALL_PROGRAM} ${BUILD_WRKSRC}/bin/autotest ${STAGEDIR}${PREFIX}/bin
