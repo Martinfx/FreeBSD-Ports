@@ -13,14 +13,15 @@ LICENSE_FILE=	${WRKSRC}/LICENSE
 BUILD_DEPENDS=	boost-libs>=1.85.0:devel/boost-libs \
 		c-blosc2>0:archivers/c-blosc2 \
 		onetbb>0:devel/onetbb \
-		openmpi>0:net/openmpi
+		openmpi>0:net/openmpi \
+		${_QWT_LIB}:x11-toolkits/qwt6@qt6
 
 LIB_DEPENDS=	libboost_atomic.so:devel/boost-libs \
 		libboost_chrono.so:devel/boost-libs \
 		libboost_thread.so:devel/boost-libs \
 		libcryptopp.so:security/cryptopp \
-		libminizip.so:archivers/minizip \
-		libqwt.so:x11-toolkits/qwt6@qt6
+		libminizip.so:archivers/minizip
+RUN_DEPENDS=	${_QWT_LIB}:x11-toolkits/qwt6@qt6
 
 USES=		cmake compiler:c++17-lang eigen:3 localbase:ldflags pkgconfig \
 		qt:6
@@ -31,9 +32,11 @@ USE_GITHUB=	yes
 GH_ACCOUNT=	zenustech
 
 # The bundled Qwt is a prebuilt static library for Qt 5, use the Qt 6 flavor
-# of x11-toolkits/qwt6 instead
-CMAKE_ARGS=	-DQWT_INCLUDE_DIR:PATH=${QT_INCDIR}/qwt6 \
-		-DQWT_LIBRARY:FILEPATH=${QT_LIBDIR}/libqwt.so
+# of x11-toolkits/qwt6 instead.  Both flavors install libqwt.so, so depend on
+# the Qt 6 one by path: LIB_DEPENDS would be satisfied by qwt6-qt5 as well.
+_QWT_LIB=	${LOCALBASE}/${QT_LIBDIR_REL}/libqwt.so
+CMAKE_ARGS=	-DQWT_INCLUDE_DIR:PATH=${LOCALBASE}/${QT_INCDIR_REL}/qwt6 \
+		-DQWT_LIBRARY:FILEPATH=${_QWT_LIB}
 CMAKE_ON=	ZENO_BUILD_EDITOR ZENO_BUILD_SHARED ZENO_IPC_USE_TCP \
 		ZENO_MULTIPROCESS ZENO_NO_WARNING ZENO_USE_CCACHE \
 		ZENO_SYSTEM_OPENVDB
