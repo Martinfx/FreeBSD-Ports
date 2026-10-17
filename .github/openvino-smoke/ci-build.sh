@@ -76,9 +76,9 @@ cat $O/pkg-plist.diff
 find $($MK -V WRKSRC)/bin -name '*.so' -path '*python*' | sort
 
 $MK package < /dev/null > $O/package.log 2>&1 || { tail -n 50 $O/package.log; exit 1; }
-PKGF=$($MK -V PKGFILE < /dev/null)
-ls -l $PKGF
-pkg add $PKGF < /dev/null
+# make package leaves the package in ${WRKDIR}/pkg without /usr/ports/packages
+ls -l $($MK -V WRKDIR < /dev/null)/pkg/*.pkg
+$MK install < /dev/null > $O/install.log 2>&1 || { tail -n 50 $O/install.log; exit 1; }
 pkg info -x openvino
 
 # smoke tests against the installed package
