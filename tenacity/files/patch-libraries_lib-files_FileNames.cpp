@@ -1,6 +1,6 @@
---- libraries/lib-files/FileNames.cpp.orig	2025-10-26 07:26:25 UTC
+--- libraries/lib-files/FileNames.cpp.orig	2026-10-16 17:51:47 UTC
 +++ libraries/lib-files/FileNames.cpp
-@@ -737,6 +737,8 @@ bool FileNames::IsOnFATFileSystem(const FilePath &path
+@@ -737,6 +737,8 @@
     return 0 == strcmp(fs.f_fstypename, "msdos");
  }
  #elif defined(__FreeBSD__)

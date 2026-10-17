@@ -1,11 +1,25 @@
---- CMakeLists.txt.orig	2025-10-12 15:38:58 UTC
+--- CMakeLists.txt.orig	2026-10-16 17:51:47 UTC
 +++ CMakeLists.txt
-@@ -412,7 +412,7 @@ endif()
+@@ -439,7 +439,7 @@
      set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<$<CONFIG:Debug,RelWithDebInfo>:Embedded>")
  endif()
  
 -if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "x86_64|AMD64")
-+if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "x86_64|amd64")
++if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "x86_64|AMD64|amd64")
      # Allow AVX2 or AVX512 to be enabled if desired
      option(AVX    "Enable the usage of AVX in builds instead of SSE4.")
      option(AVX2   "Enable the usage of AVX2 in builds instead of SSE4 or AVX." OFF)
+@@ -775,13 +775,6 @@
+ if (NYQUIST)
+     set(USE_NYQUIST ON)
+ 
+-    if (NOT GIT_FOUND)
+-        message(FATAL_ERROR "Git not found; cannot initialize the libnyquist submodule. Install git or disable Nyquist with -DNYQUIST=OFF.")
+-    endif()
+-
+-    message(STATUS "Ensuring libnyquist Git submodule is initialized")
+-    execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init lib-src/libnyquist WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
+-
+     if (NOT EXISTS "${CMAKE_SOURCE_DIR}/lib-src/libnyquist/CMakeLists.txt")
+         message(FATAL_ERROR "libnyquist submodule directory is still empty after 'git submodule update --init'. Check your Git configuration and network access.")
+     endif()

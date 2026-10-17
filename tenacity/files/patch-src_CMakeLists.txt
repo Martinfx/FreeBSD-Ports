@@ -1,0 +1,21 @@
+--- src/CMakeLists.txt.orig	2026-10-16 17:51:47 UTC
++++ src/CMakeLists.txt
+@@ -13,7 +13,9 @@
+ set( CMAKE_ENABLE_EXPORTS ON )
+ 
+ add_executable( ${TARGET} )
+-add_dependencies( ${TARGET} locale )
++if (TARGET locale)
++    add_dependencies( ${TARGET} locale )
++endif()
+ 
+ if (USE_NYQUIST)
+     add_dependencies( ${TARGET} nyquist )
+@@ -1224,6 +1226,7 @@
+     lib-export-ui-interface
+     lib-wave-track-paint-interface
+     lib-wave-track-fft-interface
++    lib-wave-track-settings-interface
+     lib-music-information-retrieval-interface
+     lib-preference-pages-interface
+     lib-audacity-application-logic-interface
