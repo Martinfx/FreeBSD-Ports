@@ -1,0 +1,20 @@
+[
+{ type: install
+  message: <<EOM
+Concat draws its window and composites video with Vulkan.  Install the
+Vulkan driver for your GPU (graphics/mesa-dri for AMD and Intel, or the
+NVIDIA driver), or Mesa's software rasteriser (lavapipe) on a machine
+without one.
+
+Concat opens and saves files through the XDG desktop portal, which needs
+a D-Bus session bus.  If your desktop does not start one, run Concat
+under one, for example with
+
+  dbus-run-session concat
+
+Sound goes through ALSA's OSS plugin.  The models for captions, voices
+and background removal are downloaded from Settings when they are first
+used, into ~/.local/share/app.concat.editor.
+EOM
+}
+]

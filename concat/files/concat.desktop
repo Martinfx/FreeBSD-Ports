@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Concat
+Comment=Video editor
+Exec=concat
+Icon=concat
+Categories=AudioVideo;Video;AudioVideoEditing;
+Terminal=false
+StartupWMClass=concat

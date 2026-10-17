@@ -1,0 +1,11 @@
+--- crates/concat/Cargo.toml.orig	2026-10-17 10:26:12 UTC
++++ crates/concat/Cargo.toml
+@@ -78,7 +78,7 @@
+ # itself on the display winit opened. The same two crates winit draws
+ # with, libwayland loaded at run time as winit loads it; libc for the
+ # pipe the drop is read through and the poll that waits on it.
+-[target.'cfg(target_os = "linux")'.dependencies]
++[target.'cfg(any(target_os = "linux", target_os = "freebsd"))'.dependencies]
+ wayland-client = "0.31"
+ wayland-backend = { version = "0.3", features = ["client_system", "dlopen"] }
+ libc = "0.2"

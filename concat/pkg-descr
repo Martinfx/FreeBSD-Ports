@@ -1,0 +1,13 @@
+Concat is a free, open source video editor and a CapCut alternative.  It
+covers what people open CapCut for: auto-captions, text to speech,
+background removal, keyframe animation, effects and titles, multi-track
+cutting and 4K export, with no watermark, no account and no upload.
+
+Everything runs locally on a native Rust engine with a GPU compositor.
+The AI models for captions (whisper.cpp), voices (Kokoro, Pocket TTS and
+Chatterbox through sherpa-onnx and ONNX Runtime) and cutouts download
+once from Settings and work offline after that.
+
+It decodes and exports through FFmpeg (H.264, HEVC, AV1, up to 4K 60 and
+10-bit colour), and everything the window does to a project can also be
+done through its JSON-RPC API, on a socket or with the concat-cli tool.
