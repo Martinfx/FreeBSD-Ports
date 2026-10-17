@@ -1,0 +1,16 @@
+--- images/CMakeLists.txt.orig	2026-10-16 17:51:47 UTC
++++ images/CMakeLists.txt
+@@ -18,9 +18,10 @@
+ if( NOT CMAKE_SYSTEM_NAME MATCHES "Darwin" AND NOT CMAKE_SYSTEM_NAME MATCHES "Windows")
+    install( FILES "${_SRCDIR}/${APP_ID}.svg"
+             DESTINATION "${_DATADIR}/icons/hicolor/scalable/apps" )
+-   install( DIRECTORY "${_SRCDIR}/icons/"
+-            DESTINATION "${_DATADIR}/icons/hicolor"
+-            FILES_MATCHING PATTERN "*.png" )
++   foreach( size 16x16 22x22 24x24 32x32 48x48 )
++      install( FILES "${_SRCDIR}/icons/${size}/${APP_ID}.png"
++               DESTINATION "${_DATADIR}/icons/hicolor/${size}/apps" )
++   endforeach()
+    install( FILES ${PIXMAPS}
+             DESTINATION "${_DATADIR}/pixmaps" )
+ endif()

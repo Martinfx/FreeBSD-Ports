@@ -1,2 +1,11 @@
-Tenacity is an easy-to-use, privacy-friendly, FLOSS,
-cross-platform multi-track audio editor.
+Tenacity is an easy-to-use, privacy-friendly, FLOSS, cross-platform
+multi-track audio editor and recorder, forked from Audacity.
+
+It can record from any real or virtual audio device, import, edit and
+export many audio formats (WAV, AIFF, FLAC, MP3, Ogg Vorbis, Opus,
+WavPack, MP2, Matroska and anything FFmpeg can handle), and offers a
+large set of built-in effects and analysis tools.
+
+Tenacity can host LV2, LADSPA, VST (version 2) and Vamp plugins and
+supports Nyquist effects and scripting. Popular plugin collections can
+be pulled in through the PLUGINS port options.
