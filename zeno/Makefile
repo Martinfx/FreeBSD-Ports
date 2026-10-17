@@ -23,8 +23,9 @@ LIB_DEPENDS=	libboost_atomic.so:devel/boost-libs \
 		libminizip.so:archivers/minizip
 RUN_DEPENDS=	${_QWT_LIB}:x11-toolkits/qwt6@qt6
 
-USES=		cmake compiler:c++17-lang eigen:3 localbase:ldflags pkgconfig \
+USES=		cmake compiler:c++17-lang eigen:3 gl localbase:ldflags pkgconfig \
 		qt:6
+USE_GL=		gl opengl
 USE_LDCONFIG=	yes
 USE_QT=		base svg
 
@@ -211,9 +212,11 @@ post-extract-RIGID-on:
 		src/BulletDynamics src/BulletSoftBody src/LinearMath src/clew \
 		src/*.cpp src/*.h
 
+BULLET_INCLUDE=	\#include "(\.\./)+(LinearMath|BulletCollision|BulletDynamics|Bullet3Common|btBullet)
+
 post-patch-RIGID-on:
-	@${FIND} ${BULLET_FORK}/src -name '*.[ch]*' -exec ${REINPLACE_CMD} -E \
-		's@#include "(\.\./)+(LinearMath|BulletCollision|BulletDynamics|Bullet3Common|btBullet)@#include "\2@' {} +
+	@${FIND} ${BULLET_FORK}/src -name '*.[ch]*' -exec ${GREP} -lE '${BULLET_INCLUDE}' {} + | \
+		${XARGS} ${REINPLACE_CMD} -E 's@${BULLET_INCLUDE}@#include "\2@'
 
 pre-configure-RIGID-on:
 	@if ${GREP} -q BT_USE_DOUBLE_PRECISION ${LOCALBASE}/libdata/pkgconfig/bullet.pc; then \
