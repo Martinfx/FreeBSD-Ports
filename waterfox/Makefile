@@ -86,6 +86,15 @@ post-extract:
 post-patch:
 	@${REINPLACE_CMD} -e 's|%%LOCALBASE%%|${LOCALBASE}|g' \
 		${WRKSRC}/browser/app/nsBrowserApp.cpp
+	@${RM} ${WRKSRC}/mozconfig
+.if ${ARCH} == i386
+# mtu bindings were generated on amd64 and assert amd64 struct sizes and
+# alignment; the struct definitions themselves are correct on i386
+	@${SED} -i '' -e '/^#\[allow(clippy::unnecessary_operation/,/^};/d' \
+		${WRKSRC}/third_party/rust/mtu/src/bindings/freebsd.rs
+	@${SED} -i '' -e 's|"src/bindings/freebsd.rs":"[0-9a-f]*",||' \
+		${WRKSRC}/third_party/rust/mtu/.cargo-checksum.json
+.endif
 
 post-install:
 	${INSTALL_DATA} ${WRKDIR}/${MOZILLA_EXEC_NAME}.desktop ${STAGEDIR}${DESKTOPDIR}
