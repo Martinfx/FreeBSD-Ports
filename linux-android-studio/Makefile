@@ -11,22 +11,27 @@ MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Official IDE for Android (Linux binary)
 WWW=		https://developer.android.com/studio/
 
-LICENSE=	APACHE20
-LICENSE_FILE=	${WRKSRC}/LICENSE.txt
+# The binary distribution is covered by Google's terms, which do not allow
+# redistribution.  Bundled components (JetBrains Runtime, ...) keep their own
+# licenses.
+LICENSE=	ANDROID-STUDIO
+LICENSE_NAME=	Android Software Development Kit License Agreement
+LICENSE_TEXT=	See: https://developer.android.com/studio/terms
+LICENSE_PERMS=	none
 
 ONLY_FOR_ARCHS=	amd64
 ONLY_FOR_ARCHS_REASON=	upstream only provides x86_64 Linux binaries
 
-USES=		linux
-USE_LINUX=	alsalib dbuslibs dri expat fontconfig freetype gtk3 xorglibs
+USES=		desktop-file-utils linux:rl9
+USE_LINUX=	alsalib at-spi2-atk at-spi2-core atk cairo cups-libs dbuslibs \
+		dri expat fontconfig freetype gtk3 libdrm libglvnd \
+		libxkbcommon nspr nss pango xorglibs
 
 NO_BUILD=	yes
-# Upstream names the tarball after the release codename.
-STUDIO_RELEASE=	rabbit1
-WRKSRC=		${WRKDIR}/${PORTNAME}
-
 SUB_FILES=	android-studio.desktop android-studio.sh pkg-message
 SUB_LIST=	LINUXBASE=${LINUXBASE}
+
+WRKSRC=		${WRKDIR}/${PORTNAME}
 
 PLIST_FILES=	bin/android-studio \
 		share/applications/android-studio.desktop \
@@ -36,10 +41,14 @@ PLIST_FILES=	bin/android-studio \
 OPTIONS_DEFINE=		ADB FSNOTIFIER
 OPTIONS_DEFAULT=	ADB
 
-ADB_DESC=		Use native adb (devel/android-tools) for USB devices
-ADB_RUN_DEPENDS=	adb:devel/android-tools
+ADB_DESC=		Native adb (devel/android-tools) for USB devices
 FSNOTIFIER_DESC=	Native file watcher (java/intellij-fsnotifier)
+
+ADB_RUN_DEPENDS=	adb:devel/android-tools
 FSNOTIFIER_RUN_DEPENDS=	intellij-fsnotifier>0:java/intellij-fsnotifier
+
+# Upstream names the tarball after the release codename.
+STUDIO_RELEASE=	rabbit1
 
 post-extract:
 # Record the executables now: COPYTREE_SHARE hard links the staged files to
