@@ -1,4 +1,4 @@
---- src/third_party/blink/renderer/platform/BUILD.gn.orig	2026-09-25 15:26:43 UTC
+--- src/third_party/blink/renderer/platform/BUILD.gn.orig	2026-10-18 18:43:23 UTC
 +++ src/third_party/blink/renderer/platform/BUILD.gn
 @@ -186,6 +186,18 @@ group("make_platform_generated") {
    ]
@@ -24,9 +24,9 @@
      ":blink_platform_public_deps",
      ":platform_export",
 -    "//build/rust/crubit",
+     "//components/language_detection/core",
      "//gpu/command_buffer/client:raster_interface",
      "//media/capture:capture_lib",
-     "//mojo/public/cpp/base",
 @@ -1819,8 +1830,8 @@ component("platform") {
      "//ui/native_theme/features",
    ]
@@ -34,6 +34,6 @@
 +    ":font_format_check",
      ":rustfft_ffi",
 -    "fonts:font_format_bindings",
+     "fonts:ift_patcher_bindings",
      "//base:base_static",
      "//base/allocator:buildflags",
-     "//build:chromecast_buildflags",
