@@ -1,5 +1,5 @@
 PORTNAME=	obs-multi-rtmp
-DISTVERSION=	0.7.4
+DISTVERSION=	0.7.4.4
 CATEGORIES=	multimedia
 
 MAINTAINER=	freebsd@sysctl.cz
