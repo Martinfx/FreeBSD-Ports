@@ -4,7 +4,8 @@
 # compatibility layer (linuxulator).
 #
 # Environment knobs:
-#   ANDROID_STUDIO_NATIVE_ADB=no   do not replace the SDK adb with native adb
+#   ANDROID_STUDIO_NATIVE_ADB=yes  replace the SDK adb with a symlink to the
+#                                  native adb (off by default)
 #   ANDROID_STUDIO_NO_CHECKS=yes   skip the Linux layer sanity checks
 #
 
@@ -59,10 +60,10 @@ if [ -n "${_locale}" ] && [ "${_locale}" != "C" ] && [ "${_locale}" != "POSIX" ]
 fi
 unset _locale _want
 
-# The Linux adb from the SDK cannot access USB devices on FreeBSD, use the
-# native one instead.  The SDK Manager may restore the Linux binary when
-# platform-tools are updated, so check on every start.
-if [ "${ANDROID_STUDIO_NATIVE_ADB}" != "no" ] && [ -x "${NATIVE_ADB}" ]; then
+# The Linux adb from the SDK cannot access USB devices on FreeBSD.  Only when
+# asked for, replace it with the native one.  The SDK Manager may restore the
+# Linux binary when platform-tools are updated, so check on every start.
+if [ "${ANDROID_STUDIO_NATIVE_ADB}" = "yes" ] && [ -x "${NATIVE_ADB}" ]; then
 	_sdk="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-${HOME}/Android/Sdk}}"
 	_adb="${_sdk}/platform-tools/adb"
 	if [ -d "${_sdk}/platform-tools" ] && [ ! -L "${_adb}" ]; then

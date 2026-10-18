@@ -20,12 +20,17 @@ Runtime for both the IDE and Gradle (JAVA_HOME points to it, so
 ./gradlew in the IDE terminal works too).
 
 Devices:
-- The Linux adb from the SDK cannot access USB on FreeBSD.  With the ADB
-  option the launcher replaces <SDK>/platform-tools/adb with a symlink to
-  the native %%PREFIX%%/bin/adb on every start (the original is kept as
-  adb.linux).  Restart the IDE after the first SDK setup or a
-  platform-tools update.  Set ANDROID_STUDIO_NATIVE_ADB=no to disable.
-  Your user needs access to the USB device, see devfs.rules(5).
+- The Linux adb from the SDK cannot access USB on FreeBSD.  Replace it
+  with the native adb from devel/android-tools (ADB option), after the
+  first SDK setup and after every platform-tools update:
+
+  $ cd ~/Android/Sdk/platform-tools
+  $ mv adb adb.linux && ln -s %%PREFIX%%/bin/adb adb
+
+  Alternatively, start the IDE with ANDROID_STUDIO_NATIVE_ADB=yes and the
+  launcher does this on every start (the original is kept as adb.linux).
+  The launcher does not touch the SDK without it.  Your user needs access
+  to the USB device, see devfs.rules(5).
 - The Android Emulator needs KVM and does not work on FreeBSD.  Use a
   physical device (USB or "adb connect" over Wi-Fi), or an emulator
   running on another machine.
