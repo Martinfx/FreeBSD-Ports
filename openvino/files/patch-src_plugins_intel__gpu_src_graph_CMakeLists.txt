@@ -1,0 +1,11 @@
+--- src/plugins/intel_gpu/src/graph/CMakeLists.txt.orig	2026-10-17 17:30:00 UTC
++++ src/plugins/intel_gpu/src/graph/CMakeLists.txt
+@@ -92,7 +92,7 @@
+ 
+     # We use onednn headers all over the graph module, so we have to append includes to all backends and add a dependency between targets
+     if (ENABLE_ONEDNN_FOR_GPU)
+-        target_include_directories(${ARG_NAME} SYSTEM BEFORE PRIVATE $<TARGET_PROPERTY:onednn_gpu_tgt,INTERFACE_INCLUDE_DIRECTORIES>)
++        target_include_directories(${ARG_NAME} BEFORE PRIVATE $<TARGET_PROPERTY:onednn_gpu_tgt,INTERFACE_INCLUDE_DIRECTORIES>)
+         add_dependencies(openvino_intel_gpu_${IMPL_TYPE}_obj onednn_gpu_tgt)
+     endif()
+ 
