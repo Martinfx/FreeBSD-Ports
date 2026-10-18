@@ -1,5 +1,6 @@
 PORTNAME=	ausweisapp2
 DISTVERSION=	2.4.0
+PORTREVISION=	1
 CATEGORIES=	deskutils security
 MASTER_SITES=   https://github.com/Governikus/AusweisApp/releases/download/${DISTVERSION}/
 DISTNAME=       AusweisApp-${DISTVERSION}
