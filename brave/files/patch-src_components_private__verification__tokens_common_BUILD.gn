@@ -1,6 +1,13 @@
---- src/components/private_verification_tokens/common/BUILD.gn.orig	2026-10-18 18:43:23 UTC
+--- src/components/private_verification_tokens/common/BUILD.gn.orig	2026-10-19 06:05:22 UTC
 +++ src/components/private_verification_tokens/common/BUILD.gn
-@@ -194,7 +194,8 @@ source_set("test_support") {
+@@ -188,13 +188,14 @@ source_set("test_support") {
+   sources = [ "private_verification_tokens_test_util.h" ]
+   public_deps = [
+     "//base",
+-    "//components/private_verification_tokens/common/athm_ffi:athm_ffi_bindings",
++    # XXX crubit "//components/private_verification_tokens/common/athm_ffi:athm_ffi_bindings",
+   ]
+ }
  
  # ATHM (Anonymous Tokens with Hidden Metadata): Crubit bindings over
  # //third_party/anonymous_tokens:athm and the C++ that calls it.
