@@ -263,6 +263,12 @@ SERVICE_KEY_STT=
 SERVICE_API_STATS=	fe033168-0ff8-4af6-9a7f-95e2cbfc9f4f
 SERVER_URL=		https://variations.brave.com/seed
 
+# Since 155 V8 generates its instance-types.h with metagen, which parses the
+# V8 headers through libclang: the prebuilt libclang and its Python bindings
+# come from CIPD (third_party/llvm-libclang), and the clang builtin headers
+# are looked up in Chromium's own toolchain (third_party/llvm-build), neither
+# of which exists here.  v8_use_metagen_instance_types=false takes the header
+# Torque emits instead, which V8 still generates either way.
 GN_ARGS+=	${GN_BASE_ARGS} \
 		import("//brave/build/args/brave_defaults.gni") \
 		import("//brave/build/args/blink_platform_defaults.gni") \
@@ -298,6 +304,7 @@ GN_ARGS+=	${GN_BASE_ARGS} \
 		use_system_libffi=true \
 		use_system_libjpeg=true \
 		use_typescript_go=false \
+		v8_use_metagen_instance_types=false \
 		ffmpeg_branding="${FFMPEG_BRAND}" \
 		brave_google_api_key="AIzaSyAREPLACEWITHYOUROWNGOOGLEAPIKEY2Q" \
 		brave_google_api_endpoint="https://www.googleapis.com/geolocation/v1/geolocate?key="
