@@ -1,4 +1,4 @@
---- src/build/config/compiler/BUILD.gn.orig	2026-10-18 18:43:23 UTC
+--- src/build/config/compiler/BUILD.gn.orig	2026-10-19 07:17:36 UTC
 +++ src/build/config/compiler/BUILD.gn
 @@ -203,7 +203,7 @@ declare_args() {
    # This greatly reduces the size of debug builds, at the cost of
@@ -85,6 +85,15 @@
  }
  
  # Enable `-fsanitize=unreachable` to crash deterministically if control
+@@ -1617,7 +1622,7 @@ ubsan_hardening("unreachable") {
+   # 1.  `fuchsia-binary-size` tells us that web_engine and
+   #     chrome_fuchsia both grow 32768 bytes (10x that, uncompressed).
+   # 2.  `headless_shell_wpt_tests` fail on `mac-rel`.
+-  condition = is_debug || !(is_mac || is_fuchsia)
++  condition = (is_debug || !(is_mac || is_fuchsia)) && !is_bsd
+ }
+ 
+ config("rustc_revision") {
 @@ -1934,7 +1939,7 @@ config("default_warnings") {
        "-Wno-psabi",
      ]
