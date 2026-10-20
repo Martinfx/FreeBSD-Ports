@@ -1,4 +1,4 @@
---- src/content/browser/zygote_host/zygote_host_impl_linux.cc.orig	2026-10-18 18:43:23 UTC
+--- src/content/browser/zygote_host/zygote_host_impl_linux.cc.orig	2026-10-20 02:47:55 UTC
 +++ src/content/browser/zygote_host/zygote_host_impl_linux.cc
 @@ -21,8 +21,10 @@
  #include "build/build_config.h"
@@ -57,7 +57,29 @@
  }
  
  void ZygoteHostImpl::AddZygotePid(pid_t pid) {
-@@ -164,6 +174,7 @@ ZygoteLaunchCompletionCallback ZygoteHos
+@@ -148,22 +158,29 @@ void ZygoteHostImpl::AddZygotePid(pid_t
+ }
+ 
+ bool ZygoteHostImpl::IsZygotePid(pid_t pid) {
++#if !BUILDFLAG(IS_BSD)
+   if (has_zygote_) {
+     // A sandboxed zygote's pid is only known once it has finished launching.
+     GetGenericZygote()->EnsureLaunchFinished();
+   }
++#endif
+   base::AutoLock lock(zygote_pids_lock_);
+   return zygote_pids_.find(pid) != zygote_pids_.end();
+ }
+ 
+ int ZygoteHostImpl::GetRendererSandboxStatus() {
++#if !BUILDFLAG(IS_BSD)
+   return has_zygote_ ? GetGenericZygote()->GetSandboxStatus() : 0;
++#else
++  return 0;
++#endif
+ }
+ 
+ ZygoteLaunchCompletionCallback ZygoteHostImpl::LaunchZygote(
      base::CommandLine* cmd_line,
      base::ScopedFD* control_fd,
      base::FileHandleMappingVector additional_remapped_fds) {
@@ -65,14 +87,24 @@
    has_zygote_ = true;
  
    int fds[2];
-@@ -263,9 +274,12 @@ pid_t ZygoteHostImpl::FinishSandboxedZyg
- 
-   AddZygotePid(real_pid);
-   return real_pid;
+@@ -209,8 +226,12 @@ ZygoteLaunchCompletionCallback ZygoteHos
+   const pid_t pid = process.Pid();
+   AddZygotePid(pid);
+   return base::BindOnce([](pid_t pid) { return pid; }, pid);
 +#else
-+  return 0;
++  return ZygoteLaunchCompletionCallback();
 +#endif
  }
+ 
++#if !BUILDFLAG(IS_BSD)
+ pid_t ZygoteHostImpl::FinishSandboxedZygoteLaunch(base::Process process,
+                                                   int control_fd) {
+   // The namespace and SUID sandbox will execute the zygote in a new
+@@ -264,8 +285,9 @@ pid_t ZygoteHostImpl::FinishSandboxedZyg
+   AddZygotePid(real_pid);
+   return real_pid;
+ }
++#endif
  
 -#if !BUILDFLAG(IS_OPENBSD)
 +#if !BUILDFLAG(IS_BSD)
