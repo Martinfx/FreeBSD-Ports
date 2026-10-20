@@ -11,10 +11,15 @@ LICENSE_FILE=	${WRKSRC}/LICENSE
 
 BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}jax>=0.4.2:math/py-jax@${PY_FLAVOR} \
 		${PYTHON_PKGNAMEPREFIX}tensorflow>0:science/py-tensorflow@${PY_FLAVOR} \
+		nlohmann-json>=3.9.0:devel/nlohmann-json \
 		opencl>0:devel/opencl \
 		patchelf>0:sysutils/patchelf
 
 LIB_DEPENDS=	libOpenCL.so:devel/ocl-icd \
+		libabsl_base.so:devel/abseil \
+		libonnx.so:misc/onnx \
+		libopencv_core.so:graphics/opencv \
+		libprotobuf.so:devel/protobuf \
 		libtbb.so:devel/onetbb
 RUN_DEPENDS=	${PYNUMPY}
 
@@ -24,22 +29,17 @@ USE_GITHUB=	yes
 USE_LDCONFIG=	yes
 GH_ACCOUNT=	openvinotoolkit
 GH_PROJECT=	openvino
-GH_TUPLE=	herumi:xbyak:431abd865e70a46d56f5aa0e1f87572decb60169:xbyak_/thirdparty/xbyak \
-		madler:zlib:51b7f2a:zlib/thirdparty/zlib/zlib \
+GH_TUPLE=	madler:zlib:51b7f2a:zlib/thirdparty/zlib/zlib \
 		zeux:pugixml:ee86beb:pugixml/thirdparty/pugixml \
 		gflags:gflags:e171aa2:gflags/thirdparty/gflags/gflags \
 		openvinotoolkit:googletest:03e2ed1:gtest/thirdparty/gtest/gtest \
 		KhronosGroup:OpenCL-ICD-Loader:b7bd280:icd/thirdparty/ocl/icd_loader \
 		KhronosGroup:OpenCL-Headers:6fe718c:head/thirdparty/ocl/cl_headers \
 		KhronosGroup:OpenCL-CLHPP:5661a0e:clhpp/thirdparty/ocl/clhpp_headers \
-		onnx:onnx:2bb5046:onnx/thirdparty/onnx/onnx \
-		protocolbuffers:protobuf:d651109:protobuf/thirdparty/protobuf/protobuf \
-		abseil:abseil-cpp:4a2c633:abseil/thirdparty/protobuf/protobuf/third_party/abseil-cpp \
 		pybind:pybind11:45fab40:pybind/src/bindings/python/thirdparty/pybind11 \
 		intel:ittapi:ca45fef:ittapy/thirdparty/ittapi/ittapi \
 		nithinn:ncc:63e59ed:ncc/cmake/developer_package/ncc_naming_style/ncc \
 		oneapi-src:level-zero:46cf801:zero/thirdparty/level_zero/level-zero \
-		nlohmann:json:9cca280:json/thirdparty/json/nlohmann_json \
 		google:flatbuffers:595bf00:flatbuffers/thirdparty/flatbuffers/flatbuffers \
 		google:snappy:2c94e11:snapppy/thirdparty/snappy \
 		intel:level-zero-npu-extensions:b11dc98:npu/src/plugins/intel_npu/thirdparty/level-zero-ext \
@@ -56,26 +56,25 @@ CMAKE_ARGS=	-DCMAKE_INSTALL_PREFIX=${STAGEDIR}${PREFIX} \
 		-DDNNL_GPU_RUNTIME:STRING=OCL \
 		-DONEDNN_ENABLE_PRIMITIVE:STRING=ALL \
 		-DTBB_DIR="${LOCALBASE}/lib/cmake/TBB/"
-# use the bundled copies even when the system ones are installed: the
-# system ONNX pulls in the system protobuf on top of the bundled one, the
-# others would only make the build depend on what happens to be installed
-CMAKE_ARGS+=	-DCMAKE_DISABLE_FIND_PACKAGE_ittapi:BOOL=ON \
-		-DCMAKE_DISABLE_FIND_PACKAGE_nlohmann_json:BOOL=ON \
-		-DCMAKE_DISABLE_FIND_PACKAGE_ONNX:BOOL=ON \
-		-DCMAKE_DISABLE_FIND_PACKAGE_OpenCV:BOOL=ON \
-		-DCMAKE_DISABLE_FIND_PACKAGE_xbyak:BOOL=ON
+# use the bundled ittapi even when devel/ittapi is installed
+CMAKE_ARGS+=	-DCMAKE_DISABLE_FIND_PACKAGE_ittapi:BOOL=ON
 
 CMAKE_ON=	BUILD_SHARED_LIBS ENABLE_OV_IR_FRONTEND ENABLE_OV_JAX_FRONTEND \
 		ENABLE_OV_ONNX_FRONTEND ENABLE_OV_PADDLE_FRONTEND \
 		ENABLE_OV_PYTORCH_FRONTEND ENABLE_OV_TF_LITE_FRONTEND \
 		ENABLE_ONEDNN_FOR_GPU ENABLE_PKGCONFIG_GEN ENABLE_PLUGINS_XML \
 		ENABLE_PYTHON ENABLE_SAMPLES ENABLE_SYSTEM_OPENCL \
-		ENABLE_SYSTEM_TBB ENABLE_INTEL_NPU ENABLE_INTEL_NPU_COMPILER
+		ENABLE_SYSTEM_PROTOBUF ENABLE_SYSTEM_TBB ENABLE_INTEL_NPU \
+		ENABLE_INTEL_NPU_COMPILER
 # TBBBind comes with devel/onetbb, the prebuilt static one is for Linux only
 CMAKE_OFF=	ENABLE_JS ENABLE_SYSTEM_FLATBUFFERS ENABLE_TBBBIND_2_5 \
 		ONEDNN_BUILD_GRAPH # broken NPU API
 
 .include <bsd.port.pre.mk>
+
+.if ${ARCH} == amd64
+BUILD_DEPENDS+=	xbyak>0:devel/xbyak
+.endif
 
 # ComputeLibrary is used by the CPU plugin on ARM only
 .if ${ARCH} == aarch64 || ${ARCH} == armv7
