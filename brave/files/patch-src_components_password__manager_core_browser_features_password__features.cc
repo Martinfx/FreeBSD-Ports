@@ -1,4 +1,4 @@
---- src/components/password_manager/core/browser/features/password_features.cc.orig	2026-10-18 18:43:23 UTC
+--- src/components/password_manager/core/browser/features/password_features.cc.orig	2026-10-20 12:27:58 UTC
 +++ src/components/password_manager/core/browser/features/password_features.cc
 @@ -76,7 +76,7 @@ BASE_FEATURE(kClearUndecryptablePassword
  BASE_FEATURE(kClearUndecryptablePasswordsOnSync,
@@ -18,3 +18,12 @@
  BASE_FEATURE(kRestartToGainAccessToKeychain,
  #if BUILDFLAG(IS_MAC)
               base::FEATURE_ENABLED_BY_DEFAULT);
+@@ -212,7 +212,7 @@ BASE_FEATURE(kShowTabWithPasswordChangeO
+              base::FEATURE_DISABLED_BY_DEFAULT);
+ 
+ BASE_OVERRIDDEN_FEATURE(kSkipUndecryptablePasswords,
+-#if BUILDFLAG(IS_IOS) || BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_WIN)
++#if BUILDFLAG(IS_IOS) || BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_WIN) || BUILDFLAG(IS_BSD)
+   base::FEATURE_ENABLED_BY_DEFAULT
+ #else
+   base::FEATURE_DISABLED_BY_DEFAULT
