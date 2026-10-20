@@ -1,4 +1,4 @@
---- src/content/browser/child_thread_type_switcher_linux.cc.orig	2026-10-18 18:43:23 UTC
+--- src/content/browser/child_thread_type_switcher_linux.cc.orig	2026-10-20 12:00:32 UTC
 +++ src/content/browser/child_thread_type_switcher_linux.cc
 @@ -9,6 +9,7 @@
  #include "base/containers/flat_map.h"
@@ -27,3 +27,14 @@
    }
  
   private:
+@@ -103,7 +109,10 @@ class ChildThreadTypeSwitcher::LauncherT
+                     << "kDefault, kInteractive or kPresentation isn't allowed";
+       return;
+     }
++#if !BUILDFLAG(IS_BSD)
++    // The cross-process overload exists on Linux and ChromeOS only.
+     base::PlatformThread::SetThreadType(peer_pid_, peer_tid, thread_type);
++#endif
+   }
+ 
+   const base::ProcessId peer_pid_;
