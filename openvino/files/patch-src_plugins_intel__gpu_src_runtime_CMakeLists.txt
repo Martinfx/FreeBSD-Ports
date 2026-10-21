@@ -1,0 +1,11 @@
+--- src/plugins/intel_gpu/src/runtime/CMakeLists.txt.orig	2026-10-17 17:30:00 UTC
++++ src/plugins/intel_gpu/src/runtime/CMakeLists.txt
+@@ -79,7 +79,7 @@
+ endif()
+ 
+ if(ENABLE_ONEDNN_FOR_GPU)
+-  ov_target_link_libraries_as_system(${TARGET_NAME} PUBLIC onednn_gpu_tgt)
++  target_link_libraries(${TARGET_NAME} PUBLIC onednn_gpu_tgt)
+ endif()
+ 
+ ov_set_threading_interface_for(${TARGET_NAME})

@@ -1,0 +1,22 @@
+--- src/plugins/intel_gpu/thirdparty/CMakeLists.txt.orig	2026-10-17 16:10:00 UTC
++++ src/plugins/intel_gpu/thirdparty/CMakeLists.txt
+@@ -181,6 +181,11 @@
+                 ${onednn_gpu_cache_args}
+             # Build Step Options:
+             BUILD_BYPRODUCTS ${ONEDNN_GPU_LIB_PATH}
++            # Install Step Options:
++            # DESTDIR from the environment would put oneDNN outside
++            # ONEDNN_INSTALL_DIR, where the GPU plugin looks for it
++            INSTALL_COMMAND ${CMAKE_COMMAND} -E env --unset=DESTDIR
++                ${CMAKE_COMMAND} --build <BINARY_DIR> --target install --config $<CONFIG>
+             # Target Options:
+             EXCLUDE_FROM_ALL ON
+         )
+@@ -217,7 +222,6 @@
+         set_target_properties(onednn_gpu_tgt PROPERTIES
+             INTERFACE_LINK_LIBRARIES $<BUILD_INTERFACE:${ONEDNN_GPU_LIB_PATH}>
+             INTERFACE_INCLUDE_DIRECTORIES "$<BUILD_INTERFACE:${LIB_INCLUDE_DIRS}>"
+-            INTERFACE_SYSTEM_INCLUDE_DIRECTORIES "$<BUILD_INTERFACE:${LIB_INCLUDE_DIRS}>"
+             INTERFACE_COMPILE_DEFINITIONS "${LIB_DEFINITIONS}"
+         )
+         add_dependencies(onednn_gpu_tgt onednn_gpu_build)

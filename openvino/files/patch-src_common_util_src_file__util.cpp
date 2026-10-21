@@ -1,6 +1,6 @@
 --- src/common/util/src/file_util.cpp.orig	2026-03-25 14:35:23 UTC
 +++ src/common/util/src/file_util.cpp
-@@ -178,7 +178,7 @@ std::filesystem::path ov::util::get_ov_lib_path() {
+@@ -181,7 +181,7 @@ std::filesystem::path ov::util::get_ov_l
      GetModuleFileNameA(hm, (LPSTR)ov_library_path, sizeof(ov_library_path));
      return make_path(ov_library_path).parent_path();
  #    endif

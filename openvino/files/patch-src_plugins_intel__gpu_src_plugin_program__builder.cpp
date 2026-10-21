@@ -9,7 +9,7 @@
  # include <dlfcn.h>
  #endif
  
-@@ -85,7 +85,7 @@ ProgramBuilder::ProgramBuilder(std::shared_ptr<ov::Mod
+@@ -88,7 +88,7 @@ ProgramBuilder::ProgramBuilder(std::shar
          (LPCSTR)CustomLayer::LoadFromFile,
          &nModule);
      GetModuleFileName(nModule, mpath, sizeof(mpath));
