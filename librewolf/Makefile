@@ -10,6 +10,9 @@ MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Custom version of Firefox, focused on privacy, security and freedom
 WWW=		https://librewolf.net/
 
+NOT_FOR_ARCHS=		i386
+NOT_FOR_ARCHS_REASON=	fails to build: rust needs more address space than platform can provide
+
 LICENSE=	MPL20
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
