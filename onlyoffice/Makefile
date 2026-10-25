@@ -1,7 +1,7 @@
 PORTNAME=	onlyoffice
 DISTVERSIONPREFIX=	v
 DISTVERSION=	9.0.4
-PORTREVISION=	1
+PORTREVISION=	2
 CATEGORIES=	editors
 # The v8 archive is the one of www/onlyoffice-documentserver.  It is gone
 # from LOCAL/mikael, the copy of the package builders is on distcache, in
