@@ -1,5 +1,6 @@
 PORTNAME=	openvino
 DISTVERSION=	2026.4.1
+PORTREVISION=	1
 CATEGORIES=	devel
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -9,8 +10,7 @@ WWW=		https://docs.openvino.ai/
 LICENSE=	APACHE20
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
-BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}jax>=0.4.2:math/py-jax@${PY_FLAVOR} \
-		${PYTHON_PKGNAMEPREFIX}tensorflow>0:science/py-tensorflow@${PY_FLAVOR} \
+BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}tensorflow>0:science/py-tensorflow@${PY_FLAVOR} \
 		nlohmann-json>=3.9.0:devel/nlohmann-json \
 		opencl>0:devel/opencl \
 		patchelf>0:sysutils/patchelf
@@ -59,7 +59,7 @@ CMAKE_ARGS=	-DCMAKE_INSTALL_PREFIX=${STAGEDIR}${PREFIX} \
 # use the bundled ittapi even when devel/ittapi is installed
 CMAKE_ARGS+=	-DCMAKE_DISABLE_FIND_PACKAGE_ittapi:BOOL=ON
 
-CMAKE_ON=	BUILD_SHARED_LIBS ENABLE_OV_IR_FRONTEND ENABLE_OV_JAX_FRONTEND \
+CMAKE_ON=	BUILD_SHARED_LIBS ENABLE_OV_IR_FRONTEND \
 		ENABLE_OV_ONNX_FRONTEND ENABLE_OV_PADDLE_FRONTEND \
 		ENABLE_OV_PYTORCH_FRONTEND ENABLE_OV_TF_LITE_FRONTEND \
 		ENABLE_ONEDNN_FOR_GPU ENABLE_PKGCONFIG_GEN ENABLE_PLUGINS_XML \
@@ -69,6 +69,8 @@ CMAKE_ON=	BUILD_SHARED_LIBS ENABLE_OV_IR_FRONTEND ENABLE_OV_JAX_FRONTEND \
 # TBBBind comes with devel/onetbb, the prebuilt static one is for Linux only
 CMAKE_OFF=	ENABLE_JS ENABLE_SYSTEM_FLATBUFFERS ENABLE_TBBBIND_2_5 \
 		ONEDNN_BUILD_GRAPH # broken NPU API
+# math/py-jax cannot be imported without jaxlib, which is not ported
+CMAKE_OFF+=	ENABLE_OV_JAX_FRONTEND
 
 .include <bsd.port.pre.mk>
 
@@ -87,6 +89,7 @@ post-install:
 	${RM} ${STAGEDIR}${PREFIX}/setupvars.sh
 	${RM} -rf ${STAGEDIR}${PREFIX}/install_dependencies
 	${RM} -rf ${STAGEDIR}${PREFIX}/licenses
+	${RM} -rf ${STAGEDIR}${PYTHONPREFIX_SITELIBDIR}/${PORTNAME}/frontend/jax
 
 do-install:
 	${MKDIR} ${STAGEDIR}${PYTHONPREFIX_SITELIBDIR}/${PORTNAME}
