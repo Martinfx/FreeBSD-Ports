@@ -1,0 +1,20 @@
+--- third_party/CMakeLists.txt.orig
++++ third_party/CMakeLists.txt
+@@ -127,7 +127,7 @@ elseif(APPLE)
+     discord-rpc/src/discord_register_osx.m
+   )
+   target_link_libraries(discord-rpc PRIVATE "-framework AppKit")
+-elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
++elseif(CMAKE_SYSTEM_NAME MATCHES "Linux|FreeBSD")
+   target_sources(discord-rpc PRIVATE
+     discord-rpc/src/connection_unix.cpp
+     discord-rpc/src/discord_register_linux.cpp
+@@ -455,7 +455,7 @@ elseif(APPLE)
+   find_library(SDL2_LIBRARY SDL2 REQUIRED)
+   target_include_directories(SDL2 INTERFACE "${SDL2_LIBRARY}/Headers")
+   target_link_libraries(SDL2 INTERFACE "${SDL2_LIBRARY}")
+-elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
++elseif(CMAKE_SYSTEM_NAME MATCHES "Linux|FreeBSD")
+   # Use system SDL2 on Linux
+   add_library(SDL2 INTERFACE)
+   find_package(PkgConfig REQUIRED)
