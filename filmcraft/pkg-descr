@@ -1,15 +1,16 @@
 FilmCraft is an open source, non-linear video editor for editing, color
-grading and sound, written in pure Rust by the ArtCraft team.  It follows
-the Adobe Premiere Pro workflow: bins, a multi-track timeline with
-ripple, roll, slip and slide edits, Lumetri style color correction with
-scopes, keyframed effects and motion, titles and captions, and audio
-mixing with loudness meters.
+grading and sound, written in pure Rust by the ArtCraft team.  It has
+bins, Source and Program monitors, a multi-track timeline with ripple,
+roll, slip and slide edits, color correction with scopes, keyframed
+effects and motion, titles and captions, and audio mixing with loudness
+meters.
 
 It carries no FFmpeg: the codecs and containers are its own Rust code,
 implemented from the published specifications.  It decodes H.264, HEVC,
-VP9, AV1, ProRes, DNxHD/DNxHR, AAC and Opus, imports MP4/MOV, Matroska
-and WebM, MXF, MPEG transport and program streams and image sequences,
-and exports H.264, ProRes, DNxHR, PNG sequences and animated GIF.
+VP8, VP9, AV1, ProRes, DNxHD/DNxHR, AAC and Opus, imports MP4/MOV,
+Matroska and WebM, AVI, MXF, MPEG transport and program streams and
+image sequences, and exports H.264, ProRes, DNxHR, PNG sequences and
+animated GIF.
 
 Every action in the user interface is also an engine command, which the
 filmcraft-cli tool and its MCP server expose for scripting and agents.

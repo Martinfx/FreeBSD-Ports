@@ -1,6 +1,6 @@
 PORTNAME=	filmcraft
 DISTVERSIONPREFIX=	v
-DISTVERSION=	0.6.0
+DISTVERSION=	0.14.0
 CATEGORIES=	multimedia
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -30,19 +30,22 @@ RUN_DEPENDS=	${LOCALBASE}/lib/alsa-lib/libasound_module_pcm_oss.so:audio/alsa-pl
 		xdg-desktop-portal-gtk>0:x11/xdg-desktop-portal-gtk \
 		xdg-open:devel/xdg-utils
 
-USES=		cargo desktop-file-utils
+USES=		cargo desktop-file-utils shared-mime-info
 USE_GITHUB=	yes
 GH_ACCOUNT=	storytold
 
-CARGO_CRATES=	accesskit-0.24.1 \
-		accesskit_atspi_common-0.18.1 \
-		accesskit_consumer-0.35.0 \
-		accesskit_consumer-0.36.0 \
-		accesskit_consumer-0.38.0 \
-		accesskit_macos-0.26.3 \
-		accesskit_unix-0.21.1 \
-		accesskit_windows-0.32.1 \
-		accesskit_winit-0.32.2 \
+# Generated from Cargo.lock, but not with make cargo-crates: the lock file
+# ends in [[patch.unused]] entries, and cargo-crates.awk takes the last of
+# them (egui_system_font_provider) for a package while dropping the last
+# real one (zvariant_utils).
+CARGO_CRATES=	accesskit-0.25.1 \
+		accesskit_atspi_common-0.21.0 \
+		accesskit_consumer-0.39.1 \
+		accesskit_ios-0.2.1 \
+		accesskit_macos-0.27.1 \
+		accesskit_unix-0.24.0 \
+		accesskit_windows-0.35.1 \
+		accesskit_winit-0.34.1 \
 		adler2-2.0.1 \
 		aead-0.5.2 \
 		aes-0.8.4 \
@@ -54,7 +57,7 @@ CARGO_CRATES=	accesskit-0.24.1 \
 		android-activity-0.6.1 \
 		android-properties-0.2.2 \
 		android_system_properties-0.1.6 \
-		arboard-3.6.1 \
+		arboard-3.7.0 \
 		arrayvec-0.7.8 \
 		as-raw-xcb-connection-1.0.1 \
 		ash-0.38.0+1.3.281 \
@@ -76,19 +79,20 @@ CARGO_CRATES=	accesskit-0.24.1 \
 		atspi-proxies-0.13.0 \
 		autocfg-1.5.1 \
 		base16ct-0.2.0 \
-		base64-0.22.1 \
 		base64-0.23.1 \
 		base64ct-1.8.3 \
-		bit-set-0.8.0 \
 		bit-set-0.10.0 \
-		bit-vec-0.8.0 \
+		bit-set-0.11.1 \
 		bit-vec-0.9.1 \
+		bit-vec-0.10.1 \
 		bitflags-1.3.2 \
 		bitflags-2.13.2 \
 		block-buffer-0.10.4 \
 		block2-0.5.1 \
 		block2-0.6.2 \
 		blocking-1.7.0 \
+		borsh-1.8.1 \
+		borsh-derive-1.8.1 \
 		bumpalo-3.20.3 \
 		bytemuck-1.25.2 \
 		bytemuck_derive-1.12.1 \
@@ -110,10 +114,12 @@ CARGO_CRATES=	accesskit-0.24.1 \
 		cfg_aliases-0.2.2 \
 		cgl-0.3.2 \
 		chacha20-0.9.1 \
+		chacha20-0.10.2 \
 		chacha20poly1305-0.10.1 \
 		chrono-0.4.45 \
 		cipher-0.4.4 \
 		clipboard-win-5.4.1 \
+		cobs-0.3.0 \
 		codespan-reporting-0.13.1 \
 		color-0.3.3 \
 		color_quant-1.1.0 \
@@ -130,6 +136,7 @@ CARGO_CRATES=	accesskit-0.24.1 \
 		cpal-0.16.0 \
 		cpu-time-1.0.0 \
 		cpufeatures-0.2.17 \
+		cpufeatures-0.3.1 \
 		crc32fast-1.5.2 \
 		crossbeam-channel-0.5.17 \
 		crossbeam-deque-0.8.8 \
@@ -147,36 +154,29 @@ CARGO_CRATES=	accesskit-0.24.1 \
 		darling_macro-0.24.1 \
 		dasp_sample-0.11.0 \
 		der-0.7.10 \
+		deranged-0.5.9 \
 		digest-0.10.7 \
 		dispatch-0.2.0 \
 		dispatch2-0.3.1 \
+		displaydoc-0.2.7 \
 		dlib-0.5.3 \
 		document-features-0.2.12 \
 		downcast-rs-1.2.1 \
 		dpi-0.1.2 \
+		dunce-1.0.5 \
 		dyn-clone-1.0.20 \
 		dyn-stack-0.13.2 \
 		dyn-stack-macros-0.1.3 \
 		ecdsa-0.16.9 \
-		ecolor-0.36.2 \
 		ed25519-2.2.3 \
 		ed25519-dalek-2.2.0 \
-		eframe-0.36.2 \
-		egui-0.36.2 \
-		egui-wgpu-0.36.2 \
-		egui-winit-0.36.2 \
-		egui_glow-0.36.2 \
-		egui_kittest-0.36.2 \
 		either-1.18.0 \
 		elliptic-curve-0.13.8 \
-		emath-0.36.2 \
 		encoding_rs-0.8.42 \
 		endi-1.1.1 \
 		enum-as-inner-0.6.1 \
 		enumflags2-0.7.12 \
 		enumflags2_derive-0.7.12 \
-		epaint-0.36.2 \
-		epaint_default_fonts-0.36.2 \
 		equivalent-1.0.2 \
 		errno-0.3.14 \
 		error-code-3.4.0 \
@@ -191,10 +191,14 @@ CARGO_CRATES=	accesskit-0.24.1 \
 		ff-0.13.1 \
 		fiat-crypto-0.2.9 \
 		field-offset-0.3.6 \
+		filetime-0.2.29 \
 		find-msvc-tools-0.1.14 \
+		fixed_decimal-0.7.3 \
+		fixedbitset-0.5.7 \
 		flate2-1.1.10 \
 		float8-0.6.1 \
 		fnv-1.0.7 \
+		foldhash-0.1.5 \
 		foldhash-0.2.0 \
 		font-types-0.12.5 \
 		foreign-types-0.5.0 \
@@ -234,7 +238,7 @@ CARGO_CRATES=	accesskit-0.24.1 \
 		glib-0.18.5 \
 		glib-macros-0.18.5 \
 		glib-sys-0.18.1 \
-		glifo-0.2.0 \
+		glifo-0.3.0 \
 		glob-0.3.4 \
 		glow-0.17.0 \
 		glutin-0.32.3 \
@@ -251,6 +255,7 @@ CARGO_CRATES=	accesskit-0.24.1 \
 		guillotiere-0.7.0 \
 		half-2.7.1 \
 		harfrust-0.12.0 \
+		hashbrown-0.15.5 \
 		hashbrown-0.16.1 \
 		hashbrown-0.17.1 \
 		heck-0.4.1 \
@@ -263,6 +268,20 @@ CARGO_CRATES=	accesskit-0.24.1 \
 		httparse-1.10.1 \
 		iana-time-zone-0.1.65 \
 		iana-time-zone-haiku-0.1.2 \
+		icu_collections-2.3.0 \
+		icu_decimal-2.3.0 \
+		icu_locale_core-2.3.0 \
+		icu_locale_fallback-2.3.0 \
+		icu_locale_fallback_data-2.3.0 \
+		icu_normalizer-2.3.0 \
+		icu_normalizer_data-2.3.0 \
+		icu_pattern-0.5.0 \
+		icu_plurals-2.3.0 \
+		icu_properties-2.3.0 \
+		icu_properties_data-2.3.0 \
+		icu_provider-2.3.1 \
+		icu_provider_adapters-2.3.0 \
+		icu_provider_blob-2.3.0 \
 		ident_case-1.0.1 \
 		image-0.25.10 \
 		image-webp-0.2.4 \
@@ -283,7 +302,7 @@ CARGO_CRATES=	accesskit-0.24.1 \
 		keyboard-types-0.8.3 \
 		khronos-egl-6.0.0 \
 		khronos_api-3.1.0 \
-		kittest-0.4.0 \
+		kittest-0.5.0 \
 		kurbo-0.13.1 \
 		lazy_static-1.5.0 \
 		libc-0.2.189 \
@@ -293,6 +312,7 @@ CARGO_CRATES=	accesskit-0.24.1 \
 		linebender_resource_handle-0.1.1 \
 		linux-raw-sys-0.4.15 \
 		linux-raw-sys-0.12.1 \
+		litemap-0.8.3 \
 		litrs-1.0.0 \
 		lock_api-0.4.14 \
 		log-0.4.34 \
@@ -304,16 +324,19 @@ CARGO_CRATES=	accesskit-0.24.1 \
 		miniz_oxide-0.9.1 \
 		mio-1.2.3 \
 		moxcms-0.8.1 \
-		muda-0.21.0 \
+		muda-0.21.2 \
 		multiversion_no_op-1.0.0 \
 		naga-30.0.1 \
 		naga-types-30.0.1 \
 		ndk-0.9.0 \
 		ndk-context-0.1.1 \
 		ndk-sys-0.6.0+11769913 \
+		nix-0.31.3 \
 		nohash-hasher-0.2.0 \
+		nom-8.0.0 \
 		num-bigint-dig-0.8.6 \
 		num-complex-0.4.6 \
+		num-conv-0.2.2 \
 		num-derive-0.4.2 \
 		num-integer-0.1.47 \
 		num-iter-0.1.46 \
@@ -323,7 +346,7 @@ CARGO_CRATES=	accesskit-0.24.1 \
 		num_enum_derive-0.7.6 \
 		objc-sys-0.3.5 \
 		objc2-0.5.2 \
-		objc2-0.6.4 \
+		objc2-0.6.5 \
 		objc2-app-kit-0.2.2 \
 		objc2-app-kit-0.3.2 \
 		objc2-audio-toolbox-0.3.2 \
@@ -355,11 +378,12 @@ CARGO_CRATES=	accesskit-0.24.1 \
 		objc2-video-toolbox-0.3.2 \
 		once_cell-1.21.4 \
 		opaque-debug-0.3.1 \
-		open-5.4.4 \
+		open-5.4.5 \
 		openssl-probe-0.2.1 \
 		orbclient-0.3.55 \
 		ordered-float-5.5.0 \
 		ordered-stream-0.2.0 \
+		os_pipe-1.2.3 \
 		p256-0.13.2 \
 		p384-0.13.1 \
 		pango-0.18.3 \
@@ -372,10 +396,11 @@ CARGO_CRATES=	accesskit-0.24.1 \
 		pem-rfc7468-0.7.0 \
 		peniko-0.6.1 \
 		percent-encoding-2.3.2 \
-		phf-0.13.1 \
-		phf_generator-0.13.1 \
-		phf_macros-0.13.1 \
-		phf_shared-0.13.1 \
+		petgraph-0.8.3 \
+		phf-0.14.0 \
+		phf_generator-0.14.0 \
+		phf_macros-0.14.0 \
+		phf_shared-0.14.0 \
 		pin-project-1.1.13 \
 		pin-project-internal-1.1.13 \
 		pin-project-lite-0.2.17 \
@@ -385,6 +410,7 @@ CARGO_CRATES=	accesskit-0.24.1 \
 		pkcs8-0.10.2 \
 		pkg-config-0.3.34 \
 		plain-0.2.3 \
+		plist-1.10.3 \
 		png-0.18.1 \
 		polling-3.11.0 \
 		pollster-0.4.0 \
@@ -394,6 +420,9 @@ CARGO_CRATES=	accesskit-0.24.1 \
 		polyval-0.6.2 \
 		portable-atomic-1.15.0 \
 		portable-atomic-util-0.2.8 \
+		postcard-1.1.3 \
+		potential_utf-0.1.6 \
+		powerfmt-0.2.1 \
 		ppv-lite86-0.2.21 \
 		presser-0.3.1 \
 		primeorder-0.13.6 \
@@ -404,24 +433,27 @@ CARGO_CRATES=	accesskit-0.24.1 \
 		proc-macro-error-attr-1.0.4 \
 		proc-macro2-1.0.107 \
 		profiling-1.0.18 \
-		proptest-1.11.0 \
+		proptest-1.12.0 \
 		pulp-0.22.3 \
 		pulp-wasm-simd-flag-0.1.1 \
 		pxfm-0.1.30 \
 		quick-error-1.2.3 \
 		quick-error-2.0.1 \
 		quick-xml-0.41.0 \
+		quick-xml-0.42.0 \
 		quote-1.0.47 \
 		r-efi-5.3.0 \
 		r-efi-6.0.0 \
 		rand-0.8.8 \
 		rand-0.9.5 \
+		rand-0.10.3 \
 		rand_chacha-0.3.1 \
 		rand_chacha-0.9.0 \
 		rand_core-0.6.4 \
 		rand_core-0.9.5 \
+		rand_core-0.10.1 \
 		rand_distr-0.5.1 \
-		rand_xorshift-0.4.0 \
+		rand_xorshift-0.5.0 \
 		range-alloc-0.1.5 \
 		raw-cpuid-11.6.0 \
 		raw-window-handle-0.6.2 \
@@ -440,8 +472,8 @@ CARGO_CRATES=	accesskit-0.24.1 \
 		rfc6979-0.4.0 \
 		rfd-0.17.2 \
 		ring-0.17.14 \
-		rmcp-3.5.0 \
-		rmcp-macros-3.5.0 \
+		rmcp-3.6.0 \
+		rmcp-macros-3.7.0 \
 		roxmltree-0.21.1 \
 		rsa-0.9.10 \
 		rustc-hash-1.1.0 \
@@ -449,7 +481,7 @@ CARGO_CRATES=	accesskit-0.24.1 \
 		rustc_version-0.4.1 \
 		rustix-0.38.44 \
 		rustix-1.1.5 \
-		rustls-0.23.45 \
+		rustls-0.23.46 \
 		rustls-native-certs-0.8.4 \
 		rustls-pki-types-1.15.1 \
 		rustls-platform-verifier-0.7.1 \
@@ -462,8 +494,8 @@ CARGO_CRATES=	accesskit-0.24.1 \
 		safetensors-0.7.0 \
 		same-file-1.0.6 \
 		schannel-0.1.29 \
-		schemars-1.2.2 \
-		schemars_derive-1.2.2 \
+		schemars-1.2.3 \
+		schemars_derive-1.2.3 \
 		scoped-tls-1.0.1 \
 		scopeguard-1.2.0 \
 		sec1-0.7.3 \
@@ -471,12 +503,13 @@ CARGO_CRATES=	accesskit-0.24.1 \
 		security-framework-sys-2.17.0 \
 		self_cell-1.3.0 \
 		semver-1.0.28 \
+		send_wrapper-0.6.0 \
 		seq-macro-0.3.6 \
 		serde-1.0.229 \
 		serde_core-1.0.229 \
 		serde_derive-1.0.229 \
 		serde_derive_internals-0.30.0 \
-		serde_json-1.0.151 \
+		serde_json-1.0.154 \
 		serde_repr-0.1.21 \
 		serde_spanned-0.6.9 \
 		serde_spanned-1.1.1 \
@@ -524,6 +557,7 @@ CARGO_CRATES=	accesskit-0.24.1 \
 		sys-locale-0.3.2 \
 		sysctl-0.6.0 \
 		system-deps-6.2.2 \
+		tar-0.4.46 \
 		target-lexicon-0.12.16 \
 		tempfile-3.27.0 \
 		termcolor-1.4.1 \
@@ -532,7 +566,11 @@ CARGO_CRATES=	accesskit-0.24.1 \
 		thiserror-impl-1.0.69 \
 		thiserror-impl-2.0.21 \
 		tiff-0.11.3 \
-		tokio-1.53.1 \
+		time-0.3.55 \
+		time-core-0.1.9 \
+		time-macros-0.2.32 \
+		tinystr-0.8.4 \
+		tokio-1.54.1 \
 		tokio-macros-2.7.2 \
 		tokio-util-0.7.19 \
 		toml-0.8.2 \
@@ -547,8 +585,10 @@ CARGO_CRATES=	accesskit-0.24.1 \
 		tracing-0.1.44 \
 		tracing-attributes-0.1.31 \
 		tracing-core-0.1.36 \
+		tree_magic_mini-3.2.2 \
 		type-map-0.5.1 \
 		typed-path-0.12.3 \
+		typed-path-0.13.0 \
 		typenum-1.20.1 \
 		uds_windows-1.2.1 \
 		unarray-0.1.4 \
@@ -556,16 +596,20 @@ CARGO_CRATES=	accesskit-0.24.1 \
 		unicode-general-category-1.1.0 \
 		unicode-ident-1.0.26 \
 		unicode-linebreak-0.1.5 \
+		unicode-properties-0.1.4 \
 		unicode-segmentation-1.13.3 \
 		unicode-width-0.2.2 \
 		universal-hash-0.5.1 \
 		untrusted-0.9.0 \
-		ureq-3.4.2 \
-		ureq-proto-0.6.4 \
+		ureq-3.5.0 \
+		ureq-proto-0.6.5 \
+		utf16_iter-1.0.5 \
 		utf8-zero-0.8.1 \
+		utf8_iter-1.0.4 \
 		uuid-1.26.1 \
-		vello_common-0.1.0 \
-		vello_cpu-0.1.0 \
+		vello_common-0.2.0 \
+		vello_cpu-0.2.0 \
+		verifysign-1.0.1 \
 		version-compare-0.2.1 \
 		version_check-0.9.5 \
 		wait-timeout-0.2.1 \
@@ -615,46 +659,41 @@ CARGO_CRATES=	accesskit-0.24.1 \
 		windows-interface-0.59.3 \
 		windows-link-0.2.1 \
 		windows-numerics-0.3.1 \
+		windows-registry-0.6.1 \
 		windows-result-0.1.2 \
 		windows-result-0.4.1 \
 		windows-strings-0.5.1 \
 		windows-sys-0.45.0 \
 		windows-sys-0.52.0 \
 		windows-sys-0.59.0 \
-		windows-sys-0.60.2 \
 		windows-sys-0.61.2 \
 		windows-targets-0.42.2 \
 		windows-targets-0.52.6 \
-		windows-targets-0.53.5 \
 		windows-threading-0.2.1 \
 		windows_aarch64_gnullvm-0.42.2 \
 		windows_aarch64_gnullvm-0.52.6 \
-		windows_aarch64_gnullvm-0.53.1 \
 		windows_aarch64_msvc-0.42.2 \
 		windows_aarch64_msvc-0.52.6 \
-		windows_aarch64_msvc-0.53.1 \
 		windows_i686_gnu-0.42.2 \
 		windows_i686_gnu-0.52.6 \
-		windows_i686_gnu-0.53.1 \
 		windows_i686_gnullvm-0.52.6 \
-		windows_i686_gnullvm-0.53.1 \
 		windows_i686_msvc-0.42.2 \
 		windows_i686_msvc-0.52.6 \
-		windows_i686_msvc-0.53.1 \
 		windows_x86_64_gnu-0.42.2 \
 		windows_x86_64_gnu-0.52.6 \
-		windows_x86_64_gnu-0.53.1 \
 		windows_x86_64_gnullvm-0.42.2 \
 		windows_x86_64_gnullvm-0.52.6 \
-		windows_x86_64_gnullvm-0.53.1 \
 		windows_x86_64_msvc-0.42.2 \
 		windows_x86_64_msvc-0.52.6 \
-		windows_x86_64_msvc-0.53.1 \
-		winit-0.30.13 \
 		winnow-0.5.40 \
 		winnow-1.0.4 \
-		winresource-0.1.31 \
+		winreg-0.55.0 \
+		winresource-0.1.34 \
+		winsafe-0.0.29 \
 		wit-bindgen-0.57.1 \
+		wl-clipboard-rs-0.9.4 \
+		write16-1.0.0 \
+		writeable-0.6.4 \
 		x11-dl-2.21.0 \
 		x11rb-0.13.2 \
 		x11rb-protocol-0.13.2 \
@@ -678,14 +717,22 @@ CARGO_CRATES=	accesskit-0.24.1 \
 		zerofrom-derive-0.1.8 \
 		zeroize-1.9.0 \
 		zeroize_derive-1.5.0 \
+		zerotrie-0.2.5 \
+		zerovec-0.11.8 \
+		zerovec-derive-0.11.7 \
 		zip-7.2.0 \
+		zip-9.1.0 \
 		zlib-rs-0.6.8 \
 		zmij-1.0.23 \
+		zopfli-0.8.4 \
 		zune-core-0.5.3 \
 		zune-jpeg-0.5.15 \
 		zvariant-5.15.0 \
 		zvariant_derive-5.15.0 \
-		zvariant_utils-4.2.0
+		zvariant_utils-4.2.0 \
+		craft-docpath,craft-fonts-build,craft-i18n,craft-media,craft-ui,craft-update@git+https://github.com/storytold/craft-libs?rev=92d392cff132eaf53e13afff77f38b5c11b73aa0\#92d392cff132eaf53e13afff77f38b5c11b73aa0 \
+		ecolor,eframe,egui,egui-wgpu,egui-winit,egui_glow,egui_kittest,emath,epaint,epaint_default_fonts@git+https://github.com/storytold/egui.git?rev=6d518fc799681571963842f95b55a6b68431b15a\#6d518fc799681571963842f95b55a6b68431b15a \
+		winit@git+https://github.com/storytold/winit.git?rev=a517b3846ee8457d84ee4975110bfda6797c44dc\#a517b3846ee8457d84ee4975110bfda6797c44dc
 
 # The workspace also holds the web front end and xtask: build only the
 # desktop application and the command line tool, and install them from
@@ -706,7 +753,7 @@ CARGO_ENV+=	CARGO_PROFILE_RELEASE_LTO=false
 
 APP_ID=		ai.storyteller.filmcraft
 # Release date of ${DISTVERSION}, for the AppStream metadata.
-RELEASE_DATE=	2026-10-10
+RELEASE_DATE=	2026-10-28
 ICON_SIZES=	16 24 32 48 64 128 256 512
 
 PORTDOCS=	ATTRIBUTION.md NOTICE README.md
@@ -714,12 +761,12 @@ PORTDOCS=	ATTRIBUTION.md NOTICE README.md
 OPTIONS_DEFINE=		CRAFTFONTS DOCS KOKORO WHISPER
 OPTIONS_DEFAULT=	CRAFTFONTS
 
-CRAFTFONTS_DESC=	Embed the Japanese craft-fonts (UI and titles)
+CRAFTFONTS_DESC=	Embed the craft-fonts (CJK, Arabic, Hebrew, Thai and more)
 KOKORO_DESC=		Neural text to speech voices (Kokoro-82M, fetched on use)
 WHISPER_DESC=		Speech to text with Whisper (models fetched on use)
 
 # The commit upstream's release builds embed.
-CRAFTFONTS_GH_TUPLE=	storytold:craft-fonts:abb83316d96aa59c1cf64784289e378fe9fa5695:fonts
+CRAFTFONTS_GH_TUPLE=	storytold:craft-fonts:b076417b5880bd4154bd22f00695b1d28c6bea83:fonts
 CRAFTFONTS_MAKE_ENV=	CRAFT_FONTS_DIR=${WRKSRC_fonts} \
 			CRAFT_FONTS_REQUIRED=1
 
@@ -736,6 +783,9 @@ do-install:
 	@${MKDIR} ${STAGEDIR}${DESKTOPDIR}
 	${INSTALL_DATA} ${WRKSRC}/packaging/linux/${APP_ID}.desktop \
 		${STAGEDIR}${DESKTOPDIR}
+	@${MKDIR} ${STAGEDIR}${PREFIX}/share/mime/packages
+	${INSTALL_DATA} ${WRKSRC}/packaging/linux/${APP_ID}.mime.xml \
+		${STAGEDIR}${PREFIX}/share/mime/packages/${APP_ID}.xml
 	@${MKDIR} ${STAGEDIR}${PREFIX}/share/metainfo
 	${SED} -e 's|@VERSION@|${DISTVERSION}|g' \
 		-e 's|@DATE@|${RELEASE_DATE}|g' \
