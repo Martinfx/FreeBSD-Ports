@@ -48,6 +48,16 @@ export STUDIO_JDK="${STUDIO_HOME}/jbr"
 export JAVA_HOME="${STUDIO_HOME}/jbr"
 unset JDK_HOME
 
+# mkdir("/tmp") from a Linux process fails with EACCES instead of EEXIST: the
+# name is resolved below ${LINUXBASE}, which has no tmp.  The JVM calls
+# Files.createDirectories(java.io.tmpdir), which then fails and breaks the
+# SDK download, so give the IDE and Gradle a temporary directory of their own.
+_tmp="${XDG_CACHE_HOME:-${HOME}/.cache}/android-studio-freebsd/tmp"
+if mkdir -p "${_tmp}"; then
+	export JAVA_TOOL_OPTIONS="${JAVA_TOOL_OPTIONS:+${JAVA_TOOL_OPTIONS} }-Djava.io.tmpdir=${_tmp}"
+fi
+unset _tmp
+
 # Fall back to C.UTF-8 when the requested locale is missing in the Linux
 # base, otherwise the JVM uses ASCII for file names.
 _locale="${LC_ALL:-${LC_CTYPE:-${LANG}}}"

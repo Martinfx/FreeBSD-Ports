@@ -1,7 +1,8 @@
 Android Studio is the official integrated development environment for
 Android application development, based on IntelliJ IDEA.
 
-This port installs the upstream Linux build and runs it, together with
-its bundled JetBrains Runtime, Gradle and the Android SDK tools, through
-the FreeBSD Linux binary compatibility layer.  A launcher script checks
-the Linux layer and selects the bundled runtime.
+This port installs the upstream Linux build and runs it with its bundled
+JetBrains Runtime through the FreeBSD Linux binary compatibility layer.
+Gradle and the Android SDK, which the IDE downloads on first use, run
+through the same layer.  A launcher script checks the Linux layer and
+selects the bundled runtime.
