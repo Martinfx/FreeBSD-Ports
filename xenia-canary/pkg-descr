@@ -1,0 +1,8 @@
+Xenia Canary is an experimental Xbox 360 emulator, a fork of the Xenia
+research project that merges community changes faster. It runs a growing
+number of commercial games, translating the PowerPC code of the console
+to x86-64 with a JIT and emulating the Xenos GPU with Vulkan.
+
+A CPU with AVX and a Vulkan 1.1 capable GPU and driver are required.
+Games, the console's system files and saves must be dumped from your own
+console.
