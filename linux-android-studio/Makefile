@@ -11,9 +11,10 @@ MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Official IDE for Android (Linux binary)
 WWW=		https://developer.android.com/studio/
 
-# The binary distribution is covered by Google's terms, which do not allow
-# redistribution.  Bundled components (JetBrains Runtime, ...) keep their own
-# licenses.
+# The download is covered by the Android Software Development Kit License
+# Agreement, which does not allow redistribution (section 3.4).  LICENSE.txt
+# in the tarball only holds the JetBrains Open-Source Build Terms of the
+# IntelliJ platform, license/ the terms of bundled third-party components.
 LICENSE=	ANDROID-STUDIO
 LICENSE_NAME=	Android Software Development Kit License Agreement
 LICENSE_TEXT=	See: https://developer.android.com/studio/terms
@@ -22,10 +23,13 @@ LICENSE_PERMS=	none
 ONLY_FOR_ARCHS=	amd64
 ONLY_FOR_ARCHS_REASON=	upstream only provides x86_64 Linux binaries
 
-USES=		desktop-file-utils linux:rl9
-USE_LINUX=	alsalib at-spi2-atk at-spi2-core atk cairo cups-libs dbuslibs \
-		dri expat fontconfig freetype gtk3 libdrm libglvnd \
-		libxkbcommon nspr nss pango xorglibs
+USES=		linux:rl9
+# Libraries the bundled JetBrains Runtime and Skiko link to or dlopen(), dri
+# provides the Mesa driver behind libGL.  The JBR comes without JCEF, so no
+# Chromium libraries (nss, ...) are needed.  wayland and libxkbcommon are only
+# used in a Wayland session.
+USE_LINUX=	alsalib cups-libs dbuslibs dri fontconfig freetype gtk3 \
+		libglvnd libxkbcommon wayland xorglibs
 
 NO_BUILD=	yes
 SUB_FILES=	android-studio.desktop android-studio.sh pkg-message
@@ -54,13 +58,6 @@ post-extract:
 # Record the executables now: COPYTREE_SHARE hard links the staged files to
 # WRKSRC (cpio -l) and its chmod 444 strips the bits in WRKSRC as well.
 	cd ${WRKSRC} && ${FIND} . -type f -perm -u+x -print0 > ${WRKDIR}/.executables
-
-post-patch:
-# Chromium (JCEF) sandbox and GPU process do not work under the Linux ABI layer.
-	@${PRINTF} '%s\n' \
-		'-Dide.browser.jcef.sandbox.enable=false' \
-		'-Dide.browser.jcef.gpu.disable=true' \
-		>> ${WRKSRC}/bin/studio64.vmoptions
 
 do-install:
 	${MKDIR} ${STAGEDIR}${DATADIR}
