@@ -930,4 +930,3 @@
 %%CEFDIR%%/libcef_dll/wrapper/libcef_dll_wrapper2.cc
 %%CEFDIR%%/libcef_dll/wrapper_types.h
 %%CEFDIR%%/libcef_dll_wrapper/libcef_dll_wrapper.a
-libdata/ldconfig/cef
