@@ -1,4 +1,4 @@
-TIMESTAMP = 1791837414
+TIMESTAMP = 1793454381
 SHA256 (vivaldi-source_8.2.4133.tar.xz) = 6993690a061a7b0ffe1b7ba05edf975e1cb02008ae92c6a20ab14d4b28975268
 SIZE (vivaldi-source_8.2.4133.tar.xz) = 2455649212
 SHA256 (vivaldi-linux-bins-8.2.4133.84_1.tar.xz) = d844d81eadab700e8b8eddca610dc1bb03666662b7a8ef74d6e5b95333f3e8b7
@@ -415,5 +415,5 @@ SHA256 (rust/crates/zmij-1.0.21.crate) = b8848ee67ecc8aedbaf3e4122217aff89263923
 SIZE (rust/crates/zmij-1.0.21.crate) = 26665
 SHA256 (rollup-rollup-v4.60.4_GH0.tar.gz) = c129324ecef83a1c4d829c8b876751c72a6fa2dfe707f32f0b55c311cf29ee91
 SIZE (rollup-rollup-v4.60.4_GH0.tar.gz) = 2249970
-SHA256 (evanw-esbuild-v0.28.1_GH0.tar.gz) = 65c756fa87d43178ac4a5242454c2bd0fde325f8ecf77997f8fa4b88f94d5cd2
-SIZE (evanw-esbuild-v0.28.1_GH0.tar.gz) = 1997481
+SHA256 (evanw-esbuild-v0.28.2_GH0.tar.gz) = 300162f899361d9f0263065f8728ef9086dcfc1a3d36bcbc4e0abe5de9c58bf8
+SIZE (evanw-esbuild-v0.28.2_GH0.tar.gz) = 2008796
