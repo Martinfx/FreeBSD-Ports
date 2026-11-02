@@ -14,17 +14,16 @@ WWW=		https://developer.android.com/studio/
 # The download page only hands out the tarball after agreeing to the Android
 # Software Development Kit License Agreement, which forbids copying and
 # redistribution (section 3.4), so neither the distfile nor the package may
-# be mirrored or sold, and the agreement has to be accepted by the user:
-# no auto-accept.  Batch builds (poudriere) therefore need
-# LICENSES_ACCEPTED=ANDROID-STUDIO in make.conf, like the other ports with
-# click-through terms (www/linux-widevine-cdm, finance/linux-tradingview).
-# LICENSE.txt in the tarball only holds the JetBrains Open-Source Build Terms
-# of the IntelliJ platform, license/ the terms of bundled third-party
-# components.
+# be mirrored or sold.  auto-accept lets batch builds (poudriere) proceed,
+# like net-im/linux-discord and editors/linux-sublime-text4 do for their
+# click-through terms; LICENSES_ASK restores the prompt.  LICENSE.txt in the
+# tarball only holds the JetBrains Open-Source Build Terms of the IntelliJ
+# platform, license/ the terms of bundled third-party components.
 LICENSE=	ANDROID-STUDIO
 LICENSE_NAME=	Android Software Development Kit License Agreement
 LICENSE_TEXT=	See: https://developer.android.com/studio/terms
-LICENSE_PERMS=	none
+LICENSE_PERMS=	no-dist-mirror no-dist-sell no-pkg-mirror no-pkg-sell \
+		auto-accept
 
 ONLY_FOR_ARCHS=	amd64
 ONLY_FOR_ARCHS_REASON=	upstream only provides x86_64 Linux binaries
