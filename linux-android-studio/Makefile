@@ -11,14 +11,6 @@ MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Official IDE for Android (Linux binary)
 WWW=		https://developer.android.com/studio/
 
-# The download page only hands out the tarball after agreeing to the Android
-# Software Development Kit License Agreement, which forbids copying and
-# redistribution (section 3.4), so neither the distfile nor the package may
-# be mirrored or sold.  auto-accept lets batch builds (poudriere) proceed,
-# like net-im/linux-discord and editors/linux-sublime-text4 do for their
-# click-through terms; LICENSES_ASK restores the prompt.  LICENSE.txt in the
-# tarball only holds the JetBrains Open-Source Build Terms of the IntelliJ
-# platform, license/ the terms of bundled third-party components.
 LICENSE=	ANDROID-STUDIO
 LICENSE_NAME=	Android Software Development Kit License Agreement
 LICENSE_TEXT=	See: https://developer.android.com/studio/terms
@@ -29,13 +21,6 @@ ONLY_FOR_ARCHS=	amd64
 ONLY_FOR_ARCHS_REASON=	upstream only provides x86_64 Linux binaries
 
 USES=		linux:rl9
-# Libraries the bundled JetBrains Runtime and Skiko link to (readelf -d:
-# asound, freetype, X11, Xext, Xrender, wayland-client, wayland-cursor,
-# xkbcommon, fontconfig, GL) or dlopen() (gtk-3, cups, dbus-1, Xrandr,
-# Xinerama, Xcomposite), dri provides the Mesa driver behind libGL.  The JBR
-# ships without JCEF (no libcef.so, no jcef module), so no Chromium
-# libraries (nss, nspr, libdrm) are needed.  wayland and libxkbcommon are
-# only used in a Wayland session.
 USE_LINUX=	alsalib cups-libs dbuslibs dri fontconfig freetype gtk3 \
 		libglvnd libxkbcommon wayland xorglibs
 
