@@ -69,6 +69,15 @@ do-install:
 		${STAGEDIR}${PREFIX}/share/pixmaps/android-studio.svg
 
 post-install:
+# Upstream ships the NDK debugger and clangd helpers with debug info.  The
+# lldb-server binaries under lldb/android are device (Android) executables
+# and stay as they are.
+	${STRIP_CMD} \
+		${STAGEDIR}${DATADIR}/plugins/android-ndk/resources/lldb/bin/LLDBFrontend \
+		${STAGEDIR}${DATADIR}/plugins/android-ndk/resources/lldb/lib/libc++.so \
+		${STAGEDIR}${DATADIR}/plugins/android-ndk/resources/lldb/lib64/libc++.so \
+		${STAGEDIR}${DATADIR}/plugins/android-ndk/resources/lldb/lib64/libedit.so.0 \
+		${STAGEDIR}${DATADIR}/plugins/cidr-clangd/bin/clang/linux/x64/bin/libc++.so
 	cd ${STAGEDIR}${PREFIX} && ${FIND} ${DATADIR_REL} \
 		\( -type f -o -type l \) >> ${TMPPLIST}
 	cd ${STAGEDIR}${PREFIX} && ${FIND} ${DATADIR_REL} -type d -empty | \
