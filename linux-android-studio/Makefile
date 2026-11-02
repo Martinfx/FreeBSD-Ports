@@ -1,5 +1,5 @@
 PORTNAME=	android-studio
-DISTVERSION=	2026.2.1.8
+DISTVERSION=	2026.2.2.8
 CATEGORIES=	devel java linux
 MASTER_SITES=	https://dl.google.com/dl/android/studio/ide-zips/${DISTVERSION}/ \
 		https://edgedl.me.gvt1.com/android/studio/ide-zips/${DISTVERSION}/
@@ -60,7 +60,7 @@ ADB_RUN_DEPENDS=	adb:devel/android-tools
 FSNOTIFIER_RUN_DEPENDS=	intellij-fsnotifier>0:java/intellij-fsnotifier
 
 # Upstream names the tarball after the release codename.
-STUDIO_RELEASE=	rabbit1
+STUDIO_RELEASE=	rabbit2
 
 post-extract:
 # Record the executables now: COPYTREE_SHARE hard links the staged files to
