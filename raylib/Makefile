@@ -1,5 +1,5 @@
 PORTNAME=	raylib
-DISTVERSION=	6.0
+DISTVERSION=	6.2
 CATEGORIES=	devel education
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -9,11 +9,11 @@ WWW=		https://www.raylib.com/
 LICENSE=	ZLIB
 LICENSE_FILE=	${WRKSRC}/LICENSE
 
-USES=		cmake localbase:ldflags sdl xorg
+USES=		cmake cpe localbase:ldflags sdl xorg
 USE_GITHUB=	yes
 GH_ACCOUNT=	raysan5
 USE_LDCONFIG=	yes
-USE_SDL=	sdl2
+USE_SDL=	sdl3
 USE_XORG=	ice sm x11 xcursor xext xi xinerama xrandr xxf86vm
 
 CMAKE_ARGS=	-DPLATFORM=SDL
