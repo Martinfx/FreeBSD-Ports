@@ -1,5 +1,6 @@
 PORTNAME=	vivaldi
 DISTVERSION=	8.2.4133
+PORTREVISION=	1
 CATEGORIES=	www
 MASTER_SITES=	https://source.vivaldi.com/ \
 		${LINUX_BINS_SITE}:linuxbins,nodemods
@@ -151,8 +152,14 @@ BINARY_ALIAS=	python3=${PYTHON_CMD}
 # (the Linux implementation only watches the executable for upgrades, it does
 # not update anything).  Vivaldi patches FFmpeg for the
 # proprietary codecs and asserts on ffmpeg_branding == "Chrome", so the
-# codecs cannot be turned off.  The .gn of Vivaldi defaults to a component
-# build, which is not what gets installed.
+# codecs cannot be turned off.  What it then takes back out of the generated
+# codec list for its Linux packages, the H.264 and AAC decoders (patents keep
+# it from shipping them in binaries, so the distribution is expected to
+# provide a libffmpeg.so that has them), the patch to
+# platform_media/ffmpeg/BUILD.gn keeps in on FreeBSD, where FFmpeg is built
+# from source with the Chrome branding just as in www/chromium; without it
+# MP4 (H.264/AAC) media does not play.  The .gn of Vivaldi defaults to a
+# component build, which is not what gets installed.
 GN_ARGS+=	clang_use_chrome_plugins=false \
 		enable_backup_ref_ptr_support=false \
 		enable_hangout_services_extension=true \

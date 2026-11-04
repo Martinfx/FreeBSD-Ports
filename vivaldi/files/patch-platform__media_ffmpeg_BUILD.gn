@@ -1,0 +1,15 @@
+--- platform_media/ffmpeg/BUILD.gn.orig	2026-08-25 00:00:00 UTC
++++ platform_media/ffmpeg/BUILD.gn
+@@ -53,7 +53,11 @@
+          "Unexpected format of $decoder_list_file")
+   assert("&ff_aac_decoder," == decoder_list_lines[2],
+          "Unexpected format of $decoder_list_file")
+-  if (is_linux) {
++  # Vivaldi leaves the H.264 and AAC decoders out of the libffmpeg.so of its
++  # Linux packages and expects the distribution to provide one with them (see
++  # docs/linux.md).  The FreeBSD port builds FFmpeg from source with the
++  # Chrome branding, like www/chromium, so it keeps them in.
++  if (is_linux && !is_bsd) {
+     decoder_list_lines[1] = "//" + decoder_list_lines[1]
+     decoder_list_lines[2] = "//" + decoder_list_lines[2]
+   }
