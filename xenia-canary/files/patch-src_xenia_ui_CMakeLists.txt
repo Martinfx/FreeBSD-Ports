@@ -1,0 +1,17 @@
+--- src/xenia/ui/CMakeLists.txt.orig
++++ src/xenia/ui/CMakeLists.txt
+@@ -12,12 +12,12 @@ endif()
+ target_link_libraries(xenia-ui PUBLIC xenia-base)
+ if(WIN32)
+   target_link_libraries(xenia-ui PRIVATE dwmapi dxgi winmm)
+-elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
++elseif(CMAKE_SYSTEM_NAME MATCHES "Linux|FreeBSD")
+   target_link_libraries(xenia-ui PRIVATE xcb X11 X11-xcb fontconfig ${GTK3_LIBRARIES})
+ endif()
+ xe_target_defaults(xenia-ui)
+ 
+-if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
++if(CMAKE_SYSTEM_NAME MATCHES "Linux|FreeBSD")
+   # Japanese glyphs for ImGui. fontconfig's CJK match is often a CFF or
+   # variable font that stb_truetype cannot load (see LoadJapaneseFont).
+   xe_embed_binary_assets(xenia-ui "${PROJECT_SOURCE_DIR}/assets/font" font)

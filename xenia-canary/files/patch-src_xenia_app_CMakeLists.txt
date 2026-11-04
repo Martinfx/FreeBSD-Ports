@@ -1,0 +1,16 @@
+--- src/xenia/app/CMakeLists.txt.orig
++++ src/xenia/app/CMakeLists.txt
+@@ -112,9 +112,11 @@ if(WIN32)
+     xenia-hid-xinput
+     xenia-ui-d3d12
+   )
+-elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
++elseif(CMAKE_SYSTEM_NAME MATCHES "Linux|FreeBSD")
++  if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
++    target_link_libraries(xenia-app PRIVATE xenia-apu-alsa)
++  endif()
+   target_link_libraries(xenia-app PRIVATE
+-    xenia-apu-alsa
+     X11
+     xcb
+     X11-xcb
