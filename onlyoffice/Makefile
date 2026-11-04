@@ -27,7 +27,7 @@ ONLY_FOR_ARCHS_REASON=	Upstream only supports amd64 and arm64, www/cef the same
 BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}Jinja2>=0:devel/py-Jinja2@${PY_FLAVOR} \
 		gn:devel/gn \
 		ninja:devel/ninja \
-		npm:www/npm-node20 \
+		npm:www/npm${NODEJS_SUFFIX} \
 		optipng:graphics/optipng
 LIB_DEPENDS=	libboost_filesystem.so:devel/boost-libs \
 		libboost_regex.so:devel/boost-libs \
@@ -47,7 +47,8 @@ RUN_DEPENDS=	${LOCALBASE}/share/certs/ca-root-nss.crt:security/ca_root_nss \
 		xdg-open:devel/xdg-utils
 
 USES=		desktop-file-utils dos2unix gl gmake gnome iconv:wchar_t \
-		java:build localbase pkgconfig python:build qt:5 ssl xorg
+		java:build localbase nodejs:build pkgconfig python:build qt:5 \
+		ssl xorg
 USE_GITHUB=	yes
 GH_ACCOUNT=	ONLYOFFICE
 GH_PROJECT=	DesktopEditors
@@ -81,7 +82,17 @@ JAVA_VERSION=	11+
 # The web-apps, sdkjs and start page (desktop-apps/common/loginpage) builds
 # install their npm modules offline, from the Document Server npm cache
 # (the npm_cache tuple) and the packages below, which only the start page
-# needs and which are added to that cache at the start of do-build.
+# needs and which are added to that cache at the start of do-build.  The
+# build never contacts the npm registry, see README.md in this directory
+# when npm fails with "cache mode is 'only-if-cached'".
+#
+# The cache holds the registry metadata that the npm which built it asked
+# for; npm 12 asks for more, so each "npm install" must be driven by a
+# lockfileVersion 3 lockfile, which resolves everything from the tarballs
+# in the cache.  web-apps and the start page have one, sdkjs only has an
+# npm-shrinkwrap.json of lockfileVersion 1 that npm 12 ignores, it is
+# replaced by files/sdkjs-package-lock.json (the same versions, converted
+# by npm 10 from that shrinkwrap).
 _NPM_DISTFILES=	@babel/code-frame/-/code-frame-7.23.5.tgz \
 		@babel/generator/-/generator-7.23.6.tgz \
 		@babel/highlight/-/highlight-7.23.4.tgz \
@@ -207,14 +218,20 @@ pre-configure:
 	@${ECHO} "# Generated from 'DEPS'" > ${WRKSRC}/core/Common/3dParty/v8_89/v8/build/config/gclient_args.gni
 	@${ECHO} "checkout_google_benchmark = false" >> ${WRKSRC}/core/Common/3dParty/v8_89/v8/build/config/gclient_args.gni
 
+post-patch:
+# See the comment above _NPM_DISTFILES
+	@${RM} ${WRKSRC}/sdkjs/build/npm-shrinkwrap.json
+	${CP} ${FILESDIR}/sdkjs-package-lock.json ${WRKSRC}/sdkjs/build/package-lock.json
+
 do-build:
 # npm is a build dependency, so this cannot be done in post-extract
 .for f in ${_NPM_DISTFILES}
 	@${SETENV} HOME=${WRKDIR} ${LOCALBASE}/bin/npm cache add --offline \
-		${DISTDIR}/${DIST_SUBDIR}/${f} > /dev/null
+		--cache ${WRKDIR}/.npm ${DISTDIR}/${DIST_SUBDIR}/${f} > /dev/null
 .endfor
 	${INSTALL_SCRIPT} ${FILESDIR}/npm ${BINARY_LINKDIR}/npm
-	@${REINPLACE_CMD} 's|%%LOCALBASE%%|${LOCALBASE}|g' ${BINARY_LINKDIR}/npm
+	@${REINPLACE_CMD} -e 's|%%LOCALBASE%%|${LOCALBASE}|g' \
+		-e 's|%%WRKDIR%%|${WRKDIR}|g' ${BINARY_LINKDIR}/npm
 
 	@cd ${WRKSRC}/web-apps/build ; ${SETENV} ${MAKE_ENV} npm install patch-package
 	@cd ${WRKSRC}/web-apps/build ; ${SETENV} ${MAKE_ENV} npm install optipng-bin@5.1.0
