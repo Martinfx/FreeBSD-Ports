@@ -85,8 +85,9 @@ jobs:
             # check it the way the port uses it: offline, through the npm
             # wrapper of the port, the npm steps of the Makefile and of the
             # build scripts, then the vite builds of the start page
+            # (laid out like WRKDIR: the wrapper takes the cache from its .npm)
             C=/tmp/npmcache
-            mkdir -p $C && tar -xJf $W/out/$N -C $C
+            mkdir -p $C/.npm && tar -xJf $W/out/$N -C $C/.npm
             mkdir -p /tmp/bin
             sed -e "s|%%LOCALBASE%%|/usr/local|g" -e "s|%%WRKDIR%%|$C|g" \
               $P/files/npm > /tmp/bin/npm
