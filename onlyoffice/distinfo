@@ -1,4 +1,4 @@
-TIMESTAMP = 1793860917
+TIMESTAMP = 1793861686
 SHA256 (onlyoffice/v8-8.9.255.25_all.tar.gz) = 54853ef93accc063a82a0dc29457b25c9b6d88315431d62e06ab1f84797c5f80
 SIZE (onlyoffice/v8-8.9.255.25_all.tar.gz) = 72818814
 SHA256 (onlyoffice/ONLYOFFICE-DesktopEditors-v10.0.0_GH0.tar.gz) = f1148af6667c35e5bbff722084bf59a75d2dbea4194d84015cb7cd904a8ca58a
@@ -39,3 +39,5 @@ SHA256 (onlyoffice/hunspell-hyphen-73dd296_GH0.tar.gz) = 93e80ad69ee7afd507b12f0
 SIZE (onlyoffice/hunspell-hyphen-73dd296_GH0.tar.gz) = 292528
 SHA256 (onlyoffice/mity-md4c-481fbfb_GH0.tar.gz) = 04e03a69a2783ab5f2449f8864499dabb150092d5f48415a5e423f762a209d54
 SIZE (onlyoffice/mity-md4c-481fbfb_GH0.tar.gz) = 238753
+SHA256 (onlyoffice/onlyoffice-npm-cache-10.0.0.tar.xz) = 135d03c65e2fbc8bb4965a6d2523f889994cc010eb6fa9be6335e19c2ae409a6
+SIZE (onlyoffice/onlyoffice-npm-cache-10.0.0.tar.xz) = 44939108
