@@ -70,7 +70,7 @@ GH_TUPLE=	ONLYOFFICE:core:${_DS_TAGNAME}:core/core \
 		hunspell:hunspell:8a2fdfe5a6bb1cbafc04b0c8486abcefd17ad903:hunspell_hunspell/core/Common/3dParty/hunspell/hunspell \
 		hunspell:hyphen:73dd296:hunspell_hyphen/core/Common/3dParty/hyphen/hyphen \
 		mity:md4c:481fbfb:mity_md4c/core/Common/3dParty/md/md4c \
-		Martinfx:FreeBSD-Ports:${_NPM_CACHE_TAG}:npm_cache/
+		Martinfx:FreeBSD-Ports:${_NPM_CACHE_COMMIT}:npm_cache/
 
 USE_GL=		gl
 USE_GNOME=	atk cairo gdkpixbuf glib20 gtk30 pango
@@ -82,8 +82,9 @@ JAVA_VERSION=	11+
 
 # The web-apps and start page (desktop-apps/common/loginpage, three vite
 # projects) builds install their npm modules offline, from an npm cache
-# that is a distfile (the npm_cache tuple, a tag of the onlyoffice-distfiles
-# branch of this repository): files/make-npm-cache.sh fills it by running
+# that is a distfile (the npm_cache tuple, a commit of the
+# onlyoffice-distfiles branch of this repository): files/make-npm-cache.sh
+# fills it by running
 # the same "npm install" commands with network access, for FreeBSD on
 # amd64 and arm64.  The build never contacts the npm registry: when npm
 # fails with "cache mode is 'only-if-cached' but no cached response is
@@ -96,7 +97,8 @@ JAVA_VERSION=	11+
 # must be driven by a lockfileVersion 3 lockfile, which resolves
 # everything from the tarballs in the cache.  web-apps has one, the start
 # page projects have none, they get files/loginpage-*-package-lock.json.
-_NPM_CACHE_TAG=	onlyoffice-npm-cache-${_DS_TAGNAME}-20261105
+# The commit of onlyoffice-distfiles that holds the cache of this version
+_NPM_CACHE_COMMIT=	e9c2fedbcf46d4c3ab3bf416788f2878bf0a7f1d
 
 _DS_BUILD=	176
 _DS_TAGNAME=	${DISTVERSIONPREFIX}${DISTVERSION}.${_DS_BUILD}
@@ -184,7 +186,7 @@ post-extract:
 		${WRKSRC}/desktop-sdk/ChromiumBasedEditors/lib/src/cefwrapper/
 
 post-patch:
-# See the comment above _NPM_CACHE_TAG
+# See the comment above _NPM_CACHE_COMMIT
 	${CP} ${FILESDIR}/loginpage-package-lock.json ${_LOGINPAGE}/package-lock.json
 	${CP} ${FILESDIR}/loginpage-addondialog-package-lock.json ${_LOGINPAGE}/addondialog/package-lock.json
 	${CP} ${FILESDIR}/loginpage-noconnect-package-lock.json ${_LOGINPAGE}/noconnect/package-lock.json

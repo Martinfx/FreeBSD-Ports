@@ -22,10 +22,9 @@
 #
 # The cache (<output directory>/_cacache) is kept in the onlyoffice-distfiles
 # branch of the FreeBSD-Ports repository, with _cacache at the root of the
-# tree: replace it there, commit, tag the commit
-# onlyoffice-npm-cache-<build tag>-<date>, push the branch and the tag, set
-# _NPM_CACHE_TAG in the port Makefile to the tag and run "make makesum"
-# (the port fetches the archive of the tag through its GH_TUPLE).
+# tree: replace it there, commit, push the branch, set _NPM_CACHE_COMMIT in
+# the port Makefile to the new commit and run "make makesum" (the port
+# fetches the archive of the commit through its GH_TUPLE).
 #
 # When a port update changes the npm dependencies, regenerate the
 # lockfiles of the start page projects first (they ship none), with
