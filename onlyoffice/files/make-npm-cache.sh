@@ -1,5 +1,9 @@
 #!/bin/sh
-# Maintainer helper: generate the npm cache of the port.
+# Generate the npm cache distfile of the port
+# (onlyoffice-npm-cache-<version>.tar.xz).  .github/workflows/onlyoffice-npm-cache.yml
+# runs this on FreeBSD and uploads the result to the onlyoffice-<version>
+# release of the FreeBSD-Ports repository, where MASTER_SITES of the port
+# look for it; it can be run by hand the same way.
 #
 # The build installs the npm modules of web-apps and of the three vite
 # projects of the start page (desktop-apps/common/loginpage) offline, from
@@ -11,7 +15,7 @@
 # a host with network access; it does not have to be FreeBSD, npm is told
 # that it installs for FreeBSD.
 #
-# usage: make-npm-cache.sh <WRKSRC> <output directory> [npm command ...]
+# usage: make-npm-cache.sh <WRKSRC> <output .tar.xz> [npm command ...]
 #
 # Every npm command given (default: npm) runs the whole sequence into the
 # same cache.  npm asks the registry for the metadata of a package in a
@@ -20,11 +24,8 @@
 # run the script with the npm of www/npm${NODEJS_SUFFIX} and with an older
 # npm, for example "npx -y npm@11", to get a cache that works with both.
 #
-# The cache (<output directory>/_cacache) is kept in the onlyoffice-distfiles
-# branch of the FreeBSD-Ports repository, with _cacache at the root of the
-# tree: replace it there, commit, push the branch, set _NPM_CACHE_COMMIT in
-# the port Makefile to the new commit and run "make makesum" (the port
-# fetches the archive of the commit through its GH_TUPLE).
+# The archive holds _cacache at its top; the port extracts it into
+# ${WRKDIR}/.npm.  After uploading a new one run "make makesum".
 #
 # When a port update changes the npm dependencies, regenerate the
 # lockfiles of the start page projects first (they ship none), with
@@ -35,13 +36,12 @@
 set -eu
 
 if [ $# -lt 2 ]; then
-	echo "usage: $0 <WRKSRC> <output directory> [npm command ...]" >&2
+	echo "usage: $0 <WRKSRC> <output .tar.xz> [npm command ...]" >&2
 	exit 1
 fi
 
 SRC=$(cd "$1" && pwd)
-mkdir -p "$2"
-OUT=$(cd "$2" && pwd)
+OUT=$(cd "$(dirname "$2")" && pwd)/$(basename "$2")
 shift 2
 if [ $# -eq 0 ]; then
 	set -- npm
@@ -87,7 +87,6 @@ for npm in "$@"; do
 	done
 done
 
-rm -rf "${OUT}/_cacache"
-mv "${CACHE}/_cacache" "${OUT}/_cacache"
-echo "created ${OUT}/_cacache"
-du -sh "${OUT}/_cacache"
+tar -C "${CACHE}" -cJf "${OUT}" _cacache
+echo "created ${OUT}"
+ls -l "${OUT}"

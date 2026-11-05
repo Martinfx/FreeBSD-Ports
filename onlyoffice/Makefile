@@ -4,11 +4,18 @@ DISTVERSION=	10.0.0
 CATEGORIES=	editors
 # The v8 archive is the one of www/onlyoffice-documentserver.  It is gone
 # from LOCAL/mikael, the copy of the package builders is on distcache, in
-# the distfiles backup without a subdirectory.
+# the distfiles backup without a subdirectory.  The npm cache is built by
+# .github/workflows/onlyoffice-npm-cache.yml and uploaded to the
+# onlyoffice-<version> release of the FreeBSD-Ports repository.
 MASTER_SITES=	LOCAL/mikael/v8/:v8 \
-		http://distcache.FreeBSD.org/ports-distfiles/:v8
-DISTFILES=	v8-8.9.255.25_all.tar.gz:v8
+		http://distcache.FreeBSD.org/ports-distfiles/:v8 \
+		${NPM_CACHE_SITE}:npmcache
+DISTFILES=	v8-8.9.255.25_all.tar.gz:v8 \
+		${_NPM_CACHE}:npmcache
 DIST_SUBDIR=	${PORTNAME}
+EXTRACT_ONLY=	${_DISTFILES:N${_NPM_CACHE}}
+
+NPM_CACHE_SITE?=	https://github.com/Martinfx/FreeBSD-Ports/releases/download/${PORTNAME}-${DISTVERSION}/
 
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Office suite with document, spreadsheet and presentation editors
@@ -69,8 +76,7 @@ GH_TUPLE=	ONLYOFFICE:core:${_DS_TAGNAME}:core/core \
 		GNOME:libxml2:39b66eb2089f491eacf8e22a7965a235f7f5735e:gnome_libxml2/core/Common/3dParty/libxml/libxml2 \
 		hunspell:hunspell:8a2fdfe5a6bb1cbafc04b0c8486abcefd17ad903:hunspell_hunspell/core/Common/3dParty/hunspell/hunspell \
 		hunspell:hyphen:73dd296:hunspell_hyphen/core/Common/3dParty/hyphen/hyphen \
-		mity:md4c:481fbfb:mity_md4c/core/Common/3dParty/md/md4c \
-		Martinfx:FreeBSD-Ports:${_NPM_CACHE_COMMIT}:npm_cache/
+		mity:md4c:481fbfb:mity_md4c/core/Common/3dParty/md/md4c
 
 USE_GL=		gl
 USE_GNOME=	atk cairo gdkpixbuf glib20 gtk30 pango
@@ -82,11 +88,10 @@ JAVA_VERSION=	11+
 
 # The web-apps and start page (desktop-apps/common/loginpage, three vite
 # projects) builds install their npm modules offline, from an npm cache
-# that is a distfile (the npm_cache tuple, a commit of the
-# onlyoffice-distfiles branch of this repository): files/make-npm-cache.sh
-# fills it by running
-# the same "npm install" commands with network access, for FreeBSD on
-# amd64 and arm64.  The build never contacts the npm registry: when npm
+# that is a distfile: files/make-npm-cache.sh fills it by running the same
+# "npm install" commands with network access, for FreeBSD on amd64 and
+# arm64, and the workflow above runs it on FreeBSD and publishes the
+# result.  The build never contacts the npm registry: when npm
 # fails with "cache mode is 'only-if-cached' but no cached response is
 # available", the URL in the message tells what the cache lacks, a
 # tarball (regenerate the cache) or the metadata of a package (a lockfile
@@ -97,8 +102,7 @@ JAVA_VERSION=	11+
 # must be driven by a lockfileVersion 3 lockfile, which resolves
 # everything from the tarballs in the cache.  web-apps has one, the start
 # page projects have none, they get files/loginpage-*-package-lock.json.
-# The commit of onlyoffice-distfiles that holds the cache of this version
-_NPM_CACHE_COMMIT=	e9c2fedbcf46d4c3ab3bf416788f2878bf0a7f1d
+_NPM_CACHE=	${PORTNAME}-npm-cache-${DISTVERSION}.tar.xz
 
 _DS_BUILD=	176
 _DS_TAGNAME=	${DISTVERSIONPREFIX}${DISTVERSION}.${_DS_BUILD}
@@ -171,7 +175,8 @@ EXTRA_PATCHES+=	${FILESDIR}/extra-patch-aarch64-loginpage-vite
 post-extract:
 	@${MV} ${WRKDIR}/v8 ${WRKSRC}/core/Common/3dParty/v8_89
 
-	@${LN} -s ${WRKSRC_npm_cache} ${WRKDIR}/.npm
+	@${MKDIR} ${WRKDIR}/.npm
+	@${TAR} -xJf ${DISTDIR}/${DIST_SUBDIR}/${_NPM_CACHE} -C ${WRKDIR}/.npm
 
 	@${MKDIR} ${WRKSRC}/sdkjs-plugins/v1
 	@${CP} ${WRKSRC}/onlyoffice.github.io/sdkjs-plugins/v1/* ${WRKSRC}/sdkjs-plugins/v1
@@ -186,7 +191,7 @@ post-extract:
 		${WRKSRC}/desktop-sdk/ChromiumBasedEditors/lib/src/cefwrapper/
 
 post-patch:
-# See the comment above _NPM_CACHE_COMMIT
+# See the comment above _NPM_CACHE
 	${CP} ${FILESDIR}/loginpage-package-lock.json ${_LOGINPAGE}/package-lock.json
 	${CP} ${FILESDIR}/loginpage-addondialog-package-lock.json ${_LOGINPAGE}/addondialog/package-lock.json
 	${CP} ${FILESDIR}/loginpage-noconnect-package-lock.json ${_LOGINPAGE}/noconnect/package-lock.json
