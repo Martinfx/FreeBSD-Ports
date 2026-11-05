@@ -130,7 +130,10 @@ DOS2UNIX_FILES=	core/DesktopEditor/agg-2.4/include/agg_math.h \
 		core/UnicodeConverter/UnicodeConverter.cpp \
 		desktop-sdk/ChromiumBasedEditors/videoplayerlib/videoplayerlib.pri
 
+# NODE_ENV: the build scripts set it for their npm installs, the ones of
+# do-build need it too, the npm cache has no development dependencies
 MAKE_ENV=	BUILD_NUMBER=${_DS_BUILD} \
+		NODE_ENV=production \
 		NODE_OPTIONS=--max-old-space-size=4096 \
 		npm_package_config_node_gyp_nodedir=${LOCALBASE} \
 		npm_package_config_node_gyp_python=${PYTHON_CMD} \
