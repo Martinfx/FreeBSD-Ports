@@ -1,6 +1,6 @@
---- core/OOXML/Binary/Sheets/Reader/ChartFromToBinary.cpp.orig	2025-08-02 18:33:34 UTC
+--- core/OOXML/Binary/Sheets/Reader/ChartFromToBinary.cpp.orig	2026-11-05 00:00:00 UTC
 +++ core/OOXML/Binary/Sheets/Reader/ChartFromToBinary.cpp
-@@ -10121,7 +10121,7 @@ namespace BinXlsxRW
+@@ -10123,7 +10123,7 @@
  			WriteCT_String(*oVal.m_gapDepth);
  			m_oBcw.WriteItemEnd(nCurPos);
  		}

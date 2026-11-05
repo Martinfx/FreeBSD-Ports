@@ -1,6 +1,6 @@
---- core/DesktopEditor/raster/Metafile/Common/MetaFileUtils.h.orig	2025-09-24 06:10:02 UTC
+--- core/DesktopEditor/raster/Metafile/Common/MetaFileUtils.h.orig	2026-11-05 00:00:00 UTC
 +++ core/DesktopEditor/raster/Metafile/Common/MetaFileUtils.h
-@@ -994,7 +994,7 @@ namespace MetaFile
+@@ -997,7 +997,7 @@
  			}
  			else
  			{

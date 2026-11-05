@@ -1,4 +1,4 @@
---- core/OfficeUtils/src/zlib-1.2.11/gzguts.h.orig	2025-09-24 09:41:02 UTC
+--- core/OfficeUtils/src/zlib-1.2.11/gzguts.h.orig	2026-11-05 00:00:00 UTC
 +++ core/OfficeUtils/src/zlib-1.2.11/gzguts.h
 @@ -33,6 +33,8 @@
  

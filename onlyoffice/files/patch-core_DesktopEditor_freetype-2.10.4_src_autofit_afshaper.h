@@ -1,4 +1,4 @@
---- core/DesktopEditor/freetype-2.10.4/src/autofit/afshaper.h.orig	2025-08-02 18:33:34 UTC
+--- core/DesktopEditor/freetype-2.10.4/src/autofit/afshaper.h.orig	2026-11-05 00:00:00 UTC
 +++ core/DesktopEditor/freetype-2.10.4/src/autofit/afshaper.h
 @@ -25,9 +25,9 @@
  

@@ -1,33 +1,33 @@
---- sdkjs/common/clipboard_base.js.orig	2026-10-25 07:16:43 UTC
+--- sdkjs/common/clipboard_base.js.orig	2026-11-05 00:00:00 UTC
 +++ sdkjs/common/clipboard_base.js
-@@ -509,7 +509,7 @@
+@@ -558,7 +558,7 @@
  						if (g_clipboardBase.Api.asc_IsFocus(true) && !g_clipboardBase._isUseMobileNewCopy()) {
  							e.preventDefault();
  						}
 -						return g_clipboardBase.Copy_New();
-+						return g_clipboardBase.Copy_New(false, e);
++						return g_clipboardBase.Copy_New(false, false, e);
  					} else {
  						return g_clipboardBase._private_oncopy(e)
  					}
-@@ -518,7 +518,7 @@
- 				{
- 					if (g_clipboardBase.isUseNewCopy()) {
- 						e.preventDefault();
+@@ -569,7 +569,7 @@
+ 						if (g_clipboardBase.Api.asc_IsFocus(true) && !g_clipboardBase._isUseMobileNewCopy()) {
+ 							e.preventDefault();
+ 						}
 -						return g_clipboardBase.Copy_New(true);
-+						return g_clipboardBase.Copy_New(true, e);
++						return g_clipboardBase.Copy_New(true, false, e);
  					} else {
  						return g_clipboardBase._private_oncut(e)
  					}
-@@ -1029,7 +1029,7 @@
- 			return this.Copy_New(isCut);
+@@ -1084,7 +1084,7 @@
+ 			return this.Copy_New(isCut, true);
  		},
  
--		Copy_New : function(isCut)
-+		Copy_New : function(isCut, event)
+-		Copy_New : function(isCut, isButtonCopy)
++		Copy_New : function(isCut, isButtonCopy, event)
  		{
  			let oThis = this;
- 			//todo add check on mobile version, because before all work without focus check
-@@ -1068,8 +1068,26 @@
+ 			if (!this.isCopyEnabled()) {
+@@ -1136,8 +1136,26 @@
  					//"web text/x-custom" : new Blob(["asc_internalData2;" + copy_data.data[c_oAscClipboardDataFormat.Internal]], {type: "web text/x-custom"})
  
  					if (this.isCopyOutEnabled()) {

@@ -1,6 +1,6 @@
---- core/OOXML/XlsxFormat/Chart/ChartSerialize.cpp.orig	2025-08-02 18:33:34 UTC
+--- core/OOXML/XlsxFormat/Chart/ChartSerialize.cpp.orig	2026-11-05 00:00:00 UTC
 +++ core/OOXML/XlsxFormat/Chart/ChartSerialize.cpp
-@@ -1282,7 +1282,7 @@ xmlns:c16r2=\"http://schemas.microsoft.com/office/draw
+@@ -1529,7 +1529,7 @@
  		{
  			writer.WriteString(L"<");
  			writer.WriteString(sNodeName);

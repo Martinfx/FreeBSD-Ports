@@ -1,6 +1,6 @@
---- core/DesktopEditor/doctrenderer/docbuilder_p.h.orig	2025-09-24 06:04:08 UTC
+--- core/DesktopEditor/doctrenderer/docbuilder_p.h.orig	2026-11-05 00:00:00 UTC
 +++ core/DesktopEditor/doctrenderer/docbuilder_p.h
-@@ -48,7 +48,7 @@
+@@ -52,7 +52,7 @@
  #include "embed/NativeControlEmbed.h"
  #include "embed/GraphicsEmbed.h"
  #include "embed/Default.h"
@@ -9,7 +9,7 @@
  #include <unistd.h>
  #include <sys/wait.h>
  #include <stdio.h>
-@@ -814,7 +814,7 @@ namespace NSDoctRenderer
+@@ -812,7 +812,7 @@
  
  #endif
  
@@ -18,7 +18,7 @@
  			pid_t pid = fork(); // create child process
  			int status;
  
-@@ -1149,7 +1149,7 @@ namespace NSDoctRenderer
+@@ -1355,7 +1355,7 @@
  
  #endif
  

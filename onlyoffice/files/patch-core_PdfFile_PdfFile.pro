@@ -1,6 +1,6 @@
---- core/PdfFile/PdfFile.pro.orig	2025-08-02 18:33:34 UTC
+--- core/PdfFile/PdfFile.pro.orig	2026-11-05 00:00:00 UTC
 +++ core/PdfFile/PdfFile.pro
-@@ -110,6 +110,11 @@ DEFINES += CRYPTOPP_DISABLE_ASM \
+@@ -147,6 +147,11 @@
             NOMINMAX
  LIBS += -L$$CORE_BUILDS_LIBRARIES_PATH -lCryptoPPLib
  

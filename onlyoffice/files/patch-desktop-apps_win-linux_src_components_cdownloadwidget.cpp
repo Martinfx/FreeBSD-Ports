@@ -1,6 +1,6 @@
---- desktop-apps/win-linux/src/components/cdownloadwidget.cpp.orig	2026-09-24 21:58:50 UTC
+--- desktop-apps/win-linux/src/components/cdownloadwidget.cpp.orig	2026-11-05 00:00:00 UTC
 +++ desktop-apps/win-linux/src/components/cdownloadwidget.cpp
-@@ -45,7 +45,7 @@
+@@ -48,7 +48,7 @@
  #include <QProcess>
  #include <QDesktopServices>
  #include "common/Types.h"
@@ -9,7 +9,7 @@
  # include <QX11Info>
  #endif
  
-@@ -73,7 +73,7 @@ struct CDownloadWidget::CDownloadItem
+@@ -76,7 +76,7 @@
  
  static bool isCompositingEnabled()
  {

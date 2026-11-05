@@ -1,6 +1,6 @@
---- core/DesktopEditor/agg-2.4/include/agg_math.h.orig	2025-09-23 22:51:20 UTC
+--- core/DesktopEditor/agg-2.4/include/agg_math.h.orig	2026-11-05 00:00:00 UTC
 +++ core/DesktopEditor/agg-2.4/include/agg_math.h
-@@ -431,7 +431,7 @@ namespace agg
+@@ -431,7 +431,7 @@
          }
      }
  

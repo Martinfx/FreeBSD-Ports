@@ -1,6 +1,6 @@
---- core/DesktopEditor/common/Path.cpp.orig	2025-09-23 23:00:51 UTC
+--- core/DesktopEditor/common/Path.cpp.orig	2026-11-05 00:00:00 UTC
 +++ core/DesktopEditor/common/Path.cpp
-@@ -35,7 +35,7 @@
+@@ -39,7 +39,7 @@
  
  #if defined(_WIN32) || defined (_WIN64)
  #include <tchar.h>
@@ -9,7 +9,7 @@
  #include <libgen.h>
  #endif
  
-@@ -54,7 +54,7 @@ namespace NSSystemPath
+@@ -58,7 +58,7 @@
  		sRes.append(tFolder);
  		if(sRes.length() > 0)
  			sRes.erase(sRes.length()-1);
@@ -18,7 +18,7 @@
  		BYTE* pUtf8 = NULL;
  		LONG lLen = 0;
  		NSFile::CUtf8Converter::GetUtf8StringFromUnicode(strFileName.c_str(), strFileName.length(), pUtf8, lLen, false);
-@@ -74,7 +74,7 @@ namespace NSSystemPath
+@@ -78,7 +78,7 @@
  		sRes.append(tFilename);
  		sRes.append(tExt);
  		return sRes;

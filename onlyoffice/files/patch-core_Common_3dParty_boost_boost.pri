@@ -1,4 +1,4 @@
---- core/Common/3dParty/boost/boost.pri.orig	2026-09-24 21:58:50 UTC
+--- core/Common/3dParty/boost/boost.pri.orig	2026-11-05 00:00:00 UTC
 +++ core/Common/3dParty/boost/boost.pri
 @@ -1,5 +1,11 @@
 -INCLUDEPATH += $$PWD/build/$$CORE_BUILDS_PLATFORM_PREFIX/include
@@ -14,7 +14,7 @@
  
  core_ios:CONFIG += disable_enum_constexpr_conversion
  core_android:CONFIG += disable_enum_constexpr_conversion
-@@ -40,7 +46,9 @@ core_windows {
+@@ -47,7 +53,9 @@
      core_boost_regex:LIBS += -L$$CORE_BOOST_LIBS -llibboost_regex$$BOOST_POSTFIX
      core_boost_date_time:LIBS += -L$$CORE_BOOST_LIBS -llibboost_date_time$$BOOST_POSTFIX
  } else {

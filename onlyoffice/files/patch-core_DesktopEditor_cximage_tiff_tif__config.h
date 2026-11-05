@@ -1,4 +1,4 @@
---- core/DesktopEditor/cximage/tiff/tif_config.h.orig	2021-09-30 12:13:32 UTC
+--- core/DesktopEditor/cximage/tiff/tif_config.h.orig	2026-11-05 00:00:00 UTC
 +++ core/DesktopEditor/cximage/tiff/tif_config.h
 @@ -19,7 +19,7 @@
  #define HAVE_SYS_TYPES_H 1

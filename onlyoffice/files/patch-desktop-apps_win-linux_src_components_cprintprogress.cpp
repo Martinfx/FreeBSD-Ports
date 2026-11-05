@@ -1,24 +1,24 @@
---- desktop-apps/win-linux/src/components/cprintprogress.cpp.orig	2026-09-28 08:45:35 UTC
+--- desktop-apps/win-linux/src/components/cprintprogress.cpp.orig	2026-11-05 00:00:00 UTC
 +++ desktop-apps/win-linux/src/components/cprintprogress.cpp
-@@ -30,7 +30,7 @@
-  *
- */
+@@ -33,7 +33,7 @@
+  * SPDX-License-Identifier: AGPL-3.0-only
+  */
  
 -#ifdef __linux__
-+#if defined(__linux__) || defined(__FreeBSD__)
++#if (defined(__linux__) || defined(__FreeBSD__)) || defined(__FreeBSD__)
  # include <gtk/gtk.h>
  # include "cascapplicationmanagerwrapper.h"
  # include "platform_linux/gtkutils.h"
-@@ -47,7 +47,7 @@
+@@ -50,7 +50,7 @@
  #include <QPushButton>
  #include "utils.h"
  
 -#ifdef __linux__
-+#if defined(__linux__) || defined(__FreeBSD__)
++#if (defined(__linux__) || defined(__FreeBSD__)) || defined(__FreeBSD__)
  static void on_response(GtkDialog*, gint resp_id, gpointer data) {
      switch (resp_id) {
      case GTK_RESPONSE_DELETE_EVENT:
-@@ -204,7 +204,7 @@ public:
+@@ -208,7 +208,7 @@
      bool      useNativeDialog = true;
  
  private:
@@ -27,7 +27,7 @@
      DialogTag tag;
  #endif
  };
-@@ -271,7 +271,7 @@ void CPrintProgress::startProgress()
+@@ -275,7 +275,7 @@
  #endif
      } else {
          pimpl->qtDlg->show();

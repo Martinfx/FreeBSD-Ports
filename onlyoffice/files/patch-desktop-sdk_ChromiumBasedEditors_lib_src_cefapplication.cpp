@@ -1,6 +1,6 @@
---- desktop-sdk/ChromiumBasedEditors/lib/src/cefapplication.cpp.orig	2026-09-24 21:58:50 UTC
+--- desktop-sdk/ChromiumBasedEditors/lib/src/cefapplication.cpp.orig	2026-11-05 00:00:00 UTC
 +++ desktop-sdk/ChromiumBasedEditors/lib/src/cefapplication.cpp
-@@ -407,6 +407,13 @@ int CApplicationCEF::Init_CEF(CAscApplic
+@@ -410,6 +410,13 @@
  	settings.no_sandbox = true;
  #endif
  
@@ -14,7 +14,7 @@
  	// Populate the settings based on command line arguments.
  #if defined(CEF_VERSION_ABOVE_102)
  	m_pInternal->context = std::make_unique<client::MainContextImpl>(command_line, false);
-@@ -467,7 +474,12 @@ int CApplicationCEF::Init_CEF(CAscApplic
+@@ -470,7 +477,12 @@
  	cef_string_t _cache_user;
  	memset(&_cache_user, 0, sizeof(_cache_user));
  	cef_string_from_wide(sCachePathUser.c_str(), sCachePathUser.length(), &_cache_user);

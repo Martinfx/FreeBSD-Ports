@@ -1,6 +1,6 @@
---- core/OfficeUtils/src/zlib-1.2.11/contrib/minizip/miniunz.c.orig	2021-09-30 12:13:32 UTC
+--- core/OfficeUtils/src/zlib-1.2.11/contrib/minizip/miniunz.c.orig	2026-11-05 00:00:00 UTC
 +++ core/OfficeUtils/src/zlib-1.2.11/contrib/minizip/miniunz.c
-@@ -98,7 +98,7 @@ void change_file_date(filename,dosdate,tmu_date)
+@@ -98,7 +98,7 @@
    SetFileTime(hFile,&ftm,&ftLastAcc,&ftm);
    CloseHandle(hFile);
  #else

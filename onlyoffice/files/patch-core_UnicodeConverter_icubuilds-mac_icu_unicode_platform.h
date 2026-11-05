@@ -1,4 +1,4 @@
---- core/UnicodeConverter/icubuilds-mac/icu/unicode/platform.h.orig	2021-09-30 12:13:32 UTC
+--- core/UnicodeConverter/icubuilds-mac/icu/unicode/platform.h.orig	2026-11-05 00:00:00 UTC
 +++ core/UnicodeConverter/icubuilds-mac/icu/unicode/platform.h
 @@ -150,7 +150,7 @@
  #   include <android/api-level.h>

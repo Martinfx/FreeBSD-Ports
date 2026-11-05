@@ -1,0 +1,28 @@
+--- desktop-apps/common/loginpage/build/vite.config.js.orig	2026-11-05 00:00:00 UTC
++++ desktop-apps/common/loginpage/build/vite.config.js
+@@ -235,13 +235,9 @@
+     mode === "development" && writeDevHtml(DEV_PORT),
+     mode === "production" && viteSingleFile({ removeViteModuleLoader: true }),
+   ].filter(Boolean),
+-  css: {
+-    transformer: "lightningcss",
+-  },
+   build: {
+     outDir: "../deploy",
+     target: "es2022",
+-    cssMinify: "lightningcss",
+     assetsInlineLimit: 100_000_000,
+   },
+   resolve: {
+--- desktop-apps/common/loginpage/addondialog/vite.config.js.orig	2026-11-05 00:00:00 UTC
++++ desktop-apps/common/loginpage/addondialog/vite.config.js
+@@ -153,9 +153,6 @@
+     mode === "development" && writeDevHtml(DEV_PORT),
+     mode === "production" && viteSingleFile({ removeViteModuleLoader: true }),
+   ].filter(Boolean),
+-  css: {
+-    transformer: "lightningcss",
+-  },
+   resolve: {
+     alias: {
+       "@": fileURLToPath(new URL("./src", import.meta.url)),

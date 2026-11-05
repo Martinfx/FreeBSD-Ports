@@ -1,6 +1,6 @@
---- desktop-apps/win-linux/extras/update-daemon/src/classes/csocket.cpp.orig	2026-09-28 09:50:15 UTC
+--- desktop-apps/win-linux/extras/update-daemon/src/classes/csocket.cpp.orig	2026-11-05 00:00:00 UTC
 +++ desktop-apps/win-linux/extras/update-daemon/src/classes/csocket.cpp
-@@ -78,6 +78,18 @@ static unsigned long inetAddrFromUserId(
+@@ -81,6 +81,18 @@
  #endif
  }
  
@@ -19,7 +19,7 @@
  static bool initSocket(u_short port, SOCKET &tmpd, SockAddr &addr, int &ret, std::string &error, bool use_unique_addr)
  {
  #ifdef _WIN32
-@@ -99,8 +111,13 @@ static bool initSocket(u_short port, SOC
+@@ -102,8 +114,13 @@
      }
      memset(&addr, 0, sizeof(SockAddr));
      addr.sin_family = AF_INET;
@@ -33,7 +33,7 @@
      ret = ::bind(tmpd, (struct sockaddr*)&addr, sizeof(addr));
      return true;
  }
-@@ -273,8 +290,10 @@ bool CSocket::sendMessage(void *data, si
+@@ -276,8 +293,10 @@
      memcpy(client_arg, data, size);
  #ifdef _WIN32
      int ret_data = send(pimpl->sender_fd, client_arg, BUFFSIZE, 0); // Send the string

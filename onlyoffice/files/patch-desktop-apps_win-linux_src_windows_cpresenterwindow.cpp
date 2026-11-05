@@ -1,6 +1,6 @@
---- desktop-apps/win-linux/src/windows/cpresenterwindow.cpp.orig	2026-09-24 21:58:50 UTC
+--- desktop-apps/win-linux/src/windows/cpresenterwindow.cpp.orig	2026-11-05 00:00:00 UTC
 +++ desktop-apps/win-linux/src/windows/cpresenterwindow.cpp
-@@ -46,7 +46,7 @@ CPresenterWindow::CPresenterWindow(const
+@@ -50,7 +50,7 @@
  {    
      m_pMainPanel = createMainPanel(this, title, static_cast<QWidget*>(view));
      setCentralWidget(m_pMainPanel);
@@ -9,7 +9,7 @@
      if (isCustomWindowStyle()) {
          CX11Decoration::setTitleWidget(m_boxTitleBtns);
          m_pMainPanel->setMouseTracking(true);
-@@ -105,7 +105,7 @@ QWidget * CPresenterWindow::createMainPa
+@@ -110,7 +110,7 @@
      mainPanel->setProperty("rtl-font", CLangater::isRtlLanguage(CLangater::getCurrentLangCode()));
      mainPanel->setProperty("uitheme", QString::fromStdWString(GetCurrentTheme().id()));
      QString css(AscAppManager::getWindowStylesheets(m_dpiRatio));
@@ -18,16 +18,16 @@
      css.append(Utils::readStylesheets(":styles/styles_unix.qss"));
  #endif
      mainPanel->setStyleSheet(css);
-@@ -131,7 +131,7 @@ QWidget * CPresenterWindow::createMainPa
+@@ -136,7 +136,7 @@
          delete stretch;
  
      if (isCustomWindowStyle()) {
 -#ifdef __linux__
 +#if defined(__linux__) || defined(__FreeBSD__)
          m_labelTitle->setMouseTracking(true);
-         //mainGridLayout->setMargin(CX11Decoration::customWindowBorderWith() * m_dpiRatio);
+         //mainGridLayout->setMargin(CX11Decoration::effectiveFrameMargin());
          /*QPalette _palette(palette());
-@@ -173,7 +173,7 @@ void CPresenterWindow::setScreenScalingF
+@@ -178,7 +178,7 @@
  {
      CWindowPlatform::setScreenScalingFactor(factor, resize);
      QString css(AscAppManager::getWindowStylesheets(factor));

@@ -1,6 +1,6 @@
---- desktop-apps/win-linux/src/components/ctooltip.cpp.orig	2026-09-24 21:58:50 UTC
+--- desktop-apps/win-linux/src/components/ctooltip.cpp.orig	2026-11-05 00:00:00 UTC
 +++ desktop-apps/win-linux/src/components/ctooltip.cpp
-@@ -38,7 +38,7 @@
+@@ -41,7 +41,7 @@
  #include <QTimer>
  #include <QCursor>
  #include <QLineF>
@@ -9,7 +9,7 @@
  # include <QX11Info>
  #endif
  
-@@ -48,7 +48,7 @@
+@@ -51,7 +51,7 @@
  
  static bool isCompositingEnabled()
  {

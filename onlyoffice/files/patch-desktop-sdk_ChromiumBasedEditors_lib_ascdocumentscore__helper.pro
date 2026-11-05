@@ -1,6 +1,6 @@
---- desktop-sdk/ChromiumBasedEditors/lib/ascdocumentscore_helper.pro.orig	2026-09-24 21:58:50 UTC
+--- desktop-sdk/ChromiumBasedEditors/lib/ascdocumentscore_helper.pro.orig	2026-11-05 00:00:00 UTC
 +++ desktop-sdk/ChromiumBasedEditors/lib/ascdocumentscore_helper.pro
-@@ -25,7 +25,9 @@ core_windows {
+@@ -25,7 +25,9 @@
  	}
  }
  

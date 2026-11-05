@@ -1,6 +1,6 @@
---- core/UnicodeConverter/UnicodeConverter.pro.orig	2025-09-24 09:45:54 UTC
+--- core/UnicodeConverter/UnicodeConverter.pro.orig	2026-11-05 00:00:00 UTC
 +++ core/UnicodeConverter/UnicodeConverter.pro
-@@ -13,6 +13,12 @@ DEFINES += UNICODECONVERTER_USE_DYNAMIC_LIBRARY
+@@ -46,6 +46,12 @@
  
  DEFINES += UNICODECONVERTER_USE_DYNAMIC_LIBRARY
  

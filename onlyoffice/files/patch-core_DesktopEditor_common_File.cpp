@@ -1,6 +1,6 @@
---- core/DesktopEditor/common/File.cpp.orig	2025-09-23 23:00:51 UTC
+--- core/DesktopEditor/common/File.cpp.orig	2026-11-05 00:00:00 UTC
 +++ core/DesktopEditor/common/File.cpp
-@@ -39,10 +39,14 @@
+@@ -42,10 +42,14 @@
  #include <windows.h>
  #endif
  
@@ -16,13 +16,10 @@
  #include <sys/time.h>
  #include <utime.h>
  #endif
-@@ -1924,6 +1928,23 @@ namespace NSFile
- #endif
- 			return L"";
- 		}
-+
-+		std::string sUTF8(buf);
-+		std::wstring sRet = CUtf8Converter::GetUnicodeStringFromUTF8((BYTE*)sUTF8.c_str(), sUTF8.length());
+@@ -1936,6 +1940,23 @@
+ 
+ 		std::string sUTF8(buf);
+ 		std::wstring sRet = CUtf8Converter::GetUnicodeStringFromUTF8((BYTE*)sUTF8.c_str(), sUTF8.length());
 +		return sRet;
 +#endif
 +
@@ -37,6 +34,9 @@
 +                    if (size < 0)
 +                    return L"";
 +                }
++
++		std::string sUTF8(buf);
++		std::wstring sRet = CUtf8Converter::GetUnicodeStringFromUTF8((BYTE*)sUTF8.c_str(), sUTF8.length());
+ 		return sRet;
+ #endif
  
- 		std::string sUTF8(buf);
- 		std::wstring sRet = CUtf8Converter::GetUnicodeStringFromUTF8((BYTE*)sUTF8.c_str(), sUTF8.length());

@@ -1,6 +1,6 @@
---- core/Common/3dParty/pole/pole.cpp.orig	2026-09-24 21:58:50 UTC
+--- core/Common/3dParty/pole/pole.cpp.orig	2026-11-05 00:00:00 UTC
 +++ core/Common/3dParty/pole/pole.cpp
-@@ -1283,19 +1283,19 @@ void DirTree::debug()
+@@ -1283,19 +1283,19 @@
      DirEntry* e = entry( i );
      if( !e ) continue;
      std::cout << i << ": ";

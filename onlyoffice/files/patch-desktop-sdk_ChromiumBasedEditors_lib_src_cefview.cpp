@@ -1,6 +1,6 @@
---- desktop-sdk/ChromiumBasedEditors/lib/src/cefview.cpp.orig	2026-09-24 21:58:50 UTC
+--- desktop-sdk/ChromiumBasedEditors/lib/src/cefview.cpp.orig	2026-11-05 00:00:00 UTC
 +++ desktop-sdk/ChromiumBasedEditors/lib/src/cefview.cpp
-@@ -152,6 +152,13 @@ protected:
+@@ -167,6 +167,13 @@
  		virtual bool IsInProgress() { return false; }
  		virtual bool IsComplete() { return false; }
  		virtual bool IsCanceled() { return true; }
@@ -14,7 +14,7 @@
  		virtual int64 GetCurrentSpeed() { return 0; }
  		virtual int GetPercentComplete() { return 0; }
  		virtual int64 GetTotalBytes() { return 0; }
-@@ -1390,7 +1397,7 @@ public:
+@@ -1572,7 +1579,7 @@
  
  			if (this->GetBrowser())
  			{
@@ -23,7 +23,7 @@
  				if (_frame)
  				{
  					std::string sCode = "window.Asc.editor.onLocalSaveToDrawingFormat(" + std::to_string(nError) + ");";
-@@ -1426,7 +1433,7 @@ public:
+@@ -1608,7 +1615,7 @@
  				}
  				else
  				{
@@ -32,7 +32,7 @@
  					if (_frame)
  					{
  						std::wstring sCode = L"(function(){ if (window.Asc && window.Asc.editor) window.Asc.editor.endExternalConvertation(); })();";
-@@ -1676,6 +1683,12 @@ private:
+@@ -1895,6 +1902,12 @@
  	IMPLEMENT_REFCOUNTING(CCefResizeTask);
  };
  
@@ -42,10 +42,10 @@
 +#define ASC_WOD_NEW_BACKGROUND_TAB WOD_NEW_BACKGROUND_TAB
 +#endif
 +
- class CAscClientHandler : public client::ClientHandler, public CCookieFoundCallback, public client::ClientHandler::Delegate, public CefDialogHandler
+ class CAscClientHandler : public client::ClientHandler, public CCookieFoundCallback, public CCookieValueCallback, public client::ClientHandler::Delegate, public CefDialogHandler
  {
  public:
-@@ -1756,12 +1769,21 @@ public:
+@@ -1975,12 +1988,21 @@
  	};
  
  public:
@@ -68,7 +68,7 @@
  		m_pParent = NULL;
  		m_bIsLoaded = false;
  
-@@ -2171,6 +2193,9 @@ public:
+@@ -2390,6 +2412,9 @@
  	virtual bool OnBeforePopup(
  			CefRefPtr<CefBrowser> browser,
  			CefRefPtr<CefFrame> frame,
@@ -78,16 +78,16 @@
  			const CefString& target_url,
  			const CefString& target_frame_name,
  			CefLifeSpanHandler::WindowOpenDisposition target_disposition,
-@@ -2188,7 +2213,7 @@ public:
- 		std::wstring sFrameUrl = L"";
- 		if (frame)
- 			sFrameUrl = frame->GetURL().ToWString();
+@@ -2417,7 +2442,7 @@
+ 			}
+ 		}
+ 
 -		CheckPopup(target_url.ToWString(), false, (WOD_NEW_BACKGROUND_TAB == target_disposition) ? true : false, false, sFrameUrl);
 +		CheckPopup(target_url.ToWString(), false, (ASC_WOD_NEW_BACKGROUND_TAB == target_disposition) ? true : false, false, sFrameUrl);
  		return true;
  	}
  
-@@ -2203,7 +2228,7 @@ public:
+@@ -2432,7 +2457,7 @@
  		std::wstring sFrameUrl = L"";
  		if (frame)
  			sFrameUrl = frame->GetURL().ToWString();
@@ -96,7 +96,7 @@
  		return true;
  	}
  
-@@ -3668,7 +3693,7 @@ public:
+@@ -3952,7 +3977,7 @@
  
  			if (nParams == 1)
  			{
@@ -105,7 +105,7 @@
  				if (frame)
  					frame->ExecuteJavaScript("window.onSystemMessage && window.onSystemMessage({ type : \"operation\", block : true, opType : 0 });", frame->GetURL(), 0);
  			}
-@@ -4147,7 +4172,7 @@ public:
+@@ -4420,7 +4445,7 @@
  				}
  				else
  				{
@@ -114,7 +114,7 @@
  					if (_frame)
  					{
  						std::wstring sCode = L"(function(){ if (window.Asc && window.Asc.editor) window.Asc.editor.startExternalConvertation('sendTo'); })();";
-@@ -4546,13 +4571,16 @@ virtual void OnAfterCreated(CefRefPtr<Ce
+@@ -4906,13 +4931,16 @@
  
  virtual void OnBeforeClose(CefRefPtr<CefBrowser> browser) OVERRIDE
  {
@@ -133,7 +133,7 @@
  		for (; it != message_handler_set_.end(); ++it)
  		{
  			message_router_->RemoveHandler(*(it));
-@@ -5251,7 +5279,11 @@ std::string GetMimeType(const std::wstri
+@@ -5651,7 +5679,11 @@
  }
  
  virtual void OnRenderProcessTerminated(CefRefPtr<CefBrowser> browser,
@@ -146,7 +146,7 @@
  {
  	CEF_REQUIRE_UI_THREAD();
  
-@@ -5300,7 +5332,14 @@ virtual bool CanDownload(CefRefPtr<CefBr
+@@ -5700,7 +5732,14 @@
  }
  #endif
  
@@ -162,7 +162,7 @@
  							  CefRefPtr<CefDownloadItem> download_item,
  							  const CefString& suggested_name,
  							  CefRefPtr<CefBeforeDownloadCallback> callback) OVERRIDE
-@@ -5358,7 +5397,7 @@ virtual void OnBeforeDownload(CefRefPtr<
+@@ -5758,7 +5797,7 @@
  		NSStringUtils::string_replace(sDestPath, L"/", L"\\");
  #endif
  		callback->Continue(sDestPath, false);
@@ -171,7 +171,7 @@
  	}
  
  	// скачивание, которое надо отправлять наверх
-@@ -5376,6 +5415,7 @@ virtual void OnBeforeDownload(CefRefPtr<
+@@ -5776,6 +5815,7 @@
  	pEvent->m_pData = pData;
  
  	m_pParent->GetAppManager()->Apply(pEvent);
@@ -179,7 +179,7 @@
  }
  
  virtual void OnDownloadUpdated(CefRefPtr<CefBrowser> browser,
-@@ -5643,6 +5683,15 @@ virtual void OnFoundCookies(std::map<std
+@@ -6020,6 +6060,15 @@
  // ClientHandlerDelegate
  virtual void OnBrowserCreated(CefRefPtr<CefBrowser> browser) OVERRIDE {}
  
@@ -195,7 +195,7 @@
  // Called when the browser is closing.
  virtual void OnBrowserClosing(CefRefPtr<CefBrowser> browser) OVERRIDE
  {
-@@ -6097,7 +6146,7 @@ void CCefView_Private::LocalSendTo(const
+@@ -6502,7 +6551,7 @@
  #endif
  		if (GetBrowser())
  		{
@@ -204,17 +204,7 @@
  			if (_frame)
  			{
  				std::wstring sCode = L"(function(){ \n\
-@@ -6660,6 +6709,9 @@ void CCefView::load(const std::wstring&
- 
- #ifdef CEF_VERSION_ABOVE_102
- 	info.SetAsChild(_handle, CefRect(0, 0, _w, _h));
-+#ifdef CEF_VERSION_ABOVE_128
-+	info.runtime_style = CEF_RUNTIME_STYLE_ALLOY;
-+#endif
- #else
- 
- #ifdef WIN32
-@@ -7089,7 +7141,7 @@ void CCefView::Apply(NSEditorApi::CAscMe
+@@ -7577,7 +7626,7 @@
  			{
  				if (this->m_pInternal->GetBrowser())
  				{
@@ -223,7 +213,7 @@
  					if (_frame)
  					{
  						std::string sCode = "window.Asc.editor.onLocalSaveToDrawingFormat(0);";
-@@ -7533,11 +7585,11 @@ void CCefView::Apply(NSEditorApi::CAscMe
+@@ -8038,11 +8087,11 @@
  			std::wstring sCode = pData->get_Value();
  
  			std::vector<int64> arIds;
@@ -237,7 +227,7 @@
  				if (frame)
  					frame->ExecuteJavaScript(sCode, frame->GetURL(), 0);
  			}
-@@ -7749,11 +7801,11 @@ void CCefView::SetParentWidgetInfo(const
+@@ -8257,11 +8306,11 @@
  	std::string sCode = "(function(){window.AscDesktopEditor._setViewportSettings(\"" + sViewportInfo + "\");})();";
  
  	std::vector<int64> identifiers;
@@ -251,7 +241,7 @@
  		if (pFrame)
  		{
  			pFrame->ExecuteJavaScript(sCode, pFrame->GetURL(), 0);
-@@ -7772,7 +7824,7 @@ CefRefPtr<CefFrame> CCefView_Private::CC
+@@ -8280,7 +8329,7 @@
  {
  	if (!View->m_handler || !View->m_handler->GetBrowser())
  		return nullptr;
@@ -259,8 +249,31 @@
 +	return NSCefCompat::GetFrame(View->m_handler->GetBrowser(), FrameID);
  }
  
- // CefViewEditor --------------------------------------------------------------------------
-@@ -8357,7 +8409,7 @@ void CCefViewEditor::UpdatePlugins()
+ void CCefView::ExecuteInAllFrames(const std::string& sCode, const bool& isMain)
+@@ -8290,11 +8339,11 @@
+ 		return;
+ 
+ 	std::vector<int64> identifiers;
+-	pBrowser->GetFrameIdentifiers(identifiers);
++	NSCefCompat::GetFrameIdentifiers(pBrowser, identifiers);
+ 
+ 	for (std::vector<int64>::iterator iter = identifiers.begin(); iter != identifiers.end(); iter++)
+ 	{
+-		CefRefPtr<CefFrame> pFrame = pBrowser->GetFrame(*iter);
++		CefRefPtr<CefFrame> pFrame = NSCefCompat::GetFrame(pBrowser, *iter);
+ 		if (!pFrame)
+ 			continue;
+ 		if (!isMain && pFrame->IsMain())
+@@ -8309,7 +8358,7 @@
+ 	CefRefPtr<CefBrowser> pBrowser = m_pInternal->GetBrowser();
+ 	if (!pBrowser)
+ 		return;
+-	CefRefPtr<CefFrame> pFrame = pBrowser->GetFrame("frameEditor");
++	CefRefPtr<CefFrame> pFrame = NSCefCompat::GetFrame(pBrowser, "frameEditor");
+ 	if (pFrame)
+ 		pFrame->ExecuteJavaScript(sCode, pFrame->GetURL(), 0);
+ }
+@@ -8911,7 +8960,7 @@
  	if (!pBrowser)
  		return;
  
@@ -269,7 +282,7 @@
  	if (pFrame)
  		pFrame->ExecuteJavaScript("if (window.UpdateInstallPlugins) window.UpdateInstallPlugins();", pFrame->GetURL(), 0);
  }
-@@ -8475,11 +8527,11 @@ void CAscApplicationManager_Private::Cha
+@@ -9029,11 +9078,11 @@
  	std::string sCode = "(function(){if (window.onChangeEditorsCount) window.onChangeEditorsCount(" + sCodeValue + ");})();";
  
  	std::vector<int64> identifiers;
@@ -283,7 +296,7 @@
  		if (pFrame)
  		{
  			pFrame->ExecuteJavaScript(sCode, pFrame->GetURL(), 0);
-@@ -8502,7 +8554,7 @@ namespace NSRequest
+@@ -9056,7 +9105,7 @@
  
  		if (m_view->GetBrowser())
  		{
@@ -291,4 +304,13 @@
 +			CefRefPtr<CefFrame> frame = NSCefCompat::GetFrame(m_view->GetBrowser(), frameId);
  			if (frame)
  				frame->ExecuteJavaScript(sCode, frame->GetURL(), 0);
+ 		}
+@@ -9069,7 +9118,7 @@
+ 
+ 		if (m_view->GetBrowser())
+ 		{
+-			CefRefPtr<CefFrame> frame = m_view->GetBrowser()->GetFrame(m_frameId);
++			CefRefPtr<CefFrame> frame = NSCefCompat::GetFrame(m_view->GetBrowser(), m_frameId);
+ 			if (frame)
+ 				frame->ExecuteJavaScript("console.log('[simplerequest]: attept " + std::to_string(m_nRetryCount + 1) + "');", frame->GetURL(), 0);
  		}

@@ -1,6 +1,6 @@
---- desktop-apps/win-linux/src/windows/cmainwindow.cpp.orig	2026-09-28 08:52:10 UTC
+--- desktop-apps/win-linux/src/windows/cmainwindow.cpp.orig	2026-11-05 00:00:00 UTC
 +++ desktop-apps/win-linux/src/windows/cmainwindow.cpp
-@@ -82,7 +82,7 @@ CMainWindow::CMainWindow(const QRect &re
+@@ -84,7 +84,7 @@
      m_pMainPanel = createMainPanel(this);
      setCentralWidget(m_pMainPanel);
      QString css{AscAppManager::getWindowStylesheets(m_dpiRatio)};
@@ -9,7 +9,7 @@
      if (WindowHelper::getEnvInfo() == WindowHelper::KDE)
          setWindowTitle(tr("Main Window"));
      setAcceptDrops(true);
-@@ -247,7 +247,7 @@ void CMainWindow::applyTheme(const std::
+@@ -253,7 +253,7 @@
      // }
  
      QString css{AscAppManager::getWindowStylesheets(m_dpiRatio)};
@@ -18,16 +18,16 @@
      css.append(Utils::readStylesheets(":styles/styles_unix.qss"));
  #endif
      m_pMainPanel->setStyleSheet(css);
-@@ -362,7 +362,7 @@ void CMainWindow::close()
+@@ -371,7 +371,7 @@
  //    }
  //}
  
 -#ifdef __linux__
-+#if defined(__linux__) || defined(__FreeBSD__)
++#if (defined(__linux__) || defined(__FreeBSD__)) || defined(__FreeBSD__)
  void CMainWindow::dragEnterEvent(QDragEnterEvent *event)
  {
      QList<QUrl> urls = event->mimeData()->urls();
-@@ -501,8 +501,8 @@ QWidget* CMainWindow::createMainPanel(QW
+@@ -511,8 +511,8 @@
      connect(pTabBar, SIGNAL(tabBarClicked(int)), this, SLOT(onTabClicked(int)), Qt::QueuedConnection);
      connect(pTabBar, SIGNAL(tabCloseRequested(int)), this, SLOT(onTabCloseRequest(int)));
      connect(pTabBar, &CTabBar::tabMenuRequested, this, &CMainWindow::setTabMenu);
@@ -38,7 +38,7 @@
      m_pTabs->setPalette(palette);
      m_pTabs->setCustomWindowParams(isCustomWindowStyle());
      return mainPanel;
-@@ -511,7 +511,7 @@ QWidget* CMainWindow::createMainPanel(QW
+@@ -521,7 +521,7 @@
  void CMainWindow::attachStartPanel(QCefView * const view)
  {
      m_pMainWidget = qobject_cast<QWidget *>(view);
@@ -47,7 +47,7 @@
      view->setMouseTracking(m_pButtonMain->hasMouseTracking());
  #endif
      m_pMainWidget->setParent(m_pMainPanel);
-@@ -524,7 +524,7 @@ void CMainWindow::attachStartPanel(QCefV
+@@ -534,7 +534,7 @@
          m_pMainWidget->show();
  }
  
@@ -56,7 +56,7 @@
  void CMainWindow::setMouseTracking(bool enable)
  {
      QWidget::setMouseTracking(enable);
-@@ -628,7 +628,7 @@ void CMainWindow::onEditorAllowedClose(i
+@@ -638,7 +638,7 @@
  void CMainWindow::onTabChanged(int index)
  {
      QString title("");
@@ -65,25 +65,7 @@
      if (WindowHelper::getEnvInfo() == WindowHelper::KDE)
          title = tr("Main Window");
  #endif
-@@ -1340,7 +1340,7 @@ void CMainWindow::onDocumentPrint(void *
-         return;
- 
-     QWidget *parent = qobject_cast<QWidget*>(this);
--#ifdef Q_OS_LINUX
-+#if defined(Q_OS_LINUX) || defined(Q_OS_FREEBSD)
-     WindowHelper::CParentDisable disabler(parent);
- #endif
- 
-@@ -1412,7 +1412,7 @@ void CMainWindow::onDocumentPrint(void *
- 
-             QVector<PageRanges> page_ranges;
- 
--#ifdef Q_OS_LINUX
-+#if defined(Q_OS_LINUX) || defined(Q_OS_FREEBSD)
-             if ( printer->outputFormat() == QPrinter::PdfFormat ) {
-                 if ( !AscAppManager::printData().isQuickPrint() ) {
-                     info.setFile(printer->outputFileName());
-@@ -1686,7 +1686,7 @@ void CMainWindow::setScreenScalingFactor
+@@ -1657,7 +1657,7 @@
  {
      CWindowPlatform::setScreenScalingFactor(factor, resize);
      QString css(AscAppManager::getWindowStylesheets(factor));

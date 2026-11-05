@@ -1,15 +1,15 @@
---- desktop-apps/win-linux/src/cascapplicationmanagerwrapper.cpp.orig	2026-09-28 08:45:35 UTC
+--- desktop-apps/win-linux/src/cascapplicationmanagerwrapper.cpp.orig	2026-11-05 00:00:00 UTC
 +++ desktop-apps/win-linux/src/cascapplicationmanagerwrapper.cpp
-@@ -361,7 +361,7 @@ bool CAscApplicationManagerWrapper::proc
+@@ -556,7 +556,7 @@
                      gotoMainWindow();
  
                  mainWindow()->onFileLocation(-1, QString::fromStdWString(pData->get_Param()));
 -#ifdef Q_OS_LINUX
-+#if defined(Q_OS_LINUX) || defined(Q_OS_FREEBSD)
++#if (defined(Q_OS_LINUX) || defined(Q_OS_FREEBSD)) || defined(Q_OS_FREEBSD)
                  mainWindow()->bringToTop();
  #endif
                  return true;
-@@ -500,7 +500,7 @@ bool CAscApplicationManagerWrapper::proc
+@@ -707,7 +707,7 @@
  
      case ASC_MENU_EVENT_TYPE_REPORTER_CREATE: {
          CPresenterWindow * reporterWindow = createReporterWindow(event->m_pData, event->get_SenderId());
@@ -18,7 +18,7 @@
          reporterWindow->show(false);
  #else
          reporterWindow->show(false);
-@@ -1143,7 +1143,7 @@ void CAscApplicationManagerWrapper::star
+@@ -1488,7 +1488,7 @@
  #if 0
      CMainWindow * _window = createMainWindow(_start_rect);
  
@@ -27,7 +27,7 @@
      _window->show();
      if ( _is_maximized )
          _window->slot_windowChangeState(Qt::WindowMaximized);
-@@ -1288,7 +1288,7 @@ void CAscApplicationManagerWrapper::init
+@@ -1631,7 +1631,7 @@
  
      // TODO: merge stylesheets and apply for the whole app
      QString css{Utils::readStylesheets(":styles/styles.qss")};
@@ -36,21 +36,12 @@
      css.append(Utils::readStylesheets(":styles/styles_unix.qss"));
  #endif
      qApp->setStyleSheet(css.arg(GetColorQValueByRole(ecrWindowBackground),
-@@ -1353,7 +1353,7 @@ void CAscApplicationManagerWrapper::init
-                                         {"type", _app.m_themes->current().stype()},
-                                         {"id", QString::fromStdWString(_app.m_themes->current().id())},
-                                         {"addlocal", "on"}
--#ifndef Q_OS_LINUX
-+#if !defined(Q_OS_LINUX) && !defined(Q_OS_FREEBSD)
-                                         ,{"system", _app.m_themes->isSystemSchemeDark() ? "dark" : "light"}
- #else
-                                         ,{"system", "disabled"}
-@@ -2023,7 +2023,7 @@ void CAscApplicationManagerWrapper::appl
-         EditorJSVariables::applyVariable("theme", {
-                                             {"type", _app.m_themes->current().stype()},
-                                             {"id", QString::fromStdWString(_app.m_themes->current().id())}
--#ifndef Q_OS_LINUX
-+#if !defined(Q_OS_LINUX) && !defined(Q_OS_FREEBSD)
-                                             ,{"system", _app.m_themes->isSystemSchemeDark() ? "dark" : "light"}
- #else
-                                             ,{"system", "disabled"}
+@@ -2071,7 +2071,7 @@
+     if (rc.left() < scrRc.left())
+         rc.moveLeft(scrRc.left());
+ 
+-#ifdef __linux__
++#if (defined(__linux__) || defined(__FreeBSD__)) || defined(__FreeBSD__)
+     WindowHelper::CParentDisable oDisabler(parent);
+ #endif
+     _app.m_private->m_upgradeDialog = new UpgradeDialog(parent, rc, page);
