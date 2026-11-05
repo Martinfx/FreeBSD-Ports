@@ -1,8 +1,6 @@
 TIMESTAMP = 1793839200
 SHA256 (onlyoffice/v8-8.9.255.25_all.tar.gz) = 54853ef93accc063a82a0dc29457b25c9b6d88315431d62e06ab1f84797c5f80
 SIZE (onlyoffice/v8-8.9.255.25_all.tar.gz) = 72818814
-SHA256 (onlyoffice/onlyoffice-10.0.0-npm-cache.tar.xz.00) = bdb32757772cec0df7fb71c198b543126bcd3c756ebc4021e75c9217eaac836d
-SIZE (onlyoffice/onlyoffice-10.0.0-npm-cache.tar.xz.00) = 40128424
 SHA256 (onlyoffice/ONLYOFFICE-DesktopEditors-v10.0.0_GH0.tar.gz) = f1148af6667c35e5bbff722084bf59a75d2dbea4194d84015cb7cd904a8ca58a
 SIZE (onlyoffice/ONLYOFFICE-DesktopEditors-v10.0.0_GH0.tar.gz) = 1103550
 SHA256 (onlyoffice/ONLYOFFICE-core-v10.0.0.176_GH0.tar.gz) = d6ded82d87020c0d98b1e3de9abe285a36625fae4f88aed58d0c5ede46ca9fe4

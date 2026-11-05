@@ -1,17 +1,17 @@
 #!/bin/sh
-# Maintainer helper: generate the npm cache distfile of the port.
+# Maintainer helper: generate the npm cache of the port.
 #
 # The build installs the npm modules of web-apps and of the three vite
 # projects of the start page (desktop-apps/common/loginpage) offline, from
 # an npm cache that is a distfile, see the Makefile.  This
 # script fills such a cache by running the same "npm install" commands as
-# the port, with network access, for FreeBSD on amd64 and arm64, and
-# archives it.  Run it on the patched source tree of the port (after
+# the port, with network access, for FreeBSD on amd64 and arm64.  Run it
+# on the patched source tree of the port (after
 # "make patch", which also installs the lockfiles of the start page), on
 # a host with network access; it does not have to be FreeBSD, npm is told
 # that it installs for FreeBSD.
 #
-# usage: make-npm-cache-archive.sh <WRKSRC> <output .tar.xz> [npm command ...]
+# usage: make-npm-cache.sh <WRKSRC> <output directory> [npm command ...]
 #
 # Every npm command given (default: npm) runs the whole sequence into the
 # same cache.  npm asks the registry for the metadata of a package in a
@@ -20,11 +20,12 @@
 # run the script with the npm of www/npm${NODEJS_SUFFIX} and with an older
 # npm, for example "npx -y npm@11", to get a cache that works with both.
 #
-# The archive is split in parts below the GitHub file size limit
-# (<output>.00, <output>.01, ...).  Commit the parts under onlyoffice/ in
-# the onlyoffice-distfiles branch of the FreeBSD-Ports repository, see
-# MASTER_SITES in the port Makefile, set _NPM_CACHE_PARTS there to the
-# parts and run "make makesum".
+# The cache (<output directory>/_cacache) is kept in the onlyoffice-distfiles
+# branch of the FreeBSD-Ports repository, with _cacache at the root of the
+# tree: replace it there, commit, tag the commit
+# onlyoffice-npm-cache-<build tag>-<date>, push the branch and the tag, set
+# _NPM_CACHE_TAG in the port Makefile to the tag and run "make makesum"
+# (the port fetches the archive of the tag through its GH_TUPLE).
 #
 # When a port update changes the npm dependencies, regenerate the
 # lockfiles of the start page projects first (they ship none), with
@@ -35,12 +36,13 @@
 set -eu
 
 if [ $# -lt 2 ]; then
-	echo "usage: $0 <WRKSRC> <output .tar.xz> [npm command ...]" >&2
+	echo "usage: $0 <WRKSRC> <output directory> [npm command ...]" >&2
 	exit 1
 fi
 
 SRC=$(cd "$1" && pwd)
-OUT=$(cd "$(dirname "$2")" && pwd)/$(basename "$2")
+mkdir -p "$2"
+OUT=$(cd "$2" && pwd)
 shift 2
 if [ $# -eq 0 ]; then
 	set -- npm
@@ -86,10 +88,7 @@ for npm in "$@"; do
 	done
 done
 
-rm -rf "${CACHE}/_logs"
-# reproducible archive (GNU tar)
-tar --sort=name --mtime=@0 --owner=0 --group=0 --numeric-owner \
-	-C "${CACHE}" -cJf "${OUT}" _cacache
-split -b 90m -d -a 2 "${OUT}" "${OUT}."
-echo "created ${OUT} and its parts:"
-ls -l "${OUT}".*
+rm -rf "${OUT}/_cacache"
+mv "${CACHE}/_cacache" "${OUT}/_cacache"
+echo "created ${OUT}/_cacache"
+du -sh "${OUT}/_cacache"
