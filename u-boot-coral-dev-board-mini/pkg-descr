@@ -1,0 +1,35 @@
+U-Boot loader for the Google Coral Dev Board Mini (MediaTek MT8167S).
+
+The board boots through MediaTek's BootROM, a TF-A BL2 stored in the first
+eMMC boot partition, and a FIP (Firmware Image Package) in the "bootloaders"
+GPT partition that holds BL31, OP-TEE and U-Boot.  Only the U-Boot part
+(u-boot.bin) is built here; BL2, BL31 and OP-TEE come from Google's Mendel
+release for the board.
+
+Installing: take fip.bin from a Mendel flashing package, unpack it with
+fiptool from Trusted Firmware-A, repack it with this u-boot.bin as the
+non-trusted firmware and flash it with fastboot:
+
+  fiptool unpack --soc-fw bl31.bin --tos-fw tee.bin fip.bin
+  fiptool create --soc-fw bl31.bin --tos-fw tee.bin \
+      --nt-fw /usr/local/share/u-boot/u-boot-coral-dev-board-mini/u-boot.bin \
+      fip-freebsd.bin
+  fastboot flash bootloaders fip-freebsd.bin
+
+Fastboot mode: ground the KPCOL0 test point while powering the board on.
+The stock lk.bin recovery (enable_lk_fastboot.sh) keeps working whatever
+is in the eMMC, so a broken U-Boot can always be replaced.
+
+Compared to the Pumpkin MT8516 configuration it is built from, this port
+adds the board device tree (8-bit eMMC, 2 GiB of RAM), moves the console
+to 115200 baud, keeps the environment in the second eMMC boot partition as
+Mendel does, and enables booti, the EFI loader, and RNDIS ethernet over the
+USB-C OTG port.  With the USB cable connected to a host running a DHCP and
+TFTP server, "run bootcmd_dhcp" fetches and starts loader.efi over the
+network; "tftpboot ${kernel_addr_r} kernel.bin; booti ${kernel_addr_r} - -"
+starts a FreeBSD kernel.bin directly.
+
+The serial console is on the 40-pin header: pin 6 GND, pin 8 TX, pin 10 RX,
+3.3 V, 115200 baud.
+
+For general information about U-Boot see WWW: https://www.denx.de/wiki/U-Boot

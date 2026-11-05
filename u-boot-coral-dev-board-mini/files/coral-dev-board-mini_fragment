@@ -1,0 +1,20 @@
+# Google Coral Dev Board Mini (MT8167S) on top of the Pumpkin MT8516 board.
+CONFIG_DEFAULT_DEVICE_TREE="mt8516-coral-dev-board-mini"
+CONFIG_DEFAULT_FDT_FILE="mt8516-coral-dev-board-mini"
+CONFIG_BAUDRATE=115200
+CONFIG_SYS_MALLOC_LEN=0x2000000
+# Environment in the second eMMC boot partition (mmc0boot1), as Mendel.
+CONFIG_ENV_MMC_DEVICE_INDEX=0
+CONFIG_ENV_MMC_EMMC_HW_PARTITION=2
+# Kernel boot: booti for kernel.bin, EFI for loader.efi.
+CONFIG_CMD_BOOTI=y
+CONFIG_EFI_LOADER=y
+# Grounding test point KPCOL0 (GPIO 42) at power-on enters fastboot.
+CONFIG_CMD_GPIO=y
+CONFIG_CMD_FASTBOOT=y
+CONFIG_BOOTCOMMAND="if gpio input 42; then fastboot usb 0; fi; run distro_bootcmd"
+# Networking over the USB-C OTG port (RNDIS ethernet gadget).
+CONFIG_CMD_DHCP=y
+CONFIG_CMD_PING=y
+CONFIG_USB_ETHER=y
+CONFIG_USB_ETH_RNDIS=y
