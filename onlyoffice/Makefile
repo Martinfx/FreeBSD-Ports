@@ -15,8 +15,6 @@ DISTFILES=	v8-8.9.255.25_all.tar.gz:v8 \
 DIST_SUBDIR=	${PORTNAME}
 EXTRACT_ONLY=	${_DISTFILES:N${_NPM_CACHE}}
 
-NPM_CACHE_SITE?=	https://github.com/Martinfx/FreeBSD-Ports/releases/download/${PORTNAME}-${DISTVERSION}/
-
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Office suite with document, spreadsheet and presentation editors
 WWW=		https://www.onlyoffice.com/
@@ -107,6 +105,7 @@ JAVA_VERSION=	11+
 # everything from the tarballs in the cache.  web-apps has one, the start
 # page projects have none, they get files/loginpage-*-package-lock.json.
 _NPM_CACHE=	${PORTNAME}-npm-cache-${DISTVERSION}.tar.xz
+NPM_CACHE_SITE?=	https://github.com/Martinfx/FreeBSD-Ports/releases/download/${PORTNAME}-${DISTVERSION}/
 
 _DS_BUILD=	176
 _DS_TAGNAME=	${DISTVERSIONPREFIX}${DISTVERSION}.${_DS_BUILD}
@@ -235,15 +234,15 @@ do-build:
 
 # optipng-bin downloads a binary when installed, patch it to use the one of
 # graphics/optipng instead (web-apps/build/patches)
-	@cd ${WRKSRC}/web-apps/build ; ${SETENV} ${MAKE_ENV} npm install patch-package
-	@cd ${WRKSRC}/web-apps/build ; ${SETENV} ${MAKE_ENV} npm install optipng-bin@5.1.0
+	@cd ${WRKSRC}/web-apps/build ; ${SETENV} ${MAKE_ENV} npm add patch-package
+	@cd ${WRKSRC}/web-apps/build ; ${SETENV} ${MAKE_ENV} npm add optipng-bin@5.1.0
 	@cd ${WRKSRC}/web-apps/build ; node_modules/.bin/patch-package
 	@cd ${WRKSRC}/web-apps/build/node_modules/optipng-bin ; ${SETENV} ${MAKE_ENV} npm run postinstall optipng-bin
 
 	cd ${WRKSRC}/build_tools/tools/freebsd ; ${SETENV} ${MAKE_ENV} ${PYTHON_CMD} automate.py desktop
 
 # Desktop entry from the template of the Linux packages
-	/usr/bin/m4 -I ${_LINUXPKG} \
+	m4 -I ${_LINUXPKG} \
 		-D M4_DESKTOPEDITORS_EXEC=onlyoffice-desktopeditors \
 		-D M4_SCHEME_HANDLER=oo-office \
 		${_LINUXPKG}/desktopeditors.desktop.m4 | \
