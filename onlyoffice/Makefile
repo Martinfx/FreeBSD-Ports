@@ -76,7 +76,11 @@ GH_TUPLE=	ONLYOFFICE:core:${_DS_TAGNAME}:core/core \
 		GNOME:libxml2:39b66eb2089f491eacf8e22a7965a235f7f5735e:gnome_libxml2/core/Common/3dParty/libxml/libxml2 \
 		hunspell:hunspell:8a2fdfe5a6bb1cbafc04b0c8486abcefd17ad903:hunspell_hunspell/core/Common/3dParty/hunspell/hunspell \
 		hunspell:hyphen:73dd296:hunspell_hyphen/core/Common/3dParty/hyphen/hyphen \
-		mity:md4c:481fbfb:mity_md4c/core/Common/3dParty/md/md4c
+		mity:md4c:481fbfb:mity_md4c/core/Common/3dParty/md/md4c \
+		socketio:socket.io-client-cpp:da779141a7379cc30c870d48295033bc16a23c66:sio/${_SIO_DIR} \
+		chriskohlhoff:asio:230c0d2ae035c5ce1292233fcab03cea0d341264:sio_asio/${_SIO_DIR}/lib/asio \
+		Tencent:rapidjson:a36110e11874bcf35af854940e0ce910c19a8b49:sio_rapidjson/${_SIO_DIR}/lib/rapidjson \
+		zaphoyd:websocketpp:56123c87598f8b1dd471be83ca841ceae07f95ba:sio_websocketpp/${_SIO_DIR}/lib/websocketpp
 
 USE_GL=		gl
 USE_GNOME=	atk cairo gdkpixbuf glib20 gtk30 pango
@@ -110,6 +114,10 @@ _DS_TAGNAME=	${DISTVERSIONPREFIX}${DISTVERSION}.${_DS_BUILD}
 # The editors are built on the cefclient sources of the CEF release that
 # www/cef is built from.  Keep this in sync with CEF_COMMIT in www/cef.
 _CEF_COMMIT=	708dc140cbc3286826a8abef89dc23a44ff9ea72
+
+# socket.io-client-cpp and the commits of its submodules that
+# build_tools/scripts/core_common/modules/socket_io.py checks out
+_SIO_DIR=	core/Common/3dParty/socketio/socket.io-client-cpp
 
 # These files have DOS line endings and are patched
 DOS2UNIX_FILES=	core/DesktopEditor/agg-2.4/include/agg_math.h \
