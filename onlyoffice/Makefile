@@ -270,5 +270,8 @@ do-install:
 post-install:
 	@cd ${STAGEDIR}${PREFIX} && ${FIND} ${APPDIR} \( -type f -o -type l \) | \
 		${SORT} >> ${TMPPLIST}
+# Some theme media and toolbar image directories are empty
+	@cd ${STAGEDIR}${PREFIX} && ${FIND} ${APPDIR} -type d -empty | \
+		${SORT} | ${SED} -e 's|^|@dir |' >> ${TMPPLIST}
 
 .include <bsd.port.post.mk>
