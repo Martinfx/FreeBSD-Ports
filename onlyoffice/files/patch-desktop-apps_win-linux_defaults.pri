@@ -1,6 +1,6 @@
 --- desktop-apps/win-linux/defaults.pri.orig	2026-11-05 00:00:00 UTC
 +++ desktop-apps/win-linux/defaults.pri
-@@ -207,17 +207,19 @@
+@@ -207,17 +207,20 @@
  
  PLATFORM_BUILD=$$CORE_BUILDS_PLATFORM_PREFIX
  
@@ -15,6 +15,7 @@
 +
 +core_linux|core_freebsd {
      QT += network x11extras dbus
++    core_freebsd:QT += concurrent
  
      QMAKE_LFLAGS += "-Wl,-rpath,\'\$$ORIGIN\'"
      QMAKE_LFLAGS += "-Wl,-rpath,\'\$$ORIGIN/converter\'"

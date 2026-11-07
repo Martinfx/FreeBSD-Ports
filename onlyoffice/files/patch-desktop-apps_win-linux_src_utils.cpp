@@ -9,6 +9,15 @@
  # include "platform_linux/gtkutils.h"
  #endif
  #include "utils.h"
+@@ -56,7 +56,7 @@
+ #include "cascapplicationmanagerwrapper.h"
+ #include "qdpichecker.h"
+ #include "common/File.h"
+-#if QT_VERSION < QT_VERSION_CHECK(5, 11, 0)
++#if QT_VERSION < QT_VERSION_CHECK(5, 11, 0) || defined(__FreeBSD__)
+ # include <QDesktopWidget>
+ #endif
+ 
 @@ -164,7 +164,7 @@
      auto init() -> void {
  #if defined(__OS_WIN_XP)

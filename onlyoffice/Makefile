@@ -82,7 +82,7 @@ GH_TUPLE=	ONLYOFFICE:core:${_DS_TAGNAME}:core/core \
 
 USE_GL=		gl
 USE_GNOME=	atk cairo gdkpixbuf glib20 gtk30 pango
-USE_QT=		core dbus gui multimedia network printsupport svg widgets \
+USE_QT=		concurrent core dbus gui multimedia network printsupport svg widgets \
 		x11extras buildtools:build qmake:build
 USE_XORG=	x11 xcb
 
