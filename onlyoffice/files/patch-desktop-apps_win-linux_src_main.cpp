@@ -1,6 +1,6 @@
---- desktop-apps/win-linux/src/main.cpp.orig	2026-09-28 08:45:35 UTC
+--- desktop-apps/win-linux/src/main.cpp.orig	2026-11-05 00:00:00 UTC
 +++ desktop-apps/win-linux/src/main.cpp
-@@ -162,7 +162,7 @@ int main( int argc, char *argv[] )
+@@ -139,7 +139,7 @@
      app.setStyle(QStyleFactory::create("Fusion"));
  
      /* the order is important */

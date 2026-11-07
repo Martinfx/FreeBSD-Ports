@@ -1,15 +1,15 @@
---- desktop-apps/win-linux/src/windows/ceditorwindow.cpp.orig	2026-09-24 21:58:50 UTC
+--- desktop-apps/win-linux/src/windows/ceditorwindow.cpp.orig	2026-11-05 00:00:00 UTC
 +++ desktop-apps/win-linux/src/windows/ceditorwindow.cpp
-@@ -252,7 +252,7 @@ QWidget * CEditorWindow::createMainPanel
+@@ -259,7 +259,7 @@
      mainPanel->setProperty("zoom", QString::number(m_dpiRatio) + "x");
      mainPanel->setProperty("uitheme", QString::fromStdWString(GetCurrentTheme().id()));
      QString css(AscAppManager::getWindowStylesheets(m_dpiRatio) + m_css);
 -#ifdef __linux__
 +#if defined(__linux__) || defined(__FreeBSD__)
      css.append(Utils::readStylesheets(":styles/styles_unix.qss"));
- #endif
-     mainPanel->setStyleSheet(css);
-@@ -291,7 +291,7 @@ void CEditorWindow::init(CTabPanel *pane
+     if ( m_shouldUseThinFrame )
+         mainPanel->setProperty("extended-title", true);
+@@ -300,7 +300,7 @@
      d_ptr.get()->init(panel);
      m_pMainPanel = createMainPanel(this, d_ptr->panel()->data()->title());
      setCentralWidget(m_pMainPanel);
@@ -18,7 +18,7 @@
      if (isCustomWindowStyle()) {
          CX11Decoration::setTitleWidget(m_boxTitleBtns);
          m_pMainPanel->setMouseTracking(true);
-@@ -519,7 +519,7 @@ void CEditorWindow::setScreenScalingFact
+@@ -534,7 +534,7 @@
  
      QString css(AscAppManager::getWindowStylesheets(factor));
      css.append(m_css);

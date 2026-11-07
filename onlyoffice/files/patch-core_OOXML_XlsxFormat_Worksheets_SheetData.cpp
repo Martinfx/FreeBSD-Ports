@@ -1,6 +1,6 @@
---- core/OOXML/XlsxFormat/Worksheets/SheetData.cpp.orig	2025-09-24 09:41:02 UTC
+--- core/OOXML/XlsxFormat/Worksheets/SheetData.cpp.orig	2026-11-05 00:00:00 UTC
 +++ core/OOXML/XlsxFormat/Worksheets/SheetData.cpp
-@@ -76,6 +76,8 @@
+@@ -92,6 +92,8 @@
  
  #include <boost/make_unique.hpp>
  

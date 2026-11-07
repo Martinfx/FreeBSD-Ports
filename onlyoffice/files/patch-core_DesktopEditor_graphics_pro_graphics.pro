@@ -1,6 +1,6 @@
---- core/DesktopEditor/graphics/pro/graphics.pro.orig	2025-09-24 06:08:05 UTC
+--- core/DesktopEditor/graphics/pro/graphics.pro.orig	2026-11-05 00:00:00 UTC
 +++ core/DesktopEditor/graphics/pro/graphics.pro
-@@ -22,6 +22,12 @@ ADD_DEPENDENCY(UnicodeConverter, kernel)
+@@ -55,6 +55,12 @@
  
  ADD_DEPENDENCY(UnicodeConverter, kernel)
  

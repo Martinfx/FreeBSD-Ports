@@ -1,6 +1,6 @@
---- core/DesktopEditor/allthemesgen/main.cpp.orig	2021-12-18 19:29:47 UTC
+--- core/DesktopEditor/allthemesgen/main.cpp.orig	2026-11-05 00:00:00 UTC
 +++ core/DesktopEditor/allthemesgen/main.cpp
-@@ -48,7 +48,7 @@
+@@ -51,7 +51,7 @@
  #undef CreateDirectory
  #endif
  
@@ -9,7 +9,7 @@
  #include <unistd.h>
  #include <sys/wait.h>
  #include <stdio.h>
-@@ -179,7 +179,7 @@ namespace NSX2T
+@@ -182,7 +182,7 @@
  
  #endif
  

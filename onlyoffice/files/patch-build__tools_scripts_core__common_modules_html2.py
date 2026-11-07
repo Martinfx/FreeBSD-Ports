@@ -1,6 +1,6 @@
---- build_tools/scripts/core_common/modules/html2.py.orig	2026-09-24 21:58:50 UTC
+--- build_tools/scripts/core_common/modules/html2.py.orig	2026-11-05 00:00:00 UTC
 +++ build_tools/scripts/core_common/modules/html2.py
-@@ -17,13 +17,13 @@ def clear_module():
+@@ -17,13 +17,13 @@
  def make():
    old_cur_dir = os.getcwd()
  

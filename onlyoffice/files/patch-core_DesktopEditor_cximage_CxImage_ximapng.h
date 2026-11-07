@@ -1,4 +1,4 @@
---- core/DesktopEditor/cximage/CxImage/ximapng.h.orig	2021-09-30 12:13:32 UTC
+--- core/DesktopEditor/cximage/CxImage/ximapng.h.orig	2026-11-05 00:00:00 UTC
 +++ core/DesktopEditor/cximage/CxImage/ximapng.h
 @@ -22,7 +22,7 @@
  #if CXIMAGE_SUPPORT_PNG

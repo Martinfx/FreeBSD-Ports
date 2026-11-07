@@ -1,4 +1,4 @@
---- core/DjVuFile/libdjvu/DjVuDocument.cpp.orig	2025-09-24 09:26:52 UTC
+--- core/DjVuFile/libdjvu/DjVuDocument.cpp.orig	2026-11-05 00:00:00 UTC
 +++ core/DjVuFile/libdjvu/DjVuDocument.cpp
 @@ -78,7 +78,7 @@
  

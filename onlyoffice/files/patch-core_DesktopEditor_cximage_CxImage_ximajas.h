@@ -1,4 +1,4 @@
---- core/DesktopEditor/cximage/CxImage/ximajas.h.orig	2025-09-24 05:42:35 UTC
+--- core/DesktopEditor/cximage/CxImage/ximajas.h.orig	2026-11-05 00:00:00 UTC
 +++ core/DesktopEditor/cximage/CxImage/ximajas.h
 @@ -16,7 +16,7 @@
  

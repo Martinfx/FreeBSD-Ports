@@ -1,4 +1,4 @@
---- core/Apple/StringDocumentHandler.hxx.orig	2025-08-08 19:00:43 UTC
+--- core/Apple/StringDocumentHandler.hxx.orig	2026-11-05 00:00:00 UTC
 +++ core/Apple/StringDocumentHandler.hxx
 @@ -0,0 +1,154 @@
 +/* -*- Mode: C++; tab-width: 4; indent-tabs-mode: t; c-basic-offset: 4 -*- */

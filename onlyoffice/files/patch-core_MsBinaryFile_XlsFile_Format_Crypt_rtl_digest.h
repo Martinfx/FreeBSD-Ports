@@ -1,6 +1,6 @@
---- core/MsBinaryFile/XlsFile/Format/Crypt/rtl/digest.h.orig	2023-02-13 11:16:13 UTC
+--- core/MsBinaryFile/XlsFile/Format/Crypt/rtl/digest.h.orig	2026-11-05 00:00:00 UTC
 +++ core/MsBinaryFile/XlsFile/Format/Crypt/rtl/digest.h
-@@ -31,7 +31,7 @@
+@@ -34,7 +34,7 @@
   */
  #pragma once
  

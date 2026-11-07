@@ -1,3 +1,11 @@
 #!/bin/sh
-exec %%LOCALBASE%%/bin/npm --offline "$@"
-#exec %%LOCALBASE%%/bin/npm "$@"
+# npm wrapper put first in PATH during the build: every "npm install" of
+# the ONLYOFFICE build scripts resolves its packages from the npm cache
+# prepared in post-extract and do-build and never talks to the registry.
+# The cache path and the registry (the cache is keyed on its URL) are
+# given explicitly so that an npmrc or npm_config_* variables of the
+# builder cannot redirect them.  The cache holds no development
+# dependencies (the build scripts install with NODE_ENV=production), so
+# they are left out whatever the environment.
+exec %%LOCALBASE%%/bin/npm --offline --cache %%WRKDIR%%/.npm \
+	--registry https://registry.npmjs.org/ --omit=dev --no-audit --no-fund "$@"

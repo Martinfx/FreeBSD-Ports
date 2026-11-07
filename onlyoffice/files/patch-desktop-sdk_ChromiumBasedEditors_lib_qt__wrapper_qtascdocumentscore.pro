@@ -1,6 +1,6 @@
---- desktop-sdk/ChromiumBasedEditors/lib/qt_wrapper/qtascdocumentscore.pro.orig	2026-09-24 21:58:50 UTC
+--- desktop-sdk/ChromiumBasedEditors/lib/qt_wrapper/qtascdocumentscore.pro.orig	2026-11-05 00:00:00 UTC
 +++ desktop-sdk/ChromiumBasedEditors/lib/qt_wrapper/qtascdocumentscore.pro
-@@ -38,7 +38,9 @@ core_windows {
+@@ -38,7 +38,9 @@
  	build_xp:DESTDIR=$$DESTDIR/xp
  }
  

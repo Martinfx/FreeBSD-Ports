@@ -1,6 +1,6 @@
---- core/DesktopEditor/common/Types.h.orig	2025-09-24 10:40:53 UTC
+--- core/DesktopEditor/common/Types.h.orig	2026-11-05 00:00:00 UTC
 +++ core/DesktopEditor/common/Types.h
-@@ -78,7 +78,7 @@ typedef wchar_t			WCHAR;
+@@ -81,7 +81,7 @@
  typedef unsigned int	UINT, *PUINT;
  typedef wchar_t			WCHAR;
  

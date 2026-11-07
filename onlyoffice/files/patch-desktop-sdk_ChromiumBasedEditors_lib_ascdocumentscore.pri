@@ -1,6 +1,6 @@
---- desktop-sdk/ChromiumBasedEditors/lib/ascdocumentscore.pri.orig	2026-09-24 21:58:50 UTC
+--- desktop-sdk/ChromiumBasedEditors/lib/ascdocumentscore.pri.orig	2026-11-05 00:00:00 UTC
 +++ desktop-sdk/ChromiumBasedEditors/lib/ascdocumentscore.pri
-@@ -59,6 +59,11 @@ build_xp {
+@@ -64,6 +64,11 @@
          }
      }
  
@@ -12,8 +12,8 @@
      include($$CEF_PROJECT_PRI/cef_base.pri)
      include($$CEF_PROJECT_PRI/cef_client.pri)
  }
-@@ -181,7 +186,9 @@ core_mac {
- 	DEFINES += NO_SUPPORT_MEDIA_PLAYER
+@@ -256,7 +261,9 @@
+ 	QMAKE_BUNDLE_DATA += PLAYER_BUTTON_ICONS
  }
  
 -core_linux {

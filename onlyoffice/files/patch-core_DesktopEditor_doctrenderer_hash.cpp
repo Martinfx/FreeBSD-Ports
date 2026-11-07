@@ -1,6 +1,6 @@
---- core/DesktopEditor/doctrenderer/hash.cpp.orig	2025-08-02 18:33:34 UTC
+--- core/DesktopEditor/doctrenderer/hash.cpp.orig	2026-11-05 00:00:00 UTC
 +++ core/DesktopEditor/doctrenderer/hash.cpp
-@@ -4,12 +4,12 @@
+@@ -39,12 +39,12 @@
  #include "../common/Base64.h"
  #endif
  
@@ -19,7 +19,7 @@
  
  #include <cstring>
  #include <memory>
-@@ -37,6 +37,7 @@ unsigned char* CHash::hash(const unsigned char* data, 
+@@ -72,6 +72,7 @@
  
  	switch (alg)
  	{
@@ -27,7 +27,7 @@
  	case haMD2:
  	{
  		nBufLen = 16;
-@@ -44,6 +45,7 @@ unsigned char* CHash::hash(const unsigned char* data, 
+@@ -79,6 +80,7 @@
  		MD2(data, d, pBufData);
  		break;
  	}
@@ -35,7 +35,7 @@
  	case haMD4:
  	{
  		nBufLen = 16;
-@@ -246,11 +248,13 @@ void hash_iteration(unsigned char*& input, int iter, u
+@@ -281,11 +283,13 @@
  
  	switch (alg)
  	{
@@ -49,7 +49,7 @@
  	case CHash::haMD4:
  	{
  		MD4(input, alg_size + 4, tmp);
-@@ -319,6 +323,7 @@ unsigned char* CHash::hash2(const char* password, cons
+@@ -354,6 +358,7 @@
  	unsigned char* pBuffer1 = NULL;
  	switch (alg)
  	{
@@ -57,7 +57,7 @@
  	case haMD2:
  	{
  		alg_size = 16;
-@@ -326,6 +331,7 @@ unsigned char* CHash::hash2(const char* password, cons
+@@ -361,6 +366,7 @@
  		MD2(inputData, inputDataLen, pBuffer1);
  		break;
  	}

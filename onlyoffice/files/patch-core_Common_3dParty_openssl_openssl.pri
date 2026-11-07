@@ -1,6 +1,6 @@
---- core/Common/3dParty/openssl/openssl.pri.orig	2025-08-02 18:33:34 UTC
+--- core/Common/3dParty/openssl/openssl.pri.orig	2026-11-05 00:00:00 UTC
 +++ core/Common/3dParty/openssl/openssl.pri
-@@ -32,8 +32,8 @@ core_windows {
+@@ -32,8 +32,8 @@
      LIBS += $$OPENSSL_LIBS_DIRECTORY/libssl.lib
  	LIBS += $$OPENSSL_LIBS_DIRECTORY/libcrypto.lib
  } else {

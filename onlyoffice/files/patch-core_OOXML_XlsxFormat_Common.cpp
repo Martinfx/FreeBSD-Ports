@@ -1,6 +1,6 @@
---- core/OOXML/XlsxFormat/Common.cpp.orig	2025-08-02 18:33:34 UTC
+--- core/OOXML/XlsxFormat/Common.cpp.orig	2026-11-05 00:00:00 UTC
 +++ core/OOXML/XlsxFormat/Common.cpp
-@@ -48,6 +48,10 @@ char* gcvt(double x, int n, char* b)
+@@ -51,6 +51,10 @@
  #define _gcvt gcvt
  #endif
  

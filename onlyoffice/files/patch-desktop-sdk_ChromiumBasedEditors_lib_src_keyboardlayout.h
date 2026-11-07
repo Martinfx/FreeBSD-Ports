@@ -1,6 +1,6 @@
---- desktop-sdk/ChromiumBasedEditors/lib/src/keyboardlayout.h.orig	2026-09-24 21:58:50 UTC
+--- desktop-sdk/ChromiumBasedEditors/lib/src/keyboardlayout.h.orig	2026-11-05 00:00:00 UTC
 +++ desktop-sdk/ChromiumBasedEditors/lib/src/keyboardlayout.h
-@@ -1,7 +1,7 @@
+@@ -36,7 +36,7 @@
  #ifndef KEYBOARDLAYOUT_H
  #define KEYBOARDLAYOUT_H
  
@@ -9,7 +9,7 @@
  # include <cstdint>
  #endif
  #include <vector>
-@@ -16,7 +16,7 @@ public:
+@@ -51,7 +51,7 @@
      ~KeyboardLayout();
  
      std::vector<std::pair<std::string, std::string>> GetKeyboardLayoutList() const;

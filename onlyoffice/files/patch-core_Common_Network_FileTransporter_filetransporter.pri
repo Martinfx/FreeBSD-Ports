@@ -1,6 +1,6 @@
---- core/Common/Network/FileTransporter/filetransporter.pri.orig	2025-09-23 22:49:53 UTC
+--- core/Common/Network/FileTransporter/filetransporter.pri.orig	2026-11-05 00:00:00 UTC
 +++ core/Common/Network/FileTransporter/filetransporter.pri
-@@ -24,6 +24,12 @@ use_external_transport:DEFINES += USE_EXTERNAL_TRANSPO
+@@ -57,6 +57,12 @@
  
  use_external_transport:DEFINES += USE_EXTERNAL_TRANSPORT
  

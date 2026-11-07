@@ -1,6 +1,6 @@
---- desktop-sdk/ChromiumBasedEditors/lib/src/cefwrapper/client_app.h.orig	2026-09-28 09:50:15 UTC
+--- desktop-sdk/ChromiumBasedEditors/lib/src/cefwrapper/client_app.h.orig	2026-11-05 00:00:00 UTC
 +++ desktop-sdk/ChromiumBasedEditors/lib/src/cefwrapper/client_app.h
-@@ -39,6 +39,7 @@
+@@ -42,6 +42,7 @@
  #include "cefclient/common/client_app.h"
  #endif
  #include "include/cef_version.h"
@@ -8,7 +8,7 @@
  
  #if defined(_LINUX) && !defined(_MAC)
  #include <X11/Xlib.h>
-@@ -257,6 +258,11 @@ public:
+@@ -260,6 +261,11 @@
  				}
  			}
  			command_line->AppendSwitchWithValue("--password-store", "basic");

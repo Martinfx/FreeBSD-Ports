@@ -1,6 +1,6 @@
---- desktop-apps/win-linux/src/platform_linux/xdgdesktopportal.cpp.orig	2026-09-24 21:58:50 UTC
+--- desktop-apps/win-linux/src/platform_linux/xdgdesktopportal.cpp.orig	2026-11-05 00:00:00 UTC
 +++ desktop-apps/win-linux/src/platform_linux/xdgdesktopportal.cpp
-@@ -12,7 +12,11 @@
+@@ -47,7 +47,11 @@
  #include <unistd.h>
  #include <dbus/dbus.h>
  #include <sys/syscall.h>
@@ -12,7 +12,7 @@
  #include <X11/Xlib.h>
  
  #if defined(__x86_64__)
-@@ -35,7 +39,9 @@
+@@ -70,7 +74,9 @@
  # define GETRANDOM_NR 349
  #endif
  
@@ -23,7 +23,7 @@
  # if defined(GETRANDOM_NR)
  static_assert(GETRANDOM_NR == SYS_getrandom, "GETRANDOM_NR should match the actual SYS_getrandom value");
  # endif
-@@ -634,8 +640,12 @@ char* generateChars(char* out) {
+@@ -664,8 +670,12 @@
      size_t count = 32;
      while (count > 0) {
          unsigned char buff[32];

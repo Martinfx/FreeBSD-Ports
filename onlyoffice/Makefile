@@ -1,18 +1,19 @@
 PORTNAME=	onlyoffice
 DISTVERSIONPREFIX=	v
-DISTVERSION=	9.0.4
-PORTREVISION=	2
+DISTVERSION=	10.0.0
 CATEGORIES=	editors
 # The v8 archive is the one of www/onlyoffice-documentserver.  It is gone
 # from LOCAL/mikael, the copy of the package builders is on distcache, in
-# the distfiles backup without a subdirectory.
+# the distfiles backup without a subdirectory.  The npm cache is built by
+# .github/workflows/onlyoffice-npm-cache.yml and uploaded to the
+# onlyoffice-<version> release of the FreeBSD-Ports repository.
 MASTER_SITES=	LOCAL/mikael/v8/:v8 \
 		http://distcache.FreeBSD.org/ports-distfiles/:v8 \
-		https://registry.npmjs.org/:npm
+		${NPM_CACHE_SITE}:npmcache
 DISTFILES=	v8-8.9.255.25_all.tar.gz:v8 \
-		${_NPM_DISTFILES:S/$/:npm/}
+		${_NPM_CACHE}:npmcache
 DIST_SUBDIR=	${PORTNAME}
-EXTRACT_ONLY=	${_DISTFILES:N*.tgz}
+EXTRACT_ONLY=	${_DISTFILES:N${_NPM_CACHE}}
 
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Office suite with document, spreadsheet and presentation editors
@@ -27,7 +28,7 @@ ONLY_FOR_ARCHS_REASON=	Upstream only supports amd64 and arm64, www/cef the same
 BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}Jinja2>=0:devel/py-Jinja2@${PY_FLAVOR} \
 		gn:devel/gn \
 		ninja:devel/ninja \
-		npm:www/npm-node20 \
+		npm:www/npm${NODEJS_SUFFIX} \
 		optipng:graphics/optipng
 LIB_DEPENDS=	libboost_filesystem.so:devel/boost-libs \
 		libboost_regex.so:devel/boost-libs \
@@ -39,7 +40,9 @@ LIB_DEPENDS=	libboost_filesystem.so:devel/boost-libs \
 		libfontconfig.so:x11-fonts/fontconfig \
 		libfreetype.so:print/freetype2 \
 		libharfbuzz.so:print/harfbuzz \
+		libheif.so:graphics/libheif \
 		libicuuc.so:devel/icu \
+		libnotify.so:devel/libnotify \
 		libodfgen-0.1.so:textproc/libodfgen01 \
 		librevenge-0.0.so:textproc/librevenge \
 		libxkbcommon.so:x11/libxkbcommon
@@ -47,10 +50,13 @@ RUN_DEPENDS=	${LOCALBASE}/share/certs/ca-root-nss.crt:security/ca_root_nss \
 		xdg-open:devel/xdg-utils
 
 USES=		desktop-file-utils dos2unix gl gmake gnome iconv:wchar_t \
-		java:build localbase pkgconfig python:build qt:5 ssl xorg
+		java:build localbase nodejs:build pkgconfig python:build qt:5 \
+		ssl xorg
 USE_GITHUB=	yes
 GH_ACCOUNT=	ONLYOFFICE
 GH_PROJECT=	DesktopEditors
+# The third party sources that the build scripts of core clone (at the
+# commits they check out) are fetched as tuples instead
 GH_TUPLE=	ONLYOFFICE:core:${_DS_TAGNAME}:core/core \
 		ONLYOFFICE:desktop-apps:${_DS_TAGNAME}:apps/desktop-apps \
 		ONLYOFFICE:desktop-sdk:${_DS_TAGNAME}:sdk/desktop-sdk \
@@ -65,48 +71,52 @@ GH_TUPLE=	ONLYOFFICE:core:${_DS_TAGNAME}:core/core \
 		jasenhuang:katana-parser:be6df45:jasenhuang_katana/core/Common/3dParty/html/katana-parser \
 		google:gumbo-parser:aa91b27:google_gumbo/core/Common/3dParty/html/gumbo-parser \
 		google:brotli:a47d747:google_brotli/core/Common/3dParty/brotli/brotli \
+		GNOME:libxml2:39b66eb2089f491eacf8e22a7965a235f7f5735e:gnome_libxml2/core/Common/3dParty/libxml/libxml2 \
 		hunspell:hunspell:8a2fdfe5a6bb1cbafc04b0c8486abcefd17ad903:hunspell_hunspell/core/Common/3dParty/hunspell/hunspell \
 		hunspell:hyphen:73dd296:hunspell_hyphen/core/Common/3dParty/hyphen/hyphen \
 		mity:md4c:481fbfb:mity_md4c/core/Common/3dParty/md/md4c \
-		fsbruva:onlyoffice-DS-npm-cache:${_DS_TAGNAME}-20250831:npm_cache/
+		socketio:socket.io-client-cpp:da779141a7379cc30c870d48295033bc16a23c66:sio/${_SIO_DIR} \
+		chriskohlhoff:asio:230c0d2ae035c5ce1292233fcab03cea0d341264:sio_asio/${_SIO_DIR}/lib/asio \
+		Tencent:rapidjson:a36110e11874bcf35af854940e0ce910c19a8b49:sio_rapidjson/${_SIO_DIR}/lib/rapidjson \
+		zaphoyd:websocketpp:56123c87598f8b1dd471be83ca841ceae07f95ba:sio_websocketpp/${_SIO_DIR}/lib/websocketpp
 
 USE_GL=		gl
 USE_GNOME=	atk cairo gdkpixbuf glib20 gtk30 pango
-USE_QT=		core dbus gui multimedia network printsupport svg widgets \
+USE_QT=		concurrent core dbus gui multimedia network printsupport svg widgets \
 		x11extras buildtools:build qmake:build
 USE_XORG=	x11 xcb
 
 JAVA_VERSION=	11+
 
-# The web-apps, sdkjs and start page (desktop-apps/common/loginpage) builds
-# install their npm modules offline, from the Document Server npm cache
-# (the npm_cache tuple) and the packages below, which only the start page
-# needs and which are added to that cache at the start of do-build.
-_NPM_DISTFILES=	@babel/code-frame/-/code-frame-7.23.5.tgz \
-		@babel/generator/-/generator-7.23.6.tgz \
-		@babel/highlight/-/highlight-7.23.4.tgz \
-		@babel/parser/-/parser-7.24.0.tgz \
-		@babel/template/-/template-7.24.0.tgz \
-		@babel/traverse/-/traverse-7.24.0.tgz \
-		@babel/types/-/types-7.24.0.tgz \
-		aws4/-/aws4-1.13.2.tgz \
-		caniuse-lite/-/caniuse-lite-1.0.30001594.tgz \
-		chokidar/-/chokidar-3.6.0.tgz \
-		electron-to-chromium/-/electron-to-chromium-1.4.692.tgz \
-		hasown/-/hasown-2.0.1.tgz \
-		mkdirp/-/mkdirp-1.0.4.tgz \
-		psl/-/psl-1.15.0.tgz \
-		spritesmith/-/spritesmith-3.5.1.tgz \
-		tough-cookie/-/tough-cookie-4.1.3.tgz \
-		typedarray/-/typedarray-0.0.7.tgz \
-		universalify/-/universalify-0.2.0.tgz
+# The web-apps and start page (desktop-apps/common/loginpage, three vite
+# projects) builds install their npm modules offline, from an npm cache
+# that is a distfile: files/make-npm-cache.sh fills it by running the same
+# "npm install" commands with network access, for FreeBSD on amd64 and
+# arm64, and the workflow above runs it on FreeBSD and publishes the
+# result.  The build never contacts the npm registry: when npm
+# fails with "cache mode is 'only-if-cached' but no cached response is
+# available", the URL in the message tells what the cache lacks, a
+# tarball (regenerate the cache) or the metadata of a package (a lockfile
+# is missing or does not match its package.json any more, see below).
+#
+# The cache holds the registry metadata in the form the npm which built
+# it asked for, which depends on the npm version, so each "npm install"
+# must be driven by a lockfileVersion 3 lockfile, which resolves
+# everything from the tarballs in the cache.  web-apps has one, the start
+# page projects have none, they get files/loginpage-*-package-lock.json.
+_NPM_CACHE=	${PORTNAME}-npm-cache-${DISTVERSION}.tar.xz
+NPM_CACHE_SITE?=	https://github.com/Martinfx/FreeBSD-Ports/releases/download/${PORTNAME}-${DISTVERSION}/
 
-_DS_BUILD=	50
+_DS_BUILD=	176
 _DS_TAGNAME=	${DISTVERSIONPREFIX}${DISTVERSION}.${_DS_BUILD}
 
 # The editors are built on the cefclient sources of the CEF release that
 # www/cef is built from.  Keep this in sync with CEF_COMMIT in www/cef.
 _CEF_COMMIT=	708dc140cbc3286826a8abef89dc23a44ff9ea72
+
+# socket.io-client-cpp and the commits of its submodules that
+# build_tools/scripts/core_common/modules/socket_io.py checks out
+_SIO_DIR=	core/Common/3dParty/socketio/socket.io-client-cpp
 
 # These files have DOS line endings and are patched
 DOS2UNIX_FILES=	core/DesktopEditor/agg-2.4/include/agg_math.h \
@@ -124,15 +134,15 @@ DOS2UNIX_FILES=	core/DesktopEditor/agg-2.4/include/agg_math.h \
 		core/DesktopEditor/graphics/Graphics.cpp \
 		core/DesktopEditor/raster/Metafile/Common/MetaFileUtils.h \
 		core/DesktopEditor/raster/Metafile/Wmf/WmfObjects.h \
-		core/DesktopEditor/xml/libxml2/trionan.c \
-		core/DesktopEditor/xml/libxml2/xmlIO.c \
 		core/DjVuFile/libdjvu/DjVuDocument.cpp \
 		core/HtmlFile/HtmlFile.cpp \
 		core/UnicodeConverter/UnicodeConverter.cpp \
-		core/UnicodeConverter/UnicodeConverter.pro \
 		desktop-sdk/ChromiumBasedEditors/videoplayerlib/videoplayerlib.pri
 
+# NODE_ENV: the build scripts set it for their npm installs, the ones of
+# do-build need it too, the npm cache has no development dependencies
 MAKE_ENV=	BUILD_NUMBER=${_DS_BUILD} \
+		NODE_ENV=production \
 		NODE_OPTIONS=--max-old-space-size=4096 \
 		npm_package_config_node_gyp_nodedir=${LOCALBASE} \
 		npm_package_config_node_gyp_python=${PYTHON_CMD} \
@@ -147,7 +157,8 @@ BINARY_ALIAS=	python=${PYTHON_CMD} \
 # packages do in /opt/onlyoffice/desktopeditors
 APPDIR=		lib/${PORTNAME}/desktopeditors
 _DEPLOYDIR=	${WRKSRC}/build_tools/out/freebsd_64/onlyoffice/desktopeditors
-_LINUXPKG=	${WRKSRC}/desktop-apps/win-linux/package/linux
+_LINUXPKG=	${WRKSRC}/desktop-apps/package/common/linux
+_LOGINPAGE=	${WRKSRC}/desktop-apps/common/loginpage
 _ICON_SIZES=	16 24 32 48 64 128 256
 
 SUB_FILES=	onlyoffice-desktopeditors
@@ -163,12 +174,16 @@ BINARY_ALIAS+=	ar=${LOCALBASE}/bin/llvm-ar${LLVM_DEFAULT} \
 		cpp=${LOCALBASE}/bin/clang-cpp${LLVM_DEFAULT} \
 		ld=${LOCALBASE}/bin/ld.lld${LLVM_DEFAULT} \
 		nm=${LOCALBASE}/bin/llvm-nm${LLVM_DEFAULT}
+# lightningcss, which the start page minifies its CSS with, has no native
+# module for FreeBSD/arm64: let vite use its default (esbuild) there
+EXTRA_PATCHES+=	${FILESDIR}/extra-patch-aarch64-loginpage-vite
 .endif
 
 post-extract:
 	@${MV} ${WRKDIR}/v8 ${WRKSRC}/core/Common/3dParty/v8_89
 
-	@${LN} -s ${WRKSRC_npm_cache} ${WRKDIR}/.npm
+	@${MKDIR} ${WRKDIR}/.npm
+	@${TAR} -xJf ${DISTDIR}/${DIST_SUBDIR}/${_NPM_CACHE} -C ${WRKDIR}/.npm
 
 	@${MKDIR} ${WRKSRC}/sdkjs-plugins/v1
 	@${CP} ${WRKSRC}/onlyoffice.github.io/sdkjs-plugins/v1/* ${WRKSRC}/sdkjs-plugins/v1
@@ -182,6 +197,12 @@ post-extract:
 	${CP} ${FILESDIR}/cef_compat.h \
 		${WRKSRC}/desktop-sdk/ChromiumBasedEditors/lib/src/cefwrapper/
 
+post-patch:
+# See the comment above _NPM_CACHE
+	${CP} ${FILESDIR}/loginpage-package-lock.json ${_LOGINPAGE}/package-lock.json
+	${CP} ${FILESDIR}/loginpage-addondialog-package-lock.json ${_LOGINPAGE}/addondialog/package-lock.json
+	${CP} ${FILESDIR}/loginpage-noconnect-package-lock.json ${_LOGINPAGE}/noconnect/package-lock.json
+
 pre-configure:
 	@${REINPLACE_CMD} -e 's|%%QT_ARCHDIR%%|${LOCALBASE}/${QT_ARCHDIR_REL}|' \
 		-e 's|%%QT_VERSION%%|${QT5_VERSION}|' \
@@ -189,6 +210,7 @@ pre-configure:
 	@${REINPLACE_CMD} 's|%%LOCALBASE%%|${LOCALBASE}|' \
 		${WRKSRC}/core/Apple/IWork.pro \
 		${WRKSRC}/core/Common/3dParty/boost/boost.pri \
+		${WRKSRC}/core/Common/3dParty/heif/heif.pri \
 		${WRKSRC}/core/Common/3dParty/icu/icu.pri \
 		${WRKSRC}/core/Common/3dParty/v8_89/v8/build/toolchain/gcc_toolchain.gni \
 		${WRKSRC}/core/Common/3dParty/v8_89/v8/buildtools/third_party/libc++/BUILD.gn \
@@ -198,8 +220,6 @@ pre-configure:
 	@${REINPLACE_CMD} -e 's|%%CC%%|${CC}|' -e 's|%%CXX%%|${CXX}|' \
 		${WRKSRC}/core/Common/3dParty/v8_89/v8/build/toolchain/gcc_toolchain.gni \
 		${WRKSRC}/core/Common/base.pri
-	@${REINPLACE_CMD} 's|%%WRKSRC%%|${WRKSRC}|' \
-		${WRKSRC}/build_tools/scripts/build_js.py
 	@${REINPLACE_CMD} 's|%%OPENSSL_LIB%%|${OPENSSLLIB}|' \
 		${WRKSRC}/core/Common/3dParty/openssl/openssl.pri
 	@${RM} ${WRKSRC}/web-apps/build/patches/optipng-bin+5.1.0.patch.orig
@@ -208,29 +228,24 @@ pre-configure:
 	@${ECHO} "checkout_google_benchmark = false" >> ${WRKSRC}/core/Common/3dParty/v8_89/v8/build/config/gclient_args.gni
 
 do-build:
-# npm is a build dependency, so this cannot be done in post-extract
-.for f in ${_NPM_DISTFILES}
-	@${SETENV} HOME=${WRKDIR} ${LOCALBASE}/bin/npm cache add --offline \
-		${DISTDIR}/${DIST_SUBDIR}/${f} > /dev/null
-.endfor
 	${INSTALL_SCRIPT} ${FILESDIR}/npm ${BINARY_LINKDIR}/npm
-	@${REINPLACE_CMD} 's|%%LOCALBASE%%|${LOCALBASE}|g' ${BINARY_LINKDIR}/npm
+	@${REINPLACE_CMD} -e 's|%%LOCALBASE%%|${LOCALBASE}|g' \
+		-e 's|%%WRKDIR%%|${WRKDIR}|g' ${BINARY_LINKDIR}/npm
 
-	@cd ${WRKSRC}/web-apps/build ; ${SETENV} ${MAKE_ENV} npm install patch-package
-	@cd ${WRKSRC}/web-apps/build ; ${SETENV} ${MAKE_ENV} npm install optipng-bin@5.1.0
+# optipng-bin downloads a binary when installed, patch it to use the one of
+# graphics/optipng instead (web-apps/build/patches)
+	@cd ${WRKSRC}/web-apps/build ; ${SETENV} ${MAKE_ENV} npm add patch-package
+	@cd ${WRKSRC}/web-apps/build ; ${SETENV} ${MAKE_ENV} npm add optipng-bin@5.1.0
 	@cd ${WRKSRC}/web-apps/build ; node_modules/.bin/patch-package
 	@cd ${WRKSRC}/web-apps/build/node_modules/optipng-bin ; ${SETENV} ${MAKE_ENV} npm run postinstall optipng-bin
-
-	@cd ${WRKSRC}/sdkjs ; ${SETENV} ${MAKE_ENV} npm install grunt-cli
-	@cd ${WRKSRC}/sdkjs ; ${SETENV} ${MAKE_ENV} npm install grunt
 
 	cd ${WRKSRC}/build_tools/tools/freebsd ; ${SETENV} ${MAKE_ENV} ${PYTHON_CMD} automate.py desktop
 
 # Desktop entry from the template of the Linux packages
-	/usr/bin/m4 -I ${_LINUXPKG}/common -D M4_COMPANY_NAME=ONLYOFFICE \
+	m4 -I ${_LINUXPKG} \
 		-D M4_DESKTOPEDITORS_EXEC=onlyoffice-desktopeditors \
 		-D M4_SCHEME_HANDLER=oo-office \
-		${_LINUXPKG}/common/desktopeditors.desktop.m4 | \
+		${_LINUXPKG}/desktopeditors.desktop.m4 | \
 		${SED} 's|/usr/bin/|${PREFIX}/bin/|' > ${WRKDIR}/onlyoffice-desktopeditors.desktop
 
 do-install:
@@ -246,7 +261,7 @@ do-install:
 		${STAGEDIR}${DESKTOPDIR}
 .for s in ${_ICON_SIZES}
 	@${MKDIR} ${STAGEDIR}${PREFIX}/share/icons/hicolor/${s}x${s}/apps
-	${INSTALL_DATA} ${_LINUXPKG}/common/icons/${s}x${s}.png \
+	${INSTALL_DATA} ${_LINUXPKG}/icons/${s}x${s}.png \
 		${STAGEDIR}${PREFIX}/share/icons/hicolor/${s}x${s}/apps/onlyoffice-desktopeditors.png
 .endfor
 
@@ -255,5 +270,8 @@ do-install:
 post-install:
 	@cd ${STAGEDIR}${PREFIX} && ${FIND} ${APPDIR} \( -type f -o -type l \) | \
 		${SORT} >> ${TMPPLIST}
+# Some theme media and toolbar image directories are empty
+	@cd ${STAGEDIR}${PREFIX} && ${FIND} ${APPDIR} -type d -empty | \
+		${SORT} | ${SED} -e 's|^|@dir |' >> ${TMPPLIST}
 
 .include <bsd.port.post.mk>

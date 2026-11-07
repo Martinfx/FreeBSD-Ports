@@ -1,6 +1,6 @@
---- build_tools/scripts/deploy_desktop.py.orig	2026-09-24 21:58:50 UTC
+--- build_tools/scripts/deploy_desktop.py.orig	2026-11-05 00:00:00 UTC
 +++ build_tools/scripts/deploy_desktop.py
-@@ -125,7 +125,9 @@ def make():
+@@ -136,7 +136,9 @@
      elif (0 == platform.find("mac")) and (config.check_option("config", "use_v8")):
        build_dir_name = "build_103"
  
@@ -11,8 +11,8 @@
        base.copy_files(core_dir + "/Common/3dParty/cef/" + platform + "/" + build_dir_name + "/*", root_dir)
      else:
        base.copy_files(core_dir + "/Common/3dParty/cef/" + native_platform + "/" + build_dir_name + "/*", root_dir)
-@@ -189,7 +191,7 @@ def make():
-           base.copy_file(git_dir + "/desktop-apps/win-linux/extras/online-installer/" + apps_postfix + "/online-installer.exe", root_dir + "/online-installer.exe")
+@@ -211,7 +213,7 @@
+           base.copy_file(git_dir + "/desktop-apps/win-linux/extras/update-daemon/" + apps_postfix + "/updatesvc.exe", root_dir + "/updatesvc.exe")
          base.copy_file(git_dir + "/desktop-apps/win-linux/" + apps_postfix + "/DesktopEditors.exe", root_dir + "/editors.exe")
          base.copy_file(git_dir + "/desktop-apps/win-linux/res/icons/desktopeditors.ico", root_dir + "/app.ico")
 -      elif (0 == platform.find("linux")):
@@ -20,7 +20,7 @@
          base.copy_file(git_dir + "/desktop-apps/win-linux/" + apps_postfix + "/DesktopEditors", root_dir + "/DesktopEditors")
  
        if base.check_congig_option_with_platfom(platform, "libvlc"):
-@@ -233,9 +235,8 @@ def make():
+@@ -248,9 +250,8 @@
  
      # io
      base.create_dir(root_dir + "/editors/sdkjs-plugins/v1")

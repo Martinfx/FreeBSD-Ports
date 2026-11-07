@@ -1,6 +1,6 @@
---- build_tools/scripts/core_common/modules/iwork.py.orig	2026-09-24 21:58:50 UTC
+--- build_tools/scripts/core_common/modules/iwork.py.orig	2026-11-05 00:00:00 UTC
 +++ build_tools/scripts/core_common/modules/iwork.py
-@@ -30,9 +30,9 @@ def make(use_gperf = True):
+@@ -30,7 +30,7 @@
    if use_gperf:
      cmd_args.append("--gperf")
  
@@ -9,7 +9,3 @@
    return
  
  if __name__ == '__main__':
-   # manual compile
--  make(False)
-\ No newline at end of file
-+  make(False)

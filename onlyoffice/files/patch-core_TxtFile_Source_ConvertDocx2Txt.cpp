@@ -1,6 +1,6 @@
---- core/TxtFile/Source/ConvertDocx2Txt.cpp.orig	2023-02-13 11:13:27 UTC
+--- core/TxtFile/Source/ConvertDocx2Txt.cpp.orig	2026-11-05 00:00:00 UTC
 +++ core/TxtFile/Source/ConvertDocx2Txt.cpp
-@@ -149,7 +149,7 @@ namespace Docx2Txt
+@@ -152,7 +152,7 @@
  	const std::wstring Converter_Impl::m_letters = _T("abcdefghijklmnopqrstuvwxyz");
  
  	Converter_Impl::Converter_Impl()

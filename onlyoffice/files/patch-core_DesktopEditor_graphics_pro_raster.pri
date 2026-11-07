@@ -1,6 +1,6 @@
---- core/DesktopEditor/graphics/pro/raster.pri.orig	2025-09-24 06:08:05 UTC
+--- core/DesktopEditor/graphics/pro/raster.pri.orig	2026-11-05 00:00:00 UTC
 +++ core/DesktopEditor/graphics/pro/raster.pri
-@@ -14,6 +14,12 @@ DEFINES += \
+@@ -47,6 +47,12 @@
  	MNG_STORE_CHUNKS\
  	MNG_ERROR_TELLTALE
  

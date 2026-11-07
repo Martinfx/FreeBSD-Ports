@@ -1,6 +1,6 @@
---- core/DesktopEditor/pluginsmanager/main.cpp.orig	2025-08-02 18:33:34 UTC
+--- core/DesktopEditor/pluginsmanager/main.cpp.orig	2026-11-05 00:00:00 UTC
 +++ core/DesktopEditor/pluginsmanager/main.cpp
-@@ -52,7 +52,7 @@
+@@ -55,7 +55,7 @@
  #undef GetTempPath
  #endif
  
@@ -9,7 +9,7 @@
  #include <unistd.h>
  #include <stdio.h>
  #endif
-@@ -270,7 +270,7 @@ class CPluginsManager (public)
+@@ -275,7 +275,7 @@
  
  		m_sSettingsDir = NSSystemUtils::GetAppDataDir() + L"/pluginsmanager";
  

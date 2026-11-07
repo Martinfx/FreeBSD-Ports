@@ -1,6 +1,6 @@
---- core/OfficeUtils/src/zlib-1.2.11/contrib/minizip/minizip.c.orig	2021-09-30 12:13:32 UTC
+--- core/OfficeUtils/src/zlib-1.2.11/contrib/minizip/minizip.c.orig	2026-11-05 00:00:00 UTC
 +++ core/OfficeUtils/src/zlib-1.2.11/contrib/minizip/minizip.c
-@@ -94,7 +94,7 @@ uLong filetime(f, tmzip, dt)
+@@ -94,7 +94,7 @@
    return ret;
  }
  #else

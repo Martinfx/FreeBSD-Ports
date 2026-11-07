@@ -1,6 +1,9 @@
---- core/OfficeUtils/OfficeUtils.pri.orig	2021-12-18 10:21:34 UTC
+--- core/OfficeUtils/OfficeUtils.pri.orig	2026-11-05 00:00:00 UTC
 +++ core/OfficeUtils/OfficeUtils.pri
-@@ -1,3 +1,6 @@
+@@ -31,6 +31,9 @@
+ #
+ # SPDX-License-Identifier: AGPL-3.0-only
+ 
 +core_freebsd {
 +    QMAKE_CXXFLAGS += -Wall -Wno-ignored-qualifiers
 +}

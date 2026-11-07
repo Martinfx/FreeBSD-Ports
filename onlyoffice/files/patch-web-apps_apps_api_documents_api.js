@@ -1,6 +1,6 @@
---- web-apps/apps/api/documents/api.js.orig	2026-09-29 05:02:10 UTC
+--- web-apps/apps/api/documents/api.js.orig	2026-11-05 00:00:00 UTC
 +++ web-apps/apps/api/documents/api.js
-@@ -999,7 +999,10 @@
+@@ -1024,7 +1024,10 @@
  
          var _onMessage = function(msg) {
              // TODO: check message origin
@@ -12,11 +12,11 @@
                  if (msg.data && msg.data.event === 'onSaveDocument') {
                      if (_fn) {
                          _fn.call(_scope, msg.data);
-@@ -1274,7 +1277,14 @@
+@@ -1299,7 +1302,14 @@
          iframe.allowFullscreen = true;
          iframe.setAttribute("allowfullscreen",""); // for IE11
          iframe.setAttribute("onmousewheel",""); // for Safari on Mac
--        iframe.setAttribute("allow", "autoplay; camera; microphone; display-capture; clipboard-write;");
+-        iframe.setAttribute("allow", "autoplay; camera; microphone; display-capture;");
 +        // Newer Chromium enforces the permissions policy of the asynchronous
 +        // Clipboard API, which the editors copy with.  An allow attribute
 +        // without an origin only delegates a feature to the origin of the

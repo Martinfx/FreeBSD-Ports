@@ -1,4 +1,4 @@
---- core/DesktopEditor/cximage/raw/libdcr.h.orig	2025-09-24 05:55:58 UTC
+--- core/DesktopEditor/cximage/raw/libdcr.h.orig	2026-11-05 00:00:00 UTC
 +++ core/DesktopEditor/cximage/raw/libdcr.h
 @@ -50,7 +50,7 @@
   #include <sys/types.h>

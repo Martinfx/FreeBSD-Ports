@@ -1,0 +1,137 @@
+# Build the npm cache distfile of editors/onlyoffice
+# (onlyoffice-npm-cache-<version>.tar.xz) natively in a FreeBSD 15.1 VM and
+# upload it to the onlyoffice-<version> release, where the port's
+# MASTER_SITES look for it.  The editors interface (web-apps, grunt) and the
+# start page (desktop-apps/common/loginpage, three vite projects) install
+# their npm modules offline from that cache, see onlyoffice/Makefile and
+# onlyoffice/files/make-npm-cache.sh.  The cache is filled with the npm of
+# the ports tree and with npm 11, for FreeBSD amd64 and aarch64, and checked
+# the way the port uses it: offline installs and the vite builds of the
+# start page.
+name: onlyoffice npm cache
+
+on:
+  push:
+    branches:
+      - claude/festive-mccarthy-o1aq9y
+    paths:
+      - '.github/workflows/onlyoffice-npm-cache.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: onlyoffice-npm-cache-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  npm-cache:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Version
+        run: |
+          V=$(awk '$1 == "DISTVERSION=" { print $2 }' onlyoffice/Makefile)
+          B=$(awk '$1 == "_DS_BUILD=" { print $2 }' onlyoffice/Makefile)
+          echo "OO_VERSION=$V" >> "$GITHUB_ENV"
+          echo "OO_TAG=v$V.$B" >> "$GITHUB_ENV"
+          echo "onlyoffice $V, sources at v$V.$B"
+
+      - name: Build the npm cache on FreeBSD
+        uses: vmactions/freebsd-vm@v1
+        with:
+          release: "15.1"
+          usesh: true
+          cpu: 4
+          mem: 8192
+          envs: 'OO_VERSION OO_TAG'
+          prepare: |
+            set -e
+            # the node and npm of the ports tree (www/npm of the default
+            # node), git for the sources, optipng for the optipng-bin check
+            pkg install -y git node24 npm-node24 optipng
+          run: |
+            set -e
+            W=$PWD
+            V=$OO_VERSION
+            N=onlyoffice-npm-cache-$V.tar.xz
+            P=$W/onlyoffice
+            mkdir -p $W/out
+            freebsd-version; node --version; npm --version
+
+            # the sources the npm installs of the port run in, as make patch
+            # leaves them: web-apps/build with the package.json patch of the
+            # port and the start page projects with the lockfiles of the port
+            S=/tmp/src
+            mkdir -p $S && cd $S
+            git clone -q --depth 1 --filter=blob:none --sparse --branch $OO_TAG \
+              https://github.com/ONLYOFFICE/web-apps web-apps
+            git -C web-apps sparse-checkout set build
+            git clone -q --depth 1 --filter=blob:none --sparse --branch $OO_TAG \
+              https://github.com/ONLYOFFICE/desktop-apps desktop-apps
+            git -C desktop-apps sparse-checkout set common/loginpage
+            patch -p0 < $P/files/patch-web-apps_build_package.json
+            L=desktop-apps/common/loginpage
+            cp $P/files/loginpage-package-lock.json $L/package-lock.json
+            cp $P/files/loginpage-addondialog-package-lock.json $L/addondialog/package-lock.json
+            cp $P/files/loginpage-noconnect-package-lock.json $L/noconnect/package-lock.json
+
+            # fill the cache with the npm of the ports tree and with npm 11
+            sh $P/files/make-npm-cache.sh $S $W/out/$N npm "npx -y npm@11"
+
+            # check it the way the port uses it: offline, through the npm
+            # wrapper of the port, the npm steps of the Makefile and of the
+            # build scripts, then the vite builds of the start page
+            # (laid out like WRKDIR: the wrapper takes the cache from its .npm)
+            C=/tmp/npmcache
+            mkdir -p $C/.npm && tar -xJf $W/out/$N -C $C/.npm
+            mkdir -p /tmp/bin
+            sed -e "s|%%LOCALBASE%%|/usr/local|g" -e "s|%%WRKDIR%%|$C|g" \
+              $P/files/npm > /tmp/bin/npm
+            chmod 755 /tmp/bin/npm
+            export PATH=/tmp/bin:$PATH NODE_ENV=production
+            cp -R $S /tmp/check && cd /tmp/check/web-apps/build
+            npm install patch-package
+            npm install optipng-bin@5.1.0
+            node_modules/.bin/patch-package
+            (cd node_modules/optipng-bin && npm run postinstall optipng-bin)
+            npm install
+            node_modules/.bin/grunt --version
+            cd /tmp/check/$L
+            for d in addondialog noconnect .; do
+              (cd $d && npm install && npm run build)
+            done
+            ls -l deploy
+            test -f deploy/index.html && test -f deploy/noconnect.html && test -f deploy/addon.html
+
+            cd $W/out
+            printf 'SHA256 (onlyoffice/%s) = %s\nSIZE (onlyoffice/%s) = %s\n' \
+              $N "$(sha256 -q $N)" $N "$(stat -f %z $N)" > $N.distinfo
+            cat $N.distinfo
+
+      - name: Upload to the onlyoffice-${{ env.OO_VERSION }} release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          V=$OO_VERSION
+          N=out/onlyoffice-npm-cache-$V.tar.xz
+          ls -l $N
+          cat $N.distinfo >> "$GITHUB_STEP_SUMMARY"
+          if gh release view onlyoffice-$V >/dev/null 2>&1; then
+            gh release upload onlyoffice-$V $N --clobber
+          else
+            gh release create onlyoffice-$V $N --target "$GITHUB_SHA" \
+              --title "onlyoffice $V npm cache" \
+              --notes "npm cache distfile for editors/onlyoffice $V (web-apps and the start page), built on FreeBSD 15.1 amd64 by .github/workflows/onlyoffice-npm-cache.yml with the npm of the ports tree and npm 11, for amd64 and aarch64."
+          fi
+
+      - name: distinfo
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: onlyoffice-npm-cache-distinfo
+          path: out/*.distinfo
+          if-no-files-found: ignore

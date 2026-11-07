@@ -1,6 +1,6 @@
---- build_tools/scripts/core_common/modules/v8.py.orig	2026-09-24 21:58:50 UTC
+--- build_tools/scripts/core_common/modules/v8.py.orig	2026-11-05 00:00:00 UTC
 +++ build_tools/scripts/core_common/modules/v8.py
-@@ -9,6 +9,7 @@ import subprocess
+@@ -9,6 +9,7 @@
  import v8_89
  
  def clean():
@@ -8,16 +8,16 @@
    if base.is_dir("depot_tools"):
      base.delete_dir_with_access_error("depot_tools")
      base.delete_dir("depot_tools")
-@@ -26,6 +27,8 @@ def clean():
- def is_main_platform():
-   if (config.check_option("platform", "win_64") or config.check_option("platform", "win_32")):
+@@ -28,6 +29,8 @@
+     return True
+   if (config.check_option("platform", "win_arm64")):
      return True
 +  if config.check_option("platform", "freebsd_64"):
 +    return True
    if (config.check_option("platform", "linux_64") or config.check_option("platform", "linux_32") or config.check_option("platform", "linux_arm64")):
      return True
    if config.check_option("platform", "mac_64"):
-@@ -86,24 +89,9 @@ def make():
+@@ -83,24 +86,9 @@
      base.set_env("DEPOT_TOOLS_WIN_TOOLCHAIN", "0")
      base.set_env("GYP_MSVS_VERSION", "2015")
  
@@ -42,7 +42,7 @@
    # --------------------------------------------------------------------------
    # fetch
    if not base.is_dir("v8"):
-@@ -121,8 +109,8 @@ def make():
+@@ -118,8 +106,8 @@
        base.delete_dir_with_access_error("v8/buildtools/win")
        base.cmd("git", ["config", "--system", "core.longpaths", "true"], True)
        base.cmd("gclient", ["sync", "--force"], True)
@@ -53,7 +53,7 @@
  
      # normal version !!!
      #base.cmd("gclient", ["sync"], True)
-@@ -134,7 +122,7 @@ def make():
+@@ -131,7 +119,7 @@
        if base.is_dir("v8/third_party/binutils/Linux_ia32/Release"):
          base.delete_dir("v8/third_party/binutils/Linux_ia32/Release")
  
@@ -62,7 +62,7 @@
  
        if base.is_dir("v8/third_party/binutils/Linux_x64/Release/bin"):
          for file in os.listdir("v8/third_party/binutils/Linux_x64/Release/bin"):
-@@ -168,6 +156,10 @@ def make():
+@@ -165,6 +153,10 @@
    base_args64 = "target_cpu=\\\"x64\\\" v8_target_cpu=\\\"x64\\\" v8_static_library=true is_component_build=false v8_use_snapshot=false"
    base_args32 = "target_cpu=\\\"x86\\\" v8_target_cpu=\\\"x86\\\" v8_static_library=true is_component_build=false v8_use_snapshot=false"
  

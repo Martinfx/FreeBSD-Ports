@@ -1,6 +1,6 @@
---- core/DesktopEditor/agg-2.4/include/agg_span_gradient.h.orig	2025-09-24 10:55:09 UTC
+--- core/DesktopEditor/agg-2.4/include/agg_span_gradient.h.orig	2026-11-05 00:00:00 UTC
 +++ core/DesktopEditor/agg-2.4/include/agg_span_gradient.h
-@@ -20,7 +20,7 @@ namespace agg
+@@ -20,7 +20,7 @@
  namespace agg
  {
      

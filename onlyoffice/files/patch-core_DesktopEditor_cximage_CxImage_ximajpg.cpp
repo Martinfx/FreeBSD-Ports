@@ -1,6 +1,6 @@
---- core/DesktopEditor/cximage/CxImage/ximajpg.cpp.orig	2025-09-24 05:47:46 UTC
+--- core/DesktopEditor/cximage/CxImage/ximajpg.cpp.orig	2026-11-05 00:00:00 UTC
 +++ core/DesktopEditor/cximage/CxImage/ximajpg.cpp
-@@ -9,7 +9,7 @@
+@@ -10,7 +10,7 @@
  
  #if CXIMAGE_SUPPORT_JPG
  

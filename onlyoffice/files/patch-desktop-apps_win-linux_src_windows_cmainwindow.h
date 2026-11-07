@@ -1,6 +1,6 @@
---- desktop-apps/win-linux/src/windows/cmainwindow.h.orig	2026-09-28 08:45:35 UTC
+--- desktop-apps/win-linux/src/windows/cmainwindow.h.orig	2026-11-05 00:00:00 UTC
 +++ desktop-apps/win-linux/src/windows/cmainwindow.h
-@@ -79,7 +79,7 @@ signals:
+@@ -82,7 +82,7 @@
  
  private:
  //    void captureMouse(int);
@@ -9,7 +9,7 @@
      virtual void dragEnterEvent(QDragEnterEvent *event) final;
      virtual void dropEvent(QDropEvent *event) final;
  #endif
-@@ -100,7 +100,7 @@ public:
+@@ -103,7 +103,7 @@
      bool slideshowHoldUrl(const QString&, AscEditorType) const;
      int  startPanelId();
      int  tabCloseRequest(int index = -1);

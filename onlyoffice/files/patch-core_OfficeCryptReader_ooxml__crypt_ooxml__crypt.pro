@@ -1,6 +1,6 @@
---- core/OfficeCryptReader/ooxml_crypt/ooxml_crypt.pro.orig	2025-09-24 09:41:11 UTC
+--- core/OfficeCryptReader/ooxml_crypt/ooxml_crypt.pro.orig	2026-11-05 00:00:00 UTC
 +++ core/OfficeCryptReader/ooxml_crypt/ooxml_crypt.pro
-@@ -56,6 +56,11 @@ core_windows {
+@@ -89,6 +89,11 @@
      LIBS += -lws2_32
  }
  

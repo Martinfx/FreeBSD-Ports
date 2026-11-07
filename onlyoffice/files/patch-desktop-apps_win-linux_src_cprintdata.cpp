@@ -1,6 +1,6 @@
---- desktop-apps/win-linux/src/cprintdata.cpp.orig	2026-09-24 21:58:50 UTC
+--- desktop-apps/win-linux/src/cprintdata.cpp.orig	2026-11-05 00:00:00 UTC
 +++ desktop-apps/win-linux/src/cprintdata.cpp
-@@ -40,7 +40,7 @@
+@@ -43,7 +43,7 @@
  #include <QSettings>
  #include <thread>
  #include <cmath>
