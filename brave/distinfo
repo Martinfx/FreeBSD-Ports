@@ -1,4 +1,4 @@
-TIMESTAMP = 1792351408
+TIMESTAMP = 1794237643
 SHA256 (chromium-155.0.8059.84-linux.tar.xz) = 927e7813bbe4c35e28e31b376a1eb17057068d329dc780722ec21b37186a0507
 SIZE (chromium-155.0.8059.84-linux.tar.xz) = 2021301468
 SHA256 (microsoft-TypeScript-v7.0.2_GH0.tar.gz) = 8472f284b1465f5c4826a64c88853eccba667446f31a435ed1d0b28d373dbc0b
@@ -31,5 +31,5 @@ SHA256 (brave-intl-futures-retry-2aaaafbc3d394661534d4dbd14159d164243c20e_GH0.ta
 SIZE (brave-intl-futures-retry-2aaaafbc3d394661534d4dbd14159d164243c20e_GH0.tar.gz) = 13372
 SHA256 (brave-librustzcash-f01f50d64214278552edbe4a34b9049244ce03c1_GH0.tar.gz) = 2b3ee648fcaf60d4d3043988bb2e87ef95c52c7b144a3ae227cf5d45e0857ad8
 SIZE (brave-librustzcash-f01f50d64214278552edbe4a34b9049244ce03c1_GH0.tar.gz) = 1924625
-SHA256 (evanw-esbuild-v0.28.1_GH0.tar.gz) = 65c756fa87d43178ac4a5242454c2bd0fde325f8ecf77997f8fa4b88f94d5cd2
-SIZE (evanw-esbuild-v0.28.1_GH0.tar.gz) = 1997481
+SHA256 (evanw-esbuild-v0.28.2_GH0.tar.gz) = 300162f899361d9f0263065f8728ef9086dcfc1a3d36bcbc4e0abe5de9c58bf8
+SIZE (evanw-esbuild-v0.28.2_GH0.tar.gz) = 2008796
