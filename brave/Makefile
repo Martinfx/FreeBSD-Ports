@@ -94,9 +94,11 @@ GH_TUPLE=	brave:brave-core:v${DISTVERSION}:core/src/brave \
 # (third_party/typescript/linux-amd64/src/lib/tsc).  It is built from the
 # TypeScript sources instead (only tsc/, the Go implementation, is unpacked),
 # with the Go modules it needs from a vendor tarball, the same way
-# www/chromium does it.  Chromium's own WebUI keeps
-# using the TypeScript in node_modules (use_typescript_go=false), and the
-# tsc that its Python helpers look up in PATH comes from lang/typescript-go.
+# www/chromium does it.  Since 157 Chromium's own WebUI is compiled with it as
+# well, whatever use_typescript_go says, through third_party/typescript's
+# typescript.py; that has to find this tsgo and not the tsc of
+# lang/typescript-go in PATH, whose lib.dom.d.ts lacks Chromium's change
+# (innerHTML taking TrustedHTML) and fails the WebUI sources on TS2322.
 _ESBUILD_VERSION=	${MAKE} -C ${PORTSDIR}/devel/esbuild -V DISTVERSION
 
 BUILD_DEPENDS=	${LOCALBASE}/include/linux/videodev2.h:multimedia/v4l_compat \
