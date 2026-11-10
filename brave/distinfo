@@ -1,10 +1,12 @@
-TIMESTAMP = 1794318873
+TIMESTAMP = 1794319807
 SHA256 (chromium-157.0.8103.38-linux.tar.xz) = 29904f34e47900e96b595e744a91ed23afc5f3060bf0e9f65817a043957ce7ad
 SIZE (chromium-157.0.8103.38-linux.tar.xz) = 2079553448
 SHA256 (microsoft-TypeScript-v7.0.2_GH0.tar.gz) = 8472f284b1465f5c4826a64c88853eccba667446f31a435ed1d0b28d373dbc0b
 SIZE (microsoft-TypeScript-v7.0.2_GH0.tar.gz) = 49788068
 SHA256 (TypeScript-7.0.2-vendor.tar.gz) = 2128fab8682400f0f3c61f567344569b587102ce43accc9e97378fa4d14b6575
 SIZE (TypeScript-7.0.2-vendor.tar.gz) = 3166777
+SHA256 (brave-node-modules-1.99.55.tar.xz) = 6894886cb2db439604ff31f10f9255ca8b396695e3262ce090f5be29b7189e66
+SIZE (brave-node-modules-1.99.55.tar.xz) = 90327776
 SHA256 (brave-brave-browser-v1.99.55_GH0.tar.gz) = 05895cdf7908b32c238744deb7a6043df86926e1a9641128579c01dbcb79d630
 SIZE (brave-brave-browser-v1.99.55_GH0.tar.gz) = 220537
 SHA256 (brave-brave-core-v1.99.55_GH0.tar.gz) = 8b1e6739f15afd4610f9e6ed6193707c42beb3924b67e87869c3bbe9c338afd7
