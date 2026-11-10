@@ -1,4 +1,4 @@
---- src/chrome/browser/supervised_user/supervised_user_browser_utils.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/supervised_user/supervised_user_browser_utils.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/chrome/browser/supervised_user/supervised_user_browser_utils.cc
 @@ -39,10 +39,10 @@
  #include "components/user_manager/user.h"
@@ -13,7 +13,7 @@
  #include "chrome/browser/supervised_user/supervised_user_verification_page_youtube.h"
  #endif
  #endif
-@@ -158,7 +158,7 @@ void AssertChildStatusOfTheUser(Profile*
+@@ -166,7 +166,7 @@ void AssertChildStatusOfTheUser(Profile*
  #endif
  }
  
@@ -22,7 +22,7 @@
  std::string CreateReauthenticationInterstitialForYouTube(
      content::NavigationHandle& navigation_handle) {
    content::WebContents* web_contents = navigation_handle.GetWebContents();
-@@ -186,7 +186,7 @@ std::string CreateReauthenticationInters
+@@ -194,7 +194,7 @@ std::string CreateReauthenticationInters
  #endif
  
  #if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_WIN) || \

@@ -1,6 +1,6 @@
 PORTNAME=	brave
 DISTVERSIONPREFIX=	v
-DISTVERSION=	1.97.59
+DISTVERSION=	1.99.55
 TSV=		7.0.2
 CATEGORIES=	www
 MASTER_SITES=	https://github.com/chromium-linux-tarballs/chromium-tarballs/releases/download/${CHROME_VERSION}/:chromium \
@@ -36,18 +36,30 @@ ONLY_FOR_ARCHS=	aarch64 amd64
 ONLY_FOR_ARCHS_REASON=	the Chromium build is only supported on amd64 and aarch64
 
 # Chromium release the pinned brave-core revision is built against, see
-# "config.projects.chrome.tag" in src/brave/package.json.  Brave 1.97.59 pins
-# 155.0.8059.85, but no tarball has been published for it, so this takes .84,
+# "config.projects.chrome.tag" in src/brave/package.json.  Brave 1.99.55 pins
+# 157.0.8103.39, but no tarball has been published for it, so this takes .38,
 # the closest one there is, from the same chromium-linux-tarballs project
-# www/chromium fetches from.  Every brave-core 1.97.59 patch and every patch in
-# files/ applies to it without fuzz.  Move to .85 once its tarball appears.
-CHROME_VERSION=	155.0.8059.84
+# www/chromium fetches from.  Every brave-core 1.99.55 patch and every patch in
+# files/ applies to it without fuzz.  Move to .39 once its tarball appears.
+CHROME_VERSION=	157.0.8103.38
 
-# The FreeBSD patches for the Chromium tree in files/ started out as the ones
-# from www/chromium 154.0.8037.57, rewritten for the src/ prefix this port
-# unpacks Chromium into.  www/chromium has not moved to 155 yet, so they have
-# been carried forward to 155 here and regenerated against the tree as
-# brave-core patches it.
+# The FreeBSD patches for the Chromium tree in files/ are the ones of
+# www/chromium, rewritten for the src/ prefix this port unpacks Chromium into
+# and regenerated against the tree as brave-core patches it.  www/chromium is
+# at 156.0.8078.79, so for 157 they follow what OpenBSD's www/chromium, which
+# shares them, did for 157.0.8103.38.
+#
+# The one place they part ways is Crubit.  Chromium generates the C++ side of
+# some of its Rust code with Crubit's cc_bindings_from_rs, which has to be
+# built against the internals of the very rustc that compiles Chromium;
+# lang/rust does not install those (rustc-dev), so there is no Crubit to be
+# had here.  OpenBSD ships a prebuilt one from 157 on.  This port keeps the
+# patches www/chromium 156 does without it with -- web bundles and isolated
+# web apps, private verification tokens and incremental font transfer are
+# left out, CBOR and the font format check use their C++ and cxx paths -- and
+# adds what 157 and Brave 1.99 need on top: the QR code generator and the
+# wallet's Polkadot code get back the cxx bridges they had until 156 and 1.98.
+# All of that can go once Crubit is in ports.
 #
 # This port builds natively: depot_tools, gclient, cipd, siso and reclient are
 # not used at all.  Everything is taken from a Chromium release tarball
@@ -62,7 +74,7 @@ GH_PROJECT=	brave-browser
 GH_TUPLE=	brave:brave-core:v${DISTVERSION}:core/src/brave \
 		brave-intl:bat-native-tweetnacl:8b424ccf29957fe01c88c36076fd32006a357887:tweetnacl/src/brave/vendor/bat-native-tweetnacl \
 		brave:gn-project-generators:b76e14b162aa0ce40f11920ec94bfc12da29e5d0:gnprojgen/src/brave/vendor/gn-project-generators \
-		brave:web-discovery-project:4b07a24d03ee1a266230d2ffb78fd390e35e262a:wdp/src/brave/vendor/web-discovery-project \
+		brave:web-discovery-project:a3ec3b6196ec34974ed9b760034d87ceadd23e6e:wdp/src/brave/vendor/web-discovery-project \
 		brave-intl:bat-native-bip39wally-core:547a7810333d821e29b8f55126aba031aa0d5fcd:bip39wally/src/brave/third_party/bip39wally-core-native \
 		chfast:ethash:e4a15c3d76dc09392c7efd3e30d84ee3b871e9ce:ethash/src/brave/third_party/ethash/src \
 		bitcoin:bitcoin:8105bce5b384c72cf08b25b7c5343622754e7337:bitcoincore/src/brave/third_party/bitcoin-core/src \
@@ -263,12 +275,15 @@ SERVICE_KEY_STT=
 SERVICE_API_STATS=	fe033168-0ff8-4af6-9a7f-95e2cbfc9f4f
 SERVER_URL=		https://variations.brave.com/seed
 
-# Since 155 V8 generates its instance-types.h with metagen, which parses the
-# V8 headers through libclang: the prebuilt libclang and its Python bindings
-# come from CIPD (third_party/llvm-libclang), and the clang builtin headers
-# are looked up in Chromium's own toolchain (third_party/llvm-build), neither
-# of which exists here.  v8_use_metagen_instance_types=false takes the header
-# Torque emits instead, which V8 still generates either way.
+# V8 generates its object layouts with metagen, which parses the V8 headers
+# through libclang: the prebuilt libclang and its Python bindings come from
+# CIPD (third_party/llvm-libclang), and the clang builtin headers are looked up
+# in Chromium's own toolchain (third_party/llvm-build), neither of which exists
+# here.  155 could still be told to take the header Torque emits instead
+# (v8_use_metagen_instance_types=false); 157 no longer has that argument, so
+# metagen gets the libclang of the compiler this port builds with, the way
+# www/chromium does it, and the patch to v8/BUILD.gn points it at that
+# compiler's builtin headers.
 GN_ARGS+=	${GN_BASE_ARGS} \
 		import("//brave/build/args/brave_defaults.gni") \
 		import("//brave/build/args/blink_platform_defaults.gni") \
@@ -304,7 +319,8 @@ GN_ARGS+=	${GN_BASE_ARGS} \
 		use_system_libffi=true \
 		use_system_libjpeg=true \
 		use_typescript_go=false \
-		v8_use_metagen_instance_types=false \
+		v8_metagen_libclang_so="${LOCALBASE}/llvm${LLVM_DEFAULT}/lib/libclang.so" \
+		v8_metagen_libclang_bindings_dir="${LOCALBASE}/llvm${LLVM_DEFAULT}/lib/python${PYTHON_VER}/site-packages" \
 		ffmpeg_branding="${FFMPEG_BRAND}" \
 		brave_google_api_key="AIzaSyAREPLACEWITHYOUROWNGOOGLEAPIKEY2Q" \
 		brave_google_api_endpoint="https://www.googleapis.com/geolocation/v1/geolocate?key="
@@ -607,10 +623,10 @@ pre-configure:
 .for _e in ${FFMPEG_CONFIGS}
 	${CP} -pR ${FFMPEG_BDIR}/${_e} ${FFMPEG_CDIR}
 .endfor
-	@${REINPLACE_CMD} -e 's|$${LOCALBASE}|${LOCALBASE}|;s|$${MODCLANG_VERSION}|${LLVM_DEFAULT}|' \
+	@${REINPLACE_CMD} -e 's|$${LOCALBASE}|${LOCALBASE}|g;s|$${MODCLANG_VERSION}|${LLVM_DEFAULT}|g' \
 		${BUILD_WRKSRC}/build/linux/strip_binary.gni \
-		${BUILD_WRKSRC}/build/rust/rust_bindgen.gni \
-		${BUILD_WRKSRC}/build/rust/rust_bindgen_generator.gni
+		${BUILD_WRKSRC}/build/rust/rust_bindgen_generator.gni \
+		${BUILD_WRKSRC}/v8/BUILD.gn
 # Chromium's own change to the TypeScript library files, see
 # third_party/typescript/README.chromium.  The CIPD package has it applied
 # already; the tsgo built from source in pre-build has to get it here.

@@ -1,6 +1,6 @@
---- src/chrome/browser/ui/startup/startup_browser_creator.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/ui/startup/startup_browser_creator.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/chrome/browser/ui/startup/startup_browser_creator.cc
-@@ -137,7 +137,7 @@
+@@ -138,7 +138,7 @@
  #include "chrome/credential_provider/common/gcp_strings.h"
  #endif  // BUILDFLAG(IS_WIN)
  
@@ -9,7 +9,7 @@
  #include "chrome/browser/headless/headless_mode_util.h"
  #include "chrome/browser/ui/startup/web_app_info_recorder_utils.h"
  #include "components/headless/policy/headless_mode_policy.h"
-@@ -1017,7 +1017,7 @@ bool StartupBrowserCreator::ProcessCmdLi
+@@ -1049,7 +1049,7 @@ bool StartupBrowserCreator::ProcessCmdLi
    TRACE_EVENT0("startup", "StartupBrowserCreator::ProcessCmdLineImpl");
    ComputeAndRecordLaunchMode(command_line);
  
@@ -18,7 +18,7 @@
    if (headless::IsHeadlessMode() &&
        headless::HeadlessModePolicy::IsHeadlessModeDisabled(
            g_browser_process->local_state())) {
-@@ -1100,7 +1100,7 @@ bool StartupBrowserCreator::ProcessCmdLi
+@@ -1132,7 +1132,7 @@ bool StartupBrowserCreator::ProcessCmdLi
      silent_launch = true;
    }
  
@@ -27,7 +27,7 @@
    // Writes open and installed web apps to the specified file without
    // launching a new browser window or tab.
    if (base::FeatureList::IsEnabled(features::kListWebAppsSwitch) &&
-@@ -1335,7 +1335,7 @@ bool StartupBrowserCreator::ProcessCmdLi
+@@ -1367,7 +1367,7 @@ bool StartupBrowserCreator::ProcessCmdLi
      CHECK_EQ(profile_info.mode, StartupProfileMode::kBrowserWindow)
          << "Failed launch with app: couldn't pick a profile";
      std::string app_id = command_line.GetSwitchValueASCII(switches::kAppId);

@@ -1,0 +1,49 @@
+--- src/third_party/blink/renderer/core/BUILD.gn.orig	2026-11-02 23:22:33 UTC
++++ src/third_party/blink/renderer/core/BUILD.gn
+@@ -409,7 +409,6 @@ component("core") {
+   deps = [
+     ":font_resource",
+     ":generate_eventhandler_names",
+-    ":ift_custom_font_data",
+     ":make_deprecation_info",
+     ":xml_ffi",
+     "//base",
+@@ -466,7 +465,6 @@ component("core") {
+   allow_circular_includes_from = [
+     ":core_generated",
+     ":core_hot",
+-    ":ift_custom_font_data",
+     "//third_party/blink/renderer/core/animation",
+     "//third_party/blink/renderer/core/exported",
+     "//third_party/blink/renderer/core/probe",
+@@ -515,16 +513,21 @@ blink_core_sources("font_resource") {
+ # headerless target. Its header (in core's sources) only forward declares the
+ # Crubit-backed types. It includes core headers, so ":core" lists it in
+ # allow_circular_includes_from.
+-blink_core_sources("ift_custom_font_data") {
+-  public = []
+-  sources = [ "css/ift_custom_font_data.cc" ]
++#
++# XXX crubit: Incremental Font Transfer needs the Crubit bindings of
++# ift_patcher.rs, so it is left out of the build.
++if (!is_bsd) {
++  blink_core_sources("ift_custom_font_data") {
++    public = []
++    sources = [ "css/ift_custom_font_data.cc" ]
+ 
+-  deps = [
+-    ":font_resource_header",
+-    "//services/network/public/cpp",
+-    "//third_party/blink/public/common",
+-    "//third_party/blink/renderer/platform:font_rust_headers",
+-  ]
++    deps = [
++      ":font_resource_header",
++      "//services/network/public/cpp",
++      "//third_party/blink/public/common",
++      "//third_party/blink/renderer/platform:font_rust_headers",
++    ]
++  }
+ }
+ 
+ # Certain sources should be compiled with heavy optimization enabled.

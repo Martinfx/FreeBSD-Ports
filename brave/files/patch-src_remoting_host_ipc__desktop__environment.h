@@ -1,6 +1,6 @@
---- src/remoting/host/ipc_desktop_environment.h.orig	2026-10-18 18:43:23 UTC
+--- src/remoting/host/ipc_desktop_environment.h.orig	2026-11-02 23:22:33 UTC
 +++ src/remoting/host/ipc_desktop_environment.h
-@@ -173,7 +173,7 @@ class IpcDesktopEnvironmentFactory : pub
+@@ -172,7 +172,7 @@ class IpcDesktopEnvironmentFactory : pub
                                          ErrorCode error_code,
                                          const std::string& error_details,
                                          const SourceLocation& error_location);

@@ -1,6 +1,6 @@
---- src/components/password_manager/core/browser/password_autofill_manager.cc.orig	2026-10-18 18:43:23 UTC
+--- src/components/password_manager/core/browser/password_autofill_manager.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/components/password_manager/core/browser/password_autofill_manager.cc
-@@ -409,7 +409,7 @@ void PasswordAutofillManager::DidAcceptS
+@@ -446,7 +446,7 @@ void PasswordAutofillManager::DidAcceptS
                           weak_ptr_factory_.GetWeakPtr(), payload);
        if (payload.is_cross_domain) {
  #if BUILDFLAG(IS_MAC) || BUILDFLAG(IS_WIN) || BUILDFLAG(IS_CHROMEOS) || \
@@ -9,7 +9,7 @@
          cross_domain_confirmation_controller_ =
              password_client_->ShowCrossDomainConfirmationPopup(
                  last_popup_open_args_.element_bounds,
-@@ -460,7 +460,7 @@ void PasswordAutofillManager::DidAcceptS
+@@ -497,7 +497,7 @@ void PasswordAutofillManager::DidAcceptS
                           weak_ptr_factory_.GetWeakPtr(), *password_credential);
        if (password_credential->is_grouped_affiliation) {
  #if BUILDFLAG(IS_MAC) || BUILDFLAG(IS_WIN) || BUILDFLAG(IS_CHROMEOS) || \
@@ -18,9 +18,9 @@
          cross_domain_confirmation_controller_ =
              password_client_->ShowCrossDomainConfirmationPopup(
                  last_popup_open_args_.element_bounds,
-@@ -737,7 +737,7 @@ void PasswordAutofillManager::DidNavigat
-   manual_fallback_metrics_recorder_ =
+@@ -755,7 +755,7 @@ void PasswordAutofillManager::DidNavigat
        std::make_unique<PasswordManualFallbackMetricsRecorder>();
+ #endif  // !BUILDFLAG(IS_ANDROID) && !BUILDFLAG(IS_IOS)
  #if BUILDFLAG(IS_MAC) || BUILDFLAG(IS_WIN) || BUILDFLAG(IS_CHROMEOS) || \
 -    BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_ANDROID)
 +    BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_ANDROID) || BUILDFLAG(IS_BSD)

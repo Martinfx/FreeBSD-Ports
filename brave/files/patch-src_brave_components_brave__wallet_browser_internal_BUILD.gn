@@ -1,0 +1,15 @@
+--- src/brave/components/brave_wallet/browser/internal/BUILD.gn.orig	2026-11-02 23:22:33 UTC
++++ src/brave/components/brave_wallet/browser/internal/BUILD.gn
+@@ -117,11 +117,7 @@ rust_static_library("polkadot_extrinsic_
+     "polkadot_chain_metadata.rs",
+     "polkadot_extrinsic.rs",
+   ]
+-  cpp_api_from_rust = {
+-    target_name = "polkadot_extrinsic_bindings"
+-    cpp_namespace = "brave_wallet"
+-    h_out = "${target_gen_dir}/polkadot_extrinsic_rs.h"
+-  }
++  cxx_bindings = [ "polkadot_extrinsic.rs" ]
+ 
+   deps = [
+     "//brave/third_party/rust/blake2b_simd/v1:lib",

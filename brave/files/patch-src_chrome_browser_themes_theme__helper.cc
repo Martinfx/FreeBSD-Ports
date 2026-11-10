@@ -1,8 +1,8 @@
---- src/chrome/browser/themes/theme_helper.cc.orig	2026-09-25 15:26:43 UTC
+--- src/chrome/browser/themes/theme_helper.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/chrome/browser/themes/theme_helper.cc
-@@ -18,7 +18,7 @@
- #include "ui/gfx/image/image.h"
- #include "ui/native_theme/native_theme.h"
+@@ -29,7 +29,7 @@
+ #include "chrome/browser/themes/browser_theme_pack.h"
+ #endif
  
 -#if BUILDFLAG(IS_LINUX)
 +#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_BSD)

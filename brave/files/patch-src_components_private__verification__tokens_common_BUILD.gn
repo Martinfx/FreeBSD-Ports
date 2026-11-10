@@ -1,11 +1,10 @@
---- src/components/private_verification_tokens/common/BUILD.gn.orig	2026-10-19 06:05:22 UTC
+--- src/components/private_verification_tokens/common/BUILD.gn.orig	2026-11-02 23:22:33 UTC
 +++ src/components/private_verification_tokens/common/BUILD.gn
-@@ -188,13 +188,14 @@ source_set("test_support") {
+@@ -194,13 +194,13 @@ source_set("test_support") {
    sources = [ "private_verification_tokens_test_util.h" ]
    public_deps = [
      "//base",
 -    "//components/private_verification_tokens/common/athm_ffi:athm_ffi_bindings",
-+    # XXX crubit "//components/private_verification_tokens/common/athm_ffi:athm_ffi_bindings",
    ]
  }
  

@@ -1,4 +1,4 @@
---- src/ui/gfx/switches.h.orig	2026-10-18 18:43:23 UTC
+--- src/ui/gfx/switches.h.orig	2026-11-02 23:22:33 UTC
 +++ src/ui/gfx/switches.h
 @@ -19,7 +19,7 @@ GFX_SWITCHES_EXPORT extern const char kF
  GFX_SWITCHES_EXPORT extern const char kHeadless[];
@@ -9,3 +9,12 @@
  GFX_SWITCHES_EXPORT extern const char kX11Display[];
  GFX_SWITCHES_EXPORT extern const char kNoXshm[];
  #endif
+@@ -43,7 +43,7 @@ GFX_SWITCHES_EXPORT BASE_DECLARE_FEATURE
+ // data.
+ GFX_SWITCHES_EXPORT BASE_DECLARE_FEATURE(kHarfBuzzZeroCopyFontTable);
+ 
+-#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS)
++#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_BSD)
+ // When enabled, fontconfig initialization is done asynchronously on a worker
+ // thread to prevent blocking browser startup. See https://crbug.com/41496758.
+ GFX_SWITCHES_EXPORT BASE_DECLARE_FEATURE(kAsyncFontconfigInitialization);

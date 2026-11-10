@@ -1,6 +1,6 @@
---- src/chrome/browser/glic/host/guest_util.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/glic/host/guest_util.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/chrome/browser/glic/host/guest_util.cc
-@@ -626,7 +626,7 @@ mojom::Platform GetGlicPlatform() {
+@@ -818,7 +818,7 @@ mojom::Platform GetGlicPlatform() {
    return mojom::Platform::kMacOS;
  #elif BUILDFLAG(IS_WIN)
    return mojom::Platform::kWindows;

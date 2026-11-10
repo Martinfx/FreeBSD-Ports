@@ -1,6 +1,6 @@
---- src/third_party/perfetto/include/perfetto/base/time.h.orig	2026-07-01 06:24:19 UTC
+--- src/third_party/perfetto/include/perfetto/base/time.h.orig	2026-11-02 23:22:33 UTC
 +++ src/third_party/perfetto/include/perfetto/base/time.h
-@@ -294,7 +294,7 @@ inline TimeNanos GetWallTimeNs() {
+@@ -295,7 +295,7 @@ inline TimeNanos GetWallTimeNs() {
  }
  
  inline TimeNanos GetWallTimeRawNs() {

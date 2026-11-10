@@ -1,6 +1,6 @@
---- src/services/network/network_context.cc.orig	2026-10-18 18:43:23 UTC
+--- src/services/network/network_context.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/services/network/network_context.cc
-@@ -669,7 +669,7 @@ NetworkContext::NetworkContextHttpAuthPr
+@@ -676,7 +676,7 @@ NetworkContext::NetworkContextHttpAuthPr
  NetworkContext::NetworkContextHttpAuthPreferences::
      ~NetworkContextHttpAuthPreferences() = default;
  
@@ -9,7 +9,7 @@
  bool NetworkContext::NetworkContextHttpAuthPreferences::AllowGssapiLibraryLoad()
      const {
    if (network_service_) {
-@@ -2842,7 +2842,7 @@ void NetworkContext::OnHttpAuthDynamicPa
+@@ -2836,7 +2836,7 @@ void NetworkContext::OnHttpAuthDynamicPa
        http_auth_dynamic_network_service_params->android_negotiate_account_type);
  #endif  // BUILDFLAG(IS_ANDROID)
  
@@ -18,3 +18,12 @@
    http_auth_merged_preferences_.set_allow_gssapi_library_load(
        http_auth_dynamic_network_service_params->allow_gssapi_library_load);
  #endif  // BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_LINUX)
+@@ -2982,7 +2982,7 @@ URLRequestContextOwner NetworkContext::M
+         std::move(params_->proxy_resolver_factory));
+   }
+ 
+-#if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX)
++#if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_BSD)
+   if (params_->system_proxy_resolver) {
+     builder.SetMojoSystemProxyResolver(
+         std::move(params_->system_proxy_resolver));

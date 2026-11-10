@@ -1,20 +1,20 @@
---- src/gpu/command_buffer/service/shared_context_state.h.orig	2026-10-18 18:43:23 UTC
+--- src/gpu/command_buffer/service/shared_context_state.h.orig	2026-11-02 23:22:33 UTC
 +++ src/gpu/command_buffer/service/shared_context_state.h
-@@ -272,7 +272,7 @@ class GPU_GLES2_EXPORT SharedContextStat
+@@ -274,7 +274,7 @@ class GPU_GLES2_EXPORT SharedContextStat
+   gpu::MemoryTypeTracker* memory_type_tracker() {
      return &memory_type_tracker_;
    }
- #if BUILDFLAG(ENABLE_VULKAN) && \
--    (BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_FUCHSIA) || BUILDFLAG(IS_WIN))
-+    (BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_FUCHSIA) || BUILDFLAG(IS_WIN) || BUILDFLAG(IS_BSD))
+-#if BUILDFLAG(ENABLE_VULKAN) && (BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_FUCHSIA))
++#if BUILDFLAG(ENABLE_VULKAN) && (BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_FUCHSIA) || BUILDFLAG(IS_BSD))
    ExternalSemaphorePool* external_semaphore_pool() {
      return external_semaphore_pool_.get();
    }
-@@ -444,7 +444,7 @@ class GPU_GLES2_EXPORT SharedContextStat
+@@ -445,7 +445,7 @@ class GPU_GLES2_EXPORT SharedContextStat
+   base::Time last_gl_check_graphics_reset_status_;
    bool disable_check_reset_status_throttling_for_test_ = false;
  
- #if BUILDFLAG(ENABLE_VULKAN) && \
--    (BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_FUCHSIA) || BUILDFLAG(IS_WIN))
-+    (BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_FUCHSIA) || BUILDFLAG(IS_WIN) || BUILDFLAG(IS_BSD))
+-#if BUILDFLAG(ENABLE_VULKAN) && (BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_FUCHSIA))
++#if BUILDFLAG(ENABLE_VULKAN) && (BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_FUCHSIA) || BUILDFLAG(IS_BSD))
    std::unique_ptr<ExternalSemaphorePool> external_semaphore_pool_;
  #endif
  

@@ -1,6 +1,6 @@
---- src/chrome/browser/browsing_data/chrome_browsing_data_remover_delegate.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/browsing_data/chrome_browsing_data_remover_delegate.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/chrome/browser/browsing_data/chrome_browsing_data_remover_delegate.cc
-@@ -726,6 +726,7 @@ void ChromeBrowsingDataRemoverDelegate::
+@@ -737,6 +737,7 @@ void ChromeBrowsingDataRemoverDelegate::
    if (remove_mask & constants::DATA_TYPE_PRIVATE_VERIFICATION_TOKENS) {
      if (base::FeatureList::IsEnabled(
              net::features::kEnablePrivateVerificationTokens)) {
@@ -8,7 +8,7 @@
        if (auto* pvt_service =
                PrivateVerificationTokensServiceFactory::GetForProfile(
                    profile_)) {
-@@ -742,6 +743,9 @@ void ChromeBrowsingDataRemoverDelegate::
+@@ -753,6 +754,9 @@ void ChromeBrowsingDataRemoverDelegate::
                filter_builder->BuildStorageKeyFilter(), std::move(done_closure));
          }
        }

@@ -1,4 +1,4 @@
---- src/content/browser/child_process_launcher_helper_linux.cc.orig	2026-10-18 18:43:23 UTC
+--- src/content/browser/child_process_launcher_helper_linux.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/content/browser/child_process_launcher_helper_linux.cc
 @@ -23,7 +23,9 @@
  #include "content/public/common/content_switches.h"
@@ -108,8 +108,8 @@
 +#endif
  }
  
- void ChildProcessLauncherHelper::SetProcessPriorityOnLauncherThread(
-@@ -183,11 +203,13 @@ void ChildProcessLauncherHelper::SetProc
+ // static
+@@ -184,11 +204,13 @@ void ChildProcessLauncherHelper::ApplyPr
    }
  }
  

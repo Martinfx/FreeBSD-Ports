@@ -1,4 +1,4 @@
---- src/gpu/command_buffer/client/test_shared_image_interface.cc.orig	2026-10-18 18:43:23 UTC
+--- src/gpu/command_buffer/client/test_shared_image_interface.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/gpu/command_buffer/client/test_shared_image_interface.cc
 @@ -28,7 +28,7 @@
  #include "ui/gfx/gpu_fence.h"
@@ -9,7 +9,7 @@
  #include <linux/memfd.h>
  #include <sys/mman.h>
  #include <unistd.h>
-@@ -431,7 +431,7 @@ TestSharedImageInterface::CreateSharedIm
+@@ -437,7 +437,7 @@ TestSharedImageInterface::CreateSharedIm
    return image;
  }
  
