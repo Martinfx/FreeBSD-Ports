@@ -1,5 +1,5 @@
 PORTNAME=	tor-browser
-DISTVERSION=	16.0
+DISTVERSION=	16.0.1
 CATEGORIES=	www net security wayland
 TAG_BASE=	62b5df0dd7513b83c15945d9dabe1b47783adf0a
 TAG_TOR=	c27a3e317da477b0d9b0d67ee4fc2a5f9d0eb740
@@ -17,9 +17,9 @@ MASTER_SITES=	TOR \
 		LOCAL/vvd:source5
 MASTER_SITE_SUBDIR=	torbrowser/${DISTVERSION}/:DEFAULT \
 			download/releases/:source3
-DISTNAME=	src-firefox-tor-browser-153.6.0esr-16.0-1-build3
+DISTNAME=	src-firefox-tor-browser-153.7.0esr-16.0-1-build2
 MANUAL=		manual_215922.zip
-NOSCRIPT=	noscript-13.6.37.1984.xpi
+NOSCRIPT=	noscript-13.6.9.90101984.xpi
 DISTFILES=	${DISTNAME}.tar.xz \
 		${MANUAL}:source1 \
 		fonts-3--4348e1.tar.zst:source2 \
@@ -114,13 +114,12 @@ MOZ_OPTIONS+=	--enable-rust-simd
 .if ${ARCH} == powerpc64
 MOZ_OPTIONS+=	--without-wasm-sandboxed-libraries
 .else
-BUILD_DEPENDS+= ${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasip1/libc++abi.a:devel/wasi-libcxx${LLVM_VERSION} \
-                ${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasip1/libc.a:devel/wasi-libc@${LLVM_VERSION} \
-                wasi-compiler-rt${LLVM_VERSION}>0:devel/wasi-compiler-rt${LLVM_VERSION}
-MOZ_OPTIONS+=   --with-wasi-sysroot=${LOCALBASE}/share/wasi-sysroot
-
+BUILD_DEPENDS+=	${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasip1/libc++abi.a:devel/wasi-libcxx${LLVM_VERSION} \
+		${LOCALBASE}/share/wasi-sysroot/lib/wasm32-wasip1/libc.a:devel/wasi-libc@${LLVM_VERSION} \
+		wasi-compiler-rt${LLVM_VERSION}>0:devel/wasi-compiler-rt${LLVM_VERSION}
 MOZILLA_PLIST_DIRS=	bin lib share/applications share/pixmaps \
 			share/tor-browser
+MOZ_OPTIONS+=	--with-wasi-sysroot=${LOCALBASE}/share/wasi-sysroot
 .endif
 
 post-patch:

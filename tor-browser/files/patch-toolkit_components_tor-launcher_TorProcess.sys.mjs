@@ -4,7 +4,7 @@
      }
  
      this.#args = [];
-+	this.#args.push("--ignore-missing-torrc");
++    this.#args.push("--ignore-missing-torrc");
      this.#args.push("-f", torrcFile.path);
      this.#args.push("DataDirectory", this.#dataDir.path);
      this.#args.push("ClientOnionAuthDir", onionAuthDir.path);
