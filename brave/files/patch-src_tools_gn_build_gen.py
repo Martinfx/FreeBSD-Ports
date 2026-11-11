@@ -1,4 +1,4 @@
---- src/tools/gn/build/gen.py.orig	2026-10-18 18:43:23 UTC
+--- src/tools/gn/build/gen.py.orig	2026-11-02 23:22:33 UTC
 +++ src/tools/gn/build/gen.py
 @@ -91,6 +91,12 @@ class Platform(object):
    def is_solaris(self):
@@ -13,7 +13,7 @@
    def is_posix(self):
      return self._platform in ['linux', 'freebsd', 'darwin', 'aix', 'openbsd', 'haiku', 'solaris', 'msys', 'netbsd', 'serenity']
  
-@@ -356,7 +362,7 @@ def WriteGenericNinja(path, static_libra
+@@ -360,7 +366,7 @@ def WriteGenericNinja(path, static_libra
        'linux': 'build_linux.ninja.template',
        'freebsd': 'build_linux.ninja.template',
        'aix': 'build_aix.ninja.template',

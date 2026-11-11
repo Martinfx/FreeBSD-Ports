@@ -1,11 +1,11 @@
---- src/ui/base/cursor/cursor_factory.cc.orig	2026-10-18 18:43:23 UTC
+--- src/ui/base/cursor/cursor_factory.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/ui/base/cursor/cursor_factory.cc
-@@ -98,7 +98,7 @@ void CursorFactory::ObserveThemeChanges(
+@@ -97,7 +97,7 @@ void CursorFactory::ObserveThemeChanges(
    NOTIMPLEMENTED();
  }
  
 -#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS)
 +#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_BSD)
  
- bool IsValidCursorThemeName(std::string_view name) {
-   if (name.empty() || name == ".") {
+ // Returns a cursor name compatible with either X11 or the FreeDesktop.org
+ // cursor spec ([1] and [2]), followed by fallbacks that can work as

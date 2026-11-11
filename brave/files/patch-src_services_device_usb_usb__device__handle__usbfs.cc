@@ -1,14 +1,14 @@
---- src/services/device/usb/usb_device_handle_usbfs.cc.orig	2026-10-18 18:43:23 UTC
+--- src/services/device/usb/usb_device_handle_usbfs.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/services/device/usb/usb_device_handle_usbfs.cc
-@@ -34,7 +34,7 @@
+@@ -35,7 +35,7 @@
  #include "chromeos/dbus/permission_broker/permission_broker_client.h"
  #endif
  
 -#if BUILDFLAG(IS_ANDROID) || BUILDFLAG(IS_LINUX)
 +#if BUILDFLAG(IS_ANDROID) || BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_BSD)
  #include "base/metrics/histogram_macros.h"
- #include "services/device/public/cpp/device_features.h"
  #include "services/device/usb/usb_interface_detach_allowlist.h"
+ #endif  // BUILDFLAG(IS_ANDROID) || BUILDFLAG(IS_LINUX)
 @@ -51,7 +51,7 @@ using mojom::UsbTransferType;
  
  namespace {
@@ -27,7 +27,7 @@
  bool UsbDeviceHandleUsbfs::BlockingTaskRunnerHelper::DetachInterface(
      int interface_number,
      const CombinedInterfaceInfo& interface_info) {
-@@ -645,7 +645,7 @@ void UsbDeviceHandleUsbfs::ClaimInterfac
+@@ -656,7 +656,7 @@ void UsbDeviceHandleUsbfs::ClaimInterfac
      return;
    }
  #endif
@@ -36,7 +36,7 @@
    if (base::FeatureList::IsEnabled(features::kAutomaticUsbDetach)) {
      const mojom::UsbConfigurationInfo* config =
          device_->GetActiveConfiguration();
-@@ -998,7 +998,7 @@ void UsbDeviceHandleUsbfs::ReleaseInterf
+@@ -1016,7 +1016,7 @@ void UsbDeviceHandleUsbfs::ReleaseInterf
      return;
    }
  #endif

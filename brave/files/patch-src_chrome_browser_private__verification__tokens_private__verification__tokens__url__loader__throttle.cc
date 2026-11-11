@@ -1,10 +1,9 @@
---- src/chrome/browser/private_verification_tokens/private_verification_tokens_url_loader_throttle.cc.orig	2026-10-25 11:52:53 UTC
+--- src/chrome/browser/private_verification_tokens/private_verification_tokens_url_loader_throttle.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/chrome/browser/private_verification_tokens/private_verification_tokens_url_loader_throttle.cc
-@@ -53,7 +53,10 @@ void PrivateVerificationTokensURLLoaderT
-       !pvt_service_) {
+@@ -57,6 +57,10 @@ void PrivateVerificationTokensURLLoaderT
      return;
    }
--
+ 
 +#if BUILDFLAG(IS_BSD)
 +  LOG(ERROR) << __FUNCTION__ << "crubit not implemented.";
 +  return;
@@ -12,7 +11,7 @@
    // Token header should not already exist, remove it if it does.
    request->headers.RemoveHeader(
        net::HttpRequestHeaders::kSecPrivateVerificationToken);
-@@ -88,6 +91,7 @@ void PrivateVerificationTokensURLLoaderT
+@@ -110,6 +114,7 @@ void PrivateVerificationTokensURLLoaderT
            token_info->second);
      }
    }
@@ -20,35 +19,38 @@
  }
  
  void PrivateVerificationTokensURLLoaderThrottle::WillRedirectRequest(
-@@ -101,10 +105,14 @@ void PrivateVerificationTokensURLLoaderT
-   }
-   if (token_id_.has_value()) {
-     if (pvt_service_ && !response_head.pvt_token_removed_due_to_cookies) {
-+#if !BUILDFLAG(IS_BSD)
-+      // PrivateVerificationTokensService is not built on BSD, see
-+      // private_verification_tokens_service.cc.
-       if (profile_ && redeemer_origin_) {
-         pvt_service_->TrackerInsert(profile_.get(), *redeemer_origin_);
-       }
--      pvt_service_->DeleteToken(*token_id_, base::DoNothing());
-+#endif
-+//      pvt_service_->DeleteToken(*token_id_, base::DoNothing());
-     }
+@@ -117,6 +122,10 @@ void PrivateVerificationTokensURLLoaderT
+     const network::mojom::URLResponseHead& response_head,
+     bool* defer,
+     network::HttpRequestHeadersUpdateParams* headers_update_params) {
++#if BUILDFLAG(IS_BSD)
++  LOG(ERROR) << __FUNCTION__ << "crubit not implemented.";
++  return;
++#else
+   if (headers_update_params) {
+     headers_update_params->removed_headers.push_back(
+         net::HttpRequestHeaders::kSecPrivateVerificationToken);
+@@ -131,12 +140,17 @@ void PrivateVerificationTokensURLLoaderT
      token_id_.reset();
      redeemer_origin_.reset();
-@@ -118,10 +126,14 @@ void PrivateVerificationTokensURLLoaderT
+   }
++#endif
+ }
+ 
+ void PrivateVerificationTokensURLLoaderThrottle::WillProcessResponse(
+     const GURL& response_url,
+     network::mojom::URLResponseHead* response_head,
+     bool* defer) {
++#if BUILDFLAG(IS_BSD)
++  LOG(ERROR) << __FUNCTION__ << "crubit not implemented.";
++  return;
++#else
    if (token_id_.has_value()) {
      if (pvt_service_ && response_head &&
          !response_head->pvt_token_removed_due_to_cookies) {
-+#if !BUILDFLAG(IS_BSD)
-+      // PrivateVerificationTokensService is not built on BSD, see
-+      // private_verification_tokens_service.cc.
-       if (profile_ && redeemer_origin_) {
-         pvt_service_->TrackerInsert(profile_.get(), *redeemer_origin_);
-       }
--      pvt_service_->DeleteToken(*token_id_, base::DoNothing());
-+#endif
-+//      pvt_service_->DeleteToken(*token_id_, base::DoNothing());
-     }
+@@ -148,4 +162,5 @@ void PrivateVerificationTokensURLLoaderT
      token_id_.reset();
      redeemer_origin_.reset();
+   }
++#endif
+ }

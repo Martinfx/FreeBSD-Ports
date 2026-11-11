@@ -1,4 +1,4 @@
---- src/chrome/browser/ui/webui/new_tab_page/new_tab_page_handler.cc.orig	2026-10-20 12:27:58 UTC
+--- src/chrome/browser/ui/webui/new_tab_page/new_tab_page_handler.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/chrome/browser/ui/webui/new_tab_page/new_tab_page_handler.cc
 @@ -61,7 +61,7 @@
  #include "chrome/browser/ui/hats/hats_service_factory.h"
@@ -9,7 +9,7 @@
  #include "chrome/browser/ui/views/scheduled_restart/scheduled_restart_bubble_controller.h"
  #endif
  #include "chrome/browser/ui/webui/new_tab_footer/new_tab_footer_helper.h"
-@@ -562,7 +562,7 @@ NewTabPageHandler::NewTabPageHandler(
+@@ -544,7 +544,7 @@ NewTabPageHandler::NewTabPageHandler(
    }
  #endif  // !BUILDFLAG(IS_ANDROID)
  

@@ -1,6 +1,6 @@
---- src/services/device/public/cpp/device_features.cc.orig	2026-10-18 18:43:23 UTC
+--- src/services/device/public/cpp/device_features.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/services/device/public/cpp/device_features.cc
-@@ -217,11 +217,11 @@ device::mojom::LocationProviderManagerMo
+@@ -228,11 +228,11 @@ device::mojom::LocationProviderManagerMo
  // a USB interface is busy.
  #if BUILDFLAG(IS_ANDROID)
  BASE_FEATURE(kAutomaticUsbDetach, base::FEATURE_ENABLED_BY_DEFAULT);

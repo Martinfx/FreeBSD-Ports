@@ -1,6 +1,15 @@
---- src/chrome/browser/ui/views/frame/contents_web_view.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/ui/views/frame/contents_web_view.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/chrome/browser/ui/views/frame/contents_web_view.cc
-@@ -169,7 +169,7 @@ void ContentsWebView::SetWebContents(con
+@@ -28,7 +28,7 @@
+ #include "ui/wm/core/window_util.h"
+ #endif
+ 
+-#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS)
++#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_BSD)
+ #include "chrome/browser/actor/actor_util.h"  // nogncheck
+ #endif
+ 
+@@ -174,7 +174,7 @@ void ContentsWebView::SetWebContents(con
        .Then(&web_modal::WebContentsModalDialogManager::UpdateDialogHost);
  }
  

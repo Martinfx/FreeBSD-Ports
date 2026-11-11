@@ -1,7 +1,7 @@
---- src/gpu/vulkan/generate_bindings.py.orig	2024-06-17 12:56:06 UTC
+--- src/gpu/vulkan/generate_bindings.py.orig	2026-11-02 23:22:33 UTC
 +++ src/gpu/vulkan/generate_bindings.py
-@@ -271,7 +271,7 @@ VULKAN_DEVICE_FUNCTIONS = [
-     ]
+@@ -275,7 +275,7 @@ VULKAN_DEVICE_FUNCTIONS = [
+     ],
    },
    {
 -    'ifdef': 'BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS)',

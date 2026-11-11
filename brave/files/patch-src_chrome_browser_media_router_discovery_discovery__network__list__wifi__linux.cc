@@ -1,4 +1,4 @@
---- src/chrome/browser/media/router/discovery/discovery_network_list_wifi_linux.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/media/router/discovery/discovery_network_list_wifi_linux.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/chrome/browser/media/router/discovery/discovery_network_list_wifi_linux.cc
 @@ -4,7 +4,11 @@
  
@@ -14,7 +14,7 @@
  #include <sys/socket.h>
 @@ -20,6 +24,7 @@ namespace media_router {
  bool MaybeGetWifiSSID(const std::string& if_name, std::string* ssid_out) {
-   DCHECK(ssid_out);
+   CHECK(ssid_out, base::NotFatalUntil::M161);
  
 +#if !BUILDFLAG(IS_BSD)
    base::ScopedFD ioctl_socket(socket(AF_INET, SOCK_DGRAM, 0));

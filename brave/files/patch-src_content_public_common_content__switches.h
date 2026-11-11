@@ -1,6 +1,6 @@
---- src/content/public/common/content_switches.h.orig	2026-10-18 18:43:23 UTC
+--- src/content/public/common/content_switches.h.orig	2026-11-02 23:22:33 UTC
 +++ src/content/public/common/content_switches.h
-@@ -109,6 +109,7 @@ CONTENT_EXPORT extern const char kEnable
+@@ -108,6 +108,7 @@ CONTENT_EXPORT extern const char kEnable
  CONTENT_EXPORT extern const char kEnableIsolatedWebAppsInRenderer[];
  CONTENT_EXPORT extern const char kEnableLCDText[];
  CONTENT_EXPORT extern const char kEnableLogging[];
@@ -8,7 +8,7 @@
  CONTENT_EXPORT extern const char kEnableNetworkInformationDownlinkMax[];
  CONTENT_EXPORT extern const char kEnableCanvas2DLayers[];
  CONTENT_EXPORT extern const char kEnablePluginPlaceholderTesting[];
-@@ -258,7 +259,7 @@ CONTENT_EXPORT extern const char kJavale
+@@ -257,7 +258,7 @@ CONTENT_EXPORT extern const char kJavale
  CONTENT_EXPORT extern const char kPreventResizingContentsForTesting[];
  #endif
  

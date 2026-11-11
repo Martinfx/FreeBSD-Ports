@@ -1,6 +1,6 @@
---- src/components/password_manager/core/browser/password_manual_fallback_flow.h.orig	2026-10-18 18:43:23 UTC
+--- src/components/password_manager/core/browser/password_manual_fallback_flow.h.orig	2026-11-02 23:22:33 UTC
 +++ src/components/password_manager/core/browser/password_manual_fallback_flow.h
-@@ -20,7 +20,7 @@
+@@ -18,7 +18,7 @@
  #include "components/password_manager/core/browser/ui/saved_passwords_presenter.h"
  
  #if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_MAC) || \

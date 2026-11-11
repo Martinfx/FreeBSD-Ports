@@ -1,6 +1,6 @@
---- src/brave/browser/ui/webui/settings/brave_settings_localized_strings_provider.cc.orig	2026-10-18 18:43:23 UTC
+--- src/brave/browser/ui/webui/settings/brave_settings_localized_strings_provider.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/brave/browser/ui/webui/settings/brave_settings_localized_strings_provider.cc
-@@ -261,7 +261,12 @@ void BraveAddCommonStrings(content::WebU
+@@ -280,7 +280,12 @@ void BraveAddCommonStrings(content::WebU
         IDS_SETTINGS_BRAVE_ORIGIN_ONBOARDING_RESTORE_PURCHASE},
        {"braveOriginOnboardingLearnMore",
         IDS_SETTINGS_BRAVE_ORIGIN_ONBOARDING_LEARN_MORE},

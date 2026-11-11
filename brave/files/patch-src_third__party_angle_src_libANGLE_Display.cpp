@@ -1,6 +1,6 @@
---- src/third_party/angle/src/libANGLE/Display.cpp.orig	2026-10-18 18:43:23 UTC
+--- src/third_party/angle/src/libANGLE/Display.cpp.orig	2026-11-02 23:22:33 UTC
 +++ src/third_party/angle/src/libANGLE/Display.cpp
-@@ -71,7 +71,7 @@
+@@ -72,7 +72,7 @@
  #        include "libANGLE/renderer/gl/wgl/DisplayWGL.h"
  #    elif ANGLE_ENABLE_CGL
  #        include "libANGLE/renderer/gl/cgl/DisplayCGL.h"
@@ -9,7 +9,7 @@
  #        include "libANGLE/renderer/gl/egl/DisplayEGL.h"
  #        if defined(ANGLE_USE_X11)
  #            include "libANGLE/renderer/gl/glx/DisplayGLX_api.h"
-@@ -553,7 +553,7 @@ rx::DisplayImpl *CreateDisplayFromAttrib
+@@ -615,7 +615,7 @@ rx::DisplayImpl *CreateDisplayFromAttrib
              impl = new rx::DisplayCGL(state);
              break;
  
@@ -18,7 +18,7 @@
  #        if defined(ANGLE_USE_GBM) || defined(ANGLE_USE_WAYLAND)
              if (platformType == 0)
              {
-@@ -611,7 +611,7 @@ rx::DisplayImpl *CreateDisplayFromAttrib
+@@ -673,7 +673,7 @@ rx::DisplayImpl *CreateDisplayFromAttrib
  #if defined(ANGLE_ENABLE_OPENGL)
  #    if defined(ANGLE_PLATFORM_WINDOWS)
              impl = new rx::DisplayWGL(state);
@@ -27,7 +27,7 @@
  #        if defined(ANGLE_USE_GBM) || defined(ANGLE_USE_WAYLAND)
              if (platformType == 0)
              {
-@@ -674,7 +674,7 @@ rx::DisplayImpl *CreateDisplayFromAttrib
+@@ -736,7 +736,7 @@ rx::DisplayImpl *CreateDisplayFromAttrib
                  impl = rx::CreateVulkanWin32Display(state);
              }
              break;
@@ -36,7 +36,7 @@
  #        if defined(ANGLE_USE_GBM)
              if (platformType == EGL_PLATFORM_GBM_KHR && rx::IsVulkanGbmDisplayAvailable())
              {
-@@ -2350,7 +2350,7 @@ static ClientExtensions GenerateClientEx
+@@ -2474,7 +2474,7 @@ static ClientExtensions GenerateClientEx
      extensions.platformWaylandEXT = true;
  #endif
  
@@ -45,7 +45,7 @@
      extensions.platformSurfacelessMESA = true;
  #endif
  
-@@ -2397,7 +2397,7 @@ static ClientExtensions GenerateClientEx
+@@ -2521,7 +2521,7 @@ static ClientExtensions GenerateClientEx
      extensions.x11Visual = true;
  #endif
  

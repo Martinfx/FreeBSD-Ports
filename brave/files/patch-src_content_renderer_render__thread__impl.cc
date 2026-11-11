@@ -1,6 +1,6 @@
---- src/content/renderer/render_thread_impl.cc.orig	2026-10-18 18:43:23 UTC
+--- src/content/renderer/render_thread_impl.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/content/renderer/render_thread_impl.cc
-@@ -206,6 +206,8 @@
+@@ -207,6 +207,8 @@
  
  #if BUILDFLAG(IS_APPLE)
  #include <malloc/malloc.h>
@@ -9,7 +9,7 @@
  #else
  #include <malloc.h>
  #endif
-@@ -986,7 +988,7 @@ media::GpuVideoAcceleratorFactories* Ren
+@@ -994,7 +996,7 @@ media::GpuVideoAcceleratorFactories* Ren
            viz::command_buffer_metrics::ContextType::MEDIA);
  
    const bool enable_video_decode_accelerator =
@@ -18,7 +18,7 @@
        base::FeatureList::IsEnabled(media::kAcceleratedVideoDecodeLinux) &&
  #endif  // BUILDFLAG(IS_LINUX)
        !cmd_line->HasSwitch(switches::kDisableAcceleratedVideoDecode) &&
-@@ -995,7 +997,7 @@ media::GpuVideoAcceleratorFactories* Ren
+@@ -1003,7 +1005,7 @@ media::GpuVideoAcceleratorFactories* Ren
         gpu::kGpuFeatureStatusEnabled);
  
    const bool enable_video_encode_accelerator =
@@ -27,7 +27,7 @@
        base::FeatureList::IsEnabled(media::kAcceleratedVideoEncodeLinux) &&
  #else
        !cmd_line->HasSwitch(switches::kDisableAcceleratedVideoEncode) &&
-@@ -1742,7 +1744,7 @@ RenderThreadImpl::CreateMediaMojoCodecFa
+@@ -1750,7 +1752,7 @@ RenderThreadImpl::CreateMediaMojoCodecFa
      bool enable_video_encode_accelerator) {
    mojo::PendingRemote<media::mojom::VideoEncodeAcceleratorProvider>
        vea_provider;

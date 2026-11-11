@@ -1,9 +1,10 @@
---- src/third_party/blink/renderer/platform/BUILD.gn.orig	2026-10-19 06:05:22 UTC
+--- src/third_party/blink/renderer/platform/BUILD.gn.orig	2026-11-02 23:22:33 UTC
 +++ src/third_party/blink/renderer/platform/BUILD.gn
-@@ -186,6 +186,18 @@ group("make_platform_generated") {
+@@ -206,12 +206,22 @@ source_set("character_property_data") {
    ]
  }
  
++# XXX crubit
 +rust_static_library("font_format_check") {
 +  allow_unsafe = true  # Needed for FFI that underpins the `cxx` crate.
 +  crate_root = "fonts/opentype/format_check.rs"
@@ -11,43 +12,57 @@
 +  cxx_bindings = [ crate_root ]
 +  deps = [
 +    "//third_party/rust/font_types/v0_12:lib",
-+    "//third_party/rust/read_fonts/v0_43:lib",
-+    "//third_party/rust/skrifa/v0_46:lib",
++    "//third_party/rust/read_fonts/v0_45:lib",
++    "//third_party/rust/skrifa/v0_48:lib",
 +  ]
 +}
 +
- rust_static_library("rustfft_ffi") {
-   allow_unsafe = true  # Needed for FFI that underpins the `cxx` crate.
-   crate_root = "audio/rustfft_ffi.rs"
-@@ -712,8 +724,9 @@ component("platform") {
-     "fonts/generic_font_family_settings.cc",
-     "fonts/generic_font_family_settings.h",
-     "fonts/glyph_metrics_map.h",
--    "fonts/ift/ift_patcher.cc",
+ source_set("font_rust_headers") {
+   visibility += [ "//third_party/blink/renderer/core:*" ]
+-  public = [
 -    "fonts/ift/ift_patcher.h",
-+    # XXX crubit: IftPatcher needs fonts:ift_patcher_bindings
-+    # "fonts/ift/ift_patcher.cc",
-+    # "fonts/ift/ift_patcher.h",
-     "fonts/opentype/color_table_lookup.cc",
-     "fonts/opentype/color_table_lookup.h",
-     "fonts/opentype/font_format_check.cc",
-@@ -1792,7 +1805,6 @@ component("platform") {
-     ":allow_discouraged_type",
-     ":blink_platform_public_deps",
-     ":platform_export",
--    "//build/rust/crubit",
-     "//components/language_detection/core",
-     "//gpu/command_buffer/client:raster_interface",
-     "//media/capture:capture_lib",
-@@ -1819,9 +1831,9 @@ component("platform") {
-     "//ui/native_theme/features",
+-    "fonts/opentype/font_format_check.h",
+-  ]
++  public = [ "fonts/opentype/font_format_check.h" ]
+   configs += [
+     ":blink_platform_pch",
+     ":blink_platform_config",
+@@ -219,11 +229,9 @@ source_set("font_rust_headers") {
+     "//third_party/blink/renderer:non_test_config",
    ]
-   deps = [
+   public_deps = [
 +    ":font_format_check",
-     ":rustfft_ffi",
+     ":platform_export",
 -    "fonts:font_format_bindings",
 -    "fonts:ift_patcher_bindings",
-+    # XXX crubit "fonts:ift_patcher_bindings",
-     "//base:base_static",
-     "//base/allocator:buildflags",
-     "//build:chromecast_buildflags",
+     "//base",
+-    "//build/rust/crubit",
+     "//skia",
+     "//third_party/blink/renderer/platform/wtf",
+   ]
+@@ -233,7 +241,6 @@ source_set("font_rust_support") {
+   public = []
+   sources = [
+     "fonts/font_custom_platform_data.cc",
+-    "fonts/ift/ift_patcher.cc",
+     "fonts/opentype/font_format_check.cc",
+     "fonts/web_font_decoder.cc",
+     "fonts/web_font_typeface_factory.cc",
+@@ -2309,7 +2316,6 @@ source_set("blink_platform_unittests_sou
+     "fonts/font_test.cc",
+     "fonts/font_test_utilities.cc",
+     "fonts/generic_font_family_settings_test.cc",
+-    "fonts/ift/ift_patcher_test.cc",
+     "fonts/opentype/color_table_lookup_test.cc",
+     "fonts/opentype/font_format_check_test.cc",
+     "fonts/opentype/font_settings_test.cc",
+@@ -2611,9 +2617,6 @@ source_set("blink_platform_unittests_sou
+     ":bridge_ice_controller_tests",
+     ":font_rust_headers",
+     ":rustfft_ffi_unittests",
+-    "fonts:font_format_bindings",
+-    "fonts:ift_patcher_bindings",
+-    "//build/rust/crubit",
+   ]
+ 
+   data_deps = [ ":blink_platform_unittests_data" ]

@@ -1,6 +1,6 @@
---- src/brave/chromium_src/chrome/browser/ui/views/permissions/permission_prompt_bubble_base_view.cc.orig	2026-10-18 18:43:23 UTC
+--- src/brave/chromium_src/chrome/browser/ui/views/permissions/permission_prompt_bubble_base_view.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/brave/chromium_src/chrome/browser/ui/views/permissions/permission_prompt_bubble_base_view.cc
-@@ -144,10 +144,15 @@ void AddWidevineFootnoteView(
+@@ -143,10 +143,15 @@ void AddWidevineFootnoteView(
                                                  urls));
  }
  #else

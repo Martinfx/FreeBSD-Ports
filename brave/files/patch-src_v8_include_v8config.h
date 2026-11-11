@@ -1,4 +1,4 @@
---- src/v8/include/v8config.h.orig	2026-10-18 18:43:23 UTC
+--- src/v8/include/v8config.h.orig	2026-11-02 23:22:33 UTC
 +++ src/v8/include/v8config.h
 @@ -207,6 +207,8 @@ path. Add it with -I<path> to the comman
    && !defined(V8_TARGET_OS_IOS) \
@@ -35,7 +35,7 @@
  #ifdef V8_OS_MACOS
  # define V8_TARGET_OS_MACOS
  #endif
-@@ -394,6 +408,7 @@ path. Add it with -I<path> to the comman
+@@ -401,6 +415,7 @@ path. Add it with -I<path> to the comman
  #if (defined(_M_X64) || defined(__x86_64__)            /* x64 (everywhere) */  \
       || ((defined(__AARCH64EL__) || defined(_M_ARM64)) /* arm64, but ... */    \
           && !defined(_WIN32)))                         /* not on windows */    \

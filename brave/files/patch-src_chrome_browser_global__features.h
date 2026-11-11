@@ -1,4 +1,4 @@
---- src/chrome/browser/global_features.h.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/global_features.h.orig	2026-11-02 23:22:33 UTC
 +++ src/chrome/browser/global_features.h
 @@ -26,7 +26,7 @@ class GlobalBrowserCollection;
  namespace system_permission_settings {
@@ -9,7 +9,7 @@
  namespace whats_new {
  class WhatsNewRegistry;
  }  // namespace whats_new
-@@ -87,7 +87,7 @@ namespace on_device_translation {
+@@ -90,7 +90,7 @@ namespace on_device_translation {
  class OnDeviceTranslationInstaller;
  }
  
@@ -18,7 +18,7 @@
  namespace scheduled_restart {
  class ScheduledRestartBubbleController;
  class ScheduledRestartManager;
-@@ -164,7 +164,7 @@ class GlobalFeatures {
+@@ -170,7 +170,7 @@ class GlobalFeatures {
    system_permissions_platform_handle() {
      return system_permissions_platform_handle_.get();
    }
@@ -27,7 +27,7 @@
    whats_new::WhatsNewRegistry* whats_new_registry() {
      return whats_new_registry_.get();
    }
-@@ -233,7 +233,7 @@ class GlobalFeatures {
+@@ -243,7 +243,7 @@ class GlobalFeatures {
    }
  #endif  // !BUILDFLAG(IS_ANDROID)
  
@@ -36,7 +36,7 @@
    scheduled_restart::ScheduledRestartBubbleController*
    scheduled_restart_bubble_controller() {
      return scheduled_restart_bubble_controller_.get();
-@@ -263,12 +263,12 @@ class GlobalFeatures {
+@@ -284,12 +284,12 @@ class GlobalFeatures {
  
    virtual std::unique_ptr<system_permission_settings::PlatformHandle>
    CreateSystemPermissionsPlatformHandle();
@@ -51,7 +51,7 @@
    virtual std::unique_ptr<scheduled_restart::ScheduledRestartManager>
    CreateScheduledRestartManager();
  #endif
-@@ -287,7 +287,7 @@ class GlobalFeatures {
+@@ -312,7 +312,7 @@ class GlobalFeatures {
  
    std::unique_ptr<system_permission_settings::PlatformHandle>
        system_permissions_platform_handle_;
@@ -60,7 +60,7 @@
    std::unique_ptr<whats_new::WhatsNewRegistry> whats_new_registry_;
  
    std::unique_ptr<default_browser::DefaultBrowserManager>
-@@ -350,7 +350,7 @@ class GlobalFeatures {
+@@ -377,7 +377,7 @@ class GlobalFeatures {
    std::unique_ptr<smart_restart::SmartRestartManager> smart_restart_manager_;
  #endif  // !BUILDFLAG(IS_ANDROID)
  

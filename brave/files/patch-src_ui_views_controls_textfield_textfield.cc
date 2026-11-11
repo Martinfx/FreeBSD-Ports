@@ -1,4 +1,4 @@
---- src/ui/views/controls/textfield/textfield.cc.orig	2026-10-18 18:43:23 UTC
+--- src/ui/views/controls/textfield/textfield.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/ui/views/controls/textfield/textfield.cc
 @@ -90,7 +90,7 @@
  #include "base/win/win_util.h"
@@ -45,7 +45,7 @@
  // TODO(crbug.com/41452689): Implement this method to support Korean IME
  // reconversion feature on native text fields (e.g. find bar).
  bool Textfield::SetCompositionFromExistingText(
-@@ -2684,7 +2684,7 @@ ui::TextEditCommand Textfield::GetComman
+@@ -2688,7 +2688,7 @@ ui::TextEditCommand Textfield::GetComman
  #endif
          return ui::TextEditCommand::DELETE_BACKWARD;
        }
@@ -54,7 +54,7 @@
        // Only erase by line break on Linux and ChromeOS.
        if (shift) {
          return ui::TextEditCommand::DELETE_TO_BEGINNING_OF_LINE;
-@@ -2692,7 +2692,7 @@ ui::TextEditCommand Textfield::GetComman
+@@ -2696,7 +2696,7 @@ ui::TextEditCommand Textfield::GetComman
  #endif
        return ui::TextEditCommand::DELETE_WORD_BACKWARD;
      case ui::VKEY_DELETE:

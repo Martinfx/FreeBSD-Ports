@@ -1,6 +1,6 @@
---- src/services/network/BUILD.gn.orig	2026-10-18 18:43:23 UTC
+--- src/services/network/BUILD.gn.orig	2026-11-02 23:22:33 UTC
 +++ src/services/network/BUILD.gn
-@@ -453,7 +453,6 @@ if (is_linux || is_chromeos) {
+@@ -461,7 +461,6 @@ if (is_linux || is_chromeos) {
      deps = [
        "//base",
        "//components/vrp_flags:buildflags",

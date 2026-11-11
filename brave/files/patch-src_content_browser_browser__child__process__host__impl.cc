@@ -1,6 +1,6 @@
---- src/content/browser/browser_child_process_host_impl.cc.orig	2026-10-18 18:43:23 UTC
+--- src/content/browser/browser_child_process_host_impl.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/content/browser/browser_child_process_host_impl.cc
-@@ -301,6 +301,7 @@ void BrowserChildProcessHostImpl::Launch
+@@ -308,6 +308,7 @@ void BrowserChildProcessHostImpl::Launch
        switches::kLogBestEffortTasks,
        switches::kPartitionAllocSchedulerLoopQuarantine,
        switches::kPerfettoDisableInterning,
@@ -8,7 +8,7 @@
    };
    cmd_line->CopySwitchesFrom(browser_command_line, kForwardSwitches);
  
-@@ -655,7 +656,7 @@ void BrowserChildProcessHostImpl::OnProc
+@@ -662,7 +663,7 @@ void BrowserChildProcessHostImpl::OnProc
            ->child_process());
  #endif
  

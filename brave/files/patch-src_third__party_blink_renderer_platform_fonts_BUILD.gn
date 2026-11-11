@@ -1,0 +1,24 @@
+--- src/third_party/blink/renderer/platform/fonts/BUILD.gn.orig	2026-11-02 23:22:33 UTC
++++ src/third_party/blink/renderer/platform/fonts/BUILD.gn
+@@ -4,19 +4,8 @@
+ 
+ import("//build/rust/rust_static_library.gni")
+ 
+-rust_static_library("font_format") {
+-  crate_root = "opentype/format_check.rs"
+-  sources = [ crate_root ]
+-  cpp_api_from_rust = {
+-    target_name = "font_format_bindings"
+-    cpp_namespace = "font_format"
+-  }
+-  deps = [
+-    "//third_party/rust/font_types/v0_12:lib",
+-    "//third_party/rust/read_fonts/v0_45:lib",
+-    "//third_party/rust/skrifa/v0_48:lib",
+-  ]
+-}
++# XXX crubit: opentype/format_check.rs is built with a cxx bridge instead,
++# as //third_party/blink/renderer/platform:font_format_check.
+ 
+ rust_static_library("ift_patcher_rs") {
+   crate_root = "ift/ift_patcher.rs"

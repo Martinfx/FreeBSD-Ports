@@ -1,6 +1,6 @@
---- src/content/common/BUILD.gn.orig	2026-10-18 18:43:23 UTC
+--- src/content/common/BUILD.gn.orig	2026-11-02 23:22:33 UTC
 +++ src/content/common/BUILD.gn
-@@ -374,19 +374,28 @@ source_set("common") {
+@@ -372,19 +372,28 @@ source_set("common") {
    }
  
    if (is_linux || is_chromeos) {

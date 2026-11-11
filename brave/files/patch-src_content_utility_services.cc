@@ -1,6 +1,6 @@
---- src/content/utility/services.cc.orig	2026-10-18 18:43:23 UTC
+--- src/content/utility/services.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/content/utility/services.cc
-@@ -71,14 +71,14 @@
+@@ -72,14 +72,14 @@
  extern sandbox::TargetServices* g_utility_target_services;
  #endif  // BUILDFLAG(IS_WIN)
  
@@ -35,8 +35,8 @@
  auto RunShapeDetectionService(
      mojo::PendingReceiver<shape_detection::mojom::ShapeDetectionService>
          receiver) {
-@@ -418,7 +418,7 @@ void RegisterMainThreadServices(mojo::Se
-   services.Add(RunOnDeviceModel);
+@@ -427,7 +427,7 @@ void RegisterMainThreadServices(mojo::Se
+ #endif
  
  #if BUILDFLAG(IS_WIN) || (BUILDFLAG(GOOGLE_CHROME_BRANDING) && \
 -                          (BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_LINUX)))

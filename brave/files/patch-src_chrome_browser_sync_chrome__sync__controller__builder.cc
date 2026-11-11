@@ -1,6 +1,6 @@
---- src/chrome/browser/sync/chrome_sync_controller_builder.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/sync/chrome_sync_controller_builder.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/chrome/browser/sync/chrome_sync_controller_builder.cc
-@@ -335,7 +335,7 @@ ChromeSyncControllerBuilder::Build(synce
+@@ -342,7 +342,7 @@ ChromeSyncControllerBuilder::Build(synce
  #if BUILDFLAG(ENABLE_SPELLCHECK)
      // Chrome prefers OS provided spell checkers where they exist. So only sync
      // the custom dictionary on platforms that typically don't provide one.

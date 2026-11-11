@@ -1,6 +1,6 @@
---- src/third_party/dawn/src/utils/BUILD.gn.orig	2026-09-25 15:26:43 UTC
+--- src/third_party/dawn/src/utils/BUILD.gn.orig	2026-11-02 23:22:33 UTC
 +++ src/third_party/dawn/src/utils/BUILD.gn
-@@ -208,13 +208,6 @@ config("dawn_warnings") {
+@@ -206,13 +206,6 @@ config("dawn_warnings") {
        "-Wno-float-equal",
        "-Wno-undefined-func-template",
        "-Wno-unused-parameter",

@@ -1,6 +1,6 @@
---- src/components/signin/public/identity_manager/account_capabilities.cc.orig	2026-10-18 18:43:23 UTC
+--- src/components/signin/public/identity_manager/account_capabilities.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/components/signin/public/identity_manager/account_capabilities.cc
-@@ -159,7 +159,7 @@ signin::Tribool AccountCapabilities::can
+@@ -152,7 +152,7 @@ signin::Tribool AccountCapabilities::can
  #endif
  
  #if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX) || \

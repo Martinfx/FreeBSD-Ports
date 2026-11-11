@@ -1,6 +1,6 @@
---- src/ui/views/widget/widget.h.orig	2026-10-18 18:43:23 UTC
+--- src/ui/views/widget/widget.h.orig	2026-11-02 23:22:33 UTC
 +++ src/ui/views/widget/widget.h
-@@ -493,7 +493,7 @@ class VIEWS_EXPORT Widget : public inter
+@@ -498,7 +498,7 @@ class VIEWS_EXPORT Widget : public inter
      bool dont_show_in_taskbar = false;
  #endif  // BUILDFLAG(IS_WIN)
  

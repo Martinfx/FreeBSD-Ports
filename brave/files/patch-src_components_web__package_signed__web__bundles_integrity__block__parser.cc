@@ -1,6 +1,6 @@
---- src/components/web_package/signed_web_bundles/integrity_block_parser.cc.orig	2026-10-18 18:43:23 UTC
+--- src/components/web_package/signed_web_bundles/integrity_block_parser.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/components/web_package/signed_web_bundles/integrity_block_parser.cc
-@@ -4,17 +4,19 @@
+@@ -4,16 +4,19 @@
  
  #include "components/web_package/signed_web_bundles/integrity_block_parser.h"
  
@@ -17,13 +17,13 @@
 +#include "base/strings/to_string.h"
  #include "base/types/expected.h"
  #include "base/types/expected_macros.h"
- #include "components/cbor/reader.h"
++#include "components/cbor/reader.h"
 +#include "components/cbor/writer.h"
 +#include "components/web_package/mojom/web_bundle_parser.mojom-forward.h"
  #include "components/web_package/mojom/web_bundle_parser.mojom.h"
  #include "components/web_package/signed_web_bundles/constants.h"
  #include "components/web_package/signed_web_bundles/ecdsa_p256_public_key.h"
-@@ -22,56 +24,11 @@
+@@ -21,56 +24,11 @@
  #include "components/web_package/signed_web_bundles/ed25519_public_key.h"
  #include "components/web_package/signed_web_bundles/ed25519_signature.h"
  #include "components/web_package/signed_web_bundles/integrity_block_attributes.h"
@@ -80,7 +80,7 @@
  IntegrityBlockParser::IntegrityBlockParser(
      mojom::BundleDataSource& data_source,
      WebBundleParser::ParseIntegrityBlockCallback callback)
-@@ -103,37 +60,103 @@ void IntegrityBlockParser::OnIntegrityBl
+@@ -102,37 +60,103 @@ void IntegrityBlockParser::OnIntegrityBl
      RunErrorCallback("Error reading the integrity block.");
      return;
    }
@@ -207,7 +207,7 @@
    }
  
    std::move(complete_callback_)
-@@ -141,13 +164,74 @@ void IntegrityBlockParser::OnIntegrityBl
+@@ -140,13 +164,74 @@ void IntegrityBlockParser::OnIntegrityBl
                            std::move(integrity_block), nullptr));
  }
  

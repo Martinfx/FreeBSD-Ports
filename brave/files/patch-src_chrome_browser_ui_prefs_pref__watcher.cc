@@ -1,4 +1,4 @@
---- src/chrome/browser/ui/prefs/pref_watcher.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/ui/prefs/pref_watcher.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/chrome/browser/ui/prefs/pref_watcher.cc
 @@ -40,7 +40,7 @@
  #include "components/browser_ui/accessibility/android/font_size_prefs_android.h"
@@ -9,7 +9,7 @@
  #include "ui/linux/linux_ui.h"
  #include "ui/linux/primary_paste_pref_observer.h"
  #endif
-@@ -95,7 +95,7 @@ const char* const kWebPrefsToObserve[] =
+@@ -96,7 +96,7 @@ const char* const kWebPrefsToObserve[] =
  
  }  // namespace
  
@@ -18,7 +18,7 @@
  // A helper class to handle notifying about changes in the
  // Primary Paste/Middle Click Paste preference on Linux.
  class PrimaryPastePrefHelper : public ui::PrimaryPastePrefObserver {
-@@ -126,7 +126,7 @@ class PrimaryPastePrefHelper : public ui
+@@ -127,7 +127,7 @@ class PrimaryPastePrefHelper : public ui
  PrefWatcher::PrefWatcher(Profile* profile) : profile_(profile) {
    native_theme_observation_.Observe(ui::NativeTheme::GetInstanceForWeb());
  

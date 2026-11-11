@@ -1,6 +1,6 @@
---- src/components/autofill/core/browser/payments/payments_requests/payments_request.cc.orig	2026-10-18 18:43:23 UTC
+--- src/components/autofill/core/browser/payments/payments_requests/payments_request.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/components/autofill/core/browser/payments/payments_requests/payments_request.cc
-@@ -254,7 +254,7 @@ PaymentsRequest::ClientType PaymentsRequ
+@@ -250,7 +250,7 @@ PaymentsRequest::ClientType PaymentsRequ
    return ClientType::kWindows;
  #elif BUILDFLAG(IS_MAC)
    return ClientType::kMac;

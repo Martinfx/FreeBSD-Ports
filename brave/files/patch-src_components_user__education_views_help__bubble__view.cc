@@ -1,6 +1,6 @@
---- src/components/user_education/views/help_bubble_view.cc.orig	2026-10-18 18:43:23 UTC
+--- src/components/user_education/views/help_bubble_view.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/components/user_education/views/help_bubble_view.cc
-@@ -274,7 +274,7 @@ DEFINE_CLASS_ELEMENT_IDENTIFIER_VALUE(He
+@@ -269,7 +269,7 @@ DEFINE_CLASS_ELEMENT_IDENTIFIER_VALUE(He
  // TODO(https://crbug.com/382611284): Temporarily handle the case when the
  // primary window is minimized by closing the help bubble. Remove this code when
  // the issue is solved at the Views framework level.
@@ -9,7 +9,7 @@
  class HelpBubbleView::PrimaryWidgetObserver : public views::WidgetObserver {
   public:
    explicit PrimaryWidgetObserver(HelpBubbleView& help_bubble)
-@@ -753,7 +753,7 @@ void HelpBubbleView::InitializeAndShow(b
+@@ -752,7 +752,7 @@ void HelpBubbleView::InitializeAndShow(b
      event_relay_->Init(this);
    }
  
@@ -18,7 +18,7 @@
    primary_widget_observer_ = std::make_unique<PrimaryWidgetObserver>(*this);
  #endif
  
-@@ -869,7 +869,7 @@ gfx::Rect HelpBubbleView::GetAnchorRect(
+@@ -850,7 +850,7 @@ gfx::Rect HelpBubbleView::GetAnchorRect(
  void HelpBubbleView::OnBeforeBubbleWidgetInit(views::Widget::InitParams* params,
                                                views::Widget* widget) const {
    BubbleDialogDelegateView::OnBeforeBubbleWidgetInit(params, widget);

@@ -1,7 +1,7 @@
---- src/brave/script/web_discovery_project.py.orig	2026-10-18 18:43:23 UTC
+--- src/brave/script/web_discovery_project.py.orig	2026-11-02 23:22:33 UTC
 +++ src/brave/script/web_discovery_project.py
-@@ -16,16 +16,73 @@ WEB_DISCOVERY_DIR = os.path.join(
-     SOURCE_ROOT, 'vendor', 'web-discovery-project')
+@@ -15,16 +15,73 @@ from lib.util import execute_stdout, sco
+ WEB_DISCOVERY_DIR = os.path.join(SOURCE_ROOT, 'vendor', 'web-discovery-project')
  
  
 +# The bundles //brave/components/brave_extension declares as the outputs of

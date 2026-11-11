@@ -1,6 +1,6 @@
---- src/components/embedder_support/user_agent_utils.cc.orig	2026-10-18 18:43:23 UTC
+--- src/components/embedder_support/user_agent_utils.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/components/embedder_support/user_agent_utils.cc
-@@ -284,7 +284,7 @@ std::string GetUserAgentPlatform() {
+@@ -261,7 +261,7 @@ std::string GetUserAgentPlatform() {
    return "";
  #elif BUILDFLAG(IS_MAC)
    return "Macintosh; ";
@@ -9,7 +9,7 @@
    return "X11; ";  // strange, but that's what Firefox uses
  #elif BUILDFLAG(IS_ANDROID)
    return "Linux; ";
-@@ -324,7 +324,7 @@ std::string GetUnifiedPlatform() {
+@@ -301,7 +301,7 @@ std::string GetUnifiedPlatform() {
    return "Windows NT 10.0; Win64; x64";
  #elif BUILDFLAG(IS_FUCHSIA)
    return "Fuchsia";
@@ -18,7 +18,7 @@
    return "X11; Linux x86_64";
  #elif BUILDFLAG(IS_IOS)
    if (ui::GetDeviceFormFactor() == ui::DEVICE_FORM_FACTOR_TABLET) {
-@@ -620,7 +620,7 @@ std::string GetPlatformVersion() {
+@@ -591,7 +591,7 @@ std::string GetPlatformVersion() {
  
  #if BUILDFLAG(IS_WIN)
    return GetWindowsPlatformVersion();
@@ -27,7 +27,7 @@
    return std::string();
  #else
  
-@@ -657,6 +657,9 @@ std::string GetPlatformForUAMetadata() {
+@@ -628,6 +628,9 @@ std::string GetPlatformForUAMetadata() {
  #else
    return "Chromium OS";
  #endif
@@ -37,7 +37,7 @@
  #else
    return std::string(version_info::GetOSType());
  #endif
-@@ -828,6 +831,16 @@ std::string BuildOSCpuInfoFromOSVersionA
+@@ -799,6 +802,16 @@ std::string BuildOSCpuInfoFromOSVersionA
                        "Android %s", os_version.c_str()
  #elif BUILDFLAG(IS_FUCHSIA)
                        "Fuchsia"
