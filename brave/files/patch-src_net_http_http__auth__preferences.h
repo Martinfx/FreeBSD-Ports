@@ -1,4 +1,4 @@
---- src/net/http/http_auth_preferences.h.orig	2026-08-31 10:59:09 UTC
+--- src/net/http/http_auth_preferences.h.orig	2026-11-02 23:22:33 UTC
 +++ src/net/http/http_auth_preferences.h
 @@ -49,7 +49,7 @@ class NET_EXPORT HttpAuthPreferences {
  #if BUILDFLAG(IS_ANDROID)
@@ -18,7 +18,7 @@
    void set_allow_gssapi_library_load(bool allow_gssapi_library_load) {
      allow_gssapi_library_load_ = allow_gssapi_library_load;
    }
-@@ -134,7 +134,7 @@ class NET_EXPORT HttpAuthPreferences {
+@@ -139,7 +139,7 @@ class NET_EXPORT HttpAuthPreferences {
    std::string auth_android_negotiate_account_type_;
  #endif  // BUILDFLAG(IS_ANDROID)
  

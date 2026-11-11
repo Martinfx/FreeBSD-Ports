@@ -1,4 +1,4 @@
---- src/third_party/blink/renderer/platform/fonts/opentype/format_check.rs.orig	2026-10-18 18:43:23 UTC
+--- src/third_party/blink/renderer/platform/fonts/opentype/format_check.rs.orig	2026-11-02 23:22:33 UTC
 +++ src/third_party/blink/renderer/platform/fonts/opentype/format_check.rs
 @@ -23,7 +23,7 @@ pub struct FontFormatInfo {
      format_flags: Option<FontFormatFlags>,
@@ -37,16 +37,16 @@
      matches!(&format_info.format_flags, Some(FontFormatFlags { color_version: Some(0), .. }),)
  }
  
-@@ -56,7 +56,7 @@ fn get_avar_version(font_ref: &FontRef)
-     Some((version.major, version.minor))
- }
+@@ -58,7 +58,7 @@ fn get_avar_version(font_ref: &FontRef)
  
+ // https://crbug.com/513446410: For safety we want to pass unknown avar2
+ // versions through fontations, too.
 -pub fn is_avar2(format_info: &FontFormatInfo) -> bool {
 +fn is_avar2(format_info: &FontFormatInfo) -> bool {
-     matches!(&format_info.format_flags, Some(FontFormatFlags { avar_version: Some((2, _)), .. }),)
- }
- 
-@@ -69,22 +69,39 @@ fn has_tags(format_info: &FontFormatInfo
+     matches!(
+         &format_info.format_flags,
+         Some(FontFormatFlags {
+@@ -77,22 +77,39 @@ fn has_tags(format_info: &FontFormatInfo
      }
  }
  

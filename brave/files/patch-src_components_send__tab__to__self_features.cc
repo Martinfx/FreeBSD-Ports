@@ -1,0 +1,11 @@
+--- src/components/send_tab_to_self/features.cc.orig	2026-11-02 23:22:33 UTC
++++ src/components/send_tab_to_self/features.cc
+@@ -46,7 +46,7 @@ BASE_FEATURE(kSendTabToSelfPostSendToast
+ 
+ BASE_FEATURE(kSendTabToSelfExtraEntryPoints, base::FEATURE_ENABLED_BY_DEFAULT);
+ 
+-#if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX)
++#if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_BSD)
+ // Guarded to Windows, Mac, and Linux because it relies on
+ // `switches::kCrossDeviceSigninFromDesktopUrl` in
+ // `components/signin/public/base/signin_switches.h`.

@@ -1,6 +1,6 @@
---- src/components/crash/core/app/BUILD.gn.orig	2026-10-18 18:43:23 UTC
+--- src/components/crash/core/app/BUILD.gn.orig	2026-11-02 23:22:33 UTC
 +++ src/components/crash/core/app/BUILD.gn
-@@ -74,6 +74,10 @@ static_library("app") {
+@@ -115,6 +115,10 @@ static_library("app") {
      ]
    }
  
@@ -11,7 +11,7 @@
    defines = [ "CRASH_IMPLEMENTATION" ]
  
    public_deps = [ ":lib" ]
-@@ -90,7 +94,7 @@ static_library("app") {
+@@ -131,7 +135,7 @@ static_library("app") {
      "//third_party/crashpad/crashpad/util",
    ]
  
@@ -20,8 +20,8 @@
      sources += [ "crashpad_linux.cc" ]
      data_deps = [ ":chrome_crashpad_handler" ]
    }
-@@ -111,7 +115,7 @@ static_library("app") {
-     libs = [ "log" ]
+@@ -156,7 +160,7 @@ static_library("app") {
+     deps += [ ":shared_memory_user_stream_args" ]
    }
  
 -  if (is_android || is_linux || is_chromeos) {
@@ -29,7 +29,7 @@
      deps += [
        "//base:base_static",
        "//components/crash/core/common",
-@@ -248,11 +252,6 @@ if (is_mac || is_android || is_linux ||
+@@ -291,11 +295,6 @@ if (is_mac || is_android || is_linux ||
    executable("chrome_crashpad_handler") {
      sources = [ "chrome_crashpad_handler.cc" ]
  

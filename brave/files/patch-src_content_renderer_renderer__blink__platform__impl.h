@@ -1,6 +1,6 @@
---- src/content/renderer/renderer_blink_platform_impl.h.orig	2026-10-18 18:43:23 UTC
+--- src/content/renderer/renderer_blink_platform_impl.h.orig	2026-11-02 23:22:33 UTC
 +++ src/content/renderer/renderer_blink_platform_impl.h
-@@ -287,7 +287,7 @@ class CONTENT_EXPORT RendererBlinkPlatfo
+@@ -288,7 +288,7 @@ class CONTENT_EXPORT RendererBlinkPlatfo
                                 const gpu::GPUInfo& gpu_info) const;
  
  #if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_MAC) || \

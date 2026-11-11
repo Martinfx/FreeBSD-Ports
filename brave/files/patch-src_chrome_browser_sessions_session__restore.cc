@@ -1,15 +1,15 @@
---- src/chrome/browser/sessions/session_restore.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/sessions/session_restore.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/chrome/browser/sessions/session_restore.cc
-@@ -132,7 +132,7 @@
- #include "ui/wm/core/scoped_animation_disabler.h"
- #endif  // BUILDFLAG(IS_CHROMEOS)
+@@ -136,7 +136,7 @@
+ #include "ui/aura/window_occlusion_tracker.h"
+ #endif
  
 -#if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX)
 +#if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_BSD)
  #include "chrome/browser/ui/webui/whats_new/whats_new_fetcher.h"
  #endif  // BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX)
  
-@@ -1370,7 +1370,7 @@ class SessionRestoreImpl : public Browse
+@@ -1423,7 +1423,7 @@ class SessionRestoreImpl : public Browse
      bool is_first_tab = true;
      for (const auto& startup_tab : startup_tabs) {
        const GURL& url = startup_tab.url;

@@ -1,6 +1,6 @@
---- src/brave/script/lib/config.py.orig	2026-10-18 18:43:23 UTC
+--- src/brave/script/lib/config.py.orig	2026-11-02 23:22:33 UTC
 +++ src/brave/script/lib/config.py
-@@ -5,13 +5,18 @@ import json
+@@ -3,13 +3,18 @@ import json
  import os
  import sys
  
@@ -25,4 +25,4 @@
 +    }[sys.platform]
  
  SOURCE_ROOT = os.path.abspath(
-     os.path.join(os.path.dirname(__file__), '..', '..'))
+     os.path.join(os.path.dirname(__file__), '..', '..')

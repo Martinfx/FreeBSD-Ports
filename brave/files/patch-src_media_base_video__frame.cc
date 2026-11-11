@@ -1,4 +1,4 @@
---- src/media/base/video_frame.cc.orig	2026-10-18 18:43:23 UTC
+--- src/media/base/video_frame.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/media/base/video_frame.cc
 @@ -86,7 +86,7 @@ std::string VideoFrame::StorageTypeToStr
        return "OWNED_MEMORY";
@@ -27,7 +27,7 @@
  // static
  scoped_refptr<VideoFrame> VideoFrame::WrapExternalDmabufs(
      const VideoFrameLayout& layout,
-@@ -1504,7 +1504,7 @@ scoped_refptr<gpu::ClientSharedImage> Vi
+@@ -1514,7 +1514,7 @@ scoped_refptr<gpu::ClientSharedImage> Vi
    return wrapped_frame_ ? wrapped_frame_->shared_image() : shared_image_;
  }
  

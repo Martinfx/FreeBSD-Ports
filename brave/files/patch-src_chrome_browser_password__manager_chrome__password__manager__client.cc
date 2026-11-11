@@ -1,15 +1,6 @@
---- src/chrome/browser/password_manager/chrome_password_manager_client.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/password_manager/chrome_password_manager_client.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/chrome/browser/password_manager/chrome_password_manager_client.cc
-@@ -738,7 +738,7 @@ void ChromePasswordManagerClient::Contin
- bool ChromePasswordManagerClient::IsReauthBeforeFillingRequired(
-     device_reauth::DeviceAuthenticator* authenticator) {
- #if BUILDFLAG(IS_MAC) || BUILDFLAG(IS_WIN) || BUILDFLAG(IS_LINUX) || \
--    BUILDFLAG(IS_CHROMEOS)
-+    BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_BSD)
-   if (!GetLocalStatePrefs() || !GetPrefs() || !authenticator) {
-     return false;
-   }
-@@ -1021,7 +1021,7 @@ void ChromePasswordManagerClient::Notify
+@@ -1027,7 +1027,7 @@ void ChromePasswordManagerClient::Notify
  }
  
  void ChromePasswordManagerClient::NotifyKeychainError() {
@@ -18,7 +9,16 @@
    PasswordsClientUIDelegate* manage_passwords_ui_controller =
        PasswordsClientUIDelegateFromWebContents(web_contents());
    if (manage_passwords_ui_controller) {
-@@ -2133,7 +2133,7 @@ void ChromePasswordManagerClient::HideFi
+@@ -2024,7 +2024,7 @@ template <typename T>
+ bool ChromePasswordManagerClient::IsReauthBeforeFillingRequiredImpl(
+     T* availability_provider) {
+ #if BUILDFLAG(IS_MAC) || BUILDFLAG(IS_WIN) || BUILDFLAG(IS_LINUX) || \
+-    BUILDFLAG(IS_CHROMEOS)
++    BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_BSD)
+   if (!GetLocalStatePrefs() || !GetPrefs() || !availability_provider) {
+     return false;
+   }
+@@ -2186,7 +2186,7 @@ void ChromePasswordManagerClient::HideFi
  bool ChromePasswordManagerClient::IsPasswordManagementEnabledForCurrentPage(
      const GURL& url) const {
  #if BUILDFLAG(IS_MAC) || BUILDFLAG(IS_WIN) || BUILDFLAG(IS_LINUX) || \
@@ -27,7 +27,7 @@
    if (IsPasswordManagerForUrlDisallowedByPolicy(url)) {
      return false;
    }
-@@ -2172,7 +2172,7 @@ bool ChromePasswordManagerClient::IsPass
+@@ -2225,7 +2225,7 @@ bool ChromePasswordManagerClient::IsPass
  }
  
  #if BUILDFLAG(IS_MAC) || BUILDFLAG(IS_WIN) || BUILDFLAG(IS_LINUX) || \

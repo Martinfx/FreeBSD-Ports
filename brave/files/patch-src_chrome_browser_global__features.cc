@@ -1,6 +1,6 @@
---- src/chrome/browser/global_features.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/global_features.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/chrome/browser/global_features.cc
-@@ -44,7 +44,7 @@
+@@ -46,7 +46,7 @@
  #include "chrome/browser/ui/tabs/tab_drag_api/desktop_tab_drag_impl/tab_drag_session_desktop_injector.h"
  #endif
  
@@ -9,7 +9,7 @@
  // This causes a gn error on Android builds, because gn does not understand
  // buildflags, so we include it only on platforms where it is used.
  #include "chrome/browser/default_browser/default_browser_manager.h"
-@@ -59,7 +59,7 @@
+@@ -61,7 +61,7 @@
  #include "chrome/browser/win/installer_downloader/installer_downloader_infobar_delegate.h"
  #endif
  
@@ -18,7 +18,7 @@
  #include "chrome/browser/lifetime/scheduled_restart_manager.h"
  #endif
  
-@@ -71,7 +71,7 @@
+@@ -73,7 +73,7 @@
  #include "chrome/common/chrome_features.h"
  #endif  // !BUILDFLAG(IS_ANDROID)
  
@@ -27,7 +27,7 @@
  #include "chrome/browser/lifetime/scheduled_restart_manager.h"
  #include "chrome/browser/ui/views/scheduled_restart/scheduled_restart_bubble_controller.h"
  #endif
-@@ -193,7 +193,7 @@ void GlobalFeatures::PostBrowserProcessI
+@@ -196,7 +196,7 @@ void GlobalFeatures::PostBrowserProcessI
    }
  #endif  // !BUILDFLAG(IS_ANDROID)
  
@@ -36,7 +36,7 @@
    if (base::FeatureList::IsEnabled(features::kScheduledRestart)) {
      scheduled_restart_manager_ = CreateScheduledRestartManager();
      scheduled_restart_bubble_controller_ =
-@@ -219,7 +219,7 @@ void GlobalFeatures::PostBrowserProcessI
+@@ -222,7 +222,7 @@ void GlobalFeatures::PostBrowserProcessI
    }
  #endif
    system_permissions_platform_handle_ = CreateSystemPermissionsPlatformHandle();
@@ -45,7 +45,7 @@
    // TODO(crbug.com/463742800): Migrate WhatsNewRegistry (and other non-core
    // features) to Init().
    whats_new_registry_ = CreateWhatsNewRegistry();
-@@ -289,7 +289,7 @@ void GlobalFeatures::PostMainMessageLoop
+@@ -304,7 +304,7 @@ void GlobalFeatures::PostMainMessageLoop
    profile_launch_observer_.reset();
  #endif  // !BUILDFLAG(IS_ANDROID)
  
@@ -54,8 +54,8 @@
    scheduled_restart_bubble_controller_.reset();
    scheduled_restart_manager_.reset();
  #endif
-@@ -318,7 +318,7 @@ void GlobalFeatures::PostMainMessageLoop
-   chrome_companero_host_.reset();
+@@ -336,7 +336,7 @@ void GlobalFeatures::PostMainMessageLoop
+ #endif
  #endif
  
 -#if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX)
@@ -63,7 +63,7 @@
    DefaultBrowserPromptManager::GetInstance()->CloseAllPrompts(
        DefaultBrowserPromptManager::CloseReason::kDismiss);
  #endif
-@@ -337,7 +337,7 @@ GlobalFeatures::CreateSystemPermissionsP
+@@ -355,7 +355,7 @@ GlobalFeatures::CreateSystemPermissionsP
    return system_permission_settings::PlatformHandle::Create();
  }
  
@@ -72,7 +72,7 @@
  std::unique_ptr<whats_new::WhatsNewRegistry>
  GlobalFeatures::CreateWhatsNewRegistry() {
    return whats_new::CreateWhatsNewRegistry();
-@@ -349,7 +349,7 @@ GlobalFeatures::CreateGlobalBrowserColle
+@@ -367,7 +367,7 @@ GlobalFeatures::CreateGlobalBrowserColle
    return std::make_unique<GlobalBrowserCollection>();
  }
  

@@ -1,6 +1,6 @@
---- src/chrome/browser/ui/startup/startup_browser_creator_impl.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/ui/startup/startup_browser_creator_impl.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/chrome/browser/ui/startup/startup_browser_creator_impl.cc
-@@ -75,7 +75,7 @@
+@@ -73,7 +73,7 @@
  #include "ui/base/window_open_disposition.h"
  #include "url/origin.h"
  
@@ -9,7 +9,7 @@
  #include "base/nix/xdg_util.h"
  #include "ui/display/screen.h"
  #endif
-@@ -99,7 +99,7 @@
+@@ -97,7 +97,7 @@
  #include "chrome/browser/ui/browser_window/public/profile_browser_collection.h"
  #endif
  
@@ -18,7 +18,7 @@
  #include "chrome/browser/search_integrity/search_integrity.h"
  #include "chrome/browser/search_integrity/search_integrity_factory.h"
  #include "chrome/browser/ui/webui/whats_new/whats_new_fetcher.h"
-@@ -170,7 +170,7 @@ BrowserWindowInterface* GetExistingBrows
+@@ -168,7 +168,7 @@ BrowserWindowInterface* GetExistingBrows
        BrowserCollection::Order::kActivation);
  #endif
  
@@ -27,7 +27,7 @@
    const bool match_original_profiles =
        process_startup == chrome::startup::IsProcessStartup::kYes;
    display::Screen* const screen = display::Screen::Get();
-@@ -256,7 +256,7 @@ void StartupBrowserCreatorImpl::Launch(
+@@ -254,7 +254,7 @@ void StartupBrowserCreatorImpl::Launch(
    DCHECK(profile);
    profile_ = profile;
  
@@ -36,7 +36,7 @@
    // Check for DSE integrity if flag is enabled.
    if (base::FeatureList::IsEnabled(features::kDseIntegrity)) {
      if (auto* search_integrity_service =
-@@ -310,7 +310,7 @@ BrowserWindowInterface* StartupBrowserCr
+@@ -308,7 +308,7 @@ BrowserWindowInterface* StartupBrowserCr
      profile_ = browser->GetProfile();
    }
  
@@ -45,7 +45,7 @@
    std::string startup_id =
        command_line_->GetSwitchValueASCII(base::nix::kXdgActivationTokenSwitch);
    if (startup_id.empty()) {
-@@ -344,7 +344,7 @@ BrowserWindowInterface* StartupBrowserCr
+@@ -349,7 +349,7 @@ BrowserWindowInterface* StartupBrowserCr
      BrowserWindowCreateParams params(profile_, false);
      params.creation_source =
          BrowserWindowCreateParams::CreationSource::kStartupCreator;
@@ -54,7 +54,7 @@
      params.startup_id = startup_id;
  #endif
      if (command_line_->HasSwitch(switches::kWindowName)) {
-@@ -381,7 +381,7 @@ BrowserWindowInterface* StartupBrowserCr
+@@ -386,7 +386,7 @@ BrowserWindowInterface* StartupBrowserCr
        continue;
      }
  
@@ -63,7 +63,7 @@
      // Start the What's New fetch but don't add the tab at this point. The tab
      // will open as the foreground tab only if the remote content can be
      // retrieved successfully. This prevents needing to automatically close the
-@@ -471,7 +471,7 @@ BrowserWindowInterface* StartupBrowserCr
+@@ -480,7 +480,7 @@ BrowserWindowInterface* StartupBrowserCr
      }
    }
  

@@ -1,6 +1,6 @@
---- src/chrome/browser/extensions/api/webrtc_logging_private/webrtc_logging_private_api.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/extensions/api/webrtc_logging_private/webrtc_logging_private_api.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/chrome/browser/extensions/api/webrtc_logging_private/webrtc_logging_private_api.cc
-@@ -28,7 +28,7 @@
+@@ -29,7 +29,7 @@
  #include "extensions/browser/process_manager.h"
  #include "extensions/common/error_utils.h"
  
@@ -9,7 +9,7 @@
  #include "extensions/common/permissions/permissions_data.h"
  #endif
  
-@@ -41,7 +41,7 @@ namespace {
+@@ -42,7 +42,7 @@ namespace {
  bool CanEnableAudioDebugRecordingsFromExtension(
      const extensions::Extension* extension) {
    bool enabled_by_permissions = false;

@@ -1,6 +1,6 @@
---- src/chrome/browser/flag_descriptions.h.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/flag_descriptions.h.orig	2026-11-02 23:22:33 UTC
 +++ src/chrome/browser/flag_descriptions.h
-@@ -8940,6 +8940,18 @@ inline constexpr char kAntivirusTelemetr
+@@ -8806,6 +8806,18 @@ inline constexpr char kAntivirusTelemetr
      "Enables antivirus product info to be included in Safe Browsing download "
      "pings.";
  

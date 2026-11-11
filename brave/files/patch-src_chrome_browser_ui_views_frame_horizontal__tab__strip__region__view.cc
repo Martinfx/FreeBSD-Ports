@@ -1,6 +1,6 @@
---- src/chrome/browser/ui/views/frame/horizontal_tab_strip_region_view.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/ui/views/frame/horizontal_tab_strip_region_view.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/chrome/browser/ui/views/frame/horizontal_tab_strip_region_view.cc
-@@ -248,7 +248,7 @@ HorizontalTabStripRegionViewOld::Horizon
+@@ -249,7 +249,7 @@ HorizontalTabStripRegionViewOld::Horizon
      new_tab_button_->GetViewAccessibility().SetName(
          l10n_util::GetStringUTF16(IDS_ACCNAME_NEWTAB));
  

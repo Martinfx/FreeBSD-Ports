@@ -1,6 +1,6 @@
---- src/remoting/host/setup/daemon_controller.cc.orig	2026-10-18 18:43:23 UTC
+--- src/remoting/host/setup/daemon_controller.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/remoting/host/setup/daemon_controller.cc
-@@ -63,7 +63,7 @@ bool DaemonController::is_privileged() c
+@@ -53,7 +53,7 @@ bool DaemonController::is_privileged() c
    return delegate_->is_privileged();
  }
  

@@ -1,6 +1,6 @@
---- src/components/commerce/core/commerce_feature_list.cc.orig	2026-10-18 18:43:23 UTC
+--- src/components/commerce/core/commerce_feature_list.cc.orig	2026-11-02 23:22:33 UTC
 +++ src/components/commerce/core/commerce_feature_list.cc
-@@ -164,7 +164,7 @@ BASE_FEATURE(kEnableDiscountInfoApi, bas
+@@ -158,7 +158,7 @@ BASE_FEATURE(kEnableDiscountInfoApi, bas
  const char kDiscountOnShoppyPageParam[] = "discount-on-shoppy-page";
  
  #if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX) || \
@@ -9,7 +9,7 @@
  const base::FeatureParam<bool> kDiscountOnShoppyPage{
      &kEnableDiscountInfoApi, kDiscountOnShoppyPageParam, true};
  #else
-@@ -177,7 +177,7 @@ const char kMerchantWideBehaviorParam[]
+@@ -171,7 +171,7 @@ const char kMerchantWideBehaviorParam[]
  const char kNonMerchantWideBehaviorParam[] = "non-merchant-wide-behavior";
  
  #if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX) || \
