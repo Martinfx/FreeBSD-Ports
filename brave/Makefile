@@ -501,11 +501,15 @@ _PYTHONPATH=	${BUILD_WRKSRC}/brave/script:${BUILD_WRKSRC}/tools/grit/grit/extern
 # passes the environment through, so a fixed limit here reaches every bundle.
 NODE_HEAP_MB?=	4096
 
+# metagen imports the clang Python bindings from the installed llvm package,
+# and Python would write their bytecode next to them, into ${LOCALBASE}, which
+# the filesystem violation check catches.  Keep all bytecode inside WRKDIR.
 MAKE_ENV+=	C_INCLUDE_PATH=${LOCALBASE}/include \
 		CPLUS_INCLUDE_PATH=${LOCALBASE}/include \
 		GOCACHE=${WRKDIR}/go-cache \
 		NODE_OPTIONS=--max-old-space-size=${NODE_HEAP_MB} \
 		PYTHONPATH=${_PYTHONPATH} \
+		PYTHONPYCACHEPREFIX=${WRKDIR}/pycache \
 		PYTHONUNBUFFERED=1 \
 		RUSTC_BOOTSTRAP=1
 CONFIGURE_ENV+=	${MAKE_ENV}
