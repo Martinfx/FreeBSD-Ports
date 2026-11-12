@@ -1,5 +1,5 @@
 PORTNAME=	clion
-DISTVERSION=	2025.2.4
+DISTVERSION=	2026.3
 CATEGORIES=	devel
 MASTER_SITES=	https://download-cdn.jetbrains.com/cpp/ \
 		https://packages.jetbrains.team/files/p/clion/ports/2025.2/freebsd/clang/:clang
@@ -25,7 +25,7 @@ LICENSE_NAME=	Subscription license agreement for business and organizations
 LICENSE_TEXT=	See: https://www.jetbrains.com/store/license.html
 LICENSE_PERMS=	dist-mirror pkg-mirror auto-accept
 
-ONLY_FOR_ARCHS=	aarch64 amd64
+ONLY_FOR_ARCHS=	aarch64 amd64 powerpc64le
 
 BUILD_DEPENDS=	jna>0:devel/jna
 RUN_DEPENDS=	cmake:devel/cmake-core \
@@ -39,9 +39,7 @@ RUN_DEPENDS=	cmake:devel/cmake-core \
 USES=		cpe java python:run shebangfix
 
 CPE_VENDOR=	jetbrains
-JAVA_VERSION=	21+
-
-SHEBANG_FILES=	plugins/python-ce/helpers/typeshed/scripts/generate_proto_stubs.sh
+JAVA_VERSION=	25+
 
 DATADIR=	${PREFIX}/share/jetbrains/${PORTNAME}
 
@@ -54,45 +52,61 @@ SUB_LIST=	JAVA_HOME=${JAVA_HOME}
 WRKSRC=		${WRKDIR}/clion-${PORTVERSION}
 
 _CLANG_ARCH=	linux/${ARCH:S/amd64/x64/}
-_PTY4J_ARCH=	freebsd/${ARCH:S/amd64/x86-64/}
-_SQLITE_ARCH=	linux-${ARCH:S/amd64/x86_64/}
+_PTY4J_ARCH=	freebsd/${ARCH:S/amd64/x86-64/:S/powerpc64le/ppc64le/}
+# The IDE only knows aarch64 and x86_64 for the sqlite native library path
+_SQLITE_ARCH=	linux-${ARCH:S/amd64/x86_64/:S/powerpc64le/x86_64/}
 
 PLIST_SUB+=	ARCH=${ARCH} \
 		CLANG_ARCH=${_CLANG_ARCH} \
 		PTY4J_ARCH=${_PTY4J_ARCH} \
 		SQLITE_ARCH=${_SQLITE_ARCH}
 
+.include <bsd.port.options.mk>
+
+# No FreeBSD build of the JetBrains clangd fork exists for powerpc64le
+.if ${ARCH} == powerpc64le
+PLIST_SUB+=	CLANG="@comment "
+.else
+PLIST_SUB+=	CLANG=""
+.endif
+
+post-patch:
+	${REINPLACE_CMD} -E '1s/^.{6}//' \
+		${WRKSRC}/plugins/plugin-classpath.txt
+
 do-install:
 # Linux/Windows/OS X only so remove them
 	@${RM} -r \
-		${WRKSRC}/bin/clang/linux \
+		${WRKSRC}/bin/clang \
 		${WRKSRC}/bin/clion \
 		${WRKSRC}/bin/cmake/linux \
 		${WRKSRC}/bin/fsnotifier \
-		${WRKSRC}/bin/gdb/linux \
+		${WRKSRC}/bin/gdb \
 		${WRKSRC}/bin/lldb/linux \
 		${WRKSRC}/bin/ninja \
 		${WRKSRC}/bin/remote-dev-server \
 		${WRKSRC}/bin/remote-dev-server.sh \
-		${WRKSRC}/bin/repair \
 		${WRKSRC}/bin/restarter \
-		${WRKSRC}/lib/async-profiler \
-		${WRKSRC}/lib/jna \
-		${WRKSRC}/lib/native \
-		${WRKSRC}/lib/pty4j \
-		${WRKSRC}/lib/skiko-awt-runtime-all \
-		${WRKSRC}/plugins/cidr-completionMlRanking-plugin \
 		${WRKSRC}/plugins/clion-radler \
-		${WRKSRC}/plugins/cwm-plugin \
 		${WRKSRC}/plugins/gateway-plugin/lib/remote-dev-workers \
-		${WRKSRC}/plugins/python-ce/helpers/testResources/data/generator3 \
+		${WRKSRC}/plugins/intellij-rust/bin \
+		${WRKSRC}/plugins/jcef-plugin \
+		${WRKSRC}/plugins/jna-plugin/lib/jna \
+		${WRKSRC}/plugins/nativeDebug-plugin/bin/lldb \
+		${WRKSRC}/plugins/platform-compose-plugin/lib/skiko-awt-runtime-all \
+		${WRKSRC}/plugins/platform-vcs-plugin/lib/native \
+		${WRKSRC}/plugins/profiler-asyncOne-plugin/lib/async-profiler \
+		${WRKSRC}/plugins/pty4j-plugin/lib/pty4j \
+		${WRKSRC}/plugins/remdev-plugin/quiche-native \
 		${WRKSRC}/plugins/remote-dev-server \
-		${WRKSRC}/plugins/station-plugin/toolbox
+		${WRKSRC}/plugins/serial-monitor \
+		${WRKSRC}/plugins/station-plugin/toolbox \
+		${WRKSRC}/plugins/terminal/libghostty-vt
 	${MKDIR} ${STAGEDIR}${DATADIR}
 	@(cd ${WRKSRC} && ${COPYTREE_SHARE} . ${STAGEDIR}${DATADIR} \
-		"! -name *\.bak ! -name *\.so ! -name *\.dll ! -name *\.dylib ! -name *\.pdb ! -name *\.sh ! -name *\.exe")
+		"! -name *\.bak ! -name *\.dll ! -name *\.dylib ! -name *\.exe ! -name *\.orig ! -name *\.pdb ! -name *\.sh ! -name *\.so")
 	@(cd ${WRKSRC}/bin && ${COPYTREE_BIN} . ${STAGEDIR}${DATADIR}/bin/ \
-		"-name *\.sh -o -name *\.py")
+		"-name *\.py -o -name *\.sh")
 	${INSTALL_SCRIPT} ${WRKDIR}/${PORTNAME} ${STAGEDIR}${PREFIX}/bin/${PORTNAME}
 	${INSTALL_MAN} ${FILESDIR}/${PORTNAME}.1 ${STAGEDIR}${PREFIX}/share/man/man1/
 	${INSTALL_DATA} ${WRKDIR}/${PORTNAME}.desktop ${STAGEDIR}${PREFIX}/share/applications/
@@ -101,18 +115,19 @@ do-install:
 # Install FreeBSD native lib provided by devel/jna
 	@${MKDIR} ${WRKDIR}/jna
 	@(cd ${WRKDIR}/jna && ${JAR} xf ${JAVAJARDIR}/jna-platform.jar libjnidispatch.so)
-	${MKDIR} ${STAGEDIR}${DATADIR}/lib/jna/${ARCH}
-	${INSTALL_LIB} ${WRKDIR}/jna/libjnidispatch.so ${STAGEDIR}${DATADIR}/lib/jna/${ARCH}/
+	${MKDIR} ${STAGEDIR}${DATADIR}/plugins/jna-plugin/lib/jna/${ARCH}
+	${INSTALL_LIB} ${WRKDIR}/jna/libjnidispatch.so ${STAGEDIR}${DATADIR}/plugins/jna-plugin/lib/jna/${ARCH}/
 # Use pty4j replacement provided by devel/jetbrains-pty4j
-	${MKDIR} ${STAGEDIR}${DATADIR}/lib/pty4j/${_PTY4J_ARCH}
-	${LN} -sf ../../../../../pty4j/${ARCH}/libpty.so ${STAGEDIR}${DATADIR}/lib/pty4j/${_PTY4J_ARCH}/libpty.so
+	${MKDIR} ${STAGEDIR}${DATADIR}/plugins/pty4j-plugin/lib/pty4j/${_PTY4J_ARCH}
+	${LN} -sf ../../../../../../../pty4j/${ARCH}/libpty.so ${STAGEDIR}${DATADIR}/plugins/pty4j-plugin/lib/pty4j/${_PTY4J_ARCH}/libpty.so
 # Use restarter provided by devel/jetbrains-restarter
 	${LN} -sf ../../restarter/restarter ${STAGEDIR}${DATADIR}/bin/restarter
 # Use sqlite replacement provided by devel/jetbrains-sqlite
-	${MKDIR} ${STAGEDIR}${DATADIR}/lib/native/${_SQLITE_ARCH}
-	${LN} -sf ../../../../sqlite/${ARCH}/libsqliteij.so ${STAGEDIR}${DATADIR}/lib/native/${_SQLITE_ARCH}/libsqliteij.so
+	${MKDIR} ${STAGEDIR}${DATADIR}/plugins/platform-vcs-plugin/lib/native/${_SQLITE_ARCH}
+	${LN} -sf ../../../../../../sqlite/${ARCH}/libsqliteij.so ${STAGEDIR}${DATADIR}/plugins/platform-vcs-plugin/lib/native/${_SQLITE_ARCH}/libsqliteij.so
 # Disable automatic updates
 	${ECHO} "ide.no.platform.update=FreeBSD Ports" >> ${STAGEDIR}${DATADIR}/bin/idea.properties
+.if ${ARCH} != powerpc64le
 # Install FreeBSD native clang
 	${MKDIR} ${STAGEDIR}${DATADIR}/bin/clang/${_CLANG_ARCH}/bin
 	${INSTALL_PROGRAM} \
@@ -124,5 +139,6 @@ do-install:
 		${STAGEDIR}${DATADIR}/bin/clang/${_CLANG_ARCH}/bin/
 	${MKDIR} ${STAGEDIR}${DATADIR}/bin/clang/${_CLANG_ARCH}/lib
 	${INSTALL_LIB} ${WRKDIR}/lib/libclazyPlugin.so ${STAGEDIR}${DATADIR}/bin/clang/${_CLANG_ARCH}/lib/
+.endif
 
 .include <bsd.port.mk>
