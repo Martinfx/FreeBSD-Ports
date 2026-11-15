@@ -1,0 +1,4 @@
+bin/insights
+share/bash-completion/completions/insights
+share/fish/vendor_completions.d/insights.fish
+share/zsh/site-functions/_insights
