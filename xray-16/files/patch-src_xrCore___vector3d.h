@@ -1,6 +1,6 @@
---- src/xrCore/_vector3d.h.orig	2026-10-01 00:00:00 UTC
+--- src/xrCore/_vector3d.h.orig	2026-09-30 22:31:46 UTC
 +++ src/xrCore/_vector3d.h
-@@ -356,7 +356,7 @@
+@@ -356,7 +356,7 @@ bool _valid(const _vector3<T>& v)
  //////////////////////////////////////////////////////////////////////////
  #pragma warning(push)
  #pragma warning(disable : 4244)

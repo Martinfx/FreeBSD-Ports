@@ -1,6 +1,6 @@
---- src/xrGame/UIZoneMap.cpp.orig	2026-10-01 00:00:00 UTC
+--- src/xrGame/UIZoneMap.cpp.orig	2026-09-30 22:31:46 UTC
 +++ src/xrGame/UIZoneMap.cpp
-@@ -143,7 +143,10 @@
+@@ -143,7 +143,10 @@ void CUIZoneMap::Update(const CActor* actor)
          m_Counter_text.SetText(text_str);
      }
  

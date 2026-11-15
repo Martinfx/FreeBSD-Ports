@@ -1,6 +1,6 @@
---- src/Layers/xrRender/r__dsgraph_render.cpp.orig	2026-10-01 00:00:00 UTC
+--- src/Layers/xrRender/r__dsgraph_render.cpp.orig	2026-09-30 22:31:46 UTC
 +++ src/Layers/xrRender/r__dsgraph_render.cpp
-@@ -28,12 +28,14 @@
+@@ -28,12 +28,14 @@ bool cmp_ssa(const T &lhs, const T &rhs)
  }
  
  // Sorting by SSA and changes minimizations

@@ -1,6 +1,6 @@
---- src/utils/xrMiscMath/vector.cpp.orig	2026-10-01 00:00:00 UTC
+--- src/utils/xrMiscMath/vector.cpp.orig	2026-09-30 22:31:46 UTC
 +++ src/utils/xrMiscMath/vector.cpp
-@@ -140,7 +140,7 @@
+@@ -140,7 +140,7 @@ float angle_inertion_var(float src, float tgt, float m
  	return src;
  }
  
