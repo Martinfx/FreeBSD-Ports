@@ -1,6 +1,6 @@
 PORTNAME=	filmcraft
 DISTVERSIONPREFIX=	v
-DISTVERSION=	0.14.0
+DISTVERSION=	0.20.1
 CATEGORIES=	multimedia
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -34,15 +34,11 @@ USES=		cargo desktop-file-utils shared-mime-info
 USE_GITHUB=	yes
 GH_ACCOUNT=	storytold
 
-# Generated from Cargo.lock, but not with make cargo-crates: the lock file
-# ends in [[patch.unused]] entries, and cargo-crates.awk takes the last of
-# them (egui_system_font_provider) for a package while dropping the last
-# real one (zvariant_utils).
-CARGO_CRATES=	accesskit-0.25.1 \
+CARGO_CRATES=	accesskit-0.25.2 \
 		accesskit_atspi_common-0.21.0 \
-		accesskit_consumer-0.39.1 \
+		accesskit_consumer-0.39.2 \
 		accesskit_ios-0.2.1 \
-		accesskit_macos-0.27.1 \
+		accesskit_macos-0.27.2 \
 		accesskit_unix-0.24.0 \
 		accesskit_windows-0.35.1 \
 		accesskit_winit-0.34.1 \
@@ -175,6 +171,8 @@ CARGO_CRATES=	accesskit-0.25.1 \
 		encoding_rs-0.8.42 \
 		endi-1.1.1 \
 		enum-as-inner-0.6.1 \
+		enum-map-3.1.0 \
+		enum-map-derive-1.0.1 \
 		enumflags2-0.7.12 \
 		enumflags2_derive-0.7.12 \
 		equivalent-1.0.2 \
@@ -204,6 +202,7 @@ CARGO_CRATES=	accesskit-0.25.1 \
 		foreign-types-0.5.0 \
 		foreign-types-macros-0.2.4 \
 		foreign-types-shared-0.3.1 \
+		form_urlencoded-1.2.2 \
 		futures-0.3.34 \
 		futures-channel-0.3.34 \
 		futures-core-0.3.34 \
@@ -283,6 +282,8 @@ CARGO_CRATES=	accesskit-0.25.1 \
 		icu_provider_adapters-2.3.0 \
 		icu_provider_blob-2.3.0 \
 		ident_case-1.0.1 \
+		idna-1.1.0 \
+		idna_adapter-1.2.2 \
 		image-0.25.10 \
 		image-webp-0.2.4 \
 		indexmap-2.14.2 \
@@ -603,6 +604,7 @@ CARGO_CRATES=	accesskit-0.25.1 \
 		untrusted-0.9.0 \
 		ureq-3.5.0 \
 		ureq-proto-0.6.5 \
+		url-2.5.8 \
 		utf16_iter-1.0.5 \
 		utf8-zero-0.8.1 \
 		utf8_iter-1.0.4 \
@@ -724,15 +726,16 @@ CARGO_CRATES=	accesskit-0.25.1 \
 		zip-9.1.0 \
 		zlib-rs-0.6.8 \
 		zmij-1.0.23 \
-		zopfli-0.8.4 \
 		zune-core-0.5.3 \
 		zune-jpeg-0.5.15 \
 		zvariant-5.15.0 \
 		zvariant_derive-5.15.0 \
 		zvariant_utils-4.2.0 \
-		craft-docpath,craft-fonts-build,craft-i18n,craft-media,craft-ui,craft-update@git+https://github.com/storytold/craft-libs?rev=92d392cff132eaf53e13afff77f38b5c11b73aa0\#92d392cff132eaf53e13afff77f38b5c11b73aa0 \
-		ecolor,eframe,egui,egui-wgpu,egui-winit,egui_glow,egui_kittest,emath,epaint,epaint_default_fonts@git+https://github.com/storytold/egui.git?rev=6d518fc799681571963842f95b55a6b68431b15a\#6d518fc799681571963842f95b55a6b68431b15a \
+		craft-web-api,craft-web-host@git+https://github.com/storytold/craft-libs?rev=fd5e2feff6ea25bed371a99cc732b3968d621505\#fd5e2feff6ea25bed371a99cc732b3968d621505 \
+		craft-audio,craft-docpath,craft-fonts-build,craft-i18n,craft-media,craft-ui,craft-update@git+https://github.com/storytold/craft-libs?rev=b72cb4d68ca09cf067f144afc1f13abe1e82e1ed\#b72cb4d68ca09cf067f144afc1f13abe1e82e1ed \
+		ecolor,eframe,egui,egui-wgpu,egui-winit,egui_extras,egui_glow,egui_kittest,emath,epaint,epaint_default_fonts@git+https://github.com/storytold/egui.git?rev=6d518fc799681571963842f95b55a6b68431b15a\#6d518fc799681571963842f95b55a6b68431b15a \
 		winit@git+https://github.com/storytold/winit.git?rev=a517b3846ee8457d84ee4975110bfda6797c44dc\#a517b3846ee8457d84ee4975110bfda6797c44dc
+
 
 # The workspace also holds the web front end and xtask: build only the
 # desktop application and the command line tool, and install them from
