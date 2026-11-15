@@ -18,6 +18,4 @@ CMAKE_ARGS=	-DLLVM_CONFIG_PATH="${LOCALBASE}/llvm${LLVM_VERSION}/bin/llvm-config
 CXXFLAGS=	-pthread
 LDFLAGS=	-pthread
 
-PLIST_FILES=	bin/insights
-
 .include <bsd.port.mk>
