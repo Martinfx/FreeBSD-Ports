@@ -1,5 +1,5 @@
 PORTNAME=	iaito
-DISTVERSION=	6.2.4
+DISTVERSION=	6.2.6
 CATEGORIES=	devel
 
 MAINTAINER=	freebsd@sysctl.cz
@@ -14,11 +14,11 @@ LIB_DEPENDS=	libcapstone.so:devel/capstone \
 		libr_core.so:devel/radare2
 
 USES=		compiler:c++17-lang desktop-file-utils gl gmake pkgconfig \
-			qt:6 qmake:no_configure
-USE_GL=	opengl
-USE_QT=	base svg
+		qmake:no_configure qt:6
 USE_GITHUB=	yes
 GH_ACCOUNT=	radareorg
+USE_GL=		opengl
+USE_QT=		base svg
 GNU_CONFIGURE=	yes
 CONFIGURE_ARGS=	--with-qmake6
 
