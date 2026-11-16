@@ -34,6 +34,10 @@ USES=		cargo desktop-file-utils shared-mime-info
 USE_GITHUB=	yes
 GH_ACCOUNT=	storytold
 
+# Generated from Cargo.lock, but not with make cargo-crates: the lock file
+# ends in [[patch.unused]] entries, and cargo-crates.awk takes the last of
+# them (egui_system_font_provider) for a package while dropping the last
+# real one (zvariant_utils).
 CARGO_CRATES=	accesskit-0.25.2 \
 		accesskit_atspi_common-0.21.0 \
 		accesskit_consumer-0.39.2 \
@@ -736,7 +740,6 @@ CARGO_CRATES=	accesskit-0.25.2 \
 		ecolor,eframe,egui,egui-wgpu,egui-winit,egui_extras,egui_glow,egui_kittest,emath,epaint,epaint_default_fonts@git+https://github.com/storytold/egui.git?rev=6d518fc799681571963842f95b55a6b68431b15a\#6d518fc799681571963842f95b55a6b68431b15a \
 		winit@git+https://github.com/storytold/winit.git?rev=a517b3846ee8457d84ee4975110bfda6797c44dc\#a517b3846ee8457d84ee4975110bfda6797c44dc
 
-
 # The workspace also holds the web front end and xtask: build only the
 # desktop application and the command line tool, and install them from
 # the target directory instead of running cargo install once per crate.
@@ -756,7 +759,7 @@ CARGO_ENV+=	CARGO_PROFILE_RELEASE_LTO=false
 
 APP_ID=		ai.storyteller.filmcraft
 # Release date of ${DISTVERSION}, for the AppStream metadata.
-RELEASE_DATE=	2026-10-28
+RELEASE_DATE=	2026-11-11
 ICON_SIZES=	16 24 32 48 64 128 256 512
 
 PORTDOCS=	ATTRIBUTION.md NOTICE README.md
