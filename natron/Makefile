@@ -27,7 +27,8 @@ GH_PROJECT=	Natron
 GH_TAGNAME=	2303d45c11cccf7a4e1745142867cead96baa7b8
 GH_TUPLE=	NatronGitHub:openfx:4476791d0618ef381ca58d8ac4057c26f1b32dae:openfx/libs/OpenFX \
 		NatronGitHub:SequenceParsing:3c93fcc488632b0bdfeee3181586809932357598:SequenceParsing/libs/SequenceParsing \
-		NatronGitHub:tinydir:64fb1d4376d7580aa1013fdbacddbbeba67bb085:tinydir/libs/SequenceParsing/tinydir
+		NatronGitHub:tinydir:64fb1d4376d7580aa1013fdbacddbbeba67bb085:tinydir/libs/SequenceParsing/tinydir \
+		NatronGitHub:OpenColorIO-Configs:Natron-v2.6:ocio/OpenColorIO-Configs
 USE_GL=		gl
 USE_QT=		5compat base
 USE_XORG=	x11
@@ -45,5 +46,14 @@ post-patch:
 	@${REINPLACE_CMD} -e 's|/usr/share/|${PREFIX}/share/|g' \
 		${WRKSRC}/Engine/AppManager.cpp \
 		${WRKSRC}/Engine/Settings.cpp
+
+# Natron looks for its OCIO configs in <bindir>/../share/OpenColorIO-Configs
+# and uses the "blender" one by default
+post-install:
+	@${MKDIR} ${STAGEDIR}${PREFIX}/share/OpenColorIO-Configs
+	cd ${WRKSRC}/OpenColorIO-Configs && \
+		${COPYTREE_SHARE} "blender blender-cycles natron nuke-default" \
+		${STAGEDIR}${PREFIX}/share/OpenColorIO-Configs \
+		"! -name *.orig ! -name *.patch ! -name make.py"
 
 .include <bsd.port.mk>

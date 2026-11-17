@@ -7,3 +7,5 @@ SHA256 (NatronGitHub-SequenceParsing-3c93fcc488632b0bdfeee3181586809932357598_GH
 SIZE (NatronGitHub-SequenceParsing-3c93fcc488632b0bdfeee3181586809932357598_GH0.tar.gz) = 16064
 SHA256 (NatronGitHub-tinydir-64fb1d4376d7580aa1013fdbacddbbeba67bb085_GH0.tar.gz) = 600e57b57de495e34dd84d67ca60e24f645aac265558e9f1677432f78e036e61
 SIZE (NatronGitHub-tinydir-64fb1d4376d7580aa1013fdbacddbbeba67bb085_GH0.tar.gz) = 24770
+SHA256 (NatronGitHub-OpenColorIO-Configs-Natron-v2.6_GH0.tar.gz) = bcb383a40ca364b3b8128285c3dd995e263bb8306b1b0fc5e1f1c22c37c4b344
+SIZE (NatronGitHub-OpenColorIO-Configs-Natron-v2.6_GH0.tar.gz) = 12327010
