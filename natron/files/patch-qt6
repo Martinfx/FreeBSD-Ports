@@ -13,6 +13,11 @@ Make Natron (RB-2.6) build with Qt6 / PySide6 / shiboken6 (-DNATRON_QT6=ON).
   QStyleOption::init() -> initFrom(), viewOptions() ->
   initViewItemOption(), QTabletEvent pointer types moved to
   QPointingDevice, QApplication::globalStrut() removed.
+- Signals removed in Qt6 (connect() failed at runtime):
+  QComboBox::activated(QString) -> textActivated(QString),
+  QButtonGroup::buttonClicked(int) -> idClicked(int),
+  QProcess/QNetworkReply::error(...) -> errorOccurred(...)
+  (all available since Qt 5.15).
 - Include Qt headers before X11 headers (Status/Bool macros).
 - qhttpserver: the "method" property has type HttpMethod.
 - SequenceFileDialog: Qt::UpArrow is not a key, Ctrl+Up was meant.
@@ -173,6 +178,19 @@ index 55f1bf6..a48ce5d 100644
  class QThread;
  class QTimer;
  class QUrl;
+diff --git Engine/FileDownloader.cpp Engine/FileDownloader.cpp
+index a2bcf14..5d52c56 100644
+--- Engine/FileDownloader.cpp
++++ Engine/FileDownloader.cpp
+@@ -60,7 +60,7 @@ FileDownloader::FileDownloader(const QUrl& imageUrl,
+ 
+     m_reply = m_WebCtrl->get(request);
+     m_timer->start();
+-    QObject::connect( m_reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SIGNAL(error()) );
++    QObject::connect( m_reply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SIGNAL(error()) );
+     QObject::connect( m_reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(onDownloadProgress(qint64,qint64)) );
+ }
+ 
 diff --git Engine/FileSystemModel.cpp Engine/FileSystemModel.cpp
 index 4d377bf..1c3937b 100644
 --- Engine/FileSystemModel.cpp
@@ -279,6 +297,19 @@ index 0db1689..aabca2c 100644
                  QString message = tr("You are trying to render the frame range [%1 - %2] but you did not specify any hash ('#') character(s) or printf-like format ('%d') for the padding. This will result in the same image being overwritten multiple times.").arg(first).arg(last);
                  if (!renderController) {
                      message += tr("Would you like to continue?");
+diff --git Engine/ProcessHandler.cpp Engine/ProcessHandler.cpp
+index f1ba52a..ae6404f 100644
+--- Engine/ProcessHandler.cpp
++++ Engine/ProcessHandler.cpp
+@@ -102,7 +102,7 @@ ProcessHandler::ProcessHandler(const QString & projectPath,
+     ///connect the useful slots of the process
+     QObject::connect( _process, SIGNAL(readyReadStandardOutput()), this, SLOT(onStandardOutputBytesWritten()) );
+     QObject::connect( _process, SIGNAL(readyReadStandardError()), this, SLOT(onStandardErrorBytesWritten()) );
+-    QObject::connect( _process, SIGNAL(error(QProcess::ProcessError)), this, SLOT(onProcessError(QProcess::ProcessError)) );
++    QObject::connect( _process, SIGNAL(errorOccurred(QProcess::ProcessError)), this, SLOT(onProcessError(QProcess::ProcessError)) );
+     QObject::connect( _process, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(onProcessEnd(int,QProcess::ExitStatus)) );
+ 
+ 
 diff --git Engine/Project.cpp Engine/Project.cpp
 index 88507ff..0e95b57 100644
 --- Engine/Project.cpp
@@ -405,6 +436,19 @@ index b3e06b0..3412170 100644
          Qt::Concurrent
          Qt::Network
          Qt::Gui
+diff --git Gui/ColorSelectorWidget.cpp Gui/ColorSelectorWidget.cpp
+index dc99342..e27723d4 100644
+--- Gui/ColorSelectorWidget.cpp
++++ Gui/ColorSelectorWidget.cpp
+@@ -646,7 +646,7 @@ ColorSelectorWidget::ColorSelectorWidget(bool withAlpha, QWidget *parent)
+                          this, SLOT( handleSliderAMoved(double) ) );
+     }
+ 
+-    QObject::connect( _buttonColorGroup, SIGNAL( buttonClicked(int) ),
++    QObject::connect( _buttonColorGroup, SIGNAL( idClicked(int) ),
+                       this, SLOT( handleButtonColorClicked(int) ) );
+ 
+     QObject::connect( paletteAddColorButton, SIGNAL( clicked(bool) ),
 diff --git Gui/CurveWidgetPrivate.cpp Gui/CurveWidgetPrivate.cpp
 index dc3eea4..e68c313 100644
 --- Gui/CurveWidgetPrivate.cpp
@@ -835,9 +879,18 @@ index 9a3ad51..330237d 100644
  #include <QTextEdit>
  #include <QPlainTextEdit>
 diff --git Gui/SequenceFileDialog.cpp Gui/SequenceFileDialog.cpp
-index 01a6c80..1cae6a3 100644
+index 01a6c80..35b90ab 100644
 --- Gui/SequenceFileDialog.cpp
 +++ Gui/SequenceFileDialog.cpp
+@@ -238,7 +238,7 @@ SequenceFileDialog::SequenceFileDialog( QWidget* parent, // necessary to transmi
+     _lookInCombobox = new FileDialogComboBox(this, _buttonsWidget);
+     _lookInCombobox->setMinimumWidth(200);
+     _buttonsLayout->addWidget(_lookInCombobox);
+-    QObject::connect( _lookInCombobox, SIGNAL(activated(QString)), this, SLOT(onLookingComboboxChanged(QString)) );
++    QObject::connect( _lookInCombobox, SIGNAL(textActivated(QString)), this, SLOT(onLookingComboboxChanged(QString)) );
+     _lookInCombobox->setInsertPolicy(QComboBox::NoInsert);
+     _lookInCombobox->setDuplicatesEnabled(false);
+ 
 @@ -783,13 +783,13 @@ SequenceFileDialog::createMenuActions()
  {
      QAction *goHomeAction =  new QAction(this);
