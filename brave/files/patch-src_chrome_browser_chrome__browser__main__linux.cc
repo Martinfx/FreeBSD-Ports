@@ -1,4 +1,4 @@
---- src/chrome/browser/chrome_browser_main_linux.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/chrome_browser_main_linux.cc.orig	2026-11-11 14:44:17 UTC
 +++ src/chrome/browser/chrome_browser_main_linux.cc
 @@ -24,7 +24,7 @@
  #include "device/bluetooth/dbus/bluez_dbus_manager.h"
@@ -9,7 +9,7 @@
  #include "ui/ozone/public/ozone_platform.h"
  #if BUILDFLAG(USE_DBUS)
  #include "components/dbus/thread_linux/dbus_thread_linux.h"
-@@ -82,8 +82,10 @@ void ChromeBrowserMainPartsLinux::PostCr
+@@ -82,8 +82,10 @@ void ChromeBrowserMainPartsLinux::PostCreateMainMessag
  
  #if !BUILDFLAG(IS_CHROMEOS)
  #if BUILDFLAG(USE_DBUS)
@@ -20,7 +20,7 @@
    session_end_listener_ = SessionEndListenerLinux::Create();
  #endif  // BUILDFLAG(USE_DBUS)
  #endif  // !BUILDFLAG(IS_CHROMEOS)
-@@ -91,7 +93,7 @@ void ChromeBrowserMainPartsLinux::PostCr
+@@ -91,7 +93,7 @@ void ChromeBrowserMainPartsLinux::PostCreateMainMessag
    ChromeBrowserMainPartsPosix::PostCreateMainMessageLoop();
  }
  
@@ -29,12 +29,13 @@
  void ChromeBrowserMainPartsLinux::PostMainMessageLoopRun() {
    ChromeBrowserMainPartsPosix::PostMainMessageLoopRun();
    ui::OzonePlatform::GetInstance()->PostMainMessageLoopRun();
-@@ -125,7 +127,7 @@ void ChromeBrowserMainPartsLinux::PostBr
- #endif  // BUILDFLAG(USE_DBUS) && !BUILDFLAG(IS_CHROMEOS)
- 
- void ChromeBrowserMainPartsLinux::PostDestroyThreads() {
--#if BUILDFLAG(IS_CHROMEOS)
-+#if BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_BSD)
-   // No-op; per PostBrowserStart() comment, this is done elsewhere.
- #else
+@@ -131,7 +133,9 @@ void ChromeBrowserMainPartsLinux::PostDestroyThreads()
  #if BUILDFLAG(USE_DBUS)
+   session_end_listener_.reset();
+ #endif
++#if !BUILDFLAG(IS_BSD)
+   bluez::BluezDBusManager::Shutdown();
++#endif
+   // TODO(shelley.vohr): Call dbus_thread_linux::Shutdown() here. It cannot run
+   // yet because the in-process device service (battery, wifi, wake lock) is
+   // destroyed after this last BrowserMainParts hook and still dereferences

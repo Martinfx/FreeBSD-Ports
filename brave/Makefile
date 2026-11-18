@@ -1,6 +1,7 @@
 PORTNAME=	brave
 DISTVERSIONPREFIX=	v
 DISTVERSION=	1.99.55
+PORTREVISION=	1
 TSV=		7.0.2
 CATEGORIES=	www
 MASTER_SITES=	https://github.com/chromium-linux-tarballs/chromium-tarballs/releases/download/${CHROME_VERSION}/:chromium \
@@ -45,21 +46,21 @@ CHROME_VERSION=	157.0.8103.38
 
 # The FreeBSD patches for the Chromium tree in files/ are the ones of
 # www/chromium, rewritten for the src/ prefix this port unpacks Chromium into
-# and regenerated against the tree as brave-core patches it.  www/chromium is
-# at 156.0.8078.79, so for 157 they follow what OpenBSD's www/chromium, which
-# shares them, did for 157.0.8103.38.
+# and regenerated against the tree as brave-core patches it.  They follow
+# www/chromium 157.0.8103.78; the two hunks it carries for code that only
+# appeared after .38 (browser_features.cc, autofill_payments_features.cc) are
+# left out.
 #
-# The one place they part ways is Crubit.  Chromium generates the C++ side of
-# some of its Rust code with Crubit's cc_bindings_from_rs, which has to be
-# built against the internals of the very rustc that compiles Chromium;
-# lang/rust does not install those (rustc-dev), so there is no Crubit to be
-# had here.  OpenBSD ships a prebuilt one from 157 on.  This port keeps the
-# patches www/chromium 156 does without it with -- web bundles and isolated
-# web apps, private verification tokens and incremental font transfer are
-# left out, CBOR and the font format check use their C++ and cxx paths -- and
-# adds what 157 and Brave 1.99 need on top: the QR code generator and the
-# wallet's Polkadot code get back the cxx bridges they had until 156 and 1.98.
-# All of that can go once Crubit is in ports.
+# Chromium generates the C++ side of some of its Rust code (web bundles and
+# isolated web apps, private verification tokens, incremental font transfer,
+# CBOR, the QR code generator, the font format check, and in Brave the
+# wallet's Polkadot code) with Crubit's cc_bindings_from_rs.  That tool has to
+# be built against the internals of the very rustc that compiles Chromium,
+# which lang/rust now installs (rustc-dev), so Crubit is built here the way
+# www/chromium does it: the revision in GH_TUPLE and the crates in
+# Makefile.crates are the ones of www/chromium and go with lang/rust, not with
+# the revision Chromium's own toolchain uses (CRUBIT_REVISION in
+# tools/rust/update_rust.py).
 #
 # This port builds natively: depot_tools, gclient, cipd, siso and reclient are
 # not used at all.  Everything is taken from a Chromium release tarball
@@ -82,7 +83,20 @@ GH_TUPLE=	brave:brave-core:v${DISTVERSION}:core/src/brave \
 		brave:playlist-component:673d40f017a1559bb685a15cf608ad1d4a94f8fb:playlist/src/brave/third_party/playlist_component/src \
 		brave-intl:futures-retry:2aaaafbc3d394661534d4dbd14159d164243c20e:futuresretry/src/brave/third_party/rust/futures_retry/v0_5/crate \
 		brave:librustzcash:f01f50d64214278552edbe4a34b9049244ce03c1:librustzcash/src/brave/components/brave_wallet/browser/zcash/rust/librustzcash/src \
-		evanw:esbuild:v${_ESBUILD_VERSION:sh}:esbuild/src/esbuild
+		evanw:esbuild:v${_ESBUILD_VERSION:sh}:esbuild/src/esbuild \
+		google:crubit:dcf92a1baf2c8a6561ed0361502cfec20e2f65f5:crubit/crubit
+
+# Crubit is unpacked beside src/ and moved to where Chromium looks for it,
+# //third_party/rust-toolchain/lib/third_party/crubit, by pre-patch: src/
+# only gets its third_party/ once the Chromium tarball is moved in there.
+_CRUBIT_DIR=		${WRKSRC}/src/third_party/rust-toolchain/lib/third_party/crubit
+CARGO_CARGOTOML=	${_CRUBIT_DIR}/Cargo.toml
+CARGO_CARGOLOCK=	${_CRUBIT_DIR}/Cargo.lock
+CARGO_TARGET_DIR=	${_CRUBIT_DIR}/target
+CARGO_BUILD_ARGS=	-p cc_bindings_from_rs
+CARGO_BUILD=		no
+CARGO_INSTALL=		no
+CARGO_TEST=		no
 
 # Chromium builds devtools-frontend with esbuild, which ships no FreeBSD
 # binary, so it is taken from ports.  (Up to 154 devtools-frontend also
@@ -159,10 +173,10 @@ LIB_DEPENDS=	libatk-bridge-2.0.so:accessibility/at-spi2-core \
 RUN_DEPENDS=	noto-basic>0:x11-fonts/noto-basic \
 		xdg-open:devel/xdg-utils
 
-USES=		bison compiler:c++20-lang cpe desktop-file-utils gl gmake \
-		gnome go:no_targets iconv:wchar_t jpeg localbase:ldflags ninja \
-		nodejs:24,build perl5 pkgconfig python:build shebangfix tar:xz \
-		xorg
+USES=		bison cargo compiler:c++20-lang cpe desktop-file-utils gl \
+		gmake gnome go:no_targets iconv:wchar_t jpeg localbase:ldflags \
+		ninja nodejs:24,build perl5 pkgconfig python:build shebangfix \
+		tar:xz xorg
 
 CPE_VENDOR=	brave
 CPE_PRODUCT=	brave
@@ -228,6 +242,7 @@ GN_BASE_ARGS=	target_os="freebsd" target_cpu="${GN_CPU}" \
 		clang_use_chrome_plugins=false \
 		enable_backup_ref_ptr_support=false enable_rust=true \
 		fatal_linker_warnings=false is_clang=true \
+		rust_crubit_root="//third_party/rust-toolchain" \
 		rust_sysroot_absolute="${LOCALBASE}" \
 		treat_warnings_as_errors=false use_allocator_shim=false \
 		use_custom_libcxx=true use_custom_libunwind=true use_lld=true \
@@ -551,6 +566,10 @@ pre-patch:
 		    -maxdepth 1 -exec ${MV} {} ${WRKSRC}/src/ \; && \
 		${RMDIR} ${WRKDIR}/chromium-${CHROME_VERSION}; \
 	fi
+	@if [ ! -f ${_CRUBIT_DIR}/Cargo.toml ]; then \
+		${MKDIR} ${_CRUBIT_DIR:H} && \
+		${MV} ${WRKSRC}/crubit ${_CRUBIT_DIR}; \
+	fi
 # tsgo needs tsc/ only, and not its 50,000 test files.  The Go modules from
 # the vendor tarball go beside tsc/go.mod: www/chromium relies on the tarball
 # unpacking straight into the TypeScript checkout, so look for the vendor
@@ -698,12 +717,20 @@ do-configure:
 	${LN} -sf ${LOCALBASE}/bin/node \
 		${BUILD_WRKSRC}/third_party/node/freebsd/node-freebsd/bin/node
 # Brave builds its wasm crates with cargo, out of this directory and with
-# it first in PATH, so both binaries have to be here.
+# it first in PATH, so both binaries have to be here.  rust_crubit_root points
+# here as well: Crubit's cc_bindings_from_rs is built against lang/rust's
+# rustc-dev, and the C++ it generates is formatted with this rustfmt.
+	${CARGO_CARGO_RUN} build --manifest-path ${CARGO_CARGOTOML} \
+		--verbose ${CARGO_BUILD_ARGS:N--release} --release
 	@${MKDIR} ${BUILD_WRKSRC}/third_party/rust-toolchain/bin
 	${LN} -sf ${LOCALBASE}/bin/rustc \
 		${BUILD_WRKSRC}/third_party/rust-toolchain/bin/rustc
 	${LN} -sf ${LOCALBASE}/bin/cargo \
 		${BUILD_WRKSRC}/third_party/rust-toolchain/bin/cargo
+	${LN} -sf ${LOCALBASE}/bin/rustfmt \
+		${BUILD_WRKSRC}/third_party/rust-toolchain/bin/rustfmt
+	${LN} -sf ${CARGO_TARGET_DIR}/release/cc_bindings_from_rs \
+		${BUILD_WRKSRC}/third_party/rust-toolchain/bin/cc_bindings_from_rs
 	${LN} -sf ${LOCALBASE}/bin/gperf \
 		${BUILD_WRKSRC}/third_party/gperf/cipd/bin/gperf
 	@${MKDIR} ${BUILD_WRKSRC}/buildtools/freebsd
