@@ -1,0 +1,170 @@
+Build Niik-l/Natron RB-2.6 on FreeBSD with Qt6/PySide6, without Cycles
+and wgpu (NATRON_CYCLES=OFF, NATRON_FASTVOLUME=OFF).
+
+- CMake: do not inherit Py_LIMITED_API from an abi3 shiboken6: Natron
+  embeds Python and uses the full C API (PyRun_String,
+  PyTuple_SET_ITEM, ...).
+- Engine: find Imath through its CMake config instead of the MSYS2
+  path, and always build KnobPassTable, which KnobFactory and
+  KnobSerialization use even without Cycles.
+- Gui: link OpenColorIO (>= 2.3), used by ViewerGLPrivate.cpp.
+- Without Cycles, CyclesRenderPass::refreshSettingsInfo() and
+  KnobGuiPassTable::onRefreshObjects() must not reference the Cycles
+  classes.
+- Signals removed in Qt6 (connect() failed at runtime):
+  QComboBox::activated(QString) -> textActivated(QString),
+  QProcess::error(...) -> errorOccurred(...).
+
+diff --git CMakeLists.txt CMakeLists.txt
+index 48a0049bd..b99562b02 100644
+--- CMakeLists.txt
++++ CMakeLists.txt
+@@ -97,6 +97,13 @@ if(NATRON_QT6)
+     set(SHIBOKEN_EXE Shiboken6::shiboken6)
+     set(SHIBOKEN_LIB Shiboken6::libshiboken)
+     set(PYSIDE_LIB PySide6::pyside6)
++
++    # Natron embeds Python and uses the full C API (PyRun_String,
++    # PyTuple_SET_ITEM, ...), so do not inherit Py_LIMITED_API from an
++    # abi3 build of shiboken6.
++    get_property(SHIBOKEN_DEFS TARGET Shiboken6::libshiboken PROPERTY INTERFACE_COMPILE_DEFINITIONS)
++    list(FILTER SHIBOKEN_DEFS EXCLUDE REGEX "^Py_LIMITED_API")
++    set_property(TARGET Shiboken6::libshiboken PROPERTY INTERFACE_COMPILE_DEFINITIONS ${SHIBOKEN_DEFS})
+ else()
+     find_package(Qt5 5.15 CONFIG REQUIRED COMPONENTS ${QT_COMPONENTS})
+     find_package(Shiboken2 5.15 CONFIG REQUIRED COMPONENTS libshiboken2 shiboken2)
+diff --git Engine/CMakeLists.txt Engine/CMakeLists.txt
+index d662d1b9a..1f0148973 100644
+--- Engine/CMakeLists.txt
++++ Engine/CMakeLists.txt
+@@ -72,6 +72,11 @@ if(NATRON_FASTVOLUME)
+ endif()
+ list(APPEND NatronEngine_HEADERS ${DevDeep_HEADERS} ${DevScene3D_HEADERS} ${DevParticles_HEADERS} ${DevChannel_HEADERS} ${DevTransform_HEADERS} ${DevColor_HEADERS} ${DevPostFX_HEADERS} ${DevKeyer_HEADERS} ${DevVR_HEADERS})
+ list(APPEND NatronEngine_SOURCES ${DevDeep_SOURCES} ${DevScene3D_SOURCES} ${DevParticles_SOURCES} ${DevChannel_SOURCES} ${DevTransform_SOURCES} ${DevColor_SOURCES} ${DevPostFX_SOURCES} ${DevKeyer_SOURCES} ${DevVR_SOURCES})
++# KnobPassTable is used by KnobFactory/KnobSerialization even without Cycles
++if(NOT NATRON_CYCLES)
++    list(APPEND NatronEngine_HEADERS Dev/Cycles/KnobPassTable.h)
++    list(APPEND NatronEngine_SOURCES Dev/Cycles/KnobPassTable.cpp)
++endif()
+ if(NATRON_CYCLES)
+     list(APPEND NatronEngine_HEADERS ${DevCycles_HEADERS})
+     list(APPEND NatronEngine_SOURCES ${DevCycles_SOURCES})
+@@ -258,6 +263,10 @@ target_include_directories(NatronEngine SYSTEM PRIVATE
+ if(NATRON_HAVE_ALEMBIC)
+     target_include_directories(NatronEngine PRIVATE /c/msys64/mingw64/include/Imath)
+     target_link_libraries(NatronEngine PRIVATE ${ALEMBIC_LIBRARY})
++    # Alembic headers include <ImathVec.h> etc.: Imath::Imath adds include/Imath
++    # (the MSYS2 path above is only valid on Windows)
++    find_package(Imath CONFIG REQUIRED)
++    target_link_libraries(NatronEngine PRIVATE Imath::Imath)
+     target_compile_options(NatronEngine PRIVATE "-I/c/msys64/mingw64/include/Imath")
+ endif()
+ target_compile_definitions(NatronEngine
+diff --git Engine/Dev/Scene3D/CyclesRenderPass.cpp Engine/Dev/Scene3D/CyclesRenderPass.cpp
+index f20456c04..3830df36b 100644
+--- Engine/Dev/Scene3D/CyclesRenderPass.cpp
++++ Engine/Dev/Scene3D/CyclesRenderPass.cpp
+@@ -814,6 +814,7 @@ CyclesRenderPass::onMetadataRefreshed(const NodeMetadata& /*metadata*/)
+ void
+ CyclesRenderPass::refreshSettingsInfo()
+ {
++#ifdef NATRON_CYCLES
+     EffectInstancePtr se = skipDots( getInput(2) );
+     const CyclesRenderSettings* settings = dynamic_cast<const CyclesRenderSettings*>( se.get() );
+     for (KnobIPtr k : { KnobIPtr( _imp->samples.lock() ), KnobIPtr( _imp->denoise.lock() ),
+@@ -830,6 +831,13 @@ CyclesRenderPass::refreshSettingsInfo()
+         info->setValue( "From " + se->getNode()->getLabel() + ": " + settings->describe( getCurrentTime() ) );
+     }
+     info->setSecret(!settings);
++#else
++    // no CyclesRenderSettings node without the Cycles renderer
++    KnobStringPtr info = _imp->settingsInfo.lock();
++    if (info) {
++        info->setSecret(true);
++    }
++#endif
+ }
+ 
+ bool
+diff --git Engine/ProcessHandler.cpp Engine/ProcessHandler.cpp
+index 4aebf6571..951a8ec22 100644
+--- Engine/ProcessHandler.cpp
++++ Engine/ProcessHandler.cpp
+@@ -109,7 +109,7 @@ ProcessHandler::ProcessHandler(const QString & projectPath,
+ #if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
+     QObject::connect( _process, SIGNAL(errorOccurred(QProcess::ProcessError)), this, SLOT(onProcessError(QProcess::ProcessError)) );
+ #else
+-    QObject::connect( _process, SIGNAL(error(QProcess::ProcessError)), this, SLOT(onProcessError(QProcess::ProcessError)) );
++    QObject::connect( _process, SIGNAL(errorOccurred(QProcess::ProcessError)), this, SLOT(onProcessError(QProcess::ProcessError)) );
+ #endif
+     QObject::connect( _process, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(onProcessEnd(int,QProcess::ExitStatus)) );
+ 
+diff --git Gui/CMakeLists.txt Gui/CMakeLists.txt
+index 1f6a72dc8..338be1bc6 100644
+--- Gui/CMakeLists.txt
++++ Gui/CMakeLists.txt
+@@ -74,6 +74,11 @@ add_library(NatronGui STATIC ${NatronGui_HEADERS} ${NatronGui_SOURCES})
+ # Exclude non-Qt include paths from AUTOMOC (see Engine/CMakeLists.txt)
+ set_target_properties(NatronGui PROPERTIES AUTOMOC_PATH_PREFIX OFF)
+ 
++# ViewerGLPrivate.cpp uses OpenColorIO (>= 2.3 for GpuShaderDesc::TextureDimensions)
++# for the GPU display transform
++include(FindPkgConfig)
++pkg_check_modules(OCIO REQUIRED IMPORTED_TARGET OpenColorIO>=2.3)
++
+ target_link_libraries(NatronGui
+     PUBLIC
+         Qt::Core
+@@ -88,6 +93,7 @@ target_link_libraries(NatronGui
+         ${PYSIDE_LIB}
+         Python3::Module
+         qhttpserver
++        PkgConfig::OCIO
+ )
+ target_include_directories(NatronGui
+     PRIVATE
+diff --git Gui/KnobGuiPassTable.cpp Gui/KnobGuiPassTable.cpp
+index c6d9135cd..bf25c70a3 100644
+--- Gui/KnobGuiPassTable.cpp
++++ Gui/KnobGuiPassTable.cpp
+@@ -28,7 +28,9 @@
+ #include "Engine/KnobTypes.h"
+ 
+ #include "Gui/PassTableWidget.h"
++#ifdef NATRON_CYCLES
+ #include "Engine/Dev/Cycles/CyclesRenderPassManager.h"
++#endif
+ 
+ NATRON_NAMESPACE_ENTER
+ 
+@@ -76,11 +78,16 @@ KnobGuiPassTable::onRefreshObjects()
+     if (!_widget) return;
+     KnobPassTablePtr knob = _knob.lock();
+     if (!knob) return;
++    std::vector<std::string> geo, lights;
++#ifdef NATRON_CYCLES
+     CyclesRenderPassManager* mgr = dynamic_cast<CyclesRenderPassManager*>( knob->getHolder() );
+     if (!mgr) return;
+ 
+-    std::vector<std::string> geo, lights;
+     mgr->discoverSceneObjects(geo, lights);
++#else
++    // the scene objects are only known by the Cycles render pass manager
++    return;
++#endif
+ 
+     QStringList qgeo, qlights;
+     for (size_t i = 0; i < geo.size(); ++i)    qgeo    << QString::fromStdString(geo[i]);
+diff --git Gui/SequenceFileDialog.cpp Gui/SequenceFileDialog.cpp
+index 1cae6a369..35b90ab40 100644
+--- Gui/SequenceFileDialog.cpp
++++ Gui/SequenceFileDialog.cpp
+@@ -238,7 +238,7 @@ SequenceFileDialog::SequenceFileDialog( QWidget* parent, // necessary to transmi
+     _lookInCombobox = new FileDialogComboBox(this, _buttonsWidget);
+     _lookInCombobox->setMinimumWidth(200);
+     _buttonsLayout->addWidget(_lookInCombobox);
+-    QObject::connect( _lookInCombobox, SIGNAL(activated(QString)), this, SLOT(onLookingComboboxChanged(QString)) );
++    QObject::connect( _lookInCombobox, SIGNAL(textActivated(QString)), this, SLOT(onLookingComboboxChanged(QString)) );
+     _lookInCombobox->setInsertPolicy(QComboBox::NoInsert);
+     _lookInCombobox->setDuplicatesEnabled(false);
+ 
