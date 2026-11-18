@@ -178,6 +178,13 @@ USES=		bison cargo compiler:c++20-lang cpe desktop-file-utils gl \
 		ninja nodejs:24,build perl5 pkgconfig python:build shebangfix \
 		tar:xz xorg
 
+# Keep the ports framework's LTO out, as www/chromium does.  For USES=cargo it
+# builds the release profile with panic=abort and LTO, and cc_bindings_from_rs
+# links rustc_driver from lang/rust, which is built with panic=unwind, so the
+# link fails ("the linked panic runtime `panic_unwind` is not compiled with
+# this crate's panic strategy `abort`").  Chromium's own LTO is the LTO option.
+LTO_UNSAFE=	yes
+
 CPE_VENDOR=	brave
 CPE_PRODUCT=	brave
 USE_GL=		gbm gl
