@@ -1,4 +1,4 @@
---- cef/tools/make_api_versions_header.py.orig	2026-09-06 17:31:54 UTC
+--- cef/tools/make_api_versions_header.py.orig	2026-11-19 22:04:44 UTC
 +++ cef/tools/make_api_versions_header.py
 @@ -34,7 +34,7 @@ def make_api_versions_header(json):
  #define CEF_API_HASH_{version} "$WINDOWS$"

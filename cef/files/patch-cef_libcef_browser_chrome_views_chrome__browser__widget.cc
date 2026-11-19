@@ -1,6 +1,6 @@
---- cef/libcef/browser/chrome/views/chrome_browser_widget.cc.orig	2026-09-06 17:31:54 UTC
+--- cef/libcef/browser/chrome/views/chrome_browser_widget.cc.orig	2026-11-19 22:04:44 UTC
 +++ cef/libcef/browser/chrome/views/chrome_browser_widget.cc
-@@ -65,7 +65,7 @@ void ChromeBrowserWidget::Initialized()
+@@ -74,7 +74,7 @@ void ChromeBrowserWidget::Initialized()
  
    // Based on BrowserWidget::InitBrowserWidget.
    // This is the first call that will trigger theme-related client callbacks.

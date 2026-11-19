@@ -1,6 +1,6 @@
---- cef/libcef/browser/context.cc.orig	2026-09-06 17:31:54 UTC
+--- cef/libcef/browser/context.cc.orig	2026-11-19 22:04:44 UTC
 +++ cef/libcef/browser/context.cc
-@@ -363,7 +363,7 @@ bool CefContext::Initialize(const CefMai
+@@ -361,7 +361,7 @@ bool CefContext::Initialize(const CefMai
    settings_ = settings;
    application_ = application;
  

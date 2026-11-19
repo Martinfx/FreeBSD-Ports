@@ -1,4 +1,4 @@
---- ui/ozone/public/ozone_ui_controls_test_helper.cc.orig	2026-09-02 20:45:18 UTC
+--- ui/ozone/public/ozone_ui_controls_test_helper.cc.orig	2026-11-11 22:13:17 UTC
 +++ ui/ozone/public/ozone_ui_controls_test_helper.cc
 @@ -11,7 +11,7 @@
  

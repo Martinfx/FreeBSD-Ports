@@ -1,6 +1,6 @@
---- chrome/common/url_constants.h.orig	2026-08-31 10:59:09 UTC
+--- chrome/common/url_constants.h.orig	2026-10-18 13:29:39 UTC
 +++ chrome/common/url_constants.h
-@@ -707,7 +707,7 @@ inline constexpr char kProcessIsolationLearnMoreUrl[] 
+@@ -725,7 +725,7 @@ inline constexpr char kProcessIsolationLearnMoreUrl[] 
      "https://support.google.com/chrome?p=process_isolation";
  #endif
  

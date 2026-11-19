@@ -1,4 +1,4 @@
---- cef/tools/make_config_header.py.orig	2026-09-06 17:31:54 UTC
+--- cef/tools/make_config_header.py.orig	2026-11-19 22:04:44 UTC
 +++ cef/tools/make_config_header.py
 @@ -24,7 +24,7 @@ def make_config_header(gn_config):
  

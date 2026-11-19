@@ -1,4 +1,4 @@
---- cef/tools/make_distrib.py.orig	2026-09-06 17:31:54 UTC
+--- cef/tools/make_distrib.py.orig	2026-11-19 22:04:44 UTC
 +++ cef/tools/make_distrib.py
 @@ -745,7 +745,8 @@ def get_platform(sys_platform):
      return 'windows'
@@ -36,7 +36,7 @@
    # retrieve information for Chromium
    if git.is_checkout(src_dir):
      chromium_url = git.get_url(src_dir)
-@@ -1488,14 +1494,17 @@ def main(argv=None):
+@@ -1487,12 +1493,15 @@ def main(argv=None):
      libcef_so = 'libcef.so'
      # yapf: disable
      binaries = [
@@ -44,8 +44,6 @@
 +        {'path': 'chrome_sandbox', 'out_path': 'chrome-sandbox',
 +         'conditional': not sys.platform.startswith('linux')},
          {'path': libcef_so},
-         {'path': 'libEGL.so'},
-         {'path': 'libGLESv2.so'},
 -        {'path': 'libvk_swiftshader.so'},
 +        {'path': 'libvk_swiftshader.so',
 +         'conditional': not sys.platform.startswith('linux')},

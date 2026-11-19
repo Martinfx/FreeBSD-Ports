@@ -1,4 +1,4 @@
---- cef/libcef/browser/browser_platform_delegate_create.cc.orig	2026-09-06 17:31:54 UTC
+--- cef/libcef/browser/browser_platform_delegate_create.cc.orig	2026-11-19 22:04:44 UTC
 +++ cef/libcef/browser/browser_platform_delegate_create.cc
 @@ -21,7 +21,7 @@
  #elif BUILDFLAG(IS_MAC)

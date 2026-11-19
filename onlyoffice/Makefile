@@ -1,6 +1,7 @@
 PORTNAME=	onlyoffice
 DISTVERSIONPREFIX=	v
 DISTVERSION=	10.0.0
+PORTREVISION=	1
 CATEGORIES=	editors
 # The v8 archive is the one of www/onlyoffice-documentserver.  It is gone
 # from LOCAL/mikael, the copy of the package builders is on distcache, in
@@ -112,7 +113,7 @@ _DS_TAGNAME=	${DISTVERSIONPREFIX}${DISTVERSION}.${_DS_BUILD}
 
 # The editors are built on the cefclient sources of the CEF release that
 # www/cef is built from.  Keep this in sync with CEF_COMMIT in www/cef.
-_CEF_COMMIT=	708dc140cbc3286826a8abef89dc23a44ff9ea72
+_CEF_COMMIT=	e603d97dd5cb8b0e37d8f1daa2bc5c7eab1aa7a5
 
 # socket.io-client-cpp and the commits of its submodules that
 # build_tools/scripts/core_common/modules/socket_io.py checks out

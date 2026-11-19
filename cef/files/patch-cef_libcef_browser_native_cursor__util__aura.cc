@@ -1,4 +1,4 @@
---- cef/libcef/browser/native/cursor_util_aura.cc.orig	2026-09-06 17:31:54 UTC
+--- cef/libcef/browser/native/cursor_util_aura.cc.orig	2026-11-19 22:04:44 UTC
 +++ cef/libcef/browser/native/cursor_util_aura.cc
 @@ -14,7 +14,7 @@
  #include "ui/display/screen.h"

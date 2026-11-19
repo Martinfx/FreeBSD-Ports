@@ -1,4 +1,4 @@
---- cef/libcef/browser/chrome/chrome_browser_main_extra_parts_cef.cc.orig	2026-09-06 17:31:54 UTC
+--- cef/libcef/browser/chrome/chrome_browser_main_extra_parts_cef.cc.orig	2026-11-19 22:04:44 UTC
 +++ cef/libcef/browser/chrome/chrome_browser_main_extra_parts_cef.cc
 @@ -16,7 +16,7 @@
  #include "chrome/browser/ui/views/chrome_constrained_window_views_client.h"

@@ -1,4 +1,4 @@
---- content/browser/renderer_host/render_widget_host_view_event_handler.cc.orig	2026-09-24 17:21:42 UTC
+--- content/browser/renderer_host/render_widget_host_view_event_handler.cc.orig	2026-11-19 22:05:59 UTC
 +++ content/browser/renderer_host/render_widget_host_view_event_handler.cc
 @@ -53,7 +53,7 @@ namespace {
  // of the border area, in percentage of the corresponding dimension.
@@ -9,7 +9,7 @@
  #include "ui/aura/window_tree_host.h"
  #endif
  
-@@ -635,7 +635,7 @@ bool RenderWidgetHostViewEventHandler::C
+@@ -655,7 +655,7 @@ bool RenderWidgetHostViewEventHandler::C
    if (event->type() == ui::EventType::kMouseExited) {
      if (mouse_locked || selection_popup)
        return false;
@@ -18,7 +18,7 @@
      // Don't forward the mouse leave message which is received when the context
      // menu is displayed by the page. This confuses the page and causes state
      // changes.
-@@ -863,7 +863,7 @@ void RenderWidgetHostViewEventHandler::M
+@@ -890,7 +890,7 @@ void RenderWidgetHostViewEventHandler::M
      return;
    }
  #endif

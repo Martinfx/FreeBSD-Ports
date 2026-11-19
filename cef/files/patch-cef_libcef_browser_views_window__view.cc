@@ -1,4 +1,4 @@
---- cef/libcef/browser/views/window_view.cc.orig	2026-09-06 17:31:54 UTC
+--- cef/libcef/browser/views/window_view.cc.orig	2026-11-19 22:04:44 UTC
 +++ cef/libcef/browser/views/window_view.cc
 @@ -9,7 +9,7 @@
  
@@ -63,9 +63,9 @@
  #if BUILDFLAG(SUPPORTS_OZONE_X11)
    auto x11window = static_cast<x11::Window>(view_util::GetWindowHandle(widget));
    CHECK(x11window != x11::Window::None);
-@@ -770,7 +770,7 @@ void CefWindowView::WindowClosing() {
-     overlay_host->Close();
-   }
+@@ -765,7 +765,7 @@ void CefWindowView::WindowClosing() {
+   // Close any overlays now, before the Widget is destroyed.
+   CloseOverlayViews();
  
 -#if BUILDFLAG(IS_LINUX)
 +#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_BSD)

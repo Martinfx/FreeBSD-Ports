@@ -5,8 +5,6 @@
 %%CEFDIR%%/Release/chrome_100_percent.pak
 %%CEFDIR%%/Release/chrome_200_percent.pak
 %%CEFDIR%%/Release/icudtl.dat
-%%CEFDIR%%/Release/libEGL.so
-%%CEFDIR%%/Release/libGLESv2.so
 %%CEFDIR%%/Release/libcef.so
 %%NOT_AARCH64%%%%CEFDIR%%/Release/libvk_swiftshader.so
 %%CEFDIR%%/Release/libvulkan.so

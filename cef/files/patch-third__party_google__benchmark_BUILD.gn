@@ -1,4 +1,4 @@
---- third_party/google_benchmark/BUILD.gn.orig	2026-09-25 04:35:37 UTC
+--- third_party/google_benchmark/BUILD.gn.orig	2026-11-11 22:13:17 UTC
 +++ third_party/google_benchmark/BUILD.gn
 @@ -79,7 +79,8 @@ component("google_benchmark") {
      "BENCHMARK_VERSION=\"1.9.0\"",

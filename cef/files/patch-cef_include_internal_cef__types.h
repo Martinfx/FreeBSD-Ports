@@ -1,4 +1,4 @@
---- cef/include/internal/cef_types.h.orig	2026-09-06 17:31:54 UTC
+--- cef/include/internal/cef_types.h.orig	2026-11-19 22:04:44 UTC
 +++ cef/include/internal/cef_types.h
 @@ -47,7 +47,7 @@
  #include "include/internal/cef_types_win.h"

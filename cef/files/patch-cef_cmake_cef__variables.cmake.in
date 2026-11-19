@@ -1,4 +1,4 @@
---- cef/cmake/cef_variables.cmake.in.orig	2026-09-06 17:31:54 UTC
+--- cef/cmake/cef_variables.cmake.in.orig	2026-11-19 22:04:44 UTC
 +++ cef/cmake/cef_variables.cmake.in
 @@ -17,7 +17,8 @@ if("${CMAKE_SYSTEM_NAME}" STREQUAL "Darw
    set(OS_MAC 1)

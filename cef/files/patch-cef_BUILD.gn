@@ -1,6 +1,6 @@
---- cef/BUILD.gn.orig	2026-09-06 17:31:54 UTC
+--- cef/BUILD.gn.orig	2026-11-19 22:04:44 UTC
 +++ cef/BUILD.gn
-@@ -1037,6 +1037,16 @@ source_set("libcef_static") {
+@@ -1041,6 +1041,16 @@ source_set("libcef_static") {
      "//v8",
    ]
  

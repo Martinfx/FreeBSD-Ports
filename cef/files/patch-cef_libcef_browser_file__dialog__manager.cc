@@ -1,6 +1,6 @@
---- cef/libcef/browser/file_dialog_manager.cc.orig	2026-09-06 17:31:54 UTC
+--- cef/libcef/browser/file_dialog_manager.cc.orig	2026-11-19 22:04:44 UTC
 +++ cef/libcef/browser/file_dialog_manager.cc
-@@ -398,7 +398,7 @@ void CefFileDialogManager::RunSelectFile
+@@ -414,7 +414,7 @@ void CefFileDialogManager::RunSelectFile
      return;
    }
  

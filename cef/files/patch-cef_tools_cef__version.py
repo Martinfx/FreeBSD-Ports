@@ -1,4 +1,4 @@
---- cef/tools/cef_version.py.orig	2026-09-06 17:31:54 UTC
+--- cef/tools/cef_version.py.orig	2026-11-19 22:04:44 UTC
 +++ cef/tools/cef_version.py
 @@ -29,6 +29,11 @@ class VersionFormatter:
      self._old_format_default = \

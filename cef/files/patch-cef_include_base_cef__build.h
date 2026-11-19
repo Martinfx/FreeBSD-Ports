@@ -1,4 +1,4 @@
---- cef/include/base/cef_build.h.orig	2026-09-06 17:31:54 UTC
+--- cef/include/base/cef_build.h.orig	2026-11-19 22:04:44 UTC
 +++ cef/include/base/cef_build.h
 @@ -78,7 +78,7 @@
  // cef_config.h so any changes must also be reflected in

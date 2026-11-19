@@ -1,4 +1,4 @@
---- cef/include/internal/cef_types_linux.h.orig	2026-09-06 17:31:54 UTC
+--- cef/include/internal/cef_types_linux.h.orig	2026-11-19 22:04:44 UTC
 +++ cef/include/internal/cef_types_linux.h
 @@ -35,7 +35,7 @@
  #include "include/base/cef_build.h"

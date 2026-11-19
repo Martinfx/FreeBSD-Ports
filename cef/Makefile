@@ -1,9 +1,11 @@
 PORTNAME=	cef
-DISTVERSION=	152.0.6
-PORTREVISION=	2
+DISTVERSION=	156.0.31
+TSV=		7.0.2
 CATEGORIES=	www devel
-MASTER_SITES=	https://commondatastorage.googleapis.com/chromium-browser-official/:chromium
-DISTFILES=	chromium-${CHROMIUM_VERSION}-lite${EXTRACT_SUFX}:chromium
+MASTER_SITES=	https://commondatastorage.googleapis.com/chromium-browser-official/:chromium \
+		https://nerd.hu/distfiles/:external
+DISTFILES=	chromium-${CHROMIUM_VERSION}-lite${EXTRACT_SUFX}:chromium \
+		TypeScript-${TSV}-vendor.tar.gz:external
 
 MAINTAINER=	freebsd@sysctl.cz
 COMMENT=	Chromium Embedded Framework
@@ -17,11 +19,14 @@ ONLY_FOR_ARCHS=	aarch64 amd64
 ONLY_FOR_ARCHS_REASON=	the Chromium build is only supported on amd64 and aarch64
 
 # CEF is Chromium with an embedding API on top, and each CEF branch is tied to
-# one Chromium release, see cef/CHROMIUM_BUILD_COMPATIBILITY.txt.  This is the
-# release that CEF 152.0.6 (branch 7977) was built against upstream.
-CHROMIUM_VERSION=	152.0.7977.83
+# one Chromium release, see cef/CHROMIUM_BUILD_COMPATIBILITY.txt.  CEF 156.0.31
+# (branch 8078) was built against 156.0.8078.100 upstream, but Google publishes
+# release tarballs for some patch releases only and there is none for that
+# one, so the port uses the next release on the same branch that has one.  The
+# CEF patches apply to it unchanged.
+CHROMIUM_VERSION=	156.0.8078.102
 
-# The CEF tools compute the version string (152.0.6+g708dc14+chromium-...)
+# The CEF tools compute the version string (156.0.31+ge603d97+chromium-...)
 # from the Git history of the CEF repository.  The distfile has none, so the
 # values they would find there are passed to them through the environment,
 # see files/patch-cef_tools_cef__version.py:
@@ -29,8 +34,8 @@ CHROMIUM_VERSION=	152.0.7977.83
 # - its position in the history ("git rev-list --count"),
 # - the number of commits on the release branch, which is the patch level of
 #   the CEF version.
-CEF_COMMIT=		708dc140cbc3286826a8abef89dc23a44ff9ea72
-CEF_COMMIT_NUMBER=	3589
+CEF_COMMIT=		e603d97dd5cb8b0e37d8f1daa2bc5c7eab1aa7a5
+CEF_COMMIT_NUMBER=	3676
 CEF_BRANCH_PATCH=	${DISTVERSION:E}
 
 # This port builds natively, like www/chromium: depot_tools, gclient and the
@@ -39,13 +44,18 @@ CEF_BRANCH_PATCH=	${DISTVERSION:E}
 # added below src/cef, where gclient would put them.
 USE_GITHUB=	nodefault
 GH_TUPLE=	chromiumembedded:cef:${CEF_COMMIT}:cef/cef \
-		rollup:rollup:v4.60.4:rollup/rollup \
-		evanw:esbuild:v${_ESBUILD_VERSION:sh}:esbuild/esbuild
+		evanw:esbuild:v${_ESBUILD_VERSION:sh}:esbuild/esbuild \
+		microsoft:TypeScript:v${TSV}:typescript/typescript
 
-# Chromium builds devtools-frontend with rollup and esbuild.  Neither ships a
-# FreeBSD binary, so the rollup native binding is built from source (like
-# www/chromium does, hence the shared Makefile.crates) and esbuild is taken
-# from ports.
+# Chromium builds devtools-frontend with esbuild, which ships no FreeBSD
+# binary, so it is taken from ports.  (Up to 154 devtools-frontend also
+# bundled with rollup, whose native binding had to be built from source.)
+#
+# devtools-frontend compiles its TypeScript with tsgo, the native TypeScript
+# compiler, which Chromium gets from CIPD as a Linux binary
+# (third_party/typescript/linux-amd64/src/lib/tsc).  It is built from the
+# TypeScript sources instead, with the Go modules it needs from a vendor
+# tarball, the same way www/chromium does it.
 _ESBUILD_VERSION=	${MAKE} -C ${PORTSDIR}/devel/esbuild -V DISTVERSION
 
 WRKSRC=		${WRKDIR}/chromium-${CHROMIUM_VERSION}
@@ -63,6 +73,8 @@ BUILD_DEPENDS=	${LOCALBASE}/include/linux/videodev2.h:multimedia/v4l_compat \
 		flock:sysutils/flock \
 		gperf:devel/gperf \
 		rustc:lang/rust \
+		tsc:lang/typescript-go \
+		vulkan-headers>0:graphics/vulkan-headers \
 		xcb-proto>0:x11/xcb-proto
 
 LIB_DEPENDS=	libatk-bridge-2.0.so:accessibility/at-spi2-core \
@@ -100,20 +112,9 @@ LIB_DEPENDS=	libatk-bridge-2.0.so:accessibility/at-spi2-core \
 		libxkbcommon.so:x11/libxkbcommon \
 		libxshmfence.so:x11/libxshmfence
 
-USES=		bison cargo cmake:indirect compiler:c++20-lang gl gmake gnome \
+USES=		bison cmake:indirect compiler:c++20-lang gl gmake gnome \
 		go:no_targets iconv:wchar_t jpeg localbase:ldflags ninja \
 		nodejs:build perl5 pkgconfig python:build tar:xz xorg
-
-CARGO_CARGOTOML=	${WRKSRC}/rollup/rust/Cargo.toml
-CARGO_CARGOLOCK=	${WRKSRC}/rollup/rust/Cargo.lock
-CARGO_TARGET_DIR=	${WRKSRC}/rollup/rust/target
-CARGO_INSTALL=		No
-CARGO_BUILD=		No
-CARGO_TEST=		No
-# MAKE_ENV carries DESTDIR=${STAGEDIR}; the cmake install run by the
-# libmimalloc-sys2 build script honours it and would drop its OUT_DIR
-# (headers, libmimalloc.a, cmake/pkgconfig files) into the stage directory.
-CARGO_ENV+=		DESTDIR=
 
 USE_GL=		gbm gl
 USE_GNOME=	atk dconf gdkpixbuf glib20 gtk30 libxml2 libxslt
@@ -137,8 +138,6 @@ MAKE_ARGS=	-C out/${BUILDTYPE}
 ALL_TARGET=	libcef \
 		chrome:packed_resources \
 		components/resources:about_credits \
-		third_party/angle:libEGL \
-		third_party/angle:libGLESv2 \
 		third_party/icu:icudata \
 		third_party/vulkan-loader/src:libvulkan \
 		tools/v8_context_snapshot
@@ -170,9 +169,12 @@ GN_ARGS+=	clang_use_chrome_plugins=false \
 		use_system_libffi=true \
 		use_system_libjpeg=true \
 		use_udev=false \
+		v8_metagen_libclang_so="${LOCALBASE}/llvm${LLVM_DEFAULT}/lib/libclang.so" \
+		v8_metagen_libclang_bindings_dir="${LOCALBASE}/llvm${LLVM_DEFAULT}/lib/python${PYTHON_VER}/site-packages" \
 		extra_cxxflags="${CXXFLAGS} -I${LOCALBASE}/include/libepoll-shim" \
 		extra_ldflags="${LDFLAGS}" \
-		ffmpeg_branding="${FFMPEG_BRAND}"
+		ffmpeg_branding="${FFMPEG_BRAND}" \
+		use_typescript_go=false
 GN_ARGS+=	blink_heap_inside_shared_library=true \
 		blink_symbol_level=0 \
 		chrome_pgo_phase=0 \
@@ -239,8 +241,6 @@ SNDIO_LIB_DEPENDS=	libsndio.so:audio/sndio
 SNDIO_VARS=		GN_ARGS+=use_sndio=true
 SNDIO_VARS_OFF=		GN_ARGS+=use_sndio=false
 
-.include "Makefile.crates"
-
 .include <bsd.port.options.mk>
 .include <bsd.port.pre.mk>
 
@@ -261,7 +261,7 @@ BINARY_ALIAS+=	ar=${LOCALBASE}/bin/llvm-ar${LLVM_DEFAULT} \
 GN_CPU=			arm64
 CEF_DISTRIB_ARCH=	--arm64-build
 FFMPEG_TARGET=		arm64
-# swiftshader/lib/{libEGL.so,libGLESv2.so} is x86 only
+# SwiftShader (libvk_swiftshader.so) is x86 only
 PLIST_SUB+=		NOT_AARCH64="@comment "
 .else
 BUILD_DEPENDS+=		nasm:devel/nasm
@@ -289,6 +289,7 @@ MAKE_ENV+=	C_INCLUDE_PATH=${LOCALBASE}/include \
 		CEF_TARBALL_COMMIT_HASH=${CEF_COMMIT} \
 		CEF_TARBALL_COMMIT_NUMBER=${CEF_COMMIT_NUMBER} \
 		GOCACHE=${WRKDIR}/go-cache \
+		PYTHONPYCACHEPREFIX=${WRKDIR}/pycache \
 		PYTHONUNBUFFERED=1 \
 		RUSTC_BOOTSTRAP=1
 CONFIGURE_ENV+=	${MAKE_ENV}
@@ -346,10 +347,35 @@ pre-configure:
 	libavcodec libavformat libavutil
 	-${CP} -pR ${FFMPEG_BDIR}/${_e} ${FFMPEG_CDIR}
 .endfor
-	@${REINPLACE_CMD} -e 's|$${LOCALBASE}|${LOCALBASE}|;s|$${MODCLANG_VERSION}|${LLVM_DEFAULT}|' \
+# V8 generates its object layouts with metagen, which parses the V8 headers
+# through libclang.  Chromium takes the prebuilt libclang and its Python
+# bindings from CIPD and the clang builtin headers from its own toolchain,
+# neither of which is in the tarball, so metagen gets those of the compiler
+# this port builds with (v8_metagen_* above, and the www/chromium patch to
+# v8/BUILD.gn).
+	@${REINPLACE_CMD} -e 's|$${LOCALBASE}|${LOCALBASE}|g;s|$${MODCLANG_VERSION}|${LLVM_DEFAULT}|g' \
 		${WRKSRC}/build/linux/strip_binary.gni \
 		${WRKSRC}/build/rust/rust_bindgen.gni \
-		${WRKSRC}/build/rust/rust_bindgen_generator.gni
+		${WRKSRC}/build/rust/rust_bindgen_generator.gni \
+		${WRKSRC}/v8/BUILD.gn
+# tsgo needs the Go modules from the vendor tarball beside tsc/go.mod.
+# www/chromium relies on the tarball unpacking straight into the TypeScript
+# checkout, so look for the vendor directory wherever it landed if it is not
+# there.
+	@if [ ! -f ${WRKSRC}/typescript/tsc/vendor/modules.txt ]; then \
+		_v=$$(${FIND} ${WRKDIR} -path ${WRKSRC} -prune -o \
+		    -path '*/tsc/vendor/modules.txt' -print | ${HEAD} -1); \
+		if [ -z "$${_v}" ]; then \
+			${ECHO_MSG} "===>  No tsc/vendor in TypeScript-${TSV}-vendor.tar.gz"; \
+			${FALSE}; \
+		fi; \
+		${MV} $${_v%/modules.txt} ${WRKSRC}/typescript/tsc/vendor; \
+	fi
+# Chromium's own change to the TypeScript library files, see
+# third_party/typescript/README.chromium.  The CIPD package has it applied
+# already; the tsgo built from source in pre-build has to get it here.
+	${PATCH} -d ${WRKSRC}/typescript/tsc/internal/bundled/libs -Ep2 < \
+		${WRKSRC}/third_party/typescript/linux-amd64/3pp/patches/typescript_native_preview.patch
 # What gclient_hook.py would do: generate the translated CEF sources (the C API
 # headers, the C++/C glue in libcef_dll and cef_paths.gypi, which BUILD.gn
 # reads) and the hashes of the unversioned API.
@@ -357,15 +383,12 @@ pre-configure:
 		tools/version_manager.py -u --fast-check
 
 pre-build:
-# The rollup plugin devtools-frontend loads is a native node module
-	@${CARGO_CARGO_RUN} build --manifest-path ${CARGO_CARGOTOML} \
-		${CARGO_BUILD_ARGS}
-	(cd ${WRKSRC}/third_party/devtools-frontend/src/node_modules/@rollup && \
-		${MKDIR} rollup-freebsd && \
-		${CP} ${CARGO_TARGET_DIR}/release/libbindings_napi.so \
-			rollup-freebsd/rollup.freebsd.node && \
-		${ECHO_CMD} '{ "main": "./rollup.freebsd.node" }' \
-			> rollup-freebsd/package.json)
+# tsgo for devtools-frontend, in place of the Linux binary from CIPD.  The
+# library files next to it are the ones from the CIPD package in the tarball.
+	cd ${WRKSRC}/typescript/tsc && \
+		${SETENV} ${MAKE_ENV} go build -v -p ${MAKE_JOBS_NUMBER} -mod=vendor ./cmd/tsgo && \
+		${LN} -sf ${WRKSRC}/typescript/tsc/tsgo \
+		${WRKSRC}/third_party/typescript/linux-amd64/src/lib/tsc
 
 do-configure:
 	(cd ${WRKSRC}/esbuild && \
@@ -382,6 +405,10 @@ do-configure:
 		LD=${CXX} READELF=${READELF} AR=${AR} NM=${NM} ${PYTHON_CMD} \
 		./tools/gn/bootstrap/bootstrap.py -j${MAKE_JOBS_NUMBER} \
 		--build-path=out/${BUILDTYPE} ${GN_BOOTSTRAP_FLAGS}
+# The tarball carries a Linux gn in buildtools/linux64, which is where the
+# FreeBSD patches make the build scripts look for it (www/chromium does this
+# too).
+	${LN} -sf ${GN} ${WRKSRC}/buildtools/linux64/gn
 
 # Dependencies Chromium normally expects below third_party/
 	@${MKDIR} ${WRKSRC}/third_party/node/freebsd/node-freebsd/bin
@@ -452,10 +479,8 @@ do-install:
 		"CMakeLists.txt CREDITS.html LICENSE.txt README.txt cmake include \
 		libcef_dll" ${STAGEDIR}${PREFIX}/${CEFDIR}
 	@${MKDIR} ${STAGEDIR}${PREFIX}/${CEFDIR}/Release
-.for _f in libcef.so libEGL.so libGLESv2.so
-	${INSTALL_LIB} ${DISTRIB_DIR}/Release/${_f} \
+	${INSTALL_LIB} ${DISTRIB_DIR}/Release/libcef.so \
 		${STAGEDIR}${PREFIX}/${CEFDIR}/Release
-.endfor
 	${INSTALL_LIB} ${DISTRIB_DIR}/Release/libvulkan.so.1 \
 		${STAGEDIR}${PREFIX}/${CEFDIR}/Release/libvulkan.so
 	${INSTALL_DATA} ${DISTRIB_DIR}/Release/v8_context_snapshot.bin \

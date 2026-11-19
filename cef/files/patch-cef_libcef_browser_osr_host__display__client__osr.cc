@@ -1,4 +1,4 @@
---- cef/libcef/browser/osr/host_display_client_osr.cc.orig	2026-09-06 17:31:54 UTC
+--- cef/libcef/browser/osr/host_display_client_osr.cc.orig	2026-11-19 22:04:44 UTC
 +++ cef/libcef/browser/osr/host_display_client_osr.cc
 @@ -140,7 +140,7 @@ void CefHostDisplayClientOSR::CreateLaye
    layered_window_updater_->SetActive(active_);

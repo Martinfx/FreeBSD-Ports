@@ -1,4 +1,4 @@
---- cef/libcef_dll/wrapper/cef_zip_archive.cc.orig	2026-09-06 17:31:54 UTC
+--- cef/libcef_dll/wrapper/cef_zip_archive.cc.orig	2026-11-19 22:04:44 UTC
 +++ cef/libcef_dll/wrapper/cef_zip_archive.cc
 @@ -12,7 +12,7 @@
  #include "include/cef_zip_reader.h"

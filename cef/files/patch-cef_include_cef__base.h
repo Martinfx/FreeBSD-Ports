@@ -1,4 +1,4 @@
---- cef/include/cef_base.h.orig	2026-09-06 17:31:54 UTC
+--- cef/include/cef_base.h.orig	2026-11-19 22:04:44 UTC
 +++ cef/include/cef_base.h
 @@ -46,7 +46,7 @@
  #include "include/internal/cef_win.h"

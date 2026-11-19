@@ -1,4 +1,4 @@
---- cef/libcef/common/crash_reporting.cc.orig	2026-09-06 17:31:54 UTC
+--- cef/libcef/common/crash_reporting.cc.orig	2026-11-19 22:04:44 UTC
 +++ cef/libcef/common/crash_reporting.cc
 @@ -125,7 +125,10 @@ void InitCrashReporter(const base::Comma
    }

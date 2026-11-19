@@ -1,4 +1,4 @@
---- cef/libcef/browser/chrome/chrome_browser_main_extra_parts_cef.h.orig	2026-09-06 17:31:54 UTC
+--- cef/libcef/browser/chrome/chrome_browser_main_extra_parts_cef.h.orig	2026-11-19 22:04:44 UTC
 +++ cef/libcef/browser/chrome/chrome_browser_main_extra_parts_cef.h
 @@ -12,7 +12,7 @@
  #include "cef/libcef/browser/request_context_impl.h"
