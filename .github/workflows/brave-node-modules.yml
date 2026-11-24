@@ -77,6 +77,22 @@ jobs:
             [ -z "$want" ] || [ "$got" = "$want" ]
             printf 'SHA256 (%s) = %s\nSIZE (%s) = %s\n' \
               $T "$got" $T "$(stat -f %z /tmp/$T)" > $W/out/$T.distinfo
+            cat $W/out/$T.distinfo
+
+            # the other GitHub distfiles that change with every version,
+            # whose checksums cannot be taken anywhere codeload is out of
+            # reach: brave-browser and web-discovery-project
+            WDP=$(sed -n 's/.*brave:web-discovery-project:\([0-9a-f]*\):wdp.*/\1/p' brave/Makefile)
+            for d in "brave-browser v$V" "web-discovery-project $WDP"; do
+              set -- $d
+              F=brave-$1-$2_GH0.tar.gz
+              fetch -q -o /tmp/$F https://codeload.github.com/brave/$1/tar.gz/$2
+              printf 'SHA256 (%s) = %s\nSIZE (%s) = %s\n' \
+                $F "$(sha256 -q /tmp/$F)" $F "$(stat -f %z /tmp/$F)" \
+                > $W/out/$F.distinfo
+              cat $W/out/$F.distinfo
+            done
+
             mkdir -p /tmp/work/src
             tar -xzf /tmp/$T -C /tmp/work/src
             mv /tmp/work/src/brave-core-$V /tmp/work/src/brave
