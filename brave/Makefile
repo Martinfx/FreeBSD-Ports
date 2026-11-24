@@ -125,7 +125,7 @@ BUILD_DEPENDS=	${LOCALBASE}/include/linux/videodev2.h:multimedia/v4l_compat \
 		flock:sysutils/flock \
 		gperf:devel/gperf \
 		libva>0:multimedia/libva \
-		rustc:lang/rust \
+		rust>=1.99.1_2:lang/rust \
 		tsc:lang/typescript-go \
 		xcb-proto>0:x11/xcb-proto
 
@@ -617,6 +617,18 @@ pre-patch:
 	done
 
 pre-configure:
+# Crubit's cc_bindings_from_rs links against rustc_driver and the other
+# compiler crates, which lang/rust only installs (as rustc-dev) since
+# 1.99.1_2.  A rust from before that satisfies "rustc" in PATH and only fails
+# once cargo gets to run_compiler.rs, on "can't find crate for
+# `rustc_driver`", so say so up front.
+	@if ! ${LS} ${LOCALBASE}/lib/rustlib/${RUST_ABI_TARGET}/lib/librustc_driver-*.so \
+	    >/dev/null 2>&1; then \
+		${ECHO_MSG} "===>  No librustc_driver in ${LOCALBASE}/lib/rustlib/${RUST_ABI_TARGET}/lib."; \
+		${ECHO_MSG} "      Crubit needs the rustc-dev component of lang/rust,"; \
+		${ECHO_MSG} "      which it installs since 1.99.1_2: upgrade lang/rust."; \
+		${FALSE}; \
+	fi
 # Chromium picks the Rust standard library out of the sysroot by crate
 # name, and where a crate is present more than once it takes whichever
 # sorts first.  Two toolchains installed side by side therefore end up
