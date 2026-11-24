@@ -1,4 +1,4 @@
---- src/ui/ozone/platform/x11/x11_clipboard_ozone.cc.orig	2026-10-18 18:43:23 UTC
+--- src/ui/ozone/platform/x11/x11_clipboard_ozone.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/ozone/platform/x11/x11_clipboard_ozone.cc
 @@ -14,7 +14,7 @@
  #include "ui/base/clipboard/clipboard_constants.h"

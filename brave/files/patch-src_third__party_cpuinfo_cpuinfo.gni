@@ -1,4 +1,4 @@
---- src/third_party/cpuinfo/cpuinfo.gni.orig	2025-08-07 06:57:29 UTC
+--- src/third_party/cpuinfo/cpuinfo.gni.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/cpuinfo/cpuinfo.gni
 @@ -7,7 +7,7 @@ use_cpuinfo =
      current_cpu != "ppc64" && current_cpu != "ppc64le" &&

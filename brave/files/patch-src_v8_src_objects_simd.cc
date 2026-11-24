@@ -1,4 +1,4 @@
---- src/v8/src/objects/simd.cc.orig	2026-11-02 23:22:33 UTC
+--- src/v8/src/objects/simd.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/v8/src/objects/simd.cc
 @@ -353,7 +353,7 @@ uintptr_t fast_search_avx(T* array, uint
  // mangling SVE types with the Microsoft C++ ABI since version 21.

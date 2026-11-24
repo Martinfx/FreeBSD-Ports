@@ -1,4 +1,4 @@
---- src/mojo/core/channel.h.orig	2026-07-01 06:24:19 UTC
+--- src/mojo/core/channel.h.orig	2026-11-24 12:50:30 UTC
 +++ src/mojo/core/channel.h
 @@ -169,7 +169,7 @@ class MOJO_SYSTEM_IMPL_EXPORT Channel
        } v2;

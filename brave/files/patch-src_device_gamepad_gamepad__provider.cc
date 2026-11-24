@@ -1,4 +1,4 @@
---- src/device/gamepad/gamepad_provider.cc.orig	2026-10-18 18:43:23 UTC
+--- src/device/gamepad/gamepad_provider.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/device/gamepad/gamepad_provider.cc
 @@ -210,7 +210,7 @@ void GamepadProvider::Initialize(std::un
  

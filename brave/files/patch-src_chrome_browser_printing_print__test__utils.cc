@@ -1,4 +1,4 @@
---- src/chrome/browser/printing/print_test_utils.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/printing/print_test_utils.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/printing/print_test_utils.cc
 @@ -138,7 +138,7 @@ std::unique_ptr<PrintSettings> MakeUserM
      data.Set(kMacSystemPrintDialogDataPrintSettings,

@@ -1,4 +1,4 @@
---- src/third_party/blink/renderer/platform/fonts/skia/font_cache_skia.cc.orig	2026-10-18 18:43:23 UTC
+--- src/third_party/blink/renderer/platform/fonts/skia/font_cache_skia.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/blink/renderer/platform/fonts/skia/font_cache_skia.cc
 @@ -318,7 +318,7 @@ const FontPlatformData* FontCache::Creat
    std::string name;

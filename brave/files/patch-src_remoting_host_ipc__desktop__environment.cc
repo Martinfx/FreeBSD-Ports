@@ -1,6 +1,6 @@
---- src/remoting/host/ipc_desktop_environment.cc.orig	2026-10-18 18:43:23 UTC
+--- src/remoting/host/ipc_desktop_environment.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/remoting/host/ipc_desktop_environment.cc
-@@ -181,7 +181,7 @@ class IpcDesktopEnvironmentFactory::Core
+@@ -187,7 +187,7 @@ class IpcDesktopEnvironmentFactory::Core
                                ErrorCode error_code,
                                const std::string& error_details,
                                const SourceLocation& error_location);
@@ -9,7 +9,7 @@
    void OnSessionServicesClientConnected(
        int terminal_id,
        mojo::PendingReceiver<mojom::ChromotingSessionServices> receiver);
-@@ -193,7 +193,7 @@ class IpcDesktopEnvironmentFactory::Core
+@@ -199,7 +199,7 @@ class IpcDesktopEnvironmentFactory::Core
    void OnTerminalDisconnected(ErrorCode error_code,
                                const std::string& error_details,
                                const SourceLocation& error_location) override;
@@ -18,7 +18,7 @@
    void OnSessionServicesClientConnected(
        mojo::PendingReceiver<mojom::ChromotingSessionServices> receiver)
        override;
-@@ -352,7 +352,7 @@ void IpcDesktopEnvironmentFactory::Core:
+@@ -358,7 +358,7 @@ void IpcDesktopEnvironmentFactory::Core:
                           error_details, error_location);
  }
  
@@ -27,7 +27,7 @@
  void IpcDesktopEnvironmentFactory::Core::OnSessionServicesClientConnected(
      mojo::PendingReceiver<mojom::ChromotingSessionServices> receiver) {
    OnSessionServicesClientConnected(GetEventsReceivers().current_context(),
-@@ -398,7 +398,7 @@ void IpcDesktopEnvironmentFactory::Core:
+@@ -404,7 +404,7 @@ void IpcDesktopEnvironmentFactory::Core:
    }
  }
  
@@ -36,7 +36,7 @@
  void IpcDesktopEnvironmentFactory::Core::OnSessionServicesClientConnected(
      int terminal_id,
      mojo::PendingReceiver<mojom::ChromotingSessionServices> receiver) {
-@@ -512,7 +512,7 @@ void IpcDesktopEnvironmentFactory::OnTer
+@@ -518,7 +518,7 @@ void IpcDesktopEnvironmentFactory::OnTer
                                  error_location);
  }
  

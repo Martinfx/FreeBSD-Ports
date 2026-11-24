@@ -1,4 +1,4 @@
---- src/build/config/compiler_cpu_abi.gn.orig	2026-10-18 18:43:23 UTC
+--- src/build/config/compiler_cpu_abi.gn.orig	2026-11-24 12:50:30 UTC
 +++ src/build/config/compiler_cpu_abi.gn
 @@ -48,7 +48,7 @@ if (is_chromeos_device && is_chromeos) {
  if ((is_posix && !is_apple) || is_fuchsia) {

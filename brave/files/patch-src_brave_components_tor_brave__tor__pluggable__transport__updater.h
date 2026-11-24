@@ -1,4 +1,4 @@
---- src/brave/components/tor/brave_tor_pluggable_transport_updater.h.orig	2026-11-02 23:22:33 UTC
+--- src/brave/components/tor/brave_tor_pluggable_transport_updater.h.orig	2026-11-24 12:50:30 UTC
 +++ src/brave/components/tor/brave_tor_pluggable_transport_updater.h
 @@ -43,7 +43,9 @@ inline constexpr uint8_t kTorPluggableTr
      0xaa, 0xb0, 0xf4, 0xda, 0x33, 0x5c, 0x23, 0x2a, 0x37, 0xd9};

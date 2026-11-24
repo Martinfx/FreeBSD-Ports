@@ -1,4 +1,4 @@
---- src/net/dns/host_resolver_proc.cc.orig	2025-05-28 14:55:43 UTC
+--- src/net/dns/host_resolver_proc.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/net/dns/host_resolver_proc.cc
 @@ -16,10 +16,6 @@
  #include "net/base/net_errors.h"

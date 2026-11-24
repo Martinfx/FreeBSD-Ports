@@ -1,4 +1,4 @@
---- src/chrome/browser/supervised_user/supervised_user_google_auth_navigation_throttle.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/supervised_user/supervised_user_google_auth_navigation_throttle.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/supervised_user/supervised_user_google_auth_navigation_throttle.cc
 @@ -33,13 +33,13 @@
  #include "chrome/browser/supervised_user/child_accounts/child_account_service_android.h"

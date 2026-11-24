@@ -1,4 +1,4 @@
---- src/chrome/browser/enterprise/connectors/reporting/crash_reporting_context.h.orig	2026-05-07 17:02:56 UTC
+--- src/chrome/browser/enterprise/connectors/reporting/crash_reporting_context.h.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/enterprise/connectors/reporting/crash_reporting_context.h
 @@ -11,7 +11,7 @@
  #include "chrome/browser/enterprise/connectors/reporting/browser_crash_event_router.h"

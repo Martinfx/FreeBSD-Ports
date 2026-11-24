@@ -1,4 +1,4 @@
---- src/brave/build/commands/lib/buildArgs.ts.orig	2026-10-18 18:43:23 UTC
+--- src/brave/build/commands/lib/buildArgs.ts.orig	2026-11-24 12:50:30 UTC
 +++ src/brave/build/commands/lib/buildArgs.ts
 @@ -35,6 +35,13 @@ const FORWARD_ENV_CONFIG_VARS_TO_GN_ARGS
    'is_brave_origin_branded',

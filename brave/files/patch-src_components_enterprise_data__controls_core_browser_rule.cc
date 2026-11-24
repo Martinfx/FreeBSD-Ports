@@ -1,4 +1,4 @@
---- src/components/enterprise/data_controls/core/browser/rule.cc.orig	2026-11-02 23:22:33 UTC
+--- src/components/enterprise/data_controls/core/browser/rule.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/enterprise/data_controls/core/browser/rule.cc
 @@ -665,7 +665,7 @@ bool Rule::AddUnsupportedAttributeErrors
            AttributesCondition::kKeyUrlRegexprs,

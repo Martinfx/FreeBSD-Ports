@@ -1,4 +1,4 @@
---- src/base/posix/can_lower_nice_to.cc.orig	2022-02-28 16:54:41 UTC
+--- src/base/posix/can_lower_nice_to.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/base/posix/can_lower_nice_to.cc
 @@ -11,8 +11,12 @@
  

@@ -1,4 +1,4 @@
---- src/base/debug/stack_trace_posix.cc.orig	2026-10-18 18:43:23 UTC
+--- src/base/debug/stack_trace_posix.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/base/debug/stack_trace_posix.cc
 @@ -48,7 +48,7 @@
  // execinfo.h and backtrace(3) are really only present in glibc and in macOS

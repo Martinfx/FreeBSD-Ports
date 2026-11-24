@@ -1,4 +1,4 @@
---- src/ui/ozone/platform/headless/vulkan_implementation_headless.cc.orig	2026-10-18 18:43:23 UTC
+--- src/ui/ozone/platform/headless/vulkan_implementation_headless.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/ozone/platform/headless/vulkan_implementation_headless.cc
 @@ -117,7 +117,7 @@ VulkanImplementationHeadless::ExportVkFe
  

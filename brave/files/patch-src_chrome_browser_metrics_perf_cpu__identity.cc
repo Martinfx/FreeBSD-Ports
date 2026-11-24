@@ -1,4 +1,4 @@
---- src/chrome/browser/metrics/perf/cpu_identity.cc.orig	2026-02-11 09:05:39 UTC
+--- src/chrome/browser/metrics/perf/cpu_identity.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/metrics/perf/cpu_identity.cc
 @@ -155,7 +155,7 @@ CPUIdentity GetCPUIdentity() {
    result.release =

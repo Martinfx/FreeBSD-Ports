@@ -1,4 +1,4 @@
---- src/ipc/ipc_channel.cc.orig	2026-10-18 18:43:23 UTC
+--- src/ipc/ipc_channel.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/ipc/ipc_channel.cc
 @@ -34,7 +34,7 @@ namespace IPC {
  

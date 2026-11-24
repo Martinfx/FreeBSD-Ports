@@ -1,8 +1,8 @@
---- src/chrome/browser/ui/tabs/tab_features.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/ui/tabs/tab_features.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/tabs/tab_features.cc
-@@ -209,12 +209,12 @@
- #include "components/site_engagement/content/site_engagement_service.h"
+@@ -215,12 +215,12 @@
  #include "components/skills/features.h"
+ #include "components/zoom/zoom_controller.h"
  #include "content/public/browser/navigation_controller.h"
 -#if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX)
 +#if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_BSD)
@@ -15,7 +15,7 @@
  #include "chrome/browser/contextual_tasks/contextual_tasks_tab_navigation_observer.h"
  #include "chrome/browser/contextual_tasks/contextual_tasks_tab_visit_tracker.h"
  #include "chrome/browser/contextual_tasks/search_journey_tab_feature.h"
-@@ -304,7 +304,7 @@
+@@ -310,7 +310,7 @@
  #endif
  
  #if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX) || \
@@ -24,7 +24,7 @@
  #include "chrome/browser/ui/hats/hats_helper.h"
  #include "chrome/browser/ui/performance_controls/performance_controls_hats_service_factory.h"
  #include "chrome/browser/ui/shared_highlighting/shared_highlighting_promo.h"
-@@ -883,13 +883,13 @@ void TabFeatures::Init(TabInterface& tab
+@@ -890,13 +890,13 @@ void TabFeatures::Init(TabInterface& tab
  
    task_manager::WebContentsTags::CreateForTabContents(tab.GetContents());
  
@@ -40,7 +40,7 @@
    inactive_window_mouse_event_controller_ =
        std::make_unique<InactiveWindowMouseEventController>();
  
-@@ -1026,7 +1026,7 @@ void TabFeatures::Init(TabInterface& tab
+@@ -1040,7 +1040,7 @@ void TabFeatures::Init(TabInterface& tab
    }
  
  #if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_WIN) || \
@@ -49,7 +49,7 @@
    if (base::FeatureList::IsEnabled(enterprise_reporting::kSaasUsageReporting)) {
      saas_usage_navigation_observer_ =
          std::make_unique<enterprise_reporting::SaasUsageNavigationObserver>(
-@@ -1044,7 +1044,7 @@ void TabFeatures::Init(TabInterface& tab
+@@ -1058,7 +1058,7 @@ void TabFeatures::Init(TabInterface& tab
  #endif
  
  #if BUILDFLAG(IS_MAC) || BUILDFLAG(IS_WIN) || BUILDFLAG(IS_LINUX) || \
@@ -58,7 +58,7 @@
    if (base::FeatureList::IsEnabled(multistep_filter::kMultistepFilter)) {
      filter_ui_controller_ =
          GetUserDataFactory()
-@@ -1720,7 +1720,7 @@ void TabFeatures::WillDiscardContents(ta
+@@ -1757,7 +1757,7 @@ void TabFeatures::WillDiscardContents(ta
            new_contents);
  
  #if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_WIN) || \
@@ -67,7 +67,7 @@
    if (saas_usage_navigation_observer_) {
      saas_usage_navigation_observer_ =
          std::make_unique<enterprise_reporting::SaasUsageNavigationObserver>(
-@@ -1738,7 +1738,7 @@ void TabFeatures::WillDiscardContents(ta
+@@ -1775,7 +1775,7 @@ void TabFeatures::WillDiscardContents(ta
        std::make_unique<FontPrewarmerTabHelper>(new_contents);
  #endif
  

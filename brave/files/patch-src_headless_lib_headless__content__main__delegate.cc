@@ -1,4 +1,4 @@
---- src/headless/lib/headless_content_main_delegate.cc.orig	2026-10-18 18:43:23 UTC
+--- src/headless/lib/headless_content_main_delegate.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/headless/lib/headless_content_main_delegate.cc
 @@ -407,7 +407,7 @@ void HeadlessContentMainDelegate::InitCr
    if (process_type != ::switches::kZygoteProcess) {

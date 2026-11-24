@@ -1,4 +1,4 @@
---- src/chrome/browser/safe_browsing/safe_browsing_pref_change_handler.cc.orig	2026-09-25 15:26:43 UTC
+--- src/chrome/browser/safe_browsing/safe_browsing_pref_change_handler.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/safe_browsing/safe_browsing_pref_change_handler.cc
 @@ -19,7 +19,7 @@
  #include "content/public/browser/web_contents.h"

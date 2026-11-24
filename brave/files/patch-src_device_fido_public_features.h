@@ -1,4 +1,4 @@
---- src/device/fido/public/features.h.orig	2026-07-01 06:24:19 UTC
+--- src/device/fido/public/features.h.orig	2026-11-24 12:50:30 UTC
 +++ src/device/fido/public/features.h
 @@ -14,7 +14,7 @@
  namespace device {

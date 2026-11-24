@@ -1,4 +1,4 @@
---- src/chrome/browser/task_manager/sampling/task_group.h.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/task_manager/sampling/task_group.h.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/task_manager/sampling/task_group.h
 @@ -40,7 +40,7 @@ inline constexpr int kUnsupportedVMRefre
      REFRESH_TYPE_WEBCACHE_STATS | REFRESH_TYPE_NETWORK_USAGE |

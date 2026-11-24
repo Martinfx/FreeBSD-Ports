@@ -1,4 +1,4 @@
---- src/content/browser/child_process_launcher_helper_linux.cc.orig	2026-11-02 23:22:33 UTC
+--- src/content/browser/child_process_launcher_helper_linux.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/content/browser/child_process_launcher_helper_linux.cc
 @@ -23,7 +23,9 @@
  #include "content/public/common/content_switches.h"

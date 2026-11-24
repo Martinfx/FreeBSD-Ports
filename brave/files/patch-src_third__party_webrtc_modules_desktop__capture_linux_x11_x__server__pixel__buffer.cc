@@ -1,4 +1,4 @@
---- src/third_party/webrtc/modules/desktop_capture/linux/x11/x_server_pixel_buffer.cc.orig	2026-10-18 18:43:23 UTC
+--- src/third_party/webrtc/modules/desktop_capture/linux/x11/x_server_pixel_buffer.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/webrtc/modules/desktop_capture/linux/x11/x_server_pixel_buffer.cc
 @@ -17,6 +17,13 @@
  #include <sys/ipc.h>

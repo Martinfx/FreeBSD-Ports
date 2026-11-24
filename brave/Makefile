@@ -1,10 +1,9 @@
 PORTNAME=	brave
 DISTVERSIONPREFIX=	v
-DISTVERSION=	1.99.55
-PORTREVISION=	1
+DISTVERSION=	1.100.59
 TSV=		7.0.2
 CATEGORIES=	www
-MASTER_SITES=	https://github.com/chromium-linux-tarballs/chromium-tarballs/releases/download/${CHROME_VERSION}/:chromium \
+MASTER_SITES=	https://commondatastorage.googleapis.com/chromium-browser-official/:chromium \
 		https://codeload.github.com/microsoft/TypeScript/tar.gz/v${TSV}?dummy=/:typescript \
 		https://nerd.hu/distfiles/:external \
 		${NODE_MODULES_SITE}:nodemods
@@ -12,7 +11,7 @@ DISTFILES=	${_CHROMIUM_DIST}:chromium \
 		${_TS_DIST}:typescript \
 		${_TS_VENDOR_DIST}:external
 
-_CHROMIUM_DIST=		chromium-${CHROME_VERSION}-linux.tar.xz
+_CHROMIUM_DIST=		chromium-${CHROME_VERSION}-lite.tar.xz
 _TS_DIST=		microsoft-TypeScript-v${TSV}_GH0.tar.gz
 _TS_VENDOR_DIST=	TypeScript-${TSV}-vendor.tar.gz
 
@@ -37,19 +36,17 @@ ONLY_FOR_ARCHS=	aarch64 amd64
 ONLY_FOR_ARCHS_REASON=	the Chromium build is only supported on amd64 and aarch64
 
 # Chromium release the pinned brave-core revision is built against, see
-# "config.projects.chrome.tag" in src/brave/package.json.  Brave 1.99.55 pins
-# 157.0.8103.39, but no tarball has been published for it, so this takes .38,
-# the closest one there is, from the same chromium-linux-tarballs project
-# www/chromium fetches from.  Every brave-core 1.99.55 patch and every patch in
-# files/ applies to it without fuzz.  Move to .39 once its tarball appears.
-CHROME_VERSION=	157.0.8103.38
+# "config.projects.chrome.tag" in src/brave/package.json.  The tarball is
+# Google's official -lite one, the same www/chromium fetches: it leaves out
+# test data and the like, which the brave target does not need.  (Up to 1.99
+# this came from chromium-linux-tarballs, which had not published 158.0.8127.92
+# when 1.100.59 came out.)
+CHROME_VERSION=	158.0.8127.92
 
 # The FreeBSD patches for the Chromium tree in files/ are the ones of
 # www/chromium, rewritten for the src/ prefix this port unpacks Chromium into
 # and regenerated against the tree as brave-core patches it.  They follow
-# www/chromium 157.0.8103.78; the two hunks it carries for code that only
-# appeared after .38 (browser_features.cc, autofill_payments_features.cc) are
-# left out.
+# www/chromium 158.0.8127.36.
 #
 # Chromium generates the C++ side of some of its Rust code (web bundles and
 # isolated web apps, private verification tokens, incremental font transfer,
@@ -75,7 +72,7 @@ GH_PROJECT=	brave-browser
 GH_TUPLE=	brave:brave-core:v${DISTVERSION}:core/src/brave \
 		brave-intl:bat-native-tweetnacl:8b424ccf29957fe01c88c36076fd32006a357887:tweetnacl/src/brave/vendor/bat-native-tweetnacl \
 		brave:gn-project-generators:b76e14b162aa0ce40f11920ec94bfc12da29e5d0:gnprojgen/src/brave/vendor/gn-project-generators \
-		brave:web-discovery-project:a3ec3b6196ec34974ed9b760034d87ceadd23e6e:wdp/src/brave/vendor/web-discovery-project \
+		brave:web-discovery-project:30044d0f3c3874b7bed05306a1a2243a256310ee:wdp/src/brave/vendor/web-discovery-project \
 		brave-intl:bat-native-bip39wally-core:547a7810333d821e29b8f55126aba031aa0d5fcd:bip39wally/src/brave/third_party/bip39wally-core-native \
 		chfast:ethash:e4a15c3d76dc09392c7efd3e30d84ee3b871e9ce:ethash/src/brave/third_party/ethash/src \
 		bitcoin:bitcoin:8105bce5b384c72cf08b25b7c5343622754e7337:bitcoincore/src/brave/third_party/bitcoin-core/src \
@@ -556,8 +553,9 @@ pre-everything::
 # in files/, which the regular patch phase applies right after this target.
 # The layout below patches/ mirrors the Chromium tree.
 #
-# Roughly fifty of them are for Android and iOS files that the release tarball
-# does not ship.  None of brave-core's patches creates a file, so a patch whose
+# About 110 of them are for Android and iOS files that the release tarball
+# does not ship, and two are for test data under chrome/test/data, which the
+# -lite tarball leaves out.  None of brave-core's patches creates a file, so a patch whose
 # target is missing is one for a platform this port does not build, and it is
 # skipped; everything else has to apply.
 pre-patch:

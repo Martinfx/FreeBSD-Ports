@@ -1,4 +1,4 @@
---- src/media/base/libvpx_thread_wrapper.cc.orig	2024-03-22 08:19:40 UTC
+--- src/media/base/libvpx_thread_wrapper.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/media/base/libvpx_thread_wrapper.cc
 @@ -5,11 +5,14 @@
  #include "media/base/libvpx_thread_wrapper.h"

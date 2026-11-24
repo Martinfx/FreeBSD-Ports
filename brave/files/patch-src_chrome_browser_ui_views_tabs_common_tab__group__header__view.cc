@@ -1,11 +1,11 @@
---- src/chrome/browser/ui/views/tabs/common/tab_group_header_view.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/ui/views/tabs/common/tab_group_header_view.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/views/tabs/common/tab_group_header_view.cc
-@@ -419,7 +419,7 @@ void TabGroupHeaderView::OnMouseEntered(
- }
+@@ -420,7 +420,7 @@ void TabGroupHeaderView::OnMouseEntered(
  
  void TabGroupHeaderView::OnMouseExited(const ui::MouseEvent& event) {
+   UpdateEditorBubbleButtonVisibility(
 -#if BUILDFLAG(IS_LINUX)
 +#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_BSD)
-   // Bypasses the synchronous IsMouseHovered() check which can be stale on Linux
-   // Wayland/X11 due to asynchronous cursor updates during mouse exit events.
-   SetEditorBubbleButtonVisibilityOnHover(/*is_hovered=*/false);
+       // Bypasses the synchronous IsMouseHovered() check which can be stale on
+       // Linux Wayland/X11 due to asynchronous cursor updates during mouse exit
+       // events.

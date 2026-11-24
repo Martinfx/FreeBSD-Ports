@@ -1,4 +1,4 @@
---- src/build/detect_host_arch.py.orig	2026-11-02 23:22:33 UTC
+--- src/build/detect_host_arch.py.orig	2026-11-24 12:50:30 UTC
 +++ src/build/detect_host_arch.py
 @@ -22,6 +22,8 @@ def HostArch():
          host_arch = 'arm'

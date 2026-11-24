@@ -1,4 +1,4 @@
---- src/remoting/base/environment_details.cc.orig	2026-01-14 08:33:23 UTC
+--- src/remoting/base/environment_details.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/remoting/base/environment_details.cc
 @@ -9,7 +9,7 @@
  #include "build/build_config.h"

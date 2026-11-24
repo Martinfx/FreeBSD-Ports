@@ -1,4 +1,4 @@
---- src/components/browser_sync/browser_sync_switches.h.orig	2026-11-02 23:22:33 UTC
+--- src/components/browser_sync/browser_sync_switches.h.orig	2026-11-24 12:50:30 UTC
 +++ src/components/browser_sync/browser_sync_switches.h
 @@ -58,7 +58,7 @@ BASE_DECLARE_FEATURE(kForceMigrateNoopFo
  BASE_DECLARE_FEATURE(kMigrateOutOfSyncSetupIncompleteState);

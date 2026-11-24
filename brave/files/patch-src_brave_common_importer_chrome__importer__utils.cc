@@ -1,4 +1,4 @@
---- src/brave/common/importer/chrome_importer_utils.cc.orig	2026-10-18 18:43:23 UTC
+--- src/brave/common/importer/chrome_importer_utils.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/brave/common/importer/chrome_importer_utils.cc
 @@ -142,8 +142,9 @@ bool CanImportPasswordsForType(user_data
    }

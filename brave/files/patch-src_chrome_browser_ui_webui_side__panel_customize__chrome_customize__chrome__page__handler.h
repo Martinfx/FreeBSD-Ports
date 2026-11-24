@@ -1,4 +1,4 @@
---- src/chrome/browser/ui/webui/side_panel/customize_chrome/customize_chrome_page_handler.h.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/ui/webui/side_panel/customize_chrome/customize_chrome_page_handler.h.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/webui/side_panel/customize_chrome/customize_chrome_page_handler.h
 @@ -227,7 +227,7 @@ class CustomizeChromePageHandler
    // value needs to be requeried by the page.

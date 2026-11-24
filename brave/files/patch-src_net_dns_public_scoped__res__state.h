@@ -1,4 +1,4 @@
---- src/net/dns/public/scoped_res_state.h.orig	2024-02-23 21:04:38 UTC
+--- src/net/dns/public/scoped_res_state.h.orig	2026-11-24 12:50:30 UTC
 +++ src/net/dns/public/scoped_res_state.h
 @@ -5,6 +5,7 @@
  #ifndef NET_DNS_PUBLIC_SCOPED_RES_STATE_H_

@@ -1,4 +1,4 @@
---- src/content/browser/file_system_access/file_system_access_local_path_watcher.cc.orig	2026-10-18 18:43:23 UTC
+--- src/content/browser/file_system_access/file_system_access_local_path_watcher.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/content/browser/file_system_access/file_system_access_local_path_watcher.cc
 @@ -67,7 +67,7 @@ void FileSystemAccessLocalPathWatcher::I
        .type = scope().IsRecursive() ? FilePathWatcher::Type::kRecursive

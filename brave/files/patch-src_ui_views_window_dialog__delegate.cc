@@ -1,4 +1,4 @@
---- src/ui/views/window/dialog_delegate.cc.orig	2026-10-18 18:43:23 UTC
+--- src/ui/views/window/dialog_delegate.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/views/window/dialog_delegate.cc
 @@ -126,7 +126,7 @@ Widget* DialogDelegate::CreateDialogWidg
  

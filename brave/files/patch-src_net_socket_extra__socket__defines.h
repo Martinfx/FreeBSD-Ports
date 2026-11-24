@@ -1,4 +1,4 @@
---- src/net/socket/extra_socket_defines.h.orig	2026-08-31 10:59:09 UTC
+--- src/net/socket/extra_socket_defines.h.orig	2026-11-24 12:50:30 UTC
 +++ src/net/socket/extra_socket_defines.h
 @@ -7,7 +7,7 @@
  

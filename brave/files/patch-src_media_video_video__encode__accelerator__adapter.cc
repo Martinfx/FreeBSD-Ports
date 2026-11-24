@@ -1,4 +1,4 @@
---- src/media/video/video_encode_accelerator_adapter.cc.orig	2026-11-02 23:22:33 UTC
+--- src/media/video/video_encode_accelerator_adapter.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/media/video/video_encode_accelerator_adapter.cc
 @@ -277,7 +277,7 @@ class VideoEncodeAcceleratorAdapter::Map
      DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);

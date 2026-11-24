@@ -1,4 +1,4 @@
---- src/v8/tools/run.py.orig	2026-10-18 18:43:23 UTC
+--- src/v8/tools/run.py.orig	2026-11-24 12:50:30 UTC
 +++ src/v8/tools/run.py
 @@ -21,7 +21,7 @@ if cmd and cmd[0] == '--redirect-stdout'
    kwargs = dict(stdout=subprocess.PIPE)

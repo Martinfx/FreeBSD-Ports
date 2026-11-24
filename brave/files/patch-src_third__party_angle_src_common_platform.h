@@ -1,4 +1,4 @@
---- src/third_party/angle/src/common/platform.h.orig	2025-05-05 10:57:53 UTC
+--- src/third_party/angle/src/common/platform.h.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/angle/src/common/platform.h
 @@ -23,7 +23,15 @@
  #elif defined(__linux__) || defined(EMSCRIPTEN)

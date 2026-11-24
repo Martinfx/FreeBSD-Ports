@@ -1,4 +1,4 @@
---- src/media/capture/video/linux/fake_v4l2_impl.h.orig	2026-10-18 18:43:23 UTC
+--- src/media/capture/video/linux/fake_v4l2_impl.h.orig	2026-11-24 12:50:30 UTC
 +++ src/media/capture/video/linux/fake_v4l2_impl.h
 @@ -8,7 +8,13 @@
  #include <map>

@@ -1,4 +1,4 @@
---- src/brave/script/web_discovery_project.py.orig	2026-11-02 23:22:33 UTC
+--- src/brave/script/web_discovery_project.py.orig	2026-11-24 12:50:30 UTC
 +++ src/brave/script/web_discovery_project.py
 @@ -15,16 +15,73 @@ from lib.util import execute_stdout, sco
  WEB_DISCOVERY_DIR = os.path.join(SOURCE_ROOT, 'vendor', 'web-discovery-project')

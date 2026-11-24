@@ -1,4 +1,4 @@
---- src/content/browser/service_host/utility_process_host.cc.orig	2026-10-18 18:43:23 UTC
+--- src/content/browser/service_host/utility_process_host.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/content/browser/service_host/utility_process_host.cc
 @@ -66,7 +66,7 @@
  #include "content/browser/v8_snapshot_files.h"

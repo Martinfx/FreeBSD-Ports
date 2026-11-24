@@ -1,4 +1,4 @@
---- src/ui/views/examples/widget_example.cc.orig	2026-10-18 18:43:23 UTC
+--- src/ui/views/examples/widget_example.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/views/examples/widget_example.cc
 @@ -51,7 +51,7 @@ void WidgetExample::CreateExampleView(Vi
    modal_button->SetCallback(

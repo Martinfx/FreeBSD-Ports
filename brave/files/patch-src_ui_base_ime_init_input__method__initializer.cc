@@ -1,4 +1,4 @@
---- src/ui/base/ime/init/input_method_initializer.cc.orig	2025-02-19 07:43:18 UTC
+--- src/ui/base/ime/init/input_method_initializer.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/base/ime/init/input_method_initializer.cc
 @@ -9,7 +9,7 @@
  #include "base/trace_event/trace_event.h"

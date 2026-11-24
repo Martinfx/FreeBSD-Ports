@@ -1,4 +1,4 @@
---- src/v8/include/v8-internal.h.orig	2025-12-05 10:12:50 UTC
+--- src/v8/include/v8-internal.h.orig	2026-11-24 12:50:30 UTC
 +++ src/v8/include/v8-internal.h
 @@ -218,7 +218,7 @@ using SandboxedPointer_t = Address;
  #ifdef V8_ENABLE_SANDBOX

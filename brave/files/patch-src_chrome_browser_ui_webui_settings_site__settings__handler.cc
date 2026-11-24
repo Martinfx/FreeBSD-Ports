@@ -1,6 +1,6 @@
---- src/chrome/browser/ui/webui/settings/site_settings_handler.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/ui/webui/settings/site_settings_handler.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/webui/settings/site_settings_handler.cc
-@@ -133,7 +133,7 @@
+@@ -132,7 +132,7 @@
  #include "url/url_constants.h"
  
  #if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX) || \
@@ -9,7 +9,7 @@
  #include "components/webapps/isolated_web_apps/scheme.h"
  #endif  // BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX) ||
          // BUILDFLAG(IS_CHROMEOS)
-@@ -2126,7 +2126,7 @@ void SiteSettingsHandler::SendZoomLevels
+@@ -2119,7 +2119,7 @@ void SiteSettingsHandler::SendZoomLevels
    base::ListValue zoom_levels_exceptions;
  
  #if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX) || \
@@ -18,7 +18,7 @@
    // Show any non-default Isolated Web App zoom levels at the top of the page.
    auto* web_app_provider = web_app::WebAppProvider::GetForWebApps(profile_);
    if (web_app_provider) {
-@@ -2228,7 +2228,7 @@ void SiteSettingsHandler::HandleRemoveZo
+@@ -2221,7 +2221,7 @@ void SiteSettingsHandler::HandleRemoveZo
    GURL url(host_or_spec);
  
  #if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX) || \

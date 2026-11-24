@@ -1,4 +1,4 @@
---- src/third_party/webrtc/modules/desktop_capture/linux/wayland/egl_dmabuf.h.orig	2026-02-12 08:43:57 UTC
+--- src/third_party/webrtc/modules/desktop_capture/linux/wayland/egl_dmabuf.h.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/webrtc/modules/desktop_capture/linux/wayland/egl_dmabuf.h
 @@ -16,6 +16,8 @@
  #include <GL/gl.h>

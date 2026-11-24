@@ -1,4 +1,4 @@
---- src/build/linux/unbundle/libpng.gn.orig	2025-12-05 10:12:50 UTC
+--- src/build/linux/unbundle/libpng.gn.orig	2026-11-24 12:50:30 UTC
 +++ src/build/linux/unbundle/libpng.gn
 @@ -21,3 +21,27 @@ source_set("libpng") {
    deps = [ ":libpng_shim" ]

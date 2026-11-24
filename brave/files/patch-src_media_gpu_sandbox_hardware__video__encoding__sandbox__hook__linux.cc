@@ -1,4 +1,4 @@
---- src/media/gpu/sandbox/hardware_video_encoding_sandbox_hook_linux.cc.orig	2026-10-18 18:43:23 UTC
+--- src/media/gpu/sandbox/hardware_video_encoding_sandbox_hook_linux.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/media/gpu/sandbox/hardware_video_encoding_sandbox_hook_linux.cc
 @@ -18,12 +18,15 @@
  #include "media/gpu/v4l2/v4l2_device.h"

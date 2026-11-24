@@ -1,4 +1,4 @@
---- src/components/constrained_window/constrained_window_views.cc.orig	2026-08-12 09:02:10 UTC
+--- src/components/constrained_window/constrained_window_views.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/constrained_window/constrained_window_views.cc
 @@ -419,7 +419,7 @@ bool SupportsGlobalScreenCoordinates() {
  }

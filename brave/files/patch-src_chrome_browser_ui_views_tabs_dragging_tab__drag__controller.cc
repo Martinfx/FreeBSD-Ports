@@ -1,4 +1,4 @@
---- src/chrome/browser/ui/views/tabs/dragging/tab_drag_controller.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/ui/views/tabs/dragging/tab_drag_controller.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/views/tabs/dragging/tab_drag_controller.cc
 @@ -109,7 +109,7 @@
  #include "ui/wm/core/window_modality_controller.h"  // nogncheck
@@ -27,7 +27,7 @@
    VLOG(1) << __func__ << " image size=" << image.size().ToString();
    aura::Window* root_window =
        attached_context->GetWidget()->GetNativeWindow()->GetRootWindow();
-@@ -475,7 +475,7 @@ TabDragController::Liveness TabDragContr
+@@ -476,7 +476,7 @@ TabDragController::Liveness TabDragContr
    //     synchronous on desktop Linux, so use that.
    // - ChromeOS Ash
    //     Releasing capture on Ash cancels gestures so avoid it.
@@ -36,7 +36,7 @@
    ref->can_release_capture_ = false;
  #endif
    ref->start_point_in_screen_ =
-@@ -1174,7 +1174,7 @@ TabDragController::Liveness TabDragContr
+@@ -1183,7 +1183,7 @@ TabDragController::Liveness TabDragContr
        CHECK_EQ(SetCapture(target_context), Liveness::kAlive);
      }
  
@@ -45,7 +45,7 @@
      const bool is_dragging_all_tabs =
          source_context_ && drag_data_.num_dragging_tabs() ==
                                 source_context_->GetTabStripModel()->count();
-@@ -1611,7 +1611,7 @@ void TabDragController::AttachToNewConte
+@@ -1620,7 +1620,7 @@ void TabDragController::AttachToNewConte
  }
  
  void TabDragController::HideDeferredEmptyBrowsers() {
@@ -54,7 +54,7 @@
    // `Browser::TabStripEmpty()` normally closes the window, which hides it
    // immediately. Since the close is deferred until the drag ends, hide the
    // window here so it doesn't linger on screen tabless for the rest of the
-@@ -1910,7 +1910,7 @@ TabDragController::DetachIntoNewBrowserA
+@@ -1947,7 +1947,7 @@ TabDragController::DetachIntoNewBrowserA
        current_state_ = DragState::kWaitingForWindowToShow;
        VisibilityWaiter waiter(dragged_widget);
  
@@ -63,7 +63,7 @@
        // VisibilityWaiter runs a kNestableTasksAllowed loop while the user holds
        // the pointer button, before the move loop's own suppression scope is
        // established; suppress data drags for its duration as well.
-@@ -2564,7 +2564,7 @@ void TabDragController::CompleteDrag() {
+@@ -2615,7 +2615,7 @@ void TabDragController::CompleteDrag() {
      }
  
      // If source window was maximized - maximize the new window as well.

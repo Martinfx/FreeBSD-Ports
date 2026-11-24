@@ -1,4 +1,4 @@
---- src/chrome/browser/enterprise/browser_management/browser_management_service.h.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/enterprise/browser_management/browser_management_service.h.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/enterprise/browser_management/browser_management_service.h
 @@ -17,7 +17,7 @@
  #include "components/prefs/pref_change_registrar.h"

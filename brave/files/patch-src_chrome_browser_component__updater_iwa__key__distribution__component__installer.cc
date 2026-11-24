@@ -1,4 +1,4 @@
---- src/chrome/browser/component_updater/iwa_key_distribution_component_installer.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/component_updater/iwa_key_distribution_component_installer.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/component_updater/iwa_key_distribution_component_installer.cc
 @@ -32,7 +32,7 @@ bool IsComponentSupported() {
    // Key Distribution component is necessary for full IWAs support as it

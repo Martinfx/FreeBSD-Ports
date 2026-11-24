@@ -1,4 +1,4 @@
---- src/components/metrics/private_metrics/puma_service.cc.orig	2026-08-31 10:59:09 UTC
+--- src/components/metrics/private_metrics/puma_service.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/metrics/private_metrics/puma_service.cc
 @@ -72,7 +72,7 @@ Platform GetCurrentPlatform() {
    return Platform::PLATFORM_WINDOWS;

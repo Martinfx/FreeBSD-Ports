@@ -1,11 +1,11 @@
---- src/chrome/browser/ui/hats/survey_config.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/ui/hats/survey_config.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/hats/survey_config.cc
-@@ -380,7 +380,7 @@ std::vector<hats::SurveyConfig> GetAllSu
+@@ -365,7 +365,7 @@ std::vector<hats::SurveyConfig> GetAllSu
        &features::kHappinessTrackingSurveysForWallpaperSearch,
        kHatsSurveyTriggerWallpaperSearch);
  
 -#if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX)
 +#if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_BSD)
-   std::vector<std::string> identity_string_psd_fields{
-       "Channel", "Chrome Version", "Number of Chrome Profiles",
-       "Number of Google Accounts", "Sign-in Status"};
+   // Scheduled Restart survey.
+   // LINT.IfChange(ScheduledRestartHatsPsdFields)
+   survey_configs.emplace_back(

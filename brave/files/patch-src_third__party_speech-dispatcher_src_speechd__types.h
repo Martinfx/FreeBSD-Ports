@@ -1,5 +1,5 @@
---- src/third_party/speech-dispatcher/speechd_types.h.orig	2023-12-10 06:10:27 UTC
-+++ src/third_party/speech-dispatcher/speechd_types.h
+--- src/third_party/speech-dispatcher/src/speechd_types.h.orig	2026-11-24 12:50:30 UTC
++++ src/third_party/speech-dispatcher/src/speechd_types.h
 @@ -119,4 +119,139 @@ typedef struct {
  	SPDVoice voice;
  } SPDMsgSettings;

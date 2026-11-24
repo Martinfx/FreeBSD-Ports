@@ -1,4 +1,4 @@
---- src/third_party/libc++/src/src/chrono.cpp.orig	2026-06-04 10:12:25 UTC
+--- src/third_party/libc++/src/src/chrono.cpp.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/libc++/src/src/chrono.cpp
 @@ -37,7 +37,7 @@
  // OpenBSD and GPU do not have a fully conformant suite of POSIX timers, but

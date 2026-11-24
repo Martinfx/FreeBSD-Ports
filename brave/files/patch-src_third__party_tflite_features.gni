@@ -1,4 +1,4 @@
---- src/third_party/tflite/features.gni.orig	2026-08-12 09:02:10 UTC
+--- src/third_party/tflite/features.gni.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/tflite/features.gni
 @@ -15,7 +15,7 @@ declare_args() {
    use_litert_tflite = false

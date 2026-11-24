@@ -1,6 +1,6 @@
---- src/brave/browser/ui/views/tabs/vertical_tab_utils.cc.orig	2026-10-18 18:43:23 UTC
+--- src/brave/browser/ui/views/tabs/vertical_tab_utils.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/brave/browser/ui/views/tabs/vertical_tab_utils.cc
-@@ -22,7 +22,8 @@ std::pair<int, int> GetLeadingTrailingCa
+@@ -25,7 +25,8 @@ std::pair<int, int> GetLeadingTrailingCa
    // On Mac, frame_view->GetBrowserLayoutParams() gives more wider width than
    // we want.
    return {80, 0};

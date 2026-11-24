@@ -1,4 +1,4 @@
---- src/third_party/webrtc/modules/desktop_capture/linux/x11/x_server_pixel_buffer.h.orig	2026-06-04 10:12:25 UTC
+--- src/third_party/webrtc/modules/desktop_capture/linux/x11/x_server_pixel_buffer.h.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/webrtc/modules/desktop_capture/linux/x11/x_server_pixel_buffer.h
 @@ -17,6 +17,10 @@
  #include <X11/Xlib.h>

@@ -1,4 +1,4 @@
---- src/third_party/perfetto/src/base/android_utils.cc.orig	2026-10-18 18:43:23 UTC
+--- src/third_party/perfetto/src/base/android_utils.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/perfetto/src/base/android_utils.cc
 @@ -38,8 +38,10 @@
  #include <unistd.h>

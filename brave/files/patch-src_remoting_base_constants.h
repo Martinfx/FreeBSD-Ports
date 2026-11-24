@@ -1,4 +1,4 @@
---- src/remoting/base/constants.h.orig	2026-11-02 23:22:33 UTC
+--- src/remoting/base/constants.h.orig	2026-11-24 12:50:30 UTC
 +++ src/remoting/base/constants.h
 @@ -30,7 +30,7 @@ const int kDefaultDpi = 96;
  // The video frame rate.

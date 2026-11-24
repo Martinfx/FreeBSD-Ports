@@ -1,4 +1,4 @@
---- src/chrome/browser/enterprise/connectors/reporting/realtime_reporting_client.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/enterprise/connectors/reporting/realtime_reporting_client.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/enterprise/connectors/reporting/realtime_reporting_client.cc
 @@ -53,7 +53,7 @@
  #include "base/strings/utf_string_conversions.h"
@@ -27,7 +27,7 @@
  
  
  void AddCrowdstrikeSignalsToEvent(
-@@ -312,7 +312,7 @@ std::string RealtimeReportingClient::Get
+@@ -311,7 +311,7 @@ std::string RealtimeReportingClient::Get
    return client_id;
  }
  

@@ -1,6 +1,6 @@
---- src/ui/gfx/render_text_harfbuzz.cc.orig	2026-10-18 18:43:23 UTC
+--- src/ui/gfx/render_text_harfbuzz.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/gfx/render_text_harfbuzz.cc
-@@ -203,7 +203,7 @@ const char* GetPlatformColorEmojiFontNam
+@@ -207,7 +207,7 @@ const char* GetPlatformColorEmojiFontNam
    return "Segoe UI Emoji";
  #elif BUILDFLAG(IS_APPLE)
    return "Apple Color Emoji";

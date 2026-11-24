@@ -1,4 +1,4 @@
---- src/third_party/perfetto/include/perfetto/base/thread_utils.h.orig	2026-10-18 18:43:23 UTC
+--- src/third_party/perfetto/include/perfetto/base/thread_utils.h.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/perfetto/include/perfetto/base/thread_utils.h
 @@ -37,6 +37,7 @@ __declspec(dllimport) unsigned long __st
  #include <sys/syscall.h>

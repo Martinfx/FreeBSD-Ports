@@ -1,4 +1,4 @@
---- src/components/media_router/common/providers/cast/channel/enum_table.h.orig	2026-04-09 06:05:42 UTC
+--- src/components/media_router/common/providers/cast/channel/enum_table.h.orig	2026-11-24 12:50:30 UTC
 +++ src/components/media_router/common/providers/cast/channel/enum_table.h
 @@ -364,7 +364,12 @@ class EnumTable {
  

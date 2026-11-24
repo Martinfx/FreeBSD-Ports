@@ -1,6 +1,6 @@
---- src/chrome/browser/policy/configuration_policy_handler_list_factory.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/policy/configuration_policy_handler_list_factory.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/policy/configuration_policy_handler_list_factory.cc
-@@ -277,7 +277,7 @@
+@@ -274,7 +274,7 @@
  #include "components/spellcheck/browser/pref_names.h"
  #endif  // BUILDFLAG(ENABLE_SPELLCHECK)
  
@@ -150,16 +150,16 @@
    { key::kNTPFooterManagementNoticeEnabled,
      prefs::kNTPFooterManagementNoticeEnabled,
      base::Value::Type::BOOLEAN },
-@@ -2539,7 +2539,7 @@ const PolicyToPreferenceMapEntry kSimple
-   { key::kThirdPartyAiChatSettings,
+@@ -2540,7 +2540,7 @@ const PolicyToPreferenceMapEntry kSimple
      omnibox::kThirdPartyAiChatSettings,
      base::Value::Type::INTEGER },
--#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_WIN)
-+#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_WIN) || BUILDFLAG(IS_BSD)
+ #if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_WIN) || \
+-    BUILDFLAG(IS_ANDROID)
++    BUILDFLAG(IS_ANDROID) || BUILDFLAG(IS_BSD)
    { key::kEnableProxyOverrideRulesForAllUsers,
      proxy_config::prefs::kEnableProxyOverrideRulesForAllUsers,
      base::Value::Type::INTEGER },
-@@ -2666,7 +2666,7 @@ std::unique_ptr<ConfigurationPolicyHandl
+@@ -2668,7 +2668,7 @@ std::unique_ptr<ConfigurationPolicyHandl
        std::make_unique<
            LocalNetworkAccessIpAddressSpaceOverridesPolicyHandler>());
    handlers->AddHandler(std::make_unique<DefaultSensorsSettingPolicyHandler>());
@@ -219,7 +219,7 @@
    handlers->AddHandler(std::make_unique<CloudUserOnlyPolicyChecker>(
        std::make_unique<SimplePolicyHandler>(
            key::kSecuritySignalsClientCertificatesSelectors,
-@@ -3560,7 +3560,7 @@ std::unique_ptr<ConfigurationPolicyHandl
+@@ -3563,7 +3563,7 @@ std::unique_ptr<ConfigurationPolicyHandl
  #endif
  
  #if BUILDFLAG(ENABLE_SPELLCHECK)
@@ -228,7 +228,7 @@
    handlers->AddHandler(std::make_unique<SpellcheckLanguagePolicyHandler>());
    handlers->AddHandler(
        std::make_unique<SpellcheckLanguageBlocklistPolicyHandler>(
-@@ -3568,7 +3568,7 @@ std::unique_ptr<ConfigurationPolicyHandl
+@@ -3571,7 +3571,7 @@ std::unique_ptr<ConfigurationPolicyHandl
  #endif  // BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_WIN)
  #endif  // BUILDFLAG(ENABLE_SPELLCHECK)
  
@@ -237,7 +237,7 @@
    handlers->AddHandler(std::make_unique<SimplePolicyHandler>(
        key::kAllowSystemNotifications, prefs::kAllowSystemNotifications,
        base::Value::Type::BOOLEAN));
-@@ -3607,7 +3607,7 @@ std::unique_ptr<ConfigurationPolicyHandl
+@@ -3610,7 +3610,7 @@ std::unique_ptr<ConfigurationPolicyHandl
    std::vector<GenAiDefaultSettingsPolicyHandler::GenAiPolicyDetails>
        gen_ai_default_policies;
  #if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX) || \
@@ -246,12 +246,12 @@
    gen_ai_default_policies.emplace_back(
        key::kHelpMeWriteSettings,
        optimization_guide::prefs::kComposeEnterprisePolicyAllowed);
-@@ -3749,7 +3749,7 @@ std::unique_ptr<ConfigurationPolicyHandl
+@@ -3752,7 +3752,7 @@ std::unique_ptr<ConfigurationPolicyHandl
        glic::prefs::kGlicActuationOnWebBlockedForURLs));
  
  #if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX) || \
 -    BUILDFLAG(IS_CHROMEOS)
 +    BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_BSD)
-   handlers->AddHandler(
-       std::make_unique<GeminiEnterpriseSettingsPolicyHandler>(chrome_schema));
    handlers->AddHandler(std::make_unique<GeminiEnterpriseUrlPolicyHandler>());
+ #endif
+ 

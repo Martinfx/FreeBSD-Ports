@@ -1,4 +1,4 @@
---- src/mojo/core/embedder/features.h.orig	2025-12-05 10:12:50 UTC
+--- src/mojo/core/embedder/features.h.orig	2026-11-24 12:50:30 UTC
 +++ src/mojo/core/embedder/features.h
 @@ -14,7 +14,7 @@
  namespace mojo {

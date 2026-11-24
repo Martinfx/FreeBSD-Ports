@@ -1,4 +1,4 @@
---- src/third_party/angle/src/gpu_info_util/SystemInfo_libpci.cpp.orig	2026-10-18 18:43:23 UTC
+--- src/third_party/angle/src/gpu_info_util/SystemInfo_libpci.cpp.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/angle/src/gpu_info_util/SystemInfo_libpci.cpp
 @@ -13,6 +13,11 @@
  #include <unistd.h>

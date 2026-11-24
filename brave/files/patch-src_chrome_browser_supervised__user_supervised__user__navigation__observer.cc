@@ -1,4 +1,4 @@
---- src/chrome/browser/supervised_user/supervised_user_navigation_observer.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/supervised_user/supervised_user_navigation_observer.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/supervised_user/supervised_user_navigation_observer.cc
 @@ -59,7 +59,7 @@
  #include "components/supervised_user/core/browser/android/android_parental_controls.h"

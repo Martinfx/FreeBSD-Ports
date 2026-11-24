@@ -1,4 +1,4 @@
---- src/components/supervised_user/core/browser/supervised_user_url_checker_client.cc.orig	2026-09-25 15:26:43 UTC
+--- src/components/supervised_user/core/browser/supervised_user_url_checker_client.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/supervised_user/core/browser/supervised_user_url_checker_client.cc
 @@ -66,7 +66,7 @@ void OnResponse(
  

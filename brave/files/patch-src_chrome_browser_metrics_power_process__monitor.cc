@@ -1,4 +1,4 @@
---- src/chrome/browser/metrics/power/process_monitor.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/metrics/power/process_monitor.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/metrics/power/process_monitor.cc
 @@ -69,7 +69,7 @@ class ProcessMetricsDelegateImpl : publi
    }

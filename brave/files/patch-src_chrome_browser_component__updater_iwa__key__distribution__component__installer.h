@@ -1,4 +1,4 @@
---- src/chrome/browser/component_updater/iwa_key_distribution_component_installer.h.orig	2026-08-31 10:59:09 UTC
+--- src/chrome/browser/component_updater/iwa_key_distribution_component_installer.h.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/component_updater/iwa_key_distribution_component_installer.h
 @@ -11,7 +11,7 @@
  

@@ -1,4 +1,4 @@
---- src/media/gpu/sandbox/hardware_video_encoding_sandbox_hook_linux.h.orig	2026-10-18 18:43:23 UTC
+--- src/media/gpu/sandbox/hardware_video_encoding_sandbox_hook_linux.h.orig	2026-11-24 12:50:30 UTC
 +++ src/media/gpu/sandbox/hardware_video_encoding_sandbox_hook_linux.h
 @@ -5,7 +5,13 @@
  #ifndef MEDIA_GPU_SANDBOX_HARDWARE_VIDEO_ENCODING_SANDBOX_HOOK_LINUX_H_

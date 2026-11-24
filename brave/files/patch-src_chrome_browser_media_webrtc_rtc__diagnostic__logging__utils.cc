@@ -1,4 +1,4 @@
---- src/chrome/browser/media/webrtc/rtc_diagnostic_logging_utils.cc.orig	2026-06-04 10:12:25 UTC
+--- src/chrome/browser/media/webrtc/rtc_diagnostic_logging_utils.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/media/webrtc/rtc_diagnostic_logging_utils.cc
 @@ -32,7 +32,7 @@
  #include "url/origin.h"

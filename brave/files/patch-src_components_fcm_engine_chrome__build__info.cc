@@ -1,4 +1,4 @@
---- src/components/fcm/engine/chrome_build_info.cc.orig	2026-11-02 23:22:33 UTC
+--- src/components/fcm/engine/chrome_build_info.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/fcm/engine/chrome_build_info.cc
 @@ -27,7 +27,7 @@ ChromePlatform GetPlatform() {
    return ChromePlatform::kAndroid;

@@ -1,4 +1,4 @@
---- src/chrome/services/speech/audio_source_fetcher_impl.cc.orig	2024-06-17 12:56:06 UTC
+--- src/chrome/services/speech/audio_source_fetcher_impl.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/services/speech/audio_source_fetcher_impl.cc
 @@ -132,7 +132,7 @@ void AudioSourceFetcherImpl::Start(
  

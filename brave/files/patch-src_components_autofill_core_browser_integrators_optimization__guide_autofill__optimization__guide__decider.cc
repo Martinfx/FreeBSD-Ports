@@ -1,4 +1,4 @@
---- src/components/autofill/core/browser/integrators/optimization_guide/autofill_optimization_guide_decider.cc.orig	2026-08-12 09:02:10 UTC
+--- src/components/autofill/core/browser/integrators/optimization_guide/autofill_optimization_guide_decider.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/autofill/core/browser/integrators/optimization_guide/autofill_optimization_guide_decider.cc
 @@ -232,7 +232,7 @@ void AddOptimizationTypesForBnplIssuers(
      base::flat_set<optimization_guide::proto::OptimizationType>&

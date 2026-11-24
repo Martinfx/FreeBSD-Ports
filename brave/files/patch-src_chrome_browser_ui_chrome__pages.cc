@@ -1,4 +1,4 @@
---- src/chrome/browser/ui/chrome_pages.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/ui/chrome_pages.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/chrome_pages.cc
 @@ -256,7 +256,7 @@ bool SiteGURLIsValid(const GURL& url) {
    return !site_origin.opaque() && (url.SchemeIsHTTPOrHTTPS() ||

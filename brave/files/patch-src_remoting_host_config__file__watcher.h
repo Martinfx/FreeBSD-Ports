@@ -1,4 +1,4 @@
---- src/remoting/host/config_file_watcher.h.orig	2026-06-04 10:12:25 UTC
+--- src/remoting/host/config_file_watcher.h.orig	2026-11-24 12:50:30 UTC
 +++ src/remoting/host/config_file_watcher.h
 @@ -20,7 +20,7 @@ namespace remoting {
  extern const char kHostConfigSwitchName[];

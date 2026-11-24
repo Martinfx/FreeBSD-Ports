@@ -1,4 +1,4 @@
---- src/remoting/host/remoting_me2me_host.cc.orig	2026-11-02 23:22:33 UTC
+--- src/remoting/host/remoting_me2me_host.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/remoting/host/remoting_me2me_host.cc
 @@ -160,7 +160,7 @@
  #include "remoting/host/mac/permission_utils.h"

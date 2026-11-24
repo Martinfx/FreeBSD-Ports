@@ -1,4 +1,4 @@
---- src/headless/lib/browser/headless_browser_impl.cc.orig	2026-10-18 18:43:23 UTC
+--- src/headless/lib/browser/headless_browser_impl.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/headless/lib/browser/headless_browser_impl.cc
 @@ -37,7 +37,7 @@
  #include "components/os_crypt/async/browser/keychain_key_provider.h"

@@ -1,4 +1,4 @@
---- src/chrome/browser/enterprise/connectors/connectors_service.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/enterprise/connectors/connectors_service.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/enterprise/connectors/connectors_service.cc
 @@ -327,7 +327,7 @@ policy::PolicyScope ConnectorsService::G
  bool ConnectorsService::ConnectorsEnabled() const {

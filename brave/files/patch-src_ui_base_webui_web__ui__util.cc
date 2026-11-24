@@ -1,4 +1,4 @@
---- src/ui/base/webui/web_ui_util.cc.orig	2026-10-18 18:43:23 UTC
+--- src/ui/base/webui/web_ui_util.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/base/webui/web_ui_util.cc
 @@ -44,7 +44,7 @@ namespace {
  constexpr float kMaxScaleFactor = 1000.0f;

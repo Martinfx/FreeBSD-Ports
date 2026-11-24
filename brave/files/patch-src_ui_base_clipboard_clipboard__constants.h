@@ -1,4 +1,4 @@
---- src/ui/base/clipboard/clipboard_constants.h.orig	2026-10-18 18:43:23 UTC
+--- src/ui/base/clipboard/clipboard_constants.h.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/base/clipboard/clipboard_constants.h
 @@ -46,7 +46,7 @@ inline constexpr char kMimeTypeWindowDra
  

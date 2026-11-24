@@ -1,4 +1,4 @@
---- src/content/browser/renderer_host/navigation_transitions/navigation_entry_screenshot.cc.orig	2026-10-18 18:43:23 UTC
+--- src/content/browser/renderer_host/navigation_transitions/navigation_entry_screenshot.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/content/browser/renderer_host/navigation_transitions/navigation_entry_screenshot.cc
 @@ -71,7 +71,7 @@ void CompressNavigationScreenshotOnWorke
  }

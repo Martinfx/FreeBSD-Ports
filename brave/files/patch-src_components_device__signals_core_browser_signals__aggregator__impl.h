@@ -1,4 +1,4 @@
---- src/components/device_signals/core/browser/signals_aggregator_impl.h.orig	2026-10-18 18:43:23 UTC
+--- src/components/device_signals/core/browser/signals_aggregator_impl.h.orig	2026-11-24 12:50:30 UTC
 +++ src/components/device_signals/core/browser/signals_aggregator_impl.h
 @@ -30,7 +30,7 @@ class SignalsAggregatorImpl : public Sig
    ~SignalsAggregatorImpl() override;

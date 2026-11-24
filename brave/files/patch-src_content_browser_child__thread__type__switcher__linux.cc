@@ -1,4 +1,4 @@
---- src/content/browser/child_thread_type_switcher_linux.cc.orig	2026-10-20 12:00:32 UTC
+--- src/content/browser/child_thread_type_switcher_linux.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/content/browser/child_thread_type_switcher_linux.cc
 @@ -9,6 +9,7 @@
  #include "base/containers/flat_map.h"

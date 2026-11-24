@@ -1,4 +1,4 @@
---- src/chrome/browser/ui/toolbar/avatar_toolbar_iph_controller.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/ui/toolbar/avatar_toolbar_iph_controller.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/toolbar/avatar_toolbar_iph_controller.cc
 @@ -123,7 +123,7 @@ void AvatarToolbarIphController::MaybeSh
  }

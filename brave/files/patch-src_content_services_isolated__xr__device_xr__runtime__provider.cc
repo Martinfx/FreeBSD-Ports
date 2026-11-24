@@ -1,4 +1,4 @@
---- src/content/services/isolated_xr_device/xr_runtime_provider.cc.orig	2026-11-02 23:22:33 UTC
+--- src/content/services/isolated_xr_device/xr_runtime_provider.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/content/services/isolated_xr_device/xr_runtime_provider.cc
 @@ -21,7 +21,7 @@
  

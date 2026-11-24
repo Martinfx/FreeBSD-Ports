@@ -1,4 +1,4 @@
---- src/chrome/browser/ui/webui/history/history_identity_state_watcher.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/ui/webui/history/history_identity_state_watcher.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/webui/history/history_identity_state_watcher.cc
 @@ -122,7 +122,7 @@ HistoryIdentityStateWatcher::GetSyncStat
    }

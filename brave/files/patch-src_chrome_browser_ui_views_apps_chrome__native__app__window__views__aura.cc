@@ -1,4 +1,4 @@
---- src/chrome/browser/ui/views/apps/chrome_native_app_window_views_aura.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/ui/views/apps/chrome_native_app_window_views_aura.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/views/apps/chrome_native_app_window_views_aura.cc
 @@ -17,7 +17,7 @@
  #include "ui/base/mojom/window_show_state.mojom.h"

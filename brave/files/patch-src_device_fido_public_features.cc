@@ -1,4 +1,4 @@
---- src/device/fido/public/features.cc.orig	2026-08-31 10:59:09 UTC
+--- src/device/fido/public/features.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/device/fido/public/features.cc
 @@ -34,7 +34,7 @@ namespace device {
  // comment.

@@ -1,4 +1,4 @@
---- src/base/process/internal_linux.h.orig	2026-10-18 18:43:23 UTC
+--- src/base/process/internal_linux.h.orig	2026-11-24 12:50:30 UTC
 +++ src/base/process/internal_linux.h
 @@ -142,6 +142,9 @@ TimeDelta ClockTicksToTimeDelta(int64_t
  // arguments to the lambda.

@@ -1,4 +1,4 @@
---- src/chrome/browser/safe_browsing/security_settings_bundle_pref_change_handler.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/safe_browsing/security_settings_bundle_pref_change_handler.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/safe_browsing/security_settings_bundle_pref_change_handler.cc
 @@ -11,7 +11,7 @@
  #include "components/safe_browsing/core/common/safe_browsing_prefs.h"

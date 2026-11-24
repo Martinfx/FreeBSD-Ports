@@ -1,4 +1,4 @@
---- src/content/utility/utility_blink_platform_with_sandbox_support_impl.cc.orig	2026-10-18 18:43:23 UTC
+--- src/content/utility/utility_blink_platform_with_sandbox_support_impl.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/content/utility/utility_blink_platform_with_sandbox_support_impl.cc
 @@ -9,7 +9,7 @@
  

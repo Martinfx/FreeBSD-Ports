@@ -1,4 +1,4 @@
---- src/third_party/perfetto/src/base/scoped_sched_boost.cc.orig	2025-09-06 10:01:20 UTC
+--- src/third_party/perfetto/src/base/scoped_sched_boost.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/perfetto/src/base/scoped_sched_boost.cc
 @@ -18,8 +18,9 @@
  

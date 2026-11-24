@@ -1,4 +1,4 @@
---- src/third_party/perfetto/include/perfetto/base/build_config.h.orig	2026-01-14 08:33:23 UTC
+--- src/third_party/perfetto/include/perfetto/base/build_config.h.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/perfetto/include/perfetto/base/build_config.h
 @@ -150,8 +150,8 @@
  #define PERFETTO_BUILDFLAG_DEFINE_PERFETTO_OS_FREEBSD() 0

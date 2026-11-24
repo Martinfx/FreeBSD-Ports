@@ -1,4 +1,4 @@
---- src/printing/mojom/printing_context_mojom_traits.cc.orig	2026-06-04 10:12:25 UTC
+--- src/printing/mojom/printing_context_mojom_traits.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/printing/mojom/printing_context_mojom_traits.cc
 @@ -19,7 +19,7 @@
  #include "base/numerics/safe_conversions.h"

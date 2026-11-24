@@ -1,4 +1,4 @@
---- src/chrome/browser/ui/webui/intro/intro_ui.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/ui/webui/intro/intro_ui.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/webui/intro/intro_ui.cc
 @@ -55,7 +55,7 @@ int GetBackupCardDescriptionId(bool is_f
               : IDS_UNO_FRE_BACKUP_CARD_DESCRIPTION_WITH_PASSWORDS;

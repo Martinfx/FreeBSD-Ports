@@ -1,4 +1,4 @@
---- src/chrome/browser/ui/views/frame/browser_frame_view_factory_views.cc.orig	2026-08-31 10:59:09 UTC
+--- src/chrome/browser/ui/views/frame/browser_frame_view_factory_views.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/views/frame/browser_frame_view_factory_views.cc
 @@ -16,7 +16,7 @@
  #include "chrome/browser/ui/views/frame/picture_in_picture_browser_frame_view.h"

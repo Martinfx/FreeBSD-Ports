@@ -1,4 +1,4 @@
---- src/third_party/blink/renderer/platform/wtf/math_extras.h.orig	2026-11-02 23:22:33 UTC
+--- src/third_party/blink/renderer/platform/wtf/math_extras.h.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/blink/renderer/platform/wtf/math_extras.h
 @@ -109,6 +109,10 @@ constexpr float Grad2turn(float g) {
    return g * (1.0f / 400.0f);

@@ -1,4 +1,4 @@
---- src/components/paint_preview/browser/paint_preview_client_unittest.cc.orig	2026-10-18 18:43:23 UTC
+--- src/components/paint_preview/browser/paint_preview_client_unittest.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/paint_preview/browser/paint_preview_client_unittest.cc
 @@ -226,8 +226,8 @@ TEST_P(PaintPreviewClientRenderViewHostT
    metadata->set_version(kPaintPreviewVersion);

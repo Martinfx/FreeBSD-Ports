@@ -1,4 +1,4 @@
---- src/base/system/sys_info.h.orig	2026-10-18 18:43:23 UTC
+--- src/base/system/sys_info.h.orig	2026-11-24 12:50:30 UTC
 +++ src/base/system/sys_info.h
 @@ -403,6 +403,8 @@ class BASE_EXPORT SysInfo {
    static void ResetCpuSecurityMitigationsEnabledForTesting();

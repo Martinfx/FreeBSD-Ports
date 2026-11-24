@@ -1,4 +1,4 @@
---- src/services/network/public/mojom/BUILD.gn.orig	2026-11-02 23:22:33 UTC
+--- src/services/network/public/mojom/BUILD.gn.orig	2026-11-24 12:50:30 UTC
 +++ src/services/network/public/mojom/BUILD.gn
 @@ -711,11 +711,11 @@ mojom("url_loader_base") {
    ]
@@ -23,8 +23,8 @@
      cpp_typemaps += [
        {
          types = [
-@@ -2046,7 +2046,7 @@ mojom("mojom") {
-     }
+@@ -2052,7 +2052,7 @@ mojom("mojom") {
+     enabled_features += [ "enable_reporting" ]
    }
  
 -  if (is_linux) {

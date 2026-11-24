@@ -1,4 +1,4 @@
---- src/remoting/host/create_desktop_interaction_strategy_factory.cc.orig	2026-01-14 08:33:23 UTC
+--- src/remoting/host/create_desktop_interaction_strategy_factory.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/remoting/host/create_desktop_interaction_strategy_factory.cc
 @@ -12,7 +12,7 @@
  #include "remoting/host/desktop_interaction_strategy.h"

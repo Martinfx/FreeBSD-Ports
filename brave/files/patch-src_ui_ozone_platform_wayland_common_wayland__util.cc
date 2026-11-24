@@ -1,4 +1,4 @@
---- src/ui/ozone/platform/wayland/common/wayland_util.cc.orig	2026-10-18 18:43:23 UTC
+--- src/ui/ozone/platform/wayland/common/wayland_util.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/ozone/platform/wayland/common/wayland_util.cc
 @@ -417,6 +417,7 @@ void RecordConnectionMetrics(wl_display*
          {"weston", WaylandCompositor::kWeston},

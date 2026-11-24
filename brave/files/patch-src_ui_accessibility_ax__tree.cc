@@ -1,4 +1,4 @@
---- src/ui/accessibility/ax_tree.cc.orig	2026-11-02 23:22:33 UTC
+--- src/ui/accessibility/ax_tree.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/accessibility/ax_tree.cc
 @@ -706,7 +706,7 @@ struct AXTreeUpdateState {
    // (crrev.com/c/2892259).
@@ -45,7 +45,7 @@
  void AXTree::ClearExtraAnnouncementNodes() {
    if (!extra_announcement_nodes_) {
      return;
-@@ -2625,7 +2625,7 @@ bool AXTree::CreateNewChildVector(
+@@ -2627,7 +2627,7 @@ bool AXTree::CreateNewChildVector(
      AXTreeUpdateState* update_state) {
    DCHECK(GetTreeUpdateInProgressState());
    bool success = true;

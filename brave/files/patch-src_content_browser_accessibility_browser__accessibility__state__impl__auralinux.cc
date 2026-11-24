@@ -1,4 +1,4 @@
---- src/content/browser/accessibility/browser_accessibility_state_impl_auralinux.cc.orig	2026-09-25 15:26:43 UTC
+--- src/content/browser/accessibility/browser_accessibility_state_impl_auralinux.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/content/browser/accessibility/browser_accessibility_state_impl_auralinux.cc
 @@ -14,6 +14,7 @@
  #include <sstream>

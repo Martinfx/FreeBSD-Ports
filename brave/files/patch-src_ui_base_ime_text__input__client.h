@@ -1,4 +1,4 @@
---- src/ui/base/ime/text_input_client.h.orig	2026-10-18 18:43:23 UTC
+--- src/ui/base/ime/text_input_client.h.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/base/ime/text_input_client.h
 @@ -342,7 +342,7 @@ class COMPONENT_EXPORT(UI_BASE_IME) Text
    virtual bool SupportsAutoFill() const;

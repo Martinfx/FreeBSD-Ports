@@ -1,4 +1,4 @@
---- src/printing/backend/cups_helper.h.orig	2025-09-06 10:01:20 UTC
+--- src/printing/backend/cups_helper.h.orig	2026-11-24 12:50:30 UTC
 +++ src/printing/backend/cups_helper.h
 @@ -32,7 +32,7 @@ constexpr int kCupsTimeoutMs = 3000;
  constexpr cups_ptype_t kDestinationsFilterMask =

@@ -1,4 +1,4 @@
---- src/chromeos/ash/components/mojo_proxy/mojo_core/core/channel_posix.cc.orig	2026-08-31 10:59:09 UTC
+--- src/chromeos/ash/components/mojo_proxy/mojo_core/core/channel_posix.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chromeos/ash/components/mojo_proxy/mojo_core/core/channel_posix.cc
 @@ -28,7 +28,7 @@
  #include "build/build_config.h"

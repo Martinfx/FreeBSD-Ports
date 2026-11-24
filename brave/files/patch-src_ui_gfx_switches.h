@@ -1,4 +1,4 @@
---- src/ui/gfx/switches.h.orig	2026-11-02 23:22:33 UTC
+--- src/ui/gfx/switches.h.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/gfx/switches.h
 @@ -19,7 +19,7 @@ GFX_SWITCHES_EXPORT extern const char kF
  GFX_SWITCHES_EXPORT extern const char kHeadless[];

@@ -1,4 +1,4 @@
---- src/components/private_ai/proto_utils/client_metadata_utils.cc.orig	2026-10-18 18:43:23 UTC
+--- src/components/private_ai/proto_utils/client_metadata_utils.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/private_ai/proto_utils/client_metadata_utils.cc
 @@ -41,7 +41,7 @@ proto::ChromeClientMetadata::Platform Ge
    return proto::ChromeClientMetadata::PLATFORM_ANDROID;

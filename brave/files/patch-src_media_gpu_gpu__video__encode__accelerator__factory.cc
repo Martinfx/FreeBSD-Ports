@@ -1,4 +1,4 @@
---- src/media/gpu/gpu_video_encode_accelerator_factory.cc.orig	2026-10-18 18:43:23 UTC
+--- src/media/gpu/gpu_video_encode_accelerator_factory.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/media/gpu/gpu_video_encode_accelerator_factory.cc
 @@ -71,7 +71,7 @@ std::unique_ptr<VideoEncodeAccelerator>
  

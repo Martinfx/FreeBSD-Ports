@@ -1,4 +1,4 @@
---- src/ui/gfx/native_pixmap_handle.h.orig	2026-10-18 18:43:23 UTC
+--- src/ui/gfx/native_pixmap_handle.h.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/gfx/native_pixmap_handle.h
 @@ -14,7 +14,7 @@
  #include "build/build_config.h"
@@ -27,7 +27,7 @@
    // File descriptor for the underlying memory object (usually dmabuf).
    base::ScopedFD fd;
  #elif BUILDFLAG(IS_FUCHSIA)
-@@ -78,7 +78,7 @@ struct COMPONENT_EXPORT(GFX) NativePixma
+@@ -79,7 +79,7 @@ struct COMPONENT_EXPORT(GFX) NativePixma
  
    std::vector<NativePixmapPlane> planes;
  

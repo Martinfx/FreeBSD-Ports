@@ -1,4 +1,4 @@
---- src/chrome/browser/metrics/power/process_metrics_recorder_util.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/metrics/power/process_metrics_recorder_util.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/metrics/power/process_metrics_recorder_util.cc
 @@ -65,7 +65,7 @@ void RecordProcessHistograms(const std::
                               const ProcessMonitor::Metrics& metrics) {

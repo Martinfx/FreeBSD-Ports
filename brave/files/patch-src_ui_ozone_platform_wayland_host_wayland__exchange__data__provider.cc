@@ -1,4 +1,4 @@
---- src/ui/ozone/platform/wayland/host/wayland_exchange_data_provider.cc.orig	2026-10-18 18:43:23 UTC
+--- src/ui/ozone/platform/wayland/host/wayland_exchange_data_provider.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/ozone/platform/wayland/host/wayland_exchange_data_provider.cc
 @@ -76,7 +76,7 @@ int MimeTypeToFormat(const std::string&
    if (mime_type == ui::kMimeTypeDataTransferCustomData) {

@@ -1,4 +1,4 @@
---- src/services/tracing/public/cpp/perfetto/track_name_recorder.cc.orig	2026-10-18 18:43:23 UTC
+--- src/services/tracing/public/cpp/perfetto/track_name_recorder.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/services/tracing/public/cpp/perfetto/track_name_recorder.cc
 @@ -53,7 +53,7 @@ void FillThreadTrack(const perfetto::Thr
      desc.mutable_chrome_thread()->set_thread_type(

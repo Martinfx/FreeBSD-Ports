@@ -1,4 +1,4 @@
---- src/remoting/host/chromoting_host_services_server.cc.orig	2026-10-18 18:43:23 UTC
+--- src/remoting/host/chromoting_host_services_server.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/remoting/host/chromoting_host_services_server.cc
 @@ -17,7 +17,7 @@
  #include "remoting/host/mojo_caller_security_checker.h"

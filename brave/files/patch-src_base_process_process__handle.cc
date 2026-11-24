@@ -1,4 +1,4 @@
---- src/base/process/process_handle.cc.orig	2022-02-28 16:54:41 UTC
+--- src/base/process/process_handle.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/base/process/process_handle.cc
 @@ -30,7 +30,7 @@ UniqueProcId GetUniqueIdForProcess() {
               : UniqueProcId(GetCurrentProcId());

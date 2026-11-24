@@ -1,4 +1,4 @@
---- src/components/embedder_support/user_agent_utils.cc.orig	2026-11-02 23:22:33 UTC
+--- src/components/embedder_support/user_agent_utils.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/embedder_support/user_agent_utils.cc
 @@ -261,7 +261,7 @@ std::string GetUserAgentPlatform() {
    return "";

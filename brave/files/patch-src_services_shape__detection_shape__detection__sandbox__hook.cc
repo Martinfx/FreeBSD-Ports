@@ -1,4 +1,4 @@
---- src/services/shape_detection/shape_detection_sandbox_hook.cc.orig	2026-05-07 17:02:56 UTC
+--- src/services/shape_detection/shape_detection_sandbox_hook.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/services/shape_detection/shape_detection_sandbox_hook.cc
 @@ -32,8 +32,10 @@ bool ShapeDetectionPreSandboxHook(
      DVLOG(1) << "Successfully opened Chrome Shape Detection shared library.";

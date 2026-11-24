@@ -1,4 +1,4 @@
---- src/remoting/host/ipc_constants.cc.orig	2026-11-02 23:22:33 UTC
+--- src/remoting/host/ipc_constants.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/remoting/host/ipc_constants.cc
 @@ -13,7 +13,7 @@
  #include "mojo/public/cpp/platform/named_platform_channel.h"

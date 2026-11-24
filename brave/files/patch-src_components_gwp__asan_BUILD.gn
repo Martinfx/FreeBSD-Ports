@@ -1,4 +1,4 @@
---- src/components/gwp_asan/BUILD.gn.orig	2025-05-05 10:57:53 UTC
+--- src/components/gwp_asan/BUILD.gn.orig	2026-11-24 12:50:30 UTC
 +++ src/components/gwp_asan/BUILD.gn
 @@ -15,7 +15,7 @@ test("gwp_asan_unittests") {
      "//testing/gtest",

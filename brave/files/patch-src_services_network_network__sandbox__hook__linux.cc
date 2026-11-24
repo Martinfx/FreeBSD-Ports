@@ -1,4 +1,4 @@
---- src/services/network/network_sandbox_hook_linux.cc.orig	2026-10-18 18:43:23 UTC
+--- src/services/network/network_sandbox_hook_linux.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/services/network/network_sandbox_hook_linux.cc
 @@ -16,11 +16,14 @@
  #include "sandbox/linux/syscall_broker/broker_file_permission.h"

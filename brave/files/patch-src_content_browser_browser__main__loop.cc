@@ -1,4 +1,4 @@
---- src/content/browser/browser_main_loop.cc.orig	2026-11-02 23:22:33 UTC
+--- src/content/browser/browser_main_loop.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/content/browser/browser_main_loop.cc
 @@ -264,6 +264,12 @@
  #include "mojo/public/cpp/bindings/lib/test_random_mojo_delays.h"

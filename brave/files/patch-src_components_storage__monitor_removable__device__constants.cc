@@ -1,4 +1,4 @@
---- src/components/storage_monitor/removable_device_constants.cc.orig	2022-02-28 16:54:41 UTC
+--- src/components/storage_monitor/removable_device_constants.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/storage_monitor/removable_device_constants.cc
 @@ -10,7 +10,7 @@ namespace storage_monitor {
  const char kFSUniqueIdPrefix[] = "UUID:";

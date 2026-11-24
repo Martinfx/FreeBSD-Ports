@@ -1,6 +1,6 @@
---- src/chrome/browser/ui/send_tab_to_self/send_tab_to_self_sub_menu_model.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/ui/send_tab_to_self/send_tab_to_self_sub_menu_model.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/send_tab_to_self/send_tab_to_self_sub_menu_model.cc
-@@ -172,7 +172,7 @@ bool ShouldShowSubmenu(ShareEntryPoint e
+@@ -141,7 +141,7 @@ bool ShouldShowSubmenu(ShareEntryPoint e
      case EntryPointDisplayReason::kOfferReauth:
        return base::FeatureList::IsEnabled(kSendTabToSelfSubmenuSigninPromos);
      case EntryPointDisplayReason::kInformNoTargetDevice:

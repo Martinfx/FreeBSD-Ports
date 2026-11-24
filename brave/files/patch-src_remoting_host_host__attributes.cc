@@ -1,4 +1,4 @@
---- src/remoting/host/host_attributes.cc.orig	2026-10-18 18:43:23 UTC
+--- src/remoting/host/host_attributes.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/remoting/host/host_attributes.cc
 @@ -18,7 +18,7 @@
  #include "remoting/host/win/evaluate_d3d.h"

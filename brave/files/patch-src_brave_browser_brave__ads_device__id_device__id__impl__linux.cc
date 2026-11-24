@@ -1,4 +1,4 @@
---- src/brave/browser/brave_ads/device_id/device_id_impl_linux.cc.orig	2026-10-18 18:43:23 UTC
+--- src/brave/browser/brave_ads/device_id/device_id_impl_linux.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/brave/browser/brave_ads/device_id/device_id_impl_linux.cc
 @@ -12,6 +12,13 @@
  #include <sys/ioctl.h>

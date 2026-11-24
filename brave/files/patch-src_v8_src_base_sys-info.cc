@@ -1,4 +1,4 @@
---- src/v8/src/base/sys-info.cc.orig	2024-10-22 08:31:56 UTC
+--- src/v8/src/base/sys-info.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/v8/src/base/sys-info.cc
 @@ -36,7 +36,7 @@ namespace base {
  // static

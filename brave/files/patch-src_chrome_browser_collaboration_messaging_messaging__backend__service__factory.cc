@@ -1,4 +1,4 @@
---- src/chrome/browser/collaboration/messaging/messaging_backend_service_factory.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/collaboration/messaging/messaging_backend_service_factory.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/collaboration/messaging/messaging_backend_service_factory.cc
 @@ -100,7 +100,7 @@ MessagingBackendServiceFactory::BuildSer
    // This configuration object allows us to control platform specific behavior.

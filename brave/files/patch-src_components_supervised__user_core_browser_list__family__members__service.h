@@ -1,4 +1,4 @@
---- src/components/supervised_user/core/browser/list_family_members_service.h.orig	2026-08-31 10:59:09 UTC
+--- src/components/supervised_user/core/browser/list_family_members_service.h.orig	2026-11-24 12:50:30 UTC
 +++ src/components/supervised_user/core/browser/list_family_members_service.h
 @@ -31,7 +31,7 @@ namespace supervised_user {
  // If true, this fetcher is active for all users with CanFetchFamilyMemberInfo

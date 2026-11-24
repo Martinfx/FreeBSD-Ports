@@ -1,4 +1,4 @@
---- src/services/audio/audio_sandbox_hook_linux.h.orig	2023-09-13 12:11:42 UTC
+--- src/services/audio/audio_sandbox_hook_linux.h.orig	2026-11-24 12:50:30 UTC
 +++ src/services/audio/audio_sandbox_hook_linux.h
 @@ -5,7 +5,13 @@
  #ifndef SERVICES_AUDIO_AUDIO_SANDBOX_HOOK_LINUX_H_

@@ -1,4 +1,4 @@
---- src/ui/gfx/platform_font_skia.h.orig	2026-10-18 18:43:23 UTC
+--- src/ui/gfx/platform_font_skia.h.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/gfx/platform_font_skia.h
 @@ -101,7 +101,7 @@ class COMPONENT_EXPORT(GFX) PlatformFont
    int font_size_pixels_;

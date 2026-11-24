@@ -1,4 +1,4 @@
---- src/base/debug/elf_reader.cc.orig	2026-11-02 23:22:33 UTC
+--- src/base/debug/elf_reader.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/base/debug/elf_reader.cc
 @@ -45,6 +45,10 @@ constexpr char kGnuNoteName[] = "GNU";
  // Support up to 32 bytes (for blake3 & SHA256).

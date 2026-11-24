@@ -1,4 +1,4 @@
---- src/tools/generate_shim_headers/generate_shim_headers.py.orig	2026-09-25 15:26:43 UTC
+--- src/tools/generate_shim_headers/generate_shim_headers.py.orig	2026-11-24 12:50:30 UTC
 +++ src/tools/generate_shim_headers/generate_shim_headers.py
 @@ -17,7 +17,7 @@ import sys
  

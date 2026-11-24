@@ -1,4 +1,4 @@
---- src/chrome/browser/ui/views/tabs/shared/drop_arrow.cc.orig	2026-08-31 10:59:09 UTC
+--- src/chrome/browser/ui/views/tabs/shared/drop_arrow.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/views/tabs/shared/drop_arrow.cc
 @@ -82,7 +82,7 @@ DropArrow::~DropArrow() {
  

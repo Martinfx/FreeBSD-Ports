@@ -1,4 +1,4 @@
---- src/components/autofill/core/browser/payments/payments_requests/payments_request.cc.orig	2026-11-02 23:22:33 UTC
+--- src/components/autofill/core/browser/payments/payments_requests/payments_request.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/autofill/core/browser/payments/payments_requests/payments_request.cc
 @@ -250,7 +250,7 @@ PaymentsRequest::ClientType PaymentsRequ
    return ClientType::kWindows;

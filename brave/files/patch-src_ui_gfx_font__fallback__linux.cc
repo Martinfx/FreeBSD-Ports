@@ -1,4 +1,4 @@
---- src/ui/gfx/font_fallback_linux.cc.orig	2025-09-06 10:01:20 UTC
+--- src/ui/gfx/font_fallback_linux.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/gfx/font_fallback_linux.cc
 @@ -28,6 +28,8 @@
  #include "ui/gfx/linux/fontconfig_util.h"

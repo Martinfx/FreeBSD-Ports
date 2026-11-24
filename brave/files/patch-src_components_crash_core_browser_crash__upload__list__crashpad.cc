@@ -1,4 +1,4 @@
---- src/components/crash/core/browser/crash_upload_list_crashpad.cc.orig	2026-10-18 18:43:23 UTC
+--- src/components/crash/core/browser/crash_upload_list_crashpad.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/crash/core/browser/crash_upload_list_crashpad.cc
 @@ -37,7 +37,9 @@ CrashUploadListCrashpad::~CrashUploadLis
  std::vector<std::unique_ptr<UploadList::UploadInfo>>

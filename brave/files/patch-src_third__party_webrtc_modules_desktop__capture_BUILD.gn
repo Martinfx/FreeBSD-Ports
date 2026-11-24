@@ -1,4 +1,4 @@
---- src/third_party/webrtc/modules/desktop_capture/BUILD.gn.orig	2026-11-02 23:22:33 UTC
+--- src/third_party/webrtc/modules/desktop_capture/BUILD.gn.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/webrtc/modules/desktop_capture/BUILD.gn
 @@ -746,6 +746,8 @@ rtc_library("desktop_capture") {
  

@@ -1,4 +1,4 @@
---- src/printing/sandbox/print_backend_sandbox_hook_linux.h.orig	2023-09-13 12:11:42 UTC
+--- src/printing/sandbox/print_backend_sandbox_hook_linux.h.orig	2026-11-24 12:50:30 UTC
 +++ src/printing/sandbox/print_backend_sandbox_hook_linux.h
 @@ -5,8 +5,13 @@
  #ifndef PRINTING_SANDBOX_PRINT_BACKEND_SANDBOX_HOOK_LINUX_H_

@@ -1,4 +1,4 @@
---- src/ui/color/system_theme.h.orig	2022-11-30 08:12:58 UTC
+--- src/ui/color/system_theme.h.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/color/system_theme.h
 @@ -15,7 +15,7 @@ namespace ui {
  enum class SystemTheme {

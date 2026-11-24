@@ -1,4 +1,4 @@
---- src/gpu/command_buffer/service/raster_decoder_unittest_context_lost.cc.orig	2026-11-02 23:22:33 UTC
+--- src/gpu/command_buffer/service/raster_decoder_unittest_context_lost.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/gpu/command_buffer/service/raster_decoder_unittest_context_lost.cc
 @@ -19,6 +19,18 @@ using ::testing::Return;
  using ::testing::SaveArg;

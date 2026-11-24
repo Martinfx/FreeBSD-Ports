@@ -1,4 +1,4 @@
---- src/components/performance_manager/decorators/process_metrics_decorator.cc.orig	2026-10-18 18:43:23 UTC
+--- src/components/performance_manager/decorators/process_metrics_decorator.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/performance_manager/decorators/process_metrics_decorator.cc
 @@ -53,7 +53,7 @@ class ProcessMetricsDecorator::NodeMetri
      auto* process_node = ProcessNodeImpl::FromNode(context.GetProcessNode());

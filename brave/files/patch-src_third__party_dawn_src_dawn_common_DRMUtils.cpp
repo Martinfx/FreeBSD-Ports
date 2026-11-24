@@ -1,4 +1,4 @@
---- src/third_party/dawn/src/dawn/common/DRMUtils.cpp.orig	2026-09-25 15:26:43 UTC
+--- src/third_party/dawn/src/dawn/common/DRMUtils.cpp.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/dawn/src/dawn/common/DRMUtils.cpp
 @@ -30,7 +30,9 @@
  #include <dirent.h>

@@ -1,4 +1,4 @@
---- src/printing/printing_features.cc.orig	2026-10-18 18:43:23 UTC
+--- src/printing/printing_features.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/printing/printing_features.cc
 @@ -17,7 +17,7 @@ namespace printing::features {
  BASE_FEATURE(kAlignPdfDefaultPrintSettingsWithHTML,

@@ -1,4 +1,4 @@
---- src/third_party/node/check_version.py.orig	2025-07-02 06:08:04 UTC
+--- src/third_party/node/check_version.py.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/node/check_version.py
 @@ -17,11 +17,6 @@ def main(argv):
    parser.add_argument('--out_file', required=True)

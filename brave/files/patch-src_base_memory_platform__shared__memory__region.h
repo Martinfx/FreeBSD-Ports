@@ -1,4 +1,4 @@
---- src/base/memory/platform_shared_memory_region.h.orig	2026-10-18 18:43:23 UTC
+--- src/base/memory/platform_shared_memory_region.h.orig	2026-11-24 12:50:30 UTC
 +++ src/base/memory/platform_shared_memory_region.h
 @@ -104,7 +104,7 @@ class BASE_EXPORT PlatformSharedMemoryRe
  #if BUILDFLAG(IS_FUCHSIA)

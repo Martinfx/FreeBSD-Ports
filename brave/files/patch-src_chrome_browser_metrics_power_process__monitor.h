@@ -1,4 +1,4 @@
---- src/chrome/browser/metrics/power/process_monitor.h.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/metrics/power/process_monitor.h.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/metrics/power/process_monitor.h
 @@ -48,7 +48,7 @@ class ProcessMetricsDelegate {
    GetPlatformIndependentCPUUsage() = 0;

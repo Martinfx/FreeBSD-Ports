@@ -1,4 +1,4 @@
---- src/base/memory/protected_memory.h.orig	2026-10-18 18:43:23 UTC
+--- src/base/memory/protected_memory.h.orig	2026-11-24 12:50:30 UTC
 +++ src/base/memory/protected_memory.h
 @@ -115,12 +115,12 @@ __declspec(selectany) char __stop_protec
  

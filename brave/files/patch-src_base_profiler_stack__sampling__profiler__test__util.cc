@@ -1,4 +1,4 @@
---- src/base/profiler/stack_sampling_profiler_test_util.cc.orig	2026-03-13 06:02:14 UTC
+--- src/base/profiler/stack_sampling_profiler_test_util.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/base/profiler/stack_sampling_profiler_test_util.cc
 @@ -46,7 +46,7 @@
  // Fortunately, it provides _alloca, which functions identically.

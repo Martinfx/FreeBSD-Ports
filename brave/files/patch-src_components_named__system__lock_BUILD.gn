@@ -1,4 +1,4 @@
---- src/components/named_system_lock/BUILD.gn.orig	2025-04-04 08:52:13 UTC
+--- src/components/named_system_lock/BUILD.gn.orig	2026-11-24 12:50:30 UTC
 +++ src/components/named_system_lock/BUILD.gn
 @@ -5,7 +5,7 @@
  static_library("named_system_lock") {

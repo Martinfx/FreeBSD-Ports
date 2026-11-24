@@ -1,4 +1,4 @@
---- src/remoting/host/audio_injector.cc.orig	2026-10-18 18:43:23 UTC
+--- src/remoting/host/audio_injector.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/remoting/host/audio_injector.cc
 @@ -7,7 +7,7 @@
  #include "build/build_config.h"

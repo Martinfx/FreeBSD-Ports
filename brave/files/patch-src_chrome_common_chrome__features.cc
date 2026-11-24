@@ -1,6 +1,6 @@
---- src/chrome/common/chrome_features.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/common/chrome_features.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/common/chrome_features.cc
-@@ -60,7 +60,7 @@ BASE_FEATURE(kUseKeychainKeyProvider, ba
+@@ -66,7 +66,7 @@ BASE_FEATURE(kKeychainKeyProviderUserDat
  #endif  // BUILDFLAG(IS_MAC)
  
  #if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX) || \
@@ -9,7 +9,7 @@
  // Enables or disables the Autofill survey triggered by opening a prompt to
  // save address info.
  BASE_FEATURE(kAutofillAddressSurvey, base::FEATURE_DISABLED_BY_DEFAULT);
-@@ -235,7 +235,7 @@ BASE_FEATURE(kEnableFullscreenToAnyScree
+@@ -227,7 +227,7 @@ BASE_FEATURE(kEnableFullscreenToAnyScree
               base::FEATURE_DISABLED_BY_DEFAULT);
  #endif
  
@@ -18,7 +18,7 @@
  // Controls whether Chrome Apps are supported. See https://crbug.com/40186761.
  // If the feature is disabled, Chrome Apps continue to work. If enabled, Chrome
  // Apps will not launch and will be marked in the UI as deprecated.
-@@ -1358,7 +1358,7 @@ BASE_FEATURE(kIsolatedWebAppUnmanagedIns
+@@ -1366,7 +1366,7 @@ BASE_FEATURE(kIsolatedWebAppUnmanagedIns
  BASE_FEATURE(kIsolatedWebAppBundleCache, base::FEATURE_ENABLED_BY_DEFAULT);
  #endif  // BUILDFLAG(IS_CHROMEOS)
  
@@ -27,7 +27,7 @@
  // Controls whether Chromium requests a delay shutdown inhibitor and listens
  // for session end events via D-Bus on Linux to allow flushing state cleanly.
  BASE_FEATURE(kLinuxLogindShutdownInhibitor, base::FEATURE_ENABLED_BY_DEFAULT);
-@@ -1373,7 +1373,7 @@ constexpr base::FeatureParam<int> kLinux
+@@ -1381,7 +1381,7 @@ constexpr base::FeatureParam<int> kLinux
      &kLinuxLowMemoryMonitor, "critical_level", 255};
  #endif  // BUILDFLAG(IS_LINUX) && !BUILDFLAG(IS_CHROMEOS)
  

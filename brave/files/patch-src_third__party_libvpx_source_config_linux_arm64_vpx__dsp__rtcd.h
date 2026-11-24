@@ -1,4 +1,4 @@
---- src/third_party/libvpx/source/config/linux/arm64/vpx_dsp_rtcd.h.orig	2026-10-18 18:43:23 UTC
+--- src/third_party/libvpx/source/config/linux/arm64/vpx_dsp_rtcd.h.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/libvpx/source/config/linux/arm64/vpx_dsp_rtcd.h
 @@ -885,32 +885,26 @@ uint32_t vpx_sub_pixel_avg_variance8x8_n
  

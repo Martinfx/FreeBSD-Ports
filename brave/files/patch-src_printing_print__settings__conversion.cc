@@ -1,4 +1,4 @@
---- src/printing/print_settings_conversion.cc.orig	2026-10-18 18:43:23 UTC
+--- src/printing/print_settings_conversion.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/printing/print_settings_conversion.cc
 @@ -290,7 +290,7 @@ std::unique_ptr<PrintSettings> PrintSett
      settings->set_is_modifiable(is_modifiable.value());

@@ -1,4 +1,4 @@
---- src/net/websockets/websocket_basic_stream_adapters_test.cc.orig	2026-10-18 18:43:23 UTC
+--- src/net/websockets/websocket_basic_stream_adapters_test.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/net/websockets/websocket_basic_stream_adapters_test.cc
 @@ -1158,10 +1158,10 @@ TEST_F(WebSocketSpdyStreamAdapterTest,
         OnCloseOkShouldBeTranslatedToConnectionClose) {

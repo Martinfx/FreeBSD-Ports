@@ -1,4 +1,4 @@
---- src/services/device/geolocation/location_provider_manager.cc.orig	2026-10-18 18:43:23 UTC
+--- src/services/device/geolocation/location_provider_manager.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/services/device/geolocation/location_provider_manager.cc
 @@ -392,7 +392,7 @@ LocationProviderManager::NewSystemLocati
    return device::NewSystemLocationProvider(

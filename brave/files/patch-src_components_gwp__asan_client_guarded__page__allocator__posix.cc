@@ -1,4 +1,4 @@
---- src/components/gwp_asan/client/guarded_page_allocator_posix.cc.orig	2026-10-18 18:43:23 UTC
+--- src/components/gwp_asan/client/guarded_page_allocator_posix.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/gwp_asan/client/guarded_page_allocator_posix.cc
 @@ -35,8 +35,9 @@ void GuardedPageAllocator::MarkPageInacc
    // mmap() a PROT_NONE page over the address to release it to the system, if

@@ -1,6 +1,6 @@
---- src/chrome/browser/supervised_user/classify_url_navigation_throttle.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/supervised_user/classify_url_navigation_throttle.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/supervised_user/classify_url_navigation_throttle.cc
-@@ -44,7 +44,7 @@ namespace supervised_user {
+@@ -45,7 +45,7 @@ namespace supervised_user {
  namespace {
  
  #if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_WIN) || \
@@ -9,7 +9,7 @@
  bool ShouldShowReAuthInterstitial(
      content::NavigationHandle& navigation_handle) {
  #if BUILDFLAG(IS_ANDROID)
-@@ -224,7 +224,7 @@ void ClassifyUrlNavigationThrottle::OnIn
+@@ -245,7 +245,7 @@ void ClassifyUrlNavigationThrottle::OnIn
      case InterstitialResultCallbackActions::kCancelWithInterstitial: {
        CHECK(navigation_handle());
  #if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_WIN) || \

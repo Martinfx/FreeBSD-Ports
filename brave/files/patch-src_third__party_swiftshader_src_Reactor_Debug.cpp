@@ -1,4 +1,4 @@
---- src/third_party/swiftshader/src/Reactor/Debug.cpp.orig	2022-02-07 13:39:41 UTC
+--- src/third_party/swiftshader/src/Reactor/Debug.cpp.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/swiftshader/src/Reactor/Debug.cpp
 @@ -46,7 +46,7 @@ namespace {
  

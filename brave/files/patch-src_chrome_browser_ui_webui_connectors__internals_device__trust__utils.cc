@@ -1,4 +1,4 @@
---- src/chrome/browser/ui/webui/connectors_internals/device_trust_utils.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/ui/webui/connectors_internals/device_trust_utils.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/webui/connectors_internals/device_trust_utils.cc
 @@ -9,7 +9,7 @@
  #include "components/enterprise/connectors/core/connectors_internals_utils.h"

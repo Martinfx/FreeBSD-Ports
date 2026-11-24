@@ -1,4 +1,4 @@
---- src/base/files/drive_info_posix.cc.orig	2025-10-30 15:44:36 UTC
+--- src/base/files/drive_info_posix.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/base/files/drive_info_posix.cc
 @@ -27,7 +27,7 @@ namespace base {
  

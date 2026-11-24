@@ -1,4 +1,4 @@
---- src/components/autofill/content/renderer/at_memory_handler.cc.orig	2026-11-02 23:22:33 UTC
+--- src/components/autofill/content/renderer/at_memory_handler.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/autofill/content/renderer/at_memory_handler.cc
 @@ -66,7 +66,7 @@ bool IsPrintable(const WebKeyboardEvent&
    if (base::IsAsciiControl(event.text[0]) || event.text[1] != 0) {

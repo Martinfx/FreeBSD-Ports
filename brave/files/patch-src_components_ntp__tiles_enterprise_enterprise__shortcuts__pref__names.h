@@ -1,4 +1,4 @@
---- src/components/ntp_tiles/enterprise/enterprise_shortcuts_pref_names.h.orig	2026-11-02 23:22:33 UTC
+--- src/components/ntp_tiles/enterprise/enterprise_shortcuts_pref_names.h.orig	2026-11-24 12:50:30 UTC
 +++ src/components/ntp_tiles/enterprise/enterprise_shortcuts_pref_names.h
 @@ -16,7 +16,7 @@ namespace ntp_tiles::prefs {
  

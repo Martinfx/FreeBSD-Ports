@@ -1,4 +1,4 @@
---- src/components/signin/public/identity_manager/account_capabilities.h.orig	2026-11-02 23:22:33 UTC
+--- src/components/signin/public/identity_manager/account_capabilities.h.orig	2026-11-24 12:50:30 UTC
 +++ src/components/signin/public/identity_manager/account_capabilities.h
 @@ -91,7 +91,7 @@ class AccountCapabilities {
  #endif

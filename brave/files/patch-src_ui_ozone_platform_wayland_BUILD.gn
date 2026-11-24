@@ -1,4 +1,4 @@
---- src/ui/ozone/platform/wayland/BUILD.gn.orig	2026-10-18 18:43:23 UTC
+--- src/ui/ozone/platform/wayland/BUILD.gn.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/ozone/platform/wayland/BUILD.gn
 @@ -250,7 +250,6 @@ source_set("wayland") {
      "//mojo/public/cpp/system",

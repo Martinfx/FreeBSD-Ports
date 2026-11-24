@@ -1,4 +1,4 @@
---- src/net/base/network_change_notifier.cc.orig	2026-10-18 18:43:23 UTC
+--- src/net/base/network_change_notifier.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/net/base/network_change_notifier.cc
 @@ -38,7 +38,7 @@
  #include "third_party/abseil-cpp/absl/container/flat_hash_set.h"

@@ -1,4 +1,4 @@
---- src/chrome/browser/extensions/api/enterprise_reporting_private/conversion_utils.cc.orig	2022-11-30 08:12:58 UTC
+--- src/chrome/browser/extensions/api/enterprise_reporting_private/conversion_utils.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/extensions/api/enterprise_reporting_private/conversion_utils.cc
 @@ -8,7 +8,7 @@
  

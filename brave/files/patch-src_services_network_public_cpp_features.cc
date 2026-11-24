@@ -1,4 +1,4 @@
---- src/services/network/public/cpp/features.cc.orig	2026-11-02 23:22:33 UTC
+--- src/services/network/public/cpp/features.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/services/network/public/cpp/features.cc
 @@ -76,7 +76,7 @@ BASE_FEATURE(kSplitAuthCacheByNetworkIso
  // Enable usage of hardcoded DoH upgrade mapping for use in automatic mode.

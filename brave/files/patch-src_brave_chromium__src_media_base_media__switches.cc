@@ -1,4 +1,4 @@
---- src/brave/chromium_src/media/base/media_switches.cc.orig	2026-06-01 00:00:00 UTC
+--- src/brave/chromium_src/media/base/media_switches.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/brave/chromium_src/media/base/media_switches.cc
 @@ -9,7 +9,7 @@
  

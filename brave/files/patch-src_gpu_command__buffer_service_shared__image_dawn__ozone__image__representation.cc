@@ -1,4 +1,4 @@
---- src/gpu/command_buffer/service/shared_image/dawn_ozone_image_representation.cc.orig	2026-10-18 18:43:23 UTC
+--- src/gpu/command_buffer/service/shared_image/dawn_ozone_image_representation.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/gpu/command_buffer/service/shared_image/dawn_ozone_image_representation.cc
 @@ -199,6 +199,7 @@ void DawnOzoneImageRepresentation::EndAc
    if (!texture_) {

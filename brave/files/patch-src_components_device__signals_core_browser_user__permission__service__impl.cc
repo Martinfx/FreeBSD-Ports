@@ -1,4 +1,4 @@
---- src/components/device_signals/core/browser/user_permission_service_impl.cc.orig	2026-10-18 18:43:23 UTC
+--- src/components/device_signals/core/browser/user_permission_service_impl.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/device_signals/core/browser/user_permission_service_impl.cc
 @@ -87,7 +87,7 @@ bool UserPermissionServiceImpl::ShouldCo
           consent_required_by_dependent_policy;

@@ -1,4 +1,4 @@
---- src/ui/views/window/frame_background.cc.orig	2026-10-18 18:43:23 UTC
+--- src/ui/views/window/frame_background.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/views/window/frame_background.cc
 @@ -110,7 +110,7 @@ void FrameBackground::PaintMaximized(gfx
                                       int width) const {

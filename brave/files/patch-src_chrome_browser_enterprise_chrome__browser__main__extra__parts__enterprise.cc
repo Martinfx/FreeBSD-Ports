@@ -1,4 +1,4 @@
---- src/chrome/browser/enterprise/chrome_browser_main_extra_parts_enterprise.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/enterprise/chrome_browser_main_extra_parts_enterprise.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/enterprise/chrome_browser_main_extra_parts_enterprise.cc
 @@ -8,7 +8,7 @@
  #include "components/enterprise/buildflags/buildflags.h"

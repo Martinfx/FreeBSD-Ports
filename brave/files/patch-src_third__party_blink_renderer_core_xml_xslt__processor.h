@@ -1,4 +1,4 @@
---- src/third_party/blink/renderer/core/xml/xslt_processor.h.orig	2026-10-18 18:43:23 UTC
+--- src/third_party/blink/renderer/core/xml/xslt_processor.h.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/blink/renderer/core/xml/xslt_processor.h
 @@ -91,7 +91,11 @@ class XSLTProcessor final : public Scrip
  

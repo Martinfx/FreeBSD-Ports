@@ -1,4 +1,4 @@
---- src/ui/base/clipboard/clipboard.cc.orig	2026-10-18 18:43:23 UTC
+--- src/ui/base/clipboard/clipboard.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/base/clipboard/clipboard.cc
 @@ -28,7 +28,7 @@
  #include "ui/gfx/geometry/size.h"

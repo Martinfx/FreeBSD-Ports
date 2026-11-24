@@ -1,4 +1,4 @@
---- src/tools/typescript/ts_library.py.orig	2026-11-02 23:22:33 UTC
+--- src/tools/typescript/ts_library.py.orig	2026-11-24 12:50:30 UTC
 +++ src/tools/typescript/ts_library.py
 @@ -341,8 +341,8 @@ def main(argv):
    list_valid, error_msg = validateDefinitionDeps(

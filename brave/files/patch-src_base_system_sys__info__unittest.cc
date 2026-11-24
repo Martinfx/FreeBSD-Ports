@@ -1,4 +1,4 @@
---- src/base/system/sys_info_unittest.cc.orig	2026-09-25 15:26:43 UTC
+--- src/base/system/sys_info_unittest.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/base/system/sys_info_unittest.cc
 @@ -307,12 +307,16 @@ TEST_F(SysInfoTest, GetHardwareInfo) {
    EXPECT_TRUE(IsStringUTF8(hardware_info->model));

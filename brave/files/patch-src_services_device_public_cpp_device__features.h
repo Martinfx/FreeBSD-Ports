@@ -1,6 +1,6 @@
---- src/services/device/public/cpp/device_features.h.orig	2026-11-02 23:22:33 UTC
+--- src/services/device/public/cpp/device_features.h.orig	2026-11-24 12:50:30 UTC
 +++ src/services/device/public/cpp/device_features.h
-@@ -71,11 +71,11 @@ DEVICE_FEATURES_EXPORT bool IsOsLevelGeo
+@@ -69,11 +69,11 @@ DEVICE_FEATURES_EXPORT bool IsOsLevelGeo
  DEVICE_FEATURES_EXPORT device::mojom::LocationProviderManagerMode
  GetLocationProviderManagerMode();
  

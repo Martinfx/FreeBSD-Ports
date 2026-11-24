@@ -1,4 +1,4 @@
---- src/content/child/child_process.h.orig	2025-10-30 15:44:36 UTC
+--- src/content/child/child_process.h.orig	2026-11-24 12:50:30 UTC
 +++ src/content/child/child_process.h
 @@ -81,7 +81,7 @@ class CONTENT_EXPORT ChildProcess {
      return io_thread_runner_.get();

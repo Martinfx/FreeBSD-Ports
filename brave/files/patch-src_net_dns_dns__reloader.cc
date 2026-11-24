@@ -1,4 +1,4 @@
---- src/net/dns/dns_reloader.cc.orig	2023-04-05 11:05:06 UTC
+--- src/net/dns/dns_reloader.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/net/dns/dns_reloader.cc
 @@ -10,6 +10,7 @@
  // - there's not guarantee it exists at all. :(

@@ -1,4 +1,4 @@
---- src/chrome/test/base/scoped_channel_override_posix.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/test/base/scoped_channel_override_posix.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/test/base/scoped_channel_override_posix.cc
 @@ -22,7 +22,7 @@ version_info::Channel GetBaseChannel(Sco
        return version_info::Channel::BETA;

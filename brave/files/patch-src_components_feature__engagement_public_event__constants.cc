@@ -1,4 +1,4 @@
---- src/components/feature_engagement/public/event_constants.cc.orig	2024-11-14 07:57:23 UTC
+--- src/components/feature_engagement/public/event_constants.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/feature_engagement/public/event_constants.cc
 @@ -11,7 +11,7 @@ namespace feature_engagement {
  namespace events {

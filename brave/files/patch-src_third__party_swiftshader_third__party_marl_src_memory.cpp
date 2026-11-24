@@ -1,4 +1,4 @@
---- src/third_party/swiftshader/third_party/marl/src/memory.cpp.orig	2023-08-17 07:33:31 UTC
+--- src/third_party/swiftshader/third_party/marl/src/memory.cpp.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/swiftshader/third_party/marl/src/memory.cpp
 @@ -19,7 +19,7 @@
  

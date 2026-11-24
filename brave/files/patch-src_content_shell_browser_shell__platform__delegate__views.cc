@@ -1,4 +1,4 @@
---- src/content/shell/browser/shell_platform_delegate_views.cc.orig	2026-10-18 18:43:23 UTC
+--- src/content/shell/browser/shell_platform_delegate_views.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/content/shell/browser/shell_platform_delegate_views.cc
 @@ -374,7 +374,7 @@ void ShellPlatformDelegate::CreatePlatfo
        views::Widget::InitParams::NATIVE_WIDGET_OWNS_WIDGET);

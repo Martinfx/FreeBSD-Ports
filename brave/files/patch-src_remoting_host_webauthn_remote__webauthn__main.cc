@@ -1,4 +1,4 @@
---- src/remoting/host/webauthn/remote_webauthn_main.cc.orig	2026-10-18 18:43:23 UTC
+--- src/remoting/host/webauthn/remote_webauthn_main.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/remoting/host/webauthn/remote_webauthn_main.cc
 @@ -26,7 +26,7 @@
  #include "remoting/host/webauthn/remote_webauthn_caller_security_utils.h"

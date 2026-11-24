@@ -1,4 +1,4 @@
---- src/third_party/blink/renderer/platform/fonts/font_cache.h.orig	2026-11-02 23:22:33 UTC
+--- src/third_party/blink/renderer/platform/fonts/font_cache.h.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/blink/renderer/platform/fonts/font_cache.h
 @@ -56,7 +56,7 @@
  #include "third_party/skia/include/core/SkRefCnt.h"

@@ -1,4 +1,4 @@
---- src/chrome/browser/ui/color/native_chrome_color_mixer.cc.orig	2023-09-13 12:11:42 UTC
+--- src/chrome/browser/ui/color/native_chrome_color_mixer.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/color/native_chrome_color_mixer.cc
 @@ -7,7 +7,7 @@
  #include "build/build_config.h"

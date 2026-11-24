@@ -1,4 +1,4 @@
---- src/mojo/core/channel.cc.orig	2026-10-18 18:43:23 UTC
+--- src/mojo/core/channel.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/mojo/core/channel.cc
 @@ -69,7 +69,11 @@ const size_t kMaxUnusedReadBufferCapacit
  // Limit on the number of handles that may be received per Mojo message.

@@ -1,4 +1,4 @@
---- src/chrome/browser/ui/views/tabs/hovercard/tab_hover_card_bubble_view.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/ui/views/tabs/hovercard/tab_hover_card_bubble_view.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/views/tabs/hovercard/tab_hover_card_bubble_view.cc
 @@ -663,7 +663,7 @@ TabHoverCardBubbleView::TabHoverCardBubb
    // not become active. Setting this to false creates the need to explicitly
@@ -8,4 +8,4 @@
 +#if BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_BSD)
    set_accept_events(false);
  #endif
- 
+   set_accept_drag_drop(false);

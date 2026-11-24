@@ -1,4 +1,4 @@
---- src/remoting/host/desktop_process.cc.orig	2026-11-02 23:22:33 UTC
+--- src/remoting/host/desktop_process.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/remoting/host/desktop_process.cc
 @@ -32,7 +32,7 @@
  #include "base/win/windows_version.h"

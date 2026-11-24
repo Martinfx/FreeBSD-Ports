@@ -1,6 +1,6 @@
---- src/brave/build/commands/lib/util.ts.orig	2026-11-02 23:22:33 UTC
+--- src/brave/build/commands/lib/util.ts.orig	2026-11-24 12:50:30 UTC
 +++ src/brave/build/commands/lib/util.ts
-@@ -187,7 +187,7 @@ function getAdditionalGenLocation() {
+@@ -191,7 +191,7 @@ function getAdditionalGenLocation() {
        return 'android_clang_x86'
      }
    } else if (
@@ -9,7 +9,7 @@
      && config.targetArch === 'arm64'
    ) {
      return 'clang_x64_v8_arm64'
-@@ -754,7 +754,10 @@ const util = {
+@@ -766,7 +766,10 @@ const util = {
          }, 10 * 1000)
        }
  

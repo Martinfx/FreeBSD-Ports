@@ -1,4 +1,4 @@
---- src/content/public/common/zygote/features.gni.orig	2023-04-05 11:05:06 UTC
+--- src/content/public/common/zygote/features.gni.orig	2026-11-24 12:50:30 UTC
 +++ src/content/public/common/zygote/features.gni
 @@ -2,4 +2,4 @@
  # Use of this source code is governed by a BSD-style license that can be

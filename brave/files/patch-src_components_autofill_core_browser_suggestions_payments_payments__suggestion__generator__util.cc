@@ -1,4 +1,4 @@
---- src/components/autofill/core/browser/suggestions/payments/payments_suggestion_generator_util.cc.orig	2026-11-02 23:22:33 UTC
+--- src/components/autofill/core/browser/suggestions/payments/payments_suggestion_generator_util.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/autofill/core/browser/suggestions/payments/payments_suggestion_generator_util.cc
 @@ -1350,7 +1350,7 @@ Suggestion CreateCreditCardSuggestion(
    }

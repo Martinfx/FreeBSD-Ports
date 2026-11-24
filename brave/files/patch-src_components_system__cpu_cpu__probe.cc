@@ -1,4 +1,4 @@
---- src/components/system_cpu/cpu_probe.cc.orig	2026-10-18 18:43:23 UTC
+--- src/components/system_cpu/cpu_probe.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/system_cpu/cpu_probe.cc
 @@ -20,6 +20,10 @@
  #include "components/system_cpu/cpu_probe_mac.h"

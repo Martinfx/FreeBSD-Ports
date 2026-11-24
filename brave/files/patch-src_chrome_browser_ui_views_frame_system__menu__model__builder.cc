@@ -1,6 +1,6 @@
---- src/chrome/browser/ui/views/frame/system_menu_model_builder.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/ui/views/frame/system_menu_model_builder.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/views/frame/system_menu_model_builder.cc
-@@ -139,7 +139,7 @@ void SystemMenuModelBuilder::BuildSystem
+@@ -152,7 +152,7 @@ void SystemMenuModelBuilder::BuildSystem
    }
  #endif  // BUILDFLAG(IS_WIN)
  
@@ -9,7 +9,7 @@
    AddItemWithIconMaybe(model, IDC_MINIMIZE_WINDOW, IDS_MINIMIZE_WINDOW_MENU,
                         views::kChromeMinimizeIcon);
    AddItemWithIconMaybe(model, IDC_MAXIMIZE_WINDOW, IDS_MAXIMIZE_WINDOW_MENU,
-@@ -263,7 +263,7 @@ void SystemMenuModelBuilder::BuildSystem
+@@ -276,7 +276,7 @@ void SystemMenuModelBuilder::BuildSystem
      model->AddItemWithStringId(IDC_TASK_MANAGER_CONTEXT_MENU,
                                 task_manager_string_id);
    }
@@ -18,7 +18,7 @@
    model->AddSeparator(ui::NORMAL_SEPARATOR);
    bool supports_server_side_decorations = true;
  #if BUILDFLAG(IS_OZONE) && !BUILDFLAG(IS_CHROMEOS)
-@@ -356,7 +356,7 @@ void SystemMenuModelBuilder::BuildSystem
+@@ -368,7 +368,7 @@ void SystemMenuModelBuilder::BuildSystem
  #endif
      model->AddItemWithStringId(IDC_TASK_MANAGER, task_manager_string_id);
    }

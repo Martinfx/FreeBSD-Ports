@@ -1,4 +1,4 @@
---- src/components/autofill/core/browser/payments/amount_extraction_manager.cc.orig	2026-11-02 23:22:33 UTC
+--- src/components/autofill/core/browser/payments/amount_extraction_manager.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/autofill/core/browser/payments/amount_extraction_manager.cc
 @@ -319,7 +319,7 @@ void AmountExtractionManager::OnCheckout
        .Run(parsed_extracted_amount,

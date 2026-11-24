@@ -1,6 +1,6 @@
---- src/chrome/browser/ui/views/toolbar/webui_toolbar_web_view.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/ui/views/toolbar/webui_toolbar_web_view.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/views/toolbar/webui_toolbar_web_view.cc
-@@ -553,7 +553,7 @@ void WebUIToolbarWebView::AddedToWidget(
+@@ -566,7 +566,7 @@ void WebUIToolbarWebView::AddedToWidget(
      if (features::IsWebUIExtensionsContainerEnabled()) {
        extensions_container_.Init(web_contents());
      }
@@ -9,7 +9,7 @@
      if (features::IsWebUIMediaButtonEnabled()) {
        media_control_.Init();
      }
-@@ -945,7 +945,7 @@ WebUIToolbarWebView::GetAvatarToolbarBut
+@@ -1018,7 +1018,7 @@ WebUIToolbarWebView::GetAvatarToolbarBut
  }
  
  MediaToolbarButton* WebUIToolbarWebView::GetMediaToolbarButton() {
@@ -18,7 +18,7 @@
    if (features::IsWebUIMediaButtonEnabled()) {
      return &media_control_;
    }
-@@ -1800,7 +1800,7 @@ gfx::Size WebUIToolbarWebView::ComputeLa
+@@ -1959,7 +1959,7 @@ gfx::Size WebUIToolbarWebView::ComputeLa
    button_count += features::IsWebUIAppMenuButtonEnabled();
    button_count +=
        features::IsWebUIGlicButtonEnabled() && glic_control_.IsVisible();

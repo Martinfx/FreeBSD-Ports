@@ -1,4 +1,4 @@
---- src/media/webrtc/audio_processor.cc.orig	2026-10-18 18:43:23 UTC
+--- src/media/webrtc/audio_processor.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/media/webrtc/audio_processor.cc
 @@ -524,7 +524,7 @@ std::optional<double> AudioProcessor::Pr
    // controller.

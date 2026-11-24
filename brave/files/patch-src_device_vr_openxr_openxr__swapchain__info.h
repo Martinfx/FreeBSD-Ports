@@ -1,4 +1,4 @@
---- src/device/vr/openxr/openxr_swapchain_info.h.orig	2026-09-25 15:26:43 UTC
+--- src/device/vr/openxr/openxr_swapchain_info.h.orig	2026-11-24 12:50:30 UTC
 +++ src/device/vr/openxr/openxr_swapchain_info.h
 @@ -19,7 +19,7 @@
  #include "ui/gl/scoped_egl_image.h"

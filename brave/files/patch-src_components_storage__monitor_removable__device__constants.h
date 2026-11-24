@@ -1,4 +1,4 @@
---- src/components/storage_monitor/removable_device_constants.h.orig	2025-05-05 10:57:53 UTC
+--- src/components/storage_monitor/removable_device_constants.h.orig	2026-11-24 12:50:30 UTC
 +++ src/components/storage_monitor/removable_device_constants.h
 @@ -15,7 +15,7 @@ namespace storage_monitor {
  extern COMPONENT_EXPORT(STORAGE_MONITOR) const char kFSUniqueIdPrefix[];

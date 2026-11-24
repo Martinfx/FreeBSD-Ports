@@ -1,4 +1,4 @@
---- src/base/files/dir_reader_linux.h.orig	2026-02-11 09:05:39 UTC
+--- src/base/files/dir_reader_linux.h.orig	2026-11-24 12:50:30 UTC
 +++ src/base/files/dir_reader_linux.h
 @@ -19,10 +19,16 @@
  #include "base/logging.h"

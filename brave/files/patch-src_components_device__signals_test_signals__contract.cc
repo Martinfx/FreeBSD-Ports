@@ -1,4 +1,4 @@
---- src/components/device_signals/test/signals_contract.cc.orig	2026-04-09 06:05:42 UTC
+--- src/components/device_signals/test/signals_contract.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/device_signals/test/signals_contract.cc
 @@ -216,7 +216,7 @@ GetSignalsContract() {
        base::BindRepeating(VerifyUnset, names::kCrowdStrike);

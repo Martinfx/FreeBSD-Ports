@@ -1,4 +1,4 @@
---- src/v8/tools/metagen/metagen.py.orig	2026-11-02 23:22:33 UTC
+--- src/v8/tools/metagen/metagen.py.orig	2026-11-24 12:50:30 UTC
 +++ src/v8/tools/metagen/metagen.py
 @@ -300,12 +300,6 @@ def main() -> int:
    # LLVM revision and so always matches the parsing library.

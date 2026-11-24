@@ -1,4 +1,4 @@
---- src/brave/build/commands/lib/config.ts.orig	2026-11-02 23:22:33 UTC
+--- src/brave/build/commands/lib/config.ts.orig	2026-11-24 12:50:30 UTC
 +++ src/brave/build/commands/lib/config.ts
 @@ -33,7 +33,14 @@ type UpdateOptions = buildOptions.BuildD
      lean_sync?: boolean | undefined
@@ -16,7 +16,7 @@
  type TargetOS = (typeof validTargetOSValues)[number]
  
  const braveCoreDir = path.join(rootDir, 'src', 'brave')
-@@ -340,7 +347,7 @@ export class Config {
+@@ -343,7 +350,7 @@ export class Config {
    enableCDMHostVerification() {
      const enable =
        this.buildConfig === 'Release'
@@ -25,7 +25,7 @@
        && this.sign_widevine_cert !== ''
        && this.sign_widevine_key !== ''
        && this.sign_widevine_passwd !== ''
-@@ -749,22 +756,30 @@ export class Config {
+@@ -752,22 +759,30 @@ export class Config {
  
    get defaultOptions(): ExecOptions {
      let env = Object.assign({}, process.env)
@@ -67,7 +67,7 @@
      if (this.targetOS === 'mac' && process.platform !== 'darwin') {
        const crossCompilePath = path.join(
          this.srcDir,
-@@ -977,6 +992,8 @@ export class Config {
+@@ -979,6 +994,8 @@ export class Config {
          return 'mac'
        case 'linux':
          return 'linux'

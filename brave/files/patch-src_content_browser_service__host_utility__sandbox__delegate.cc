@@ -1,4 +1,4 @@
---- src/content/browser/service_host/utility_sandbox_delegate.cc.orig	2026-11-02 23:22:33 UTC
+--- src/content/browser/service_host/utility_sandbox_delegate.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/content/browser/service_host/utility_sandbox_delegate.cc
 @@ -24,7 +24,7 @@
  #include "sandbox/policy/sandbox_type.h"

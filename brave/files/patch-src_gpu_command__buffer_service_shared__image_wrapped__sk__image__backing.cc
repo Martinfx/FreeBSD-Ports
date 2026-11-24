@@ -1,4 +1,4 @@
---- src/gpu/command_buffer/service/shared_image/wrapped_sk_image_backing.cc.orig	2026-11-02 23:22:33 UTC
+--- src/gpu/command_buffer/service/shared_image/wrapped_sk_image_backing.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/gpu/command_buffer/service/shared_image/wrapped_sk_image_backing.cc
 @@ -246,7 +246,7 @@ bool WrappedSkImageBacking::Initialize(c
  

@@ -1,6 +1,6 @@
---- src/chrome/browser/extensions/api/passwords_private/passwords_private_delegate_impl.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/extensions/api/passwords_private/passwords_private_delegate_impl.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/extensions/api/passwords_private/passwords_private_delegate_impl.cc
-@@ -608,7 +608,7 @@ void PasswordsPrivateDelegateImpl::OnFet
+@@ -606,7 +606,7 @@ void PasswordsPrivateDelegateImpl::OnFet
  }
  
  void PasswordsPrivateDelegateImpl::OsReauthTimeoutCall() {

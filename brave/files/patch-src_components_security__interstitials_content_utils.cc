@@ -1,4 +1,4 @@
---- src/components/security_interstitials/content/utils.cc.orig	2025-02-19 07:43:18 UTC
+--- src/components/security_interstitials/content/utils.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/security_interstitials/content/utils.cc
 @@ -37,7 +37,7 @@ void LaunchDateAndTimeSettings() {
  #if BUILDFLAG(IS_ANDROID)

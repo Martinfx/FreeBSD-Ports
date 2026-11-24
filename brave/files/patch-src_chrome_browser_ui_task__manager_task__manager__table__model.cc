@@ -1,4 +1,4 @@
---- src/chrome/browser/ui/task_manager/task_manager_table_model.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/ui/task_manager/task_manager_table_model.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/task_manager/task_manager_table_model.cc
 @@ -385,7 +385,7 @@ TaskManagerTableModel::~TaskManagerTable
    // Note: system_total_time_ is used for both since there is no functional
@@ -27,7 +27,7 @@
      case IDS_TASK_MANAGER_OPEN_FD_COUNT_COLUMN: {
        const int proc1_fd_count =
            observed_task_manager()->GetOpenFdCount(tasks_[row1]);
-@@ -1040,7 +1040,7 @@ void TaskManagerTableModel::UpdateRefres
+@@ -1042,7 +1042,7 @@ void TaskManagerTableModel::UpdateRefres
        type = REFRESH_TYPE_KEEPALIVE_COUNT;
        break;
  

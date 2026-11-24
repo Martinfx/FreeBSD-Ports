@@ -1,4 +1,4 @@
---- src/remoting/host/config_file_watcher.cc.orig	2026-10-18 18:43:23 UTC
+--- src/remoting/host/config_file_watcher.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/remoting/host/config_file_watcher.cc
 @@ -27,7 +27,7 @@ const char kHostConfigSwitchName[] = "ho
  const base::FilePath::CharType kDefaultHostConfigFile[] =

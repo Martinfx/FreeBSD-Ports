@@ -1,4 +1,4 @@
---- src/components/paint_preview/player/player_compositor_delegate.cc.orig	2026-10-18 18:43:23 UTC
+--- src/components/paint_preview/player/player_compositor_delegate.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/paint_preview/player/player_compositor_delegate.cc
 @@ -397,8 +397,8 @@ void PlayerCompositorDelegate::ValidateP
    auto chrome_version = capture_result_->proto.metadata().chrome_version();

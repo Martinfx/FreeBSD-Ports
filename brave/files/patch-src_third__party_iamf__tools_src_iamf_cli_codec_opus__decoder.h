@@ -1,4 +1,4 @@
---- src/third_party/iamf_tools/src/iamf/cli/codec/opus_decoder.h.orig	2026-09-25 15:26:43 UTC
+--- src/third_party/iamf_tools/src/iamf/cli/codec/opus_decoder.h.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/iamf_tools/src/iamf/cli/codec/opus_decoder.h
 @@ -23,7 +23,7 @@
  #include "iamf/cli/codec/decoder_base.h"

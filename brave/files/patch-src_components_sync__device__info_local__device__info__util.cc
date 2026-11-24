@@ -1,4 +1,4 @@
---- src/components/sync_device_info/local_device_info_util.cc.orig	2026-10-18 18:43:23 UTC
+--- src/components/sync_device_info/local_device_info_util.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/sync_device_info/local_device_info_util.cc
 @@ -91,7 +91,7 @@ void OnMachineStatisticsLoaded(LocalDevi
  DeviceInfo::DeviceType GetLocalDeviceType() {

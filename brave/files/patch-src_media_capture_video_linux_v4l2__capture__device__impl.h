@@ -1,4 +1,4 @@
---- src/media/capture/video/linux/v4l2_capture_device_impl.h.orig	2026-10-18 18:43:23 UTC
+--- src/media/capture/video/linux/v4l2_capture_device_impl.h.orig	2026-11-24 12:50:30 UTC
 +++ src/media/capture/video/linux/v4l2_capture_device_impl.h
 @@ -19,7 +19,7 @@ class CAPTURE_EXPORT V4L2CaptureDeviceIm
   public:

@@ -1,4 +1,4 @@
---- src/third_party/blink/public/common/renderer_preferences/renderer_preferences_mojom_traits.h.orig	2026-09-25 15:26:43 UTC
+--- src/third_party/blink/public/common/renderer_preferences/renderer_preferences_mojom_traits.h.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/blink/public/common/renderer_preferences/renderer_preferences_mojom_traits.h
 @@ -131,7 +131,7 @@ struct BLINK_COMMON_EXPORT
    }

@@ -1,4 +1,4 @@
---- src/chrome/browser/notifications/notification_platform_bridge_linux.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/notifications/notification_platform_bridge_linux.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/notifications/notification_platform_bridge_linux.cc
 @@ -366,6 +366,8 @@ NotificationResources WriteNotificationR
    result.has_logo = WriteImageFile(logo, dir_path.Append("logo.png"));

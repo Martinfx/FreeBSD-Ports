@@ -1,6 +1,6 @@
---- src/chrome/browser/ui/views/app_menu/send_tab_to_self_dynamic_menu.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/ui/views/app_menu/send_tab_to_self_dynamic_menu.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/views/app_menu/send_tab_to_self_dynamic_menu.cc
-@@ -149,7 +149,7 @@ bool SendTabToSelfDynamicMenu::ShouldSho
+@@ -103,7 +103,7 @@ bool SendTabToSelfDynamicMenu::ShouldSho
        return base::FeatureList::IsEnabled(
            send_tab_to_self::kSendTabToSelfSubmenuSigninPromos);
      case send_tab_to_self::EntryPointDisplayReason::kInformNoTargetDevice:

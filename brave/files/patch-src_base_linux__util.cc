@@ -1,4 +1,4 @@
---- src/base/linux_util.cc.orig	2026-10-18 18:43:23 UTC
+--- src/base/linux_util.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/base/linux_util.cc
 @@ -159,10 +159,14 @@ void SetLinuxDistro(const std::string& d
  }

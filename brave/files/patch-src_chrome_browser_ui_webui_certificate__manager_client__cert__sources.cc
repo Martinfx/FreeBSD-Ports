@@ -1,4 +1,4 @@
---- src/chrome/browser/ui/webui/certificate_manager/client_cert_sources.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/ui/webui/certificate_manager/client_cert_sources.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/webui/certificate_manager/client_cert_sources.cc
 @@ -54,7 +54,7 @@
  #include "net/ssl/client_cert_store_mac.h"

@@ -1,4 +1,4 @@
---- src/content/shell/renderer/shell_content_renderer_client.cc.orig	2026-09-25 15:26:43 UTC
+--- src/content/shell/renderer/shell_content_renderer_client.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/content/shell/renderer/shell_content_renderer_client.cc
 @@ -57,7 +57,7 @@
  #include "media/base/media_switches.h"

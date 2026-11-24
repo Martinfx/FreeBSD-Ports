@@ -1,4 +1,4 @@
---- src/ui/message_center/views/message_popup_view.cc.orig	2026-10-18 18:43:23 UTC
+--- src/ui/message_center/views/message_popup_view.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/message_center/views/message_popup_view.cc
 @@ -164,7 +164,7 @@ std::unique_ptr<views::Widget> MessagePo
        views::Widget::InitParams::CLIENT_OWNS_WIDGET,
