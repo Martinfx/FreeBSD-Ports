@@ -58,7 +58,7 @@ jobs:
             env ASSUME_ALWAYS_YES=yes pkg upgrade
             # node-gyp builds the native addons with gmake and python3; npm
             # prepares figma-api-exporter, a git dependency of @brave/leo
-            pkg install -y node24 npm-node24 corepack gmake python3 pkgconf
+            pkg install -y node26 npm-node26 corepack gmake python3 pkgconf
           run: |
             set -e
             W=$PWD

@@ -172,7 +172,7 @@ RUN_DEPENDS=	noto-basic>0:x11-fonts/noto-basic \
 
 USES=		bison cargo compiler:c++20-lang cpe desktop-file-utils gl \
 		gmake gnome go:no_targets iconv:wchar_t jpeg localbase:ldflags \
-		ninja nodejs:24,build perl5 pkgconfig python:build shebangfix \
+		ninja nodejs:26,build perl5 pkgconfig python:build shebangfix \
 		tar:xz xorg
 
 # Keep the ports framework's LTO out, as www/chromium does.  For USES=cargo it
