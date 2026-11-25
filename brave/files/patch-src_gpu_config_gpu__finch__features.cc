@@ -1,4 +1,4 @@
---- src/gpu/config/gpu_finch_features.cc.orig	2026-11-02 23:22:33 UTC
+--- src/gpu/config/gpu_finch_features.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/gpu/config/gpu_finch_features.cc
 @@ -199,7 +199,7 @@ const base::FeatureParam<std::string>
  // of associating with an unused IPC::Channel.
@@ -9,7 +9,7 @@
  // Feature flag to control whether SharedImageStub sequence uses high priority
  // on ChromeOS and Linux. Enabled by default.
  BASE_FEATURE(kSharedImageStubHighPriority, base::FEATURE_DISABLED_BY_DEFAULT);
-@@ -521,7 +521,7 @@ BASE_FEATURE(kGPUDriverBugListTestGroup,
+@@ -522,7 +522,7 @@ BASE_FEATURE(kGPUDriverBugListTestGroup,
  const base::FeatureParam<int> kGPUDriverBugListTestGroupId{
      &kGPUDriverBugListTestGroup, "test_group", 0};
  

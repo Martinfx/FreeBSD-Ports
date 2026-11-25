@@ -1,4 +1,4 @@
---- src/components/notebooks/internal/notebooks_network_service_impl.cc.orig	2026-09-25 15:26:43 UTC
+--- src/components/notebooks/internal/notebooks_network_service_impl.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/notebooks/internal/notebooks_network_service_impl.cc
 @@ -69,7 +69,7 @@ Device GetDevice() {
    return Device::kMobileAndroid;

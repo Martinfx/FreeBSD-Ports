@@ -1,4 +1,4 @@
---- src/media/capture/video/linux/v4l2_capture_delegate.h.orig	2026-10-18 18:43:23 UTC
+--- src/media/capture/video/linux/v4l2_capture_delegate.h.orig	2026-11-24 12:50:30 UTC
 +++ src/media/capture/video/linux/v4l2_capture_delegate.h
 @@ -34,7 +34,7 @@ class Location;
  

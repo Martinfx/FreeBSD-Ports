@@ -1,4 +1,4 @@
---- src/components/commerce/core/commerce_feature_list.cc.orig	2026-11-02 23:22:33 UTC
+--- src/components/commerce/core/commerce_feature_list.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/commerce/core/commerce_feature_list.cc
 @@ -158,7 +158,7 @@ BASE_FEATURE(kEnableDiscountInfoApi, bas
  const char kDiscountOnShoppyPageParam[] = "discount-on-shoppy-page";

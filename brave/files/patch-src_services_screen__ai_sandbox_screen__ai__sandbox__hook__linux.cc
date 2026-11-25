@@ -1,4 +1,4 @@
---- src/services/screen_ai/sandbox/screen_ai_sandbox_hook_linux.cc.orig	2026-10-18 18:43:23 UTC
+--- src/services/screen_ai/sandbox/screen_ai_sandbox_hook_linux.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/services/screen_ai/sandbox/screen_ai_sandbox_hook_linux.cc
 @@ -59,6 +59,7 @@ bool ScreenAIPreSandboxHook(base::FilePa
      }

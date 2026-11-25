@@ -1,4 +1,4 @@
---- src/brave/common/importer/chrome_importer_utils.h.orig	2026-06-01 00:00:00 UTC
+--- src/brave/common/importer/chrome_importer_utils.h.orig	2026-11-24 12:50:30 UTC
 +++ src/brave/common/importer/chrome_importer_utils.h
 @@ -21,8 +21,10 @@
  base::FilePath GetChromeUserDataFolder();

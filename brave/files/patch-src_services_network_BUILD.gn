@@ -1,10 +1,10 @@
---- src/services/network/BUILD.gn.orig	2026-11-02 23:22:33 UTC
+--- src/services/network/BUILD.gn.orig	2026-11-24 12:50:30 UTC
 +++ src/services/network/BUILD.gn
-@@ -461,7 +461,6 @@ if (is_linux || is_chromeos) {
+@@ -466,7 +466,6 @@ if (is_linux || is_chromeos) {
      deps = [
        "//base",
        "//components/vrp_flags:buildflags",
 -      "//sandbox/linux:sandbox_services",
        "//sandbox/policy",
      ]
-     configs += [ "//build/config/compiler:wexit_time_destructors" ]
+   }

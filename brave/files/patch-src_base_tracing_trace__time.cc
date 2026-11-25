@@ -1,4 +1,4 @@
---- src/base/tracing/trace_time.cc.orig	2025-03-05 08:14:56 UTC
+--- src/base/tracing/trace_time.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/base/tracing/trace_time.cc
 @@ -8,12 +8,16 @@
  #include "build/build_config.h"

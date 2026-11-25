@@ -1,4 +1,4 @@
---- src/ui/base/x/x11_drag_context.cc.orig	2026-10-18 18:43:23 UTC
+--- src/ui/base/x/x11_drag_context.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/base/x/x11_drag_context.cc
 @@ -15,7 +15,7 @@
  #include "ui/gfx/x/connection.h"

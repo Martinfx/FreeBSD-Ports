@@ -1,4 +1,4 @@
---- src/gpu/config/gpu_control_list.cc.orig	2026-11-02 23:22:33 UTC
+--- src/gpu/config/gpu_control_list.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/gpu/config/gpu_control_list.cc
 @@ -822,7 +822,7 @@ GpuControlList::OsType GpuControlList::G
    return kOsAndroid;

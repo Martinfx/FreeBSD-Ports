@@ -1,4 +1,4 @@
---- src/remoting/host/desktop_session_proxy.h.orig	2026-07-01 06:24:19 UTC
+--- src/remoting/host/desktop_session_proxy.h.orig	2026-11-24 12:50:30 UTC
 +++ src/remoting/host/desktop_session_proxy.h
 @@ -108,7 +108,7 @@ class DesktopSessionProxy
    std::unique_ptr<UrlForwarderConfigurator> CreateUrlForwarderConfigurator();

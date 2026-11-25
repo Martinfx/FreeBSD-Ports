@@ -1,4 +1,4 @@
---- src/brave/chromium_src/chrome/browser/ui/startup/startup_browser_creator.cc.orig	2026-10-18 18:43:23 UTC
+--- src/brave/chromium_src/chrome/browser/ui/startup/startup_browser_creator.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/brave/chromium_src/chrome/browser/ui/startup/startup_browser_creator.cc
 @@ -23,7 +23,7 @@
  #include "chrome/browser/platform_util.h"

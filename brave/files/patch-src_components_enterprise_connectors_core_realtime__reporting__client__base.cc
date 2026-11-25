@@ -1,4 +1,4 @@
---- src/components/enterprise/connectors/core/realtime_reporting_client_base.cc.orig	2026-11-02 23:22:33 UTC
+--- src/components/enterprise/connectors/core/realtime_reporting_client_base.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/enterprise/connectors/core/realtime_reporting_client_base.cc
 @@ -202,7 +202,7 @@ void RealtimeReportingClientBase::Report
      *event.mutable_time() = ToProtoTimestamp(base::Time::Now());

@@ -1,4 +1,4 @@
---- src/third_party/pdfium/xfa/fxfa/parser/cxfa_timezoneprovider.cpp.orig	2026-10-18 18:43:23 UTC
+--- src/third_party/pdfium/xfa/fxfa/parser/cxfa_timezoneprovider.cpp.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/pdfium/xfa/fxfa/parser/cxfa_timezoneprovider.cpp
 @@ -6,12 +6,16 @@
  

@@ -1,4 +1,4 @@
---- src/components/password_manager/core/browser/password_manager_switches.cc.orig	2024-06-17 12:56:06 UTC
+--- src/components/password_manager/core/browser/password_manager_switches.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/password_manager/core/browser/password_manager_switches.cc
 @@ -6,7 +6,7 @@
  

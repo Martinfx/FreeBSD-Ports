@@ -1,4 +1,4 @@
---- src/chrome/browser/ui/webui/password_manager/notification_cards_handler.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/ui/webui/password_manager/notification_cards_handler.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/webui/password_manager/notification_cards_handler.cc
 @@ -44,7 +44,7 @@
  #include "components/signin/public/identity_manager/account_info.h"

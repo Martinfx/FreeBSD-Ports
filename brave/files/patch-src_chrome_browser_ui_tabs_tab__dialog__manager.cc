@@ -1,4 +1,4 @@
---- src/chrome/browser/ui/tabs/tab_dialog_manager.cc.orig	2026-08-31 10:59:09 UTC
+--- src/chrome/browser/ui/tabs/tab_dialog_manager.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/tabs/tab_dialog_manager.cc
 @@ -89,7 +89,7 @@ bool SupportsGlobalScreenCoordinates() {
  }

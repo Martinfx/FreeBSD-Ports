@@ -1,4 +1,4 @@
---- src/components/metrics/motherboard.cc.orig	2022-10-24 13:33:33 UTC
+--- src/components/metrics/motherboard.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/metrics/motherboard.cc
 @@ -1,6 +1,7 @@
  // Copyright 2022 The Chromium Authors

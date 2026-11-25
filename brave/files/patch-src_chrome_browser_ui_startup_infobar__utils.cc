@@ -1,4 +1,4 @@
---- src/chrome/browser/ui/startup/infobar_utils.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/ui/startup/infobar_utils.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/startup/infobar_utils.cc
 @@ -56,7 +56,7 @@
  #include "chrome/browser/ui/startup/default_browser_prompt/pin_infobar/pin_infobar_controller.h"

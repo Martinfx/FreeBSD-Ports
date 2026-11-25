@@ -1,6 +1,6 @@
---- src/third_party/libunwind/src/src/UnwindCursor.hpp.orig	2026-10-18 18:43:23 UTC
+--- src/third_party/libunwind/src/src/UnwindCursor.hpp.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/libunwind/src/src/UnwindCursor.hpp
-@@ -114,6 +114,8 @@ extern "C" _Unwind_Reason_Code __libunwi
+@@ -125,6 +125,8 @@ extern "C" _Unwind_Reason_Code __libunwi
  
  namespace libunwind {
  
@@ -9,7 +9,7 @@
  #if defined(_LIBUNWIND_SUPPORT_DWARF_UNWIND)
  /// Cache of recently found FDEs.
  template <typename A>
-@@ -2939,7 +2941,14 @@ void UnwindCursor<A, R>::setInfoBasedOnI
+@@ -2955,7 +2957,14 @@ void UnwindCursor<A, R>::setInfoBasedOnI
  
    // Ask address space object to find unwind sections for this pc.
    UnwindInfoSections sects;

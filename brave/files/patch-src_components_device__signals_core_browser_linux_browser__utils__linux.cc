@@ -1,4 +1,4 @@
---- src/components/device_signals/core/browser/linux/browser_utils_linux.cc.orig	2026-09-25 15:26:43 UTC
+--- src/components/device_signals/core/browser/linux/browser_utils_linux.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/device_signals/core/browser/linux/browser_utils_linux.cc
 @@ -81,7 +81,7 @@ SettingValue GetOSFirewall() {
  #endif

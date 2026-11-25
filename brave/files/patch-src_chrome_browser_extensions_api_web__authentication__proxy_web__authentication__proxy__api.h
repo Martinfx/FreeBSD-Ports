@@ -1,4 +1,4 @@
---- src/chrome/browser/extensions/api/web_authentication_proxy/web_authentication_proxy_api.h.orig	2026-05-07 17:02:56 UTC
+--- src/chrome/browser/extensions/api/web_authentication_proxy/web_authentication_proxy_api.h.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/extensions/api/web_authentication_proxy/web_authentication_proxy_api.h
 @@ -15,7 +15,7 @@
  #include "extensions/browser/extension_function_histogram_value.h"

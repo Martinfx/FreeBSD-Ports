@@ -1,4 +1,4 @@
---- src/ui/gfx/x/generated_protos/dri3.cc.orig	2024-01-30 07:53:34 UTC
+--- src/ui/gfx/x/generated_protos/dri3.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/gfx/x/generated_protos/dri3.cc
 @@ -27,6 +27,8 @@
  #include <xcb/xcb.h>

@@ -1,4 +1,4 @@
---- src/components/viz/service/display_embedder/software_output_surface.cc.orig	2026-10-18 18:43:23 UTC
+--- src/components/viz/service/display_embedder/software_output_surface.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/viz/service/display_embedder/software_output_surface.cc
 @@ -115,7 +115,7 @@ void SoftwareOutputSurface::SwapBuffersC
    base::TimeTicks now = base::TimeTicks::Now();

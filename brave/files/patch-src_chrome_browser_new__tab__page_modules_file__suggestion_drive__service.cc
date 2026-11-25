@@ -1,4 +1,4 @@
---- src/chrome/browser/new_tab_page/modules/file_suggestion/drive_service.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/new_tab_page/modules/file_suggestion/drive_service.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/new_tab_page/modules/file_suggestion/drive_service.cc
 @@ -39,7 +39,7 @@
  #include "services/network/public/cpp/shared_url_loader_factory.h"

@@ -1,4 +1,4 @@
---- src/chrome/browser/media/webrtc/chrome_screen_enumerator.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/media/webrtc/chrome_screen_enumerator.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/media/webrtc/chrome_screen_enumerator.cc
 @@ -21,7 +21,7 @@
  #if BUILDFLAG(IS_CHROMEOS)

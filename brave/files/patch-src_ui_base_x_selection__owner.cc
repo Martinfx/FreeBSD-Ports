@@ -1,4 +1,4 @@
---- src/ui/base/x/selection_owner.cc.orig	2026-10-18 18:43:23 UTC
+--- src/ui/base/x/selection_owner.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/base/x/selection_owner.cc
 @@ -19,7 +19,7 @@
  #include "ui/gfx/x/window_event_manager.h"

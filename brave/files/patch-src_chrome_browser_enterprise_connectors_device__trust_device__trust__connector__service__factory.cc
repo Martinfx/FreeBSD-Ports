@@ -1,4 +1,4 @@
---- src/chrome/browser/enterprise/connectors/device_trust/device_trust_connector_service_factory.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/enterprise/connectors/device_trust/device_trust_connector_service_factory.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/enterprise/connectors/device_trust/device_trust_connector_service_factory.cc
 @@ -10,7 +10,7 @@
  #include "components/enterprise/device_trust/core/device_trust_connector_service.h"

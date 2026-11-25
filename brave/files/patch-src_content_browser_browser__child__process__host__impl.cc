@@ -1,4 +1,4 @@
---- src/content/browser/browser_child_process_host_impl.cc.orig	2026-11-02 23:22:33 UTC
+--- src/content/browser/browser_child_process_host_impl.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/content/browser/browser_child_process_host_impl.cc
 @@ -308,6 +308,7 @@ void BrowserChildProcessHostImpl::Launch
        switches::kLogBestEffortTasks,

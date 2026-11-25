@@ -1,4 +1,4 @@
---- src/ui/gl/gl_implementation.cc.orig	2026-10-18 18:43:23 UTC
+--- src/ui/gl/gl_implementation.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/gl/gl_implementation.cc
 @@ -331,7 +331,7 @@ GetRequestedGLImplementationFromCommandL
      const base::CommandLine* command_line) {

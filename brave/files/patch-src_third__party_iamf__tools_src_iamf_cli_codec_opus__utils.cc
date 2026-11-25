@@ -1,4 +1,4 @@
---- src/third_party/iamf_tools/src/iamf/cli/codec/opus_utils.cc.orig	2026-10-18 18:43:23 UTC
+--- src/third_party/iamf_tools/src/iamf/cli/codec/opus_utils.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/iamf_tools/src/iamf/cli/codec/opus_utils.cc
 @@ -14,7 +14,7 @@
  #include "absl/status/status.h"

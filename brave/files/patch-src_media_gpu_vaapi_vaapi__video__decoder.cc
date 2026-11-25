@@ -1,4 +1,4 @@
---- src/media/gpu/vaapi/vaapi_video_decoder.cc.orig	2026-10-18 18:43:23 UTC
+--- src/media/gpu/vaapi/vaapi_video_decoder.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/media/gpu/vaapi/vaapi_video_decoder.cc
 @@ -802,7 +802,7 @@ void VaapiVideoDecoder::ApplyResolutionC
    const gfx::Size decoder_natural_size =

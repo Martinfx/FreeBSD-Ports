@@ -1,4 +1,4 @@
---- src/third_party/protobuf/proto_library.gni.orig	2026-08-31 10:59:09 UTC
+--- src/third_party/protobuf/proto_library.gni.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/protobuf/proto_library.gni
 @@ -269,7 +269,15 @@ _protoc_gen_ts_runtime_deps = [
  

@@ -1,4 +1,4 @@
---- src/chrome/browser/ui/webui_browser/webui_browser_window.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/ui/webui_browser/webui_browser_window.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/webui_browser/webui_browser_window.cc
 @@ -78,7 +78,7 @@ const char* const kWebUIBrowserWindowKey
  

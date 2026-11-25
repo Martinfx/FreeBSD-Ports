@@ -1,4 +1,4 @@
---- src/chrome/browser/visited_url_ranking/visited_url_ranking_service_factory.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/visited_url_ranking/visited_url_ranking_service_factory.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/visited_url_ranking/visited_url_ranking_service_factory.cc
 @@ -47,7 +47,7 @@
  #include "components/visited_url_ranking/public/visited_url_ranking_service.h"

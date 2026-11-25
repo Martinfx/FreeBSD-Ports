@@ -1,4 +1,4 @@
---- src/chrome/browser/ui/startup/startup_tab_provider.cc.orig	2026-09-25 15:26:43 UTC
+--- src/chrome/browser/ui/startup/startup_tab_provider.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/startup/startup_tab_provider.cc
 @@ -65,7 +65,7 @@
  #include "extensions/common/manifest_handlers/chrome_url_overrides_handler.h"

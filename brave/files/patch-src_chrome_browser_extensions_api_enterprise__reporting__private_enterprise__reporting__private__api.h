@@ -1,4 +1,4 @@
---- src/chrome/browser/extensions/api/enterprise_reporting_private/enterprise_reporting_private_api.h.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/extensions/api/enterprise_reporting_private/enterprise_reporting_private_api.h.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/extensions/api/enterprise_reporting_private/enterprise_reporting_private_api.h
 @@ -16,7 +16,7 @@
  #include "chrome/browser/extensions/api/enterprise_reporting_private/chrome_desktop_report_request_helper.h"

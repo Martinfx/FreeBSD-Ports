@@ -1,4 +1,4 @@
---- src/build/linux/unbundle/icu.gn.orig	2025-12-05 10:12:50 UTC
+--- src/build/linux/unbundle/icu.gn.orig	2026-11-24 12:50:30 UTC
 +++ src/build/linux/unbundle/icu.gn
 @@ -17,6 +17,15 @@ config("icu_config") {
      "USING_SYSTEM_ICU=1",

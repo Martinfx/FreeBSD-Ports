@@ -1,4 +1,4 @@
---- src/chrome/browser/ui/views/profiles/profile_picker_widget.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/ui/views/profiles/profile_picker_widget.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/views/profiles/profile_picker_widget.cc
 @@ -11,7 +11,7 @@
  #include "chrome/browser/ui/views/profiles/profile_picker_view.h"

@@ -1,4 +1,4 @@
---- src/base/threading/platform_thread_unittest.cc.orig	2026-11-02 23:22:33 UTC
+--- src/base/threading/platform_thread_unittest.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/base/threading/platform_thread_unittest.cc
 @@ -68,7 +68,7 @@ std::ostream& operator<<(std::ostream& o
  #include "base/time/time.h"

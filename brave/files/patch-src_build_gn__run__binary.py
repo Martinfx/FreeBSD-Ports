@@ -1,4 +1,4 @@
---- src/build/gn_run_binary.py.orig	2026-09-25 15:26:43 UTC
+--- src/build/gn_run_binary.py.orig	2026-11-24 12:50:30 UTC
 +++ src/build/gn_run_binary.py
 @@ -22,7 +22,7 @@ if not os.path.isabs(path):
  # The rest of the arguments are passed directly to the executable.

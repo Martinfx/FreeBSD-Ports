@@ -1,4 +1,4 @@
---- src/base/profiler/stack_base_address_posix.cc.orig	2026-10-18 18:43:23 UTC
+--- src/base/profiler/stack_base_address_posix.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/base/profiler/stack_base_address_posix.cc
 @@ -7,6 +7,7 @@
  #include "base/check_op.h"

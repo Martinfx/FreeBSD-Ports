@@ -1,6 +1,6 @@
---- src/tools/rust/build_crubit.py.orig	2026-11-11 14:44:17 UTC
+--- src/tools/rust/build_crubit.py.orig	2026-11-24 12:50:30 UTC
 +++ src/tools/rust/build_crubit.py
-@@ -128,7 +128,7 @@ CMAKE_STAMP_FILENAME = 'build_crubit_sta
+@@ -127,7 +127,7 @@ CMAKE_STAMP_FILENAME = 'build_crubit_sta
  
  IS_WIN = sys.platform == 'win32'
  IS_MAC = sys.platform == 'darwin'

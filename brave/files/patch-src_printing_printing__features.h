@@ -1,4 +1,4 @@
---- src/printing/printing_features.h.orig	2026-06-04 10:12:25 UTC
+--- src/printing/printing_features.h.orig	2026-11-24 12:50:30 UTC
 +++ src/printing/printing_features.h
 @@ -19,7 +19,7 @@ namespace printing::features {
  COMPONENT_EXPORT(PRINTING_BASE)

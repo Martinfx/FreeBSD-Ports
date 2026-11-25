@@ -1,4 +1,4 @@
---- src/chrome/browser/regional_capabilities/regional_capabilities_service_factory.h.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/regional_capabilities/regional_capabilities_service_factory.h.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/regional_capabilities/regional_capabilities_service_factory.h
 @@ -31,7 +31,7 @@ class RegionalCapabilitiesServiceFactory
  

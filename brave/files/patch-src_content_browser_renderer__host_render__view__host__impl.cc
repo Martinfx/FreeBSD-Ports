@@ -1,4 +1,4 @@
---- src/content/browser/renderer_host/render_view_host_impl.cc.orig	2026-11-02 23:22:33 UTC
+--- src/content/browser/renderer_host/render_view_host_impl.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/content/browser/renderer_host/render_view_host_impl.cc
 @@ -267,7 +267,7 @@ void RenderViewHostImpl::GetPlatformSpec
    GetFontInfo(gfx::win::SystemFont::kStatus, &prefs->status_font_family_name,

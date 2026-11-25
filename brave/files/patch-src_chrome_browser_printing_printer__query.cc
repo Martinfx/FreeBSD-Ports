@@ -1,4 +1,4 @@
---- src/chrome/browser/printing/printer_query.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/printing/printer_query.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/printing/printer_query.cc
 @@ -346,7 +346,7 @@ void PrinterQuery::UpdatePrintSettings(b
      crash_key = std::make_unique<crash_keys::ScopedPrinterInfo>(

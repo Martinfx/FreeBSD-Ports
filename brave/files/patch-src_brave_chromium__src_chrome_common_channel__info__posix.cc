@@ -1,4 +1,4 @@
---- src/brave/chromium_src/chrome/common/channel_info_posix.cc.orig	2026-10-18 18:43:23 UTC
+--- src/brave/chromium_src/chrome/common/channel_info_posix.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/brave/chromium_src/chrome/common/channel_info_posix.cc
 @@ -27,7 +27,7 @@ std::string GetChannelSuffixForDataDir()
    return std::string();

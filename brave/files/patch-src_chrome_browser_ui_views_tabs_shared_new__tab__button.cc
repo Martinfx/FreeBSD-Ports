@@ -1,4 +1,4 @@
---- src/chrome/browser/ui/views/tabs/shared/new_tab_button.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/ui/views/tabs/shared/new_tab_button.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/views/tabs/shared/new_tab_button.cc
 @@ -45,7 +45,7 @@ NewTabButton::NewTabButton(BrowserWindow
  

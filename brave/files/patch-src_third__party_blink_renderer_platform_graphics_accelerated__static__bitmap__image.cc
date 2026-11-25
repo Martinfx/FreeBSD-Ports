@@ -1,4 +1,4 @@
---- src/third_party/blink/renderer/platform/graphics/accelerated_static_bitmap_image.cc.orig	2026-11-02 23:22:33 UTC
+--- src/third_party/blink/renderer/platform/graphics/accelerated_static_bitmap_image.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/blink/renderer/platform/graphics/accelerated_static_bitmap_image.cc
 @@ -155,7 +155,7 @@ scoped_refptr<StaticBitmapImage> Acceler
    bool should_force_bgra8_to_rgba =

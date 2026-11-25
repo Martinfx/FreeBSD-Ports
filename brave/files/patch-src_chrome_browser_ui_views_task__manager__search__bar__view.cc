@@ -1,4 +1,4 @@
---- src/chrome/browser/ui/views/task_manager_search_bar_view.cc.orig	2026-07-01 06:24:19 UTC
+--- src/chrome/browser/ui/views/task_manager_search_bar_view.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/views/task_manager_search_bar_view.cc
 @@ -28,7 +28,7 @@ namespace task_manager {
  namespace {

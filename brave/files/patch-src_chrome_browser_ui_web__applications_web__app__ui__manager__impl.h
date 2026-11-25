@@ -1,4 +1,4 @@
---- src/chrome/browser/ui/web_applications/web_app_ui_manager_impl.h.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/ui/web_applications/web_app_ui_manager_impl.h.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/web_applications/web_app_ui_manager_impl.h
 @@ -263,7 +263,7 @@ class WebAppUiManagerImpl : public Brows
        webapps::UninstallResultCode uninstall_code);

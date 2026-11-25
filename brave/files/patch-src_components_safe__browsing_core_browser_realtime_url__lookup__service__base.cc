@@ -1,4 +1,4 @@
---- src/components/safe_browsing/core/browser/realtime/url_lookup_service_base.cc.orig	2026-11-02 23:22:33 UTC
+--- src/components/safe_browsing/core/browser/realtime/url_lookup_service_base.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/safe_browsing/core/browser/realtime/url_lookup_service_base.cc
 @@ -122,7 +122,7 @@ RTLookupRequest::OSType GetRTLookupReque
    return RTLookupRequest::OS_TYPE_CHROME_OS;

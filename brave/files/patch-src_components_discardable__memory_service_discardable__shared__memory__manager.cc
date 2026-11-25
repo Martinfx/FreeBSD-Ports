@@ -1,4 +1,4 @@
---- src/components/discardable_memory/service/discardable_shared_memory_manager.cc.orig	2026-08-31 10:59:09 UTC
+--- src/components/discardable_memory/service/discardable_shared_memory_manager.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/discardable_memory/service/discardable_shared_memory_manager.cc
 @@ -178,6 +178,8 @@ uint64_t GetDefaultMaxBytes() {
  #if BUILDFLAG(IS_ANDROID)

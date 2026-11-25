@@ -1,4 +1,4 @@
---- src/media/base/libaom_thread_wrapper.cc.orig	2024-03-22 08:19:40 UTC
+--- src/media/base/libaom_thread_wrapper.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/media/base/libaom_thread_wrapper.cc
 @@ -5,17 +5,21 @@
  #include "base/logging.h"

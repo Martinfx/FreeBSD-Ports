@@ -1,4 +1,4 @@
---- src/net/socket/udp_socket_posix.h.orig	2026-08-31 10:59:09 UTC
+--- src/net/socket/udp_socket_posix.h.orig	2026-11-24 12:50:30 UTC
 +++ src/net/socket/udp_socket_posix.h
 @@ -451,7 +451,7 @@ class NET_EXPORT UDPSocketPosix {
        size_t maximum_packet_size);

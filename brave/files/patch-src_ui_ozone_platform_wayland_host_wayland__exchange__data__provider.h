@@ -1,4 +1,4 @@
---- src/ui/ozone/platform/wayland/host/wayland_exchange_data_provider.h.orig	2026-03-15 17:43:38 UTC
+--- src/ui/ozone/platform/wayland/host/wayland_exchange_data_provider.h.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/ozone/platform/wayland/host/wayland_exchange_data_provider.h
 @@ -41,7 +41,7 @@ class WaylandExchangeDataProvider final
    void AddData(PlatformClipboard::Data data, const std::string& mime_type);

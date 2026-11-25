@@ -1,6 +1,6 @@
---- src/chrome/browser/extensions/component_extensions_allowlist/allowlist.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/extensions/component_extensions_allowlist/allowlist.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/extensions/component_extensions_allowlist/allowlist.cc
-@@ -61,7 +61,7 @@ bool IsComponentExtensionAllowlisted(con
+@@ -69,7 +69,7 @@ bool IsComponentExtensionAllowlisted(con
        extension_misc::kQuickOfficeComponentExtensionId,
  #endif  // BUILDFLAG(GOOGLE_CHROME_BRANDING)
  #endif  // BUILDFLAG(IS_CHROMEOS)

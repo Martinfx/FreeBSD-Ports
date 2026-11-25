@@ -1,4 +1,4 @@
---- src/chrome/browser/ui/webui/search_engine_choice/search_engine_choice_ui.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/ui/webui/search_engine_choice/search_engine_choice_ui.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/webui/search_engine_choice/search_engine_choice_ui.cc
 @@ -135,7 +135,7 @@ SearchEngineChoiceUI::SearchEngineChoice
        search_engine_choice_service->IsDsePropagationAllowedForGuest());

@@ -1,4 +1,4 @@
---- src/components/supervised_user/core/browser/supervised_user_metrics_service.cc.orig	2026-11-02 23:22:33 UTC
+--- src/components/supervised_user/core/browser/supervised_user_metrics_service.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/supervised_user/core/browser/supervised_user_metrics_service.cc
 @@ -116,7 +116,7 @@ SupervisedUserMetricsService::Supervised
    DCHECK(pref_service_);

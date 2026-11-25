@@ -1,4 +1,4 @@
---- src/ui/ozone/platform/headless/ozone_platform_headless.cc.orig	2026-10-18 18:43:23 UTC
+--- src/ui/ozone/platform/headless/ozone_platform_headless.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/ozone/platform/headless/ozone_platform_headless.cc
 @@ -108,7 +108,7 @@ class OzonePlatformHeadlessImpl : public
    }

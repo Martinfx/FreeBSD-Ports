@@ -1,4 +1,4 @@
---- src/third_party/libusb/src/libusb/core.c.orig	2022-02-07 13:39:41 UTC
+--- src/third_party/libusb/src/libusb/core.c.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/libusb/src/libusb/core.c
 @@ -448,7 +448,7 @@ libusb_free_device_list(list, 1);
   * which grows when required. it can be freed once discovery has completed,

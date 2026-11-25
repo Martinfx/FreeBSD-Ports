@@ -1,4 +1,4 @@
---- src/net/base/network_interfaces_posix.h.orig	2022-02-07 13:39:41 UTC
+--- src/net/base/network_interfaces_posix.h.orig	2026-11-24 12:50:30 UTC
 +++ src/net/base/network_interfaces_posix.h
 @@ -8,6 +8,8 @@
  // This file provides some basic functionality shared between

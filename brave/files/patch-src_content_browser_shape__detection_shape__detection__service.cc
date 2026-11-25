@@ -1,4 +1,4 @@
---- src/content/browser/shape_detection/shape_detection_service.cc.orig	2026-10-18 18:43:23 UTC
+--- src/content/browser/shape_detection/shape_detection_service.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/content/browser/shape_detection/shape_detection_service.cc
 @@ -15,7 +15,7 @@
  #endif

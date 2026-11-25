@@ -1,6 +1,6 @@
---- src/chrome/browser/screen_ai/screen_ai_install_state.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/screen_ai/screen_ai_install_state.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/screen_ai/screen_ai_install_state.cc
-@@ -37,7 +37,7 @@ bool ScreenAIInstallState::IsDeviceCompa
+@@ -42,7 +42,7 @@ bool ScreenAIInstallState::IsDeviceCompa
    // Check if the CPU has the required instruction set to run the Screen AI
    // library.
    static const bool device_compatible = base::CPU().has_sse42();

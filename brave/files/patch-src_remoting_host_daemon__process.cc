@@ -1,4 +1,4 @@
---- src/remoting/host/daemon_process.cc.orig	2026-11-02 23:22:33 UTC
+--- src/remoting/host/daemon_process.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/remoting/host/daemon_process.cc
 @@ -300,7 +300,7 @@ void DaemonProcess::GetDesktopSession(
    // Windows, user sessions and applications are persisted natively by the OS,

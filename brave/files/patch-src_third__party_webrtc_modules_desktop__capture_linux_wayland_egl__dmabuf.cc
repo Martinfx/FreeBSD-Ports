@@ -1,4 +1,4 @@
---- src/third_party/webrtc/modules/desktop_capture/linux/wayland/egl_dmabuf.cc.orig	2026-02-12 08:43:57 UTC
+--- src/third_party/webrtc/modules/desktop_capture/linux/wayland/egl_dmabuf.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/webrtc/modules/desktop_capture/linux/wayland/egl_dmabuf.cc
 @@ -15,14 +15,18 @@
  #include <EGL/eglplatform.h>

@@ -1,4 +1,4 @@
---- src/gpu/ipc/service/x_util.h.orig	2026-03-13 06:02:14 UTC
+--- src/gpu/ipc/service/x_util.h.orig	2026-11-24 12:50:30 UTC
 +++ src/gpu/ipc/service/x_util.h
 @@ -12,7 +12,7 @@
  #include "gpu/ipc/service/gpu_config.h"

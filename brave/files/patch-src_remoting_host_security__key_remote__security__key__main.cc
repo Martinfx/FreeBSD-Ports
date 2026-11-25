@@ -1,4 +1,4 @@
---- src/remoting/host/security_key/remote_security_key_main.cc.orig	2026-10-18 18:43:23 UTC
+--- src/remoting/host/security_key/remote_security_key_main.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/remoting/host/security_key/remote_security_key_main.cc
 @@ -23,7 +23,7 @@
  #include "remoting/host/security_key/security_key_message_handler.h"

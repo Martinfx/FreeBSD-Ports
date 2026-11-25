@@ -1,4 +1,4 @@
---- src/remoting/base/crash/crashpad_database_manager.cc.orig	2026-10-18 18:43:23 UTC
+--- src/remoting/base/crash/crashpad_database_manager.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/remoting/base/crash/crashpad_database_manager.cc
 @@ -24,7 +24,7 @@
  #if BUILDFLAG(IS_WIN)

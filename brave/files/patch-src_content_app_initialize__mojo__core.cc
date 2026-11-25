@@ -1,6 +1,6 @@
---- src/content/app/initialize_mojo_core.cc.orig	2026-11-02 23:22:33 UTC
+--- src/content/app/initialize_mojo_core.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/content/app/initialize_mojo_core.cc
-@@ -49,7 +49,7 @@ void InitializeMojoCore() {
+@@ -48,7 +48,7 @@ void InitializeMojoCore() {
      config.force_direct_shared_memory_allocation = true;
  #endif
  

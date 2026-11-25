@@ -1,4 +1,4 @@
---- src/remoting/host/desktop_session.cc.orig	2026-09-25 15:26:43 UTC
+--- src/remoting/host/desktop_session.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/remoting/host/desktop_session.cc
 @@ -23,7 +23,7 @@ void DesktopSession::SetReceiver(
    if (receiver.is_valid()) {

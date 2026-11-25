@@ -1,4 +1,4 @@
---- src/device/vr/openxr/openxr_swapchain_info.cc.orig	2026-10-18 18:43:23 UTC
+--- src/device/vr/openxr/openxr_swapchain_info.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/device/vr/openxr/openxr_swapchain_info.cc
 @@ -17,7 +17,7 @@ OpenXrSwapchainInfo::OpenXrSwapchainInfo
  #elif BUILDFLAG(IS_ANDROID)

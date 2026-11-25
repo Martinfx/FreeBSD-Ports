@@ -1,4 +1,4 @@
---- src/brave/components/brave_extension/BUILD.gn.orig	2026-10-18 18:43:23 UTC
+--- src/brave/components/brave_extension/BUILD.gn.orig	2026-11-24 12:50:30 UTC
 +++ src/brave/components/brave_extension/BUILD.gn
 @@ -36,7 +36,9 @@ action("web_discovery_project_resources"
      # TODO(petemill): Have WDP use webpack (or another way) to spit out

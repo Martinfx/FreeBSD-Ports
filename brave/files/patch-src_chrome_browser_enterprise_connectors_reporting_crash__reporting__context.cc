@@ -1,4 +1,4 @@
---- src/chrome/browser/enterprise/connectors/reporting/crash_reporting_context.cc.orig	2026-06-04 10:12:25 UTC
+--- src/chrome/browser/enterprise/connectors/reporting/crash_reporting_context.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/enterprise/connectors/reporting/crash_reporting_context.cc
 @@ -30,7 +30,7 @@
  

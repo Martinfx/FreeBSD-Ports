@@ -1,4 +1,4 @@
---- src/third_party/blink/renderer/platform/widget/compositing/blink_categorized_worker_pool_delegate.cc.orig	2026-10-18 18:43:23 UTC
+--- src/third_party/blink/renderer/platform/widget/compositing/blink_categorized_worker_pool_delegate.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/blink/renderer/platform/widget/compositing/blink_categorized_worker_pool_delegate.cc
 @@ -27,7 +27,7 @@ BlinkCategorizedWorkerPoolDelegate& Blin
  

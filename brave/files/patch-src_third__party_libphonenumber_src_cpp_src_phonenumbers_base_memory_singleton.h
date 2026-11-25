@@ -1,4 +1,4 @@
---- src/third_party/libphonenumber/src/cpp/src/phonenumbers/base/memory/singleton.h.orig	2026-06-04 10:12:25 UTC
+--- src/third_party/libphonenumber/src/cpp/src/phonenumbers/base/memory/singleton.h.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/libphonenumber/src/cpp/src/phonenumbers/base/memory/singleton.h
 @@ -22,7 +22,7 @@
  #elif (__cplusplus >= 201103L) && defined(I18N_PHONENUMBERS_USE_STDMUTEX)

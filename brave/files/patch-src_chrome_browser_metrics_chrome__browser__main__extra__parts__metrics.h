@@ -1,4 +1,4 @@
---- src/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.h.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.h.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.h
 @@ -30,7 +30,7 @@ class PowerMetricsReporter;
  class ProcessMonitor;

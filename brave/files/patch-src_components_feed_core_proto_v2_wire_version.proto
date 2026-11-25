@@ -1,4 +1,4 @@
---- src/components/feed/core/proto/v2/wire/version.proto.orig	2021-05-12 22:05:49 UTC
+--- src/components/feed/core/proto/v2/wire/version.proto.orig	2026-11-24 12:50:30 UTC
 +++ src/components/feed/core/proto/v2/wire/version.proto
 @@ -25,8 +25,8 @@ message Version {
      BETA = 3;

@@ -1,4 +1,4 @@
---- src/remoting/base/username.cc.orig	2026-04-09 06:05:42 UTC
+--- src/remoting/base/username.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/remoting/base/username.cc
 @@ -86,7 +86,7 @@ std::string GetUsername() {
  #endif  // BUILDFLAG(IS_POSIX) && !BUILDFLAG(IS_ANDROID)

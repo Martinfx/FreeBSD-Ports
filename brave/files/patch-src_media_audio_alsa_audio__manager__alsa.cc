@@ -1,4 +1,4 @@
---- src/media/audio/alsa/audio_manager_alsa.cc.orig	2026-10-18 18:43:23 UTC
+--- src/media/audio/alsa/audio_manager_alsa.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/media/audio/alsa/audio_manager_alsa.cc
 @@ -106,7 +106,9 @@ bool AudioManagerAlsa::GetAlsaAudioDevic
    // Loop through the physical sound cards to get ALSA device hints.

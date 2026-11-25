@@ -1,4 +1,4 @@
---- src/base/files/file_util_unittest.cc.orig	2026-11-02 23:22:33 UTC
+--- src/base/files/file_util_unittest.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/base/files/file_util_unittest.cc
 @@ -4402,7 +4402,7 @@ TEST_F(FileUtilTest, ReadFileToStringWit
  }

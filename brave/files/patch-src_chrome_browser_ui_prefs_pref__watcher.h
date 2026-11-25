@@ -1,4 +1,4 @@
---- src/chrome/browser/ui/prefs/pref_watcher.h.orig	2026-01-14 08:33:23 UTC
+--- src/chrome/browser/ui/prefs/pref_watcher.h.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/prefs/pref_watcher.h
 @@ -53,7 +53,7 @@ class PrefWatcher : public KeyedService,
    // blink::RendererPreferences.

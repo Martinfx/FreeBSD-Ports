@@ -1,4 +1,4 @@
---- src/media/gpu/chromeos/platform_video_frame_utils.cc.orig	2026-10-18 18:43:23 UTC
+--- src/media/gpu/chromeos/platform_video_frame_utils.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/media/gpu/chromeos/platform_video_frame_utils.cc
 @@ -70,7 +70,7 @@ static std::unique_ptr<ui::GbmDevice> Cr
      const base::FilePath dev_path(FILE_PATH_LITERAL(

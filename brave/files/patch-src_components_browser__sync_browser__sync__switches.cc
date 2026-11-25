@@ -1,4 +1,4 @@
---- src/components/browser_sync/browser_sync_switches.cc.orig	2026-11-02 23:22:33 UTC
+--- src/components/browser_sync/browser_sync_switches.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/browser_sync/browser_sync_switches.cc
 @@ -40,7 +40,7 @@ BASE_FEATURE(kMigrateOutOfSyncSetupIncom
               base::FEATURE_ENABLED_BY_DEFAULT);

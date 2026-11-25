@@ -1,4 +1,4 @@
---- src/ui/gfx/mojom/native_handle_types_mojom_traits.cc.orig	2026-10-18 18:43:23 UTC
+--- src/ui/gfx/mojom/native_handle_types_mojom_traits.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/gfx/mojom/native_handle_types_mojom_traits.cc
 @@ -14,7 +14,7 @@
  #include "ui/gfx/mac/io_surface.h"

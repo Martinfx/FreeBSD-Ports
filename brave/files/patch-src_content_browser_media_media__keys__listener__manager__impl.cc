@@ -1,4 +1,4 @@
---- src/content/browser/media/media_keys_listener_manager_impl.cc.orig	2026-11-02 23:22:33 UTC
+--- src/content/browser/media/media_keys_listener_manager_impl.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/content/browser/media/media_keys_listener_manager_impl.cc
 @@ -331,7 +331,7 @@ void MediaKeysListenerManagerImpl::Start
      return;

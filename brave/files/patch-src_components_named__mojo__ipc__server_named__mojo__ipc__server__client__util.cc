@@ -1,4 +1,4 @@
---- src/components/named_mojo_ipc_server/named_mojo_ipc_server_client_util.cc.orig	2026-01-14 08:33:23 UTC
+--- src/components/named_mojo_ipc_server/named_mojo_ipc_server_client_util.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/named_mojo_ipc_server/named_mojo_ipc_server_client_util.cc
 @@ -23,7 +23,7 @@ namespace named_mojo_ipc_server {
  // static

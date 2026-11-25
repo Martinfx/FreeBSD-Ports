@@ -1,4 +1,4 @@
---- src/content/app/content_main.cc.orig	2026-10-18 18:43:23 UTC
+--- src/content/app/content_main.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/content/app/content_main.cc
 @@ -212,7 +212,7 @@ NO_STACK_PROTECTOR int RunContentProcess
      base::EnableTerminationOnOutOfMemory();

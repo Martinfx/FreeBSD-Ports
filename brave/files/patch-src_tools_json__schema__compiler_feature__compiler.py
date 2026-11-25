@@ -1,4 +1,4 @@
---- src/tools/json_schema_compiler/feature_compiler.py.orig	2026-11-02 23:22:33 UTC
+--- src/tools/json_schema_compiler/feature_compiler.py.orig	2026-11-24 12:50:30 UTC
 +++ src/tools/json_schema_compiler/feature_compiler.py
 @@ -251,6 +251,8 @@ FEATURE_GRAMMAR = {
          'linux': 'Feature::LINUX_PLATFORM',

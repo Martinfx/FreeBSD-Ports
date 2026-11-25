@@ -1,4 +1,4 @@
---- src/content/renderer/renderer_main_platform_delegate_linux.cc.orig	2026-11-02 23:22:33 UTC
+--- src/content/renderer/renderer_main_platform_delegate_linux.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/content/renderer/renderer_main_platform_delegate_linux.cc
 @@ -51,6 +51,7 @@ bool RendererMainPlatformDelegate::Enabl
    // any renderer has been started.

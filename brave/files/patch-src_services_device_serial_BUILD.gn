@@ -1,4 +1,4 @@
---- src/services/device/serial/BUILD.gn.orig	2026-03-13 06:02:14 UTC
+--- src/services/device/serial/BUILD.gn.orig	2026-11-24 12:50:30 UTC
 +++ src/services/device/serial/BUILD.gn
 @@ -8,7 +8,7 @@ if (is_android) {
    import("//third_party/jni_zero/jni_zero.gni")

@@ -1,4 +1,4 @@
---- src/ui/views/controls/textfield/textfield.h.orig	2026-11-02 23:22:33 UTC
+--- src/ui/views/controls/textfield/textfield.h.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/views/controls/textfield/textfield.h
 @@ -53,7 +53,7 @@
  #include "ui/views/view_observer.h"

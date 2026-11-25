@@ -1,4 +1,4 @@
---- src/extensions/browser/api/messaging/message_service.cc.orig	2026-11-02 23:22:33 UTC
+--- src/extensions/browser/api/messaging/message_service.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/extensions/browser/api/messaging/message_service.cc
 @@ -92,7 +92,7 @@ const char kReceivingEndIncompatibleMess
      "Could not establish connection. Receiving end uses different message "

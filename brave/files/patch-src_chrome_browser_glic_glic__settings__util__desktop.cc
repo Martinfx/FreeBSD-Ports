@@ -1,4 +1,4 @@
---- src/chrome/browser/glic/glic_settings_util_desktop.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/glic/glic_settings_util_desktop.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/glic/glic_settings_util_desktop.cc
 @@ -130,7 +130,7 @@ std::string_view GetPlatformHelpSuffix()
    return "_mac";

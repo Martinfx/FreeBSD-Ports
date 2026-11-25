@@ -1,4 +1,4 @@
---- src/services/tracing/public/cpp/stack_sampling/tracing_sampler_profiler.cc.orig	2026-11-02 23:22:33 UTC
+--- src/services/tracing/public/cpp/stack_sampling/tracing_sampler_profiler.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/services/tracing/public/cpp/stack_sampling/tracing_sampler_profiler.cc
 @@ -43,7 +43,7 @@
  #include "third_party/perfetto/protos/perfetto/trace/track_event/process_descriptor.pbzero.h"

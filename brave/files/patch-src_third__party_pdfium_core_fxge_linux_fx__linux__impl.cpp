@@ -1,4 +1,4 @@
---- src/third_party/pdfium/core/fxge/linux/fx_linux_impl.cpp.orig	2026-10-18 18:43:23 UTC
+--- src/third_party/pdfium/core/fxge/linux/fx_linux_impl.cpp.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/pdfium/core/fxge/linux/fx_linux_impl.cpp
 @@ -18,7 +18,7 @@
  #include "core/fxge/fx_font.h"

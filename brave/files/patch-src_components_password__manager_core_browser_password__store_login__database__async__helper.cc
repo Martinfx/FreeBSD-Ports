@@ -1,4 +1,4 @@
---- src/components/password_manager/core/browser/password_store/login_database_async_helper.cc.orig	2026-10-18 18:43:23 UTC
+--- src/components/password_manager/core/browser/password_store/login_database_async_helper.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/password_manager/core/browser/password_store/login_database_async_helper.cc
 @@ -143,7 +143,7 @@ LoginDatabaseAsyncHelper::FillMatchingLo
      std::vector<StoredCredential> matched_credentials;

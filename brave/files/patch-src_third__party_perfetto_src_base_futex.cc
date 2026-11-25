@@ -1,4 +1,4 @@
---- src/third_party/perfetto/src/base/futex.cc.orig	2026-11-02 23:22:33 UTC
+--- src/third_party/perfetto/src/base/futex.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/perfetto/src/base/futex.cc
 @@ -22,8 +22,13 @@
  

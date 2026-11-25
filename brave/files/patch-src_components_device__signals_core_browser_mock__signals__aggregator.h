@@ -1,4 +1,4 @@
---- src/components/device_signals/core/browser/mock_signals_aggregator.h.orig	2026-10-18 18:43:23 UTC
+--- src/components/device_signals/core/browser/mock_signals_aggregator.h.orig	2026-11-24 12:50:30 UTC
 +++ src/components/device_signals/core/browser/mock_signals_aggregator.h
 @@ -17,7 +17,7 @@ class MockSignalsAggregator : public Sig
    MockSignalsAggregator();

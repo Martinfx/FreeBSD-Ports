@@ -1,4 +1,4 @@
---- src/third_party/crashpad/crashpad/util/misc/uuid.cc.orig	2024-06-17 12:56:06 UTC
+--- src/third_party/crashpad/crashpad/util/misc/uuid.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/crashpad/crashpad/util/misc/uuid.cc
 @@ -110,7 +110,7 @@ bool UUID::InitializeWithNew() {
    InitializeFromBytes(uuid);

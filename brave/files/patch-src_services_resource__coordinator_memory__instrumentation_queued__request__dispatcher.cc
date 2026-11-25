@@ -1,4 +1,4 @@
---- src/services/resource_coordinator/memory_instrumentation/queued_request_dispatcher.cc.orig	2026-10-18 18:43:23 UTC
+--- src/services/resource_coordinator/memory_instrumentation/queued_request_dispatcher.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/services/resource_coordinator/memory_instrumentation/queued_request_dispatcher.cc
 @@ -56,7 +56,7 @@ uint32_t CalculatePrivateFootprintKb(con
                                       uint32_t shared_resident_kb) {

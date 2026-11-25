@@ -1,4 +1,4 @@
---- src/third_party/webrtc/rtc_base/cpu_info.cc.orig	2026-10-18 18:43:23 UTC
+--- src/third_party/webrtc/rtc_base/cpu_info.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/webrtc/rtc_base/cpu_info.cc
 @@ -37,7 +37,9 @@
  #include <intrin.h>

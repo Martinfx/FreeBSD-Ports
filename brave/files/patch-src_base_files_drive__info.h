@@ -1,4 +1,4 @@
---- src/base/files/drive_info.h.orig	2025-05-28 14:55:43 UTC
+--- src/base/files/drive_info.h.orig	2026-11-24 12:50:30 UTC
 +++ src/base/files/drive_info.h
 @@ -48,7 +48,7 @@ struct BASE_EXPORT DriveInfo {
    std::optional<bool> has_seek_penalty;

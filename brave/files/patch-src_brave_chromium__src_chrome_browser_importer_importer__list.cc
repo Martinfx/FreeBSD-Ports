@@ -1,4 +1,4 @@
---- src/brave/chromium_src/chrome/browser/importer/importer_list.cc.orig	2026-10-18 18:43:23 UTC
+--- src/brave/chromium_src/chrome/browser/importer/importer_list.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/brave/chromium_src/chrome/browser/importer/importer_list.cc
 @@ -74,7 +74,7 @@ void DetectChromeProfiles(
            base::FilePath::StringType(FILE_PATH_LITERAL("Local State")))),

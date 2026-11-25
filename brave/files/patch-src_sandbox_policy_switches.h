@@ -1,4 +1,4 @@
---- src/sandbox/policy/switches.h.orig	2026-10-18 18:43:23 UTC
+--- src/sandbox/policy/switches.h.orig	2026-11-24 12:50:30 UTC
 +++ src/sandbox/policy/switches.h
 @@ -25,7 +25,8 @@ SANDBOX_POLICY_EXPORT extern const char
  SANDBOX_POLICY_EXPORT extern const char kGpuSandboxAllowSysVShm[];

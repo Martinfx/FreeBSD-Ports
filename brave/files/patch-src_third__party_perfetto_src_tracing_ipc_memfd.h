@@ -1,4 +1,4 @@
---- src/third_party/perfetto/src/tracing/ipc/memfd.h.orig	2026-11-02 23:22:33 UTC
+--- src/third_party/perfetto/src/tracing/ipc/memfd.h.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/perfetto/src/tracing/ipc/memfd.h
 @@ -24,7 +24,8 @@
  // The build has the memfd code. HasMemfdSupport() also checks the kernel.

@@ -1,4 +1,4 @@
---- src/content/browser/file_system_access/file_path_watcher/file_path_watcher.h.orig	2026-05-07 17:02:56 UTC
+--- src/content/browser/file_system_access/file_path_watcher/file_path_watcher.h.orig	2026-11-24 12:50:30 UTC
 +++ src/content/browser/file_system_access/file_path_watcher/file_path_watcher.h
 @@ -125,7 +125,7 @@ class CONTENT_EXPORT FilePathWatcher {
      Type type = Type::kNonRecursive;

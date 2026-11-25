@@ -1,4 +1,4 @@
---- src/third_party/fontconfig/src/src/fccompat.c.orig	2026-08-31 10:59:09 UTC
+--- src/third_party/fontconfig/src/src/fccompat.c.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/fontconfig/src/src/fccompat.c
 @@ -176,7 +176,9 @@ FcRandom (void)
  {

@@ -1,4 +1,4 @@
---- src/chrome/browser/background/glic/glic_status_icon.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/background/glic/glic_status_icon.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/background/glic/glic_status_icon.cc
 @@ -121,7 +121,7 @@ GlicStatusIcon::GlicStatusIcon(GlicBackg
  GlicStatusIcon::~GlicStatusIcon() {

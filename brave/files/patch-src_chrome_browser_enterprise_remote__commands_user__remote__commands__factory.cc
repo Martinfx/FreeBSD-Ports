@@ -1,4 +1,4 @@
---- src/chrome/browser/enterprise/remote_commands/user_remote_commands_factory.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/enterprise/remote_commands/user_remote_commands_factory.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/enterprise/remote_commands/user_remote_commands_factory.cc
 @@ -22,7 +22,7 @@ UserRemoteCommandsFactory::BuildJobForTy
    switch (type) {

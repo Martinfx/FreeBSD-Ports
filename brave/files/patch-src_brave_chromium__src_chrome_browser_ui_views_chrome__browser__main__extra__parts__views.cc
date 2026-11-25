@@ -1,4 +1,4 @@
---- src/brave/chromium_src/chrome/browser/ui/views/chrome_browser_main_extra_parts_views.cc.orig	2026-06-01 00:00:00 UTC
+--- src/brave/chromium_src/chrome/browser/ui/views/chrome_browser_main_extra_parts_views.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/brave/chromium_src/chrome/browser/ui/views/chrome_browser_main_extra_parts_views.cc
 @@ -5,13 +5,13 @@
  

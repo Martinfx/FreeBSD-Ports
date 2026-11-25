@@ -1,4 +1,4 @@
---- src/net/filter/zstd_source_stream.cc.orig	2024-01-30 07:53:34 UTC
+--- src/net/filter/zstd_source_stream.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/net/filter/zstd_source_stream.cc
 @@ -7,6 +7,7 @@
  #include <algorithm>

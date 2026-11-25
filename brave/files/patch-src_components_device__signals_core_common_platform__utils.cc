@@ -1,4 +1,4 @@
---- src/components/device_signals/core/common/platform_utils.cc.orig	2026-10-18 18:43:23 UTC
+--- src/components/device_signals/core/common/platform_utils.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/device_signals/core/common/platform_utils.cc
 @@ -79,7 +79,7 @@ std::vector<std::string> GetMacAddresses
      mac_addresses = test_addresses.value();

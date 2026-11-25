@@ -1,6 +1,15 @@
---- src/chrome/browser/ui/browser_commands.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/ui/browser_commands.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/browser_commands.cc
-@@ -1438,7 +1438,7 @@ void NewTabToRight(BrowserWindowInterfac
+@@ -280,7 +280,7 @@
+ #include "chrome/browser/ui/views/contextual_tasks/contextual_tasks_close_button_controller.h"
+ #endif
+ 
+-#if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX)
++#if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_BSD)
+ #include "chrome/browser/ui/views/scheduled_restart/scheduled_restart_bubble_controller.h"
+ #endif  // BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX)
+ 
+@@ -1429,7 +1429,7 @@ void NewTabToRight(BrowserWindowInterfac
  }
  
  void NewTabFromClipboardURL(BrowserWindowInterface* browser) {
@@ -9,12 +18,21 @@
    if (ui::Clipboard::IsSupportedClipboardBuffer(
            ui::ClipboardBuffer::kSelection)) {
      ui::Clipboard* clipboard = ui::Clipboard::GetForCurrentThread();
-@@ -2880,7 +2880,7 @@ void OpenUpdateChromeDialog(BrowserWindo
+@@ -2868,7 +2868,7 @@ void MaybeUpdateChrome(BrowserWindowInte
      ShowOutdatedUpgradeBubble(browser, browser,
                                /*auto_update_enabled=*/false);
    } else {
 -#if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX)
 +#if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_BSD)
-     if (base::FeatureList::IsEnabled(features::kFewerUpdateConfirmations)) {
-       chrome::AttemptRelaunch();
-       return;
+     chrome::AttemptRelaunch();
+ #else
+     base::RecordAction(UserMetricsAction("UpdateChrome"));
+@@ -2877,7 +2877,7 @@ void MaybeUpdateChrome(BrowserWindowInte
+   }
+ }
+ 
+-#if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX)
++#if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_BSD)
+ void OpenScheduledRestartDialog(BrowserWindowInterface* browser) {
+   if (auto* controller =
+           scheduled_restart::ScheduledRestartBubbleController::From(

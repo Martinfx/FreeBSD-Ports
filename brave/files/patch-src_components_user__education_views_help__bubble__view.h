@@ -1,4 +1,4 @@
---- src/components/user_education/views/help_bubble_view.h.orig	2026-11-02 23:22:33 UTC
+--- src/components/user_education/views/help_bubble_view.h.orig	2026-11-24 12:50:30 UTC
 +++ src/components/user_education/views/help_bubble_view.h
 @@ -172,7 +172,7 @@ class HelpBubbleView : public views::Bub
  // work around this problem by closing the bubble if the widget is minimized.

@@ -1,4 +1,4 @@
---- src/third_party/libunwind/src/src/DwarfInstructions.hpp.orig	2026-10-18 18:43:23 UTC
+--- src/third_party/libunwind/src/src/DwarfInstructions.hpp.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/libunwind/src/src/DwarfInstructions.hpp
 @@ -408,6 +408,23 @@ int DwarfInstructions<A, R>::stepWithDwa
        if (R::getArch() == REGISTERS_PPC64 && returnAddress != 0) {

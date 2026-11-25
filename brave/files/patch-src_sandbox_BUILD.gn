@@ -1,4 +1,4 @@
---- src/sandbox/BUILD.gn.orig	2022-08-31 12:19:35 UTC
+--- src/sandbox/BUILD.gn.orig	2026-11-24 12:50:30 UTC
 +++ src/sandbox/BUILD.gn
 @@ -49,7 +49,7 @@ group("sandbox") {
        "//sandbox/mac:system_services",

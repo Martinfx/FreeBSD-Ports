@@ -1,4 +1,4 @@
---- src/third_party/libsync/src/sync.c.orig	2026-10-18 18:43:23 UTC
+--- src/third_party/libsync/src/sync.c.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/libsync/src/sync.c
 @@ -18,7 +18,11 @@
  

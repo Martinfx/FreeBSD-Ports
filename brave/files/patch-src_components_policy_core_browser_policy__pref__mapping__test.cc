@@ -1,4 +1,4 @@
---- src/components/policy/core/browser/policy_pref_mapping_test.cc.orig	2026-11-02 23:22:33 UTC
+--- src/components/policy/core/browser/policy_pref_mapping_test.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/policy/core/browser/policy_pref_mapping_test.cc
 @@ -461,7 +461,7 @@ class PolicyTestCase {
      static constexpr std::string_view kOsList[] = {"chromeos"};

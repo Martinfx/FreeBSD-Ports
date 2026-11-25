@@ -1,4 +1,4 @@
---- src/ui/gl/gl_switches.cc.orig	2026-11-02 23:22:33 UTC
+--- src/ui/gl/gl_switches.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/gl/gl_switches.cc
 @@ -27,7 +27,7 @@
  #endif
@@ -18,7 +18,7 @@
    angle::SystemInfo system_info;
    {
      TRACE_EVENT("gpu,startup", "angle::GetSystemInfoVulkan");
-@@ -553,7 +553,7 @@ bool IsDefaultANGLEVulkan() {
+@@ -564,7 +564,7 @@ bool IsDefaultANGLEVulkan() {
    }
  #endif  // BUILDFLAG(IS_ANDROID)
  
@@ -27,7 +27,7 @@
    // AMDVLK driver is buggy, so disable Vulkan with AMDVLK for now.
    // crbug.com/1340081
    if (active_gpu.driverId == VK_DRIVER_ID_AMD_OPEN_SOURCE)
-@@ -602,7 +602,7 @@ bool CheckVulkanCompatibilities(
+@@ -613,7 +613,7 @@ bool CheckVulkanCompatibilities(
  #if !BUILDFLAG(ENABLE_VULKAN)
    return false;
  #elif !BUILDFLAG(IS_ANDROID)

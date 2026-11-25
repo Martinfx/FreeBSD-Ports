@@ -1,4 +1,4 @@
---- src/third_party/blink/renderer/build/scripts/run_with_pythonpath.py.orig	2026-11-02 23:22:33 UTC
+--- src/third_party/blink/renderer/build/scripts/run_with_pythonpath.py.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/blink/renderer/build/scripts/run_with_pythonpath.py
 @@ -23,6 +23,7 @@ def main():
              (os.pathsep + env['PYTHONPATH']) if 'PYTHONPATH' in env else ''

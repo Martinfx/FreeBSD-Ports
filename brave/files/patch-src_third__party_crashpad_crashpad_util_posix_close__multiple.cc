@@ -1,4 +1,4 @@
---- src/third_party/crashpad/crashpad/util/posix/close_multiple.cc.orig	2026-10-18 18:43:23 UTC
+--- src/third_party/crashpad/crashpad/util/posix/close_multiple.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/crashpad/crashpad/util/posix/close_multiple.cc
 @@ -75,7 +75,7 @@ void CloseNowOrOnExec(int fd, bool ebadf
  // no attempt needs to be made to close file descriptors that are not open.

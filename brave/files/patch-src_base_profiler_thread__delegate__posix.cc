@@ -1,4 +1,4 @@
---- src/base/profiler/thread_delegate_posix.cc.orig	2026-11-02 23:22:33 UTC
+--- src/base/profiler/thread_delegate_posix.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/base/profiler/thread_delegate_posix.cc
 @@ -16,7 +16,7 @@
  #include "base/process/process_handle.h"

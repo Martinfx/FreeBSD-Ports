@@ -1,4 +1,4 @@
---- src/content/utility/on_device_model/on_device_model_sandbox_init.cc.orig	2026-10-18 18:43:23 UTC
+--- src/content/utility/on_device_model/on_device_model_sandbox_init.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/content/utility/on_device_model/on_device_model_sandbox_init.cc
 @@ -18,16 +18,20 @@
  #include "services/on_device_model/ml/gpu_blocklist.h"  // nogncheck

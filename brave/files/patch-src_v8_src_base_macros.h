@@ -1,4 +1,4 @@
---- src/v8/src/base/macros.h.orig	2026-10-18 18:43:23 UTC
+--- src/v8/src/base/macros.h.orig	2026-11-24 12:50:30 UTC
 +++ src/v8/src/base/macros.h
 @@ -224,7 +224,7 @@ V8_INLINE constexpr Dest bit_cast(Source
  

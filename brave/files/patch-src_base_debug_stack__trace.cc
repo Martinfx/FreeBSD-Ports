@@ -1,4 +1,4 @@
---- src/base/debug/stack_trace.cc.orig	2026-11-02 23:22:33 UTC
+--- src/base/debug/stack_trace.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/base/debug/stack_trace.cc
 @@ -303,7 +303,7 @@ bool StackTrace::WillSymbolizeToStreamFo
    // Symbols are not expected to be reliable when gn args specifies

@@ -1,4 +1,4 @@
---- src/third_party/webrtc/rtc_base/ip_address.cc.orig	2025-09-06 10:01:20 UTC
+--- src/third_party/webrtc/rtc_base/ip_address.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/webrtc/rtc_base/ip_address.cc
 @@ -22,7 +22,8 @@
  #include "rtc_base/string_utils.h"

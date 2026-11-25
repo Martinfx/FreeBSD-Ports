@@ -1,4 +1,4 @@
---- src/chrome/browser/background/omnibox_everywhere/omnibox_everywhere_background_mode_manager.cc.orig	2026-10-20 12:27:58 UTC
+--- src/chrome/browser/background/omnibox_everywhere/omnibox_everywhere_background_mode_manager.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/background/omnibox_everywhere/omnibox_everywhere_background_mode_manager.cc
 @@ -252,7 +252,7 @@ void OmniboxEverywhereBackgroundModeMana
  

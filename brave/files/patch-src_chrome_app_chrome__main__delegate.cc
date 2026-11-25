@@ -1,7 +1,7 @@
---- src/chrome/app/chrome_main_delegate.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/app/chrome_main_delegate.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/app/chrome_main_delegate.cc
 @@ -95,7 +95,7 @@
- 
+ #include "ui/webui/buildflags.h"
  
  #if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS) || \
 -    BUILDFLAG(IS_MAC)
@@ -107,7 +107,7 @@
    // Record the startup process creation time on supported platforms. On Android
    // this is recorded in ChromeMainDelegateAndroid.
    startup_metric_utils::GetCommon().RecordStartupProcessCreationTime(
-@@ -1281,7 +1281,7 @@ std::optional<int> ChromeMainDelegate::B
+@@ -1290,7 +1290,7 @@ std::optional<int> ChromeMainDelegate::B
      return 0;  // Got a --credits switch; exit with a success error code.
    }
  
@@ -116,7 +116,7 @@
    // This will directly exit if the user asked for help.
    HandleHelpSwitches(command_line);
  #endif
-@@ -1560,7 +1560,7 @@ void ChromeMainDelegate::PreSandboxStart
+@@ -1570,7 +1570,7 @@ void ChromeMainDelegate::PreSandboxStart
        command_line.GetSwitchValueASCII(switches::kProcessType);
  
  #if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_ANDROID) || \
@@ -125,7 +125,7 @@
    if (process_type.empty()) {
      // Initialize the shared memory that contains the `SystemProfile` only in
      // the browser process. This must happen before Crashpad initialization
-@@ -1698,7 +1698,7 @@ void ChromeMainDelegate::PreSandboxStart
+@@ -1724,7 +1724,7 @@ void ChromeMainDelegate::PreSandboxStart
      CHECK(!loaded_locale.empty()) << "Locale could not be found for " << locale;
    }
  
@@ -134,7 +134,7 @@
    // Zygote needs to call InitCrashReporter() in RunZygote().
    if (process_type != switches::kZygoteProcess &&
        !command_line.HasSwitch(switches::kDisableCrashpadForTesting)) {
-@@ -1743,7 +1743,7 @@ void ChromeMainDelegate::PreSandboxStart
+@@ -1769,7 +1769,7 @@ void ChromeMainDelegate::PreSandboxStart
    if (process_type.empty()) {
      // Initialize Ozone platform and add required feature flags as per
      // platform's properties.

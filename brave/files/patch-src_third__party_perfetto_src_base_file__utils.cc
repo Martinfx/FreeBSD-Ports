@@ -1,4 +1,4 @@
---- src/third_party/perfetto/src/base/file_utils.cc.orig	2026-11-02 23:22:33 UTC
+--- src/third_party/perfetto/src/base/file_utils.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/perfetto/src/base/file_utils.cc
 @@ -61,8 +61,10 @@
  #include <unistd.h>

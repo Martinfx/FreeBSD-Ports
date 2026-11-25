@@ -1,4 +1,4 @@
---- src/chrome/browser/first_run/first_run_internal.h.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/first_run/first_run_internal.h.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/first_run/first_run_internal.h
 @@ -72,13 +72,13 @@ FirstRunState DetermineFirstRunState(boo
                                       bool force_first_run,

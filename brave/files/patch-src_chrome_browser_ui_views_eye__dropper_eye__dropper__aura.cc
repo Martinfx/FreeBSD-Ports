@@ -1,4 +1,4 @@
---- src/chrome/browser/ui/views/eye_dropper/eye_dropper_aura.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/ui/views/eye_dropper/eye_dropper_aura.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/views/eye_dropper/eye_dropper_aura.cc
 @@ -13,7 +13,7 @@
  #include "content/public/browser/web_contents.h"

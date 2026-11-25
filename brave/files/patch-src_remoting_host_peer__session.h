@@ -1,4 +1,4 @@
---- src/remoting/host/peer_session.h.orig	2026-09-25 15:26:43 UTC
+--- src/remoting/host/peer_session.h.orig	2026-11-24 12:50:30 UTC
 +++ src/remoting/host/peer_session.h
 @@ -19,7 +19,7 @@
  #include "remoting/proto/control.pb.h"

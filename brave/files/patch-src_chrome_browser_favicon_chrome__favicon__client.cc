@@ -1,4 +1,4 @@
---- src/chrome/browser/favicon/chrome_favicon_client.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/favicon/chrome_favicon_client.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/favicon/chrome_favicon_client.cc
 @@ -15,7 +15,7 @@
  #include "url/gurl.h"

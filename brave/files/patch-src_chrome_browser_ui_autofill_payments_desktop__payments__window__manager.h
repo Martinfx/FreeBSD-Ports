@@ -1,4 +1,4 @@
---- src/chrome/browser/ui/autofill/payments/desktop_payments_window_manager.h.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/ui/autofill/payments/desktop_payments_window_manager.h.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/autofill/payments/desktop_payments_window_manager.h
 @@ -15,7 +15,7 @@
  #include "content/public/browser/web_contents_observer.h"

@@ -1,4 +1,4 @@
---- src/extensions/common/command.cc.orig	2026-11-02 23:22:33 UTC
+--- src/extensions/common/command.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/extensions/common/command.cc
 @@ -117,7 +117,7 @@ std::string Command::CommandPlatform() {
    return ui::kKeybindingPlatformMac;

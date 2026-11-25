@@ -1,4 +1,4 @@
---- src/chrome/browser/signin/signin_util.h.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/signin/signin_util.h.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/signin/signin_util.h
 @@ -172,7 +172,7 @@ bool IsSyncingUserSelectableTypesAllowed
      const syncer::SyncService* sync_service,

@@ -1,4 +1,4 @@
---- src/chrome/browser/password_manager/factories/password_reuse_manager_factory.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/password_manager/factories/password_reuse_manager_factory.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/password_manager/factories/password_reuse_manager_factory.cc
 @@ -125,7 +125,7 @@ PasswordReuseManagerFactory::BuildServic
    // Prepare password hash data for reuse detection.

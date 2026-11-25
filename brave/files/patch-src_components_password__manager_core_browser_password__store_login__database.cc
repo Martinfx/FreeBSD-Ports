@@ -1,4 +1,4 @@
---- src/components/password_manager/core/browser/password_store/login_database.cc.orig	2026-09-25 15:26:43 UTC
+--- src/components/password_manager/core/browser/password_store/login_database.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/password_manager/core/browser/password_store/login_database.cc
 @@ -1023,7 +1023,7 @@ bool ShouldDeleteUndecryptablePasswords(
      bool is_enabled_by_policy,

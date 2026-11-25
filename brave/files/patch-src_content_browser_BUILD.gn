@@ -1,6 +1,6 @@
---- src/content/browser/BUILD.gn.orig	2026-11-02 23:22:33 UTC
+--- src/content/browser/BUILD.gn.orig	2026-11-24 12:50:30 UTC
 +++ src/content/browser/BUILD.gn
-@@ -2474,6 +2474,14 @@ source_set("browser") {
+@@ -2486,6 +2486,14 @@ source_set("browser") {
      ]
    }
  
@@ -15,7 +15,7 @@
    if (is_linux || is_chromeos) {
      sources -=
          [ "file_system_access/file_path_watcher/file_path_watcher_stub.cc" ]
-@@ -2525,6 +2533,15 @@ source_set("browser") {
+@@ -2537,6 +2545,15 @@ source_set("browser") {
      deps += [ "//media/mojo/mojom" ]
    }
  

@@ -1,4 +1,4 @@
---- src/remoting/host/peer_connection_process_main.cc.orig	2026-09-25 15:26:43 UTC
+--- src/remoting/host/peer_connection_process_main.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/remoting/host/peer_connection_process_main.cc
 @@ -26,7 +26,7 @@
  #include "base/files/file_descriptor_watcher_posix.h"

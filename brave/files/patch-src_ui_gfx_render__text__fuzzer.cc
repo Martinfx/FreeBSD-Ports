@@ -1,4 +1,4 @@
---- src/ui/gfx/render_text_fuzzer.cc.orig	2026-07-01 06:24:19 UTC
+--- src/ui/gfx/render_text_fuzzer.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/gfx/render_text_fuzzer.cc
 @@ -22,7 +22,7 @@
  #include "base/test/test_support_android.h"

@@ -1,4 +1,4 @@
---- src/chrome/browser/enterprise/browser_management/management_identity.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/enterprise/browser_management/management_identity.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/enterprise/browser_management/management_identity.cc
 @@ -86,7 +86,7 @@ std::optional<std::string> GetDeviceMana
        g_browser_process->platform_part()->browser_policy_connector_ash();

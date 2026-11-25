@@ -1,4 +1,4 @@
---- src/third_party/blink/common/renderer_preferences/renderer_preferences_mojom_traits.cc.orig	2026-10-18 18:43:23 UTC
+--- src/third_party/blink/common/renderer_preferences/renderer_preferences_mojom_traits.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/blink/common/renderer_preferences/renderer_preferences_mojom_traits.cc
 @@ -48,7 +48,7 @@ bool StructTraits<blink::mojom::Renderer
    out->use_custom_colors = data.use_custom_colors();

@@ -1,4 +1,4 @@
---- src/chrome/browser/custom_handlers/chrome_protocol_handler_registry_delegate.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/custom_handlers/chrome_protocol_handler_registry_delegate.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/custom_handlers/chrome_protocol_handler_registry_delegate.cc
 @@ -68,7 +68,7 @@ void ChromeProtocolHandlerRegistryDelega
  // If true default protocol handlers will be removed if the OS level

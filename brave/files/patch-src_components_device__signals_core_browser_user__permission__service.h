@@ -1,4 +1,4 @@
---- src/components/device_signals/core/browser/user_permission_service.h.orig	2026-10-18 18:43:23 UTC
+--- src/components/device_signals/core/browser/user_permission_service.h.orig	2026-11-24 12:50:30 UTC
 +++ src/components/device_signals/core/browser/user_permission_service.h
 @@ -57,7 +57,7 @@ class UserPermissionService : public Key
    // missing.

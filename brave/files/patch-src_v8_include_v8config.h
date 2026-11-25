@@ -1,4 +1,4 @@
---- src/v8/include/v8config.h.orig	2026-11-02 23:22:33 UTC
+--- src/v8/include/v8config.h.orig	2026-11-24 12:50:30 UTC
 +++ src/v8/include/v8config.h
 @@ -207,6 +207,8 @@ path. Add it with -I<path> to the comman
    && !defined(V8_TARGET_OS_IOS) \

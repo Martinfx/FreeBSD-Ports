@@ -1,4 +1,4 @@
---- src/components/on_device_translation/service/sandbox_hook.cc.orig	2026-10-18 18:43:23 UTC
+--- src/components/on_device_translation/service/sandbox_hook.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/on_device_translation/service/sandbox_hook.cc
 @@ -7,12 +7,15 @@
  #include "components/on_device_translation/service/translate_kit_client.h"

@@ -1,4 +1,4 @@
---- src/content/common/thread_type_switcher.mojom.orig	2026-10-18 18:43:23 UTC
+--- src/content/common/thread_type_switcher.mojom.orig	2026-11-24 12:50:30 UTC
 +++ src/content/common/thread_type_switcher.mojom
 @@ -8,7 +8,7 @@ import "mojo/public/mojom/base/thread_ty
  

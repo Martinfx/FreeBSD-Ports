@@ -1,4 +1,4 @@
---- src/content/common/gpu_pre_sandbox_hook_linux.h.orig	2025-09-06 10:01:20 UTC
+--- src/content/common/gpu_pre_sandbox_hook_linux.h.orig	2026-11-24 12:50:30 UTC
 +++ src/content/common/gpu_pre_sandbox_hook_linux.h
 @@ -7,7 +7,15 @@
  

@@ -1,4 +1,4 @@
---- src/components/webapps/browser/web_app_url_config.cc.orig	2026-10-18 18:43:23 UTC
+--- src/components/webapps/browser/web_app_url_config.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/webapps/browser/web_app_url_config.cc
 @@ -35,7 +35,7 @@ bool IsUrlEligibleForWebApp(const GURL&
    }

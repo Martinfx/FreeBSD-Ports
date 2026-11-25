@@ -1,4 +1,4 @@
---- src/gpu/command_buffer/service/shared_image/ozone_image_backing.cc.orig	2026-10-18 18:43:23 UTC
+--- src/gpu/command_buffer/service/shared_image/ozone_image_backing.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/gpu/command_buffer/service/shared_image/ozone_image_backing.cc
 @@ -500,7 +500,7 @@ std::unique_ptr<VulkanImageRepresentatio
      native_pixmap_handle.planes[1].offset = image_size.GetArea();

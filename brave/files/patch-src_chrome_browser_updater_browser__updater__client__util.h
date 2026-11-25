@@ -1,4 +1,4 @@
---- src/chrome/browser/updater/browser_updater_client_util.h.orig	2026-03-13 06:02:14 UTC
+--- src/chrome/browser/updater/browser_updater_client_util.h.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/updater/browser_updater_client_util.h
 @@ -20,7 +20,7 @@ namespace updater {
  extern const char kUpdaterName[];

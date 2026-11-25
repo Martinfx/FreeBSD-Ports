@@ -1,4 +1,4 @@
---- src/third_party/dawn/tools/generate-sources-gn.py.orig	2026-08-12 09:02:10 UTC
+--- src/third_party/dawn/tools/generate-sources-gn.py.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/dawn/tools/generate-sources-gn.py
 @@ -40,8 +40,7 @@ from tools.python import cipd_deps
  

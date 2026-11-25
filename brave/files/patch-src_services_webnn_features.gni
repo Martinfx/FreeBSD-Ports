@@ -1,4 +1,4 @@
---- src/services/webnn/features.gni.orig	2026-07-01 06:24:19 UTC
+--- src/services/webnn/features.gni.orig	2026-11-24 12:50:30 UTC
 +++ src/services/webnn/features.gni
 @@ -9,7 +9,7 @@ assert(use_blink)
  

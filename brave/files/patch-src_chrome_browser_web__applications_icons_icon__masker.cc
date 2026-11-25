@@ -1,4 +1,4 @@
---- src/chrome/browser/web_applications/icons/icon_masker.cc.orig	2025-10-02 04:28:32 UTC
+--- src/chrome/browser/web_applications/icons/icon_masker.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/web_applications/icons/icon_masker.cc
 @@ -12,7 +12,7 @@
  

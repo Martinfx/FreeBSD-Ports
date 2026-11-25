@@ -1,4 +1,4 @@
---- src/chrome/browser/extensions/api/image_writer_private/removable_storage_provider.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/extensions/api/image_writer_private/removable_storage_provider.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/extensions/api/image_writer_private/removable_storage_provider.cc
 @@ -9,6 +9,8 @@
  #include "base/task/thread_pool.h"

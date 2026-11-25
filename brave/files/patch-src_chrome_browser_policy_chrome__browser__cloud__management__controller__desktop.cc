@@ -1,4 +1,4 @@
---- src/chrome/browser/policy/chrome_browser_cloud_management_controller_desktop.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/policy/chrome_browser_cloud_management_controller_desktop.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/policy/chrome_browser_cloud_management_controller_desktop.cc
 @@ -60,7 +60,7 @@
  #include "chrome/browser/policy/browser_dm_token_storage_mac.h"

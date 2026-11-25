@@ -1,4 +1,4 @@
---- src/content/browser/browser_child_process_host_impl.h.orig	2026-10-18 18:43:23 UTC
+--- src/content/browser/browser_child_process_host_impl.h.orig	2026-11-24 12:50:30 UTC
 +++ src/content/browser/browser_child_process_host_impl.h
 @@ -39,7 +39,7 @@
  #include "base/win/object_watcher.h"

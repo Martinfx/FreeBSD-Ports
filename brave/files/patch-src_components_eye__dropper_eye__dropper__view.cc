@@ -1,6 +1,6 @@
---- src/components/eye_dropper/eye_dropper_view.cc.orig	2026-10-18 18:43:23 UTC
+--- src/components/eye_dropper/eye_dropper_view.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/eye_dropper/eye_dropper_view.cc
-@@ -350,7 +350,7 @@ EyeDropperView::EyeDropperView(gfx::Nati
+@@ -360,7 +360,7 @@ EyeDropperView::EyeDropperView(gfx::Nati
    contents_view->SetPreferredSize(contents_view->GetSize());
    delegate_->SetContentsView(std::move(contents_view));
  

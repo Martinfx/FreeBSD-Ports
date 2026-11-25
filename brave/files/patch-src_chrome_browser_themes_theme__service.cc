@@ -1,4 +1,4 @@
---- src/chrome/browser/themes/theme_service.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/themes/theme_service.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/themes/theme_service.cc
 @@ -92,7 +92,7 @@
  #include "extensions/common/extension_set.h"
@@ -18,7 +18,7 @@
    registry->RegisterIntegerPref(prefs::kSystemTheme,
                                  static_cast<int>(ui::GetDefaultSystemTheme()));
  #endif
-@@ -442,7 +442,7 @@ CustomThemeSupplier* ThemeService::GetTh
+@@ -424,7 +424,7 @@ CustomThemeSupplier* ThemeService::GetTh
  }
  
  bool ThemeService::ShouldUseCustomFrame() const {

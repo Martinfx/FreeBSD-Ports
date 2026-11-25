@@ -1,4 +1,4 @@
---- src/ui/gl/gl_context.cc.orig	2026-11-02 23:22:33 UTC
+--- src/ui/gl/gl_context.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/gl/gl_context.cc
 @@ -140,7 +140,7 @@ bool GLContext::MakeCurrent(GLSurface* s
      recorded_max_gles_version_if_feasible = true;

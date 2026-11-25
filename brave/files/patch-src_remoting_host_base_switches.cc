@@ -1,4 +1,4 @@
---- src/remoting/host/base/switches.cc.orig	2026-10-18 18:43:23 UTC
+--- src/remoting/host/base/switches.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/remoting/host/base/switches.cc
 @@ -25,13 +25,13 @@ const char kProcessTypeEvaluateCapabilit
  const char kProcessTypeFileChooser[] = "file_chooser";

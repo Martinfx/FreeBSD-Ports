@@ -1,4 +1,4 @@
---- src/third_party/blink/renderer/controller/blink_initializer.cc.orig	2026-10-18 18:43:23 UTC
+--- src/third_party/blink/renderer/controller/blink_initializer.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/blink/renderer/controller/blink_initializer.cc
 @@ -83,12 +83,12 @@
  #include "third_party/blink/renderer/platform/fonts/font_cache.h"

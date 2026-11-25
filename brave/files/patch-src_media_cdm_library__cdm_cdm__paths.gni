@@ -1,4 +1,4 @@
---- src/media/cdm/library_cdm/cdm_paths.gni.orig	2025-04-04 08:52:13 UTC
+--- src/media/cdm/library_cdm/cdm_paths.gni.orig	2026-11-24 12:50:30 UTC
 +++ src/media/cdm/library_cdm/cdm_paths.gni
 @@ -14,7 +14,7 @@ assert(enable_library_cdms)
  # Explicitly define what we use to avoid confusion.

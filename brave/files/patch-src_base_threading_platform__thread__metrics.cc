@@ -1,4 +1,4 @@
---- src/base/threading/platform_thread_metrics.cc.orig	2026-10-18 18:43:23 UTC
+--- src/base/threading/platform_thread_metrics.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/base/threading/platform_thread_metrics.cc
 @@ -54,7 +54,7 @@ PlatformThreadMetrics::CreateForCurrentT
  }

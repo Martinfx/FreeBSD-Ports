@@ -1,4 +1,4 @@
---- src/services/on_device_model/ml/gpu_blocklist.cc.orig	2026-08-12 09:02:10 UTC
+--- src/services/on_device_model/ml/gpu_blocklist.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/services/on_device_model/ml/gpu_blocklist.cc
 @@ -23,7 +23,7 @@ namespace {
  const base::FeatureParam<std::string> kGpuBlockList{

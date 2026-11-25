@@ -1,4 +1,4 @@
---- src/chrome/browser/ui/webui/policy/policy_ui.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/ui/webui/policy/policy_ui.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/webui/policy/policy_ui.cc
 @@ -188,7 +188,7 @@ void CreateAndAddPolicyUIHtmlSource(Prof
        {"statusFlexOrgNoPolicy", IDS_POLICY_STATUS_FLEX_ORG_NO_POLICY},

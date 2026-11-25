@@ -1,9 +1,9 @@
---- src/media/audio/pulse/pulse_util.cc.orig	2026-10-18 18:43:23 UTC
+--- src/media/audio/pulse/pulse_util.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/media/audio/pulse/pulse_util.cc
-@@ -45,8 +45,12 @@ constexpr char kBrowserDisplayName[] = "
+@@ -43,8 +43,12 @@ constexpr char kBrowserDisplayName[] = "
  
  #if defined(DLOPEN_PULSEAUDIO)
- static const base::FilePath::CharType kPulseLib[] =
+ constexpr base::FilePath::CharType kPulseLib[] =
 +#if BUILDFLAG(IS_BSD)
 +    FILE_PATH_LITERAL("libpulse.so");
 +#else

@@ -1,4 +1,4 @@
---- src/ui/gfx/linux/gbm_wrapper.cc.orig	2026-11-02 23:22:33 UTC
+--- src/ui/gfx/linux/gbm_wrapper.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/gfx/linux/gbm_wrapper.cc
 @@ -367,7 +367,7 @@ class Device final : public ui::GbmDevic
      // of 1x1 BOs which are destroyed before creating the final BO creation used

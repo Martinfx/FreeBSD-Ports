@@ -1,4 +1,4 @@
---- src/third_party/blink/renderer/core/editing/editing_behavior.cc.orig	2026-10-18 18:43:23 UTC
+--- src/third_party/blink/renderer/core/editing/editing_behavior.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/blink/renderer/core/editing/editing_behavior.cc
 @@ -144,7 +144,7 @@ const KeyboardCodeKeyDownEntry kKeyboard
      {VKEY_DELETE, 0, "DeleteForward"},

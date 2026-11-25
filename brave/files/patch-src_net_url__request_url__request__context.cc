@@ -1,4 +1,4 @@
---- src/net/url_request/url_request_context.cc.orig	2026-10-18 18:43:23 UTC
+--- src/net/url_request/url_request_context.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/net/url_request/url_request_context.cc
 @@ -130,7 +130,7 @@ const HttpNetworkSessionContext* URLRequ
    return &network_session->context();

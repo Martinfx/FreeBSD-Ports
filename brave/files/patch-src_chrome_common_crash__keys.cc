@@ -1,4 +1,4 @@
---- src/chrome/common/crash_keys.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/common/crash_keys.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/common/crash_keys.cc
 @@ -126,6 +126,7 @@ void AllocateCrashKeyInBrowserAndChildre
    GetCommandLineStringAnnotations().emplace_back(std::string(key)).Set(value);

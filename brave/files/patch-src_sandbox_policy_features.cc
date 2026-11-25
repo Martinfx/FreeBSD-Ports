@@ -1,4 +1,4 @@
---- src/sandbox/policy/features.cc.orig	2026-11-02 23:22:33 UTC
+--- src/sandbox/policy/features.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/sandbox/policy/features.cc
 @@ -17,7 +17,11 @@ namespace sandbox::policy::features {
  #if !BUILDFLAG(IS_MAC) && !BUILDFLAG(IS_FUCHSIA)

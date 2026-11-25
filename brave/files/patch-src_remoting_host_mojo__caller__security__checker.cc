@@ -1,4 +1,4 @@
---- src/remoting/host/mojo_caller_security_checker.cc.orig	2026-09-25 15:26:43 UTC
+--- src/remoting/host/mojo_caller_security_checker.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/remoting/host/mojo_caller_security_checker.cc
 @@ -41,7 +41,7 @@
  namespace remoting {

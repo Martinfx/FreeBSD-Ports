@@ -1,4 +1,4 @@
---- src/gpu/command_buffer/service/shared_image/angle_vulkan_image_backing_factory.cc.orig	2026-10-18 18:43:23 UTC
+--- src/gpu/command_buffer/service/shared_image/angle_vulkan_image_backing_factory.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/gpu/command_buffer/service/shared_image/angle_vulkan_image_backing_factory.cc
 @@ -20,7 +20,7 @@ namespace {
  // TODO(penghuang): verify the scanout is the right usage for video playback.

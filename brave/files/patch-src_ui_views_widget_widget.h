@@ -1,4 +1,4 @@
---- src/ui/views/widget/widget.h.orig	2026-11-02 23:22:33 UTC
+--- src/ui/views/widget/widget.h.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/views/widget/widget.h
 @@ -498,7 +498,7 @@ class VIEWS_EXPORT Widget : public inter
      bool dont_show_in_taskbar = false;

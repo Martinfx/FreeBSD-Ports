@@ -1,4 +1,4 @@
---- src/remoting/host/desktop_session_proxy.cc.orig	2026-11-02 23:22:33 UTC
+--- src/remoting/host/desktop_session_proxy.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/remoting/host/desktop_session_proxy.cc
 @@ -166,7 +166,7 @@ DesktopSessionProxy::CreateRemoteWebAuth
        base::BindRepeating(&DesktopSessionProxy::SignalWebAuthnExtension, this));

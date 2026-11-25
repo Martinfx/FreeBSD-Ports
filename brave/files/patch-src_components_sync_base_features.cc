@@ -1,11 +1,11 @@
---- src/components/sync/base/features.cc.orig	2026-11-02 23:22:33 UTC
+--- src/components/sync/base/features.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/sync/base/features.cc
-@@ -80,7 +80,7 @@ BASE_FEATURE(kReplaceSyncPromosWithSignI
- );
+@@ -69,7 +69,7 @@ BASE_FEATURE(kReplaceSyncPromosWithSignI
  
- BASE_FEATURE(kReplaceSyncPromosWithSigninPromosNewSignin,
+ bool IsReplaceSyncPromosWithSignInPromosEnabled() {
+   if ((true)) return false;
 -#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_WIN)
 +#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_WIN) || BUILDFLAG(IS_BSD)
-              base::FEATURE_ENABLED_BY_DEFAULT
+   return true;
  #else
-              base::FEATURE_DISABLED_BY_DEFAULT
+   return base::FeatureList::IsEnabled(kReplaceSyncPromosWithSignInPromos);

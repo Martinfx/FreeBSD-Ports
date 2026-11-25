@@ -1,4 +1,4 @@
---- src/chrome/browser/profiles/profiles_state.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/profiles/profiles_state.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/profiles/profiles_state.cc
 @@ -194,7 +194,7 @@ bool IsGuestModeRequested(const base::Co
                            PrefService* local_state,
@@ -6,7 +6,7 @@
  #if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_WIN) || \
 -    BUILDFLAG(IS_MAC)
 +    BUILDFLAG(IS_MAC) || BUILDFLAG(IS_BSD)
-   DCHECK(local_state);
+   CHECK(local_state, base::NotFatalUntil::M162);
  
    // Check if guest mode enforcement commandline switch or policy are provided.
 @@ -230,7 +230,7 @@ bool IsGuestModeEnabled() {

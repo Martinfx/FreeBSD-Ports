@@ -1,4 +1,4 @@
---- src/printing/sandbox/print_backend_sandbox_hook_linux.cc.orig	2026-10-18 18:43:23 UTC
+--- src/printing/sandbox/print_backend_sandbox_hook_linux.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/printing/sandbox/print_backend_sandbox_hook_linux.cc
 @@ -10,20 +10,27 @@
  #include "base/path_service.h"

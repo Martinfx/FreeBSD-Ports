@@ -1,4 +1,4 @@
---- src/components/sync_device_info/local_device_info_util_linux.cc.orig	2022-09-24 10:57:32 UTC
+--- src/components/sync_device_info/local_device_info_util_linux.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/sync_device_info/local_device_info_util_linux.cc
 @@ -9,6 +9,11 @@
  

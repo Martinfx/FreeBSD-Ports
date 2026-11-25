@@ -1,6 +1,6 @@
---- src/services/network/network_context.cc.orig	2026-11-02 23:22:33 UTC
+--- src/services/network/network_context.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/services/network/network_context.cc
-@@ -676,7 +676,7 @@ NetworkContext::NetworkContextHttpAuthPr
+@@ -679,7 +679,7 @@ NetworkContext::NetworkContextHttpAuthPr
  NetworkContext::NetworkContextHttpAuthPreferences::
      ~NetworkContextHttpAuthPreferences() = default;
  
@@ -9,7 +9,7 @@
  bool NetworkContext::NetworkContextHttpAuthPreferences::AllowGssapiLibraryLoad()
      const {
    if (network_service_) {
-@@ -2836,7 +2836,7 @@ void NetworkContext::OnHttpAuthDynamicPa
+@@ -2889,7 +2889,7 @@ void NetworkContext::OnHttpAuthDynamicPa
        http_auth_dynamic_network_service_params->android_negotiate_account_type);
  #endif  // BUILDFLAG(IS_ANDROID)
  
@@ -18,7 +18,7 @@
    http_auth_merged_preferences_.set_allow_gssapi_library_load(
        http_auth_dynamic_network_service_params->allow_gssapi_library_load);
  #endif  // BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_LINUX)
-@@ -2982,7 +2982,7 @@ URLRequestContextOwner NetworkContext::M
+@@ -3035,7 +3035,7 @@ URLRequestContextOwner NetworkContext::M
          std::move(params_->proxy_resolver_factory));
    }
  

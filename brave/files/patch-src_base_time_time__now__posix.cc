@@ -1,4 +1,4 @@
---- src/base/time/time_now_posix.cc.orig	2026-10-18 18:43:23 UTC
+--- src/base/time/time_now_posix.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/base/time/time_now_posix.cc
 @@ -110,7 +110,11 @@ std::optional<TimeTicks> MaybeTimeTicksN
  }

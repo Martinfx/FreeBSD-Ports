@@ -1,4 +1,4 @@
---- src/chrome/browser/extensions/chrome_app_deprecation.h.orig	2026-08-12 09:02:10 UTC
+--- src/chrome/browser/extensions/chrome_app_deprecation.h.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/extensions/chrome_app_deprecation.h
 @@ -24,7 +24,7 @@ namespace testing {
  extern bool g_enable_chrome_apps_for_testing;

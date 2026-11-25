@@ -1,4 +1,4 @@
---- src/components/named_mojo_ipc_server/connection_info.h.orig	2026-06-04 10:12:25 UTC
+--- src/components/named_mojo_ipc_server/connection_info.h.orig	2026-11-24 12:50:30 UTC
 +++ src/components/named_mojo_ipc_server/connection_info.h
 @@ -15,7 +15,8 @@
  #include "base/win/scoped_handle.h"

@@ -1,4 +1,4 @@
---- src/net/http/http_auth_preferences.cc.orig	2026-10-18 18:43:23 UTC
+--- src/net/http/http_auth_preferences.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/net/http/http_auth_preferences.cc
 @@ -40,7 +40,7 @@ std::string HttpAuthPreferences::AuthAnd
  }

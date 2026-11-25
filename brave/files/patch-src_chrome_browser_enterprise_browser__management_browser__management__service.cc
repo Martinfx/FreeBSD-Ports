@@ -1,4 +1,4 @@
---- src/chrome/browser/enterprise/browser_management/browser_management_service.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/enterprise/browser_management/browser_management_service.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/enterprise/browser_management/browser_management_service.cc
 @@ -61,7 +61,7 @@ BrowserManagementService::BrowserManagem
        management_status_providers().end(),

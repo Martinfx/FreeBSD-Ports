@@ -1,4 +1,4 @@
---- src/ui/native_theme/features/native_theme_features.cc.orig	2026-11-02 23:22:33 UTC
+--- src/ui/native_theme/features/native_theme_features.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/native_theme/features/native_theme_features.cc
 @@ -62,7 +62,7 @@ bool IsFluentOverlayScrollbarEnabled() {
  

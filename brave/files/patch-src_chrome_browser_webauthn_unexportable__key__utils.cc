@@ -1,4 +1,4 @@
---- src/chrome/browser/webauthn/unexportable_key_utils.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/webauthn/unexportable_key_utils.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/webauthn/unexportable_key_utils.cc
 @@ -79,7 +79,7 @@ GetWebAuthnUnexportableKeyProvider() {
    }

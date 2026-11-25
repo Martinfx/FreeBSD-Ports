@@ -1,4 +1,4 @@
---- src/media/webrtc/helpers.cc.orig	2026-10-18 18:43:23 UTC
+--- src/media/webrtc/helpers.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/media/webrtc/helpers.cc
 @@ -66,14 +66,14 @@ void ConfigAutomaticGainControl(const Au
      return;

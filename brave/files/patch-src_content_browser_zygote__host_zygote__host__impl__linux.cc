@@ -1,4 +1,4 @@
---- src/content/browser/zygote_host/zygote_host_impl_linux.cc.orig	2026-11-02 23:22:33 UTC
+--- src/content/browser/zygote_host/zygote_host_impl_linux.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/content/browser/zygote_host/zygote_host_impl_linux.cc
 @@ -24,8 +24,10 @@
  #include "build/build_config.h"

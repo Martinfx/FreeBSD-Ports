@@ -1,4 +1,4 @@
---- src/third_party/libunwind/src/src/EHHeaderParser.hpp.orig	2026-10-18 18:43:23 UTC
+--- src/third_party/libunwind/src/src/EHHeaderParser.hpp.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/libunwind/src/src/EHHeaderParser.hpp
 @@ -161,6 +161,10 @@ bool EHHeaderParser<A>::findFDE(A &addre
  

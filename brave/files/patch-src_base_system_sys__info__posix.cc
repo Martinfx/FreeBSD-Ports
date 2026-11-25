@@ -1,4 +1,4 @@
---- src/base/system/sys_info_posix.cc.orig	2026-10-18 18:43:23 UTC
+--- src/base/system/sys_info_posix.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/base/system/sys_info_posix.cc
 @@ -59,7 +59,11 @@ base::ByteSize AmountOfVirtualMemory() {
    if (result != 0) {

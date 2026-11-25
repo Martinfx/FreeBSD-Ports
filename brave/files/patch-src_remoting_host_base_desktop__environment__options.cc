@@ -1,4 +1,4 @@
---- src/remoting/host/base/desktop_environment_options.cc.orig	2026-10-18 18:43:23 UTC
+--- src/remoting/host/base/desktop_environment_options.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/remoting/host/base/desktop_environment_options.cc
 @@ -117,7 +117,7 @@ bool DesktopEnvironmentOptions::capture_
    // TODO(joedow): Determine whether we can migrate additional platforms to

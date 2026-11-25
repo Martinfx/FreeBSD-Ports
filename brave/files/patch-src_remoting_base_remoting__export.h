@@ -1,4 +1,4 @@
---- src/remoting/base/remoting_export.h.orig	2026-05-07 17:02:56 UTC
+--- src/remoting/base/remoting_export.h.orig	2026-11-24 12:50:30 UTC
 +++ src/remoting/base/remoting_export.h
 @@ -7,7 +7,7 @@
  

@@ -1,4 +1,4 @@
---- src/chrome/browser/devtools/remote_debugging_server.h.orig	2026-01-14 08:33:23 UTC
+--- src/chrome/browser/devtools/remote_debugging_server.h.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/devtools/remote_debugging_server.h
 @@ -43,7 +43,7 @@ class RemoteDebuggingServer {
  

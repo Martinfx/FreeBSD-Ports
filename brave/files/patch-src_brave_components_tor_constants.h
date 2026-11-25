@@ -1,4 +1,4 @@
---- src/brave/components/tor/constants.h.orig	2026-11-02 23:22:33 UTC
+--- src/brave/components/tor/constants.h.orig	2026-11-24 12:50:30 UTC
 +++ src/brave/components/tor/constants.h
 @@ -35,7 +35,11 @@ inline constexpr uint8_t kTorClientCompo
      0x2e, 0xce, 0xfa, 0x83, 0x65, 0xd5, 0x33, 0x2c, 0x13, 0xb2};

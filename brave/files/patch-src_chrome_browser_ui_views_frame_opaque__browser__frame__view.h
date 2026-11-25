@@ -1,4 +1,4 @@
---- src/chrome/browser/ui/views/frame/opaque_browser_frame_view.h.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/ui/views/frame/opaque_browser_frame_view.h.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/views/frame/opaque_browser_frame_view.h
 @@ -104,7 +104,7 @@ class OpaqueBrowserFrameView : public Br
    FrameButtonStyle GetFrameButtonStyle() const override;

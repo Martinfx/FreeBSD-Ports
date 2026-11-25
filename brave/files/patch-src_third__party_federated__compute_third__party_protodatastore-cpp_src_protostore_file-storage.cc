@@ -1,4 +1,4 @@
---- src/third_party/federated_compute/third_party/protodatastore-cpp/src/protostore/file-storage.cc.orig	2026-10-18 18:43:23 UTC
+--- src/third_party/federated_compute/third_party/protodatastore-cpp/src/protostore/file-storage.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/federated_compute/third_party/protodatastore-cpp/src/protostore/file-storage.cc
 @@ -130,7 +130,7 @@ absl::Status IOError(absl::string_view c
      case ENETUNREACH:   // Network unreachable

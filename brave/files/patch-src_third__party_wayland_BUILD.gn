@@ -1,6 +1,6 @@
---- src/third_party/wayland/BUILD.gn.orig	2024-08-26 12:06:38 UTC
+--- src/third_party/wayland/BUILD.gn.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/wayland/BUILD.gn
-@@ -24,6 +24,11 @@ if (!use_system_libwayland) {
+@@ -61,6 +61,11 @@ if (!use_system_libwayland) {
        "src/src",
      ]
  

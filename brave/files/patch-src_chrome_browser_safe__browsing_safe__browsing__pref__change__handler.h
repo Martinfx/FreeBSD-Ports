@@ -1,4 +1,4 @@
---- src/chrome/browser/safe_browsing/safe_browsing_pref_change_handler.h.orig	2026-07-01 06:24:19 UTC
+--- src/chrome/browser/safe_browsing/safe_browsing_pref_change_handler.h.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/safe_browsing/safe_browsing_pref_change_handler.h
 @@ -21,7 +21,7 @@
  #endif

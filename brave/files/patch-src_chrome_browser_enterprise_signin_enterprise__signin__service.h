@@ -1,4 +1,4 @@
---- src/chrome/browser/enterprise/signin/enterprise_signin_service.h.orig	2024-08-26 12:06:38 UTC
+--- src/chrome/browser/enterprise/signin/enterprise_signin_service.h.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/enterprise/signin/enterprise_signin_service.h
 @@ -9,7 +9,7 @@
  

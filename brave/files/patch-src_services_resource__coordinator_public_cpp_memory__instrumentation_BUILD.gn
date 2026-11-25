@@ -1,4 +1,4 @@
---- src/services/resource_coordinator/public/cpp/memory_instrumentation/BUILD.gn.orig	2026-10-18 18:43:23 UTC
+--- src/services/resource_coordinator/public/cpp/memory_instrumentation/BUILD.gn.orig	2026-11-24 12:50:30 UTC
 +++ src/services/resource_coordinator/public/cpp/memory_instrumentation/BUILD.gn
 @@ -27,10 +27,14 @@ component("memory_instrumentation") {
      sources += [ "os_metrics_win.cc" ]

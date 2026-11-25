@@ -1,4 +1,4 @@
---- src/ui/views/style/platform_style.cc.orig	2025-04-04 08:52:13 UTC
+--- src/ui/views/style/platform_style.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/views/style/platform_style.cc
 @@ -23,7 +23,7 @@
  #include "ui/views/controls/focusable_border.h"

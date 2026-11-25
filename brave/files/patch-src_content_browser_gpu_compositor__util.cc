@@ -1,4 +1,4 @@
---- src/content/browser/gpu/compositor_util.cc.orig	2026-11-02 23:22:33 UTC
+--- src/content/browser/gpu/compositor_util.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/content/browser/gpu/compositor_util.cc
 @@ -144,7 +144,7 @@ std::vector<GpuFeatureData> GetGpuFeatur
        "video_decode",

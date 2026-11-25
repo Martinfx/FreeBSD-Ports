@@ -1,4 +1,4 @@
---- src/chrome/browser/ui/views/chrome_views_delegate_linux.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/ui/views/chrome_views_delegate_linux.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/views/chrome_views_delegate_linux.cc
 @@ -44,7 +44,7 @@ bool WindowManagerDrawsTitleBarOverMaxim
    return desktop_env == base::nix::DESKTOP_ENVIRONMENT_UNITY;

@@ -1,4 +1,4 @@
---- src/components/feed/core/v2/test/proto_printer.cc.orig	2025-10-02 04:28:32 UTC
+--- src/components/feed/core/v2/test/proto_printer.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/feed/core/v2/test/proto_printer.cc
 @@ -159,8 +159,8 @@ class TextProtoPrinter {
    }

@@ -1,4 +1,4 @@
---- src/ui/native_theme/native_theme_base.cc.orig	2026-10-18 18:43:23 UTC
+--- src/ui/native_theme/native_theme_base.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/native_theme/native_theme_base.cc
 @@ -167,7 +167,7 @@ void NativeThemeBase::PaintImpl(cc::Pain
                      std::get<ButtonExtraParams>(extra_params), dark_mode,

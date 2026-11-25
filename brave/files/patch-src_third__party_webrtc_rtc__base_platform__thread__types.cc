@@ -1,4 +1,4 @@
---- src/third_party/webrtc/rtc_base/platform_thread_types.cc.orig	2026-10-18 18:43:23 UTC
+--- src/third_party/webrtc/rtc_base/platform_thread_types.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/webrtc/rtc_base/platform_thread_types.cc
 @@ -12,11 +12,13 @@
  

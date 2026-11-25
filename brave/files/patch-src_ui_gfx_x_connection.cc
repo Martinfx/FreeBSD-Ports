@@ -1,4 +1,4 @@
---- src/ui/gfx/x/connection.cc.orig	2026-09-25 15:26:43 UTC
+--- src/ui/gfx/x/connection.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/gfx/x/connection.cc
 @@ -389,7 +389,7 @@ bool Connection::HasNextEvent() {
      }

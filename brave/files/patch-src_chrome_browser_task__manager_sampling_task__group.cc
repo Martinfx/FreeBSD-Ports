@@ -1,4 +1,4 @@
---- src/chrome/browser/task_manager/sampling/task_group.cc.orig	2026-10-18 18:43:23 UTC
+--- src/chrome/browser/task_manager/sampling/task_group.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/task_manager/sampling/task_group.cc
 @@ -34,7 +34,7 @@ const int kBackgroundRefreshTypesMask =
  #if BUILDFLAG(IS_WIN)
@@ -25,5 +25,5 @@
 -#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_MAC)
 +#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_BSD)
  void TaskGroup::OnOpenFdCountRefreshDone(int open_fd_count) {
-   DCHECK_CURRENTLY_ON(content::BrowserThread::UI);
+   CHECK_CURRENTLY_ON(content::BrowserThread::UI, base::NotFatalUntil::M162);
  

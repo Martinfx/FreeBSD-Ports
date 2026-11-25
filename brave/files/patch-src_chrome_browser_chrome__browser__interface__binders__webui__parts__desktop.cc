@@ -1,6 +1,6 @@
---- src/chrome/browser/chrome_browser_interface_binders_webui_parts_desktop.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/chrome_browser_interface_binders_webui_parts_desktop.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/chrome_browser_interface_binders_webui_parts_desktop.cc
-@@ -141,7 +141,7 @@
+@@ -145,7 +145,7 @@
  #include "ui/webui/resources/js/batch_upload_promo/batch_upload_promo.mojom.h"
  #include "ui/webui/resources/js/browser_command/browser_command.mojom.h"
  
@@ -9,7 +9,7 @@
  #include "chrome/browser/ui/webui/app_home/app_home.mojom.h"
  #include "chrome/browser/ui/webui/app_home/app_home_ui.h"
  #include "chrome/browser/ui/webui/app_settings/web_app_settings_ui.h"
-@@ -309,7 +309,7 @@ void PopulateChromeWebUIFrameBindersPart
+@@ -321,7 +321,7 @@ void PopulateChromeWebUIFrameBindersPart
          HistoryClustersSidePanelUI, NewTabPageUI, BookmarksSidePanelUI>(map);
    }
  
@@ -18,7 +18,7 @@
    RegisterWebUIControllerInterfaceBinder<whats_new::mojom::PageHandlerFactory,
                                           WhatsNewUI>(map);
  #endif  // BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX)
-@@ -319,7 +319,7 @@ void PopulateChromeWebUIFrameBindersPart
+@@ -331,7 +331,7 @@ void PopulateChromeWebUIFrameBindersPart
  
    RegisterWebUIControllerInterfaceBinder<
        browser_command::mojom::CommandHandlerFactory,
@@ -27,7 +27,7 @@
        WhatsNewUI,
  #endif  // BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC) || BUILDFLAG(IS_LINUX)
        NewTabPageUI>(map);
-@@ -502,7 +502,7 @@ void PopulateChromeWebUIFrameBindersPart
+@@ -518,7 +518,7 @@ void PopulateChromeWebUIFrameBindersPart
          DrivePickerUntrustedHostUI>(map);
    }
  
@@ -36,7 +36,7 @@
    RegisterWebUIControllerInterfaceBinder<
        app_management::mojom::PageHandlerFactory, WebAppSettingsUI>(map);
  
-@@ -528,7 +528,7 @@ void PopulateChromeWebUIFrameBindersPart
+@@ -544,7 +544,7 @@ void PopulateChromeWebUIFrameBindersPart
                                           webapps::AppHomeUI>(map);
  #endif
  

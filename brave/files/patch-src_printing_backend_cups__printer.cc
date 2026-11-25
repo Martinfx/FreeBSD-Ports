@@ -1,4 +1,4 @@
---- src/printing/backend/cups_printer.cc.orig	2025-09-06 10:01:20 UTC
+--- src/printing/backend/cups_printer.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/printing/backend/cups_printer.cc
 @@ -24,7 +24,7 @@
  #include "printing/print_job_constants.h"

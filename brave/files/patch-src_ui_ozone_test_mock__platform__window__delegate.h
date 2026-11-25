@@ -1,4 +1,4 @@
---- src/ui/ozone/test/mock_platform_window_delegate.h.orig	2026-10-18 18:43:23 UTC
+--- src/ui/ozone/test/mock_platform_window_delegate.h.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/ozone/test/mock_platform_window_delegate.h
 @@ -35,7 +35,7 @@ class MockPlatformWindowDelegate : publi
    MOCK_METHOD2(OnWindowStateChanged,

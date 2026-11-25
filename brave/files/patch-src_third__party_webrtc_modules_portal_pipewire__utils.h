@@ -1,4 +1,4 @@
---- src/third_party/webrtc/modules/portal/pipewire_utils.h.orig	2025-09-06 10:01:20 UTC
+--- src/third_party/webrtc/modules/portal/pipewire_utils.h.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/webrtc/modules/portal/pipewire_utils.h
 @@ -11,7 +11,9 @@
  #ifndef MODULES_PORTAL_PIPEWIRE_UTILS_H_

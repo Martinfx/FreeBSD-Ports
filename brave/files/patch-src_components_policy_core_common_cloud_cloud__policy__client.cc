@@ -1,4 +1,4 @@
---- src/components/policy/core/common/cloud/cloud_policy_client.cc.orig	2026-10-18 18:43:23 UTC
+--- src/components/policy/core/common/cloud/cloud_policy_client.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/policy/core/common/cloud/cloud_policy_client.cc
 @@ -926,11 +926,11 @@ void CloudPolicyClient::FetchPolicyInter
  

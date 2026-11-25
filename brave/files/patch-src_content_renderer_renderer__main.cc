@@ -1,4 +1,4 @@
---- src/content/renderer/renderer_main.cc.orig	2026-11-02 23:22:33 UTC
+--- src/content/renderer/renderer_main.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/content/renderer/renderer_main.cc
 @@ -183,7 +183,7 @@ int RendererMain(MainFunctionParams para
  

@@ -1,6 +1,6 @@
---- src/chrome/browser/after_startup_task_utils.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/after_startup_task_utils.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/after_startup_task_utils.cc
-@@ -125,7 +125,7 @@ void SetBrowserStartupIsComplete(Startup
+@@ -126,7 +126,7 @@ void SetBrowserStartupIsComplete(Startup
    GetStartupCompleteFlag().Set();
    base::UmaHistogramEnumeration("Startup.BrowserStartupCompleteReason", reason);
  #if BUILDFLAG(IS_MAC) || BUILDFLAG(IS_WIN) || BUILDFLAG(IS_LINUX) || \

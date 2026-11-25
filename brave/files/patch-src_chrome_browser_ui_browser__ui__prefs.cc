@@ -1,4 +1,4 @@
---- src/chrome/browser/ui/browser_ui_prefs.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/ui/browser_ui_prefs.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/browser_ui_prefs.cc
 @@ -97,7 +97,7 @@ void RegisterBrowserPrefs(PrefRegistrySi
    registry->RegisterTimePref(prefs::kPinInfoBarLastShown, base::Time());

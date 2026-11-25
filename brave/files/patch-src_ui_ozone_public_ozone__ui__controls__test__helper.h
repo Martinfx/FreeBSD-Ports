@@ -1,4 +1,4 @@
---- src/ui/ozone/public/ozone_ui_controls_test_helper.h.orig	2025-04-04 08:52:13 UTC
+--- src/ui/ozone/public/ozone_ui_controls_test_helper.h.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/ozone/public/ozone_ui_controls_test_helper.h
 @@ -62,7 +62,7 @@ class OzoneUIControlsTestHelper {
    // aura::Window.

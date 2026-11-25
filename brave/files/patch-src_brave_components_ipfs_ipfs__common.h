@@ -1,4 +1,4 @@
---- src/brave/components/ipfs/ipfs_common.h.orig	2026-10-18 18:43:23 UTC
+--- src/brave/components/ipfs/ipfs_common.h.orig	2026-11-24 12:50:30 UTC
 +++ src/brave/components/ipfs/ipfs_common.h
 @@ -20,7 +20,11 @@ static const base::FilePath::StringViewT
  static const base::FilePath::StringViewType kIpfsClientComponentId =

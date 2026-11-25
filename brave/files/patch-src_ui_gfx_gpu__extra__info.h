@@ -1,4 +1,4 @@
---- src/ui/gfx/gpu_extra_info.h.orig	2026-10-18 18:43:23 UTC
+--- src/ui/gfx/gpu_extra_info.h.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/gfx/gpu_extra_info.h
 @@ -47,7 +47,7 @@ struct COMPONENT_EXPORT(GFX) GpuExtraInf
    // applicable.

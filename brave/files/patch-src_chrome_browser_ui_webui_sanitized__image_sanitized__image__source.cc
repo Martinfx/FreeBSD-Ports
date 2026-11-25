@@ -1,4 +1,4 @@
---- src/chrome/browser/ui/webui/sanitized_image/sanitized_image_source.cc.orig	2026-11-02 23:22:33 UTC
+--- src/chrome/browser/ui/webui/sanitized_image/sanitized_image_source.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/chrome/browser/ui/webui/sanitized_image/sanitized_image_source.cc
 @@ -352,7 +352,7 @@ void SanitizedImageSource::OnAnimationDe
    }

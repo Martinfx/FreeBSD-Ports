@@ -1,4 +1,4 @@
---- src/media/audio/audio_output_proxy_unittest.cc.orig	2026-10-18 18:43:23 UTC
+--- src/media/audio/audio_output_proxy_unittest.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/media/audio/audio_output_proxy_unittest.cc
 @@ -445,7 +445,11 @@ class AudioOutputProxyTest : public test
      // |stream| is closed at this point. Start() should reopen it again.

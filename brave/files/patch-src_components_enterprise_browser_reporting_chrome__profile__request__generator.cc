@@ -1,6 +1,6 @@
---- src/components/enterprise/browser/reporting/chrome_profile_request_generator.cc.orig	2026-10-18 18:43:23 UTC
+--- src/components/enterprise/browser/reporting/chrome_profile_request_generator.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/enterprise/browser/reporting/chrome_profile_request_generator.cc
-@@ -213,7 +213,7 @@ void ChromeProfileRequestGenerator::OnBa
+@@ -214,7 +214,7 @@ void ChromeProfileRequestGenerator::OnBa
    signals_request.signal_names.emplace(device_signals::SignalName::kHotfixes);
  #endif  // BUILDFLAG(IS_WIN)
  

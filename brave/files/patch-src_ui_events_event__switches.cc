@@ -1,4 +1,4 @@
---- src/ui/events/event_switches.cc.orig	2026-10-18 18:43:23 UTC
+--- src/ui/events/event_switches.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/events/event_switches.cc
 @@ -21,7 +21,7 @@ const char kCompensateForUnstablePinchZo
  // value is a floating point number that is interpreted as a distance in pixels.

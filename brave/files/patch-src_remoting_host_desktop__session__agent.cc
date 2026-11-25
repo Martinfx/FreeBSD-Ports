@@ -1,4 +1,4 @@
---- src/remoting/host/desktop_session_agent.cc.orig	2026-11-02 23:22:33 UTC
+--- src/remoting/host/desktop_session_agent.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/remoting/host/desktop_session_agent.cc
 @@ -661,7 +661,7 @@ void DesktopSessionAgent::OnDesktopEnvir
    // LocalInputMonitorWin filters out an echo of the injected input before it

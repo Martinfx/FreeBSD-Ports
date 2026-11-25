@@ -1,6 +1,6 @@
---- src/third_party/blink/renderer/platform/runtime_enabled_features.json5.orig	2026-11-02 23:22:33 UTC
+--- src/third_party/blink/renderer/platform/runtime_enabled_features.json5.orig	2026-11-24 12:50:30 UTC
 +++ src/third_party/blink/renderer/platform/runtime_enabled_features.json5
-@@ -503,7 +503,7 @@
+@@ -507,7 +507,7 @@
          "default": "",
        },
        origin_trial_feature_name: "AIPromptAPIParams",
@@ -9,7 +9,7 @@
        origin_trial_allows_third_party: true,
      },
      {
-@@ -535,7 +535,7 @@
+@@ -539,7 +539,7 @@
          "default": "",
        },
        origin_trial_feature_name: "AIProofreaderAPI",
@@ -18,7 +18,7 @@
        origin_trial_allows_third_party: true,
        base_feature_status: "disabled",  // feature state is enforced via plaster rewrite.
        copied_from_base_feature_if: "overridden",
-@@ -550,7 +550,7 @@
+@@ -554,7 +554,7 @@
          "default": "",
        },
        origin_trial_feature_name: "AIRewriterAPI",
@@ -27,7 +27,7 @@
        origin_trial_allows_third_party: true,
        base_feature_status: "disabled",  // feature state is enforced via plaster rewrite.
        copied_from_base_feature_if: "overridden",
-@@ -594,7 +594,7 @@
+@@ -598,7 +598,7 @@
          "default": "",
        },
        origin_trial_feature_name: "AIWriterAPI",
@@ -45,7 +45,7 @@
        base_feature: "WebAppEnableAppTitle",
      },
      {
-@@ -1572,7 +1572,7 @@
+@@ -1581,7 +1581,7 @@
        name: "CSPHashesV1",
        base_feature: "none",
        origin_trial_feature_name: "CSPExtendedScriptSrcHashes",
@@ -54,7 +54,7 @@
        status: "experimental",
        public: true,
      },
-@@ -2606,7 +2606,7 @@
+@@ -2624,7 +2624,7 @@
        name: "DocumentIsolationPolicy",
        status: "experimental",
        origin_trial_feature_name: "DocumentIsolationPolicy",
@@ -63,7 +63,7 @@
        base_feature: "none",
      },
      {
-@@ -2829,7 +2829,7 @@
+@@ -2855,7 +2855,7 @@
        public: true,
        origin_trial_feature_name: "EmailVerificationProtocol",
        origin_trial_allows_third_party: true,
@@ -72,7 +72,7 @@
        status: "experimental",
        base_feature: "none",
        browser_process_read_access: true,
-@@ -3028,7 +3028,7 @@
+@@ -3063,7 +3063,7 @@
        base_feature: "none",
        public: true,
        origin_trial_feature_name: "FedCmMultipleIdentityProviders",
@@ -81,16 +81,7 @@
        origin_trial_allows_third_party: true,
      },
      {
-@@ -3976,7 +3976,7 @@
-       name: "InstallElement",
-       status: {"Android": "", "default": "test"},
-       origin_trial_feature_name: "InstallElement",
--      origin_trial_os: ["win", "mac", "linux", "chromeos"],
-+      origin_trial_os: ["win", "mac", "linux", "chromeos", "openbsd", "freebsd"],
-       public: true,
-       base_feature_status: "enabled",
-       copied_from_base_feature_if: "overridden",
-@@ -6906,7 +6906,7 @@
+@@ -7110,7 +7110,7 @@
        name: "UnrestrictedSharedArrayBuffer",
        base_feature: "none",
        origin_trial_feature_name: "UnrestrictedSharedArrayBuffer",
@@ -99,16 +90,7 @@
      },
      // Enables using policy-controlled feature "usb-unrestricted" to allow
      // isolated context to access protected USB interface classes and to
-@@ -7114,7 +7114,7 @@
-       name: "WebAppInstallation",
-       status: {"Android": "", "default": "test"},
-       origin_trial_feature_name: "WebAppInstallation",
--      origin_trial_os: ["win", "mac", "linux", "chromeos"],
-+      origin_trial_os: ["win", "mac", "linux", "chromeos", "openbsd", "freebsd"],
-       public: true,
-       base_feature_status: "enabled",
-       copied_from_base_feature_if: "overridden",
-@@ -7128,7 +7128,7 @@
+@@ -7357,7 +7357,7 @@
      {
        name: "WebAppScopeExtensions",
        origin_trial_feature_name: "WebAppScopeExtensions",

@@ -1,4 +1,4 @@
---- src/components/metrics/metrics_log.cc.orig	2026-10-18 18:43:23 UTC
+--- src/components/metrics/metrics_log.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/metrics/metrics_log.cc
 @@ -61,7 +61,7 @@
  #include "base/win/current_module.h"

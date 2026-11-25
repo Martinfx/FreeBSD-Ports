@@ -1,4 +1,4 @@
---- src/components/power_metrics/energy_metrics_provider.cc.orig	2026-10-18 18:43:23 UTC
+--- src/components/power_metrics/energy_metrics_provider.cc.orig	2026-11-24 12:50:30 UTC
 +++ src/components/power_metrics/energy_metrics_provider.cc
 @@ -7,7 +7,7 @@
  #include "build/build_config.h"

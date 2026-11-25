@@ -1,4 +1,4 @@
---- src/ui/strings/translations/app_locale_settings_ml.xtb.orig	2022-09-24 10:57:32 UTC
+--- src/ui/strings/translations/app_locale_settings_ml.xtb.orig	2026-11-24 12:50:30 UTC
 +++ src/ui/strings/translations/app_locale_settings_ml.xtb
 @@ -9,7 +9,7 @@
    <translation id="IDS_WEB_FONT_FAMILY">'Segoe UI',Arial,AnjaliOldLipi,Rachana,Kartika</translation>
